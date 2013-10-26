@@ -1,0 +1,17 @@
+
+git add README
+
+git status
+
+git commit -m 'Adicionando arquivo README'
+
+git log
+
+
+Agora vamos direcionar nosso repositório local GIT para nosso repositório remoto no GItHub, assim poder desfrutar dos recursos que o github.com oferece, alem de ter nosso código guardado e exposto para receber ajuda 
+
+git remote add administra git@github.com:ATSTI/administra
+
+Para ver seu repositório remoto, utilize o comando:
+
+git remote
