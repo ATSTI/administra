@@ -1,3 +1,0 @@
-set term ^;
-
-update PRODUTOS set valorminimo = valor_prazo^
