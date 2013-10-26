@@ -1,0 +1,1652 @@
+object TRpReport
+  GridWidth = 50
+  GridHeight = 50
+  PageOrientation = rpOrientationPortrait
+  PageHeight = 8120
+  PageWidth = 5742
+  CustomPageHeight = 8419
+  PageBackColor = 2147483647
+  PreviewWindow = spwMaximized
+  LeftMargin = 283
+  TopMargin = 850
+  RightMargin = 7
+  PrinterSelect = pRpReportPrinter
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'IMPR'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT  PRO.CODPRO'#13#10'               ,(MD.QUANTIDADE) AS QTDE '#13#10#13#10 +
+        '               ,MD.UN '#13#10'               '#13#10'              ,M.DATAMO' +
+        'VIMENTO'#13#10'              ,M.CODMOVIMENTO'#13#10'             '#13#10#13#10'       ' +
+        '       , (Select first 1 emt.SALDOESTOQUE'#13#10'      from ESTOQUEMES' +
+        ' emt'#13#10'     where MD.CODPRODUTO = emt.CODPRODUTO '#13#10'       and (em' +
+        't.MESANO <=  M.DATAMOVIMENTO)'#13#10'     order by emt.MESANO desc   )' +
+        ' ESTOQUE '#13#10'         '#13#10'FROM MOVIMENTO M '#13#10'INNER JOIN MOVIMENTODET' +
+        'ALHE MD ON MD.CODMOVIMENTO = M.CODMOVIMENTO'#13#10'INNER JOIN PRODUTOS' +
+        ' PRO ON PRO.CODPRODUTO = MD.CODPRODUTO  '#13#10'WHERE M.CODMOVIMENTO =' +
+        ' :PVMOV '
+    end
+    item
+      Alias = 'IMPCAB'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT  RAZAO  as  EMP, BAIRRO,ENDERECO, CIDADE || '#39' - '#39' || UF |' +
+        '| CEP as local ,'#13#10#39'FONE: (19)'#39' || FONE ||  '#39' - '#39' || WEB as comun' +
+        'ica_1 ,  e_mail as comunica, CNPJ_CPF  '#13#10'FROM EMPRESA'
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SGE'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'PVMOV'
+      Value = 27
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'IMPR')
+      Description = 'C'#243'digo do Moviemnto'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  Language = 0
+  PrinterFonts = rppfontsnever
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection1
+      end
+      item
+        Section = TRpSection3
+      end
+      item
+        Section = TRpSection0
+      end
+      item
+        Section = TRpSection4
+      end
+      item
+        Section = TRpSection2
+      end>
+    Alias = 'IMPR'
+  end
+  object TRpSection0: TRpSection
+    Width = 11070
+    Height = 630
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpShape2
+      end
+      item
+        Component = TRpExpression19
+      end
+      item
+        Component = TRpExpression22
+      end
+      item
+        Component = TRpExpression23
+      end
+      item
+        Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression15
+      end
+      item
+        Component = TRpShape7
+      end
+      item
+        Component = TRpShape8
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection1: TRpSection
+    Width = 11070
+    Height = 5355
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpheader
+    Components = <
+      item
+        Component = TRpImage0
+      end
+      item
+        Component = TRpShape0
+      end
+      item
+        Component = TRpShape4
+      end
+      item
+        Component = TRpShape3
+      end
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpExpression20
+      end
+      item
+        Component = TRpExpression21
+      end
+      item
+        Component = TRpExpression25
+      end
+      item
+        Component = TRpExpression29
+      end
+      item
+        Component = TRpLabel20
+      end
+      item
+        Component = TRpLabel22
+      end
+      item
+        Component = TRpLabel24
+      end
+      item
+        Component = TRpLabel31
+      end
+      item
+        Component = TRpLabel1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression31
+      end
+      item
+        Component = TRpLabel4
+      end
+      item
+        Component = TRpLabel16
+      end
+      item
+        Component = TRpExpression11
+      end
+      item
+        Component = TRpLabel25
+      end
+      item
+        Component = TRpLabel0
+      end
+      item
+        Component = TRpLabel8
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpLabel28
+      end
+      item
+        Component = TRpLabel9
+      end
+      item
+        Component = TRpLabel10
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpLabel17
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression9
+      end>
+    AutoContract = True
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression0: TRpExpression
+    Width = 2250
+    Height = 300
+    PosX = 2500
+    PosY = 150
+    Type1Font = poHelvetica
+    FontStyle = 1
+    FontColor = 8388608
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPCAB.EMP'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpSection2: TRpSection
+    Width = 10220
+    Height = 0
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpfooter
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression20: TRpExpression
+    Width = 2070
+    Height = 227
+    PosX = 2100
+    PosY = 3150
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(IMPR.CIDADE <> '#39#39', IMPR.CIDADE, '#39#39') +'#13#10'IIF(IMPR.UF <> '#39#39', '#39' ' +
+      '- '#39' + IMPR.UF, '#39#39') +'#13#10'IIF(IMPR.CEP <> '#39#39', '#39' - '#39' + IMPR.CEP, '#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression21: TRpExpression
+    Width = 2150
+    Height = 260
+    PosX = 2100
+    PosY = 2850
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(IMPR.LOGRADOURO <> '#39#39', IMPR.LOGRADOURO, '#39#39') +'#13#10'IIF(IMPR.BAIR' +
+      'RO <> '#39#39', IMPR.BAIRRO, '#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression25: TRpExpression
+    Width = 1365
+    Height = 210
+    PosX = 2460
+    PosY = 3405
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.TELEFONE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression29: TRpExpression
+    Width = 1260
+    Height = 227
+    PosX = 2145
+    PosY = 2550
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CNPJ'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel7: TRpLabel
+    Width = 490
+    Height = 200
+    PosX = 1845
+    PosY = 4995
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Unid.'#10'UNID.'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 640
+    Height = 200
+    PosX = 885
+    PosY = 5005
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'QTDE'
+  end
+  object TRpLabel9: TRpLabel
+    Width = 1250
+    Height = 200
+    PosX = 7085
+    PosY = 5005
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Pre'#231'o'#10'VALOR UNIT'
+  end
+  object TRpLabel10: TRpLabel
+    Width = 1300
+    Height = 200
+    PosX = 8485
+    PosY = 5005
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'#10'VALOR TOTAL'
+  end
+  object TRpLabel20: TRpLabel
+    Width = 1305
+    Height = 202
+    PosX = 795
+    PosY = 2850
+    Type1Font = poHelvetica
+    FontStyle = 1
+    VAlignment = 32
+    SingleLine = True
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Cidade'#10'ENDERE'#199'O..:'
+  end
+  object TRpLabel22: TRpLabel
+    Width = 1245
+    Height = 195
+    PosX = 795
+    PosY = 3450
+    Type1Font = poHelvetica
+    FontStyle = 1
+    Alignment = 2
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Telefone:'#10'TELEFONE...:'
+  end
+  object TRpLabel24: TRpLabel
+    Width = 1305
+    Height = 195
+    PosX = 795
+    PosY = 3150
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Bairro:'#10'CIDADE.......:'
+  end
+  object TRpLabel31: TRpLabel
+    Width = 1305
+    Height = 195
+    PosX = 795
+    PosY = 2550
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Text'#10'CNPJ/CPF....:'
+  end
+  object TRpExpression2: TRpExpression
+    Width = 5760
+    Height = 195
+    PosX = 2145
+    PosY = 2250
+    Type1Font = poHelvetica
+    CutText = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.RAZAOSOCIAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel28: TRpLabel
+    Width = 1200
+    Height = 240
+    PosX = 3735
+    PosY = 5010
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'DESCRI'#199#195'O'
+  end
+  object TRpExpression31: TRpExpression
+    Width = 450
+    Height = 195
+    PosX = 2115
+    PosY = 3450
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(IMPR.DDD<>'#39#39', '#39'('#39'+IMPR.DDD+'#39')'#39','#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel1: TRpLabel
+    Width = 1305
+    Height = 195
+    PosX = 795
+    PosY = 2250
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'CLIENTE......:'
+  end
+  object TRpLabel4: TRpLabel
+    Width = 2190
+    Height = 300
+    PosX = 795
+    PosY = 1455
+    Type1Font = poHelvetica
+    FontSize = 14
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'OR'#199'AMENTO N'#176':'
+  end
+  object TRpLabel16: TRpLabel
+    Width = 3960
+    Height = 195
+    PosX = 2500
+    PosY = 1050
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 
+      #10'_______________________________________________________________' +
+      '_________'
+  end
+  object TRpExpression11: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 2160
+    PosY = 1905
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.DATAMOVIMENTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel25: TRpLabel
+    Width = 1305
+    Height = 195
+    PosX = 795
+    PosY = 1950
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'DATA...........:'
+  end
+  object TRpLabel0: TRpLabel
+    Width = 5400
+    Height = 255
+    PosX = 750
+    PosY = 4245
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Conforme solicitado, segue condi'#231#245'es de fornecimento para:'
+  end
+  object TRpExpression5: TRpExpression
+    Width = 1100
+    Height = 250
+    PosX = 3300
+    PosY = 1455
+    Type1Font = poHelvetica
+    FontSize = 14
+    FontStyle = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CODMOVIMENTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel17: TRpLabel
+    Width = 255
+    Height = 150
+    PosX = 765
+    PosY = 1605
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'__________________________'
+  end
+  object TRpExpression19: TRpExpression
+    Width = 4400
+    Height = 350
+    PosX = 2455
+    PosY = 45
+    Type1Font = poHelvetica
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.PRODUTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression22: TRpExpression
+    Width = 650
+    Height = 250
+    PosX = 1255
+    PosY = 100
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.QTDE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression23: TRpExpression
+    Width = 210
+    Height = 264
+    PosX = 2055
+    PosY = 100
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.UN'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 950
+    Height = 200
+    PosX = 7305
+    PosY = 100
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(IMPR.PCO>0,IMPR.VALORTOTAL/'#13#10'IMPR.QTDE,Null)'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression15: TRpExpression
+    Width = 900
+    Height = 250
+    PosX = 8705
+    PosY = 100
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.VALORTOTAL'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape0: TRpShape
+    Width = 9210
+    Height = 450
+    PosX = 795
+    PosY = 4905
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape2: TRpShape
+    Width = 9210
+    Height = 645
+    PosX = 795
+    PosY = 0
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape3: TRpShape
+    Width = 600
+    Height = 450
+    PosX = 1800
+    PosY = 4905
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape7: TRpShape
+    Width = 600
+    Height = 645
+    PosX = 1800
+    PosY = 0
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape4: TRpShape
+    Width = 1395
+    Height = 450
+    PosX = 7005
+    PosY = 4905
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape8: TRpShape
+    Width = 1395
+    Height = 645
+    PosX = 7005
+    PosY = 0
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpSection3: TRpSection
+    Width = 10772
+    Height = 0
+    SubReport = TRpSubReport0
+    GroupName = 'TOTAL'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgheader
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection4: TRpSection
+    Width = 11070
+    Height = 2775
+    SubReport = TRpSubReport0
+    GroupName = 'TOTAL'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgfooter
+    Components = <
+      item
+        Component = TRpShape6
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpLabel2
+      end
+      item
+        Component = TRpLabel5
+      end
+      item
+        Component = TRpLabel6
+      end
+      item
+        Component = TRpLabel12
+      end
+      item
+        Component = TRpLabel13
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpExpression10
+      end
+      item
+        Component = TRpExpression12
+      end
+      item
+        Component = TRpLabel14
+      end
+      item
+        Component = TRpLabel15
+      end
+      item
+        Component = TRpLabel19
+      end
+      item
+        Component = TRpLabel21
+      end
+      item
+        Component = TRpLabel23
+      end
+      item
+        Component = TRpExpression1
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1485
+    Height = 225
+    PosX = 8150
+    PosY = 150
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.VALORTOTAL'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel2: TRpLabel
+    Width = 1395
+    Height = 240
+    PosX = 5095
+    PosY = 150
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Total do Pedido:'
+  end
+  object TRpShape6: TRpShape
+    Width = 9210
+    Height = 495
+    PosX = 795
+    PosY = 0
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel5: TRpLabel
+    Width = 2205
+    Height = 285
+    PosX = 795
+    PosY = 960
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Prazo de Entrega........:'
+  end
+  object TRpLabel6: TRpLabel
+    Width = 2205
+    Height = 285
+    PosX = 795
+    PosY = 1260
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Frete...........................:'
+  end
+  object TRpLabel12: TRpLabel
+    Width = 2205
+    Height = 240
+    PosX = 795
+    PosY = 1560
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Impostos.....................:'
+  end
+  object TRpLabel13: TRpLabel
+    Width = 2205
+    Height = 300
+    PosX = 795
+    PosY = 1845
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Or'#231'amento valido at'#233' :         '
+  end
+  object TRpExpression4: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 3105
+    PosY = 1245
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.TIPOFRETE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 3105
+    PosY = 945
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.PRAZO_ENT'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression10: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 3105
+    PosY = 1860
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.VAL_PROP'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression12: TRpExpression
+    Width = 7890
+    Height = 255
+    PosX = 3105
+    PosY = 2445
+    Type1Font = poHelvetica
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.OBS'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel14: TRpLabel
+    Width = 2205
+    Height = 240
+    PosX = 795
+    PosY = 2460
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'OBS............................:'
+  end
+  object TRpLabel15: TRpLabel
+    Width = 2205
+    Height = 240
+    PosX = 795
+    PosY = 2160
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Representante............:'
+  end
+  object TRpLabel19: TRpLabel
+    Width = 2205
+    Height = 240
+    PosX = 795
+    PosY = 705
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Cond. Pagto................:'
+  end
+  object TRpLabel21: TRpLabel
+    Width = 1290
+    Height = 255
+    PosX = 3105
+    PosY = 705
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'28 dias'
+  end
+  object TRpLabel23: TRpLabel
+    Width = 4455
+    Height = 240
+    PosX = 3105
+    PosY = 1545
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Inclusos (Empresa optante pelo simples nacional)'
+  end
+  object TRpExpression3: TRpExpression
+    Width = 2100
+    Height = 210
+    PosX = 2500
+    PosY = 600
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPCAB.ENDERECO + '#39', '#39' + IMPCAB.BAIRRO + '#39' - '#39' + IMPCAB.LOCAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 3550
+    Height = 300
+    PosX = 2500
+    PosY = 855
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPCAB.COMUNICA_1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpImage0: TRpImage
+    Width = 1650
+    Height = 1455
+    PosX = 795
+    PosY = 0
+    DrawStyle = rpDrawStretch
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    Expression = ''
+    Stream = {
+      5326000000000000FFD8FFE000104A46494600010101006000600000FFDB0043
+      000302020302020303030304030304050805050404050A070706080C0A0C0C0B
+      0A0B0B0D0E12100D0E110E0B0B1016101113141515150C0F1718161418121415
+      14FFDB00430103040405040509050509140D0B0D141414141414141414141414
+      1414141414141414141414141414141414141414141414141414141414141414
+      141414141414FFC000110800B800B903012200021101031101FFC4001F000001
+      0501010101010100000000000000000102030405060708090A0BFFC400B51000
+      02010303020403050504040000017D0102030004110512213141061351610722
+      7114328191A1082342B1C11552D1F02433627282090A161718191A2526272829
+      2A3435363738393A434445464748494A535455565758595A636465666768696A
+      737475767778797A838485868788898A92939495969798999AA2A3A4A5A6A7A8
+      A9AAB2B3B4B5B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE1E2E3
+      E4E5E6E7E8E9EAF1F2F3F4F5F6F7F8F9FAFFC4001F0100030101010101010101
+      010000000000000102030405060708090A0BFFC400B511000201020404030407
+      05040400010277000102031104052131061241510761711322328108144291A1
+      B1C109233352F0156272D10A162434E125F11718191A262728292A3536373839
+      3A434445464748494A535455565758595A636465666768696A73747576777879
+      7A82838485868788898A92939495969798999AA2A3A4A5A6A7A8A9AAB2B3B4B5
+      B6B7B8B9BAC2C3C4C5C6C7C8C9CAD2D3D4D5D6D7D8D9DAE2E3E4E5E6E7E8E9EA
+      F2F3F4F5F6F7F8F9FAFFDA000C03010002110311003F00FD4739E99EF43363AD
+      2B7D47D6827247F3A82041D39E08E94104F739F4A6F420609A3BE7A50029381C
+      F14E1B7BD3431F51F8D286F5040A0072A80290918CD19C75EF4023B50000D26F
+      DC08248E6AAEA3A9DB6916335E5E5C25BDA42A5E4964385503BE6BC57C73FB63
+      7C3CF09DA13A75FF00FC2597AF1B186DB4496298BC83848C92E31B8FD70324F4
+      AD69D29D57682B9329C61AC9D8F741C1C8391EB46E51CF3CFB57C9C3F6A8F88D
+      E3EBF07E1FF8027BAD25F8179A958CA4AB00E30764983F3281BB7018F4E33AB2
+      782FF680F1C4F0CDA8EB5E1DF0C5BBA61E1D3E6BADC307058864C82431C0DC3D
+      71915D3F5471FE2492FEBC8CBDB736B1573E9A79150333908A06496EC3B9A459
+      51C955903100370D9201E86BC1B4FF0080BE3825A5BDF895A989D8EE610C9BD0
+      640528030076E00EE7279E2B774EF845E2AD3A30ADE3AD467DB2E5564932A147
+      4CFCB93EB8FA0CF730E8D3E9510D4E4FEC9EC0A0E0027269738AE5347D0358D2
+      E30D3EACFA8C8A500F39CE180C6E2463009C1E83BD750BBB68E46718E2B96515
+      1EA6CB51F9CAE7F4A6953CF4C7A0A53CF5E68CF61D7D29011EDF55FAD3B3E98C
+      FA0A76DE31BB9F5A6F20E090680117839E091D0D383E477C7D29A401D69F8E39
+      C7B52013705EFC51E62FBD049E32383471EA3F2A60272BC628271D7A7AD0CF81
+      8DD467D0E7EB400631F77383EB411B41DB8DC68208E7A1A300907BD0003A0DC0
+      669C481C77F6A42C3BF15C8FC4CF8A3E1FF84DE1B9758D7EF52DA2E521849024
+      B8936960883B9201AA8C5CE4A315760DA8ABB3A7BDBF834F81A6B99E3B7857AC
+      B2B0455FC4F15F33FC63FDB474FF000B3DC699E0DB58F5BD4151FCCBFB890A5B
+      C0E09057014976047600608E7B578678FBE2E78CFF0068FF001149A0E9CB33E8
+      F7CE7ECFA259AA36604DAEDE6B14CF25031CB7B0F7F76F819FB20E99E1BB74D4
+      FC6B6D6FAB6AC24325B5AE084B4E4F20ABFCD90C32181C1E95EDC70B47091E7C
+      53BBFE55FA9C5ED675B4A7A2EE78FE89F0BBE2D7ED2D7697DE20D76EB4FD3BE7
+      586EDE2716D244CA9C08D5933CA0393D4B13C57D43E04FD993C0BE039D2E6DB4
+      BFB6DD4655A392F6469421524AB286242919C6473C7BD7ABC30AC11A222848D0
+      001546001D80A7F0873EB5C55F1B52AAE58AE58F64690C3C20F99EAC82DAC2DE
+      C94A5BC115BA9EA214080FE02A50E15F6672D8CE3141EDCFE74BD4E718AF3F53
+      A45E98CE49A693C67181515E5F47A7DACB3CCDB22894B3363A015E3DE33F88B7
+      BE21BDB31E14BCDF6B0CA5277575D9D0FCD9C329230319C8F6F496F951D787C3
+      4F132B4345DCF6296EA1B6DBE63040C70093803BF359D7BE2AD36CAD8CAF748E
+      A40DAA8725B3D315E4BF6CBB794CB23CD70D08DC0CAA1A34047504F3C2F39C7D
+      7359573A9DB68FAC59585DD8C91CF7D94371163CB42DD0F4C8F9881D475C64D6
+      5ED4F5A1955DDA4EE7A278B7E31D978785AA5BDACBA84B349E505849C83951E8
+      47F177F4AF41B797CF8637C104A83838CFE95F27E976579A3E917D697F7B2DE4
+      70DE5918A5B90196153310C57D33B40EBD57DF9FABADC86890A9CA951CF14E9B
+      94BE231CC70B4F0DCB1A7F793700607EB4C73B5BA67F953B9C760280C31DAB63
+      C41831938E714A4827A64D1804FBD009E7A1A0053C9EB8A31FED1A4E00A5C0F5
+      A006B062988F008FEF5217C9C7071D714A5C0E0924FB529C60723F1EB4006091
+      C13EB4724E3209FE5484FCC78207AD52D6757B4D134DB9BFBC9961B6B789E691
+      CF5DAA0B1C01D7806849BD83D4C6F88BF11348F861E199F5BD66E1638232AA91
+      EF55791998280BB88CF5C9F604D7E6EF89BC7FE2BF8D9F116DAE26FB5DD6A773
+      23269D636E9348B0460E41F2B2C0E14066F97B13C0CD6A7C7EF8D375F183C653
+      5CC91A8D0ECE62BA7DB346FBA45058090E40396041036838C67D6BEB4FD957E0
+      37FC2B2F0E43AE6B76613C557F111287E4DB444F0833CAE40048E3AE08E2BEAA
+      953865743DACFF0088F6F23C89B962E7C8BE1474FF0001BE0569BF0874057920
+      8AE3C497415EF2F88DE4B00784246547CCC3F13DABD654003EBEF4CDA0823A83
+      FAD394703078F7AF99A95255A4E73776CF5631514921DB3FC8A4395C8FD4D26F
+      C1EA083D08A00C9EE6B3285DD9EBDBD6A29E74B78649A67091A02CCE4F000EB4
+      F75E08C03F8E2B07C6E5E3F08EAC551A66FB33611261093EDBCF0BF5352DB49B
+      46B4E3CF3517D59E15F13FE3CD8DCEB36DFD87AEA5F68C2274BEB2F2776E6047
+      CA3728383C83D7F0E2BCFAE7E33E988EF65A169491BC84A452C5226C2CC01C8F
+      94700E71CE381DF3599F0C3E165D78E3C4B25BEA4F2D85ACF2C8527DD93B8649
+      50C461B000E9F5AF67B4D1348F055F0F0E781EDA3BDD7DF16D79A864958B8232
+      4AE42B0C7208C71EF5E447DB566E527647E88FEA5808C69462E525AEF65F3679
+      7DA5FF008FFC5BA81D223636B34EA59E09C46A1500F946076C6063DCD743E14B
+      7BAD2BECB6F7F35B5C5E5B6AC43C922E638DF60C297385048C81839E9ED5F417
+      837C0D6BE07D125588BDC5E4B1B34F33392D23724F27DC9E715E09A4DCA7F68B
+      CE88AA8DAC4C4393864DC000ADCEE182D9F6FA0CD6F1A4E0EEDEE634F1F1C673
+      C294528AEDD493513E4D96B3188B11457B68562254B31F34719C1DC4367E99FA
+      D7D4163234B6D0B48BB6428095CE715F2BEA3E44F06A2E91A42A6E2D1879641D
+      A04CA49DC0703EA3939AFAA6D414B68831DCDB40CE739E3E95D749DEE7879CAB
+      727F5D11631DFB7AD21F4CF1E9429E7D3D8D1EE056E7CC0A4ED1EF51B37381FC
+      A9E491D3247BD4658F1B467D474C5002FAF38ED4B834D04E5BDE9327D680148E
+      38E695549E9422639E4E7A8A1CE410791400390806E60A7DCD7C4BFB66FC6A5D
+      5FC423C0BA35FB9B5B0DC35558A13FEBB00AA17DDC8C37DDC7519F4AFAABE2AF
+      8CA0F875F0F35AF114CDC59405979EAC781D8F722BF2BAEEF2F75BBFB99669E4
+      BBBBD42659243E58DC198E33F77A67F2E95F45936163566EB4D6913CDC6D6718
+      A847767BF7EC83F07D7E2278B25D6B55D3FCDD034575309963FDDDCDC2E7E50C
+      54E42EEC9C1CF0BC57E80066E7205703F04FE1FC1F0C7E1A687A14413CF5B78E
+      5BA950106498A287639279E00FC2BBE0075E83EB5E763F12F175DCDECB6F43AB
+      0F4952A690E0405E46680DCFA63B1A6E7047146362E09241EF9AF38E81C0E33C
+      8C7A51CB03EF4D5C679EBEB581E2CF175AF86F4F9246712DC1188E35396DC7A7
+      407F952949456A690A72A925182BB2DF88BC4DA7F866DBCEBFB8118CAAAA8E59
+      8B1C28FC4D79478CFE265E6BDE17D4E2B4B516B01B7DE599C12473919CE33F74
+      6307DF23918371A9CDE2FBD92EAF9AE4132009E521C479CEDC7CD8C0C73C75C6
+      7A1AD79F4A3E25B39F4B8935280CB112C648BF7608C161938E73EC3AF15C4E72
+      9A7CA7D450C1D2C2DA5535651D1FC07A978FFE177872DF4ED423B478A7669EE1
+      436F58CB162A36EDF9BA03CE3DCF4AF5AF02F80AC7C0DA5C36F096B8BC112A5C
+      5E3E774E40192724F5233C93D69BF0EB45FEC3F0C5B5B60EF19DDB9B711C9603
+      77D187AFD6BA9195E0904D6F4E1CAAFD4F27178B9D49CA9C5FBB76C8AEDB16B3
+      ED1FF2CCE07E15F326910A89E10924C88DADCF126FC2A2F41D707181907E87D3
+      35F4DDE166B69C20F9FCB6DBDF9C57CBFA5CFF003461018D5F5D9FCB5639471B
+      092570C71919F52327D6B2AE9DD58F4328BF2CFE425D24806B0361678EEECE3C
+      EC2F1B92E7270A39001E071F8715F5169CC24B180825BE5037118ED8E9DABE63
+      D46E99CEAAD149732797756433036F8C00FF00C3D0EE191C1CF6EB5F4E59E1ED
+      627DCCC1901049049E3D68C3A693B8672DBE4FEBB163AF71416C9EC79A681BB8
+      1C52838E0FE15D87CC8A793FE14D240C73CFA9EF4A7A9349DFDA8017EF647F4A
+      3CB1EDF9504E0F38228DFEC28010FDDCE0E2A360067AE7152138E29AFB8818C5
+      303E49FDBE7C62D67E1DD0BC328C4C57F2BCD75171B5A351F2EEE738DDD383CF
+      718E7C17F66CF01A7C40F8BBA6E9D3335A476ABFDA04469BB2237575525B9C12
+      08AE83F6C9F111D73E3ADE470C9048BA7E9F0D90104A4B7DE7660EA3B82DDFD3
+      DABD23F605F0FC776DE2ED66569247B5B88A080E46C5DF1932003D7EEE48EE3D
+      ABED617C1E5975A37FA9E14AD5F1363EC239DC1B191DF8E95200319CE2980E08
+      1938E9F5A764606E2735F137BEA7BA38AE477FC290F3C1E94AA485EE474EB597
+      E27D6E1F0C6837DA9CC3F776D134840EAD819C019EB49BB6E5C22E72518EECA3
+      E2DF185AF85A28E2CB4BA84E5561B745DCDC9C6EC71C0E4FE15CB683E04D435C
+      946ADE229E669A744616A24C28E016561B7D73D31F866A87C2DD0AF3C4D793F8
+      BB5DDB7325F1F36D4228F2562DA36FF11E769C67D8D7AC31099E391DF3D6B36B
+      9B567A3392C2DE9D37EF757FA19BA7F872C34E4411DB217072CC171BDB046587
+      7EA7AE7D7AF357E3B78E00C228D635EE0002B0FC53E39D23C211249A95D8881E
+      7614625BB0191C039C7535C5C1FB43E872DDA41F64BC694C7E732451191D539C
+      3617231C7AF191EB473456889861B135D7B451763D590E156931924F5EF5CEF8
+      5FC79A378B142DA5C04B83C8B79C84948F5DA4E71C1EDDABA2DA0671806AD35D
+      0E39D39537CB356632E01F225CE4610E0A633D3B57CCBA279104E8B0CE9231D7
+      9FCA8D7E61202A41271D76F073CF71DCD7D35765859CFB1519FCB6C6EE0671DE
+      BE68D1AF92F3528966591BFE27936D408CA80282501E3031D31DEB96BA6DAB1E
+      FE51F0CFE44FAC816B6D74E9102E2EED59E395010732FDC038EC738E7BD7D236
+      EE0DBC676EDCA8E3A63F0AF992E593FE26F1A33317B9B2F3537E181F371B5909
+      CF23771E8BC57D356849B68480769507E65C11ED83D3E94B0E9C6E9866EBE04F
+      FAD8994A839C52820F4E293041CE40FC29AC4AF2093E82BB4F9A1C4FEB467208
+      3D29473FE068C11CD0026DE0100628FF003D2949F98119A76E3E86801A41038A
+      46C0209C0F5CD389C73D453245DCA7A038EFCD35B83D8FCB8F8D17ABA87C57F1
+      84AAEB33477D282EB862AA19B099E01C60F3FE15F58FEC27A7C70FC24BAD4405
+      59350BB333A326C704657E618C8E00F5E86BE4FF008B53FDABE29F8CA242A215
+      D466222562514EEC123776241E307EA6BEC6FD8A5965F823698011D6E24040EB
+      F7DB19F438C0C76209EFC7DBE66DAC0457A1F3D835FBF6DF99EF4A338247EB40
+      383C9C7D6811E4F3D477A1401EE7D4D7C39F423B191D707AD797FC6CBC32AE81
+      A4A4B1A0BABD4690B363E5CE3D09EC79C7B57A79C90720D7967C4849DBE22785
+      DCAFFA208E5F31B20ED6CAF6EFDB8C7F16477AC6ABB44F4700BF7C9F6BFE47A4
+      68D6A2D34E823D9E5B2C615863192063D07B7381F4AA5E2FD74786BC35A8EA4D
+      8CDB42D202C090481C038E7F2AD80DB802011BB9E4570BF1AAD26BCF87DA8089
+      E45088ED2792DB4B2EC61823B8248E075E29CB48332A0955AF18CFAB3C1AF348
+      BAF1EDDEB7E21D5A39AE0C314371649B4AA84762323B74C83EEA077AEC74EBA8
+      BC2177E19F165AC01747BFB636B7BE5C7958A2CE77160DB549603F051C75A8F4
+      FD6E3D22D7C37AF4A8F36877564B617E2346221755609800E7AB1E83D7A715D0
+      DAE867C142EAD608E0D5FC2D7328944264C2C5BC3649255DB76147A03BB1EE79
+      211B3BF53EB2BD6728FB37B76F2DADEBD4B9E32F03D84DA69F17784FF717910F
+      3CFD88B15B90BCED2ABD7A63F135D7FC32F17CBE30F0AD9DFCE144CC989411B5
+      D5871CAFA121B078C8C71DEB80D46E6CF43D1AE6EB4CD5AE6C434523085E2662
+      49C9037B31007E19E3B741B7FB3E5B5CA782FED5307F2AE99668B7B127051463
+      9F4C0030056C9DA7A1E56229B785E693BD9AB3B6BE87A5EA5218F4DBA6D82502
+      173E5B6707E53C1C027F207E86BE68D19566B9819DB6EFD767197C15C0424F1B
+      B8F9803EBC1E39C57D3174E12D276285C08D89503248C1E315F30E9524B6B297
+      D43CAF9B5B795DC6EE1F6E49246011D073D7B0EF5552C5E54AF19A5E456D62C9
+      45BEAE5C2468B7366AF24380029978452E1727827271D0FAD7D5369B5218D76B
+      2E06369238FC89AF93746B797C7BE3CBAD02C06609E48AE66B953E62A24643AB
+      60B60F3900E720B1E0D7D690C3E5A2A72428C64F5A28B524DA2B3BF7650837AF
+      FC043C3B138C71EB42A838A5F61DBD052F039AE83E5C4CE0803934E0431A4006
+      78073EB40E4E3007E1400364375FC314B93E9413F89A6EE6FF0022801E738381
+      F85318004641F739A713D09E47B531D803D3F0F5A607E637C73B03A6FC66F16C
+      31DCC2DBEF1DE358E3D98058E410A064E7F8B18E79C9AFA53F60ED56E6EBC31E
+      2AB29BECED1D95CC11A18B0AC72AEC4B019F5EBDF9AF21FDB57C38DA07C654BE
+      8C39B5D4EC217CAA050B2EF9430381C93C73D79E6B5FF61AF192693F10B53D15
+      9FCB8F5580CB2191C84DF170000782D83D73C722BEE315FED396A947B2FC0F02
+      8A54B116F53EEA6C7407AD3198018C63F0A9000C32460531864E303F2AF863DF
+      13A2F407D2BCBFE395A8B4D32C7598B224B19433F0AA1933B882C413FC3FD6BD
+      381DA3F9D51D7B43B4F1269171A75F42B35BCE854820647B83D8FD2A27152566
+      7561AAAA3554DEC33C37ABC1AFE8967A8DB3ABDBCF18652A0E38E08E7DC55BD4
+      6C20D52C2E6CAEA3135BDC4663911BA10460D78E784BC4B73F09FC413786BC45
+      338D264949B0B9642720B00A33B8E140F9474C62BDA9195D032302A7F887434A
+      2D35CA6B89A4E8D4E78ECF6678E4DE1FBDF05EA9756034E1A9F8735299EE6E62
+      605A488839013690318C1C1C9C03F4AB366967A3C2AFA66A7718751B2CE69C85
+      8C673C8DDDB2073FD6BD71D55C18DD15FD430C8C5545D134D8436CB1B54C9CF1
+      12F2411CFE83F2A8E4EC742C726BDF5AFE6793C3E1DD5BC6FA9C697CBF61D321
+      97CC7F251D1E4707A1CB1420FB83F862BD5341D1EDF40D3E2B2B581208A3E008
+      FA633C1FCBF2ABF1C690AE115541258E077EF4F77DA371E00FBC49E07D6AD452
+      39EBE26588F77A2E857BC93ECD65712ED2FB2366C0382703A0AF8D647D63C69E
+      23BEF0AF87234856E3516B879CBCACB029180ECFB8B60938E0632C0F6E3DB7E2
+      7F8B2F3C67A9B7817C3BE634D74856EAF210192151F786EE40E09EE0E401C75A
+      ECFE197C34D3BE17E829636ACD3CEDCCD75216CC87FDD2481E9C62B9EA41D576
+      5B1EBE12BACB68BA92F8E5B2EDE6C4F861F0A74BF865A4C90592F9F7B39DD3DE
+      C8ABBDFF00D90401F28C9C0E7AF535DA8C638E4F7A4520824903E94A5467920F
+      B1AEA8C547447CFD5AB3AD37526EED8847A1E7F4A72E71823F5A07B74A4039CE
+      460FAD5190BD3B0FCE8240C7AFD681CF707D2915B278A0438E4F19E68C0F7A45
+      3963C6314BBFFDAA5A80641ED8F4A4CEECF0314A7A7BD348DBC726981F35FEDC
+      9E056F127C35B2D62191966D1AEBCE2A376D31B021B3807BEDC647502BE26F09
+      788EE7C1BE28D2B57B75292595D445D338C28752E41E31F2E727BE48AFD57F14
+      F86ECBC61A0DEE8FA8C4B259DE4663914807F4AFCADF1A783AEBC17E31D6FC2F
+      A9147BCD3AE4C7E5C4492E8C37A673C0CAB03D4F7E6BECF24AF1AB4658593FF8
+      63C5C641C2A2AAB667EACE87ABDBF88746B0D52D1F7DA5EC11DC44C31F759411
+      D3BF3571BE61D78F4AF963F622F8B0350D025F01DF2A4377A5967B03129D925B
+      F04924FF0016E62703D7B57D509EFD7D2BE571346587AB2A723D5A5515582922
+      22467DC7EB40395E808F434B2280738A8E47F2E2248ED9C282491ED5CC6F1573
+      2FC55E14D3FC67A44DA66A7134B6B2F5DAC4153EA3FF00AF5E5CDA2F8DFE16AC
+      EBA5487C41A2F92D2347B1DEE10900008A8BF31F4E49C0E9DAA8EBFF00B56E8D
+      A46AF7D630E953DD7D927687CC12940FB4804E0A7AE71D4600E79E3AEF13FC55
+      B9B7D034FBBF0F6969ABDCDE82C90C97061C286DBBB26320FE95CB29C2577196
+      C7BB4F0F8BA0A31A90BC65D191695F1DB4A95A3875AB7B8D126C7CEB7B108006
+      E3805DB93CF4EBF8F15BF27C5CF09C0B1E75AB466914B8417099C60F1CB63FCF
+      1DF18DE04960F889A65CB6BFE17D3ECAF21C069A02930663DD5B60C30FC79AE9
+      47C3FF000FC4C87FB3211B07DEDAA323A1078E47AD6A9C9A4D330A91C3C66E33
+      8B4FC99832FC72F0E3B04B2966BC98E484B74121001C0270C76E7E6C16C743D3
+      8CF32FAD78F3E26C8F16990DC7856C191559AFED9A376CFDE2A482323D33DBF1
+      ADDF897E2AF0F7C22D113528F41B2967601228E38D50B10781B829C72C79F735
+      93F0D7F685D33C73E2B1E1DB7D2E5B30F13CD14A13080F059481D3927E6EE7B0
+      AC1D48F3F24A5A9D90A338D1788A14B4EEF5FC0EE7C01F0EEC7C01613476A5E6
+      B9B9732CD7133659C9393D38EBE82BADDC0739FCA988C09EA0D42D790AB6D696
+      35603254B0040F7AEA565A1E0CE73AB2E796ACB07007230294600EB93DF15183
+      B867820E08C74C5792FC4FFDA0ACBE1C7899B486D35EFA558525661B940DC4E4
+      67691C0DBF5C91DAA6A548D38F349E86B87C355C54FD9D25767AFE73F4A41B7A
+      5707F0A3E27A7C4ED01B545B06D3516431ED79436EC1C718E47E3D722BB84B84
+      69366E1BFAE01CD5292924D332AB427466E135AA26079FA7714707DBE94814B1
+      EB8FC28071D49E2A8C471031F778F7A4E3D290B93F4EFC52F1E8DF950004FF00
+      F5E9ADB48FEA2976F6C1A4718E72547A50035B90338FAD7CADFB66FC173AED94
+      1E32D26D51EF2DB7477D1448419E220619829CB32E0F3C601E7A73F55EE00727
+      F31514F1F9F03C6095DCA5770032323AF391F9D7561EBCB0F55548F4FC8CAA53
+      8D48F2B3F297C0BE31BEF0278A347F12E95B64BAB2992658D18224EA7A86EDB5
+      958F39E38E95FA5FF0CBE22697F13BC1DA7EB7A65D24E268879A9BD4B4727460
+      40E9CE6BE2EFDA5FF67D6F871ACEA3E21B1B499B40BE983225B65A380972D279
+      8C46221CFCB8E39EA2B9AF80DF1DAE7E0B6BB23EC4BAF0DDF396BDB74018C7C1
+      C346E5B83920E391DB009CD7D663684331A0B1141FBCBFAB1E451ACF0F3F6551
+      687DEDF103C5B71E17B08A2B0B7FB4EA5724A42ACA4A83B58F240C7F0F438AF0
+      2F166ADF106EEE05C7DBEE6D4321923B7B3624960BC8DA393F8FBFA71EF0F7D6
+      9E32D3F4CF12683749AAD9AAF9A91C05583823820E721B07A138359F7771A623
+      2DE6A304FA74F6E195954B2855C9CEE0BF7811EA08E0FBD7C25583D99F7382C5
+      52C3C6FC8A4DF73E698FE13EA3AE588BA91A78A6B9756712A6D61BBAB6DCE78E
+      0F27F1ED5BFF001760D7631E19D3B4FB99E284596C582DE72C72C785618C93C9
+      504363E9D07BD346BAAD87D9749B19C472709705005033B83283852BDB3EE3AD
+      3358B5B5D32FED23BDB592644C3446DE3CEE25FBE0772DDF0067D715C52C32E5
+      6A3D4F63FB65CEAC6734BDDE8713FB335D6ABA77863C492EB770F3450DD0689E
+      56CED1B0647A633F5C735E77F103E20F8FF5CD5AEDAD6FE6D3B4AF398C31D983
+      1332003EF1C863DBB7F4AF55B18AD4EB0B347A2DFC3A7C86449A1BBB772CEC0F
+      1B54F38C85E72013B7AE011764D13FE124923B2B3D2EE2D9219D44935C3CA9B6
+      2E43282E32C31CF53824E0E29FB093A6A1CDB184717421899622A534F9BF03C8
+      747F0EEB5E31F8631C7AF19FCF176CB0DD5EDC1795C79858911E4F19F97B741E
+      F50DAFC3ED43C337AB269D74D65A9BC6811D0951B4E300300589E0678E739E33
+      8AFA575AF0A4F71A658C765706DE6B3C636865575C8CE541196E38CF1C9E2B9B
+      F125FDC8F0FCBF6FD0276BE48B36EF0091C1931C676648C1FCBB537834ECEFA9
+      71CDE5CB28C52E5937A1CF7C51F89DAB681A4D9689A6C71FF6CB5B234F3CE5C1
+      0C141FE139CB1CF53C11D7BD783DC5978EFC41319AEAFF0057BE823622495252
+      CB1900F5F9B3D1B8CFD6BE9BBAF085EDEDB586B5F642DA8BDBE2E216BA915DC9
+      FBA7D380791818E78238AC7D7F4EB61A76AD1695A25CC17CD1346B1344E626C8
+      1D011B4819C9E33C52A9849557773B1582C7D0C2C54234D37D5B3CD3E1DF8B3C
+      73E15BCB09EEAF8EA7A6332F991DD4923945208C0CB85C02DEFC8038EDD5FC5D
+      F013F8B7C72B7AB0ABA0B742DE5CA7383900B02303B700F38078AE956F2DDFC3
+      CB63368BAA0BADC8BB984A1371DB960DDCE704020F3915BF77A947A0DF5A25EE
+      91A85C88E054596DE2799325B8CED5077641CE78181D33551C27B9ECE72BA329
+      E61C98855E94145ABAD0F9D23B8D734BD226F0C683726358A6692596DDCA0914
+      F6520AF65EE0F39E95DA7ECE9E18D6AFFC4B7BA8EA9AFEA8BF6090A0B0799B63
+      B12AC490C4FCBDB1C75AF42D3F449E717DADC3A5CA932B11F669C3890AE31825
+      C1271963F2F5CF5E2A7B8D5A4B6BD8351D3749BF175F6916D751CD6F260207E7
+      69C64E4E391C633E94E9E17D9C94B9B635C4E630AF45D284126F77E67A829DD9
+      FE94BCE2ABDC5EC7656C269DD214E016638193D0734EB4B93770AC851E256CE1
+      5C7CDF8D779F184C1B239E0D2F1E86931DFBD18148018E0F23F1A0118A43B73D
+      38F5A187B0F6C9A0009CAF4CFB52103A60118A701B474CD1CB7AE28033F5BD22
+      CBC41A6DD69BA8DB25DD8DD218A5864CE194F18F51D7A8E476AF82FE3AFECEBA
+      E7C36D4EF750D2619B52F0D5E492323995A6B888ED255773E5C11CF4249C7AD7
+      E819DD8F4FAD53D4F4DB4D62C27B1BFB58AEAD261B6486740E8E3AF20E47BFE1
+      5E860B1B3C1CD496DD51CD5E846BAD773F39FE077C71D43E0EEB08D21BED4347
+      94F97756804CE5781CAC78DA1F28307AE09AFBABE1D7C52F0F7C57D27EDFE1FB
+      CF39930B2DBCF198E5858F5565207A7D2BE6BF8C7FB194FA75CC9AB7826CE2BA
+      B494933E930C68B203D4142EEA02F4040E78E86BE72D3F57F12FC32F11FDAED2
+      29B43D4EDA46F9665CA96047CBFED2E547238391C9EDF43570B86CD173D1769F
+      63CF854A984F764AE8FD51524AE33C8E38E94FEE082323BE6BE5CF83BFB68E8D
+      AE462C3C6DB344BE0B1AC776A5E549DCF043ED5C4792AC464E00C64E735F4868
+      1E24D2BC5160B75A46A16DAA5AB007CDB595645FCD4915F315F0D570F271A91B
+      1EA53AD0AAAF166A601CFCB83FCE9426D500118F4038A4C8E1781F8D2296EE46
+      3EB5C66D77B363F6E7AB60F6A325791CFBD2838CF38A4C9FEF719C1C550B6D87
+      29E38E0FB76A5FBBCE71F5A6EDE322908E71DA818E2E40E738F63463DC5267A7
+      56278ACFD73C45A6786AD3ED5AB6A16DA65AE71E75D48235CFA64D349BD105EC
+      68020939C13589E2AF18699E0CD31EFF0054B9114232A32797214B63F2535E41
+      AE7ED1D7DE29D765F0EFC32D124D7F538E45827BF9D57EC3131C17C4E9215CAA
+      93EDB801CD6FF813E09DEDAEAD0EBDE35D54F88B5B8553C95620A40E3F895822
+      927393C8EF5D6B0EA9AE6ACEDE5D4C5CE52D206FF848EABE30B8B5D5B5148E1D
+      300F361B60564058E76907B601CF66CE3E95DF00178C01EC29A984C28CE00F5C
+      D485881903EB5CD29F3BBA5A17156401707B1A7EDF6A8F737D47AD2E5BD6A0A1
+      401C6791D8D04E4631F9F6A0B63A8E69A5D4F63F85000C32073FFD7A3A0C6294
+      1603E63C523124F4C1A00424FA7E74A578E4914D23A6E3C52F00639A6037A1E0
+      FE75C2FC4AF82DE16F8A968535CB012DC052A974848963CE33B4E783F28ED5DE
+      6303BD232E0003835709CA9BE683B32651525667C1BF107F626F13E8A1DFC393
+      5AEB96A8646305CCAFE71532310142C0413B76F7EB9E0D79859EA1E3EF839A9C
+      52491EAFA53D9B891AC262EF00DB9C92A136EC3D01CF3C118EDFA7A411D4E0FA
+      D52BAD2ECAF62912E2D2DE757C6F0F103BB07233EBCD7B70CDEA5B92BC7991C5
+      2C1C5EB07667C3FE0AFDBD3C49A469F05AF883C3B67AB846F2E4B9D3E631CF8E
+      464ABA800E70780476EF91EB9A1FEDD7E04D42CA19351B2D4F45B97C978E58C4
+      B1A00324974CF6E7A7B75AF47F127ECF3F0FFC58D19D43C3B6FE6A2ED32C24C7
+      215C63961C9C75FA8FAD79FDFF00EC41E0AB8712594EDA60F3848C91DB2480A8
+      046D05C961D739CF240273814DD5CBAAEB28B8B138E2A1B34CEBAC3F6B0F85BA
+      82DC797E29822F2595089959598919F9548C9C743EF5A49FB48FC35DD306F14D
+      A46612A1CCA5942E4641C91D31F9578E4BFB03693BD153C5771242148D9369F1
+      90A727E618604B6DC0C93EA71CE03EC3F608D354DCBEA3E309EFEE5CEF8E44D3
+      523556FEF326F60E7A7A74E31D6B1F6797EBEFCBEE2F9F13FCA8F55D67F6A8F8
+      65A0C123DCF89E17655DC1224662C36E78E3D3F2E95C46ADFB74F80EDE273A65
+      A6A5AB4C154C71FD9E488C848248FB8C46DE3391C02586429AB7A07EC53E04D2
+      25325DC51EAC1CC8248AEAD11A3D8D9C04CE59481B46724103A0CD7A77873E0B
+      F833C292C72E97E1FB2B5990604823E7F2181DB1D2B36B030D63797E038FD625
+      BD91E14BFB4E7C47F8896CA9E08F871751B48DFE932DF4AB2F90080155000BD4
+      1DC4B1F5149A1FECA9E31F1AEAABAA7C44F14CB6F11659BFB3348BC729BBB875
+      652B8F40091C9FA57D5490A42BB638D1318E15703DAA40C3A05E7D6B9FEB5CBA
+      518A8FE66CA9BB7BEEE61783FC1BA4F81B41B6D2F48B58EDADA08C460AA2AB30
+      1D3381CD6DF99819E7D0E29597DE80ADD73C0AE293727796E6C92400861D3AD1
+      9207A8A5C6463FAD201CE0FA63148008C8CF6F5A66F1FDE352600620702978F4
+      A0053F31E3149C0EBC01451400678181C1F5A5239C0C0FA51450021238079A4D
+      DDF1FA514500293919EDED484F1EF451400C239CF19EF4DC67BF1451498BA8E0
+      3393DCD0588C646314514C623F24E4E0FB527A6474A28A0070392303934F0A4F
+      B514500216C6D0D9F4CD1B40E093C9A28A00368EBFCE807033C67FA51452602A
+      B76CE69A76F3CE68A29806DDDDC0C53772FF00787E7451401FFFD9}
+  end
+  object TRpExpression1: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 3105
+    PosY = 2145
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.NOME_FUNCIONARIO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+end

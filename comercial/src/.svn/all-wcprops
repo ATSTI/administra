@@ -1,0 +1,5657 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/3463/trunk/comercial/src
+END
+RelatorioGerencial.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/RelatorioGerencial.dfm
+END
+uComplementar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/875/trunk/comercial/src/uComplementar.dfm
+END
+uUsoCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1584/trunk/comercial/src/uUsoCadastro.dfm
+END
+uLabEntregaResultado.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uLabEntregaResultado.dfm
+END
+uSeriaNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2984/trunk/comercial/src/uSeriaNF.dfm
+END
+prjLaboratorio.res
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/prjLaboratorio.res
+END
+uListadeCompra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uListadeCompra.dfm
+END
+uEscolherNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2566/trunk/comercial/src/uEscolherNF.dfm
+END
+uRelProgReceb.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uRelProgReceb.pas
+END
+uProdutoCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3623/trunk/comercial/src/uProdutoCadastro.pas
+END
+uListaCliEscola.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/10/trunk/comercial/src/uListaCliEscola.dfm
+END
+uCompraSolicProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1255/trunk/comercial/src/uCompraSolicProc.dfm
+END
+uLancaProcSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcSaude.pas
+END
+ufProcContabil.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3118/trunk/comercial/src/ufProcContabil.pas
+END
+CidadeFavorecido.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/CidadeFavorecido.pas
+END
+ProgramaCaracter.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/ProgramaCaracter.pas
+END
+uFornecedorCadastroSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorCadastroSaude.pas
+END
+uGeraCobCliente.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uGeraCobCliente.dfm
+END
+uEntra_Sai_estoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3607/trunk/comercial/src/uEntra_Sai_estoque.dfm
+END
+uprocurar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2211/trunk/comercial/src/uprocurar.pas
+END
+uFiltro_forn_plano.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3619/trunk/comercial/src/uFiltro_forn_plano.dfm
+END
+uCargosFuncoes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2408/trunk/comercial/src/uCargosFuncoes.pas
+END
+ufCpAltera.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3061/trunk/comercial/src/ufCpAltera.pas
+END
+uProcuraCBR.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uProcuraCBR.pas
+END
+uResolucaoTela.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uResolucaoTela.pas
+END
+uAts_Citrus.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2560/trunk/comercial/src/uAts_Citrus.dfm
+END
+uFiscalCls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3277/trunk/comercial/src/uFiscalCls.pas
+END
+uProdutoProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/677/trunk/comercial/src/uProdutoProc.dfm
+END
+uOf.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3646/trunk/comercial/src/uOf.pas
+END
+uExpContMat.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2751/trunk/comercial/src/uExpContMat.dfm
+END
+uPeriodos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uPeriodos.dfm
+END
+uRegiaoCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uRegiaoCadastro.dfm
+END
+uBarCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uBarCaixa.pas
+END
+uCompraCotacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1248/trunk/comercial/src/uCompraCotacao.pas
+END
+uRelestoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/815/trunk/comercial/src/uRelestoque.dfm
+END
+uProcedimentos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcedimentos.pas
+END
+FechaResumido.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/FechaResumido.dfm
+END
+uClientePlano.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uClientePlano.pas
+END
+uRel_comissao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1382/trunk/comercial/src/uRel_comissao.pas
+END
+uselectempresa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uselectempresa.dfm
+END
+uCompraSolicitacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1067/trunk/comercial/src/uCompraSolicitacao.dfm
+END
+uOrdemAssistencia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/265/trunk/comercial/src/uOrdemAssistencia.dfm
+END
+uEstoqueCorrige.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3435/trunk/comercial/src/uEstoqueCorrige.dfm
+END
+uAtualizaSistema.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2807/trunk/comercial/src/uAtualizaSistema.dfm
+END
+uSincronizar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3199/trunk/comercial/src/uSincronizar.dfm
+END
+uEstoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3299/trunk/comercial/src/uEstoque.pas
+END
+ufCrAltera.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1700/trunk/comercial/src/ufCrAltera.dfm
+END
+ufprocura_prod1.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/ufprocura_prod1.pas
+END
+uAssociacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uAssociacao.dfm
+END
+uRelatorioCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2541/trunk/comercial/src/uRelatorioCaixa.dfm
+END
+AbreCupomRestaurante.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/AbreCupomRestaurante.dfm
+END
+unfc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3381/trunk/comercial/src/unfc.dfm
+END
+uFiltroMovMaterias.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroMovMaterias.dfm
+END
+uNotaf.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3585/trunk/comercial/src/uNotaf.dfm
+END
+RetornoValor.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/RetornoValor.dfm
+END
+uPlanos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uPlanos.pas
+END
+ufuncionario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1675/trunk/comercial/src/ufuncionario.dfm
+END
+DadosSintegra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/DadosSintegra.pas
+END
+uClienteFiltro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3601/trunk/comercial/src/uClienteFiltro.pas
+END
+uOs.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3319/trunk/comercial/src/uOs.dfm
+END
+uCpPassivo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3118/trunk/comercial/src/uCpPassivo.pas
+END
+uComissaoColaborador.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uComissaoColaborador.dfm
+END
+uSobre.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uSobre.pas
+END
+uRelNfe.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1849/trunk/comercial/src/uRelNfe.pas
+END
+ufNotafiscalProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/ufNotafiscalProc.pas
+END
+uResponsalvel.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uResponsalvel.pas
+END
+U_AbreComanda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2089/trunk/comercial/src/U_AbreComanda.dfm
+END
+uTerminal_Delivery.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3655/trunk/comercial/src/uTerminal_Delivery.pas
+END
+uBaixaretorno.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBaixaretorno.dfm
+END
+MemoriaFiscal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/MemoriaFiscal.pas
+END
+ufplanocontas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3586/trunk/comercial/src/ufplanocontas.pas
+END
+ualterasenha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/ualterasenha.pas
+END
+uPfaturamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/117/trunk/comercial/src/uPfaturamento.dfm
+END
+uDuplicata.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uDuplicata.dfm
+END
+uRelTitulos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2235/trunk/comercial/src/uRelTitulos.dfm
+END
+uAtsOS.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3274/trunk/comercial/src/uAtsOS.pas
+END
+Encrypt_decrypt.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/Encrypt_decrypt.pas
+END
+Recebimento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/Recebimento.dfm
+END
+U_MudaMesa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3266/trunk/comercial/src/U_MudaMesa.pas
+END
+uPlanoSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3118/trunk/comercial/src/uPlanoSaude.pas
+END
+ufcpproc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3613/trunk/comercial/src/ufcpproc.pas
+END
+uProdGeraAumento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/474/trunk/comercial/src/uProdGeraAumento.pas
+END
+uNotaFiscalEscola.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalEscola.dfm
+END
+ufTeclasAtalho.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/ufTeclasAtalho.dfm
+END
+uColaboradorTurma.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uColaboradorTurma.pas
+END
+UsaUnidadeMedida.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/UsaUnidadeMedida.pas
+END
+uFiltroEstoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3633/trunk/comercial/src/uFiltroEstoque.pas
+END
+U_FECHAMENTO.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1484/trunk/comercial/src/U_FECHAMENTO.pas
+END
+uCrTituloInclui.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2608/trunk/comercial/src/uCrTituloInclui.pas
+END
+FormaPagamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/FormaPagamento.pas
+END
+uBancoPgto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uBancoPgto.pas
+END
+uFinanceiro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/93/trunk/comercial/src/uFinanceiro.pas
+END
+uresumointernacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uresumointernacao.pas
+END
+uFornecedorEndereco.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorEndereco.dfm
+END
+uEntrada.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uEntrada.pas
+END
+CancelItemGenerico.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/CancelItemGenerico.dfm
+END
+AdicaoAliquota.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/AdicaoAliquota.dfm
+END
+ufcrSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/ufcrSaude.dfm
+END
+uRelatorioAsh.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uRelatorioAsh.dfm
+END
+uDeclaracaoImportacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1872/trunk/comercial/src/uDeclaracaoImportacao.dfm
+END
+uFiltroMov_compra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1699/trunk/comercial/src/uFiltroMov_compra.pas
+END
+LoginWindow_U.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/LoginWindow_U.dfm
+END
+uRelatorio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1508/trunk/comercial/src/uRelatorio.dfm
+END
+uLabLaudo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uLabLaudo.pas
+END
+uRelPcmo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uRelPcmo.dfm
+END
+uComanda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2408/trunk/comercial/src/uComanda.dfm
+END
+FechaCupom.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3281/trunk/comercial/src/FechaCupom.pas
+END
+SimboloMoeda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/SimboloMoeda.pas
+END
+uFornecedorRepresentante.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorRepresentante.pas
+END
+uCliente1.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3501/trunk/comercial/src/uCliente1.dfm
+END
+U_ORDEMSERV.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1076/trunk/comercial/src/U_ORDEMSERV.dfm
+END
+uAbrirCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2366/trunk/comercial/src/uAbrirCaixa.dfm
+END
+uMarcas_Grupos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1390/trunk/comercial/src/uMarcas_Grupos.dfm
+END
+uCaixaBanco.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2862/trunk/comercial/src/uCaixaBanco.pas
+END
+uDetalhe.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3639/trunk/comercial/src/uDetalhe.dfm
+END
+PrjAdministrativo.res
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/PrjAdministrativo.res
+END
+ugeraSPED.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/ugeraSPED.pas
+END
+uInicial.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uInicial.dfm
+END
+uImpr_Boleto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uImpr_Boleto.dfm
+END
+uBancoOFX.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1947/trunk/comercial/src/uBancoOFX.pas
+END
+uCadColaborador.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2404/trunk/comercial/src/uCadColaborador.pas
+END
+uAtsAdmin.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3640/trunk/comercial/src/uAtsAdmin.pas
+END
+uCadSetor.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3062/trunk/comercial/src/uCadSetor.pas
+END
+uClienteCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3620/trunk/comercial/src/uClienteCadastro.pas
+END
+UDmSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/UDmSaude.dfm
+END
+ucrTitulo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3535/trunk/comercial/src/ucrTitulo.pas
+END
+uFiltroMovLancamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroMovLancamento.dfm
+END
+uRelOS.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1947/trunk/comercial/src/uRelOS.dfm
+END
+uGeraAumento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/102/trunk/comercial/src/uGeraAumento.pas
+END
+uFornecedorRepresentanteSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorRepresentanteSaude.pas
+END
+uCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2369/trunk/comercial/src/uCaixa.dfm
+END
+uImporta.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uImporta.pas
+END
+uprocurarSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uprocurarSaude.pas
+END
+U_AlteraPedido.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1457/trunk/comercial/src/U_AlteraPedido.dfm
+END
+uFiltroMovimento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3491/trunk/comercial/src/uFiltroMovimento.dfm
+END
+uFaixaMudanca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uFaixaMudanca.pas
+END
+uTerminalLoja.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3118/trunk/comercial/src/uTerminalLoja.pas
+END
+uComissaoCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uComissaoCadastro.dfm
+END
+ufProdutoLista.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/ufProdutoLista.dfm
+END
+ufSplash.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/ufSplash.dfm
+END
+uImpBoletim.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uImpBoletim.dfm
+END
+uDespRec.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uDespRec.pas
+END
+uOsInsere.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3178/trunk/comercial/src/uOsInsere.pas
+END
+PrjPlanoSaude.res
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/PrjPlanoSaude.res
+END
+usplash.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/usplash.pas
+END
+uAtualiza.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uAtualiza.dfm
+END
+RelatorioSintegraMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/RelatorioSintegraMFD.pas
+END
+UDm.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3660/trunk/comercial/src/UDm.pas
+END
+UsaCPFDesForma.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/UsaCPFDesForma.dfm
+END
+uApontHoras.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/663/trunk/comercial/src/uApontHoras.dfm
+END
+uLogsUsu.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/143/trunk/comercial/src/uLogsUsu.pas
+END
+uTipoImprimiAgenda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2676/trunk/comercial/src/uTipoImprimiAgenda.pas
+END
+uGeraCob.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2590/trunk/comercial/src/uGeraCob.pas
+END
+uVendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3489/trunk/comercial/src/uVendas.dfm
+END
+TranfItem.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/TranfItem.pas
+END
+u_mesas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2173/trunk/comercial/src/u_mesas.pas
+END
+uUsuarioCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uUsuarioCadastro.pas
+END
+prjTerminal.res
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3204/trunk/comercial/src/prjTerminal.res
+END
+PrjFinanceiro.res
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/PrjFinanceiro.res
+END
+ufcrtitulo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2681/trunk/comercial/src/ufcrtitulo.pas
+END
+uCotacoesHist.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1269/trunk/comercial/src/uCotacoesHist.dfm
+END
+uProcura_ProdOficina.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3313/trunk/comercial/src/uProcura_ProdOficina.dfm
+END
+uCheques_bol.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/497/trunk/comercial/src/uCheques_bol.dfm
+END
+uOsInserePeca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3546/trunk/comercial/src/uOsInserePeca.pas
+END
+uTerminalCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uTerminalCaixa.pas
+END
+gbBoleto7.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/gbBoleto7.dfm
+END
+uVisitas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uVisitas.pas
+END
+uOsFinaliza.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3635/trunk/comercial/src/uOsFinaliza.dfm
+END
+uEndereco.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1586/trunk/comercial/src/uEndereco.pas
+END
+uListaPedido.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1137/trunk/comercial/src/uListaPedido.dfm
+END
+udmapp.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/udmapp.dfm
+END
+uLabColetaMateriais.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uLabColetaMateriais.pas
+END
+uListaClieDep.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uListaClieDep.dfm
+END
+uLabSolicitaExame.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uLabSolicitaExame.dfm
+END
+CancelamentoAcrescimoDesconto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/3281/trunk/comercial/src/CancelamentoAcrescimoDesconto.pas
+END
+uBaixaEstoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBaixaEstoque.pas
+END
+uVendaRelPorNotaFiscalLote.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2670/trunk/comercial/src/uVendaRelPorNotaFiscalLote.dfm
+END
+uVendaFinalizar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3656/trunk/comercial/src/uVendaFinalizar.pas
+END
+MemoriaFiscalMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/MemoriaFiscalMFD.dfm
+END
+uRel_vendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uRel_vendas.dfm
+END
+unitcadastrousuarios.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/unitcadastrousuarios.pas
+END
+FechaComAcrecimo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3654/trunk/comercial/src/FechaComAcrecimo.dfm
+END
+uClasse.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uClasse.pas
+END
+prjAtsAdmin.dof
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2462/trunk/comercial/src/prjAtsAdmin.dof
+END
+uLaboratorio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uLaboratorio.pas
+END
+uRel_LucroPresumido.pas
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2045/trunk/comercial/src/uRel_LucroPresumido.pas
+END
+uBalancete.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/501/trunk/comercial/src/uBalancete.pas
+END
+uCompraCotacaoGerar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/760/trunk/comercial/src/uCompraCotacaoGerar.dfm
+END
+uEstado.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2799/trunk/comercial/src/uEstado.pas
+END
+uProcura_prod2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcura_prod2.pas
+END
+uPlanoFaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uPlanoFaixa.pas
+END
+FechaConferenciaMesa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/FechaConferenciaMesa.pas
+END
+uNotaFiscalExporta.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalExporta.pas
+END
+uLancaProcPcmso.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcPcmso.dfm
+END
+U_TerminalFinaliza.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3158/trunk/comercial/src/U_TerminalFinaliza.pas
+END
+uComandaNTC.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2404/trunk/comercial/src/uComandaNTC.dfm
+END
+uClienteVeiculo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1305/trunk/comercial/src/uClienteVeiculo.dfm
+END
+U_OSBUSCA.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/949/trunk/comercial/src/U_OSBUSCA.pas
+END
+uListaAlunos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uListaAlunos.pas
+END
+udemonstrativo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/udemonstrativo.pas
+END
+uSplashAdm.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uSplashAdm.dfm
+END
+uAlunoCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uAlunoCadastro.pas
+END
+ufContasAssistente.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/ufContasAssistente.pas
+END
+uPainelControle.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3232/trunk/comercial/src/uPainelControle.dfm
+END
+uAdm_Principal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uAdm_Principal.pas
+END
+U_AUTORIZACAO.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1483/trunk/comercial/src/U_AUTORIZACAO.dfm
+END
+EfetuaFormaPagamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/EfetuaFormaPagamento.pas
+END
+uNotafiscal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uNotafiscal.dfm
+END
+uCodigoTerceiros.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uCodigoTerceiros.dfm
+END
+uProcResponsavel.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uProcResponsavel.dfm
+END
+EstornoFormaPagamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/3281/trunk/comercial/src/EstornoFormaPagamento.dfm
+END
+ForcaAgulhas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/ForcaAgulhas.pas
+END
+uFichaMedica.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uFichaMedica.pas
+END
+uFrConfigDbx.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uFrConfigDbx.dfm
+END
+prjTerminal.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3203/trunk/comercial/src/prjTerminal.cfg
+END
+PrjFinanceiro.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/6/trunk/comercial/src/PrjFinanceiro.cfg
+END
+uProdutoLote.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uProdutoLote.pas
+END
+uRelatorioFin.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1243/trunk/comercial/src/uRelatorioFin.dfm
+END
+VendaPorDepartamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/VendaPorDepartamento.dfm
+END
+uCheq_bolBaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uCheq_bolBaixa.pas
+END
+uAgendamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uAgendamento.pas
+END
+uRelVendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3219/trunk/comercial/src/uRelVendas.pas
+END
+uCrTituloPagto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3608/trunk/comercial/src/uCrTituloPagto.dfm
+END
+ucadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/ucadastro.dfm
+END
+uEntradaCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2442/trunk/comercial/src/uEntradaCaixa.pas
+END
+uTexto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/501/trunk/comercial/src/uTexto.dfm
+END
+uNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/621/trunk/comercial/src/uNF.dfm
+END
+uListaClientes.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3498/trunk/comercial/src/uListaClientes.dfm
+END
+uNotafRemessa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/321/trunk/comercial/src/uNotafRemessa.pas
+END
+uNotaf1.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3652/trunk/comercial/src/uNotaf1.pas
+END
+UProcuraGrupo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/UProcuraGrupo.pas
+END
+prjAtsAdmin.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3380/trunk/comercial/src/prjAtsAdmin.dpr
+END
+uEtiquetas_cli.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2709/trunk/comercial/src/uEtiquetas_cli.pas
+END
+uTipoVisita.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uTipoVisita.pas
+END
+uPagarCls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2054/trunk/comercial/src/uPagarCls.pas
+END
+U_Terminal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3179/trunk/comercial/src/U_Terminal.dfm
+END
+uCompraRecebimento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1567/trunk/comercial/src/uCompraRecebimento.pas
+END
+AberturaDia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/AberturaDia.pas
+END
+uLocacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uLocacao.pas
+END
+uMensagens.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMensagens.dfm
+END
+uLancaProcSaudeProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcSaudeProc.pas
+END
+uNotaFiscalCr.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalCr.pas
+END
+TextoImprimir.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/TextoImprimir.dfm
+END
+uEstoqueFecha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1460/trunk/comercial/src/uEstoqueFecha.pas
+END
+uListaVendaProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3436/trunk/comercial/src/uListaVendaProc.pas
+END
+uCompraCotacao2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1137/trunk/comercial/src/uCompraCotacao2.dfm
+END
+uCombo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/286/trunk/comercial/src/uCombo.dfm
+END
+uMovLinhas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMovLinhas.dfm
+END
+uFamilia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1388/trunk/comercial/src/uFamilia.dfm
+END
+uLotes_Produtos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3041/trunk/comercial/src/uLotes_Produtos.pas
+END
+uFiltroDep.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3025/trunk/comercial/src/uFiltroDep.pas
+END
+uperiodoSem.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uperiodoSem.dfm
+END
+uListaVenda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3473/trunk/comercial/src/uListaVenda.pas
+END
+Totalizador.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/Totalizador.dfm
+END
+InformacaoBalanca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3281/trunk/comercial/src/InformacaoBalanca.pas
+END
+RLBoleto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/RLBoleto.pas
+END
+uProcura_produtos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3518/trunk/comercial/src/uProcura_produtos.dfm
+END
+ufContabilLanc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2858/trunk/comercial/src/ufContabilLanc.pas
+END
+TerminaFechamentoCupomMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/3281/trunk/comercial/src/TerminaFechamentoCupomMFD.pas
+END
+uRemessaTitulo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uRemessaTitulo.pas
+END
+uInventario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3517/trunk/comercial/src/uInventario.dfm
+END
+AbreCupomMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/AbreCupomMFD.dfm
+END
+AbreConferencia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3281/trunk/comercial/src/AbreConferencia.dfm
+END
+uSangria.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2440/trunk/comercial/src/uSangria.dfm
+END
+uListaClientesSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uListaClientesSaude.dfm
+END
+uNfePisCofins.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2955/trunk/comercial/src/uNfePisCofins.dfm
+END
+Modulo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/Modulo.pas
+END
+uprocurar_prest.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uprocurar_prest.pas
+END
+RegistroVendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/RegistroVendas.pas
+END
+ucrEscolas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3118/trunk/comercial/src/ucrEscolas.pas
+END
+TranfMesa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/TranfMesa.dfm
+END
+uFiltroCadDoc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3090/trunk/comercial/src/uFiltroCadDoc.dfm
+END
+uMaquinaControle.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1156/trunk/comercial/src/uMaquinaControle.dfm
+END
+uDescontoTitulos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2226/trunk/comercial/src/uDescontoTitulos.dfm
+END
+uRetira.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2787/trunk/comercial/src/uRetira.pas
+END
+PrjComercial.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/PrjComercial.dpr
+END
+uProcuraCheque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcuraCheque.dfm
+END
+uBancoExtrato.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2149/trunk/comercial/src/uBancoExtrato.pas
+END
+uCCe.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2457/trunk/comercial/src/uCCe.pas
+END
+uTb_Ibge.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/139/trunk/comercial/src/uTb_Ibge.pas
+END
+uPrazo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1795/trunk/comercial/src/uPrazo.pas
+END
+uClasseCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uClasseCadastro.pas
+END
+uAliquita.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/uAliquita.dfm
+END
+uNFeMail.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2933/trunk/comercial/src/uNFeMail.dfm
+END
+uCategoria.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1671/trunk/comercial/src/uCategoria.pas
+END
+uVendaLoteLancao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uVendaLoteLancao.pas
+END
+uTipoSerie.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uTipoSerie.pas
+END
+u_imagens.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1601/trunk/comercial/src/u_imagens.dfm
+END
+uMaterias.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uMaterias.pas
+END
+ubanco.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2258/trunk/comercial/src/ubanco.dfm
+END
+uFiltroMov_NFcompra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/884/trunk/comercial/src/uFiltroMov_NFcompra.pas
+END
+uReceberCls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3580/trunk/comercial/src/uReceberCls.pas
+END
+uRel_CR1.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2336/trunk/comercial/src/uRel_CR1.dfm
+END
+u_SIMILARES.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2006/trunk/comercial/src/u_SIMILARES.dfm
+END
+ucopiailha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/ucopiailha.dfm
+END
+uEmpresa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3615/trunk/comercial/src/uEmpresa.dfm
+END
+Principal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/Principal.dfm
+END
+uProcurar_nf.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3266/trunk/comercial/src/uProcurar_nf.pas
+END
+uPai_new.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3118/trunk/comercial/src/uPai_new.pas
+END
+uBancoDePara.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2114/trunk/comercial/src/uBancoDePara.dfm
+END
+uGuiaTranporte.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uGuiaTranporte.pas
+END
+uPeriodo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1543/trunk/comercial/src/uPeriodo.dfm
+END
+uEntrega.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2404/trunk/comercial/src/uEntrega.pas
+END
+uMovimenta_Estoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1557/trunk/comercial/src/uMovimenta_Estoque.dfm
+END
+uRel_Guia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uRel_Guia.pas
+END
+uUso_Prod.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uUso_Prod.pas
+END
+uMostraDetalhe.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3118/trunk/comercial/src/uMostraDetalhe.pas
+END
+uClasseEscolha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uClasseEscolha.dfm
+END
+uTerminal2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3659/trunk/comercial/src/uTerminal2.pas
+END
+uNFClasse.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2911/trunk/comercial/src/uNFClasse.pas
+END
+unitExclusao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3604/trunk/comercial/src/unitExclusao.pas
+END
+uExpedicao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1161/trunk/comercial/src/uExpedicao.pas
+END
+uPedagogico.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uPedagogico.pas
+END
+uXmlAns.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uXmlAns.pas
+END
+uPdm.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2790/trunk/comercial/src/uPdm.dfm
+END
+uListaEstoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1758/trunk/comercial/src/uListaEstoque.dfm
+END
+uNfeIcms.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3005/trunk/comercial/src/uNfeIcms.dfm
+END
+uFornecedorCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2927/trunk/comercial/src/uFornecedorCadastro.pas
+END
+uPassivo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uPassivo.dfm
+END
+uMovCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3277/trunk/comercial/src/uMovCaixa.pas
+END
+ImprimeCheque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/ImprimeCheque.pas
+END
+uParametrosTerminal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/35/trunk/comercial/src/uParametrosTerminal.pas
+END
+uNFeletronica.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3652/trunk/comercial/src/uNFeletronica.pas
+END
+uNCM.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3086/trunk/comercial/src/uNCM.pas
+END
+uCadDoc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3062/trunk/comercial/src/uCadDoc.pas
+END
+AtivaDesativaVendaUmaLinha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/3281/trunk/comercial/src/AtivaDesativaVendaUmaLinha.dfm
+END
+uCompra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3638/trunk/comercial/src/uCompra.pas
+END
+uRel.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1256/trunk/comercial/src/uRel.pas
+END
+uOsExecutar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uOsExecutar.pas
+END
+uCarne.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1797/trunk/comercial/src/uCarne.pas
+END
+uSelecionaVisitas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uSelecionaVisitas.dfm
+END
+uPai.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1595/trunk/comercial/src/uPai.dfm
+END
+DownloadMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/DownloadMFD.dfm
+END
+uDependente.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uDependente.dfm
+END
+uMostra_Contas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uMostra_Contas.dfm
+END
+uRelVendasUF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRelVendasUF.dfm
+END
+uCorrigirDesconto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uCorrigirDesconto.dfm
+END
+uGeraEtiquetas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3044/trunk/comercial/src/uGeraEtiquetas.pas
+END
+uNotacls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2532/trunk/comercial/src/uNotacls.pas
+END
+uCompraFinalizar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3618/trunk/comercial/src/uCompraFinalizar.dfm
+END
+uLogs.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2863/trunk/comercial/src/uLogs.pas
+END
+uIdadeSexo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/125/trunk/comercial/src/uIdadeSexo.pas
+END
+ufdlglogin.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1371/trunk/comercial/src/ufdlglogin.pas
+END
+uExporta.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uExporta.dfm
+END
+uRel_CR.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uRel_CR.pas
+END
+PrjMateriais.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/PrjMateriais.dpr
+END
+uMapeamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uMapeamento.dfm
+END
+uRelatorioReceber.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/255/trunk/comercial/src/uRelatorioReceber.dfm
+END
+uCallCenter.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/325/trunk/comercial/src/uCallCenter.pas
+END
+uBoletimAluno.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBoletimAluno.dfm
+END
+uUnidadeMedida.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2916/trunk/comercial/src/uUnidadeMedida.pas
+END
+uColaboradorNTC.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2404/trunk/comercial/src/uColaboradorNTC.dfm
+END
+uLabExameLocaliza.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uLabExameLocaliza.dfm
+END
+LinhaCupons.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/LinhaCupons.dfm
+END
+uNaturezaOperacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1301/trunk/comercial/src/uNaturezaOperacao.dfm
+END
+uEmail.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/738/trunk/comercial/src/uEmail.pas
+END
+uFiltroGuia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroGuia.dfm
+END
+uEnt_Sai_Lote.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uEnt_Sai_Lote.dfm
+END
+uSplash_mat.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uSplash_mat.pas
+END
+uRelProgReceb.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uRelProgReceb.dfm
+END
+uCadClientes2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2407/trunk/comercial/src/uCadClientes2.pas
+END
+uProdutoCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3623/trunk/comercial/src/uProdutoCadastro.dfm
+END
+uEstoqueAjuste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2629/trunk/comercial/src/uEstoqueAjuste.pas
+END
+AumentaDescricaoItem.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/AumentaDescricaoItem.pas
+END
+uMostraSuites.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uMostraSuites.pas
+END
+uFluxoCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2341/trunk/comercial/src/uFluxoCaixa.pas
+END
+uNFPaulista.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/114/trunk/comercial/src/uNFPaulista.pas
+END
+uLancaProcSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcSaude.dfm
+END
+ufProcContabil.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/ufProcContabil.dfm
+END
+unitComercial.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/unitComercial.pas
+END
+uProdutoProcOficina.pas
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1541/trunk/comercial/src/uProdutoProcOficina.pas
+END
+CidadeFavorecido.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/CidadeFavorecido.dfm
+END
+uCx.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3064/trunk/comercial/src/uCx.pas
+END
+uImport.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1720/trunk/comercial/src/uImport.pas
+END
+ProgramaCaracter.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/ProgramaCaracter.dfm
+END
+uFornecedorCadastroSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorCadastroSaude.dfm
+END
+U_RelTerminal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3388/trunk/comercial/src/U_RelTerminal.pas
+END
+fCompraCotacao2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/759/trunk/comercial/src/fCompraCotacao2.pas
+END
+NumeroLinhas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/NumeroLinhas.pas
+END
+uprocurar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/624/trunk/comercial/src/uprocurar.dfm
+END
+uCadDep.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3062/trunk/comercial/src/uCadDep.pas
+END
+uNFeInutilizar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3581/trunk/comercial/src/uNFeInutilizar.pas
+END
+uClienteRepresentante.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2/trunk/comercial/src/uClienteRepresentante.pas
+END
+uCargosFuncoes.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2277/trunk/comercial/src/uCargosFuncoes.dfm
+END
+ufCpAltera.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3061/trunk/comercial/src/ufCpAltera.dfm
+END
+uProcuraCBR.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uProcuraCBR.dfm
+END
+uResolucaoTela.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uResolucaoTela.dfm
+END
+uControle.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uControle.pas
+END
+uLotes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3592/trunk/comercial/src/uLotes.pas
+END
+uOf.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3627/trunk/comercial/src/uOf.dfm
+END
+uEmpresaProcura.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uEmpresaProcura.pas
+END
+uProdudoBusca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uProdudoBusca.pas
+END
+VendeItem.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/VendeItem.pas
+END
+uDIAdicao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2129/trunk/comercial/src/uDIAdicao.pas
+END
+uBarCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uBarCaixa.dfm
+END
+BoletoLayout.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/BoletoLayout.pas
+END
+ConferenciaMesa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3281/trunk/comercial/src/ConferenciaMesa.pas
+END
+uCompraCotacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1193/trunk/comercial/src/uCompraCotacao.dfm
+END
+uProcedimentos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcedimentos.dfm
+END
+uClientePlano.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uClientePlano.dfm
+END
+uRel_comissao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1382/trunk/comercial/src/uRel_comissao.dfm
+END
+ConduitPalm.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/ConduitPalm.cfg
+END
+uMenuCupom.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3287/trunk/comercial/src/uMenuCupom.pas
+END
+FechaCupomContaDividida.pas
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3281/trunk/comercial/src/FechaCupomContaDividida.pas
+END
+ufprocura_prod1.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/ufprocura_prod1.dfm
+END
+uTerminalFinalizar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/481/trunk/comercial/src/uTerminalFinalizar.pas
+END
+uTerminalCaixaAbre.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/uTerminalCaixaAbre.pas
+END
+uPlanos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uPlanos.dfm
+END
+uTerminalNTC.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2405/trunk/comercial/src/uTerminalNTC.pas
+END
+ufaturamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/ufaturamento.pas
+END
+DadosSintegra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/DadosSintegra.dfm
+END
+uClienteFiltro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3601/trunk/comercial/src/uClienteFiltro.dfm
+END
+uDaoU.pas
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2/trunk/comercial/src/uDaoU.pas
+END
+uRelCr2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uRelCr2.pas
+END
+uCpPassivo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uCpPassivo.dfm
+END
+uSobre.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uSobre.dfm
+END
+uRelNfe.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1849/trunk/comercial/src/uRelNfe.dfm
+END
+ufNotafiscalProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/ufNotafiscalProc.dfm
+END
+uResponsalvel.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uResponsalvel.dfm
+END
+uTerminal_Delivery.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3655/trunk/comercial/src/uTerminal_Delivery.dfm
+END
+uITENS_NF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uITENS_NF.pas
+END
+uIncluirProdutos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2441/trunk/comercial/src/uIncluirProdutos.pas
+END
+prjLaboratorio.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/prjLaboratorio.dpr
+END
+uQguia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uQguia.pas
+END
+uSerie.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uSerie.pas
+END
+uAts_R.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3266/trunk/comercial/src/uAts_R.pas
+END
+MemoriaFiscal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/MemoriaFiscal.dfm
+END
+ualterasenha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/ualterasenha.dfm
+END
+ufplanocontas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3619/trunk/comercial/src/ufplanocontas.dfm
+END
+LeRegVendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/LeRegVendas.pas
+END
+uAtsOS.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3274/trunk/comercial/src/uAtsOS.dfm
+END
+uSuites.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2180/trunk/comercial/src/uSuites.pas
+END
+uFiltroSetor.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3026/trunk/comercial/src/uFiltroSetor.pas
+END
+U_Entrada.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3658/trunk/comercial/src/U_Entrada.pas
+END
+U_MudaMesa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2995/trunk/comercial/src/U_MudaMesa.dfm
+END
+uPlanoSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uPlanoSaude.dfm
+END
+ufcpproc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3630/trunk/comercial/src/ufcpproc.dfm
+END
+uProdGeraAumento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/474/trunk/comercial/src/uProdGeraAumento.dfm
+END
+uClassificacaoFiscalProduto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/3483/trunk/comercial/src/uClassificacaoFiscalProduto.pas
+END
+uColaboradorTurma.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uColaboradorTurma.dfm
+END
+UsaUnidadeMedida.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/UsaUnidadeMedida.dfm
+END
+uFiltroEstoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3633/trunk/comercial/src/uFiltroEstoque.dfm
+END
+ProgramaMoeda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/ProgramaMoeda.pas
+END
+U_FECHAMENTO.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1484/trunk/comercial/src/U_FECHAMENTO.dfm
+END
+gbCobranca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/gbCobranca.pas
+END
+uCrTituloInclui.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1024/trunk/comercial/src/uCrTituloInclui.dfm
+END
+uComercial.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/587/trunk/comercial/src/uComercial.pas
+END
+FormaPagamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/FormaPagamento.dfm
+END
+uBancoPgto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uBancoPgto.dfm
+END
+ufParametro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3545/trunk/comercial/src/ufParametro.pas
+END
+uFinanceiro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uFinanceiro.dfm
+END
+uEntrada.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uEntrada.dfm
+END
+uresumointernacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uresumointernacao.dfm
+END
+TerminaFechamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3281/trunk/comercial/src/TerminaFechamento.pas
+END
+uFiltroMov_compra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2422/trunk/comercial/src/uFiltroMov_compra.dfm
+END
+uNFCompra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3552/trunk/comercial/src/uNFCompra.pas
+END
+uClassificacaoFiscal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uClassificacaoFiscal.pas
+END
+uLabLaudo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uLabLaudo.dfm
+END
+uEditar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uEditar.pas
+END
+uContaRateio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uContaRateio.pas
+END
+FechaCupom.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3281/trunk/comercial/src/FechaCupom.dfm
+END
+SimboloMoeda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/SimboloMoeda.dfm
+END
+uDadosImportacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1867/trunk/comercial/src/uDadosImportacao.pas
+END
+uFornecedorRepresentante.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorRepresentante.dfm
+END
+uTerminal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uTerminal.pas
+END
+uCaixaBanco.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2320/trunk/comercial/src/uCaixaBanco.dfm
+END
+uFornecedorEnderecoSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorEnderecoSaude.pas
+END
+ugeraSPED.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/ugeraSPED.dfm
+END
+UDM_MOV.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2961/trunk/comercial/src/UDM_MOV.pas
+END
+uCadColaborador.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2404/trunk/comercial/src/uCadColaborador.dfm
+END
+uFiltroContMaq.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroContMaq.pas
+END
+uAtsAdmin.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3490/trunk/comercial/src/uAtsAdmin.dfm
+END
+uCadSetor.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3062/trunk/comercial/src/uCadSetor.dfm
+END
+uClienteCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3481/trunk/comercial/src/uClienteCadastro.dfm
+END
+NomeiaDepartamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/NomeiaDepartamento.pas
+END
+ucrTitulo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2319/trunk/comercial/src/ucrTitulo.dfm
+END
+BemaCarne.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/BemaCarne.pas
+END
+uLancaProcPart.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcPart.pas
+END
+unovousuario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/unovousuario.pas
+END
+uGeraAumento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/102/trunk/comercial/src/uGeraAumento.dfm
+END
+uFornecedorRepresentanteSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorRepresentanteSaude.dfm
+END
+uImporta.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uImporta.dfm
+END
+U_FiltroOS.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1076/trunk/comercial/src/U_FiltroOS.pas
+END
+IniciaFechamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/IniciaFechamento.pas
+END
+uprocurarSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uprocurarSaude.dfm
+END
+uRatearConta.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRatearConta.pas
+END
+uFaixaMudanca.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uFaixaMudanca.dfm
+END
+uTerminalLoja.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uTerminalLoja.dfm
+END
+uMovimentoDetalhe.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2638/trunk/comercial/src/uMovimentoDetalhe.pas
+END
+ufprocura_prod.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3628/trunk/comercial/src/ufprocura_prod.pas
+END
+U_Boletos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3560/trunk/comercial/src/U_Boletos.pas
+END
+uLotesCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/167/trunk/comercial/src/uLotesCadastro.pas
+END
+uDespRec.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uDespRec.dfm
+END
+uNotafc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3652/trunk/comercial/src/uNotafc.pas
+END
+uOsInsere.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1958/trunk/comercial/src/uOsInsere.dfm
+END
+uProdFornecedor.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3510/trunk/comercial/src/uProdFornecedor.pas
+END
+uRateioPag.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uRateioPag.pas
+END
+ACBrBoletoFCFortesFr.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2479/trunk/comercial/src/ACBrBoletoFCFortesFr.pas
+END
+uEmpresaCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uEmpresaCadastro.pas
+END
+usplash.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/usplash.dfm
+END
+ComprovanteVinculado.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/ComprovanteVinculado.pas
+END
+uFrequancia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2406/trunk/comercial/src/uFrequancia.pas
+END
+uPainelControleCompra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1546/trunk/comercial/src/uPainelControleCompra.pas
+END
+uCadRG.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uCadRG.pas
+END
+uRelComissao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRelComissao.pas
+END
+uFrequencia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uFrequencia.pas
+END
+RelatorioSintegraMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/RelatorioSintegraMFD.dfm
+END
+uClienteBloqueio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uClienteBloqueio.pas
+END
+UDm.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3637/trunk/comercial/src/UDm.dfm
+END
+uLogsUsu.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/143/trunk/comercial/src/uLogsUsu.dfm
+END
+uGeraCob.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uGeraCob.dfm
+END
+uTipoImprimiAgenda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2676/trunk/comercial/src/uTipoImprimiAgenda.dfm
+END
+uCotacaoVer.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1507/trunk/comercial/src/uCotacaoVer.pas
+END
+uSplash_Fin.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uSplash_Fin.pas
+END
+uVotam.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uVotam.pas
+END
+TranfItem.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/TranfItem.dfm
+END
+uclienteendereco.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uclienteendereco.pas
+END
+uDetalheNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3566/trunk/comercial/src/uDetalheNF.pas
+END
+uPesquisa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2729/trunk/comercial/src/uPesquisa.pas
+END
+u_mesas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2173/trunk/comercial/src/u_mesas.dfm
+END
+uUsuarioCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uUsuarioCadastro.dfm
+END
+UTissV2_01_02.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/UTissV2_01_02.pas
+END
+IniciaFechamentoCupomMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/3281/trunk/comercial/src/IniciaFechamentoCupomMFD.pas
+END
+ufcrtitulo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3613/trunk/comercial/src/ufcrtitulo.dfm
+END
+uVendaCls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3298/trunk/comercial/src/uVendaCls.pas
+END
+uCorreio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3322/trunk/comercial/src/uCorreio.pas
+END
+uOsInserePeca.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3264/trunk/comercial/src/uOsInserePeca.dfm
+END
+uClassificacaoFiscalNCM.pas
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3497/trunk/comercial/src/uClassificacaoFiscalNCM.pas
+END
+uVisitas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/127/trunk/comercial/src/uVisitas.dfm
+END
+ufMovimentoCont.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/ufMovimentoCont.pas
+END
+uEndereco.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1573/trunk/comercial/src/uEndereco.dfm
+END
+ufListaProd.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/ufListaProd.pas
+END
+uTroca.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3566/trunk/comercial/src/uTroca.pas
+END
+uLabColetaMateriais.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uLabColetaMateriais.dfm
+END
+limpa_arquivos_delphi
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/limpa_arquivos_delphi
+END
+uRomaneio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uRomaneio.pas
+END
+ufcr.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3614/trunk/comercial/src/ufcr.pas
+END
+CancelamentoAcrescimoDesconto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/3281/trunk/comercial/src/CancelamentoAcrescimoDesconto.dfm
+END
+uBaixaEstoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBaixaEstoque.dfm
+END
+uMateriais.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMateriais.pas
+END
+uVendaFinalizar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3498/trunk/comercial/src/uVendaFinalizar.dfm
+END
+U_AUTOPECAS.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3200/trunk/comercial/src/U_AUTOPECAS.pas
+END
+UDMNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/3472/trunk/comercial/src/UDMNF.pas
+END
+uProduto_Mat_prima.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3606/trunk/comercial/src/uProduto_Mat_prima.pas
+END
+PrjAdministrativo.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/PrjAdministrativo.dpr
+END
+uCfop.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/3625/trunk/comercial/src/uCfop.pas
+END
+prjTerminal.dof
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3203/trunk/comercial/src/prjTerminal.dof
+END
+unitcadastrousuarios.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/unitcadastrousuarios.dfm
+END
+uClasse.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uClasse.dfm
+END
+uImprimeDLL.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2404/trunk/comercial/src/uImprimeDLL.pas
+END
+uArquivoRetorno.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uArquivoRetorno.pas
+END
+uLaboratorio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uLaboratorio.dfm
+END
+uBalancete.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/501/trunk/comercial/src/uBalancete.dfm
+END
+uRel_LucroPresumido.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2045/trunk/comercial/src/uRel_LucroPresumido.dfm
+END
+uOsFiltro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3532/trunk/comercial/src/uOsFiltro.pas
+END
+uEstado.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2848/trunk/comercial/src/uEstado.dfm
+END
+uFluxoEstoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2821/trunk/comercial/src/uFluxoEstoque.pas
+END
+uProcura_prod2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcura_prod2.dfm
+END
+uPlanoFaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uPlanoFaixa.dfm
+END
+FechaConferenciaMesa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/FechaConferenciaMesa.dfm
+END
+ucrdescontado.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1687/trunk/comercial/src/ucrdescontado.pas
+END
+uClientesAniversario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2831/trunk/comercial/src/uClientesAniversario.pas
+END
+uNotaFiscalExporta.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalExporta.dfm
+END
+uCaixaReceber.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uCaixaReceber.pas
+END
+uftransp.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2348/trunk/comercial/src/uftransp.pas
+END
+uEnvelope.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uEnvelope.pas
+END
+uNotasFaltas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uNotasFaltas.pas
+END
+UnitDeclaracoes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3281/trunk/comercial/src/UnitDeclaracoes.pas
+END
+U_OSBUSCA.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/949/trunk/comercial/src/U_OSBUSCA.dfm
+END
+udemonstrativo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/udemonstrativo.dfm
+END
+uListaAlunos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uListaAlunos.dfm
+END
+uAlunoCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uAlunoCadastro.dfm
+END
+uFiltroCorreio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3320/trunk/comercial/src/uFiltroCorreio.pas
+END
+DatePecker.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3281/trunk/comercial/src/DatePecker.pas
+END
+ufContasAssistente.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/ufContasAssistente.dfm
+END
+uCompraCls.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1591/trunk/comercial/src/uCompraCls.pas
+END
+PrjPlanoSaude.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/PrjPlanoSaude.dpr
+END
+uAdm_Principal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uAdm_Principal.dfm
+END
+RelatorioGerencial.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/RelatorioGerencial.pas
+END
+uComplementar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/875/trunk/comercial/src/uComplementar.pas
+END
+uUsoCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1584/trunk/comercial/src/uUsoCadastro.pas
+END
+uSeriaNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2984/trunk/comercial/src/uSeriaNF.pas
+END
+uListadeCompra.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3118/trunk/comercial/src/uListadeCompra.pas
+END
+uLabEntregaResultado.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uLabEntregaResultado.pas
+END
+uEscolherNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2131/trunk/comercial/src/uEscolherNF.pas
+END
+EfetuaFormaPagamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/EfetuaFormaPagamento.dfm
+END
+uListaCliEscola.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3118/trunk/comercial/src/uListaCliEscola.pas
+END
+ForcaAgulhas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/ForcaAgulhas.dfm
+END
+uCompraSolicProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1255/trunk/comercial/src/uCompraSolicProc.pas
+END
+uFichaMedica.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uFichaMedica.dfm
+END
+uProdutoLote.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uProdutoLote.dfm
+END
+uCheq_bolBaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uCheq_bolBaixa.dfm
+END
+prjTerminal.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3224/trunk/comercial/src/prjTerminal.dpr
+END
+uAgendamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uAgendamento.dfm
+END
+PrjFinanceiro.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/94/trunk/comercial/src/PrjFinanceiro.dpr
+END
+uGeraCobCliente.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uGeraCobCliente.pas
+END
+uRelVendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3039/trunk/comercial/src/uRelVendas.dfm
+END
+uEntradaCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2370/trunk/comercial/src/uEntradaCaixa.dfm
+END
+uNotafRemessa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/321/trunk/comercial/src/uNotafRemessa.dfm
+END
+uEntra_Sai_estoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3607/trunk/comercial/src/uEntra_Sai_estoque.pas
+END
+UProcuraGrupo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/UProcuraGrupo.dfm
+END
+uNotaf1.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/467/trunk/comercial/src/uNotaf1.dfm
+END
+uFiltro_forn_plano.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3619/trunk/comercial/src/uFiltro_forn_plano.pas
+END
+uEtiquetas_cli.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2322/trunk/comercial/src/uEtiquetas_cli.dfm
+END
+uTipoVisita.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uTipoVisita.dfm
+END
+uProdutoProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/681/trunk/comercial/src/uProdutoProc.pas
+END
+uAts_Citrus.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2559/trunk/comercial/src/uAts_Citrus.pas
+END
+uCompraRecebimento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1557/trunk/comercial/src/uCompraRecebimento.dfm
+END
+AberturaDia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/AberturaDia.dfm
+END
+uExpContMat.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2751/trunk/comercial/src/uExpContMat.pas
+END
+uPeriodos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uPeriodos.pas
+END
+uLocacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uLocacao.dfm
+END
+sCtrlResize.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1739/trunk/comercial/src/sCtrlResize.pas
+END
+uRegiaoCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uRegiaoCadastro.pas
+END
+uRelestoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2630/trunk/comercial/src/uRelestoque.pas
+END
+FechaResumido.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/FechaResumido.pas
+END
+uNotaFiscalCr.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalCr.dfm
+END
+uLancaProcSaudeProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcSaudeProc.dfm
+END
+uCompraSolicitacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1038/trunk/comercial/src/uCompraSolicitacao.pas
+END
+uselectempresa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uselectempresa.pas
+END
+uOrdemAssistencia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/265/trunk/comercial/src/uOrdemAssistencia.pas
+END
+uEstoqueFecha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1460/trunk/comercial/src/uEstoqueFecha.dfm
+END
+uEstoqueCorrige.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3435/trunk/comercial/src/uEstoqueCorrige.pas
+END
+md5.pas
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2/trunk/comercial/src/md5.pas
+END
+uAtualizaSistema.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3642/trunk/comercial/src/uAtualizaSistema.pas
+END
+uDaoDbx.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uDaoDbx.pas
+END
+uSincronizar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3199/trunk/comercial/src/uSincronizar.pas
+END
+uListaVendaProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3436/trunk/comercial/src/uListaVendaProc.dfm
+END
+ufCrAltera.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3118/trunk/comercial/src/ufCrAltera.pas
+END
+uAssociacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uAssociacao.pas
+END
+uRelatorioCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3056/trunk/comercial/src/uRelatorioCaixa.pas
+END
+AbreCupomRestaurante.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/AbreCupomRestaurante.pas
+END
+unfc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3381/trunk/comercial/src/unfc.pas
+END
+uNotaf.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3652/trunk/comercial/src/uNotaf.pas
+END
+uFiltroMovMaterias.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3118/trunk/comercial/src/uFiltroMovMaterias.pas
+END
+RetornoValor.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/RetornoValor.pas
+END
+uLotes_Produtos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3041/trunk/comercial/src/uLotes_Produtos.dfm
+END
+uFiltroDep.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3025/trunk/comercial/src/uFiltroDep.dfm
+END
+ufuncionario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2649/trunk/comercial/src/ufuncionario.pas
+END
+uListaVenda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3473/trunk/comercial/src/uListaVenda.dfm
+END
+InformacaoBalanca.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3281/trunk/comercial/src/InformacaoBalanca.dfm
+END
+uOs.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3547/trunk/comercial/src/uOs.pas
+END
+ACBrBancoBrasil.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2752/trunk/comercial/src/ACBrBancoBrasil.pas
+END
+ufContabilLanc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2535/trunk/comercial/src/ufContabilLanc.dfm
+END
+TerminaFechamentoCupomMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/3281/trunk/comercial/src/TerminaFechamentoCupomMFD.dfm
+END
+uRemessaTitulo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uRemessaTitulo.dfm
+END
+uComissaoColaborador.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uComissaoColaborador.pas
+END
+U_AbreComanda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2089/trunk/comercial/src/U_AbreComanda.pas
+END
+UTissV2_01_03.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/UTissV2_01_03.pas
+END
+uBaixaretorno.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBaixaretorno.pas
+END
+uprocurar_prest.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uprocurar_prest.dfm
+END
+RegistroVendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/RegistroVendas.dfm
+END
+ucrEscolas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/7/trunk/comercial/src/ucrEscolas.dfm
+END
+uPfaturamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/117/trunk/comercial/src/uPfaturamento.pas
+END
+uDuplicata.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uDuplicata.pas
+END
+uRelTitulos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2235/trunk/comercial/src/uRelTitulos.pas
+END
+Recebimento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/Recebimento.pas
+END
+uRetira.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3305/trunk/comercial/src/uRetira.dfm
+END
+ufTeclasAtalho.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/ufTeclasAtalho.pas
+END
+uNotaFiscalEscola.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uNotaFiscalEscola.pas
+END
+uBancoExtrato.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2149/trunk/comercial/src/uBancoExtrato.dfm
+END
+uCCe.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2738/trunk/comercial/src/uCCe.dfm
+END
+uMovimento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2177/trunk/comercial/src/uMovimento.pas
+END
+uPrazo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1795/trunk/comercial/src/uPrazo.dfm
+END
+uTb_Ibge.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/139/trunk/comercial/src/uTb_Ibge.dfm
+END
+uClasseCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uClasseCadastro.dfm
+END
+uCategoria.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/579/trunk/comercial/src/uCategoria.dfm
+END
+uVendaLoteLancao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uVendaLoteLancao.dfm
+END
+uTipoSerie.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uTipoSerie.dfm
+END
+uMaterias.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uMaterias.dfm
+END
+uFiltroMov_NFcompra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/462/trunk/comercial/src/uFiltroMov_NFcompra.dfm
+END
+uFornecedorEndereco.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorEndereco.pas
+END
+CancelItemGenerico.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/CancelItemGenerico.pas
+END
+AdicaoAliquota.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/AdicaoAliquota.pas
+END
+ufcrSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/ufcrSaude.pas
+END
+uRelatorioAsh.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uRelatorioAsh.pas
+END
+uDeclaracaoImportacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1862/trunk/comercial/src/uDeclaracaoImportacao.pas
+END
+LoginWindow_U.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/LoginWindow_U.pas
+END
+uRelatorio.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1515/trunk/comercial/src/uRelatorio.pas
+END
+uRelPcmo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uRelPcmo.pas
+END
+uComanda.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uComanda.pas
+END
+uProcurar_nf.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2261/trunk/comercial/src/uProcurar_nf.dfm
+END
+uCliente1.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3501/trunk/comercial/src/uCliente1.pas
+END
+uMarcas_Grupos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1671/trunk/comercial/src/uMarcas_Grupos.pas
+END
+uAbrirCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3280/trunk/comercial/src/uAbrirCaixa.pas
+END
+uPai_new.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1595/trunk/comercial/src/uPai_new.dfm
+END
+U_ORDEMSERV.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1076/trunk/comercial/src/U_ORDEMSERV.pas
+END
+uDetalhe.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3636/trunk/comercial/src/uDetalhe.pas
+END
+uGuiaTranporte.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uGuiaTranporte.dfm
+END
+uEntrega.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2404/trunk/comercial/src/uEntrega.dfm
+END
+uInicial.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uInicial.pas
+END
+uRel_Guia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uRel_Guia.dfm
+END
+uImpr_Boleto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3118/trunk/comercial/src/uImpr_Boleto.pas
+END
+uUso_Prod.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uUso_Prod.dfm
+END
+uMostraDetalhe.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uMostraDetalhe.dfm
+END
+uTerminal2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3526/trunk/comercial/src/uTerminal2.dfm
+END
+unitExclusao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2893/trunk/comercial/src/unitExclusao.dfm
+END
+UDmSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/UDmSaude.pas
+END
+uFiltroMovLancamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3118/trunk/comercial/src/uFiltroMovLancamento.pas
+END
+uRelOS.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1947/trunk/comercial/src/uRelOS.pas
+END
+uPedagogico.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uPedagogico.dfm
+END
+uExpedicao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1161/trunk/comercial/src/uExpedicao.dfm
+END
+uCaixa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uCaixa.pas
+END
+uXmlAns.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uXmlAns.dfm
+END
+uMovCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2596/trunk/comercial/src/uMovCaixa.dfm
+END
+uFornecedorCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/3496/trunk/comercial/src/uFornecedorCadastro.dfm
+END
+ImprimeCheque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/ImprimeCheque.dfm
+END
+uNFeletronica.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3652/trunk/comercial/src/uNFeletronica.dfm
+END
+uParametrosTerminal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/35/trunk/comercial/src/uParametrosTerminal.dfm
+END
+U_AlteraPedido.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3230/trunk/comercial/src/U_AlteraPedido.pas
+END
+uFiltroMovimento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3657/trunk/comercial/src/uFiltroMovimento.pas
+END
+uComissaoCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uComissaoCadastro.pas
+END
+ufProdutoLista.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/ufProdutoLista.pas
+END
+uCadDoc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3062/trunk/comercial/src/uCadDoc.dfm
+END
+uNCM.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3145/trunk/comercial/src/uNCM.dfm
+END
+ufSplash.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/ufSplash.pas
+END
+uImpBoletim.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uImpBoletim.pas
+END
+UCHist_Base.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/6/trunk/comercial/src/UCHist_Base.pas
+END
+uCompra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3648/trunk/comercial/src/uCompra.dfm
+END
+uOsExecutar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uOsExecutar.dfm
+END
+uRel.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1617/trunk/comercial/src/uRel.dfm
+END
+uAtualiza.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uAtualiza.pas
+END
+uCarne.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1790/trunk/comercial/src/uCarne.dfm
+END
+UsaCPFDesForma.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3281/trunk/comercial/src/UsaCPFDesForma.pas
+END
+uApontHoras.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/663/trunk/comercial/src/uApontHoras.pas
+END
+uVendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3567/trunk/comercial/src/uVendas.pas
+END
+uCliente.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2731/trunk/comercial/src/uCliente.pas
+END
+uGeraEtiquetas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3044/trunk/comercial/src/uGeraEtiquetas.dfm
+END
+uLogs.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2863/trunk/comercial/src/uLogs.dfm
+END
+uCotacoesHist.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1103/trunk/comercial/src/uCotacoesHist.pas
+END
+uProcura_ProdOficina.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3549/trunk/comercial/src/uProcura_ProdOficina.pas
+END
+uIdadeSexo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/125/trunk/comercial/src/uIdadeSexo.dfm
+END
+ufdlglogin.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/ufdlglogin.dfm
+END
+uCheques_bol.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1192/trunk/comercial/src/uCheques_bol.pas
+END
+uRel_CR.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uRel_CR.dfm
+END
+prjAtsAdmin.res
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2517/trunk/comercial/src/prjAtsAdmin.res
+END
+gbBoleto7.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/gbBoleto7.pas
+END
+uCallCenter.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/325/trunk/comercial/src/uCallCenter.dfm
+END
+uOsFinaliza.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3500/trunk/comercial/src/uOsFinaliza.pas
+END
+uUnidadeMedida.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2916/trunk/comercial/src/uUnidadeMedida.dfm
+END
+uListaPedido.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1137/trunk/comercial/src/uListaPedido.pas
+END
+udmapp.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/udmapp.pas
+END
+uListaClieDep.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uListaClieDep.pas
+END
+uLabSolicitaExame.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uLabSolicitaExame.pas
+END
+uVendaRelPorNotaFiscalLote.pas
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2670/trunk/comercial/src/uVendaRelPorNotaFiscalLote.pas
+END
+uEmail.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/732/trunk/comercial/src/uEmail.dfm
+END
+Utils.pas
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2/trunk/comercial/src/Utils.pas
+END
+uOsClasse.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2616/trunk/comercial/src/uOsClasse.pas
+END
+MemoriaFiscalMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/MemoriaFiscalMFD.pas
+END
+uSplash_mat.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uSplash_mat.dfm
+END
+uRel_vendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uRel_vendas.pas
+END
+uCadClientes2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2407/trunk/comercial/src/uCadClientes2.dfm
+END
+FechaComAcrecimo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3287/trunk/comercial/src/FechaComAcrecimo.pas
+END
+uEstoqueAjuste.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2048/trunk/comercial/src/uEstoqueAjuste.dfm
+END
+AumentaDescricaoItem.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/AumentaDescricaoItem.dfm
+END
+uMostraSuites.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uMostraSuites.dfm
+END
+uFluxoCaixa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2341/trunk/comercial/src/uFluxoCaixa.dfm
+END
+uNFPaulista.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/101/trunk/comercial/src/uNFPaulista.dfm
+END
+uProdutoProcOficina.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1541/trunk/comercial/src/uProdutoProcOficina.dfm
+END
+uCompraCotacaoGerar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/760/trunk/comercial/src/uCompraCotacaoGerar.pas
+END
+uCx.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3064/trunk/comercial/src/uCx.dfm
+END
+uImport.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2794/trunk/comercial/src/uImport.dfm
+END
+uUtils.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2542/trunk/comercial/src/uUtils.pas
+END
+U_RelTerminal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3277/trunk/comercial/src/U_RelTerminal.dfm
+END
+fCompraCotacao2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/759/trunk/comercial/src/fCompraCotacao2.dfm
+END
+NumeroLinhas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/NumeroLinhas.dfm
+END
+uOsDetalheClasse.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3177/trunk/comercial/src/uOsDetalheClasse.pas
+END
+uCadDep.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3062/trunk/comercial/src/uCadDep.dfm
+END
+uLancaProcPcmso.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcPcmso.pas
+END
+uNFeInutilizar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2163/trunk/comercial/src/uNFeInutilizar.dfm
+END
+uClienteRepresentante.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2/trunk/comercial/src/uClienteRepresentante.dfm
+END
+uComandaNTC.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2404/trunk/comercial/src/uComandaNTC.pas
+END
+uControle.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uControle.dfm
+END
+uLotes.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3542/trunk/comercial/src/uLotes.dfm
+END
+uClienteVeiculo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1305/trunk/comercial/src/uClienteVeiculo.pas
+END
+uEmpresaProcura.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uEmpresaProcura.dfm
+END
+uSplashAdm.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uSplashAdm.pas
+END
+uProdudoBusca.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uProdudoBusca.dfm
+END
+uPainelControle.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3040/trunk/comercial/src/uPainelControle.pas
+END
+VendeItem.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/VendeItem.dfm
+END
+BoletoLayout.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/BoletoLayout.dfm
+END
+U_AUTORIZACAO.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1809/trunk/comercial/src/U_AUTORIZACAO.pas
+END
+uDIAdicao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2129/trunk/comercial/src/uDIAdicao.dfm
+END
+ConferenciaMesa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3281/trunk/comercial/src/ConferenciaMesa.dfm
+END
+uNotafiscal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uNotafiscal.pas
+END
+uCodigoTerceiros.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uCodigoTerceiros.pas
+END
+uProcResponsavel.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uProcResponsavel.pas
+END
+EstornoFormaPagamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/3281/trunk/comercial/src/EstornoFormaPagamento.pas
+END
+uFrConfigDbx.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uFrConfigDbx.pas
+END
+PrjComercial.res
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/PrjComercial.res
+END
+uMenuCupom.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3281/trunk/comercial/src/uMenuCupom.dfm
+END
+FechaCupomContaDividida.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3281/trunk/comercial/src/FechaCupomContaDividida.dfm
+END
+uRelatorioFin.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1243/trunk/comercial/src/uRelatorioFin.pas
+END
+VendaPorDepartamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/VendaPorDepartamento.pas
+END
+uTerminalCaixaAbre.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/comercial/src/uTerminalCaixaAbre.dfm
+END
+uTerminalFinalizar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/481/trunk/comercial/src/uTerminalFinalizar.dfm
+END
+ucadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/ucadastro.pas
+END
+uCrTituloPagto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3053/trunk/comercial/src/uCrTituloPagto.pas
+END
+uListaClientes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3621/trunk/comercial/src/uListaClientes.pas
+END
+uNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3420/trunk/comercial/src/uNF.pas
+END
+uTerminalNTC.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2405/trunk/comercial/src/uTerminalNTC.dfm
+END
+prjAtsAdmin.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/809/trunk/comercial/src/prjAtsAdmin.cfg
+END
+uTexto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/501/trunk/comercial/src/uTexto.pas
+END
+ufaturamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/ufaturamento.dfm
+END
+U_Terminal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3193/trunk/comercial/src/U_Terminal.pas
+END
+uRelCr2.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uRelCr2.dfm
+END
+uMensagens.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMensagens.pas
+END
+uEstoqueAtualiza.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3250/trunk/comercial/src/uEstoqueAtualiza.pas
+END
+TextoImprimir.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/TextoImprimir.pas
+END
+uIncluirProdutos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2441/trunk/comercial/src/uIncluirProdutos.dfm
+END
+uITENS_NF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uITENS_NF.dfm
+END
+uQguia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uQguia.dfm
+END
+PrjPedagogico.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/PrjPedagogico.dpr
+END
+uAts_R.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2866/trunk/comercial/src/uAts_R.dfm
+END
+uCompraCotacao2.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1137/trunk/comercial/src/uCompraCotacao2.pas
+END
+LeRegVendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/LeRegVendas.dfm
+END
+uCombo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/286/trunk/comercial/src/uCombo.pas
+END
+uFiltroSetor.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3026/trunk/comercial/src/uFiltroSetor.dfm
+END
+uSuites.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2180/trunk/comercial/src/uSuites.dfm
+END
+uMovLinhas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMovLinhas.pas
+END
+U_Entrada.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3326/trunk/comercial/src/U_Entrada.dfm
+END
+uFamilia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2288/trunk/comercial/src/uFamilia.pas
+END
+uClassificacaoFiscalProduto.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/3483/trunk/comercial/src/uClassificacaoFiscalProduto.dfm
+END
+uperiodoSem.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uperiodoSem.pas
+END
+Totalizador.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/Totalizador.pas
+END
+uProcura_produtos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3553/trunk/comercial/src/uProcura_produtos.pas
+END
+ProgramaMoeda.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3281/trunk/comercial/src/ProgramaMoeda.dfm
+END
+uInventario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3590/trunk/comercial/src/uInventario.pas
+END
+AbreCupomMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3281/trunk/comercial/src/AbreCupomMFD.pas
+END
+uComercial.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uComercial.dfm
+END
+AbreConferencia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3281/trunk/comercial/src/AbreConferencia.pas
+END
+ufParametro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3582/trunk/comercial/src/ufParametro.dfm
+END
+uSangria.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2810/trunk/comercial/src/uSangria.pas
+END
+uListaClientesSaude.pas
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/3118/trunk/comercial/src/uListaClientesSaude.pas
+END
+uNfePisCofins.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2955/trunk/comercial/src/uNfePisCofins.pas
+END
+TerminaFechamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3281/trunk/comercial/src/TerminaFechamento.dfm
+END
+uNFCompra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uNFCompra.dfm
+END
+uClassificacaoFiscal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/comercial/src/uClassificacaoFiscal.dfm
+END
+uEditar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/comercial/src/uEditar.dfm
+END
+uContaRateio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uContaRateio.dfm
+END
+TranfMesa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/TranfMesa.pas
+END
+uDadosImportacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1864/trunk/comercial/src/uDadosImportacao.dfm
+END
+uFiltroCadDoc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3090/trunk/comercial/src/uFiltroCadDoc.pas
+END
+uTerminal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2019/trunk/comercial/src/uTerminal.dfm
+END
+uFornecedorEnderecoSaude.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/comercial/src/uFornecedorEnderecoSaude.dfm
+END
+uMaquinaControle.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1156/trunk/comercial/src/uMaquinaControle.pas
+END
+uDescontoTitulos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2392/trunk/comercial/src/uDescontoTitulos.pas
+END
+UDM_MOV.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3359/trunk/comercial/src/UDM_MOV.dfm
+END
+uFiltroContMaq.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroContMaq.dfm
+END
+uProcuraCheque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uProcuraCheque.pas
+END
+uAliquita.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/uAliquita.pas
+END
+NomeiaDepartamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3281/trunk/comercial/src/NomeiaDepartamento.dfm
+END
+PrjMateriais.res
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/PrjMateriais.res
+END
+uNFeMail.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2933/trunk/comercial/src/uNFeMail.pas
+END
+uClienteEnderecos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1592/trunk/comercial/src/uClienteEnderecos.pas
+END
+BemaCarne.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/BemaCarne.dfm
+END
+unovousuario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/unovousuario.dfm
+END
+uLancaProcPart.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uLancaProcPart.dfm
+END
+u_imagens.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/1601/trunk/comercial/src/u_imagens.pas
+END
+ubanco.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2092/trunk/comercial/src/ubanco.pas
+END
+U_FiltroOS.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1076/trunk/comercial/src/U_FiltroOS.dfm
+END
+IniciaFechamento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3281/trunk/comercial/src/IniciaFechamento.dfm
+END
+uRatearConta.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRatearConta.dfm
+END
+uRel_CR1.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2881/trunk/comercial/src/uRel_CR1.pas
+END
+u_SIMILARES.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2006/trunk/comercial/src/u_SIMILARES.pas
+END
+ufprocura_prod.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3589/trunk/comercial/src/ufprocura_prod.dfm
+END
+U_Boletos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3560/trunk/comercial/src/U_Boletos.dfm
+END
+ucopiailha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/ucopiailha.pas
+END
+uLotesCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/166/trunk/comercial/src/uLotesCadastro.dfm
+END
+uEmpresa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3348/trunk/comercial/src/uEmpresa.pas
+END
+Principal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3281/trunk/comercial/src/Principal.pas
+END
+uNotafc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3397/trunk/comercial/src/uNotafc.dfm
+END
+uProdFornecedor.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/3513/trunk/comercial/src/uProdFornecedor.dfm
+END
+ACBrBoletoFCFortesFr.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2086/trunk/comercial/src/ACBrBoletoFCFortesFr.dfm
+END
+uRateioPag.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uRateioPag.dfm
+END
+uBancoDePara.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2114/trunk/comercial/src/uBancoDePara.pas
+END
+uEmpresaCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uEmpresaCadastro.dfm
+END
+ComprovanteVinculado.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3281/trunk/comercial/src/ComprovanteVinculado.dfm
+END
+uPeriodo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1543/trunk/comercial/src/uPeriodo.pas
+END
+uFrequancia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2282/trunk/comercial/src/uFrequancia.dfm
+END
+uPainelControleCompra.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1546/trunk/comercial/src/uPainelControleCompra.dfm
+END
+uCadRG.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uCadRG.dfm
+END
+uRelComissao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRelComissao.dfm
+END
+uMovimenta_Estoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3554/trunk/comercial/src/uMovimenta_Estoque.pas
+END
+uFrequencia.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uFrequencia.dfm
+END
+uClienteBloqueio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uClienteBloqueio.dfm
+END
+uSplash_Fin.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uSplash_Fin.dfm
+END
+uClasseEscolha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/comercial/src/uClasseEscolha.pas
+END
+uCotacaoVer.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/829/trunk/comercial/src/uCotacaoVer.dfm
+END
+uVotam.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/comercial/src/uVotam.dfm
+END
+uclienteendereco.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/comercial/src/uclienteendereco.dfm
+END
+uDetalheNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3566/trunk/comercial/src/uDetalheNF.dfm
+END
+uPesquisa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2720/trunk/comercial/src/uPesquisa.dfm
+END
+IniciaFechamentoCupomMFD.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/3281/trunk/comercial/src/IniciaFechamentoCupomMFD.dfm
+END
+uPdm.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1058/trunk/comercial/src/uPdm.pas
+END
+uListaEstoque.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3202/trunk/comercial/src/uListaEstoque.pas
+END
+uPassivo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uPassivo.pas
+END
+uNfeIcms.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3540/trunk/comercial/src/uNfeIcms.pas
+END
+uCorreio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/3308/trunk/comercial/src/uCorreio.dfm
+END
+uClassificacaoFiscalNCM.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3147/trunk/comercial/src/uClassificacaoFiscalNCM.dfm
+END
+ufListaProd.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/ufListaProd.dfm
+END
+ufMovimentoCont.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/ufMovimentoCont.dfm
+END
+uTroca.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3293/trunk/comercial/src/uTroca.dfm
+END
+uRomaneio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uRomaneio.dfm
+END
+ufcr.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3614/trunk/comercial/src/ufcr.dfm
+END
+AtivaDesativaVendaUmaLinha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/3281/trunk/comercial/src/AtivaDesativaVendaUmaLinha.pas
+END
+uMateriais.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/uMateriais.dfm
+END
+uSelecionaVisitas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uSelecionaVisitas.pas
+END
+U_AUTOPECAS.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2677/trunk/comercial/src/U_AUTOPECAS.dfm
+END
+UDMNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/3470/trunk/comercial/src/UDMNF.dfm
+END
+uProduto_Mat_prima.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3523/trunk/comercial/src/uProduto_Mat_prima.dfm
+END
+uPai.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/3118/trunk/comercial/src/uPai.pas
+END
+DownloadMFD.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/DownloadMFD.pas
+END
+uCfop.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/3602/trunk/comercial/src/uCfop.dfm
+END
+uDependente.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uDependente.pas
+END
+uMostra_Contas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3118/trunk/comercial/src/uMostra_Contas.pas
+END
+uRelVendasUF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uRelVendasUF.pas
+END
+uCorrigirDesconto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uCorrigirDesconto.pas
+END
+uCompraFinalizar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3647/trunk/comercial/src/uCompraFinalizar.pas
+END
+uImprimeDLL.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2404/trunk/comercial/src/uImprimeDLL.dfm
+END
+uExporta.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/comercial/src/uExporta.pas
+END
+uArquivoRetorno.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/comercial/src/uArquivoRetorno.dfm
+END
+svn-commit.tmp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/comercial/src/svn-commit.tmp
+END
+uOsFiltro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3310/trunk/comercial/src/uOsFiltro.dfm
+END
+uFluxoEstoque.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2821/trunk/comercial/src/uFluxoEstoque.dfm
+END
+uMapeamento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uMapeamento.pas
+END
+uRelatorioReceber.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1886/trunk/comercial/src/uRelatorioReceber.pas
+END
+uBoletimAluno.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uBoletimAluno.pas
+END
+ucrdescontado.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1687/trunk/comercial/src/ucrdescontado.dfm
+END
+uColaboradorNTC.pas
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2404/trunk/comercial/src/uColaboradorNTC.pas
+END
+uClientesAniversario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2831/trunk/comercial/src/uClientesAniversario.dfm
+END
+uLabExameLocaliza.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/comercial/src/uLabExameLocaliza.pas
+END
+LinhaCupons.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3281/trunk/comercial/src/LinhaCupons.pas
+END
+uEnvelope.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/comercial/src/uEnvelope.dfm
+END
+uftransp.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2348/trunk/comercial/src/uftransp.dfm
+END
+uCaixaReceber.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uCaixaReceber.dfm
+END
+uNotasFaltas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/comercial/src/uNotasFaltas.dfm
+END
+uNaturezaOperacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1301/trunk/comercial/src/uNaturezaOperacao.pas
+END
+uFiltroCorreio.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3288/trunk/comercial/src/uFiltroCorreio.dfm
+END
+uEnt_Sai_Lote.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/comercial/src/uEnt_Sai_Lote.pas
+END
+uFiltroGuia.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/comercial/src/uFiltroGuia.pas
+END
+DatePecker.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/3281/trunk/comercial/src/DatePecker.dfm
+END

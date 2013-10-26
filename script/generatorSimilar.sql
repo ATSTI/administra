@@ -1,0 +1,1 @@
+create generator gen_similar;

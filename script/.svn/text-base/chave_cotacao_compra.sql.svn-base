@@ -1,0 +1,3 @@
+alter table COMPRA_COTACAO
+add constraint PK_COMPRA_COTACAO_1
+primary key (COTACAO_CODIGO, COTACAO_FORNEC, COTACAO_ITEM)

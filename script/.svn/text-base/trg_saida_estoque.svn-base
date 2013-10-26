@@ -1,0 +1,14 @@
+SET TERM ^ ;
+ALTER TRIGGER SAIDA_ESTOQUE ACTIVE
+AFTER UPDATE
+POSITION 0
+as
+begin
+ /* 1 = Saída */
+ if (NEW.BAIXA = '1') then
+ begin
+   update PRODUTOS set   
+     ESTOQUEATUAL = ESTOQUEATUAL - NEW.QUANTIDADE
+   where CODPRODUTO = NEW.CODPRODUTO;
+ end
+end^

@@ -1,0 +1,24 @@
+DROP TABLE OS;
+
+CREATE TABLE OS
+(
+  CODOS integer NOT NULL,
+  CODCLIENTE integer NOT NULL,
+  CODMOVIMENTO integer,
+  DATAMOVIMENTO date,
+  DATA_SISTEMA timestamp,
+  PROBLEMAS varchar(300),
+  STATUS char(1),
+  DATA_INI date,
+  DATA_FIM date,
+  KM integer,
+  CODUSUARIO integer,
+  DATAOS date,
+  OBS varchar(512),
+  CODVEICULO varchar(10),
+  PRIMARY KEY (CODOS)
+);
+
+GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE
+ ON OS TO  SYSDBA WITH GRANT OPTION;
+

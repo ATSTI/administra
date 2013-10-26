@@ -1,0 +1,287 @@
+object TRpReport
+  GridWidth = 58
+  GridHeight = 58
+  PageOrientation = rpOrientationPortrait
+  Pagesize = rpPageSizeUser
+  PagesizeQt = 49
+  PageHeight = 6163
+  PageWidth = 2691
+  CustomPageHeight = 6463
+  PageBackColor = 2147483647
+  PreviewMargins = True
+  PreviewWindow = spwMaximized
+  LeftMargin = 0
+  TopMargin = 0
+  RightMargin = 0
+  BottomMargin = 0
+  PrinterSelect = pRpTicketPrinter
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'ENVELOPE'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  CLI.CODCLIENTE'#13#10'           ,CLI.NOMECLIENTE'#13#10'           ' +
+        ',CLI.GRUPO_CLIENTE'#13#10'           ,CLI.STATUS'#13#10'           ,CLI.RA'#13#10 +
+        '           ,ENDE.LOGRADOURO'#13#10'           ,ENDE.CIDADE'#13#10'          ' +
+        ' ,ENDE.BAIRRO'#13#10'           ,ENDE.UF'#13#10'           ,ENDE.CEP '#13#10'     ' +
+        '     ,ENDE.COMPLEMENTO'#13#10'          ,ENDE.RAMAL      '#13#10'           ' +
+        #13#10'      '#13#10'from CLIENTES CLI'#13#10#13#10'LEFT OUTER JOIN  ENDERECOCLIENTE ' +
+        'ENDE ON ENDE.CODCLIENTE = CLI.CODCLIENTE '#13#10#13#10'where GERAENV = '#39'S'#39 +
+        ' and ((CLI.RA  = :COD) or (:COD = 0)) and CLI.GRUPO_CLIENTE = :G' +
+        'RUPO and ENDE.TIPOEND = 0'#13#10'        '#13#10'order by cli.codcliente'#13#10
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'COD'
+      Value = '0'
+      Datasets.Strings = (
+        'ENVELOPE')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'GRUPO'
+      Value = 'PCMSO'
+      Datasets.Strings = (
+        'ENVELOPE')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  Language = 4
+  PrinterFonts = rppfontsnever
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection0
+      end>
+    Alias = 'ENVELOPE'
+  end
+  object TRpSection0: TRpSection
+    Width = 11610
+    Height = 6435
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpExpression1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression6
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression0: TRpExpression
+    Width = 1950
+    Height = 240
+    PosX = 2929
+    PosY = 2547
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39' BAIRRO  '#39' +  ENVELOPE.BAIRRO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression1: TRpExpression
+    Width = 210
+    Height = 264
+    PosX = 6120
+    PosY = 2097
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'ENVELOPE.UF'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression2: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 6345
+    PosY = 2557
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39' CEP  '#39' + ENVELOPE.CEP'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 4140
+    Height = 270
+    PosX = 2929
+    PosY = 1167
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39' (  '#39' + ENVELOPE.RA + '#39'  )  '#39' + ENVELOPE.NOMECLIENTE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression4: TRpExpression
+    Width = 2715
+    Height = 315
+    PosX = 2914
+    PosY = 3075
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = #39' CAIXA POSTAL  '#39' +  ENVELOPE.COMPLEMENTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 2987
+    PosY = 1647
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'ENVELOPE.LOGRADOURO + '#39' N'#186' '#39' + ENVELOPE.RAMAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 2535
+    Height = 270
+    PosX = 2987
+    PosY = 2097
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'ENVELOPE.CIDADE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+end

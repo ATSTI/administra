@@ -1,0 +1,3 @@
+alter table  NOTAFISCAL_PROD_IMPORTA drop codproduto  
+
+alter table  NOTAFISCAL_PROD_IMPORTA add codproduto  varchar(30)

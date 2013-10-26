@@ -1,0 +1,2123 @@
+object TRpReport
+  GridWidth = 50
+  GridHeight = 50
+  Pagesize = rpPageSizeCustom
+  PageHeight = 8120
+  PageWidth = 5742
+  PageBackColor = 16777215
+  PreviewWindow = spwMaximized
+  LeftMargin = 907
+  TopMargin = 0
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'URICO'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO1'#13#10'           ,RESU.OBS'#13#10#13#10'from LABEXAME LAB       ' +
+        ' '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME = ' +
+        'RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.C' +
+        'ODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  = ' +
+        'LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND ' +
+        'TIPOEXAME = '#39'ACIDO URICO'#39#13#10'AND LAB.CODEXAME =:URICO'
+    end
+    item
+      Alias = 'TOTAL'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO2'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'COLESTEROL TOTAL'#39#13#10'AND LAB.CODEXAME =:TOTAL'
+    end
+    item
+      Alias = 'HDL'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO3'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'HDL - COLESTEROL'#39#13#10'AND LAB.CODEXAME =:HDL'
+    end
+    item
+      Alias = 'LDL'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO4'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'LDL - COLESTEROL'#39#13#10'AND LAB.CODEXAME =:LDL'#13#10
+    end
+    item
+      Alias = 'VLD'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO5'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'VLDL - COLESTEROL'#39#13#10'AND LAB.CODEXAME =:VLD'#13#10
+    end
+    item
+      Alias = 'TRIG'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO6'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'TRIGLICERIDES'#39#13#10'AND LAB.CODEXAME =:TRI'#13#10#13#10
+    end
+    item
+      Alias = 'CREATINA'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO7'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'CREATINA'#39#13#10'AND LAB.CODEXAME =:CRE'
+    end
+    item
+      Alias = 'UREIA'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO8'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'UREIA'#39#13#10'AND LAB.CODEXAME =:URE'
+    end
+    item
+      Alias = 'AST'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO9'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB      ' +
+        '  '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME =' +
+        ' RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB.' +
+        'CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  =' +
+        ' LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AND' +
+        ' TIPOEXAME = '#39'AST/TGO'#39#13#10'AND LAB.CODEXAME =:AST'#13#10
+    end
+    item
+      Alias = 'ALT'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO10'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB     ' +
+        '   '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME ' +
+        '= RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB' +
+        '.CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  ' +
+        '= LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AN' +
+        'D TIPOEXAME = '#39'ALT/TGP'#39#13#10'AND LAB.CODEXAME =:ALT'#13#10
+    end
+    item
+      Alias = 'GAMA'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO11'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB     ' +
+        '   '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME ' +
+        '= RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB' +
+        '.CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  ' +
+        '= LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AN' +
+        'D TIPOEXAME = '#39'GAMA-GLUTAMIL TRANSFERASE'#39#13#10'AND LAB.CODEXAME =:GA' +
+        'M'#13#10#13#10
+    end
+    item
+      Alias = 'FOSFATASE'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select  LAB.DATALAUDOEXAME '#13#10'           ,LAB.TIPOEXAME'#13#10'        ' +
+        '   ,CLI.NOMECLIENTE'#13#10'           ,REP.NOME_REPRFOR'#13#10'           ,R' +
+        'ESU.RESULTADO12'#13#10'           ,RESU.OBS1'#13#10#13#10'from LABEXAME LAB     ' +
+        '   '#13#10#13#10'LEFT OUTER JOIN  LABEXAMERESULTADO RESU'#13#10'ON LAB.CODEXAME ' +
+        '= RESU.CODEXAME'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = LAB' +
+        '.CODCLIENTE'#13#10'INNER JOIN REPR_FORNECEDOR REP ON REP.COD_REPRFOR  ' +
+        '= LAB.MEDICOSOLICITANTE'#13#10#13#10'where  LAB.SITUACAO = '#39'FINALIZADO'#39' AN' +
+        'D TIPOEXAME = '#39'FOSFATASE ALCALINA'#39#13#10'AND LAB.CODEXAME =:FOS'
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'URICO'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'URICO')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'TOTAL'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'TOTAL')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'HDL'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'HDL')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'LDL'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'LDL')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'VLD'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'VLD')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'TRI'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'TRIG')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CRE'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'CREATINA')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'URE'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'UREIA')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'AST'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'AST')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'ALT'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'ALT')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'GAM'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'GAMA')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'FOS'
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'FOSFATASE')
+      Description = ''
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection0
+      end>
+  end
+  object TRpSection0: TRpSection
+    Width = 11895
+    Height = 15045
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpLabel0
+      end
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpExpression1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpExpression9
+      end
+      item
+        Component = TRpExpression10
+      end
+      item
+        Component = TRpExpression11
+      end
+      item
+        Component = TRpExpression12
+      end
+      item
+        Component = TRpExpression13
+      end
+      item
+        Component = TRpExpression14
+      end
+      item
+        Component = TRpExpression15
+      end
+      item
+        Component = TRpExpression16
+      end
+      item
+        Component = TRpExpression17
+      end
+      item
+        Component = TRpExpression18
+      end
+      item
+        Component = TRpExpression19
+      end
+      item
+        Component = TRpExpression20
+      end
+      item
+        Component = TRpExpression21
+      end
+      item
+        Component = TRpExpression22
+      end
+      item
+        Component = TRpExpression23
+      end
+      item
+        Component = TRpExpression24
+      end
+      item
+        Component = TRpExpression25
+      end
+      item
+        Component = TRpLabel1
+      end
+      item
+        Component = TRpLabel2
+      end
+      item
+        Component = TRpLabel3
+      end
+      item
+        Component = TRpLabel4
+      end
+      item
+        Component = TRpLabel5
+      end
+      item
+        Component = TRpLabel6
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpLabel8
+      end
+      item
+        Component = TRpLabel9
+      end
+      item
+        Component = TRpLabel10
+      end
+      item
+        Component = TRpLabel11
+      end
+      item
+        Component = TRpLabel12
+      end
+      item
+        Component = TRpLabel13
+      end
+      item
+        Component = TRpLabel14
+      end
+      item
+        Component = TRpLabel15
+      end
+      item
+        Component = TRpLabel16
+      end
+      item
+        Component = TRpLabel17
+      end
+      item
+        Component = TRpLabel18
+      end
+      item
+        Component = TRpLabel19
+      end
+      item
+        Component = TRpLabel20
+      end
+      item
+        Component = TRpLabel21
+      end
+      item
+        Component = TRpLabel22
+      end
+      item
+        Component = TRpLabel23
+      end
+      item
+        Component = TRpLabel24
+      end
+      item
+        Component = TRpLabel25
+      end
+      item
+        Component = TRpLabel26
+      end
+      item
+        Component = TRpLabel27
+      end
+      item
+        Component = TRpLabel28
+      end
+      item
+        Component = TRpLabel29
+      end
+      item
+        Component = TRpLabel30
+      end
+      item
+        Component = TRpLabel31
+      end
+      item
+        Component = TRpLabel32
+      end
+      item
+        Component = TRpLabel33
+      end
+      item
+        Component = TRpLabel34
+      end
+      item
+        Component = TRpLabel35
+      end
+      item
+        Component = TRpLabel36
+      end
+      item
+        Component = TRpLabel37
+      end
+      item
+        Component = TRpLabel38
+      end
+      item
+        Component = TRpLabel39
+      end
+      item
+        Component = TRpLabel40
+      end
+      item
+        Component = TRpLabel41
+      end
+      item
+        Component = TRpLabel42
+      end
+      item
+        Component = TRpLabel43
+      end
+      item
+        Component = TRpLabel44
+      end
+      item
+        Component = TRpLabel45
+      end
+      item
+        Component = TRpLabel46
+      end
+      item
+        Component = TRpLabel47
+      end
+      item
+        Component = TRpLabel48
+      end
+      item
+        Component = TRpLabel49
+      end
+      item
+        Component = TRpLabel50
+      end
+      item
+        Component = TRpLabel51
+      end
+      item
+        Component = TRpLabel52
+      end
+      item
+        Component = TRpLabel53
+      end
+      item
+        Component = TRpLabel54
+      end
+      item
+        Component = TRpLabel55
+      end
+      item
+        Component = TRpLabel56
+      end
+      item
+        Component = TRpLabel57
+      end
+      item
+        Component = TRpLabel58
+      end
+      item
+        Component = TRpLabel59
+      end
+      item
+        Component = TRpLabel60
+      end
+      item
+        Component = TRpLabel61
+      end
+      item
+        Component = TRpLabel62
+      end
+      item
+        Component = TRpLabel63
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpLabel0: TRpLabel
+    Width = 6465
+    Height = 300
+    PosX = 1417
+    PosY = 45
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Carmen Silvia Moreno Roncalho CRB 06890-0lD'
+  end
+  object TRpExpression0: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 1417
+    PosY = 645
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'URICO.NOMECLIENTE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression1: TRpExpression
+    Width = 4200
+    Height = 264
+    PosX = 1417
+    PosY = 1155
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'URICO.NOME_REPRFOR'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression2: TRpExpression
+    Width = 1410
+    Height = 270
+    PosX = 3000
+    PosY = 1650
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'URICO.RESULTADO1 + '#39'   mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 4155
+    Height = 195
+    PosX = 1895
+    PosY = 1905
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'URICO.OBS'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression4: TRpExpression
+    Width = 3060
+    Height = 240
+    PosX = 3600
+    PosY = 3005
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'TOTAL.RESULTADO2 + '#39'  mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 3255
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'TOTAL.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 4755
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'HDL.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 3150
+    Height = 270
+    PosX = 3555
+    PosY = 4500
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'HDL.RESULTADO3 + '#39'   mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 3555
+    PosY = 5895
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'LDL.RESULTADO4 + '#39'  mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 6150
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'LDL.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression10: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 3645
+    PosY = 7395
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VLD.RESULTADO5 + '#39'  mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression11: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 7650
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VLD.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression12: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 3150
+    PosY = 8450
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'TRIG.RESULTADO6 + '#39'   mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression13: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 8700
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'TRIG.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 2595
+    PosY = 9845
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'CREATINA.RESULTADO7 + '#39'  mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression15: TRpExpression
+    Width = 4200
+    Height = 210
+    PosX = 1895
+    PosY = 10095
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'CREATINA.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression16: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 2295
+    PosY = 10955
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'UREIA.RESULTADO8 + '#39'  mg/dL'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 4200
+    Height = 210
+    PosX = 1895
+    PosY = 11205
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'UREIA.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression18: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 2505
+    PosY = 12045
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'AST.RESULTADO9 + '#39'   U/L'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression19: TRpExpression
+    Width = 4155
+    Height = 210
+    PosX = 1895
+    PosY = 12300
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'AST.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression20: TRpExpression
+    Width = 4155
+    Height = 210
+    PosX = 1895
+    PosY = 13545
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'ALT.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression21: TRpExpression
+    Width = 1905
+    Height = 255
+    PosX = 2445
+    PosY = 13300
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'ALT.RESULTADO10 + '#39'  U/L'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression22: TRpExpression
+    Width = 4155
+    Height = 210
+    PosX = 1895
+    PosY = 14805
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GAMA.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression23: TRpExpression
+    Width = 2850
+    Height = 240
+    PosX = 4845
+    PosY = 14550
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'GAMA.RESULTADO11 + '#39'  U/L'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression24: TRpExpression
+    Width = 4200
+    Height = 195
+    PosX = 1895
+    PosY = 16050
+    Type1Font = poHelvetica
+    FontSize = 8
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'FOSFATASE.OBS1'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression25: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 3795
+    PosY = 15795
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'FOSFATASE.RESULTADO12 + '#39'  U/L'#39
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel1: TRpLabel
+    Width = 1560
+    Height = 255
+    PosX = 1417
+    PosY = 1650
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #193'CIDO '#218'RICO :'
+  end
+  object TRpLabel5: TRpLabel
+    Width = 2160
+    Height = 255
+    PosX = 1417
+    PosY = 3005
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'COLESTEROL TOTAL :'
+  end
+  object TRpLabel3: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1417
+    PosY = 2350
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : 2,0 a 5,0 mg/dL '
+  end
+  object TRpLabel4: TRpLabel
+    Width = 5445
+    Height = 255
+    PosX = 1417
+    PosY = 2605
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 
+      'Material : Soro                                        M'#233'todo En' +
+      'zim'#225'tico'
+  end
+  object TRpLabel2: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1417
+    PosY = 2105
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : 2,5 a 6,0 mg/dL '
+  end
+  object TRpLabel12: TRpLabel
+    Width = 5445
+    Height = 255
+    PosX = 1417
+    PosY = 5505
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 
+      'Material : Soro                                        M'#233'todo En' +
+      'zim'#225'tico'
+  end
+  object TRpLabel10: TRpLabel
+    Width = 2160
+    Height = 255
+    PosX = 1417
+    PosY = 4500
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'HDL - COLESTEROL  :'
+  end
+  object TRpLabel7: TRpLabel
+    Width = 5400
+    Height = 195
+    PosX = 1395
+    PosY = 4150
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 
+      'Material : Soro                                        M'#233'todo En' +
+      'zim'#225'tico'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 3150
+    Height = 240
+    PosX = 1417
+    PosY = 3495
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Valor desej'#225'vel : inferior a 200 mg/dL'
+  end
+  object TRpLabel9: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 3900
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Elevado : Superior a 239 mg/dL '
+  end
+  object TRpLabel6: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 3705
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Lim'#237'trofe : 200 a 239 mg/dL '
+  end
+  object TRpLabel14: TRpLabel
+    Width = 2160
+    Height = 255
+    PosX = 1417
+    PosY = 5895
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'LDL - COLESTEROL  :'
+  end
+  object TRpLabel19: TRpLabel
+    Width = 2205
+    Height = 255
+    PosX = 1395
+    PosY = 7395
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VLDL - COLESTEROL  :'
+  end
+  object TRpLabel16: TRpLabel
+    Width = 3150
+    Height = 240
+    PosX = 1417
+    PosY = 6350
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Valor desej'#225'vel : inferior a 110 mg/dL'
+  end
+  object TRpLabel17: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 6755
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Elevado : 130 mg/dL '
+  end
+  object TRpLabel18: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 6545
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Lim'#237'trofe : 110 a 130 mg/dL '
+  end
+  object TRpLabel15: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1417
+    PosY = 7055
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : F'#243'rmula de Friedewald'
+  end
+  object TRpLabel23: TRpLabel
+    Width = 3150
+    Height = 240
+    PosX = 1417
+    PosY = 8900
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Valor Normal : Inferior a 150 mg/dL'
+  end
+  object TRpLabel24: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 9305
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Elevado : Superior a 200  mg/dL '
+  end
+  object TRpLabel25: TRpLabel
+    Width = 2340
+    Height = 195
+    PosX = 1417
+    PosY = 9095
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Lim'#237'trofe : 150 a 199 mg/dL '
+  end
+  object TRpLabel26: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1417
+    PosY = 9505
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Enzim'#225'tico'
+  end
+  object TRpLabel22: TRpLabel
+    Width = 1710
+    Height = 255
+    PosX = 1395
+    PosY = 8450
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'TRIGLIC'#201'RIDES : '
+  end
+  object TRpLabel21: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 8100
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : F'#243'rmula de Friedewald'
+  end
+  object TRpLabel20: TRpLabel
+    Width = 3150
+    Height = 210
+    PosX = 1395
+    PosY = 7845
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : inferior a 40 mg/dL'
+  end
+  object TRpLabel27: TRpLabel
+    Width = 1155
+    Height = 255
+    PosX = 1417
+    PosY = 9855
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'CREATINA : '
+  end
+  object TRpLabel29: TRpLabel
+    Width = 3150
+    Height = 240
+    PosX = 1417
+    PosY = 10350
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR :  0,6  a 1,4  mg/dL'
+  end
+  object TRpLabel28: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1417
+    PosY = 10605
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel30: TRpLabel
+    Width = 810
+    Height = 255
+    PosX = 1395
+    PosY = 10955
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'UR'#201'IA : '
+  end
+  object TRpLabel13: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1417
+    PosY = 5005
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : 52+ - 13 mg/dL '
+  end
+  object TRpLabel11: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1417
+    PosY = 5245
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : 60 + - 16 mg/dL '
+  end
+  object TRpLabel33: TRpLabel
+    Width = 1050
+    Height = 255
+    PosX = 1417
+    PosY = 12055
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'AST/TGO : '
+  end
+  object TRpLabel35: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1395
+    PosY = 12745
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : at'#233' 31 U/L'
+  end
+  object TRpLabel36: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 13000
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel34: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1395
+    PosY = 12505
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : at'#233' 37 U/L (37'#186') '
+  end
+  object TRpLabel38: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1395
+    PosY = 12745
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : at'#233' 31 U/L'
+  end
+  object TRpLabel39: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 13000
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel40: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1395
+    PosY = 12505
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : at'#233' 37 U/L (37'#186') '
+  end
+  object TRpLabel37: TRpLabel
+    Width = 1050
+    Height = 255
+    PosX = 1395
+    PosY = 13305
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'ALT/TGP : '
+  end
+  object TRpLabel42: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 14245
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel43: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1395
+    PosY = 13750
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : at'#233' 42 U/L (37'#186') '
+  end
+  object TRpLabel41: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1395
+    PosY = 14005
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : at'#233' 32 U/L'
+  end
+  object TRpLabel45: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 15500
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel46: TRpLabel
+    Width = 2760
+    Height = 240
+    PosX = 1395
+    PosY = 15005
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Homens   : 10 a 45 U/L (37'#186') '
+  end
+  object TRpLabel47: TRpLabel
+    Width = 2340
+    Height = 255
+    PosX = 1395
+    PosY = 15245
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Mulheres : at'#233' 32 U/L'
+  end
+  object TRpLabel44: TRpLabel
+    Width = 3450
+    Height = 255
+    PosX = 1395
+    PosY = 14555
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'GAMA - GLUTAMIL TRANSFERASE : '
+  end
+  object TRpLabel48: TRpLabel
+    Width = 2355
+    Height = 255
+    PosX = 1395
+    PosY = 15795
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'FOSFATASE ALCALINA :'
+  end
+  object TRpLabel32: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 11705
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel31: TRpLabel
+    Width = 3150
+    Height = 240
+    PosX = 1395
+    PosY = 11450
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : 1 0 a 50  mg/dL'
+  end
+  object TRpLabel49: TRpLabel
+    Width = 2490
+    Height = 195
+    PosX = 1395
+    PosY = 16645
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'M'#233'todo : Cin'#233'tico'
+  end
+  object TRpLabel50: TRpLabel
+    Width = 2460
+    Height = 240
+    PosX = 1395
+    PosY = 16245
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'VR : Adulto 100 a  290 U/L  (37'#186')'
+  end
+  object TRpLabel51: TRpLabel
+    Width = 2460
+    Height = 240
+    PosX = 1695
+    PosY = 16455
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Crian'#231'a 100 a  290 U/L  (37'#186')'
+  end
+  object TRpLabel52: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1417
+    PosY = 1905
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel53: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 3255
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel54: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 4755
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel55: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 6150
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel56: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 7650
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel57: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 8700
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel58: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 10095
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel59: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 11205
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel60: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 12300
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel61: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 13545
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel62: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 14805
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+  object TRpLabel63: TRpLabel
+    Width = 405
+    Height = 195
+    PosX = 1395
+    PosY = 16050
+    Type1Font = poHelvetica
+    FontSize = 8
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Obs:'
+  end
+end

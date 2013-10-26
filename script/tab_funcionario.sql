@@ -1,0 +1,12 @@
+SET TERM ^ ;
+
+alter table FUNCIONARIO drop CPF ^
+alter table FUNCIONARIO add CPF CHAR( 14 )^
+alter table FUNCIONARIO add DDD CHAR( 2 )^
+
+
+ALTER TABLE FUNCIONARIO ADD CODUSUARIO INTEGER^
+
+
+
+

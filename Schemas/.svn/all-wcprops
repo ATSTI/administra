@@ -1,0 +1,185 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/539/trunk/Schemas
+END
+enviCte_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/539/trunk/Schemas/enviCte_v1.02.xsd
+END
+consStatServTiposBasico_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/539/trunk/Schemas/consStatServTiposBasico_v1.01.xsd
+END
+procInutCTe_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/539/trunk/Schemas/procInutCTe_v1.01.xsd
+END
+cancCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/539/trunk/Schemas/cancCte_v1.01.xsd
+END
+procCTe_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/539/trunk/Schemas/procCTe_v1.02.xsd
+END
+cancCteTiposBasico_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/539/trunk/Schemas/cancCteTiposBasico_v1.01.xsd
+END
+consReciCteTiposBasico_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/539/trunk/Schemas/consReciCteTiposBasico_v1.01.xsd
+END
+consReciCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/539/trunk/Schemas/consReciCte_v1.01.xsd
+END
+retConsStatServCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/539/trunk/Schemas/retConsStatServCte_v1.01.xsd
+END
+cabecMsg_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/539/trunk/Schemas/cabecMsg_v1.02.xsd
+END
+retEnviCte_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/539/trunk/Schemas/retEnviCte_v1.02.xsd
+END
+consCad_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/539/trunk/Schemas/consCad_v1.01.xsd
+END
+inutCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/539/trunk/Schemas/inutCte_v1.01.xsd
+END
+retCancCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/539/trunk/Schemas/retCancCte_v1.01.xsd
+END
+inutCteTiposBasico_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/539/trunk/Schemas/inutCteTiposBasico_v1.01.xsd
+END
+tiposBasicoCTe_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/539/trunk/Schemas/tiposBasicoCTe_v1.02.xsd
+END
+cteTiposBasico_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/539/trunk/Schemas/cteTiposBasico_v1.02.xsd
+END
+retConsReciCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/539/trunk/Schemas/retConsReciCte_v1.01.xsd
+END
+cte_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/539/trunk/Schemas/cte_v1.02.xsd
+END
+consSitCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/539/trunk/Schemas/consSitCte_v1.01.xsd
+END
+consSitCteTiposBasico_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/539/trunk/Schemas/consSitCteTiposBasico_v1.01.xsd
+END
+tiposBasico_v1.02.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/539/trunk/Schemas/tiposBasico_v1.02.xsd
+END
+leiauteConsultaCadastro_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/539/trunk/Schemas/leiauteConsultaCadastro_v1.01.xsd
+END
+procCancCTe_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/539/trunk/Schemas/procCancCTe_v1.01.xsd
+END
+retConsCad_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/539/trunk/Schemas/retConsCad_v1.01.xsd
+END
+retInutCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/539/trunk/Schemas/retInutCte_v1.01.xsd
+END
+Alteracao.txt
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/539/trunk/Schemas/Alteracao.txt
+END
+retConsSitCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/539/trunk/Schemas/retConsSitCte_v1.01.xsd
+END
+consStatServCte_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/539/trunk/Schemas/consStatServCte_v1.01.xsd
+END
+xmldsig-core-schema_v1.01.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/539/trunk/Schemas/xmldsig-core-schema_v1.01.xsd
+END

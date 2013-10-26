@@ -1,0 +1,45 @@
+-$A8
+-$B-
+-$C+
+-$D+
+-$E-
+-$F-
+-$G+
+-$H+
+-$I+
+-$J-
+-$K-
+-$L+
+-$M-
+-$N+
+-$O+
+-$P+
+-$Q-
+-$R-
+-$S-
+-$T-
+-$U-
+-$V+
+-$W-
+-$X+
+-$YD
+-$Z1
+-cg
+-AWinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+-H+
+-W+
+-M
+-$M16384,1048576
+-K$00400000
+-E"C:\home\sisadmin"
+-N"C:\home\tmp"
+-LE"C:\home\tmp"
+-LN"C:\home\tmp"
+-U"c:\arquivos de programas\borland\delphi7\Lib\Debug;C:\ARQUIV~1\Borland\Delphi7\COMPON~1\jcl\lib\d7\debug;C:\home\tmp"
+-O"c:\arquivos de programas\borland\delphi7\Lib\Debug;C:\ARQUIV~1\Borland\Delphi7\COMPON~1\jcl\lib\d7\debug;C:\home\tmp"
+-I"c:\arquivos de programas\borland\delphi7\Lib\Debug;C:\ARQUIV~1\Borland\Delphi7\COMPON~1\jcl\lib\d7\debug;C:\home\tmp"
+-R"c:\arquivos de programas\borland\delphi7\Lib\Debug;C:\ARQUIV~1\Borland\Delphi7\COMPON~1\jcl\lib\d7\debug;C:\home\tmp"
+-DC:\home\tmp
+-w-UNSAFE_TYPE
+-w-UNSAFE_CODE
+-w-UNSAFE_CAST

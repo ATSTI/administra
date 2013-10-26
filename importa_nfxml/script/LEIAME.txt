@@ -1,0 +1,22 @@
+Rodar os scripts para criar as tabelas: 
+   notafiscal_importa.sql, 
+   notafiscal_prod_importa.sql e 
+   produto_fornecedor.sql
+
+Rodar os scripts :
+   movimento_codmov.sql
+   trig_cod_prod.sql
+   movimentodetalhe_coddet.sql
+
+O nome do arquivo a ser importado tem que ser algumacoisa.xml  
+( o xml tem que ser MINUSCULO);
+
+Alterar no spoon o caminho e nome do banco de dados;
+
+Colocar o arquivo .ktr na pasta home:  import_xml.ktr;
+
+Criar dentro da pasta home a pasta xml :  c:\home\xml;
+
+Colocar os arquivos a serem importados na pasta: c:\home\xml;
+
+Copiar o arquivo exe_impor.bat para c:\home\atsadmin (pasta que está o exe: prjImportaNfeXml.exe);

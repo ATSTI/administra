@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/!svn/ver/2530/trunk/teste
+END
+prjTeste.gex
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1131/trunk/teste/prjTeste.gex
+END
+uReceberTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2147/trunk/teste/uReceberTeste.pas
+END
+prjTeste.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2530/trunk/teste/prjTeste.dpr
+END
+prjTeste.res
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/889/trunk/teste/prjTeste.res
+END
+uMovimentoTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1214/trunk/teste/uMovimentoTeste.pas
+END
+uOsTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2071/trunk/teste/uOsTeste.pas
+END
+uCompraTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2083/trunk/teste/uCompraTeste.pas
+END
+prjTeste.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/892/trunk/teste/prjTeste.cfg
+END
+uClienteTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1131/trunk/teste/uClienteTeste.pas
+END
+uEstoqueTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2069/trunk/teste/uEstoqueTeste.pas
+END
+dunit.ini
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/892/trunk/teste/dunit.ini
+END
+uPagarTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2052/trunk/teste/uPagarTeste.pas
+END
+md5.pas
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2037/trunk/teste/md5.pas
+END
+prjTeste.dof
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/892/trunk/teste/prjTeste.dof
+END
+uVendaTeste.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2147/trunk/teste/uVendaTeste.pas
+END
+estoque.ods
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1131/trunk/teste/estoque.ods
+END
+estoque_teste.ods
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/945/trunk/teste/estoque_teste.ods
+END

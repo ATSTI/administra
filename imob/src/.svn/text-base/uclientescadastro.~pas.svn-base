@@ -1,0 +1,25 @@
+unit uclientescadastro;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
+  MMJPanel;
+
+type
+  TfClientesCadastro = class(TfPai_new)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fClientesCadastro: TfClientesCadastro;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,6 @@
+set term ^;
+
+alter table CLIENTES add sabados Double Precision ^
+commit^
+alter table CLIENTES add domingo Double Precision ^
+commit^

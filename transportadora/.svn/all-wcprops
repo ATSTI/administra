@@ -1,0 +1,263 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/transportadora
+END
+limpa_arquivos_delphi
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/transportadora/limpa_arquivos_delphi
+END
+uDmTransp.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/transportadora/uDmTransp.dfm
+END
+uPlanos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/transportadora/uPlanos.dfm
+END
+prjTransportadora.dof
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/transportadora/prjTransportadora.dof
+END
+uOperPesquisa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/transportadora/uOperPesquisa.pas
+END
+uOperacoes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/transportadora/uOperacoes.pas
+END
+uPrecoTabela.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/uPrecoTabela.pas
+END
+uOperPesquisa1.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uOperPesquisa1.dfm
+END
+uTipoOperacao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/transportadora/uTipoOperacao.pas
+END
+uTransportadora.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/transportadora/uTransportadora.dfm
+END
+uClienteCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/transportadora/uClienteCadastro.dfm
+END
+uprocurar.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/transportadora/uprocurar.pas
+END
+prjTransportadora.res
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/transportadora/prjTransportadora.res
+END
+uListaClientes.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uListaClientes.pas
+END
+uOperacoes.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/transportadora/uOperacoes.dfm
+END
+uOperPesquisa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/transportadora/uOperPesquisa.dfm
+END
+uPrecoTabela.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/uPrecoTabela.dfm
+END
+prjTransportadora.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/transportadora/prjTransportadora.cfg
+END
+uFornecedorCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/transportadora/uFornecedorCadastro.pas
+END
+uTipoOperacao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/transportadora/uTipoOperacao.dfm
+END
+uTipoMovimento.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uTipoMovimento.pas
+END
+uTipoCarga.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/transportadora/uTipoCarga.pas
+END
+ufuncionario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/ufuncionario.pas
+END
+uCarretaTipo.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/uCarretaTipo.pas
+END
+uftransp.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/transportadora/uftransp.pas
+END
+uprocurar.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/transportadora/uprocurar.dfm
+END
+uOperacaoAltera.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/transportadora/uOperacaoAltera.pas
+END
+uTipoCobertura.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uTipoCobertura.pas
+END
+uListaClientes.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uListaClientes.dfm
+END
+uDmTransp.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/transportadora/uDmTransp.pas
+END
+uFornecedorCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/transportadora/uFornecedorCadastro.dfm
+END
+prjTransportadora.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/transportadora/prjTransportadora.dpr
+END
+uTipoMovimento.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uTipoMovimento.dfm
+END
+uPlanos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/transportadora/uPlanos.pas
+END
+uTipoCarga.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/transportadora/uTipoCarga.dfm
+END
+ufuncionario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/ufuncionario.dfm
+END
+uftransp.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/transportadora/uftransp.dfm
+END
+uCarretaTipo.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/transportadora/uCarretaTipo.dfm
+END
+uOperPesquisa1.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uOperPesquisa1.pas
+END
+uTransportadora.pas
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/transportadora/uTransportadora.pas
+END
+uClienteCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/transportadora/uClienteCadastro.pas
+END
+uTipoCobertura.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/transportadora/uTipoCobertura.dfm
+END
+uOperacaoAltera.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2/trunk/transportadora/uOperacaoAltera.dfm
+END

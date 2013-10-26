@@ -1,0 +1,36 @@
+﻿A NFe Complementar será emitida nos casos de:
+
+Reajustamento de preço em razão de contrato escrito ou de qualquer outra circunstância que implique aumento no valor original da operação ou prestação;
+Na exportação, se o valor resultante do contrato de câmbio acarretar acréscimo ao valor da operação constante na nota fiscal;
+Na regularização em virtude de diferença no preço, em operação ou prestação, ou na quantidade de mercadoria, quando efetuada no período de apuração do imposto em que tiver sido emitido o documento fiscal original ou para lançamento do imposto não efetuado em época própria, em virtude de erro de cálculo.
+Nela ainda deverão estar contidas as informações dos itens a serem complementados, com o devido destaque do tributo (NFe complementar de ICMS) ou com o valor que fora descrito a menor (NFe complementar de valor), uma ainda com a especificação da diferença da quantidade (NFe complementar de quantidade).
+
+A idéia é que a soma das notas complementada e complementar represente a operação correta, assim, em quantidade e valor de produto, o contribuinte poderá declarar zero.
+
+Dados do Destinatário/Remetente:
+Deverá constar como destinatário, o nome, o endereço e os números de inscrição estadual e no Cadastro Nacional de Pessoa Jurídica (CNPJ) do contribuinte ao qual foi impressa a NFe que está sendo complementada.
+
+Dados dos Impostos:
+Apenas deverão ser informados, os campos a serem complementados.
+Importante lembrar que os valores de preços, quantidades e impostos serão somados aos valores da primeira nota, então deve-se preencher apenas com a diferença.
+
+- Código do Produto = utilizar o mesmo código da nota emitida com erro.
+- CFOP = utilizar o mesmo código da nota emitida com erro.
+- Quantidade = 0 (zero) ou a quantidade a ajustar
+- Valor total = 0 (zero) ou valor a ajustar- Código de Situação Tributária = utilizar o mesmo código da nota emitida com erro.
+- Modalidade de determinação da Base de cálculo = ‘Valor da operação’.
+- BC ICMS = Valor do ICMS a complementar, referente ao item ou 0 (zero) caso não seja complemento de ICMS
+- Alíquota ICMS = 100. Obs.: campo será preenchido somente para permitir a validação da NF-e; ou 0 (zero) caso não seja complemento de ICMS
+- Valor do ICMS = Valor do ICMS a complementar, referente ao item; ou 0 (zero) caso não seja complemento de ICMS- BC ICMS ST = Valor do ICMS ST a complementar, referente ao item ou 0 (zero) caso não seja complemento de ICMS ST
+- Alíquota ICMS ST = 100. Obs.: campo será preenchido somente para permitir a validação da NF-e; ou 0 (zero) caso não seja complemento de ICMS ST
+- Valor do ICMS ST = Valor do ICMS ST a complementar, referente ao item; ou 0 (zero) caso não seja complemento de ICMS ST Cálculo do Imposto.- Base de Cálculo ICMS = Valor do ICMS a complementar ou ou 0 (zero) caso não seja complemento de ICMS
+- Valor do ICMS = Valor do ICMS a complementar ou 0 (zero) caso não seja complemento de ICMS
+- Base de Cálculo ICMS ST = Valor do ICMS ST a complementar ou ou 0 (zero) caso não seja complemento de ICMS ST
+- Valor do ICMS ICMS ST = Valor do ICMS ST a complementar ou 0 (zero) caso não seja complemento de ICMS ST
+- Valor Total dos Produtos = Valor dos produtos, caso seja complemento de valor ou 0 (zero) caso seja outro tipo de complemento
+- Valor total da Nota Fiscal = Valor dos produtos, caso seja complemento de valor; ou Valor do ICMS ST, caso exista complemento de ST; ou 0 (zero) caso seja outro tipo de complemento;
+
+
+Dados Adicionais / Informações Complementares:
+Preencher conforme o regulamento.
+Podem ainda ser inseridas obervações de interesse do contribuinte, além da descrição dos documentos fiscais referenciados.

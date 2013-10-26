@@ -1,0 +1,1295 @@
+object fExporta: TfExporta
+  Left = 245
+  Top = 190
+  Width = 780
+  Height = 552
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 32
+    Top = 88
+    Width = 21
+    Height = 13
+    Caption = 'RA :'
+  end
+  object MMJPanel1: TMMJPanel
+    Left = 0
+    Top = 0
+    Width = 772
+    Height = 51
+    Align = alTop
+    TabOrder = 0
+    Silhuette.Shape.ShapeText = 'Shape text'
+    Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
+    Silhuette.PictureShape.DisplayPicture = True
+    Background.StartColor = clMoneyGreen
+    Background.EndColor = 16776176
+    Background.FillType = GradUpDown
+  end
+  object DBGrid1: TDBGrid
+    Left = 32
+    Top = 120
+    Width = 337
+    Height = 305
+    DataSource = DataSource1
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'RA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IMPORTA'
+        Visible = True
+      end>
+  end
+  object Edit1: TEdit
+    Left = 56
+    Top = 88
+    Width = 137
+    Height = 21
+    TabOrder = 2
+  end
+  object BitBtn4: TBitBtn
+    Left = 194
+    Top = 87
+    Width = 73
+    Height = 25
+    Caption = 'Procurar'
+    TabOrder = 3
+    OnClick = BitBtn4Click
+  end
+  object BitBtn5: TBitBtn
+    Left = 280
+    Top = 88
+    Width = 73
+    Height = 25
+    Caption = 'Exportar'
+    TabOrder = 4
+    OnClick = BitBtn5Click
+  end
+  object BitBtn6: TBitBtn
+    Left = 368
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = 'Limpar arquivo'
+    TabOrder = 5
+    OnClick = BitBtn6Click
+  end
+  object DBGrid2: TDBGrid
+    Left = 400
+    Top = 120
+    Width = 337
+    Height = 305
+    DataSource = DataSource2
+    TabOrder = 6
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'RA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IMPORTA'
+        Visible = True
+      end>
+  end
+  object s3: TSQLDataSet
+    CommandText = 'select * from TABALUNO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 72
+    Top = 296
+    object s3RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object s3NOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object s3NUMERO: TSmallintField
+      FieldName = 'NUMERO'
+    end
+    object s3SEXO: TStringField
+      FieldName = 'SEXO'
+      Size = 1
+    end
+    object s3ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 30
+    end
+    object s3BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+    end
+    object s3CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object s3CEP: TStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object s3FONE: TStringField
+      FieldName = 'FONE'
+      Size = 13
+    end
+    object s3DATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object s3RG: TStringField
+      FieldName = 'RG'
+      Size = 15
+    end
+    object s3CPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object s3ANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object s3SERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object s3SITUACAOESCOLAR: TStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 1
+    end
+    object s3MAE: TStringField
+      FieldName = 'MAE'
+      Size = 30
+    end
+    object s3RGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object s3CPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object s3PAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object s3RGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object s3CPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object s3EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 30
+    end
+    object s3LANCADOCLASSE: TSmallintField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object s3TRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object s3SERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object s3CIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object s3UFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object s3NACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object s3CERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object s3LIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object s3FLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object s3LOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object s3LOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object s3TELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object s3TELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object s3INFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object s3CARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object s3RAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object s3LOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object s3TELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object s3RAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object s3TEL_CELULAR: TStringField
+      FieldName = 'TEL_CELULAR'
+      Size = 12
+    end
+    object s3CERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object s3CERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object s3CERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object s3CERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object s3CERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object s3COMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 80
+    end
+    object s3DIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object s3DIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+  end
+  object d3: TDataSetProvider
+    DataSet = s3
+    Options = [poAllowCommandText]
+    Left = 104
+    Top = 296
+  end
+  object c3: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'd3'
+    Left = 136
+    Top = 296
+    object c3RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object c3NOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object c3NUMERO: TSmallintField
+      FieldName = 'NUMERO'
+    end
+    object c3SEXO: TStringField
+      FieldName = 'SEXO'
+      Size = 1
+    end
+    object c3ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 30
+    end
+    object c3BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+    end
+    object c3CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object c3CEP: TStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object c3FONE: TStringField
+      FieldName = 'FONE'
+      Size = 13
+    end
+    object c3DATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object c3RG: TStringField
+      FieldName = 'RG'
+      Size = 15
+    end
+    object c3CPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object c3ANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object c3SERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object c3SITUACAOESCOLAR: TStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 1
+    end
+    object c3MAE: TStringField
+      FieldName = 'MAE'
+      Size = 30
+    end
+    object c3RGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object c3CPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object c3PAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object c3RGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object c3CPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object c3EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 30
+    end
+    object c3LANCADOCLASSE: TSmallintField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object c3TRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object c3SERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object c3CIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object c3UFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object c3NACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object c3CERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object c3LIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object c3FLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object c3LOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object c3LOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object c3TELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object c3TELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object c3INFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object c3CARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object c3RAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object c3LOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object c3TELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object c3RAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object c3TEL_CELULAR: TStringField
+      FieldName = 'TEL_CELULAR'
+      Size = 12
+    end
+    object c3CERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object c3CERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object c3CERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object c3CERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object c3CERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object c3COMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 80
+    end
+    object c3DIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object c3DIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+  end
+  object c2: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PRESP'
+        ParamType = ptInput
+      end>
+    ProviderName = 'd2'
+    Left = 136
+    Top = 264
+    object c2COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object c2RESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Required = True
+      Size = 200
+    end
+    object c2ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 200
+    end
+    object c2BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 50
+    end
+    object c2CEP: TStringField
+      FieldName = 'CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object c2CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 50
+    end
+    object c2UF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object c2TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      FixedChar = True
+      Size = 1
+    end
+    object c2CPF: TStringField
+      FieldName = 'CPF'
+      FixedChar = True
+      Size = 14
+    end
+    object c2RG: TStringField
+      FieldName = 'RG'
+    end
+    object c2TELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 14
+    end
+    object c2TELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 14
+    end
+    object c2EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 50
+    end
+    object c2LOCALTRABALHO: TStringField
+      FieldName = 'LOCALTRABALHO'
+      Size = 100
+    end
+    object c2CAIXAPOSTAL: TStringField
+      FieldName = 'CAIXAPOSTAL'
+    end
+    object c2TELEFONE_COMERCIAL: TStringField
+      FieldName = 'TELEFONE_COMERCIAL'
+      Size = 14
+    end
+  end
+  object d2: TDataSetProvider
+    DataSet = s2
+    Left = 104
+    Top = 264
+  end
+  object s2: TSQLDataSet
+    CommandText = 'select * from RESPONSAVEL where COD_RESPONSAVEL = :PRESP'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PRESP'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 72
+    Top = 264
+    object s2COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object s2RESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Required = True
+      Size = 200
+    end
+    object s2ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 200
+    end
+    object s2BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 50
+    end
+    object s2CEP: TStringField
+      FieldName = 'CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object s2CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 50
+    end
+    object s2UF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object s2TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      FixedChar = True
+      Size = 1
+    end
+    object s2CPF: TStringField
+      FieldName = 'CPF'
+      FixedChar = True
+      Size = 14
+    end
+    object s2RG: TStringField
+      FieldName = 'RG'
+    end
+    object s2TELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 14
+    end
+    object s2TELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 14
+    end
+    object s2EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 50
+    end
+    object s2LOCALTRABALHO: TStringField
+      FieldName = 'LOCALTRABALHO'
+      Size = 100
+    end
+    object s2CAIXAPOSTAL: TStringField
+      FieldName = 'CAIXAPOSTAL'
+    end
+    object s2TELEFONE_COMERCIAL: TStringField
+      FieldName = 'TELEFONE_COMERCIAL'
+      Size = 14
+    end
+  end
+  object s1: TSQLDataSet
+    CommandText = 'select * from RESP_ALUNO WHERE RA = :PRA'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PRA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 72
+    Top = 232
+    object s1COD_RESP_ALUNO: TIntegerField
+      FieldName = 'COD_RESP_ALUNO'
+      Required = True
+    end
+    object s1COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object s1RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object s1TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object d1: TDataSetProvider
+    DataSet = s1
+    Left = 104
+    Top = 232
+  end
+  object c1: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PRA'
+        ParamType = ptInput
+      end>
+    ProviderName = 'd1'
+    Left = 136
+    Top = 232
+    object c1COD_RESP_ALUNO: TIntegerField
+      FieldName = 'COD_RESP_ALUNO'
+      Required = True
+    end
+    object c1COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object c1RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object c1TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object s6: TSQLDataSet
+    CommandText = 'select * from TABALUNO'
+    MaxBlobSize = -1
+    Params = <>
+    Left = 424
+    Top = 296
+    object s6RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object s6NOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object s6NUMERO: TSmallintField
+      FieldName = 'NUMERO'
+    end
+    object s6SEXO: TStringField
+      FieldName = 'SEXO'
+      Size = 1
+    end
+    object s6ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 30
+    end
+    object s6BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+    end
+    object s6CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object s6CEP: TStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object s6FONE: TStringField
+      FieldName = 'FONE'
+      Size = 13
+    end
+    object s6DATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object s6RG: TStringField
+      FieldName = 'RG'
+      Size = 15
+    end
+    object s6CPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object s6ANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object s6SERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object s6SITUACAOESCOLAR: TStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 1
+    end
+    object s6MAE: TStringField
+      FieldName = 'MAE'
+      Size = 30
+    end
+    object s6RGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object s6CPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object s6PAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object s6RGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object s6CPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object s6EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 30
+    end
+    object s6LANCADOCLASSE: TSmallintField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object s6TRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object s6SERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object s6CIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object s6UFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object s6NACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object s6CERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object s6LIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object s6FLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object s6LOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object s6LOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object s6TELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object s6TELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object s6INFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object s6CARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object s6RAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object s6LOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object s6TELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object s6RAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object s6TEL_CELULAR: TStringField
+      FieldName = 'TEL_CELULAR'
+      Size = 12
+    end
+    object s6CERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object s6CERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object s6CERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object s6CERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object s6CERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object s6COMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 80
+    end
+    object s6DIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object s6DIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object s6IMPORTA: TStringField
+      FieldName = 'IMPORTA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object d6: TDataSetProvider
+    DataSet = s6
+    Left = 456
+    Top = 296
+  end
+  object c6: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'd6'
+    Left = 488
+    Top = 296
+    object c6RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object c6NOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object c6NUMERO: TSmallintField
+      FieldName = 'NUMERO'
+    end
+    object c6SEXO: TStringField
+      FieldName = 'SEXO'
+      Size = 1
+    end
+    object c6ENDERECO: TStringField
+      FieldName = 'ENDERECO'
+      Size = 30
+    end
+    object c6BAIRRO: TStringField
+      FieldName = 'BAIRRO'
+    end
+    object c6CIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 30
+    end
+    object c6CEP: TStringField
+      FieldName = 'CEP'
+      Size = 9
+    end
+    object c6FONE: TStringField
+      FieldName = 'FONE'
+      Size = 13
+    end
+    object c6DATANASCIMENTO: TSQLTimeStampField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object c6RG: TStringField
+      FieldName = 'RG'
+      Size = 15
+    end
+    object c6CPF: TStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object c6ANOLETIVO: TStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object c6SERIE: TStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object c6SITUACAOESCOLAR: TStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 1
+    end
+    object c6MAE: TStringField
+      FieldName = 'MAE'
+      Size = 30
+    end
+    object c6RGMAE: TStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object c6CPFMAE: TStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object c6PAI: TStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object c6RGPAI: TStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object c6CPFPAI: TStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object c6EMAIL: TStringField
+      FieldName = 'EMAIL'
+      Size = 30
+    end
+    object c6LANCADOCLASSE: TSmallintField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object c6TRANSPORTE: TStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object c6SERIELETRA: TStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object c6CIDADENASC: TStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object c6UFNASC: TStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object c6NACIONALIDADE: TStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object c6CERTIDAONASCNUM: TStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object c6LIVRONASC: TStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object c6FLLIVRONASC: TStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object c6LOCALTRABPAI: TStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object c6LOCALTRABMAE: TStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object c6TELTRABPAI: TStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object c6TELTRABMAE: TStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object c6INFONECESSARIAS: TStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object c6CARTEIRAVACINACAO: TStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object c6RAPRODESP: TStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object c6LOCALTRABALUNO: TStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object c6TELTRABALUNO: TStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object c6RAPROD: TStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object c6TEL_CELULAR: TStringField
+      FieldName = 'TEL_CELULAR'
+      Size = 12
+    end
+    object c6CERT_NAS_COMARCA: TStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object c6CERT_NAS_UF: TStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object c6CERT_NAS_MUNICIPIO: TStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object c6CERT_NAS_DISTRITO: TStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object c6CERT_NAS_SUBDISTRITO: TStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object c6COMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 80
+    end
+    object c6DIVERSO1: TStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object c6DIVERSO2: TStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object c6IMPORTA: TStringField
+      FieldName = 'IMPORTA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object c5: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'd5'
+    Left = 488
+    Top = 264
+  end
+  object d5: TDataSetProvider
+    DataSet = s5
+    Left = 456
+    Top = 264
+  end
+  object s5: TSQLDataSet
+    CommandText = 'select * from RESPONSAVEL'
+    MaxBlobSize = -1
+    Params = <>
+    Left = 424
+    Top = 264
+  end
+  object s4: TSQLDataSet
+    CommandText = 'select * from RESP_ALUNO'
+    MaxBlobSize = -1
+    Params = <>
+    Left = 424
+    Top = 232
+    object s4COD_RESP_ALUNO: TIntegerField
+      FieldName = 'COD_RESP_ALUNO'
+      Required = True
+    end
+    object s4COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object s4RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object s4TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object s4IMPORTA: TStringField
+      FieldName = 'IMPORTA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object d4: TDataSetProvider
+    DataSet = s4
+    Left = 456
+    Top = 232
+  end
+  object c4: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'd4'
+    Left = 488
+    Top = 232
+    object c4COD_RESP_ALUNO: TIntegerField
+      FieldName = 'COD_RESP_ALUNO'
+      Required = True
+    end
+    object c4COD_RESPONSAVEL: TIntegerField
+      FieldName = 'COD_RESPONSAVEL'
+      Required = True
+    end
+    object c4RA: TStringField
+      FieldName = 'RA'
+      Required = True
+      Size = 10
+    end
+    object c4TIPO_RESPONSAVEL: TStringField
+      FieldName = 'TIPO_RESPONSAVEL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object c4IMPORTA: TStringField
+      FieldName = 'IMPORTA'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = c3
+    Left = 496
+    Top = 200
+  end
+  object DataSource2: TDataSource
+    DataSet = c6
+    Left = 544
+    Top = 200
+  end
+end

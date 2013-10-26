@@ -1,0 +1,293 @@
+K 25
+svn:wc:ra_dav:version-url
+V 27
+/svn/!svn/ver/803/trunk/src
+END
+limpa_arquivos_delphi
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/src/limpa_arquivos_delphi
+END
+uSobre.pas
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/src/uSobre.pas
+END
+uEmpresaProcura.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2/trunk/src/uEmpresaProcura.dfm
+END
+uSerieNF.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/src/uSerieNF.dfm
+END
+uEmpresa.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/src/uEmpresa.dfm
+END
+uVendas.pas
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2/trunk/src/uVendas.pas
+END
+uPrincipal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/uPrincipal.pas
+END
+uComercial.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/uComercial.dfm
+END
+uRelatorios.pas
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/uRelatorios.pas
+END
+atualizaClasFiscal.sql
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/194/trunk/src/atualizaClasFiscal.sql
+END
+ualterasenha.pas
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2/trunk/src/ualterasenha.pas
+END
+ufdlglogin.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/ufdlglogin.dfm
+END
+unitcadastrousuarios.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/src/unitcadastrousuarios.dfm
+END
+unovousuario.pas
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2/trunk/src/unovousuario.pas
+END
+usplash.pas
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2/trunk/src/usplash.pas
+END
+ugerencia_acessos.pas
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/src/ugerencia_acessos.pas
+END
+uSobre.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/src/uSobre.dfm
+END
+prjsisAdmin.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/prjsisAdmin.dpr
+END
+UDm.pas
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/2/trunk/src/UDm.pas
+END
+udmapp.pas
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/src/udmapp.pas
+END
+uVendas.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2/trunk/src/uVendas.dfm
+END
+uPrincipal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/uPrincipal.dfm
+END
+ufprocura_prod.pas
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/src/ufprocura_prod.pas
+END
+uRelatorios.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/uRelatorios.dfm
+END
+uUsuarioCadastro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/src/uUsuarioCadastro.pas
+END
+uPai.pas
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/2/trunk/src/uPai.pas
+END
+ualterasenha.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2/trunk/src/ualterasenha.dfm
+END
+unovousuario.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2/trunk/src/unovousuario.dfm
+END
+usplash.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2/trunk/src/usplash.dfm
+END
+uFinanceiro.pas
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/uFinanceiro.pas
+END
+uAdministracao.pas
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/src/uAdministracao.pas
+END
+ugerencia_acessos.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/src/ugerencia_acessos.dfm
+END
+UDm.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/2/trunk/src/UDm.dfm
+END
+prjsisAdmin.dof
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/prjsisAdmin.dof
+END
+udmapp.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/src/udmapp.dfm
+END
+ufprocura_prod.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/src/ufprocura_prod.dfm
+END
+uEmpresaProcura.pas
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2/trunk/src/uEmpresaProcura.pas
+END
+uSerieNF.pas
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/src/uSerieNF.pas
+END
+uUsuarioCadastro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/src/uUsuarioCadastro.dfm
+END
+uEmpresa.pas
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/2/trunk/src/uEmpresa.pas
+END
+uPai.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/2/trunk/src/uPai.dfm
+END
+uComercial.pas
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/uComercial.pas
+END
+uFinanceiro.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/uFinanceiro.dfm
+END
+uAdministracao.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/2/trunk/src/uAdministracao.dfm
+END
+DOC.doc
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/803/trunk/src/DOC.doc
+END
+prjsisAdmin.res
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2/trunk/src/prjsisAdmin.res
+END
+ufdlglogin.pas
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/src/ufdlglogin.pas
+END
+unitcadastrousuarios.pas
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/src/unitcadastrousuarios.pas
+END

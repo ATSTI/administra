@@ -1,0 +1,61 @@
+CREATE OR ALTER PROCEDURE IMPRIMEVENDA(
+  PCOD INTEGER,
+  PDATA DATE)
+RETURNS(
+  CODPRODUTO INTEGER,
+  DESCRICAO VARCHAR(300) CHARACTER SET WIN1252,
+  QUTDE DOUBLE PRECISION,
+  VARLORUNIT DOUBLE PRECISION,
+  VARLORTOTAL DOUBLE PRECISION,
+  IDMOV INTEGER)
+AS
+DECLARE VARIABLE vCodVenda Integer;
+DECLARE VARIABLE vCodmov Integer;
+DECLARE VARIABLE vCodAlm Integer;
+DECLARE VARIABLE vCodSUITE Integer;
+DECLARE VARIABLE vCodSUITE1 Integer;
+DECLARE VARIABLE vCodSERVICO Integer;
+DECLARE VARIABLE vCODPRODUTO INTEGER;
+DECLARE VARIABLE vDESCRICAO VARCHAR(300);
+DECLARE VARIABLE vQUTDE DOUBLE PRECISION;
+DECLARE VARIABLE vVARLORUNIT DOUBLE PRECISION;
+DECLARE VARIABLE vVARLORTOTAL DOUBLE PRECISION;
+DECLARE VARIABLE SOMAPROD DOUBLE PRECISION;
+DECLARE VARIABLE vCodPro DOUBLE PRECISION;
+DECLARE VARIABLE I integer;
+BEGIN
+  /* Procedure body */
+  /* Pego o Codigo do Produto Hospedagem para não sair no relatorio */
+  vQUTDE = 0;
+  vVARLORUNIT = 0;
+  vVARLORTOTAL = 0;
+  vCODPRODUTO = 0;
+  select cast(DADOS as integer), Cast(D1 as integer) from PARAMETRO where PARAMETRO = 'CODIGOSUITES'
+  into :vCodSUITE, :vCodSUITE1;
+  /* Pego o Codigo do Produto Prestação de serviço para não sair no relatorio */
+  select cast(DADOS as integer) from PARAMETRO where PARAMETRO = 'PRESTACAOSERVICO'
+  into :vCodSERVICO;
+
+  for select distinct mov.PRECO , mov.CODPRODUTO
+  FROM MOVIMENTODETALHE mov inner join venda vd on vd.CODMOVIMENTO = mov.CODMOVIMENTO
+  where ((vd.CODORIGEM = :pCod) or (:pCod = 9999999)) 
+  and (mov.CODPRODUTO <> :vCodSUITE) and (mov.CODPRODUTO <> :vCodSUITE1) and (mov.CODPRODUTO <> :vCodSERVICO)
+  order by mov.CODPRODUTO, mov.PRECO
+  into :SOMAPROD, :vCodPro
+  do begin
+     for select mov.CODPRODUTO, mov.CODALMOXARIFADO, mov.DESCPRODUTO, Sum(mov.QUANTIDADE), mov.PRECO, SUM(mov.VALTOTAL)
+     FROM MOVIMENTODETALHE mov inner join venda vd on vd.CODMOVIMENTO = mov.CODMOVIMENTO
+     where ((vd.CODORIGEM = :pCod) or (:pCod = 9999999)) and (mov.CODPRODUTO = :vCodPro) and mov.PRECO = :SOMAPROD
+     group by mov.PRECO, mov.CODPRODUTO, mov.CODALMOXARIFADO, mov.DESCPRODUTO
+     into :CODPRODUTO, :vCodAlm, :DESCRICAO, :QUTDE, :VARLORUNIT, :VARLORTOTAL DO
+     begin
+         if ((CODPRODUTO <> vCodSUITE) and (CODPRODUTO <> vCodSUITE1) and (CODPRODUTO <> vCodSERVICO)) then
+           if (vCodAlm = 0) then
+           begin
+              vQUTDE = vQUTDE + QUTDE;
+              vVARLORTOTAL = vQUTDE * VARLORUNIT;
+           end
+     end
+     suspend;
+  end
+END;

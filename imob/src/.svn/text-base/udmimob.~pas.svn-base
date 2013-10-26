@@ -1,0 +1,23 @@
+unit udmimob;
+
+interface
+
+uses
+  SysUtils, Classes;
+
+type
+  Tdmimob = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmimob: Tdmimob;
+
+implementation
+
+{$R *.dfm}
+
+end.

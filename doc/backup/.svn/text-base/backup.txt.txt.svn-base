@@ -1,0 +1,10 @@
+gfix -v -full –user SYSDBA –pas masterkey "localhost:sge_BD"
+
+gfix -mend -ig –user SYSDBA –pas masterkey "localhost:sge_BD"
+
+
+gbak -b -g -v –user SYSDBA –pas masterkey  'localhost:sge_BD' 'ARQUIVO.FBK'
+
+
+gbak -rep -v -user SYSDBA -pass masterkey 'ARQUIVO.FBK' 'localhost:sge_BD' -FIX_FSS_METADATA WIN1252
+

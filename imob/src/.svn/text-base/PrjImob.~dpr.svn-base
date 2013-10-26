@@ -1,0 +1,19 @@
+program PrjImob;
+
+uses
+  Forms,
+  uprincipal in 'uprincipal.pas' {fPrincipal},
+  UDm in '..\..\comercial\src\UDm.pas' {DM: TDataModule},
+  uPai in '..\..\comercial\src\uPai.pas' {fPai},
+  uPai_new in '..\..\comercial\src\uPai_new.pas' {fPai_new},
+  udmimob in 'udmimob.pas' {dmimob: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TfPrincipal, fPrincipal);
+  Application.CreateForm(Tdmimob, dmimob);
+  Application.Run;
+end.

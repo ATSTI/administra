@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/boleto_sicredi
+END
+090323.REM
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/boleto_sicredi/090323.REM
+END
+RLBoleto.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/boleto_sicredi/RLBoleto.pas
+END
+BoletoLayout.pas
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/boleto_sicredi/BoletoLayout.pas
+END
+dbxconnections_ats_serv.ini
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2/trunk/boleto_sicredi/dbxconnections_ats_serv.ini
+END
+RLCob748.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/boleto_sicredi/RLCob748.pas
+END
+BoletoLayout.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/boleto_sicredi/BoletoLayout.dfm
+END
+uprincipal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/boleto_sicredi/uprincipal.pas
+END
+boleto.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/boleto_sicredi/boleto.dpr
+END
+uprincipal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/2/trunk/boleto_sicredi/uprincipal.dfm
+END
+boleto.res
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2/trunk/boleto_sicredi/boleto.res
+END
+dbxconnections.ini
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/boleto_sicredi/dbxconnections.ini
+END

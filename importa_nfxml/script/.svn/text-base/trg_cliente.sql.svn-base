@@ -1,0 +1,12 @@
+SET TERM ^ ;
+ALTER TRIGGER TRG_CLIENTE ACTIVE
+BEFORE INSERT POSITION 0
+AS
+begin
+  /* Trigger text */
+    IF (NEW.CODCLIENTE IS NULL) then
+       NEW.CODCLIENTE = GEN_ID(GEN_CLI, 1);
+    if (new.DATACADASTRO is null) then 
+      new.DATACADASTRO = CURRENT_DATE;   
+end^
+SET TERM ; ^

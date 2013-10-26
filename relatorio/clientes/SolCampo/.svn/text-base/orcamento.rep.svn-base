@@ -1,0 +1,2611 @@
+object TRpReport
+  GridWidth = 50
+  GridHeight = 50
+  PageHeight = 8120
+  PageWidth = 5742
+  CustomPageHeight = 8419
+  PageBackColor = 2147483647
+  PreviewWindow = spwMaximized
+  LeftMargin = 283
+  TopMargin = 283
+  RightMargin = 7
+  BottomMargin = 67
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'IMPR'
+      DatabaseAlias = 'SGE'
+      SQL = 
+        'SELECT  PRO.CODPRO'#13#10'               ,SUM(MOV.QUANTIDADE) AS QTDE ' +
+        #13#10'               ,SUM(MOV.PRECO) AS PCO '#13#10'               ,MOV.UN' +
+        ' '#13#10'               ,SUM(MOV.QUANTIDADE * '#13#10'               MOV.PRE' +
+        'CO) AS VALORTOTAL '#13#10'               ,PRO.PRODUTO '#13#10'              ' +
+        ' ,PRO.PESO_QTDE'#13#10'               ,PRO.QTDE_PCT'#13#10'               ,P' +
+        'RO.TIPO '#13#10'               ,ENDE.LOGRADOURO'#13#10'              ,ENDE.C' +
+        'IDADE'#13#10'              ,ENDE.BAIRRO'#13#10'              ,ENDE.UF'#13#10'     ' +
+        '         ,ENDE.CEP'#13#10'              ,ENDE.DDD'#13#10'              ,ENDE' +
+        '.TELEFONE'#13#10'              ,ENDE.DADOSADICIONAIS'#13#10'              ,C' +
+        'AST(M.CODCLIENTE AS VARCHAR(8)) || '#39'-'#39' || CLI.NOMECLIENTE as CLI' +
+        ' '#13#10'              ,M.DATAMOVIMENTO'#13#10'              ,M.CODMOVIMENTO' +
+        #13#10'              ,M.CONTROLE'#13#10'              ,MOV.QTDE_ALT AS DESC' +
+        'ONTO '#13#10'              ,CLI.CNPJ'#13#10'              ,CLI.RAZAOSOCIAL  ' +
+        '      '#13#10'              ,CLI.TIPOFIRMA '#13#10'              ,CLI.INSCES' +
+        'TADUAL, cli.CONTATO'#13#10'              ,FUN.NOME_FUNCIONARIO '#13#10'     ' +
+        '         ,FUN.DDD'#13#10'              ,FUN.TELEFONE'#13#10'              ,F' +
+        'UN.CELULAR   '#13#10'               , m.codpedido  '#13#10'FROM MOVIMENTO M ' +
+        #13#10'INNER JOIN MOVIMENTODETALHE MOV ON MOV.CODMOVIMENTO = M.CODMOV' +
+        'IMENTO'#13#10'INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = M.CODCLIENTE' +
+        #13#10'LEFT JOIN  ENDERECOCLIENTE ENDE ON ENDE.CODCLIENTE = CLI.CODCL' +
+        'IENTE '#13#10'LEFT JOIN  FUNCIONARIO FUN  ON FUN.CODUSUARIO = M.CODVEN' +
+        'DEDOR '#13#10'INNER JOIN PRODUTOS PRO ON PRO.CODPRODUTO = MOV.CODPRODU' +
+        'TO '#13#10#13#10'WHERE M.CODMOVIMENTO = :PVMOV '#13#10'and ENDE.TIPOEND = 0 '#13#10'GR' +
+        'OUP BY   PRO.CODPRO    '#13#10'               ,MOV.UN  '#13#10'             ' +
+        '  ,PRO.PRODUTO  '#13#10'               ,PRO.PESO_QTDE'#13#10'               ' +
+        ',PRO.QTDE_PCT'#13#10'               ,PRO.TIPO '#13#10'               ,ENDE.L' +
+        'OGRADOURO '#13#10'              ,ENDE.CIDADE '#13#10'              ,ENDE.BAI' +
+        'RRO '#13#10'              ,ENDE.UF '#13#10'              ,ENDE.CEP '#13#10'       ' +
+        '       ,ENDE.DDD '#13#10'              ,ENDE.TELEFONE'#13#10'              ,' +
+        'ENDE.DADOSADICIONAIS '#13#10'              ,M.CODCLIENTE '#13#10'           ' +
+        '   ,M.DATAMOVIMENTO '#13#10'              ,M.CODMOVIMENTO '#13#10'          ' +
+        '    ,M.CONTROLE'#13#10'              ,MOV.VALTOTAL '#13#10'              ,MO' +
+        'V.QTDE_ALT '#13#10'              ,CLI.NOMECLIENTE '#13#10'              ,CLI' +
+        '.CNPJ '#13#10'              ,CLI.RAZAOSOCIAL'#13#10'             ,CLI.TIPOFI' +
+        'RMA'#13#10'             ,CLI.INSCESTADUAL'#13#10'             ,FUN.NOME_FUNC' +
+        'IONARIO'#13#10'             ,FUN.DDD'#13#10'             ,FUN.TELEFONE'#13#10'    ' +
+        '         ,FUN.CELULAR'#13#10'             ,cli.CONTATO'#13#10'          , m.' +
+        'codpedido  '#13#10' ;     '
+    end
+    item
+      Alias = 'IMPCAB'
+      DatabaseAlias = 'SGE'
+      SQL = 
+        'SELECT EMPRESA || '#39' - '#39' ||RAZAO as EMP, BAIRRO,ENDERECO, CIDADE ' +
+        '|| '#39' - '#39' || UF || '#39' - '#39' || CEP as local, '#13#10#39'FONE: (19)'#39' || FONE ' +
+        '||  '#39' - '#39' || WEB ||  e_mail as comunica, CNPJ_CPF  , LOGOTIPO'#13#10'F' +
+        'ROM EMPRESA'
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SGE'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'PVMOV'
+      Value = 1000001
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'IMPR')
+      Description = 'C'#243'digo do Moviemnto'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'VALIDADEORCAMENTO'
+      AllowNulls = False
+      Value = '5 dias'
+      Description = 'Validade do Or'#231'amento'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CONDICOESPAGTO'
+      AllowNulls = False
+      Value = '14 ddf'
+      Description = 'Condi'#231#245'es de Pagamento'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PRAZOENTREGA'
+      AllowNulls = False
+      Value = 'imediata'
+      Description = 'Prazo de entrega'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'FRETE'
+      AllowNulls = False
+      Value = 'CIF'
+      Description = 'Frete'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'OBS'
+      AllowNulls = False
+      Value = 
+        'Obs.: A Solcampo Imp. Com. Repr. para ,An'#225'lise de Alimentos LTDA' +
+        ',  inscrita no CNPJ  sob        n'#186' 05.649.147/0001-20 e Inscri'#231#227 +
+        'o Estadual  sob n'#186' 513.445.400-113 e '#233' distribuidora exclusiva d' +
+        'os produtos VICAM no Brasil.'
+      Description = 'Observa'#231#227'o'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'VENDEDOR'
+      AllowNulls = False
+      Value = 'Aline F. Nogueira Pereira'
+      Description = 'Nome Vendedor'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'MOEDA'
+      AllowNulls = False
+      Value = 'Os pre'#231'os dos produtos est'#227'o em reais'
+      Description = 'Descri'#231#227'o da moeda utilizada'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  Language = 0
+  PrinterFonts = rppfontsalways
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection1
+      end
+      item
+        Section = TRpSection0
+      end
+      item
+        Section = TRpSection2
+      end>
+    Alias = 'IMPR'
+  end
+  object TRpSection0: TRpSection
+    Width = 10900
+    Height = 360
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpExpression13
+      end
+      item
+        Component = TRpExpression14
+      end
+      item
+        Component = TRpExpression15
+      end
+      item
+        Component = TRpExpression16
+      end
+      item
+        Component = TRpExpression17
+      end
+      item
+        Component = TRpExpression18
+      end>
+    AutoExpand = True
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection1: TRpSection
+    Width = 10900
+    Height = 3240
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpheader
+    Components = <
+      item
+        Component = TRpExpression20
+      end
+      item
+        Component = TRpExpression21
+      end
+      item
+        Component = TRpExpression25
+      end
+      item
+        Component = TRpLabel5
+      end
+      item
+        Component = TRpLabel6
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpLabel8
+      end
+      item
+        Component = TRpLabel9
+      end
+      item
+        Component = TRpLabel10
+      end
+      item
+        Component = TRpLabel20
+      end
+      item
+        Component = TRpLabel22
+      end
+      item
+        Component = TRpLabel24
+      end
+      item
+        Component = TRpLabel1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression9
+      end
+      item
+        Component = TRpExpression31
+      end
+      item
+        Component = TRpLabel4
+      end
+      item
+        Component = TRpImage0
+      end
+      item
+        Component = TRpLabel0
+      end
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpLabel16
+      end
+      item
+        Component = TRpExpression1
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpLabel12
+      end
+      item
+        Component = TRpLabel14
+      end
+      item
+        Component = TRpShape0
+      end
+      item
+        Component = TRpShape1
+      end>
+    AutoContract = True
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression13: TRpExpression
+    Width = 1140
+    Height = 255
+    PosX = 105
+    PosY = 50
+    Type1Font = poHelvetica
+    Alignment = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CODPRO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 1005
+    Height = 255
+    PosX = 6840
+    PosY = 45
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.QTDE'
+    DisplayFormat = ',##0.0'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression15: TRpExpression
+    Width = 450
+    Height = 255
+    PosX = 6045
+    PosY = 45
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.UN'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression16: TRpExpression
+    Width = 930
+    Height = 227
+    PosX = 8045
+    PosY = 45
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(IMPR.PCO>0,IMPR.VALORTOTAL/'#13#10'IMPR.QTDE,Null)'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression18: TRpExpression
+    Width = 4695
+    Height = 255
+    PosX = 1305
+    PosY = 45
+    Type1Font = poHelvetica
+    Alignment = 1
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.PRODUTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpSection2: TRpSection
+    Width = 10900
+    Height = 4830
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpfooter
+    Components = <
+      item
+        Component = TRpLabel2
+      end
+      item
+        Component = TRpLabel13
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpShape2
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpLabel11
+      end
+      item
+        Component = TRpLabel15
+      end
+      item
+        Component = TRpLabel17
+      end
+      item
+        Component = TRpLabel18
+      end
+      item
+        Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpExpression10
+      end
+      item
+        Component = TRpShape3
+      end
+      item
+        Component = TRpExpression11
+      end
+      item
+        Component = TRpLabel19
+      end
+      item
+        Component = TRpExpression12
+      end
+      item
+        Component = TRpExpression19
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    dpires = 200
+    DrawStyle = rpDrawStretch
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression20: TRpExpression
+    Width = 2070
+    Height = 227
+    PosX = 1304
+    PosY = 2178
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(IMPR.CIDADE <> '#39#39', IMPR.CIDADE, '#39#39') +'#13#10'IIF(IMPR.UF <> '#39#39', '#39' ' +
+      '- '#39' + IMPR.UF, '#39#39') +'#13#10'IIF(IMPR.CEP <> '#39#39', '#39' - '#39' + IMPR.CEP, '#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression21: TRpExpression
+    Width = 9450
+    Height = 255
+    PosX = 1305
+    PosY = 1837
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 
+      'IIF(IMPR.LOGRADOURO <> '#39#39', IMPR.LOGRADOURO, '#39#39') +'#13#10'IIF(IMPR.BAIR' +
+      'RO <> '#39#39', IMPR.BAIRRO, '#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression25: TRpExpression
+    Width = 1260
+    Height = 227
+    PosX = 56693
+    PosY = 1755
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.TELEFONE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel5: TRpLabel
+    Width = 810
+    Height = 227
+    PosX = 105
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Cod.'#10'Codigo'
+  end
+  object TRpLabel6: TRpLabel
+    Width = 1140
+    Height = 227
+    PosX = 1305
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Produto'
+  end
+  object TRpLabel7: TRpLabel
+    Width = 690
+    Height = 225
+    PosX = 6110
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Unid.'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 795
+    Height = 227
+    PosX = 7137
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'
+  end
+  object TRpLabel9: TRpLabel
+    Width = 600
+    Height = 210
+    PosX = 8400
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Pre'#231'o'
+  end
+  object TRpLabel10: TRpLabel
+    Width = 540
+    Height = 210
+    PosX = 9900
+    PosY = 2858
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'
+  end
+  object TRpLabel20: TRpLabel
+    Width = 1155
+    Height = 227
+    PosX = 45
+    PosY = 1837
+    Type1Font = poHelvetica
+    VAlignment = 32
+    SingleLine = True
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Cidade'#10'Endere'#231'o'
+  end
+  object TRpLabel22: TRpLabel
+    Width = 795
+    Height = 227
+    PosX = 56693
+    PosY = 1755
+    Type1Font = poHelvetica
+    Alignment = 2
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Telefone:'
+  end
+  object TRpLabel24: TRpLabel
+    Width = 690
+    Height = 227
+    PosX = 45
+    PosY = 2178
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Bairro:'#10'Cidade :'
+  end
+  object TRpLabel2: TRpLabel
+    Width = 1380
+    Height = 227
+    PosX = 7160
+    PosY = 2050
+    Type1Font = poHelvetica
+    VAlignment = 16
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Valor Total: R$'#10'Valor Total:'
+  end
+  object TRpExpression2: TRpExpression
+    Width = 9390
+    Height = 255
+    PosX = 1305
+    PosY = 1497
+    Type1Font = poHelvetica
+    CutText = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.RAZAOSOCIAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 1230
+    Height = 225
+    PosX = 1305
+    PosY = 1157
+    Type1Font = poHelvetica
+    FontStyle = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CODPEDIDO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 1485
+    Height = 225
+    PosX = 9195
+    PosY = 50
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.VALORTOTAL'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1485
+    Height = 225
+    PosX = 9195
+    PosY = 2050
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.VALORTOTAL'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression31: TRpExpression
+    Width = 450
+    Height = 195
+    PosX = 56693
+    PosY = 1755
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IIF(IMPR.DDD<>'#39#39', '#39'('#39'+IMPR.DDD+'#39')'#39','#39#39')'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel1: TRpLabel
+    Width = 675
+    Height = 225
+    PosX = 45
+    PosY = 1497
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Cliente :'
+  end
+  object TRpLabel4: TRpLabel
+    Width = 8850
+    Height = 300
+    PosX = 1995
+    PosY = 395
+    Type1Font = poHelvetica
+    FontSize = 14
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'PROPOSTA DE VENDA SOLCAMPO'
+  end
+  object TRpImage0: TRpImage
+    Width = 3288
+    Height = 964
+    PosX = 0
+    PosY = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    Expression = ''
+    Stream = {
+      AE9F000000000000424DAE9F0000000000003600000028000000D80000003F00
+      00000100180000000000789F000000000000000000000000000000000000FDFE
+      FFFEFEFEFEFEFEFEFEFEFEFEFCFEFEFDFEFEFEFDFEFEFEFEFEFFFFFFFFFFFFFF
+      FFFFFEFFFEFEFEFFFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFDFEFEFD
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFEFE
+      FEFEFEFEFEFEFBFCF6FBFCF9FDFBFDFDFCFCFCFCF8F9FBF8FBFAFCF8F9FEFBFF
+      FFFBFFF6AAC1987D9B69FFFFFAFAFCF9FBFBFDF9F9FDFDFAFCFDFAFDF9F7F9FC
+      FBFCFCFCF8FCFCF7FCFCFBFCFCFDFBFBFCFCFBFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFCFC
+      FCFCFCFCFCFCFCFCFCFCFCFCFCFCFDFDEEFDFDF7F8F8FBFBF9FDFBFCFDF9FBFC
+      F9FDFDFAFFFCF0FFE28CAF6F204E00184E008CB268FCFFF2F6FCF4F9FCFBF6F6
+      FDF8F5FDFBF9FCFDFDFDFDFDFCFDFDF9FDFDFAFDFDFDFAFCFDFBFCFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDF3FDFCF8FCFBFDFB
+      FBFDF8FAFBF9FCF8FBFFF3F3FFE05B88341B51002666002067002560009EBE81
+      F9FFEAFBFEF1F6FDFAFAFCFDFBF8FCFCFAFDFDFCFCFDFDFAFDFDFBFDFDFCFAFD
+      FDFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFD
+      FCFDF9FCFDF8FDFBFBFDFAFBFBF7FFEED6F0BC5581281F5C002467001E690018
+      67002065002C5D05A0C57EF9FFE4F7FDF0F7FCF8F9FBFCFDFAFDFDFBFDFDFDFD
+      FDFDFBFDFDFBFAFDFDFBFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFCF9F8FDFCFDFCFAFDFEF9FDF9FFFDE4F6DA567B351A50002167
+      001C66001F6D001C6F0018660023620022550082AE5FFFFFF5F5FDF3F9FCFCFD
+      FBFDFDFCFDFDFBFDFDFDFDFDFDFDFBFCFDFCFCFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCF8FCFBF8FCFBFAFBF9FDF6F7FEF5FFF5
+      BEDAA62E5F011C61001D66001B6A00126200207000236A002361001D4F0090B3
+      73FFFFF8FCFFFBFBFCFEFDFBFDFDFCFDFDFCFDFDFCFDFDFCFDFDFBFDFDFCFDFD
+      FCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFBFDFDFCFDFDFDFDFCFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDF6FDFBF6FDF6F9FCF4FC
+      FDFBFCF9FDFDF8FFFFFFFFF2FFDD3E6E0D1B5C001F6A001B6D001768001B6C00
+      1C690021680016540065913AE1F8CAFBFFF6FAFCFDFBF9FCFDFBFDFCFAFBFBF8
+      FBFDFBFDFBF9FDFAFCFDFAFDFDFDFDFCFDFDFCFDFDFBFDFDF9FDFDF7FDFDF4FA
+      FDF8FAFDFCFAFCFDFBFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDF5FB
+      FCFAFDFAF9FCF3FCFCF6FBF6FCFAF5FDF9F4FEFFFFFFD9EEC04F812317580015
+      5E00226F001868001C6C002470001F64001F5A004E7D22CEE9B4FFFFFFF9FCFC
+      FBFBFDFAF7F9FDFEF8FDFCFBFBFBFDFCFCFDFCFDFCFDFDF8FDFDF5FDFDF6FDFD
+      FBFDFBFCFDFAFCFCFAFDFCFCFCFAFDF9FBFDFBFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFBFDF9F9FAFBFBF8FDFDF8FBFAF5FDFEFEFFFDFFF5F8FDFBFF
+      FCECFEDD7FA75A285B001E5F001E68001C67001461001F6A002067001C5F0023
+      5A00B6D798F6FFEAFEFFFBFBFBF6FDFCF4FDFDF6FBFDF9FDFDF9FDFDF9FDFDF6
+      FDFDF5FDFDF6FDFDFDFDF9FDFDF5FDFDF8FDFDFCFCFAFDF5FCFDF8FDFDFCFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFAFDFCF9FCFAF9FBFBFCF6FFFFF2EEF3E2
+      EAF2E2FCFFFCF5FBFCF9FDFFFAFFF4ABC6862356001D62001E6600226A001564
+      001C6D001F6C001B6200225A00779F52E4F5D0FFFFF8FFFCF3FCFDF4FBFDF7FD
+      FDF8FDFDF9FDFDFCFDFCFDFDFCFDFDFBFDFDFCFDFDFCFCFDFCFBFDFDFCFDFCFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFAFAFCFAFDFBF9FEF8
+      FDF9FAFFE691B16B46671FD6EBBDF9FFFCF7FCFEF6FCF4FFFFF9C0DAA1386A0F
+      1C5B001F63002471001769001669001668001E68001A5900437218C5E3A4FCFF
+      F4FEFFFFF9FBFEFBFDFDFBFDFBFDFDFCFDFCFDFDFAFDFDFAFDFDFBFCFDFDF8FD
+      FDF6FDFDFAFDFCFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FCFBFDFDF8FDF8FFFFF99ABD771D52001F57001F5300C3E3A7FAFFF1F9FCFBFD
+      FCFFFFFFFDEBFBD17B9D54265A001B61001F6B001B6D001B70001669001F6B00
+      1C5D0011450089AB6FDCF0CFFFFFFFF9FDFBF8FCFCFAFBFDFBF9FDFCFAFDFCFA
+      FCFDFCFDFBFCF8FCFDF9FDFDFAFCFDFBFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFAFBFCF4FBF3FFFFF3C9E5A92359002563002569001D62002E64
+      02A8CB88FEFFF9FDFFFFF5F7F7FFFFFDF8FFECB0CE96184D00185E001A68001A
+      6C001669001E6E001C620022610019570043731EA7C58CFFFFF2FBFFFFF7FBFF
+      F6F9FEFBFBFDFAFBFAF9F9F8FDFDFCFAF8FAF8F7FAFDFDFCFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDF9F8FDFFFFF9C1DFA2316401195B00206700
+      196300216B00195D00155300669936DBF1C6FFFFFFFAF9FEFAFCFFFFFFFFE9FF
+      D9678F402765001A62002470001B64001E6A001767001B6D001C660019550048
+      7820CCE9B8F1FFEFF6FFFEF3F8FBF8FDFBFAFDF9F8FBF6FDFDFCFDFBFDFAF5FD
+      FCFAFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCF9FFD8E3D04A6C271D
+      50002567002067001C67001A64002371001B63001D5A00386B15D0EABAFFFFFF
+      FCFFFDEFFAEEFCFFF6F6FFE4AED08E41701B1854001F6400216D00196A00196C
+      001C68001E64001E5D00295F0378A155D3EEC1FDFFF6F9FFFAF6FDF7F6FBF7F8
+      FBF9F8F9FBF8F5FCFAF9FCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFEFA
+      FDF6FFEFADC5954370181756001B61001E6A00196B001969001D69001D64001C
+      6000225A00759B52DFF2C8FFFFF0F7FDF3FAFEFBFEFFFFFAFFEE7899552F6601
+      1E5F001F68001A69001B6900236D001B69001B6400206000295E0076A052EAF7
+      D8F7FFEFFDFFFBF9FBF9FBFDFEFDFBFDFCFCFCFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFBFDFCFEF9FEFFF3DFF2CA6A9C401F6100196500186A001D69
+      001D67001B67001E6B00216A001F5D003C7011A2BC83FFFFF9FFFFFFFEFAFFFF
+      FBFFFFFFFAD0E5B4709B4D1D5A001B63001967001766001B6800206E001F6800
+      2467001A550039650B8CA66DDCEBCCFFFFF9FDFFFFFAFCF9FDFCFCFDFCFDFDFC
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFCFDFDFD
+      FDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFD
+      FCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFCFDFDFC
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFCF7FDFAFBF9F8FDF0FBFFFCF7FFF0B6D59A
+      447319215D001F5C002267001A6900186D001A6B001B65001D60001F5A005A83
+      2FC8DFB0FFFFF4FFFFFFFDFBFFFEFFFDF9FFE7CFEBAD4D7822245C001C5E0021
+      6700216D001F6C00216D002269001D5D002059003160097A9B56E7F8CDFFFFF3
+      FFFFFFFFFBFFFDF9FEFDFBFCFDFDFBFDFDFCFDFAFBFCFBFCFDFCFDFAFCFCF8FD
+      FDF5FCFCF5FCFBFCFDFAFDFDF6FDFDF9FDFDFBFDFDFDFDFCFDFCFCFDFBFDFDFB
+      FDFCFBFDFCF9FDFCF9FDFDFBFDFDFDFDFDFCFDFDFBFDFDFBFDFDFBFDFDFBFBFD
+      FBFBFDFBFBFDFDFBFDFDFCFDFDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFBF6FDF8F8FAF7FCF5F9
+      FFFEF9FEFFFFFFFDFAFFE68FAE6C3764061B55002267001966001C6C001B6800
+      1C6800246A001A5D001F5700618D35BAD39EFFFFF7FDFFFDFAFEFAFEFFF8FFFF
+      F1BFD8A2628A42295E021B5A001F68001B68001C6B001C6A001B67001C650019
+      5700235800739F4DC0D9A8F3FFEEFFFFFFF7FBF4FBFBF7F8F9F8FEFBFCFCF9FA
+      FDFBFCF8FAFAFAFCFCF7FAFAF7FCF9F9FDF7FBFDF7FCFDFAFCFCFDFCFBFDFDFB
+      FDFDFAFDFDFCFDFDFDFDFDFDFBFBFDFBFBFDFBFBFDFBFDFDFAFDFDFAFCFDFBFA
+      FDFBFBFDFBF9FDFCFAFCFDFAFCFDFDFCFDFDFBFDFDFBFDFDFBFDFDFBFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFC
+      FBFBFCFCFEFFFFECF6E2E1F0D5FFFFFFF4FBF6FFFFFDCCE3AF729F45255A0019
+      57001D6400206A001F69001A6500256F001E6A00185F002564005E8B37BEDCAD
+      FFFFFBFCFFFFFBFFFFFEFFFFEFFFECC4E2B6578436144F001458001A65001665
+      001F70001D6C001C6A001B65001860002964004B7828B6D39FFAFFF0FFFFFDFA
+      FFFCFAFDFCF8FBFAFCFCFDFDFAFBFDFDFDFBFAFBFCFCF9FAFDF9F8FDFBF9FDFD
+      F8FBFDFAFAFDFDFAFDFDFBFDFDFCFDFDFCFDFDFDFCFDFDF9FDFDFAFDFDFBFDFD
+      FAFDFDFAFDFDFBFCFDFBFAFDFBFAFDFBFAFDFCFAFDFCFDFDFDFDFCFDFDFBFDFD
+      FBFDFDFBFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFCFDF5FDFEF9FEFFF8587831265200A1BD7BF3FEEDF6FFFFFCFF
+      FEFFFFFBE8FAD586A162366703185D001D67001D68001964001967001A690018
+      6800186200145200376A11A4C884E1F2CFFCFFF7FFFFFFFDFFFFFFFFFBDAF2C8
+      7FA65C3F74191E5C00145D001A65001E6A001868001868001B67001B65000A50
+      0024610079AD5DC5DEB6EBFEECFFFFFFFBFEFEFCFCFBFDFCFDFDF8FBFDF8FCFD
+      FDFCFBFDFCFBFDFBFBFDFDFDFDFCFDFDFBFDFDF8FDFDF7FDFDF7FDFDF8FDFDFB
+      FDFBFDFDFAFDFDFAFDFDFAFDFDFAFDFDFBFDFDFBFDFDFBFDFDFDFDFDFDFCFDFD
+      FBFDFDFBFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDF8FCF8FFFFF7AEC9923568021E5C00245B00
+      5D873CC4DEB7FFFFFFFBFFFAFAFFF8FFFFFDCBDEB272A14D255E001D5E001862
+      00186A001869001C6B001765001F6600246400164E0047791E80A458C9DDA6FF
+      FFEFFFFFFCFFFFFFFFFFF9E2F5D299BC7B4878231C53001959001D6600216E00
+      1B6A001F71001F6C001D6600165900225E005F8F3D9DBE87EFFFE1FFFFFFFFFF
+      FAFFFFFBFFFDF8FDFDFBFDFCFDFDFCFCFDFCFDFDFCFCFDFDFBFDFDF9FDFDF7FD
+      FDF7FDFDF9FBFDFCFBFCFDFBFBFDFDF9FDFDF9FDFDFAFDFDFBFDFDFCFDFDFCFD
+      FDFDFCFDFDFCFDFDFCFDFDFBFDFDFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDF8FFFFDBF0C94F822218
+      5C002473001C68001C6100205800789C5AD7F2C4F4FFECFFFFFDF8FFFBFAFFF8
+      DEF4CF88AC673C6F0A2562001D5F001E6200286B001F66001C6500236B001D65
+      001F5C002F5E00446912A4BD87DCEDCBF1FAE8FFFFFAFFFFF8F9FFEAD3EDBD85
+      AA623E6F0C2762001E60001B6200206600216A00206A00206B001C62001E5B00
+      265701618A41C4DCA8E8F4D1F9FFE7FFFFF9FFFFFEFDFDFCFDFBFDFDFCFDFCFC
+      FCFDFDFDFCFCFDFAFCFCFAFCFDF8FCFDF9FBFDFBFBFDFDFCFCFDFCFCFDFDFAFD
+      FDFBFDFDF8FDFDF9FDFDF9FDFDF9FDFDFCFDFDFBFDFBFDFDFBFDFDFBFDFDFCFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDF2FF
+      FD86AF70185E001B6B001C6F001A6B001669001867001E61002C650276A54EBF
+      D8ABFFFFFFFBFFFFFAFFFFFFFFFFECFCE4ADC2906B913C2E5F00205C00216500
+      236B001F6C001C6D001E6A002064002361001B5400285C005E8C2C90B064D1E5
+      B6FAFFF0FFFFFFFFFFFFEFFFE4B5CB9A7BA253497C1E1A51001957001D62001E
+      64002068001F68001F68001E6200195300396C12729B52ABC494EBF7DDFFFFFA
+      FFFFFDFDFFFDF7FCFAFAFDFEFAFCFEFAFBFDFAFBFDFCFAFDFAF8FDF6F5F9FDFD
+      F7FDFDF4FDFDF4FDFDF3FDFDF3FDFDF6FDFDF7FDFCFAFDFDFCFDFDFCFDFBFDFD
+      FBFDFDFBFDFDFBFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDD2EBBF2556002065001A6900186800186400216E001866001C67
+      00226A001F63002A6600639241CCE5B5FCFFF0F7FFF7FFFFFFFFFFFFF9FCEEE8
+      F2CC86A8613A670D215B001B5D00176200196800146A001C6A001C66001A5F00
+      1D5F0017560030670648771D769B57B9D9A5F6FFECFCFFF4FBFFF4F5FEEDC5DF
+      B880A26C3F6E20205A001E62001963001D69001D69001E67001C6400155B001E
+      610035700F55872B94BA78D6F5C6F3FFF0F9FFFCFDFFFFFFFFFFFDFCFEFDFCFC
+      FCFCFBFBFBF8FCFDFCFAFCFCFAFCFCFBFDFCFDFCFCFCFBFCFCFBFCFCFBFCFCFB
+      FCFDFCFDFDFCFCFDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDC7E0AC5E823C2457001E5E001E6700186100
+      155F001D65001E67002069001D67001D68001859001F550056842EA1BE79DAEB
+      C7FAFFF5FFFFFFFBFFFEFFFFFFF4FFE4BED8A384AD634A7B27266502105D0012
+      60001B68001A68001C6900206B002169001960001C5E0017540023580459883F
+      8EB477AECC9CD9EEC3F5FFE1FFFFECDEFDC194C075699946417B252160051352
+      00145A001E66001B6A00146500186200165700144F004775287DA55FB2CD93DB
+      EBC3FFFFEBFFFFF6FFFFF8FDFDF6F9FDFDF7FBFDF8FAFEF9F9FDF9F9FDFCF9FD
+      FCF9FDFDFAFDFDFAFDFDFBFDFDFDFBFDFDFBFDFDFAFDFDFCFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFEFFF1F5FFE9C2D8AF67
+      93420B4B00175E001D68001E66001F68002168001C62001B66001F6700236A00
+      1D60001F5F003A730F649140AFCC9FF8FFF4FFFFFFFFFFFEFFFFF9FFFFFAEBF4
+      DEC9E2B090BF6A447F1B145400135600175E001762001A62001E68001D6A001A
+      68001E67001B60001C5D00225F0037730D4B812168913FA1C185E4FFD5FCFFF3
+      E9FFDDCFE9BBA5D8836CA5463270061555001357001759001658001C5D002261
+      001C5900245B0042730F698F3D94B078CFE2BBFEFFF3FFFFFFFFFFFFFFFFFFFD
+      FFFFFCFFFFFCFDFFFCFAFFFDFBFEFDFBFDFDFBFDFDFDFCFDFDF9FDFDFAFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFC
+      FAFEFCFCFFFFFFFFFFFFE0FBD4779F554379171D5D00206500216900246E001D
+      67001B67001966001B68001968001766001562000B5400155400659242ADCC94
+      D6E0C3EEF5E1FFFFFDFFFFFFFFFFFFFFFFFFF2FFDBBBD1A084A4655681333F75
+      152665001A61001A66001867001A67001A68001B68001E67001D62001D5D001B
+      5700154B0026590053831F80AF51A8D37EC7E3A2E4F1C3E1FFC0BADE9899BF78
+      799E535C8C3244791B336D0A2264001154000E54000E5400095100084A004978
+      1D739B48A4CA7EC9DCAAE6EFCFFBFFEAFFFFF9FFFFFFFFFFFFFFFDFFFEFDFEFD
+      FDFDFDFDFCFCFDFCFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFD
+      FCFCFDFDFCFDFDFCFDFDFCFDFCFDFDFDFDFCFDFDFDFDFDFCFDFDFDFDFDFCFDFD
+      FCFCFDFDFDFCFDFDFDFCFDFDFCFDFDFDFDFCFDFCFDFDFDFDFDFDFDFDFDFDFCFD
+      FDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFD
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFDFCFDFDFCFDFDFCFDFDFCFDFDFCFD
+      FDFCFDFDFCFDFCFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFD
+      FDFDFCFDFCFCFDFCFCFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFDFDFDFDFDFDFCFD
+      FDFDFDFDFDFDFDFDFCFDFDFCFDFDFDFDFDFDFDFDFCFDFDFCFDFDFDFDFDFDFCFD
+      FDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFCFDFDFDFDFCFDFDFCFDFCFCFDFCFDFDFC
+      FDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFDFCFDFDFCFDFDFDFD
+      FDFDFCFDFDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFDFC
+      FDFCFDFDFCFDFDFCFDFDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFDFDFDFCFDFD
+      FCFDFDFCFDFDFCFDFDFCFDFDFCFDFDFDFDFDFDFDFDFDFCFDFDFCFDFDFCFDFDFC
+      FDFDFCFDFDFCFDFBFCFCFAFDFCF8FDFCFCFEFEFFFBFFFFFBE1F4CDB5D5905788
+      321B51001A58001D5E001E64001D64001E6800196A00196A00166A001B6B001C
+      670018580018500030600B537B2E82A25DAFC595E1F5D2FFFFF7FFFFFDFFFFFE
+      FFFFFFFFFFF2E1EDCAC6D7A99BBB7E6F9A563E761E1F5F000D51000E53001159
+      00155B001F65002468001F63001F62001E61001D610014570016580025630743
+      7D1C578F3072A84889BB5C9BD36CA5DC7AA1D772A3D970A3DB738BC55F73AD48
+      5590313B761A275B001B4F00184900235300416B1862873D82A0609FB581C0D5
+      A8E0F1CCFCFFEAFFFFF5FFFFF2FFFFF3FFFFFBFDFEFFFDFCFDFCFCFDFBFDFCFC
+      FDFDF9FCFDF9FCFDFAFBFDFDFBFDFDFAFDFCF9FDFAFBFDFBFDFBFBFDF8FDFDFB
+      FDFDFCFDFDFAFBFDFBFAFBFDFCFAFDFBFCFBFDFDF6FDFDFCFCFBFDF8FCFDFBFD
+      FBFBFDF9FBFDF6FDFDF9FDFDFCFDFCFDFDFBFDFDFBFDFDFCFDFDFCFDFDFDFDFD
+      FCFDFDFCFDFDFDFDFDFCFDFDFCFDFDFCFDFCFDFDFBFDFAFBFDFCF9FDFDF9FCFD
+      F9FCFDF9FDFDF9FDFDF9FDFBFAFDFAFDFDFCFDFDFDFDFDFBFDFDFAFDFDFAFDFD
+      FCFCFDFCFBFDFDFBFDFCF9FDFAF9FDF9FAFDFCFDFCFDFDFDFCFDFBFDFDFAFDFD
+      FCFDFDFCFDFBFAFDFCFBFDFDFDFCFDFDFAFDFDFBFCFDFDFDFDFCFDFDFAFDFDF9
+      FCFDFBFBFDFDF9FCFDF9FCFDF9FDFCFBFDFDFDFDFBFDFDF9FDFCFCFDFBFDFBFB
+      FDFAFBFDF9FCFDF9FCFDFBFDFDFDFDFBFDFDFBFDFDFCFBFDFDFAFDFDF9FDFDFB
+      FBFDFDFBFDFDFCFDFCFDFBFBFDF9FBFDFAFBFDFBFBFDFDFBFDFDFBFDFDFDFCFD
+      FDFDFDFDFDFDFBFBFDFAFCFDFAFCFDF9FDFDF9FDFDF9FDFDFAFDFCFBFDFCFBFD
+      FCFCFDFDFDFBFDFDFBFDFDFBFDFBFBFDFBFBFDFBFBFDFDFCFDFDFDFDFDFDFBFD
+      FDF9FDFDF9FDFDF9FDFDFAFDFDFAFDFCFDFDFCFDFDFCFDFDFCFCFDFCFDFEFAFF
+      FFFFFFFFFFFDFCFFEDDDF3C791B3724B76272D61052059001D5E001D6300236C
+      00226C001B66001B67001F6C001B6A001D69001760001659001F6000215E0036
+      6A1567904F96B77FC2DCA8E4EFC8F7FBDEFFFFF3FFFFFFFFFFFAF8FFE9EFFFD6
+      DAFAC1BEE4A392BC726E9A4B4B7B24376B15366F0D2F6C092968051E6101165B
+      00125A00135900115600115700105400125500185700215800275B002C5C0032
+      60033A690C45751A57863467994579AE5582B95B79B2516AA23E60962F548924
+      4F801E558327547E2C4F742B4F702E617F4387A170A6B992C6D0BBE7ECE8FEFC
+      FFFDFCFDFBFDFBFAFBFDF8FBFDF8FCFDF9FDFCFDFDFBFDFBFCFBF9FCF8F9FDFA
+      FDFAFAFDF6FDFDFBFDFDFBFDFDF9FBFDFCF8FAFDF8F9FDFBFDF6FDFDF4FDFCFC
+      FCFAFDFAFBFDFBFDFBFBFDF8FBFDF5FDFDF8FDFDFCFDFBFDFDFBFDFCFCFDFDFB
+      FDFCFCFDFDFBFDFDFDFDFDFCFCFDFDFDFDFBFDFDFBFDFDFBFDFDFBFDFCFDFAFB
+      FDFCFBFDFBF9FDFDF9FBFDF9FDFDF8FCFDF8FCFCF9FCFCFDFBFCFDFBFDFDFCFC
+      FDFCFBFDFCFBFDFCFCFDFDFDFCFBFDFBFCFDF8FDF9F8FDF9F9FDFCFDFBFDFDFC
+      FCFDFAFDFDFAFDFDFCFDFDFBFDFBF8FDFBFBFDFDFDFCFDFDF9FDFDFCFCFCFDFD
+      FDFCFDFDFAFDFDF8FDFDFBFAFDFDF8FBFDF7FBFDF8FDFCFBFCFDFDFCFBFDFDF8
+      FDFDFAFDFCFCFDFCFCF9FDFCF8FBFDF8FBFDFAFDFDFDFDFAFDFDF9FDFDFBFDFB
+      FDF9FCFDF8FDFDFBFBFDFDFBFDFDFBFDFCFDFAFBFDF8FBFDFAFBFDFCFBFCFDFB
+      FCFDFAFCFDFDFBFDFDFDFBFDFDFCFAFAFDFBF9FDFAFAFDF8FCFDF9FDFDF8FDFD
+      FAFCFBFBFCFBFAFCFDFDFCFDFDFCFCFDFCFCFDFCFCF9FCFCFAFCFCFBFDFCFDFC
+      FCFDFDFDFDFDFAFDFDFAFDFCFAFDFCFAFDFCFBFDFCFCFDFDFCFDFDFCFDFDFCFD
+      FDFBFDFDFCFDFBFDFCFCFCF9FBF9FCFEF9FAFFF5FFFFFBFFFFF8CAE0B494B56D
+      6090362C61031853001D5C002062001C6300226E00206B001F6A00226E00216B
+      001F6D001C6C001965001560000C58000D5800186300427D2063934081A86497
+      B078B4C494CBDBABE3ECC4FAFFDDFFFFFFFFFFFFFFFFFFFDFFF5E1F3D4D2E8C2
+      C8DEB6B7D0A4A6C08998B7718DB2617AA553729F4E6A9B476497415F933A5B8E
+      34578B2F5186274C81214C841F4F8924528D2956912C5A8F355F943D659B416B
+      A14772A64C73A44C6C9A46638E3E668D4885A96AA4C48EB3CF9EC2D4B1D1E0C3
+      E4EBDDF5F6F4FDFDFCFDFDFAFCFDFAFCFCFDF9FCFDF9FDFCFAFDF6FDFDF0FDFD
+      F5FCFCFAFCFBFDFBFDFCFDFDFCFDFCFDFDFDFBFDFDFCFDFAFDFBFAFDFAFCFDFD
+      FDF5FDFDF8FDFBFDFDFAFDFDFCFDFDFCFDFDFCFCFDFBFDFDFCFDFDFCFDFDFCFD
+      FCFCFCFAFDFCFCFCFDFBFDFDFCFCFDFDFDFCFDFDFAFDFDFCFDFBFDFDFCFDFDFA
+      FDFDFBFDFDFDFCFDFDFCFDFDF9FDFDFBFDFDFAFDFDFBFCFBFDFBFAFDFCFAFDFD
+      F9FDFDF9FDFDF9FDFDFAFDFDFAFDFDFAFDFDFBFDFDFBFDFDFBFDFCFCFDF9FDFD
+      FAFDFDFDFDFDFDFBFDFDFCFCFDFDFAFDFCFCFDFBFDFDFCFCFDFCFDFDFBFDFDFC
+      FDFDFCFDFDFBFDFDFCFDFDFDFDFDFDFCFDFDFDFBFCFDFCFBFDFAFBFDFCFCFDFD
+      FBFDFDFBFDFDFCFCFDFDFAFDFDF8FDFDF9FCFDFAFBFDFAFAFDFCFCFDFBFDFDFB
+      FDFCFCFDFCFCFDFBFDFCFBFDFBFDFDFDFCFDFDFCFCFDFDFDFDFCFCFDFCFCFDFC
+      FDFDFCFDFDFBFDFDFBFDFDFCFDFDFDFCFDFDF9FDFDFCFDFAFEFDF9FDFCFBFDFC
+      FBFDFCFCFDFCFCFDFCFBFDFDFBFDFDFCFDFDFCFDFDFDFAFDFDF8FDFDF8FBFDFB
+      FBFDFBFDFDF8FDFDF9FDFDFAFDFDFCFDFCFDFDFBFDFDFBFDFDFBFDFDFBFDFBFD
+      FCFBFDFCFCFDFBFDFDFCFDFDFCFDFDFCFCFBFAFCFBFBFDFDFBFCFCF8FCFDF7FF
+      FDF9F9FEEDFFFFEEF0FDDFE3F1D1B6D0A0779759436C1D2D60002360001E5F00
+      1D60001E64001D65001E6600206C00226A002367002C6A002D6D002166002066
+      001A6000165700175500235E002E680436690B3B691247761C57852D61913B72
+      A34E89BA679AC77BABD38DBEE4A1D1F2B1D8F9B5DBFDB7DBFFBDDAFFBCDDFFBD
+      DFFFC2DFFEC0D5FDB5D0FBAFCAF7AAC4F1A1BAEB93B0E289A2D77793C9688CBE
+      617BAC5474A34F6C9848658B44779C5C9DBC85C7E1B6EAFBE1ECFAE8EEFAF3F6
+      FDFBFCFFFFFBFFFEFCFEFFFEFDFEFDFDF8FDFDF2FDFDF1FDFDF5FAFDFAFAFDF8
+      FCFDF4FDFDF6FDFCFCFDFBFCFDFCFDFDFCFDFDFCFDFDFAFDFDFDFAFDFDFCFDF8
+      FDFDFAFCFCFDF5FDFDF4FDFDFBFDF9FDFDFAFDFDFCFCFDFCFDFDF9FDFDFAFDFD
+      FCFDFDFBFDFBFDFBFBFDF9FBFDF6F8FDF9F9FDFBF8FDFBFBFDF8FBFDF6FDFDFB
+      FDFCFDFDFBFDFDFBFDFDFAFDFDFBFDFDFCFCFDFDFBFDFDF9FDFDF8FDFDF9FDFC
+      FCFCFCFDFDFBFDFDFBFDFDFBFDFDFBFDFDFBFDFDFBFDFDFBFDFDFCFBFDFCFAFD
+      FCF9FDFCFDFCFBFDFCFDFDFDFDFDFDFAFDFDFCFAFDFDF4FDFDFBFDFCFCFDFDF8
+      FDFBFBFDFAFDFDFBFDFDFBFDFDFCFBFDFCFCFDFDFCFDFDFCFDFDFCFDFCFCFDFC
+      FAFCFCFBFDFCFCFDFCFCFDFDFCFDFBFDFDFDFCFDFDF9FDFDFCFDFDF9FDFDF9FC
+      FDFCFDFDFBFDFCFCFDFAFDFDFBFDFDFCFDFDFBFDFDFDFDFBFDFBFBFDF9FDFDFC
+      FDFBFDFDFCFDFDFAFDFDFAFDFDFCFDFDFCFDFDFDFCFDFDFAFDFDF9FDFDF9FDFD
+      F4FDFCF5FDFCF8FDFCFBFDFCFDFDFCFDFDFCFCFDFCFAFDFDF9FDFDF9FDFDF9FD
+      FBFBFDFDFCFCFBFCFCFDFBFDFDF9FDFDF8FDFDF9FDFCFDFDFBFDFDFAFDFDFAFD
+      FDFCFDFDFBFDFBFDFCFBFDFBFAFDFDFCFBFDFCFAFDFCFCFDFCFAFDFCFAFDFCF8
+      FDFDF9FDFDFAFCFCF8FAFAFAF9F7FCF7FBFDFEFDFFFFFFFFFFFFFFFFFFFFF7E2
+      F3CBB0CC938BAC6A6A91484D7A2C3066091B57001150001A5800225F00205C00
+      1C5E00236B00196900176C00196C00196A001B67001E68001E66001E68001C67
+      001864001863001A6300165C00175800185400184F00164C00154D00194E0019
+      4D001B4B00174900154300104000143E00143B00103600183D00355A16476929
+      5878396C894E8AA274AAC297C7DEB4E1F6D2FFFFF4FFFFF8FDFFF5FEFFFBFCFE
+      FCFCFDFEFAFCFFF9F7FEFAF9FBF6F8FDF9F6FDFCFAFBFDFDF6FDFDF4FDFCF5FD
+      FCFBFDFBFCFAFCFCFCFDFAFDFCFCFDFAFDFDF9FDFCFCFDFCFBFDFCFCFEFBFCFD
+      FCFDFBFCFCFCFCF5FDFCF8FDFCFCF9FCFDF4FBFDFBFCFAFDFDFAFDFDFDFDFDFB
+      FDFDFAFDFCF9FDFCFCFDFCFCFDFAFDFCFAFDFAFAFDFAFBFDFBFAFDFBFCFDFAFB
+      FCFBFDFCFBFDFCFCFCFCFDFCFDFDFCFDFDFCFCFEFCFAFDFDFAFDFDFBFDFDFCFC
+      FDFBFCFDFCFCFDFDFCFCFDFCFCFDFDFCFDFBFCFDF8FCFDFCFCFDFDFCFDFDFDFD
+      FCFDFDF7FDFDF5FDFDFAFDFCFDFDFAFDFDFBFDFDFCFDFDFBFDFDFDFCFDFDF7FD
+      FDFAFDFDFAFDFDF6FDFDFAFDFCFDFCFCFDFDFCFDFDFDFCFDFCFCFCFCFDFCFBFD
+      FCFDFCFCFDFBFCFDF8FDFCFBFDFAFDFDFCFDFDFCFDFDFAFDFDFCFDFDFDFDFCFD
+      FDFBFDFCFAFDF9FCFDFBFDFDFDFDFAFDFDF8FDFDF9FDFDFCFDFDFDFCFDFDFCFA
+      FDF9FAFDF9FDFDFCFDFBFDFDFAFDFDFAFDFDFBFDFDFDFCFDFDFBFDFDFBFDFCFC
+      FDFCFDFDFCFDFDFCF6FDFCF6FDFDF7FDFDF9FDFDF9FCFDFCFCFDFDFCFCFBFCFC
+      FBFCFBFCFCFCFDFDFBFDFDFBFDFDFAFDFDFAFDFDFCFDFDFCFCFDFCFCFDFCFCFD
+      FCFCFDFCFBFDFBFCFDFCFCFDFCFCFDFDFBFCFDFBFBFCFDFAF7FDFBF7FDFBFDFF
+      FCFCFFFEFEFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFEFDFFFCFFFFFFFFFFFFFDFF
+      FFFAFDFEFBFDFAFFFFFFFFFFFFFFFFFFF5FFF7E3F5DED0E2B8B8D89FA1CE8880
+      B168578F3B3C791D1E63010851000A54000D58000F5B00125C00165A00195700
+      1A5B00195E001860001B62001B60001C5E001C5B001A5700155000144D001251
+      001453001252001555002D680047800F5C8C2B6F9B448EB665A2C87EB8D49DCC
+      DAAED7E6BDE6F1D3F9FFE9FFFFFCFFFFFFFFFFFFFFFFFFFFFFFFFAFBFEFBFCFF
+      FEFEFFFFFEFFFDFBF7FFFDF9FFFEF7FFFEF5FDFDF7F9FEF8FCFDFCFDFDFDFDFD
+      FBFDFDFBFDFBFDFDF7FDFBF7FDFBFAFEFCFDFEFCFCFEFFFCFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFCFFFFFCFFFFFFFFFFFFFCFCFFFAFDFEFFFFFBFEFFFBFEFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFBFDFCFBFCFEFDFBFDFCFB
+      FDFCFCFDFDFDFCFDFAFDFDFAFDFDFAFDFDFDFEFFFFFFFFFFFEFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFEFBFCFFFEFEFFFAFEFFF8FDFFFE
+      FDFFFFFEFFFFFEFFFFFFFFFBFFFFF9FEFFFFFDFBFEFDFBFDFDFCFDFDFBFDFDFC
+      FDFCFDFDFDFDFBFDFDF9FDFDF9FDFDFBFDFDFBFBFDFBFCFEFCFFFFFEFFFFFFFF
+      FFFFFEFFFFFEFFFFFEFFFFFEFFFEFFFFFBFFFFFFFDFCFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFEFDFFFFFBFFFDFAFFFAFEFFFCFEFEFEFDFAFDFDF7FDFDF8FDFDFD
+      FDFDFDFCFDFDFBFAFDF8FAFDF9FDFDFCFDFBFDFDFAFDFDFAFDFDFCFDFDFDFBFD
+      FDFAFDFDFCFDFBFDFDF8FDFDF7FDFDF6FDFDFAFEFEFDFEFCFDFCFFFFFAFFFFFD
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFDFCFFFBFBFFFEFBFEFDFA
+      FDFDFAFDFDFDFCFDFDFBFDFDF8FDFDFAFDFDF9FDFDFAFDFAFBFDFDFCFAFBFBFB
+      F8FDF5F9FEF6FFE8EAFAD9DAEECCCEE3BECDDFBCC8DEB3C3DBAAC2DAA7C5DDAE
+      CBDEBAD4E5C7E5F3DFF8FFEFFFFFF8FFFFF7F8FCF6FCFDFFFAFBFBFCFDF9FFFF
+      F3FFFFF3FFFFFAFFFFFAFFFFFEFEFFFFFFFFFFFFFFFFFBFFF3EFFBDDD8E9C0C4
+      DAC28EA8B1657DAA4C64A235539326498124477D2E4F873E599B526CA77692BC
+      99B6C5C1E3D6D8F7D4DFF9D8EFFFE8FEFFFBFFFFFFFFFFFCFFFFFFFFFFFFFFFF
+      FCFFFFFEFEFFFBF4FFE5F4FFE2F6FFF0F5FEF6F3FAF9F3FDEEF2FDEBF3FCEDF3
+      FCEDF3FCEEF3FCEFF5FCEFF5FCEDF6FCEEF5FCECF5FDEAF6FDE6F4FCE7F5FBED
+      FCFEF9FDFBFDFDFAFCFDF9FAFDFBFCFBFBFDF7FCFCF6FDF7FAFFF7FFFFF8EDF9
+      E7DBE8CFCCDDB4C2DAA7B0D490A9D488B1D690BCD8A1D0E4B9E6F3E0F4FDF8C6
+      D8B1C0D6A0BED6A8BFD7A4C0D6A2BED6A2BDD5A1BED5A2C0D5A2C8DAB1F6FFE9
+      F8FBF8FAF7FDFDF8FDFDF8FBFCFBF6FDFBFCFCF9FDFCFCFAFBFFEFCED9B7BCD6
+      98C1D8A2BBD8A1C5DAABBFDAA4C2DDA8C4DBADC8DAB8CFDCC1ECF7E0DBEACECD
+      DEB4C6E2ABCAE0BACBDFBCC8E0B8CEE1BDD1E1BBCBE1B4E7F1DEF8FDFBFDFDFA
+      FCFAFBFDFCFDF5F8F9FAFFFBFCFFF8FBFCF9FCFBFDFCF9FCFBFBFCF9FDF8EFF8
+      E3CDDEB9D0E0B9CDE0BAC8E0BDC9E0BDC8E0BBCAE0B7CCE2AFD4E3C2F1F9EDE1
+      EDD4D5E7C6D2E7C7D6E7C5D9E9C4D1E8C2D6E9C5D4E9C4D2E7C0ECF5E4F8FDFD
+      FBF9FDFDFBFDFDFDFBFCFDFAFBFDFCFAFDFAFAFDFCFDFDFDFDFCFDFDFCFDFDFD
+      FDFCFCF9FCFCF8FDFDFAFBFAFAFDFBFDF7F3FDFAF6FEF7F9FDFAFDFDFCFFFFFC
+      FFFCE5F1DCCFE1BDC7D9ADB7D598ABD18CB7D49CBED7A6CAE2B6E3F1D2FAFFEB
+      FFFFFAF7FBF3F9FDFBFCFBFDFBFBFDFBFCFBFDFDF8FBFDF3FBFDF5FDFDF9FDF6
+      FDFDF9FBFDFCF7FBFEFFDFF0D8709747598A2C41791C2B63092A630326640122
+      5E001E5900265D002C6205396C114A782869934294B36CD6EAB8FFFFF7FFFFFF
+      FEFDFEFBFAFCFDFCF9F9FAF7FBFBFAFDFCFCFBF6FBFAF7FDFCFBFDFBFBFAFFFF
+      FFF6F9FFB6B9F96369D32638BA0B25AA0417A60D16AD0D1DB4081DB20116AD00
+      13AC0416AD0C1BAD3039BB535BC4B5BDF4F3FDFFF9FFFFF7FBFFF7F7FDFDFDFB
+      FEFAFCFDF5FFF9F7FAFCFDF8EEFDE8749B565B903456873B5D8A3F5C843D5E8C
+      395D8E385D8C385D8B395D8A395D8B3A5D8B3A5D8B3A608A3A5E8B395E8D385F
+      8E365D85368DA670EFF8E0FFFEFEFDF9FDFDF9FDFCFBFFF4F9FAFDFFFFFDFFF3
+      C7E1AE7EA3565E86353C68172A5C021F56001352001255001655001954002F62
+      0487A66AF9FFF5486D261D51001B53001D57001B56001A56001954001C54001C
+      5000355F0BD8F1C1F9FFF5FBF6FEFDF7FDFDFBFCFCFAF6FDFCFCFAF9F7FDFEF5
+      E8FAD03D66111B52001B59001B57001A58001958002565001F59002456003D5C
+      1FE7FDCE879F692657003067052C61072A61072960072F610C2E5E0A2C5A0496
+      B57EFFFFF9FDFCF5FDFCF8FAFDFCF6FBFDE0EDDDDCEBCDF9FDF4F8F9FDFDFBFD
+      FBFBFDFFFFFFC0D9A9274D023163072D63072B63082A61092B61082D62072F60
+      034C7327D9E9C27A9B5737670E386B153668123F71143B6A153A6C163C6E1536
+      6311AECA9CFCFFFDF8FBFDFCFBFDFBFDFAFBFDF9FAFDFCFAFDFDFAFDFDFDFDFD
+      FDFDFCFDFDFCFDFDFAFCFCF8FBFAF7FDFBFBFAFCFBF6F9F9F7F9FFF7FEFBFFFF
+      FBEDFFE0ACC7987395554C7B2533660A2058001B55001B56001A55001A54002B
+      6208497C206F964297B276EEFFD9FFFFFDFBFFFBFAFDFEF8FBFDFCFDFCFCFDFB
+      FCFCFAFDFDFCFDF5FDFDF9FBF9FCF1FCFFFDD9EAC31D57001B5F001A6600206C
+      001C6B001966001A6800236E001E66001B61002268002066001A5D00225F0022
+      550071954CD8E9C1FEFFF4FEFCFBFAF3FEFBF9FDF4F9FBF7F6F9FEFAFDFEF7FC
+      FFF9FDFCF9FFA8ADEB4047BD030BB70001CE0003D80009D1010ACF010ACD0003
+      D10007D7000ADB000BD80009D90002D90404D80E08D0120EAE383BB5A6AEE9EC
+      EEFFFBFAFDFDFDFAFDF9F8FDF7FCFDFAFBFEFEFCEDFEE634690E156100176700
+      1666001260001763001664001663001663001663001662001662001662001763
+      001663001663001663001654005E8632EFFED7F5F8F3FBFAFFF6F6FCFAFEF8FA
+      FFF2ABCC9748752A235A001A5C002264002365002363001E65001D6B001F7100
+      1E6D001F65002163005C8637EFFFE7B4D892144D002567002069001F6A001E66
+      001E67001F6600226400235B0093B274FEFFF5F9FAFDFDF6FDFCF4FAFCFAF7FB
+      FBF6FBFDFAFCFFF4A6C58A3063012268001D6700206D001D6D001A6A001C6B00
+      1C6700175600708F51FFFFEC96B9712861001D63002064001E67001B61001E62
+      002365001B5600709C4FFFFFF1FEFCF5FBFCF5F9FDF5F9FFFFA5BE96587B35EA
+      F6DBFEFFFFFCFBFCF9FBFEFDFFFFA3C7801E53002364001F67001B67001B6700
+      1C66001F6500236100588A2AEBFFCB6998371458001E68001F68002066001E61
+      001C5F001F64000D4900A6CB85FCFFF6F8FBFCFBFBFDFBFDF9FBFDFAFBFCFDFB
+      FDFDFBFDFCFDFDFCFDFDFAFDFDF9FDFDFCFCFBFCFDFBFCFBFDFCF4FBF3F7FDF1
+      FCFFF2F3FEE184B163376B111E55001A5900195F001F67001F6B00206C001E69
+      001F6900236C001F69001C62001B5C00245E0023560086AB68DFF6CCFAFFF2F8
+      FEFAF7FCFCF8F9FDFCFBFDF9F7FBFDF6FDFDFCFAF7FDEEFBFFFFD5EBC3235F00
+      226B001F6B001B68001C69001D68001A66001B64001D67001F69001D68001B66
+      001D67001F6900256900195500396906B2CE8CFEFFEDF8F8FAF9F8FEF9FDFBFB
+      FCF5FCFDFAFFFBFEE6E1FF7976DE0503B30003CC0008D70007D10007CD0002CC
+      0004C50009C00006C20004C30005CA0005D00006D50208DB0307D80308D70607
+      D20005CD0207BE5358CAEDF4FFF4FDFBFAFDF9FEF8F7FCFBFBFCFCFFEBFBF13E
+      701C1462001B6F001668001A69001C6C001C6C001C6C001C6C001C6C001C6C00
+      1C6C001C6C001C6C001C6C001C6C001B6D001D5F00628C36E9F9D7FBFFFFF0F4
+      F6FBFFF4E1F7C27FA94F1953001A5A001D66001B6B001B6B001F6A002167001D
+      670018680016690019670020660021610055802FDBECD6FAFFEC265700226300
+      1F67001E69001E66001E67001F66002166001C59005E8E3EE9FFDFF7FEFEF8FC
+      FFFCFDFFFEFFFDF9FEF7F9FEF6F7FFF17A9D5D1C53001F68001A6A0017640017
+      66001E6B001D6B00226B000F4A00CDE1B9FFFFF7B6CE9F2E6406246B001B6200
+      1B69001A6B002169001F67001D5E00558436FFFFF8FEFCF6FCFCF5F8FEF5E9F9
+      E8678C481D4C00C6DFA5FDFFF5FBFCF9F9FAFEFFFFFF86B15E1E5A002368001F
+      6C001A6D00186E001A6A002067001E5D00699744F8FFE568983C1A61001A6A00
+      1B6F001A6900246F001F6900236B00195A00A2CA7EFCFFF6F9FCFCFDFAFDFDFD
+      F9FDFDFAFDFCFDFDFDFDFDFDFBFDFDF9FDFDF8FDFDF9FDFCFDFCFAFDFCFBFDF9
+      FCFDF8FDF0FAFFE6C7E2A74F7C2B1756001D6200226800216A001D6B001E6C00
+      1968001D6D001F6F001A67001B67001F68001F67001E6A001D66002064001C57
+      00396815A9C58CF5FFE6FBFEFCF7F9FCFCFBFDFCF9FDFDF9FDFDFCFAFAFDF4FA
+      FFFFD2ECCA225E001F66001E68001E68001E68001E68001E6A00236C00206C00
+      1E6A001A67001968001B6B001868001A6A001F6B001C5E002F6002C9E5AAFEFF
+      FDFCFDFCFDFBF8FCFDFAEFF8FED6DDFF4D4EC70C09B90605D70007D00014BF01
+      28AF064FBD2C87E735ADF52AB8F33ABBF23EB0F3358FEA1957C80220B2000DBC
+      0003C3060CD30008D4000CD7000CD00203BC4444BECDD9FEEEF8FEF5FBFDFBFD
+      F6FAFEFCEDFDF04170181B65001F6A001F680021670020680021680021680021
+      6900216900206900216A00216A001F6A001F6A001F6A001E6A001E5D00608A34
+      E8F9DAF8FFFFFBFFFED9EAC15680291D57002069001E6A001A6A001D6F001565
+      001E6D002571001D6B001668001467001666001D6600276900406B1BCBDDB7FF
+      FFF877A1561B5C00226C00206A002067002067001E68001F6C001D65003A7810
+      BEE29BF0FFE0F1FFECF3FEE8F5FEE0F7FEE2F2FFDFD5E9BF4677241E5F001D6F
+      001E6F001A69001D69001D6800206A001D6100356908FFFFFFFBFFF9D5ECC633
+      660F216800216B001D6D001B6F001D67001F6800276C00396817FFFFFCFDFDF8
+      F9FBF6FCFFFAC5E1B9204E00225A00669035FFFFF2FAFDFBF5F8FFFFFFFF6F9F
+      451C5B002066001C6900186B00176A001968001E65001D5A0078A057FFFFFF66
+      91441A5F001C6B001C6E001C6A001F6A001E66001F6600195800A5CA82FEFFFA
+      FBFBFDFDF9FDFDFDF8FDFDF7FDFDFBFDFDFCFDFDFAFDFDF7FDFDF7FDFDFBFDFB
+      FDFDF9FDF9F6FDF8FBFDFFFFF3AACA8A346202215C00236A001E6A001865001E
+      68001C6B001C6A001B6A001969001A6B001C6B001D6D001C6B00196500186600
+      1C6D001C6D001D68002A69002457008AAC6AF9FFEDFCFEFEFCFBFEFCFAFDFDF6
+      FDFDF9FAFBFDF4F6FDFED9ECCD225F001D64001D6700206C001E6A001C680022
+      6D001F6900236D00216C001B67001A67001A69001A6C001A6D001C6800226A00
+      216000346507FDFFF5FBFDF8FEFBFAFAFDFED0D8FE3538C70507BB0008C9001D
+      B70D60D5239FF043DFFF3CF3FF21E8FF0EEDFE04F1FE0CF1FB14EDF825EDFE3B
+      F1FF5DE9FF50ADF73760CF1319B30008C7000CD5000CD50002D70509C42938B5
+      C6D1FAF5F9FFFDFCFCFDFDFAF3FFED376F161A6A00206A00246C002166002168
+      001C6600206A001F67001F6700206900206800206C002069001D68001E68001C
+      69001C5D00678F37ECFEDFF8FFFFCEEDB846741D205600256800216D001B6D00
+      1B6C001665001967001D6C001F6B001E6D001D6D001B6900206A002168002164
+      00346606BACDA5FFFFFFCBE9B9235C00236700226C00206800206800226C001C
+      6800226E001D66002B6C01316A0D366615356512386C1235670E356B102E6607
+      2362002069001D6B00186900196B001C68001E6800246A001C580093BE6AFFFF
+      FEFAFCFEF5FFEE436F151F6500206B001968001B6C00206B002169002167001B
+      4D00FFFFF6FEFDF7F8FBFAFFFFFF5787391C5B00266800164B00E9FAC8F8FEF8
+      F7FAFFFEFFFF5485232162002167002069001B6A00186C001869001B6500275D
+      009BB87DFFFFFF6B974C1459001B69001C6C001E6E001965001F6600256B0019
+      5500A8C889FDFFFEFCF8FEFDF6FDFDFDF8FDFDF5FDFDF9FDFDFAFCFCFAFDFCFB
+      FDFCF8FDFDF9FDFBFDFCFAFDF9FCFCFFFFFC9ABF7F2359001E5F00226B001C68
+      001B6C002171001B69001866001463001C69001C6900206F001D6B001A66001C
+      69001B6A001968001363002070001E6E001D680021660011450092B274F6FFEA
+      F9FEF9FAFAFDFDF3FDFDFCFBFCFDF4FCFFFDD5ECC2205D002065001962001861
+      00186000145900185D00155A00175C001B6200216A00276C001A630021700020
+      6A001E65002266002265000F5000CFF2C2F5FFF6FCFDFBFFFFFF585DCC0102BD
+      0001C20024C229A7EF33ECFF1AF4FF04EFFB00EFFB00ECFB00F0FD00EFFD00F2
+      FB00F2FA00F1FD00EEFD02EBFB3BF0F792F1FFA1BDF0171FCA0003BF0007CB00
+      04D3030CD80008BD4B53C4F2EBFBFFF7FEFFFDFFF3FEEB3573150E67001C6A00
+      206B001F6D001D6B001D6E001B6C001D68001D6900226C001F69001F6C001D6A
+      001D68001C67001A6A001D5F00678E33EDFCDAFFFFFF4E8A1F1B5D0024650021
+      6300246D001768001969001B6900236C00206A001E69001862001A64001D6300
+      195B001D5F002666001E5300A7C591F8FFFFE9F8E55C8A321C5A00216A001F6A
+      00216B00226A001B6200236D001F6A001C66001B62001C61001C63001C640019
+      64001965001C65001E68001E67001C66001C6A001A6D001E6A00206600226500
+      295D00CEECB3FFFFF4FCFDFEFFFFFF537B282063001E6D001C6A001766002068
+      00226900226600164C00F7FFDEFEFBF4FDFDFDE8FFE31454001C6800226B001E
+      5C0089AB5AFFFFFCF6FBFCFFFFFF3F6F0B2164001F69002267001E6900186D00
+      166B001A6400336302B2C891FFFFFF679548175D00216A001F6E001B6E001D6B
+      001D6800246C00195200A7C389FFFFFFFCF4FFFDF5FEFCFDF7F6F8ECF9FAF7F5
+      F7F5FBFDFDFDFAFDFDFCFBFDFDF9FCFAF9FAFBFAFBFFFBD7F3C7265E00196400
+      1E6D001B6A00176400196900176A001664001965001E6A001C64001861001A66
+      001A6300175D001D68001C6C001A6700206E001C69001965001B6B001C6C001C
+      6100295D00A9C78CFFFFFAF8F7FDFCFAFDFAF6FAFBFAFEFCFFFFD7E9C6245200
+      2D640039720F4A7D20598336708D56809C658DAB7571985C3E741B2464001A62
+      002572001C6A001F67001E6500226800226C001C5E008BAB79FBFFFFFAFEFF89
+      91ED0001A10016C20C59DB39BEFF3AF7FF0AEBFB00E6FB00EDFD00F1FD00F1FD
+      00EFFD00EEFD00F0FD00F3FB00F4F700F5F600F1F903E9FE15E2FA5CF6FFCFFB
+      FF666FCF161CB60A0CD20003D00017C9040BA67E76E1FFFFFFFFFFFFF3FCF037
+      72161266001E6B002169001F67001C69001B68001F6900236800195900185600
+      1C5B001A5D001A5B00195B00185B00166100155000617F3CF3FFE296BE820C4E
+      002066002264002868001F68001768001A6C001B6B002465002263001E5F002F
+      6A00447D1D4C7F204B7B21457917356C021546008CB265F6FFEBF8FFECAACB80
+      205C001E68001C68001E6B00196600216C001866001D69001A6A001A69001E68
+      001D6B001D6C001F6C001F6A001E68001E69001F69001C69001C6B0016670023
+      6F001E64001D5D006F9C4CF2FCE4FDFEF7FAFCFBFFFFFF80A6591D5F001E6A00
+      1D6B001A68001D6600236900236700164D00D6F0BBFFFFF9FFFFFA73965B1056
+      001A67001E68002363003A6609DCF1C7F9FFFCFFFFFF265B002166001F690022
+      67001E6900186D00176B001B62003E6A0BD4E8B6FFFFFF6290431A6100226800
+      1F69001965001A6700216E001F69001F5E00A6CD81FFFFF5FDFFFDFDFEFDFEFD
+      FAF9FDFAF9FCFEF8FCFDF7F8FDFDFAFCFCFAF9FBF6F5FCFDFCFCFEFDF0FFEC4F
+      7B29195D001D6400206D001A68001F6B001C6C001E6F00236F001F65001A5B00
+      2E6900467D174B821C447A17336D07195B001B6900206A001A6300226F001A67
+      001B6B001D6B00266E001A57003F6F18D5E9C3F8FCFFFCFCF5F5F6F0F6F9F5FB
+      FEFEEDF6E8B2C69EC1D6A8D8EAC2EBFED1F7FFE4FFFFFAFFFFFAFDFFFAF9FFFB
+      E7FDCF3D73122166001F6B001F6E001E68001F6600226900266F002161007591
+      5EFFFFFFE5E8FF2730B3000EBA0353DB22AEFD38F1FE04EEFB00ECF900F3FD00
+      F2FD00EFFD00F2FD00F1FD00F0FD00EFFD00F0FC00F2FA00F5F300F3F500EBFB
+      00F0F90FF0F796FAF6D3F6FF7170CB0D0AB6020DD70010C4090FC6120CA6E9F4
+      FFF9FFFFF1FCEF3A72161666002069002167002165001F66002168002466001B
+      540088B95B94BF7291B86E91B86F91B57391B47491B47590B7708FB072B7C9A8
+      E2FBCD396D182168002068002669002266001E66001A69001A6C001B6700215C
+      0036660E87B064C3D8A6DEF8CCE9FCDCEBFCDFDDF2C8C9E0A28FA96A94AB7CF0
+      F7EFFCFFFBD6E4C54274211C67001B69001C69001B69001E6D001967001B6A00
+      1C6B001C6B001E6B00206C00206C001E6C001F69001E66001E68001F6B001C6C
+      001B68001B68001F6C00216600265F00A5C38CFBFFFAFCFDF7FCFDFDFDFFFFA1
+      C6801A59002069001D69001D68001B6800216900226600195400BADA9FFFFFFA
+      E0F4CD3566121C64001E6D001C6600236800285D009AB378FFFFFCF5FFF41D54
+      001F66001F69002268001D6A00186D00186B001B61003F6B0FEDFFD1FFFFFF64
+      90431B60002168001D66001E68001F69001E69001964001C610079AD47BBDB98
+      C6E2A5D4EEB8F8FFE3FFFFFCFEFFFFF8FFFBF8FDFAFBFBFDFCFBF9FBFBF7FDFB
+      FCFFFFFEAFC6992A5F011E66002369001B66001D68002068001F6700246E001E
+      6000235A007CAA58BCD7A0DBF2C8E7FBD7DAF3C8C9E0B28EB76E245C001C5E00
+      2169001F6A001B68001D6C001F6C001E66002364001E570092B276F6FFF6FAFD
+      F4F7FCF4FBFCF9FAFDF6FCFEFCFFFFFFFFFFFFFFFFFFFDFEF8FDFCF7FDFDF8FD
+      FFF7FFFFFAF1FFE8CAEEB03A72102164001A66001D70001969001E6A001F6700
+      2469001F5A0088A573FFFFFF8684CF0017B30236CD14A6FF24E3FE09EEF500EE
+      FA00F3FA00F5F700F1F800F1FD00F3FC00F4F900F3FB00EEFD00ECFD00EEFD00
+      F1FA00F6F500F6FA00F4F700F1F435E9EAB1FFFFF1F7FF625ED20004BB0010CE
+      0209D70606C27585C9F7FFFFF0FDED3E72151A66002368002065002065002168
+      00216800266600154900E4FFCAFEFFF0FAFFF3FFFFFCFFFFFFFFFFFFFFFFFFFE
+      FFFFFDFFFEFDFFFFADCE902565001C6A00216C00246900206600266E00166200
+      1D69001F63004E7A23E0F3C8FDFFF3FFFFFFFCFFFFFAFBFFFCFDFFFBFEFFFFFF
+      FBFEFFF5FAFDF6F8F8FCFCFBFFFCFFFE789F5B155E001E6A001D690019670015
+      64001D6D00186800196A001E6A002167002367002367002069001E69001F6600
+      1F68001E6D001F6D001C69001F66001C67001E62004D7E28D8EECDFCFFFFFBFA
+      FBFCFDFEFCFFFCCAEAB01753002068001D67001F69001D6A002069002067001A
+      59009CBF7BFFFFFB8DAE6B225E001B68001969001E6900266B00215B0058832B
+      DFF6D1E5FFDD135000236B001F6800226800206B00196C00196A00195F004F75
+      22FFFFEAFFFFFF6591401B60001F6800206700246B001B66001E69001F6B0018
+      6100246600226200225D002860002C5D004C752797BC7FDDEFC8FCFFF4F7FEFB
+      F8FBF8FDFDFAFAF8FEFAFFED6B9340215F002066002065001964001F6900236B
+      00236900256700255500BBD8A1FBFFECFDFFFFFAFDFFFDFCFFFAFEFFFEFFFFFF
+      FFF5D4EEB63E74131F5E002066001D6C001F6D001968001F6B00256B00226300
+      4A7625EAF5DEF8F8FDFCF9FEFCF9FEFCFCF6FCFDF3FCFCFBFCFBFCFCFCFCFBFC
+      FAFEFEFCFFFFFFF1F8E7AAC28D689540255D00205D001D66001A6800176C0016
+      6A001D6F001D6800276A001B5000B4CBA5EFEFFF5254C40018A70D89F91DC5F9
+      10E7FC00ECF900EDFD00F2FA00F6F300F5F900F3FC00F0F700F4F400F6F600ED
+      FD00EAFD00ECFD00F0FD00F3F900F6F500F3FB00EDFC03EBFE69F0FCE6FFFDE1
+      E6FF151CB30008CC0006DC0000C63341AFE7F0FFF1FFEB4172151C6600236700
+      1E67001E69001C6B00206B00256600194F00E2FFC8F8FEF1FAFDFAFDFCFCFEFC
+      FEFEFBFDFEFBFEFDFDFDFBFDFCFAFFFD749D551B62001F6F001E6A0022680025
+      6B001F6800206A001C6100236000F3FFDAFEFFF8FBFDFAFBFBFCFBFBFDF9FAFC
+      FAFBFDFCFCFDFCFAFDFDFCFCFBFBFCF9F8F8FDFDFBFFFFFCBBD8A02B69041861
+      00206D001C68001B6700196800196B001E6B002166001854001B50001D530016
+      56001D6500216600216A00206C001F6B001C66001F68001F6B002161007EA25C
+      FAFFF8FAF9FEFDFBFDFCFBFDFBFEFDF0FFDA174B001F64001D6700206D001B67
+      001F6B00206800195A0084AD5EE5F7D04E7C281D62001D6E001A6C001C680020
+      68002565002B6000AED391CBF0B8115200236B001E6800226800206B00196C00
+      1A6A00185B006B8942FFFFF8FFFFFD6593401E6200216A00206800246D001C67
+      001E6B001B6B001B68001765001C6800216C00206A002568001E5E001652002C
+      600696B878ECF7E4FCFFFBF8FDF8F8F8FDD3E7BB497D191F60002368001D6100
+      1E69001E6A002168002566001C550087AB6AFFFFFFF9FCF8F9FBFDFAF9FDFAFA
+      FDF9F9FDFBFBFDFCFDF9FCFFEDA7C988286103226500216D001B6A001B6A001D
+      68001E6A00256D00205300CEE9B2FCFCF9FBF8FCFAF7FDFDFBFAFBF8F5FDFAFD
+      FBF8FEFDFFFFFFFFF6E8F5D692B079456E1B265E001E5D002468001B65001B6A
+      00186800186C00176E001E7100206C002565001B4A00F4FFEDC5CAFC2332B300
+      4BC816ACFE16D0F40DEEFC00F1FD00EBFD00EFFC00F2FA00F1FC00F2FB00F3F8
+      00F5F800F4F900EFFD00EFFD00F1FD00F0FD00F2FD00F1FA00EEFA00F1FD00E7
+      FD48EDFDC4FAFDF3FFFF8686EA0000BB030BDD0008CD1A24BBBDC4FFF4FFEA42
+      72141C65002067001C6900186A001D69001F6900226500174A00E2FDCFF9FFF9
+      FAFCFEFDFBFDFDFAFDFDFBFDFDFCFBFDFDF7FFFEF7ECF9E75F8D3A1A60001B6B
+      001F6B00206600236900216D001F6A0016550090BE70FFFFFAFBFCFDFDF9FDFD
+      FBFDFCFCFCFDFDFAFDFDFBFDFCFDFCF8FDFDF8FDFCF9FCFBFDFCFBFDF7FBFDF4
+      F7FFE64876231C5F00236A00206A001864001F6D001C6D00216B002363009DC7
+      7C9ABD7F9BBE7B9ED1761D62002268002068001C6600206A001F68001A65001E
+      6800326C06BFD9A8FCFFFEFBF9FEFDF9FDFCFAFDF9FBFAFFFFF72658001F6400
+      1F69001C69001B68001E6B001E6700216500639736B0D4912259001F68001B6E
+      00196D001C68002169002466001D5E006BA145A0D37F1559001F6A001F6A0021
+      6700206B001A6D001A690016570091AA6FFFFFF6FFFFFE6895431A5F00206800
+      206600236C001C69001C6F001A6D001B6D001766001B67001F6B00216B001A61
+      00246D002066001C5E00215500618641DFF0D3F8FFFCFBFFFCC0D6A2366D0526
+      6A001F66001F66001C68001C6D001D68002268002F6701DBEEC5FCFFFDFAFCFC
+      FDFCFDFDFCFCFAFDF7FBFCF6FDFDFAFDFDFBFEFFF7E1F3D65586302165002068
+      001D6C001C6C001E6A001C6700236A001A5300ADDA83FBFBF3FDFDFBFCF9FDFC
+      FAFBFBFBFEF3F2FAFEFFFFE5F8DC80A85F2F63081956001C62001E6900206B00
+      1D6B00207100196B00186C00166B00196D001B68001E61002056009EC07EFFFF
+      FFA5B7E90830B40065D408B7FE08D1EE0AF4FA00F3F900F0FD00EEFD00EFFD00
+      F1FC00F1FB00F1FC00F1FD00F1FD00F1FB00F1FB00F3FB00F2FC00F2FC00F1FD
+      00F0FD00F1FA00F4FB2EE4F6A8F4FBEBFFFED6D4F82624C40406CD0107D1131B
+      C0A1A4F1F8FFEC4272141B65001D6A00196D00176B001A6D001C6A0021680015
+      4B00E2FCD0FAFFFCFAFAFDFDF9FDFDFBFDFDFBFDFDFDFBFDFDF9FFFFF7E3F3D5
+      5785321B60001C6A001D68001F6600226A001E6A001E6A001C5600D4EFBEFEFF
+      FFFCF8FEFDFAFDFDFCFCFDFDF8FDFDF8FDFDF9FDFCFCFCF9FDFCF8FDFCFAFDFA
+      FDFAFBFDF6FAFDF8FFFFF99FBC85225A00236500236A002067001E6A00207000
+      1F6800185200DAF6C5FFFFF9FFFFF4E5FFC61557001E6400216900246B001D66
+      001F68002168002166004E7D21F9FFEEFCFDFDFDFBFDFDFAFDFDFCFDF9FCF9FF
+      FFFC4D79292163001F69001E6A001A68001D6A001D68001B6400387709598F2F
+      1A5900226F001A6D001B6D00206C001961002B6F001C620029680064A331155E
+      001D67001F68001F69001F6A001768001B6A00145300B5C89BFFFFFCFFFFFF69
+      9542196000216900226800236A001C6A001F6F00186A001969001E6A001F6800
+      1F67001F6900216C001B66001D67002371001E64001B5400537937E5F6DDFCFF
+      FCAECC93275F002467001D6700206A001C6A001B6C001E6C00175D005A9030E8
+      F9D5FBFEFFF9FBFBFDFDFCFAFDFBFBFDF7FBFDF8FCFCFBFDFBFDFCFBFFFBFFFF
+      769D541A5B00256C001D6C001A6B001E6B001965002367001A560096C963FDFC
+      F6FDFCF9FDFAFDFBF8FDF6FBFBFFFFFBC7DCB6577E331451001D650022700019
+      6A00227400226E001D6A001565002171001667001C6D001C66001A5B00235900
+      91B971F7FFE4FBFFF792ACDF0241C40079E400B9F808CFEC08F7F900F4F300F2
+      FD00EFFD00EEFD00F3F700F4FA00EDFD00ECFD00EEFD00F4F700F3F700F1FC00
+      F3FB00F3FA00F4FA00F3FB00F2F700F8F626E2ED92E7F8E8FFFDF0EEFD5051D8
+      0809C50003D20F17BC9397E3F9FFF0436F151965001C6C00196E00176B001A6F
+      001C6E00226B00154D00E2FFCBF9FFF9FBFBFEFDF8FDFDFBFDFDFBFDFDFCFDFD
+      FCFEFEFFFADDECCB507C291C61001A68001E6A002067001E6500226C001F6B00
+      245E00D6ECC3FFFFFFFDF9FDFDFDFCFDFDF9FDFDF9FDFDFCFDFDFBFDFDF9FAFC
+      FCFAFCFDFAFCFDFAFDF9FAFDF8FAFDFDF9FEF9F3FFE21D4E002A68001F650020
+      69001E6900207100256C00235A008EAA79FFFFFBFFFFF9A4CA860D5100296E00
+      1F68002269001D66001D67001E6700104F009FC37DFFFFFBFAFDFBFDFAFBFDFC
+      FDFDFBFDF7FDF8FFFFFE749C571D5E001D67001E6C001C69001C6A00206C001C
+      67001F64002261001E6400236F00186A001D6D001C68001F6600216800236900
+      1B6000266B002068001E68001B6600216A00206B00196A00206D00125100D9E8
+      C3FFFFFCFFFFFF699440196000226A00216900206900206A001C69001F6D0019
+      6400165C001A5D001D6200206C00216D001966001A66001C6D00207000276A00
+      194E0081A768FFFFFFA7C4901D57002366001E69001C6C001C6C001867001B67
+      00185C00639835EBF9DBFAFCFFFCFCFCFAFCFCFBFCFDF9FCFDF9FCFDFCFBFEFD
+      F8FDFCFAFFFDFFFF7DA1571B5A00246B001C6A001A6C001A69001B6500216600
+      1A580083B84DFDFDF4FDFCFBFBF7FDF9F7FEFBFFFDB7D7952F64001D5E00216B
+      00216D001765002071001465001A69001C6900236E001D66002265001D5B0020
+      5500658C43CFE1BBFFFFFFF9FDF7FFFFF996AEDC064CCE0179E100BAF80CCDF0
+      0BF4FF00F3FA00EFFD00EFFD00F3FB00F7F300F4F500ECFD00EBFD00F0FD00F5
+      F500F1F900EDFD00F0FD00F3F900F5F500F3F800F3FB00F2F420E3F572CDEBE1
+      FAFBF3F1FF8085E20508BB0206D10E19B5979DE4F9FFF0436F151965001A6C00
+      1C6B001B67001E69001C6800236800184B00E4FECCFBFFFAFBFAFEFDF9FDFDFC
+      FCFDFDFCFDFCFCFAFDFDFEFFFCE2EFD356802F1F61001869001D6B001E670021
+      65001F6700206D001C5900D1EDB6FFFFFEFDFAFEFDFDFCFDFDF9FDFDFCFDF9FD
+      FDFAFDFDFDFCFDFDF7FDFDFAFDFBFDFDFCFDFDFCFDFBFBFDF9FDFBFFFFFF7298
+      4D1B5100256900206A001C6E001B6C001B6500216100486C22FCFFEBFFFFF759
+      84361F63001E6500206B002069001F6A001C66002164001D4E00FAFFEEF7FDF2
+      FBFDFAFDFCFDFDFCFDFDFAFCF9FDF9FFFFFF9EC2871856001F6700206A001C6A
+      001A69001D6D001E69001F68001D6600206A001A67001D6900216C001F670022
+      6700216800206800236D001B69001E6800216C001A6500206A00216D001E6C00
+      1B6700124E00FFFFF1FDFDFEFFFFFF69953D196100226900216D001869001C68
+      001E66001F67001C5C005990206191303F7A16216000236F00206F001C6C001F
+      7300146500226B00236400184D00F9FFF3ADCC97226000206500206B001B6D00
+      1C6D00176500165E001F6000558828EAF7D7FFFEFFFCFAF8FDFDFDFBFDFDF8FD
+      FDF9FDFAFCFDF4FDFDF6FDFDF9FBFFF9719A4C2462002068001B69001C6C0017
+      67001B66002166001E590091C462FDFCFAFCFCFBFAFBFCFAFDFFE3F8DE5A8C2F
+      1E5D002065001F6A00206A002067001A63001D67001B67001C6B001C6900155B
+      00195200537D2FAEC797F8FFEFFFFFF9F8F9F7FBFAF9FFFFFFA0B0E40F51CF00
+      6FD301B8F911C8F408E8FE00F1FC00EFFD00F1FD00F5FA00F7F400F3F800EEFD
+      00F1FB00F3FA00F3FC00F2FC00F0FD00EEFD00EDFD00EFFC00F1FB00F3FA00F0
+      FA16DDF557BCE8D7F8FBF8FAFF8C91DD0106B3040BCE101DB9A3ABF2F7FFEF42
+      6F151964001869001D6800216500216700206700276700194C00E5FFCAFCFEF7
+      FCFBFEFDFBFDFDFDF9FDFDF7FDFDFAFAFDFDFDFEFCF2FCE8648E3D1E6200186A
+      001C6E001F68002166001D63001F6900185700A3CC80FFFFFDFDFBFFFDFCFDFD
+      FDFAFDFCFCFDF8FDFDFAFDFDFDF8FDFDF1FDFDF8FDFBFDFDFBFDFDFCFDFCFBFD
+      FCFDFDF9FFF5C6E2AA1C5000226700186800186D001D6E001F6D001E63003668
+      09D0EAB3F0FFDE3C6C13206700256B002873001D69001D6A001F6900195A0063
+      8F4FFCFFFAFAFDF6FDFCFAFDFBFCFDFBFCFDFCFCFBFDFAFDFFFFBEE1A61A5900
+      216800206B001A68001A68001B6A001A67001F6C001C67001F6B00206C001F69
+      001B63002366001F66002169001C65001D69001F6E00206D001D67001B670021
+      6A001F6A001D6C00166300256100FFFFFEFEFDFFFFFFFF6A963F1A62001F6700
+      206E001868001C6800206B001D6400195700A7D083FFFFF1E1FBCD5E883F1D5D
+      001D69001D6E001569002071001D65002365001D5800B2D29FBFDEA02F6D061E
+      63001F69001B68001E6D001A6A001A67002066003A6F04E4F2CBFFFEFFFDFCFB
+      FDFDFCFAFDFDF8FCFDF9FDFAFCFDF5FDFCFAFFFFFAECFCDF5D883A2360001F6A
+      001C6B001A6C001967001C6B001F6800175300A8DA7CFDFAFDFCFDFBF6FDF4FA
+      FFFFC6E4B5185100216400256E001F6A001F68002166002062002063001F6100
+      1B5D00316C077EAB4FCFEDB2F8FFEEFFFFFFFBFCFFF7F9F9FDFCFDFCF7FDFFFA
+      FEBBC8F22D67DA006ACD03B3FE02B8F502D9FC00EFFD00EFFD00F1FD00F3FA00
+      F4FC00F2FC00EFFD00F1FA00F4F900F0FD00F1FD00F2FD00EEFC00EAFC00EDFD
+      00F0FD00EDFA00F0FE10C8EE4FB2EED4F3FDF9F6FF8386D9090DB80208C71C25
+      BDC2C7FFF6FFE84770141964001869001D670022640021680020670025670018
+      4B00E4FECAFDFEF8FCFBFEFDFBFDFDFDFBFDFCF9FCFDF9FAFDF9FBFDFAFFFFFA
+      779B4F1E60001E6A001E6D001F6A001D62001F6B001C6B001E66002C6200FBFF
+      E6FFFFFEFDFCFEFDFDFAFDFDFAFCFAFDFDFBFEFDFDF8FDFDF1FDFDF7FDFBFDFD
+      FCFDFCFAFCFDFDFDFAFDF8FBFFF6E6F6D85683331C5D001B6600196D00186B00
+      1B68002069002663009ABA70B9D09D2E67041B6600236E00196600206E00216F
+      00206800185500BFE2B1F8FFFFF4FAF5FBFDFCFCFCFDFDF7FAFBFCFCF9FCF9F9
+      FFFFDBEDC72660002167002069001864001C68001E6A001A68001F6D001F6A00
+      1C68001F69001E65003E7F1881BB592E72091B6300206A001B69001D6D001E6B
+      001E69001D6700236C001A68001B6D0018650048821BFFFFFFFBFBFFFFFFFE6B
+      94441B61001F67001B68001D6A001F6A001A6800246E00195700A2C886FAFFFF
+      F9FFFFD9F1D1174D001F65001767001D71001465001A62002568001A59008CB2
+      6ED1F1B3417B181C61001D6A001965001C6A00186B001F6E00226B001C540099
+      B579FFFFFFFCFDF8FDFDFDFDFCFDFAFBFDFBFBFDFCFCFCFEFCFFFFFFFAB2CC94
+      306602216300216D001868001968001566001C6A001E64001C5200CDEDAAFDFB
+      FBFCFDFAF8FDF4FBFFF999BE811953002165001F6900206F00206C0021660022
+      670021620033680989AE61E3F5CDFFFFFFFDFFFEFDFEFFFAFAFEF9FBFBFEFFFF
+      FEFFFFFAF9FFFDFFFDD7E7FF578BDF0068CB0096F000B6FB02CAF306ECFC00ED
+      FB00F0FD00F1FD00EFFD00ECFD00EBFD00F1FD00F3FC00F0FD00F0FD00F2FD00
+      F3FA00F4FB00EDFC00EDFD00E9FD03E8FD029ED065AFE1E7F9FFF4EDFF7B7BDD
+      0607B40406CB3A3DBBF4F8FFF7FFE14973121E6400166B001968001F67001C6B
+      001B6900226600164900E1FCD0FAFFFCFBFBFEFDF9FDFDFBFDFDFBFDFCFDFDF8
+      FDF7F8FDF6FDFFFBAEC78C2F63012364001F6700206C001C6A00196A001D7000
+      226E00195B00658E3CE3F1D1FFFFFFFAFFF1FDFDF5FEFCFCFEFDFDFBFDF9FFFF
+      F5FFFFF9FFFFF6FAFBF8FCF9FBFEFCFDFAFDF5FBFDF3F7FFF69ABD7F1D580022
+      66001A68001D6F001A6A001D67001C5F00679F3E78A84E1F61001665001F6F00
+      1A6A001C6900226B001A5F004D851FE6F7D4F7FEFFF7FCFDF5FBFBF8FCFCFBFB
+      FDF9FCFDF9FBFDF8FEFFE3F2D54277181E5F001F66001B67001A66001C680020
+      69001F6A001C6B001B6800236B001A5B00699C46E3FFD7427B1D196200206B00
+      1D6A001D6C001D69001F68002368001F6A00176800186900155E006BA144FFFF
+      FEF8FDFEFFFFFF6F8F491A5B001E69001F6E001F6B001F66001B68001D6E0017
+      5C00A2CC7FFAFFF9F9FFF8F0FFE2174C002166001967001C6C001766001E6700
+      2067001D5D007BA261F4FFDF63943C1D5F00226E00206A001968001D6B00216B
+      002568002A6300244E00CDDEB2FFFFF9FAFFF2FEFEFBFFFDFDFEFCF8FFFDFBFF
+      FFFFDAECC04479161B5E00246D001A68001C6B001A68001B6D001B6700236200
+      497626E8F5D4FDF9FCFBFCFCF9FCF8FEFFFB8AB26E1D5A002067001E6A001E6D
+      001E69001F65001E68001D6200588D2AE1FDC3FFFFF5FBFFFAFCFFFEFDFFF9FA
+      FFEFF8FFE2E8F7CDC8D9BBF1F9EFF8FBFAF2FCFF8DAFDC0C64BC007EDE00B1FF
+      00B3EF02D0EE00F1FE00F1FD00EEFD00ECFD00F0FD00F4FB00F1F700F1F800F0
+      FD00F2FB00F2F800F1F800F0FD00E9FC00F0FD00E7FE02C0E81592C790C2E3ED
+      FFFFE5EAFD4E51D80A09C80000BD848CDFF9FFFFF3FFE54770132064001B6F00
+      1C6A001F67001C6D001C6B00226800174B00E4FECBFAFEF4FBFDFBFDFBFDFDFB
+      FDFDFBFDFCFDFDFAFDFBFAFCF5F8FDF2ECFCD34169151F5C00236B001B69001C
+      6C001967001E6A002269001F60001C580045721C9DBC85ECFAD8F5FFE7EBFFE4
+      F5FFF1F3FFE9E4F7CD92AA7ABED0ADF9FFF4F7FCFBF7FAFBFCFCFBFDFCFCFCFF
+      FDCEE3B83C71151F60001D69001B6D001C6D00216D001C63003577083270071E
+      63001D6D001768001E6C001B67002068001D5A0091BD67FAFFEEF4F7FCFBFBFD
+      F8F9FCFBFBFDFDFCFDFAF9FCFBFCFCFAFEFFE9F8DC6292371F5F001F67001C6B
+      001C6A001C6A00206C001E6E00196A00206B002065002760009FC083FFFFFF83
+      AE66165600206500216C001D6700206B001F6900246D001D68001968001D6800
+      15530095C174FFFFFBFBFDFDFFFFFD7091421D5E001D6C00217000216C001C63
+      001E68001C6700165700A4CE86FAFFF7FFFFFFBAD1A41A52001F68001D700019
+      68001B69002166001F660021640087AB6FFFFFFA9AB7872864002069001E6500
+      1A65001D6A001D6C001766001963002569002F650287B15DE2FBCAF5FFEBF3FF
+      EBF4FFE5EFFFD0A6CA7C3567031F5C00276E001E68001D69001D6A0018670020
+      7000216A001D550081A55EF4FFE6FDFBFDFCFAFDFAFBFDFDFFFEAACF90195600
+      246A001F6B001C6A001D67001B65001E68001C69001D5D00457B2087B66895BE
+      778DB5727BA35B6B9A423E72111E500033570FDFEDCFFCFFF8F7FFFDCCE4F740
+      7DC90067D60084EB00B7FD00C0E500D7F400E6FD00F0FD00F3FD00F4F600F6F6
+      00F5F700F3FA00EDFB00EEF900F2FB00F5FD00F0FD00EEFE00E3FC00C3F20698
+      DE398DC4C9E9F9EEFFFFC2D1F60A0EBA0808C71918B6EAF5FFF8FFFFEFFFEB43
+      6F15206500216D001F6A001E68001E6B001F6900246700184D00E4FFC6FCFEEF
+      FCFDF5FDFDFAFDFDFAFDFDFCFDFBFDFDFDFCFBFDFCFDFCF9FFFFF3A4BF832057
+      00226800216B001D69001967001E6A00186000226700226A001E62001553001A
+      5200458027578E3A467A2C36691C174C001A4600A8C298FAFFF7F6FEFCF5F9FA
+      F9F9FCFDF8FEFCFEFAF8FFE872984D1F5C00236F001C69001D6C001F6E001F69
+      002269002167001F6700226F001E6C001E69001B63002366003C6F14C9DDB3FF
+      FFF9FBFCFEFCFAFCFDFAFDFDFAFDFDFAFDFDFBFBFDFDFBFBFAFFF6FFED85AE5E
+      1A5800226B001F6D001C6C001C6A001F6C001F6F002070001E6700296600406A
+      16E8FDD7F6FFFAE3FFCF1F53002262002064001B63001F6B001E6900226C001D
+      67001D6A001E6500164C00BFE1A4FFFFFBFEFDFDFFFFFB6F953B1C61001E6C00
+      1C6A00236E002066001E67001964001A5D0089BC5CD3EAB6A6C289355D0C2463
+      001F6C00176C00186A001C69001E6300246B00165300C4E1B1F6FFFDF1FFF250
+      7C2A2160002569001F67001966001369001A72001E7500126600216E00145900
+      1B5700376B19497C313C7319245F001555001F67002169001A65001C6500206B
+      001965001E6C00206C00226400457616D0E5BAFCFFF7FDFAFCFDFAFDFBFAFDFA
+      FFFFD1EBBE2158001E6300206C001E6A001C67001967001969001D6E00216C00
+      1F65001558001657001B5C00185A001A5E0020640023630037690EE0EFC5FBFF
+      F1F7FDF6F2FFFE8BB6F80558C80272DF009CEC00BBED00BAEB00CDF600E1FC00
+      F0FD00FBFA00F6FB00F4FC00F5FD00EFFC00EFFB00F3FD00F2FE00ECFC00DFF4
+      00C5F500A6EF0462BB80B4E0E8FFFFF4FFFF6975DE0504C50708B28185E7FCFF
+      FEF7FEFCECFDF0406F161E65002269001F68001C670020680020660026660019
+      4A00E4FFC8FDFEF0FCFDF6FDFDF9FDFDFBFDFCFCFDFBFDFDFDFDFCFBFDFAF7FC
+      FAFEF6FFFFEF39670C1C58001F65001B68001769001E6D001865001C66001B6A
+      001D6B001F6C001D68001664001866001963001860001E6100336A10C0D5B3F9
+      FFFAF1F6F6FBFCFCFBF6FCFDF7FDFCFCF9FEFFF6ACC497276001206A001F6800
+      1E6A00206E001E6800226A00236D002069001C67001F6D001E6A002067001B59
+      0067923FEEFFE5FBFEF9FDFCFCFDF9F8FDFCFBFDFBFEFDFAFCFDFCFBFDFDF9FC
+      FAFEFDFFFA99BD781B5600216D001E6D001C6A001D68001F6A001F6E00217000
+      2169001E550072914FFFFFF9F9FDFAFFFFF9457120225D002164002066001C69
+      001C68002069001E68001E69001E6200225300D6EABEFFFFFAFDFDFCFFFFFB6F
+      953B1D61001E6A001E6800256D001A64001C6B00206F00196300397907366B0C
+      2355002C63002067002272001A7000166E001D6F001E67002161001F5300F7FF
+      EBFAFDFFFCFFFFCAE6AE1448001D5D00246A001A68001A7200136A00186F001D
+      72001869002371001B65001E67001B63001962001A63001C65002270001D6B00
+      1E6B00216F001965001E69001F6A001D63001F58008BAC67FAFFEDF4FAF6FDFD
+      F7FDFBFBF8F5FDF9FBFFEFFEEB7CA55A1F59002168001F6D001C6C001A6A001A
+      6B00196C001C6E001C6D001868002474001C6B001A68001E6D001B67001B6100
+      366B13DEEFCAFBFFFCFDFBFDFCF7FDF4FFFF5D9BDD0063CA0064D90089F300B5
+      FF00BBED00C1E500C9ED00DBF900DBF900DCFC00E4FE00EDFA00E8F800DFF900
+      D4F700C4F000B6F00095E60064C26B9EE2E1F7FFF8FFFEC5CBFF080AAC0C0BB9
+      6069CBE3F2FCFBFEFDFCFDFFEEFDEF3D6F151A65001D69001C68001C68002065
+      00206300236200174700E4FCCEFBFFF6FCFCFCFDFCFDFDFBFDFDFBFDFDFBFDFD
+      FDFBFDFDFCFDF8FDF9F9FBFAFFF9EAFDDC436E221E5C00226E001B6F001A6C00
+      1868001D6F00186D00217000216D00216B001E6E001D71001E6D001F6A001E66
+      004E7E25D3E5CAFDFFFFFEFAFEFDF9FCFDF8FDFDF9FDFDFBFAFBFEFEF4FFF14E
+      7C1F1C60002168001B69001C6B001D69001C67001D68001E6800216B001C6E00
+      1E6B001F6600265F01A9C690FFFFFDFCFDFDFDFCFBFDFDF5FDFDF3FDFDF6FDFC
+      FBFDFDF8FDFDF4FDFAFDFFFFFFB3CD9E2960041F68001F6D001B68001966001B
+      67001D69001C6900266900184B00DEF2C9FBFFF7F9FDF8FFFFF3B3D38E1C5400
+      2669001A65001A6D001968001B64001E68001D69002064003F6C19E4EFD2FFFF
+      F8FEFDFDFFFFFF6D953F195F001A67001D67002267001964001F6A001C6A001D
+      6A001861002066002164002166001E6700186800196B001871001E7100206800
+      2053009FBC86FFFFFEF9FBFBFAFBF9FFFFFAA4C187285A00216400246E001964
+      001F67001C66001E67001E65001E65002067001D65001F6800216A00226C0021
+      6D001765001C6C001768001867001F6C002069002164001C54007FA560FDFFF0
+      F8FCF6FCFCFDFDFDF4FDFDFBF7F5FDF6F8FEF8FFFCD1EEC24674221D58002069
+      001C69001C6B002370001A67001E6B001B6700206B001665001B680018670017
+      68001C6E001D66003A6F17D7F0C7FCFFFFFDF7FDFCF5FDF0FFFDC2F1FE4791D9
+      0064CE0061DE007CEB039DF60AB8FD00B1F800B9F600BDF000BFF100C6F600C7
+      F200BCF000BDF801BCFA00A2EE0084DE006AC73383D5CEE6FFF7FCFEEDE9FF4B
+      46CA0E0CAD4141B5D3DDF9F2FFFFF7FAFDFFFDFFF2FFED3F7017146600146B00
+      176B001D67001E6800216800226200184900E4FDD1FAFFF8F9FBFDFDFAFDFDFA
+      FDFDFBFDFDFBFDFDFDFBFDFCFAFDFCFCFDFBFDFBFCFFF7FFFCCFE7BF41731518
+      5A001E6A001E6B001C6B001E7000156600226F00226A002268001F69001E6C00
+      1D6A002169001C6200608F33E6F4DAFFFFFFFDF6FDFDF5FCFDFBFCFDFBFAFDFD
+      FCF5FBFDFFFFFF88AD6C195A002068001C6A001C6A001D6A001C69001D69001A
+      6300216C001D6E001D6B001A5F00407119E1FCD2F7FFF6FAFDFCFDFBFCFDFDFA
+      FDFDF6FDFDF3FDFDFDFDFDF8FBFDF5FBFAFDFCFFFFC4DAB3376F141D67001E6D
+      001B69001967001B68001C69001E6A00236400316303FFFFFBFBFDFDFDFDFDFC
+      FFF7DFF1C0336A052063001D6A00176B001A6B001964001A68002470001B6300
+      578530E9F5D7FFFFF9FAFAFDFFFFFF678D3B1B62001C6B001A66001F6A001C6B
+      001C6A001A66001E6B002069001F6B00236F00226C001B68001E6C001769001B
+      6E001D6700195600648946F0FDECFDFFFDFCFDF8FDFDF4FAFDF8F9FFED91B870
+      245B001E5F002168002268001E65002567002468001F63002067001E67001E68
+      00206A001D66001E68001E69001968002070001D6B002169001C5D00154B006E
+      9850F5FFE7FAFDF5F8FAF8FCFCFDFCFCF6FDFDFBFDFCFDFAFAFCF8FDFCF7FFF6
+      D8F2C6527C2B1A54002365002369001B6100236A002269002167001F66002169
+      001C6A001868001B6C001D6E001C6300376A12E2EFD0FAFEFDF8F5FDFAF8FDF7
+      FDFAE5FEF7D0F5FF69A6E01667C80C5EDC0261E30069DF0089F500A8F900A9F7
+      02AFF801A8F600A8F802ACFA0091EC0073D4006DD30869CB4E91D5C8E9FBF8FD
+      FFE2DFFF5B59C7110EA04946B4E7E9FFF4FCFFF7FEFCFAFAFCFEFDFEF6FFEC3E
+      6C151669001573001B7000206A00226E001E68002366001A4D00DFFBCBF5FFF6
+      F8FCFEFAFAFDFCFBFDFCFBFDFCFBFDFAFDFCFDFCF8FCFBF8FCFCFDFCFBFDF5F9
+      FDFBFFFBE7FCD6709A4C1F58001D5D002067002169001F68001E68001D67001F
+      65001D66001A69001C66001F64001A5E0071A045F8FFEDFAFDFAFDF8FDFDFAFD
+      FDFCF8FDFDF8F8FBFBF7FCFDF5FDFFE8FFDC1A5200216800206C001F6A001F6A
+      001E6B001F6800226B001E6600236E00236F001A5E00799D62FDFFF6F5FDF2FA
+      FDFDFDFAFDFDFAFDFDFDFBFAFDF9FAFCFDFAFDFAF9FDF4F9FBFDF9FFFFD5E9C8
+      4B7C252065001E6A001C6A001D6B001E69001E68002169001A58008FBC69FFFF
+      FFF7F9FEFBFBFDF7FCFAF3FFE37BAB521F5C001D6600196B001F6F001F6B001E
+      6A00206D002366006E9845F0F8E2FBFEFAF8FBFFFFFFFF6E9547175D001C6900
+      1E6C001F6F001F6E001F6B001F68001F68001F6A001E6C001D68001B68002069
+      001C66001A6400206200255B007AA05BEAFCE4FBFFFFFBFAFBFDFDF8FBFAF3FD
+      FCFCFBFEFAF6FFE7BAD89F45731B1A5800236900256B002166001C6500226B00
+      206A001D6A00206A001F69001F6A001F6A001E6800226C002066001C60002561
+      0035680C9FC182EFFFE3FCFFFBF8FBF7FAFBF6FDFDFAFDFCFDFAFBFBFDFDFBFA
+      FDF5F6FDF4F7FDFCFCFFF8F1FFE08AAD6934650B1B5200215B00236200206200
+      206200226300206900206B001F6A00206B001D66001D5B0037620FDEEDC9FDFF
+      F7F9FEFDF5FBFDFDFAFBFFF9F3F8FFF8E7F9FFADCDEC3A7BD8025CCE0063DB01
+      69DC0062D10063D1006CD6006BD40064D40066D40065CE0663D03778D794B8EB
+      E7F5FFFFFFFFD6D3FA4A4DB00713A5646ECFF0F6FFFBFCFDFAF8FCFCFCFDFCFD
+      FDFFFDFDF6FEED406914176400146A0017660023670022680022690024640014
+      4700E3FFCBF7FEF3F7FDFBF9FCFDFAFCFDFAFBFDFAFBFDFAFDFDFDFCF9FCFCF8
+      F8F8F8FAF9FAFAFDFBF5FAF8FBFFFFFEFFFBA5C08C508029245A001E5A002060
+      001E63001C66001C67001B68001A6C001B67001C63001E5F0082A760FDFFF8F2
+      FDF8FAFDFDFCFCF8FDFCF5FCFDF5FAFCFDF5F9FCF3FCFBFFFFFF5986381E5B00
+      2263001F63001D62001C63001E61002161001D5C002769001E5F00134B00D9F6
+      CCF7FFF3F7FDF6FBFCFCFDF7FDFCF6FDFBF9FDF8FCFDF6FAFDF8FDFCF5FCF9F8
+      FCFCF7FDFBEBFAE05E89381E5B002060001D63001D65001E63001E63001D5D00
+      245A00D6F1B1FEFFFFF8F4FDFCF8FDF7F8FCFBFFF7B5D2982558022260002166
+      001860001E64002165002063001C53008DB26BF6FFECF7FDFAF6FBFEFFFFFF6C
+      8C481B57001F64001E66001E64001E65001F63001F62001E63001D63001D6500
+      1E66001D5F001E5C001A5300255B00558333BBCEA8FBFFFCFAFEFFFAFCFEF8F8
+      F8FCFAFAFBF8F9FCFCFCFAFDF9F6FCF8FFFFFFEBF9E475A453336D0C15550020
+      69001E6F001B6C001A6B001A6B001C68001864001B66001D6A001B63001F5E00
+      1B5200295D017A9F52CEE5B5FDFFEFFBFDF9FAFBFAFAFCF5FDFDF5FCFDF3FDFA
+      FDFBFAFDFDFDFBFCFDF3FCFDF6FAFDFEF7FCF7FAFEF2FCFFF2E2F3CCAECE8D67
+      8E422E5A06295900295A002A5A002B63002B6400296100215700366710597E3B
+      8EA57DEDF6E8FEFDF6FAFBF7F8F8F7FCFBF9FDFBF7F7F8F8F2FDFDEEFFFFD6EB
+      FDABCBF15A8FD12571C8126AD0156AD20E64D70A60D51A6BD52872C54F89C6A1
+      C0F1E8F2FFF4FAFFE2EAFE949FE3282C98494BA7B9BCEEEEF9FFF1FAFDF9F7FC
+      FDFAFCFAF6FAFDFDF9FEFEFCF1F8ED4C6E27225700215B002158002158002459
+      00285D00285A00224900DEF5C9FAFFF4FAFDFBFDFDFDFCFDFDFCFCFDFCFBFDFC
+      FDFDFDFDF9FCFDF4FBFBF9FBF9FCFAFBFBFCFDFDFAFCFDFAFDFCFDFFF5ECFCDB
+      C1DBA97193533464042B6200205D002061001D61001D6200206000215900315E
+      0DA2BF93F9FFFDF6FCFDF6FDFBF8FDF1FCFDF6FAFBF8FCFCFDF9FBFCF8FDFBFA
+      FFFBBBD7A92F560437650A35630B34620B33640A34660936640B345E0B36600E
+      345F0D4A7029FFFFFFF7FDF8FAFDFCFDFCFDFDFAFDFBF7FDFBF9FDF8FCFDF6FA
+      FDFAFDFDF9FBFAFAFDFCF9FAFBFDFFF77D9A62335D0935620E34630735660335
+      650935610F315B0C6D914DEAF8D3FDFDFFFCF7FDFDFAFDF7F6FDF7FEF9DFEED4
+      5C7F44325C0C33620A37650F325F093A6B0C39650B2E520AACC398FDFFF6F8FD
+      FBFAFCFEFFFFFF788E61335C0735650836650E356011355F1335611135610F35
+      630C35640A3A6B1343721A4E7A26759B55A0C083D5E5C0F1FEE3FCFFFAFAFBFF
+      FAFBFDFDFDFBFAFBF8FCFAFCFDFCFDFBFAFBFCFCFCFBFBFDF5F4FDFAFEFFF9FF
+      F4DAF0CD98BA824C782F235C00215F001E64001A6000185F001C60001D5D001E
+      5B00295D00446F1D8FB271D2EBBCF8FFE7FDFFF4F7FCF3FCFCFBFBFAFCFDFDFA
+      F9FBF4F8FDF2FBFBFCFCFCFCFDFDFDFAFBF3FCFCF6FDFBFEFCFBFAF9FAF6F7F8
+      F9FDFFFAFEFFF3FFFFF5FFFFF1E6FFD3DAF1C9CCE3BBCDE6B1D9F3BCE7FDCDF1
+      FFDFFDFFF4FFFFFFFFFFFFFAFAFDFDFDF8FDFCF7FDFDFAFDFBF7FCFCFAF6F9FD
+      EEF7FCEDFAF7FFFFF7FEFFFCF1FFFFD5F5FFAFD7FFA9CCF7A5C5FBA7C7FFB1D8
+      FFD4F6FFF0FFFFE5E9FFC3BFDF9799C9666EB25B69A7BAC0F7FCFAFFFFFEFFFA
+      FEF7FBFEF8FBFBFDFAF5FBFBF8FAFDFCF4FBFDF5F9FFF8D1E2BED2E3B6D2E3BD
+      CEE5BCD0E9BECEE9C0CFE8BBD3E9BACDE1B9FAFFF3FDFBFCFCFBFCFDFDFBFDFD
+      FAFDFDFBFDFCFDFDFDFDFDFDFBF8FBF5FAFBFAFDFBFDFAF7FDFBFBFCFAFAF8F9
+      FAF8FCFAFFFDFBFFFFFFFFFFFFFDFEFFE6D2EBBDB9D2A9AAC78D9ABC749FC077
+      B1CB90BED1A7F0FFDFFCFFF8FAFAFEF7F7FDF9FBFAFCFCF4FCFBF7FDFBFDFCF9
+      FBFCFCF9FAFBF5FCFCFEF8FEF9FFFFFCFFFFF5FFFFF7FFFFFDFFFFF8FFFFF0FF
+      FFF0FFFFF8FFFFFDFFFFFCFFFFFAF2F7F1FDFCFDFDF9FDFDFCF9FDFDF9FDFBFD
+      FCFCFCF9FDFAF9FDFAFBFDFBFCFCFCFDFBFDFCFAFDFBFCFCFFFFFAFFFFF6FFFF
+      FAFFFFF4FFFFEEFFFFF9FFFFFFFFFFF9FFFFF6FCFFF2F9F7FCFCF9FCFDFDF9FD
+      FCFAF9FBFBFBFFFDFFFFFBFFFFF9FFFFF6FFFFFCFFFFF9FFFFEFFFFFF4FFFFFF
+      FFFFFDF7FBF3FAFBF8F9FAFAF8F8F9FFFFFCFFFFF6FFFFF2FFFFF4FFFFF8FFFF
+      FDFFFFFDFFFFF9FFFFF6FFFFF5FFFFF1FFFFF5FFFFF7FFFFFBFFFFFBFFFFFEFF
+      FDFDFDFCFDFBF9FBFCFBF7F9FAF4FBFDF9FAFBFCFBFBFDFAFAFAFCFBFDFBF8FD
+      FDFCFCFEFBF9FCFDFFFBFEFDFFFFFFFFFFFFEFFFE5C7E0B2B1CF94A2C37D97BA
+      70A0BF7DAECB91C5DEADE7F7D4FFFFFAFFFFFCFDFEFFFBFDFBF9FAF8FCFBFAFD
+      FAFCFDF8FDFCFAFCFBFDFAFAFDF7FAFCFAF7F9FBFCF9FDFCFCFBFCFBFAFDF9FD
+      FDFBF9FBFBF6FCF5FEFCF9FDF8FAF8F9FCFBF6FDF2F6FEF4F9FFFDFBFFFFFEFF
+      FFFCFFFFFCFEFFF9FEFEF4FAFCF9FCFEFAF7FEFDF8FEFCFAF3FDFDFAFDFBFDFD
+      FAF7FBFBF9F3FDFDF3FAFCF9FCFDFCFDEFF9FCF3F2FCFBF1F9FDF8FAFCFFFFFB
+      FFFFFBFDFDFEE1F2ECC3D5DEACB9DAA9AFF2ABB3EBB2C0E0D2DEF2F4FEFFFFFF
+      F8FDFBF8FCF7FDFDFCFAFCFDF8F4F7FDF9F8FDFCF8FBFDFDF4FAFDF1F4FDF4FC
+      FFF9FFFFFBFFFFFCFDFFFAF3FFFAF7FEFFFAFFFDFBFFF5FFFFFBF9FAFCFDF9FD
+      FCFAFDFDFDFCFDFDF9FDFDFAFDFCFDFDFDFDFDFCFDFAFAFDFBFDFCFCFDFBFCF9
+      FDFDFCFCFDFCF8FCF8F7FCF8FDFBF3FDFCF9FEF9FDF9F9FDF9FDFFFFFFFFFFFF
+      FFFFFFFFF9FFFFFCFFFFFFFFFFFFFEFBFEFEF8FEFDF9FDFDF6FDFDF7FDFCFDFA
+      FCFAFCFDF6FDFDFCFCFCFBF5FCFDF6FAF6FCFBF7FDFAFAFDF9FDFCF9FDFCF9F9
+      FFF9FBFEF9FDF6FAFDF3FAFCFBF8F9FDF9F9FDF9FBFCF8F9F7FDFAFDFDF6FDFD
+      FCF6FDFDF0FDFDF8FCFDF7FBFDF4FAFDF6F8FCF7FDFDFDFDF9FDFDF9FDFCF5FD
+      FDFCFBFBFDF9F7FAFEF8FCFAF9FDF8FCFAFDFAF8FFF7FBFDF9FDFAF9FBF5FDFA
+      FEFDFCF9FDFBF1FCFDF4FBFBF7FBFBFEFAFCFCFAFDFAF9FAFDF7F8FDF8FCFDF5
+      FAFAF9FCFDF8F6FEF7F7FCFBFCF8FBFCF8FDFDFBFBFBFCFCFAFCFCFDFBFAFBFB
+      F8FBF6F8FDF3FAFDFBFAFCFDFAFDFAFAFDFAF9FDFBF8FBFEF8FCFDFAFDFBFBFC
+      F7FDFCFCFDF9FDFDFAFDFDFBF9FCFDF4FCFDF3FBFBF6FAFDF9F8FBF8F8FBF8FB
+      FAFDFDFBFDFDFAFDFDFDF5FDFCEFFDFBFCFDFBFEFDFBFDFCF9FCFEFCFEFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8FDF9F9F9FDFAF4FDFDF7
+      FDFCF8FCFCFCFAFDFAFDFDF6FDFBF7FDFBFCFDF5FCF7}
+  end
+  object TRpLabel0: TRpLabel
+    Width = 1110
+    Height = 300
+    PosX = 45
+    PosY = 1157
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Or'#231'amento :'
+  end
+  object TRpExpression0: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 6900
+    PosY = 1157
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.DATAMOVIMENTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel16: TRpLabel
+    Width = 750
+    Height = 300
+    PosX = 5895
+    PosY = 1157
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Data :'
+  end
+  object TRpExpression1: TRpExpression
+    Width = 315
+    Height = 264
+    PosX = 7200
+    PosY = 2178
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.DDD'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 945
+    Height = 264
+    PosX = 7650
+    PosY = 2178
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.TELEFONE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression4: TRpExpression
+    Width = 3150
+    Height = 264
+    PosX = 1305
+    PosY = 2518
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CONTATO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel12: TRpLabel
+    Width = 945
+    Height = 255
+    PosX = 5955
+    PosY = 2178
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Fone :'
+  end
+  object TRpLabel14: TRpLabel
+    Width = 990
+    Height = 255
+    PosX = 55
+    PosY = 2518
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Contato'
+  end
+  object TRpShape0: TRpShape
+    Width = 10845
+    Height = 1650
+    PosX = 0
+    PosY = 1155
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape1: TRpShape
+    Width = 10845
+    Height = 345
+    PosX = 0
+    PosY = 2845
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape2: TRpShape
+    Width = 10845
+    Height = 2490
+    PosX = 45
+    PosY = 2295
+    BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 2655
+    PosY = 2350
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.VALIDADEORCAMENTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel11: TRpLabel
+    Width = 9870
+    Height = 225
+    PosX = 195
+    PosY = 3055
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 
+      #10'Os pedidos confirmados at'#232' '#224's 14:00hs, ser'#227'o postados no mesmo ' +
+      'dia.'
+  end
+  object TRpLabel13: TRpLabel
+    Width = 2160
+    Height = 300
+    PosX = 195
+    PosY = 2350
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Assinatura do Cliente'#10'Validade do Or'#231'amento : '
+  end
+  object TRpLabel15: TRpLabel
+    Width = 2460
+    Height = 345
+    PosX = 180
+    PosY = 3402
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Assinatura do Cliente'#10'Condi'#231#245'es de Pagamento :'
+  end
+  object TRpLabel17: TRpLabel
+    Width = 2460
+    Height = 300
+    PosX = 195
+    PosY = 3755
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Prazo de Entrega :'
+  end
+  object TRpExpression8: TRpExpression
+    Width = 1710
+    Height = 270
+    PosX = 2685
+    PosY = 3785
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.PRAZOENTREGA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape3: TRpShape
+    Width = 10650
+    Height = 75
+    PosX = 105
+    PosY = 2045
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression11: TRpExpression
+    Width = 4725
+    Height = 360
+    PosX = 1320
+    PosY = 45
+    Type1Font = poHelvetica
+    WordWrap = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.OBS'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel18: TRpLabel
+    Width = 2460
+    Height = 285
+    PosX = 195
+    PosY = 4110
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Frete :'
+  end
+  object TRpLabel19: TRpLabel
+    Width = 2460
+    Height = 285
+    PosX = 195
+    PosY = 4460
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'Vendedor :'
+  end
+  object TRpExpression10: TRpExpression
+    Width = 1710
+    Height = 240
+    PosX = 2685
+    PosY = 4110
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.FRETE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression12: TRpExpression
+    Width = 1710
+    Height = 240
+    PosX = 2685
+    PosY = 4460
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.VENDEDOR'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 1680
+    Height = 285
+    PosX = 2700
+    PosY = 3402
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.CONDICOESPAGTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression19: TRpExpression
+    Width = 1680
+    Height = 285
+    PosX = 215
+    PosY = 2715
+    Type1Font = poHelvetica
+    FontStyle = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'M.MOEDA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+end

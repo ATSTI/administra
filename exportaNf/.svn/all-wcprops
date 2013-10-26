@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/2/trunk/exportaNf
+END
+limpa_arquivos_delphi
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/exportaNf/limpa_arquivos_delphi
+END
+exporta_nf.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/exporta_nf.cfg
+END
+dmodPrincipal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/exportaNf/dmodPrincipal.pas
+END
+uPrincipal.pas
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/uPrincipal.pas
+END
+exporta_nf.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/exporta_nf.dpr
+END
+dmodPrincipal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/exportaNf/dmodPrincipal.dfm
+END
+uPrincipal.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/uPrincipal.dfm
+END
+exporta_nf.dof
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/exporta_nf.dof
+END
+exporta_nf.res
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/2/trunk/exportaNf/exporta_nf.res
+END

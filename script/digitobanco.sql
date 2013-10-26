@@ -1,0 +1,1 @@
+alter table BANCO add digitobanco integer;

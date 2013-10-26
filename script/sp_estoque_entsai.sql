@@ -1,0 +1,39 @@
+ALTER PROCEDURE SP_ESTOQUE_ENTSAI (
+    CODMOV Integer,
+    CODALMOXA Integer,
+    NNFSAI Integer,
+    NNFENT Integer )
+AS
+DECLARE VARIABLE CODPROD INTEGER;
+DECLARE VARIABLE QTDE DOUBLE PRECISION;
+DECLARE VARIABLE VLR DOUBLE PRECISION;
+DECLARE VARIABLE DATAMOV DATE;
+DECLARE VARIABLE CODUSUA SMALLINT;
+DECLARE VARIABLE BAIXA CHAR(1);
+DECLARE VARIABLE CODVENDEDOR SMALLINT;
+DECLARE VARIABLE STATUS INTEGER;
+DECLARE VARIABLE CODMOV_NOVO INTEGER;
+DECLARE VARIABLE CODDET_NOVO INTEGER;
+DECLARE VARIABLE UN CHAR(2);
+DECLARE VARIABLE LOTE VARCHAR(60);
+DECLARE VARIABLE DTAF DATE;
+DECLARE VARIABLE DTAV DATE;
+begin
+  codmov_novo = GEN_ID("GENMOV",1);   
+  SELECT cast(controle as Date), STATUS, CODUSUARIO, CODVENDEDOR
+  FROM movimento WHERE CODMOVIMENTO = :codmov
+  INTO :datamov, :status, :codusua, :codvendedor;
+  insert into movimento (CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, CODNATUREZA, STATUS,
+  CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, codfornecedor) values (:codmov_novo, :datamov, 0,
+  1, :status, :codusua, :codvendedor, :codalmoxa, 0);
+  FOR SELECT CODPRODUTO, QUANTIDADE, PRECO, BAIXA, UN, LOTE, DTAFAB, DTAVCTO FROM movimentodetalhe
+  WHERE CODMOVIMENTO = :codmov
+  INTO :codprod, :qtde, :vlr, :baixa, :un, :LOTE, :DTAF, :DTAV
+  DO BEGIN
+     coddet_novo = GEN_ID("GENMOVDET",1);   
+     insert into movimentodetalhe (CODDETALHE, CODMOVIMENTO, CODPRODUTO, QUANTIDADE,
+     PRECO, UN, BAIXA,LOTE, DTAFAB, DTAVCTO ) VALUES (:coddet_novo, :codmov_novo, :codprod, :qtde, :vlr, :un, :baixa, 
+     :LOTE, :DTAF, :DTAV);
+  END
+  execute procedure lanca_ent_saida(0,:CODMOV_NOVO, 0,:datamov, :datamov, :codusua, :codalmoxa, 'S', :nNfEnt, :nNfSai);
+end

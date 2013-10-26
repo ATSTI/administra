@@ -1,0 +1,10 @@
+set term ^;
+
+alter table FAIXAETARIADETALHE add COD_SERVICO1 integer ^
+commit ^
+alter table FAIXAETARIADETALHE add COD_SERVICO2 integer ^
+commit ^
+alter table FAIXAETARIADETALHE add COD_MODO1 integer ^
+commit ^
+alter table FAIXAETARIADETALHE add COD_MODO2 integer ^
+commit ^

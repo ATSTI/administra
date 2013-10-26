@@ -1,0 +1,14 @@
+[General]
+Name=prjTeste
+Project=1
+[Classes]
+Count=9
+Class0="TDM","TDataModule","UDm","0","E:\atsadmin\atsadmin\comercial\src\UDm.pas"
+Class1="TEstoqueTeste","TTestCase","uEstoqueTeste","6","E:\atsadmin\atsadmin\teste\uEstoqueTeste.pas"
+Class2="TEstoque","TObject","uEstoque","6","E:\atsadmin\atsadmin\comercial\src\uEstoque.pas"
+Class3="TMovimento","TObject","uMovimento","8","E:\atsadmin\atsadmin\comercial\src\uMovimento.pas"
+Class4="TMovimentoDetalhe","TObject","uMovimentoDetalhe","8","E:\atsadmin\atsadmin\comercial\src\uMovimentoDetalhe.pas"
+Class5="TMovimentoTeste","TTestCase","uMovimentoTeste","6","E:\atsadmin\atsadmin\teste\uMovimentoTeste.pas"
+Class6="TCliente","TObject","uCliente","8","E:\atsadmin\atsadmin\comercial\src\uCliente.pas"
+Class7="TEnderecos","TObject","uClienteEnderecos","8","E:\atsadmin\atsadmin\comercial\src\uClienteEnderecos.pas"
+Class8="TClienteTeste","TTestCase","uClienteTeste","6","E:\atsadmin\atsadmin\teste\uClienteTeste.pas"

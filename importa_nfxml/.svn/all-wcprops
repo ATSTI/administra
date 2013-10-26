@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/3154/trunk/importa_nfxml
+END
+prjImportaNfeXml.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3124/trunk/importa_nfxml/prjImportaNfeXml.cfg
+END
+prjImportaNfeXml.dpr
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3130/trunk/importa_nfxml/prjImportaNfeXml.dpr
+END
+uimporta_nfxml.pas
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3431/trunk/importa_nfxml/uimporta_nfxml.pas
+END
+uProdutoProc.pas
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3128/trunk/importa_nfxml/uProdutoProc.pas
+END
+prjImportaNfeXml.dof
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3124/trunk/importa_nfxml/prjImportaNfeXml.dof
+END
+prjImportaNfeXml.res
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3124/trunk/importa_nfxml/prjImportaNfeXml.res
+END
+uimporta_nfxml.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/3425/trunk/importa_nfxml/uimporta_nfxml.dfm
+END
+uProdutoFornecedor.pas
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3425/trunk/importa_nfxml/uProdutoFornecedor.pas
+END
+uProdutoProc.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/3138/trunk/importa_nfxml/uProdutoProc.dfm
+END
+uProdutoFornecedor.dfm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3425/trunk/importa_nfxml/uProdutoFornecedor.dfm
+END

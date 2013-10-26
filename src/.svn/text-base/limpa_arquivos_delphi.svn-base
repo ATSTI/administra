@@ -1,0 +1,7 @@
+#!/bin/bash
+rm -f *.~*
+rm -f *.ddp
+rm -f *.dcu
+rm -f *._*
+rm -f *.DDP
+rm -f *.DCU

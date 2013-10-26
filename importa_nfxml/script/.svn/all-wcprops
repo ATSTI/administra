@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/3136/trunk/importa_nfxml/script
+END
+notafiscal_prod_importa.sql
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/3530/trunk/importa_nfxml/script/notafiscal_prod_importa.sql
+END
+produto_fornecedor.sql
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/3126/trunk/importa_nfxml/script/produto_fornecedor.sql
+END
+movimento_codmov.sql
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/movimento_codmov.sql
+END
+produto_data.sql
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/produto_data.sql
+END
+movimentodetalhe_coddet.sql
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/movimentodetalhe_coddet.sql
+END
+corrige_campo.sql.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/3426/trunk/importa_nfxml/script/corrige_campo.sql.txt
+END
+import_xml.ktr
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3136/trunk/importa_nfxml/script/import_xml.ktr
+END
+PRODUTOETIQUETACOMPRA119.sql
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/PRODUTOETIQUETACOMPRA119.sql
+END
+LEIAME.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/3529/trunk/importa_nfxml/script/LEIAME.txt
+END
+notafiscal_importa.sql
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/3126/trunk/importa_nfxml/script/notafiscal_importa.sql
+END
+exe_impor.bat
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/3135/trunk/importa_nfxml/script/exe_impor.bat
+END
+trig_cod_prod.sql
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/trig_cod_prod.sql
+END
+trg_cliente.sql
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/trg_cliente.sql
+END
+venda_codvenda.sql
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/3527/trunk/importa_nfxml/script/venda_codvenda.sql
+END

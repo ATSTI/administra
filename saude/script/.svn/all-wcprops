@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/2/trunk/saude/script
+END
+faturamento.sql
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2/trunk/saude/script/faturamento.sql
+END
+1006alteraFaixa.sql
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2/trunk/saude/script/1006alteraFaixa.sql
+END
+caixaItens.sql
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2/trunk/saude/script/caixaItens.sql
+END
+1000inserirCampos_Dados_Combos.sql
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2/trunk/saude/script/1000inserirCampos_Dados_Combos.sql
+END
+atualiza_dataConsolida.sql
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/2/trunk/saude/script/atualiza_dataConsolida.sql
+END
+1014pag_totais.sql
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/saude/script/1014pag_totais.sql
+END
+TRIGGER INCLUI_REC.sql
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2/trunk/saude/script/TRIGGER%20INCLUI_REC.sql
+END
+02_2008Lancamentos1.sql
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2/trunk/saude/script/02_2008Lancamentos1.sql
+END
+sp_mov_caixa_ash.sql
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/saude/script/sp_mov_caixa_ash.sql
+END
+1000spLab_Exames.sql
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2/trunk/saude/script/1000spLab_Exames.sql
+END
+1015recTotais.sql
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2/trunk/saude/script/1015recTotais.sql
+END
+01_2008caixaItensB.sql
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2/trunk/saude/script/01_2008caixaItensB.sql
+END
+1000spGeraMensalidade.sql
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/saude/script/1000spGeraMensalidade.sql
+END
+EstatisticaAsh.sql
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/2/trunk/saude/script/EstatisticaAsh.sql
+END
+EstatisticaAsh_EXAMES.SQL
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2/trunk/saude/script/EstatisticaAsh_EXAMES.SQL
+END
+aviso_ash.sql
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2/trunk/saude/script/aviso_ash.sql
+END

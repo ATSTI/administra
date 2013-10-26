@@ -1,0 +1,2521 @@
+object TRpReport
+  GridWidth = 50
+  GridHeight = 50
+  PageOrientation = rpOrientationLandscape
+  PageHeight = 8120
+  PageWidth = 5742
+  CustomPageHeight = 8419
+  PageBackColor = 2147483647
+  PreviewWindow = spwMaximized
+  LeftMargin = 283
+  TopMargin = 850
+  RightMargin = 7
+  PrinterSelect = pRpReportPrinter
+  SubReports = <
+    item
+      SubReport = TRpSubReport0
+    end>
+  DataInfo = <
+    item
+      Alias = 'IMPR'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT r.OFID, r.OFID_IND, r.OFDATA, r.OFSTATUS, r.OFQTDESOLIC, ' +
+        'r.OFQTDEPRODUZ, r.OFQTDEPERDA, r.OFMOTIVO, r.CODPRODUTO, p.PRODU' +
+        'TO, p.CODPRO'#13#10'FROM OF_OF r , PRODUTOS P'#13#10'where p.CODPRODUTO = r.' +
+        'CODPRODUTO'#13#10'   and  r.OFID = :PVMOV'#13#10'             '#13#10#13#10' '
+    end
+    item
+      Alias = 'IMPCAB'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT  RAZAO  as  EMP, BAIRRO,ENDERECO, CIDADE || '#39' - '#39' || UF |' +
+        '| CEP as local ,'#13#10#39'FONE: (19)'#39' || FONE ||  '#39' - '#39' || WEB as comun' +
+        'ica_1 ,  e_mail as comunica, CNPJ_CPF  '#13#10'FROM EMPRESA'
+    end
+    item
+      Alias = 'MATERIAPRIMA'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'SELECT  p.CODPROD, p.CODMAT, p.CODPRODPRO, p.CODPRODMAT, p.QTDE,' +
+        ' p.CUSTOUNIT, p.CUSTOTOT, p.PRODUTO, p.MATPRIMA'#13#10' FROM MATERIAPR' +
+        'IMA_CUSTO p'#13#10'WHERE  p.CODPROD = :CODPRODUTO'
+      DataSource = 'IMPR'
+    end>
+  DatabaseInfo = <
+    item
+      Alias = 'SGE'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
+    end>
+  Params = <
+    item
+      Name = 'PVMOV'
+      Value = 13
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'IMPR')
+      Description = 'C'#243'digo da OF'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end>
+  Language = 0
+  PrinterFonts = rppfontsnever
+  StreamFormat = rpStreamText
+  ReportAction = []
+  Type1Font = poHelvetica
+  WFontName = 'Arial'
+  LFontName = 'Helvetica'
+  object TRpSubReport0: TRpSubReport
+    Sections = <
+      item
+        Section = TRpSection1
+      end
+      item
+        Section = TRpSection3
+      end
+      item
+        Section = TRpSection0
+      end
+      item
+        Section = TRpSection4
+      end
+      item
+        Section = TRpSection2
+      end>
+    Alias = 'MATERIAPRIMA'
+  end
+  object TRpSection0: TRpSection
+    Width = 16335
+    Height = 285
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecdetail
+    Components = <
+      item
+        Component = TRpShape21
+      end
+      item
+        Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpExpression8
+      end
+      item
+        Component = TRpShape0
+      end
+      item
+        Component = TRpShape2
+      end
+      item
+        Component = TRpShape7
+      end
+      item
+        Component = TRpShape8
+      end
+      item
+        Component = TRpShape9
+      end
+      item
+        Component = TRpShape13
+      end
+      item
+        Component = TRpShape15
+      end
+      item
+        Component = TRpShape19
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection1: TRpSection
+    Width = 11070
+    Height = 0
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpheader
+    Components = <>
+    AutoContract = True
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection2: TRpSection
+    Width = 10220
+    Height = 0
+    SubReport = TRpSubReport0
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecpfooter
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection3: TRpSection
+    Width = 16335
+    Height = 2100
+    SubReport = TRpSubReport0
+    GroupName = 'TOTAL'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgheader
+    Components = <
+      item
+        Component = TRpShape18
+      end
+      item
+        Component = TRpShape17
+      end
+      item
+        Component = TRpShape16
+      end
+      item
+        Component = TRpShape14
+      end
+      item
+        Component = TRpShape12
+      end
+      item
+        Component = TRpShape1
+      end
+      item
+        Component = TRpShape25
+      end
+      item
+        Component = TRpShape3
+      end
+      item
+        Component = TRpExpression4
+      end
+      item
+        Component = TRpLabel1
+      end
+      item
+        Component = TRpLabel2
+      end
+      item
+        Component = TRpLabel3
+      end
+      item
+        Component = TRpLabel4
+      end
+      item
+        Component = TRpLabel11
+      end
+      item
+        Component = TRpShape11
+      end
+      item
+        Component = TRpShape22
+      end
+      item
+        Component = TRpShape10
+      end
+      item
+        Component = TRpShape23
+      end
+      item
+        Component = TRpShape6
+      end
+      item
+        Component = TRpShape4
+      end
+      item
+        Component = TRpLabel0
+      end
+      item
+        Component = TRpLabel5
+      end
+      item
+        Component = TRpLabel6
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpLabel8
+      end
+      item
+        Component = TRpLabel9
+      end
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpExpression1
+      end
+      item
+        Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression3
+      end
+      item
+        Component = TRpExpression5
+      end
+      item
+        Component = TRpExpression9
+      end
+      item
+        Component = TRpShape5
+      end
+      item
+        Component = TRpShape24
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection4: TRpSection
+    Width = 16320
+    Height = 3630
+    SubReport = TRpSubReport0
+    GroupName = 'TOTAL'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgfooter
+    Components = <
+      item
+        Component = TRpShape29
+      end
+      item
+        Component = TRpShape35
+      end
+      item
+        Component = TRpShape34
+      end
+      item
+        Component = TRpShape33
+      end
+      item
+        Component = TRpShape32
+      end
+      item
+        Component = TRpShape31
+      end
+      item
+        Component = TRpShape30
+      end
+      item
+        Component = TRpShape28
+      end
+      item
+        Component = TRpShape27
+      end
+      item
+        Component = TRpShape26
+      end
+      item
+        Component = TRpShape20
+      end
+      item
+        Component = TRpLabel10
+      end
+      item
+        Component = TRpLabel12
+      end
+      item
+        Component = TRpLabel13
+      end
+      item
+        Component = TRpLabel14
+      end
+      item
+        Component = TRpLabel15
+      end
+      item
+        Component = TRpLabel16
+      end
+      item
+        Component = TRpLabel17
+      end
+      item
+        Component = TRpLabel18
+      end
+      item
+        Component = TRpLabel20
+      end
+      item
+        Component = TRpLabel21
+      end
+      item
+        Component = TRpShape37
+      end
+      item
+        Component = TRpShape38
+      end
+      item
+        Component = TRpShape36
+      end
+      item
+        Component = TRpShape39
+      end
+      item
+        Component = TRpShape40
+      end
+      item
+        Component = TRpShape41
+      end
+      item
+        Component = TRpShape42
+      end
+      item
+        Component = TRpShape43
+      end
+      item
+        Component = TRpShape44
+      end
+      item
+        Component = TRpShape45
+      end
+      item
+        Component = TRpShape46
+      end
+      item
+        Component = TRpShape47
+      end
+      item
+        Component = TRpShape48
+      end
+      item
+        Component = TRpShape49
+      end
+      item
+        Component = TRpShape50
+      end
+      item
+        Component = TRpShape51
+      end
+      item
+        Component = TRpShape52
+      end
+      item
+        Component = TRpShape53
+      end
+      item
+        Component = TRpShape54
+      end
+      item
+        Component = TRpShape55
+      end
+      item
+        Component = TRpShape56
+      end
+      item
+        Component = TRpShape57
+      end
+      item
+        Component = TRpShape58
+      end
+      item
+        Component = TRpShape59
+      end
+      item
+        Component = TRpShape60
+      end
+      item
+        Component = TRpShape61
+      end
+      item
+        Component = TRpShape62
+      end
+      item
+        Component = TRpShape63
+      end
+      item
+        Component = TRpShape64
+      end
+      item
+        Component = TRpShape65
+      end
+      item
+        Component = TRpShape66
+      end
+      item
+        Component = TRpShape67
+      end
+      item
+        Component = TRpShape68
+      end
+      item
+        Component = TRpShape69
+      end
+      item
+        Component = TRpShape70
+      end
+      item
+        Component = TRpShape71
+      end
+      item
+        Component = TRpShape72
+      end
+      item
+        Component = TRpShape73
+      end
+      item
+        Component = TRpShape74
+      end
+      item
+        Component = TRpShape75
+      end
+      item
+        Component = TRpShape76
+      end
+      item
+        Component = TRpShape77
+      end
+      item
+        Component = TRpShape78
+      end
+      item
+        Component = TRpShape79
+      end
+      item
+        Component = TRpShape80
+      end
+      item
+        Component = TRpShape81
+      end
+      item
+        Component = TRpShape82
+      end
+      item
+        Component = TRpShape83
+      end
+      item
+        Component = TRpShape84
+      end
+      item
+        Component = TRpShape85
+      end
+      item
+        Component = TRpShape86
+      end
+      item
+        Component = TRpShape87
+      end
+      item
+        Component = TRpShape88
+      end
+      item
+        Component = TRpShape89
+      end
+      item
+        Component = TRpShape90
+      end
+      item
+        Component = TRpShape91
+      end
+      item
+        Component = TRpShape92
+      end
+      item
+        Component = TRpShape93
+      end
+      item
+        Component = TRpShape94
+      end
+      item
+        Component = TRpShape95
+      end
+      item
+        Component = TRpShape96
+      end
+      item
+        Component = TRpShape97
+      end
+      item
+        Component = TRpShape98
+      end
+      item
+        Component = TRpShape99
+      end
+      item
+        Component = TRpShape100
+      end
+      item
+        Component = TRpShape101
+      end
+      item
+        Component = TRpShape102
+      end
+      item
+        Component = TRpShape103
+      end
+      item
+        Component = TRpShape104
+      end
+      item
+        Component = TRpShape105
+      end
+      item
+        Component = TRpShape106
+      end
+      item
+        Component = TRpShape107
+      end
+      item
+        Component = TRpShape108
+      end
+      item
+        Component = TRpShape109
+      end
+      item
+        Component = TRpShape110
+      end
+      item
+        Component = TRpShape111
+      end
+      item
+        Component = TRpShape112
+      end
+      item
+        Component = TRpShape113
+      end
+      item
+        Component = TRpShape114
+      end
+      item
+        Component = TRpShape115
+      end
+      item
+        Component = TRpShape116
+      end
+      item
+        Component = TRpShape117
+      end
+      item
+        Component = TRpShape118
+      end
+      item
+        Component = TRpShape119
+      end
+      item
+        Component = TRpShape120
+      end
+      item
+        Component = TRpShape121
+      end
+      item
+        Component = TRpShape122
+      end
+      item
+        Component = TRpShape123
+      end
+      item
+        Component = TRpShape124
+      end
+      item
+        Component = TRpShape125
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = ''
+    BeginPageExpression = ''
+    ChangeExpression = ''
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpShape21: TRpShape
+    Width = 75
+    Height = 397
+    PosX = 9650268
+    PosY = 0
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression4: TRpExpression
+    Width = 11310
+    Height = 405
+    PosX = 300
+    PosY = 90
+    Type1Font = poHelvetica
+    FontSize = 16
+    FontStyle = 1
+    Alignment = 4
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPCAB.EMP'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel2: TRpLabel
+    Width = 640
+    Height = 200
+    PosX = 155
+    PosY = 945
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'DATA   :'
+  end
+  object TRpLabel4: TRpLabel
+    Width = 640
+    Height = 200
+    PosX = 12760
+    PosY = 795
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'QTDE   :'
+  end
+  object TRpLabel11: TRpLabel
+    Width = 640
+    Height = 200
+    PosX = 12760
+    PosY = 1195
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'QTDE   :'
+  end
+  object TRpShape3: TRpShape
+    Width = 16155
+    Height = 945
+    PosX = 0
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape10: TRpShape
+    Width = 75
+    Height = 1560
+    PosX = 12495
+    PosY = 0
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape23: TRpShape
+    Width = 100
+    Height = 960
+    PosX = 4690
+    PosY = 600
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape6: TRpShape
+    Width = 100
+    Height = 960
+    PosX = 2540
+    PosY = 600
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape4: TRpShape
+    Width = 100
+    Height = 960
+    PosX = 990
+    PosY = 600
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel1: TRpLabel
+    Width = 720
+    Height = 440
+    PosX = 12740
+    PosY = 50
+    Type1Font = poHelvetica
+    FontSize = 16
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'O.P.'
+  end
+  object TRpShape25: TRpShape
+    Width = 12495
+    Height = 600
+    PosX = 0
+    PosY = 0
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel3: TRpLabel
+    Width = 1695
+    Height = 255
+    PosX = 2805
+    PosY = 945
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'COD / PRODUTO   :'
+  end
+  object TRpLabel0: TRpLabel
+    Width = 555
+    Height = 255
+    PosX = 345
+    PosY = 1700
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'UNIT'
+  end
+  object TRpShape1: TRpShape
+    Width = 990
+    Height = 435
+    PosX = 0
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape12: TRpShape
+    Width = 1560
+    Height = 435
+    PosX = 990
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel6: TRpLabel
+    Width = 3555
+    Height = 300
+    PosX = 2595
+    PosY = 1690
+    Type1Font = poHelvetica
+    FontStyle = 1
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'DESCRI'#199#195'O'
+  end
+  object TRpLabel7: TRpLabel
+    Width = 3900
+    Height = 300
+    PosX = 6255
+    PosY = 1695
+    Type1Font = poHelvetica
+    FontStyle = 1
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'FORNECEDOR'
+  end
+  object TRpShape14: TRpShape
+    Width = 3674
+    Height = 435
+    PosX = 2535
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape16: TRpShape
+    Width = 4935
+    Height = 440
+    PosX = 6202
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel5: TRpLabel
+    Width = 700
+    Height = 320
+    PosX = 1500
+    PosY = 1690
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'TOTAL'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 700
+    Height = 320
+    PosX = 11350
+    PosY = 1690
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'NOTA FISCAL'
+  end
+  object TRpShape17: TRpShape
+    Width = 2591
+    Height = 435
+    PosX = 11100
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel9: TRpLabel
+    Width = 700
+    Height = 320
+    PosX = 14850
+    PosY = 1690
+    Type1Font = poHelvetica
+    FontStyle = 1
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Quant.'#10'DATA'
+  end
+  object TRpShape18: TRpShape
+    Width = 2449
+    Height = 435
+    PosX = 13695
+    PosY = 1600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpExpression0: TRpExpression
+    Width = 540
+    Height = 255
+    PosX = 4905
+    PosY = 945
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.CODPRO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression1: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 1210
+    PosY = 945
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.OFDATA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression2: TRpExpression
+    Width = 1755
+    Height = 360
+    PosX = 13995
+    PosY = 45
+    Type1Font = poHelvetica
+    FontSize = 16
+    FontStyle = 1
+    Alignment = 4
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.OFID'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression3: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 14055
+    PosY = 705
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.OFQTDESOLIC'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression5: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 14045
+    PosY = 1190
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.OFQTDEPRODUZ'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression6: TRpExpression
+    Width = 675
+    Height = 255
+    PosX = 105
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'MATERIAPRIMA.QTDE'
+    DisplayFormat = ',##0.0'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1035
+    Height = 255
+    PosX = 1110
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.0'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'MATERIAPRIMA.QTDE*IMPR.OFQTDESOLIC'
+    DisplayFormat = ',##0.0'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 3495
+    Height = 270
+    PosX = 2655
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    CutText = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'MATERIAPRIMA.MATPRIMA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 6345
+    Height = 255
+    PosX = 5550
+    PosY = 945
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMPR.PRODUTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape0: TRpShape
+    Width = 16110
+    Height = 75
+    PosX = 45
+    PosY = 295
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape7: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 2540
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape8: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 6200
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape9: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 11095
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape13: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 13695
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape15: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 16160
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape2: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 990
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape19: TRpShape
+    Width = 75
+    Height = 360
+    PosX = 11
+    PosY = -50
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel10: TRpLabel
+    Width = 12045
+    Height = 255
+    PosX = 300
+    PosY = 45
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'SAIDA DE MATERIAIS'
+  end
+  object TRpLabel12: TRpLabel
+    Width = 3240
+    Height = 255
+    PosX = 12705
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'DISPONIVEL'
+  end
+  object TRpShape20: TRpShape
+    Width = 12495
+    Height = 300
+    PosX = 0
+    PosY = 0
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape26: TRpShape
+    Width = 3657
+    Height = 300
+    PosX = 12495
+    PosY = 0
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape27: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape28: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape30: TRpShape
+    Width = 3000
+    Height = 300
+    PosX = 7755
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape31: TRpShape
+    Width = 3000
+    Height = 300
+    PosX = 4805
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape32: TRpShape
+    Width = 1200
+    Height = 300
+    PosX = 3600
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape33: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 2400
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel13: TRpLabel
+    Width = 1200
+    Height = 300
+    PosX = 0
+    PosY = 369
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'DATA'
+  end
+  object TRpLabel14: TRpLabel
+    Width = 1200
+    Height = 300
+    PosX = 1200
+    PosY = 345
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'QTDE'
+  end
+  object TRpLabel16: TRpLabel
+    Width = 1200
+    Height = 300
+    PosX = 3600
+    PosY = 345
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'SETOR'
+  end
+  object TRpLabel17: TRpLabel
+    Width = 2955
+    Height = 300
+    PosX = 4800
+    PosY = 345
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'COLETADO POR'
+  end
+  object TRpLabel18: TRpLabel
+    Width = 3000
+    Height = 255
+    PosX = 7755
+    PosY = 345
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'VISTO'
+  end
+  object TRpLabel20: TRpLabel
+    Width = 1455
+    Height = 300
+    PosX = 12495
+    PosY = 300
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'DATA'
+  end
+  object TRpLabel21: TRpLabel
+    Width = 1650
+    Height = 300
+    PosX = 14505
+    PosY = 300
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'QTDE'
+  end
+  object TRpShape35: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape34: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 305
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpLabel15: TRpLabel
+    Width = 1200
+    Height = 300
+    PosX = 2400
+    PosY = 345
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = #10'ITEM'
+  end
+  object TRpShape29: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10755
+    PosY = 300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape44: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape43: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape42: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape41: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape40: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape36: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape39: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape38: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 605
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape37: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 600
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape45: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape46: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape47: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape48: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape49: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape50: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape51: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape52: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 905
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape53: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 900
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape54: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape55: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape56: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape57: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape58: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape59: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape60: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape61: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 1205
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape62: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 1200
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape63: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape64: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape65: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape66: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape67: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape68: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape69: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape70: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 1505
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape71: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 1500
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape72: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape73: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape74: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape75: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape76: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape77: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape78: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape79: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 1805
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape80: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 1800
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape81: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape82: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape83: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape84: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape85: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape86: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape87: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape88: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 2105
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape89: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 2100
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape90: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape91: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape92: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape93: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape94: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape95: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape96: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape97: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 2405
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape98: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 2400
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape99: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape100: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape101: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape102: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape103: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape104: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape105: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape106: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 2705
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape107: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 2700
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape108: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape109: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape110: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape111: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape112: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape113: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape114: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape115: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 3005
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape116: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 3000
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape117: TRpShape
+    Width = 1956
+    Height = 300
+    PosX = 14205
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape118: TRpShape
+    Width = 1710
+    Height = 300
+    PosX = 12495
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape119: TRpShape
+    Width = 1740
+    Height = 300
+    PosX = 10750
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape120: TRpShape
+    Width = 2993
+    Height = 300
+    PosX = 7750
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape121: TRpShape
+    Width = 2976
+    Height = 300
+    PosX = 4800
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape122: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 3600
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape123: TRpShape
+    Width = 1210
+    Height = 300
+    PosX = 2400
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape124: TRpShape
+    Width = 1245
+    Height = 300
+    PosX = 1150
+    PosY = 3305
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape125: TRpShape
+    Width = 1155
+    Height = 300
+    PosX = 0
+    PosY = 3300
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape22: TRpShape
+    Width = 3660
+    Height = 100
+    PosX = 12490
+    PosY = 1107
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape5: TRpShape
+    Width = 3660
+    Height = 100
+    PosX = 12490
+    PosY = 7
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape11: TRpShape
+    Width = 105
+    Height = 1560
+    PosX = 13695
+    PosY = 0
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape24: TRpShape
+    Width = 90
+    Height = 600
+    PosX = 16155
+    PosY = 0
+    Shape = rpsVertLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+end
