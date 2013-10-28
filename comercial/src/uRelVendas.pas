@@ -1,4 +1,4 @@
-unit uRelVendas;            
+unit uRelVendas;
 
 interface
 
@@ -132,6 +132,15 @@ type
     Label10: TLabel;
     cbRazao: TJvComboBox;
     RadioGroup1: TRadioGroup;
+    GroupBox9: TGroupBox;
+    BitBtn14: TBitBtn;
+    GroupBox10: TGroupBox;
+    BitBtn16: TBitBtn;
+    edVendedor: TEdit;
+    cbVendedor: TJvDBSearchComboBox;
+    Label16: TLabel;
+    cbMarca: TComboBox;
+    chkVendedor: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -158,6 +167,9 @@ type
     procedure BitBtn12Click(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
+    procedure chkVendedorClick(Sender: TObject);
+    procedure BitBtn14Click(Sender: TObject);
+    procedure BitBtn16Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -225,10 +237,12 @@ begin
     cds_Marca.Open;
     ComboBox5.Items.Clear;
     ComboBox8.Items.Clear;
+    cbMarca.Items.Clear;
     while not cds_Marca.Eof do
     begin
       ComboBox5.Items.Add(cds_MarcaDESCMARCAS.AsString);
       ComboBox8.Items.Add(cds_MarcaDESCMARCAS.AsString);
+      cbMarca.Items.Add(cds_MarcaDESCMARCAS.AsString);
       cds_Marca.Next;
     end;
     cds_Marca.Close;
@@ -702,7 +716,7 @@ begin
     Edit2.Text := '';
     Edit1.Enabled := False;
     Edit2.Enabled := False;
-    btnClienteProcura.Enabled := False;    
+    btnClienteProcura.Enabled := False;
     Edit1.Color := cl3DLight;
     Edit2.Color := cl3DLight;
   end;
@@ -852,6 +866,13 @@ begin
     else
       Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
 
+    if (edit1.Text = '') then
+    begin
+      Rep.Report.Params.ParamByName('CODVENDEDOR').Value := 0;
+    end
+    else begin
+      Rep.Report.Params.ParamByName('CODVENDEDOR').Value := StrToInt(edit1.Text);
+    end;
 
   except
     on EConvertError do
@@ -919,5 +940,108 @@ begin
   end;
 end;
 
+procedure TfRelVenda.chkVendedorClick(Sender: TObject);
+begin
+  if (chkVendedor.Checked) then
+  begin
+    EdVendedor.Enabled := True;
+    cbVendedor.Enabled := True;
+    bitbtn16.Enabled := True;
+    EdVendedor.Color := clWindow;
+    cbVendedor.Color := clWindow;
+  end
+  else begin
+    EdVendedor.Text := '';
+    cbVendedor.Text := '';
+    EdVendedor.Enabled := False;
+    cbVendedor.Enabled := False;
+    bitbtn16.Enabled := False;
+    EdVendedor.Color := cl3DLight;
+    cbVendedor.Color := cl3DLight;
+  end;
+end;
+
+procedure TfRelVenda.BitBtn14Click(Sender: TObject);
+begin
+  try
+    Rep.Filename := str_relatorio + 'rel_filtroprodVendedor.rep';
+    Rep.Title := rep.Filename;
+    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+
+    {**** DATA **** }
+    Rep.Report.Params.ParamByName('DTAINI').Value := StrToDate(Data1.Text);
+    Rep.Report.Params.ParamByName('DTAFIM').Value := StrToDate(Data2.Text);
+
+    {**** SUB_GRUPO **** }
+    //if (ComboBox7.Text <> '') then
+    //  Rep.Report.Params.ParamByName('CATEGORIA').Value := ComboBox7.Text
+    //else
+    Rep.Report.Params.ParamByName('CATEGORIA').Value := 'TODAS AS CATEGORIAS CADASTRO';
+
+    {**** GRUPO **** }
+    //if (ComboBox6.Text <> '') then
+    //  Rep.Report.Params.ParamByName('FAMILIA').Value := ComboBox6.Text
+    //else
+    //  Rep.Report.Params.ParamByName('FAMILIA').Value := 'TODAS AS FAMILIAS DO CADASTRO';
+
+    {**** MARCAS **** }
+    if (cbMarca.Text <> '') then
+      Rep.Report.Params.ParamByName('MARCA').Value := cbMarca.Text
+    else
+      Rep.Report.Params.ParamByName('MARCA').Value := 'TODAS AS MARCAS DO CADASTRO';
+
+    {**** CENTRO DE CUSTO **** }
+    {if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
+    end
+    else}
+    Rep.Report.Params.ParamByName('CCUSTO').Value := 999999;
+
+    if (edVendedor.Text = '') then
+    begin
+      Rep.Report.Params.ParamByName('CODVENDEDOR').Value := 0;
+    end
+    else begin
+      Rep.Report.Params.ParamByName('CODVENDEDOR').Value := StrToInt(edVendedor.Text);
+    end;
+
+  except
+    on EConvertError do
+    begin
+       ShowMessage ('Data Inválida! dd/mm/aa');
+       Data1.SetFocus;
+    end;
+  end;
+  Rep.Execute;
+
+end;
+
+procedure TfRelVenda.BitBtn16Click(Sender: TObject);
+begin
+  fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+  try
+    if fProcurar.ShowModal=mrOk then
+    begin
+      edVendedor.Text := IntToStr(dm.scds_usuario_ProcCODusuario.AsInteger);
+      cbVendedor.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
+    end;
+  finally
+    dm.scds_usuario_proc.Close;
+    fProcurar.Free;
+  end;
+end;
+
 end.
+
 
