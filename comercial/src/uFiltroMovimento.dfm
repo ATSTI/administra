@@ -1416,12 +1416,6 @@ object fFiltroMovimento: TfFiltroMovimento
       end
       item
         Expanded = False
-        FieldName = 'APAGAR'
-        Title.Caption = 'Valor R$'
-        Visible = False
-      end
-      item
-        Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
         Width = 47
