@@ -2084,7 +2084,7 @@ begin
       cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
       vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
       sqs_tit.Close;
-      cds.ApplyUpdates(0);
+      cds.post;
     end;
 
     if (cdsFORMARECEBIMENTO.asString <> '') then
