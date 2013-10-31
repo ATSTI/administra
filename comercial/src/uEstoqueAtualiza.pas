@@ -76,7 +76,7 @@ begin
     dm.sdsBusca.SQLConnection := dm.SQl;
     dm.cdsBusca.CommandText := 'SELECT p.CODPRODUTO, p.CODALMOXARIFADO, ' +
       ' p.LOTE, p.PRECO_CUSTO, p.ESTOQUE, p.PRECO_COMPRA, p.USA_LOTE, ' +
-      ' p.CODLOTE, p.ESTOQUELOTE ' +
+      ' p.ESTOQUELOTE ' +
       ' FROM ESTOQUE_ATUALIZA (' + IntToStr(dm.EstoquecodMOV)  + ') p';
     dm.cdsBusca.Open;
     DecimalSeparator := '.';

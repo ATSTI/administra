@@ -180,9 +180,11 @@ begin
 
   // Cancelar Venda
   if (executaSql('UPDATE MOVIMENTO SET CODNATUREZA = 14, STATUS = 2 ' +
-    'WHERE CODMOVIMENTO = ' + IntToStr(codMovC))) then
+    ' WHERE CODMOVIMENTO = ' + IntToStr(codMovC))) then
   begin
     Try
+      executaSql('UPDATE MOVIMENTODETALHE SET BAIXA = NULL ' +
+        ' WHERE CODMOVIMENTO = ' + IntToStr(codMovC));
       executaSql('UPDATE RECEBIMENTO SET STATUS = ' + QuotedStr('14') +
         ' WHERE CODVENDA = ' + IntToStr(codVendaC));
       //dmnf.cancelaEstoque(codMovC, dataV, 'VENDA');
