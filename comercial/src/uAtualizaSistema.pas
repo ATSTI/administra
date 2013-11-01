@@ -2011,6 +2011,11 @@ begin
       MessageDlg('Execute o script trg_calcula_icms_st.sql.', mtWarning, [mbOK], 0);
       //insereouatualizaScript('', '1.1.0.0');
       AtualizandoScript('1.1.0.0');
+      try
+        EXECUTADDL('NOTAFISCAL_PROD_IMPORTA', 'COD_BARRA', 'VARCHAR(30)');
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ALTER CODPRODUTO TYPE Varchar(30);
+      except
+      end;
       mudaVersao('1.2.1.0');
     end;// Fim Atualizacao Versao 1.1.0.0
 
