@@ -1,6 +1,6 @@
 object fAtualizaSistema: TfAtualizaSistema
   Left = 213
-  Top = 124
+  Top = 125
   Width = 696
   Height = 473
   Color = clBtnFace
@@ -215,5 +215,25 @@ object fAtualizaSistema: TfAtualizaSistema
     ProxySettings.Port = 0
     Left = 440
     Top = 8
+  end
+  object sdsAtualiza: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 320
+    Top = 392
+  end
+  object dspAtualiza: TDataSetProvider
+    DataSet = sdsAtualiza
+    Options = [poAllowCommandText]
+    Left = 344
+    Top = 392
+  end
+  object cdsAtualiza: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspAtualiza'
+    Left = 376
+    Top = 392
   end
 end

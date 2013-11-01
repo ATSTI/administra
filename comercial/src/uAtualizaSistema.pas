@@ -22,6 +22,9 @@ type
     Label2: TLabel;
     ftpupdate: TIdFTP;
     SQLQuery1: TSQLQuery;
+    sdsAtualiza: TSQLDataSet;
+    dspAtualiza: TDataSetProvider;
+    cdsAtualiza: TClientDataSet;
     procedure FormCreate(Sender: TObject);
     procedure VerSeTemAtualiza;
     procedure VerBoleto(Empresa : String);
@@ -45,7 +48,8 @@ type
     procedure DeletaTrigger(Trigger: String);
     procedure DeletaProc(Proc: String);
     function TamCampo(Tabela, Campo : String): Integer;
-
+    procedure insereouatualizaScript(Script, versaoScript: String);
+    procedure AtualizandoScript(vVersao: String);
     { Private declarations }
   public
     TD: TTransactionDesc;
@@ -274,7 +278,6 @@ begin
       executaDDL('MOVIMENTO', 'OBS', 'VARCHAR(100)');
       executaDDL('MOVIMENTODETALHE', 'PRECOULTIMACOMPRA', 'DOUBLE PRECISION');
       executaScript('produtoetiquetacompra.sql');
-      executaScript('spEstoqueFiltro.sql');
       executaScript('retornaEstoqueCompra.sql');
       executaScript('CorrigeEstoque.sql');
       executaScript('apaga_estoque.sql');
@@ -662,7 +665,6 @@ begin
 
     if (versaoSistema = '1.0.0.65') then
     begin
-      executaScript('gera_nf_compra.sql');
       executaScript('desbloqueia_clientes.sql');
       mudaVersao('1.0.0.66');
     end;  // Fim Atualizacao Versao 1.0.0.66
@@ -721,8 +723,6 @@ begin
     if (versaoSistema = '1.0.0.70') then
     begin
       executaDDL('MOVIMENTODETALHE', 'VLR_BASEICMS','DOUBLE PRECISION');
-      executaScript('listaSpEstoqueFiltro.sql');
-      executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.71');
     end;  // Fim Atualizacao Versao 1.0.0.71
 
@@ -827,7 +827,6 @@ begin
       executaScript('altera_vlrvenda.sql');
       executaScript('gera_nf_devolucaocompra.sql');
       executaScript('gera_nf_devolucaovenda.sql');
-      executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.80');
     end;  // Fim Atualizacao Versao 1.0.0.80
 
@@ -1042,7 +1041,6 @@ begin
       executaScript('inventario_lanca.sql');
       executaScript('sp_mov_caixa.sql');
       executaScript('listaSpEstoqueFiltro.sql');
-      executaScript('spEstoqueFiltro.sql');
       executaScript('trg_data_altera_preco.sql');
       CriaGenerator('GEN_SIMILAR');
       if (NaoExisteTabela('ESTOQUEMES')) then
@@ -1060,7 +1058,6 @@ begin
         'QTDEINVENTARIO + QTDEENTRADA + QTDECOMPRA + QTDEDEVCOMPRA - QTDEVENDA - QTDESAIDA - QTDEPERDA -  QTDEDEVVENDA) ');
       end;
       CriaGenerator('GEN_OS');
-      executaScript('spEstoqueFiltro.sql');
       executaScript('estoqueccustoent.sql');
       mudaVersao('1.0.0.93');
       {executaSql('INSERT INTO NATUREZAOPERACAO (CODNATUREZA, DESCNATUREZA, GERATITULO, TIPOTITULO, TIPOMOVIMENTO) VALUES (' +
@@ -1198,7 +1195,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'IMPRESSO', 'CHAR(3)');
       executaDDL('RECEBIMENTO', 'USERID', 'INTEGER');
       executaDDL('PRODUTOS', 'ESTOQUEMAXIMO', 'DOUBLE PRECISION');
-      executaScript('gera_nf_compra.sql');
       mudaVersao('1.0.0.98');
     end;// Fim Atualizacao Versao 1.0.0.98
 
@@ -1564,7 +1560,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'PPIS', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
       MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
-      executaScript('spEstoqueFiltro.sql');
       mudaVersao('1.0.0.106');
     end;// Fim Atualizacao Versao 1.0.0.106
 
@@ -1637,7 +1632,7 @@ begin
         DeletaTrigger('CORRIGE_IPI_VENDA');
         DeletaTrigger('TRG_NF_CR_INSERE');
         DeletaTrigger('TRG_NF_CR_ALTERA');
-        DeletaTrigger('MOV_ESTOQUE');		
+        DeletaTrigger('MOV_ESTOQUE');
       except
       end;
       if (NaoExisteTabela('LISTAPRECO_VENDADET')) then
@@ -1802,7 +1797,6 @@ begin
 
       executaScript('trg_calcula_icms_st_116.sql');
       executaScript('listaSpEstoqueFiltro116.sql');
-      executaScript('spEstoqueFiltro116.sql');
 
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
 
@@ -1812,7 +1806,6 @@ begin
     if (versaoSistema = '1.0.0.117') then
     begin
       executaScript('listaSpEstoqueFiltro118.sql');
-      executaScript('spEstoqueFiltro118.sql');      
       executaScript('estoque_view118.sql');
       mudaVersao('1.0.0.118');
     end;// Fim Atualizacao Versao 1.0.0.118
@@ -1942,19 +1935,12 @@ begin
 
     if (versaoSistema = '1.0.0.121') then
     begin
-      //executaScript('estoque_atualiza122.sql');
       executaScript('invent_estoque122.sql');
       executaScript('view_estoque122.sql');
       //executaScript('estoque_customedio122.sql');
       executaScript('rel_vendaCompra122.sql');
       executaScript('spestoque122.sql');
-      executaScript('gera_cupom.sql');
-      //executaScript('listaProduto122.sql');
-      //executaScript('listaProdutocli122.sql');
-      //executaScript('spEstoqueFiltro122.sql');
-      //executaScript('estoque_view_custo122.sql');
       executaScript('imprimevendadata122.sql');
-      //executaScript('reldre122.sql');
       executaScript('proibe_alt_del_nf122.sql');
       EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
       mudaVersao('1.0.0.122');
@@ -1976,12 +1962,9 @@ begin
       EXECUTADDL('CFOP', 'TOTTRIB', 'CHAR(1)');
       EXECUTADDL('CFOP', 'FRETEBC', 'CHAR(1)');
       EXECUTADDL('CFOP', 'IPIBC', 'CHAR(1)');
-      executaScript('spEstoqueFiltro123.sql');
       executaScript('estoque_customedio123.sql');
-      executaScript('view_estoquelote123.sql');
       executaScript('listaProdutocli123.sql');
       executaScript('listaProduto123.sql');
-      executaScript('estoque_atualiza123.sql');
       executaScript('sp_contas_recebidas123.sql');
       executaScript('materiaprima_custo123.sql');
       executaScript('spestoqueproduto123.sql');
@@ -2011,10 +1994,25 @@ begin
            ' on delete NO ACTION');
       except
       end;
-      //mudaVersao('1.2.0.0');
+      EXECUTADDL('CFOP', 'TOTTRIB', 'char(1)');
+      EXECUTADDL('EMPRESA', 'MODELOCUPOM', 'VARCHAR(2)');
+      EXECUTADDL('EMPRESA', 'ECFMOD', 'VARCHAR(20)');
+      EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
+      EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
+
+      // Rotina nova para incluir e executar scripts.
+      insereouatualizaScript('estoque_atualiza.sql', '1.1.0.0');
+      insereouatualizaScript('filtroproduto.sql', '1.1.0.0');
+      insereouatualizaScript('gera_cupom.sql', '1.1.0.0');
+      insereouatualizaScript('gera_nf_compra.sql', '1.1.0.0');
+      insereouatualizaScript('view_estoquelote.sql', '1.1.0.0');
+      insereouatualizaScript('spEstoqueFiltro.sql', '1.1.0.0');
+      //insereouatualizaScript('trg_calcula_icms_st.sql', '1.1.0.0');
+      MessageDlg('Execute o script trg_calcula_icms_st.sql.', mtWarning, [mbOK], 0);
+      //insereouatualizaScript('', '1.1.0.0');
+      AtualizandoScript('1.1.0.0');
+      mudaVersao('1.2.1.0');
     end;// Fim Atualizacao Versao 1.1.0.0
-
-
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
@@ -2413,6 +2411,67 @@ begin
   cds.Open;
   Result := cds.FieldValues['rdb$field_length'];
 
+end;
+
+procedure TfAtualizaSistema.AtualizandoScript(vVersao: String);
+begin
+  if (cdsAtualiza.Active) then
+    cdsAtualiza.Close;
+  cdsAtualiza.CommandText := 'SELECT * FROM ATUALIZA WHERE VERSAO = ' + QuotedStr(vVersao) +
+    ' AND CODATUALIZA < 5000';
+  cdsAtualiza.Open;
+  while not cdsAtualiza.Eof do
+  begin
+    if (cdsAtualiza.fieldByName('SCRIPT').AsString <> '') then
+      ExecutaScript(cdsAtualiza.fieldByName('SCRIPT').AsString);
+    cdsAtualiza.Next;
+  end;
+end;
+
+procedure TfAtualizaSistema.insereouatualizaScript(Script, versaoScript: String);
+var TD: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT * FROM ATUALIZA WHERE SCRIPT = ' + QuotedStr(Script) +
+    ' AND CODATUALIZA < 5000';
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.IsEmpty) then
+  begin
+    if (Script <> '') then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('INSERT INTO ATUALIZA (SCRIPT, DATASCRIPT, VERSAO) VALUES (' +
+          QuotedStr(Script) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',now)) + ', ' +
+          QuotedStr(versaoScript) + ')');
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+    end;
+  end
+  else begin
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE  ATUALIZA SET VERSAO = ' +
+        QuotedStr(versaoScript) + ' ,  DATA_MODIFICADO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',now)) +
+        ' WHERE SCRIPT = ' + QuotedStr(Script));
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
 end;
 
 end.
