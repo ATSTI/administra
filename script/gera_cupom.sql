@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE GERA_CUPOM (
     CODMOV integer )
 AS
@@ -88,11 +87,11 @@ begin
     select GEN_ID(GENMOV, 1) from RDB$DATABASE
       into :codMovNovo;
 
-    for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE, ven.ENTRADA, ven.CODVENDA , ven.DESCONTO, ven.f
+    for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, ven.VALOR_FRETE, ven.ENTRADA, ven.CODVENDA , ven.DESCONTO, ven.FORMARECEBIMENTO
     from movimento mov 
     inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
     where mov.CODMOVIMENTO = :codMov
-    into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :entrada, :rcodven , :vDesconto
+    into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :entrada, :rcodven , :vDesconto, :formaRecebimento
     do 
     begin 
       insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario, codVendedor, dataMovimento, status, codNatureza, controle, data_sistema) 
@@ -134,7 +133,7 @@ begin
      , VALOR, NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO
      , MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, VALOR_ICMS, VALOR_FRETE
      , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema, PRAZO)
-     VALUES (:codVen, :codMovNovo, :Cliente, current_date, current_date, :total, :numero, :serie, 0, :codCCusto, :np, 1,  0, 0, :total, :entrada, :vIcmsT, :vFreteT
+     VALUES (:codVen, :codMovNovo, :Cliente, current_date, current_date, :total, :numero, :serie, 0, :codCCusto, :np, :formaRecebimento,  0, 0, :total, :entrada, :vIcmsT, :vFreteT
      , :vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE, :PRAZO);
 
     
