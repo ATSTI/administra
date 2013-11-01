@@ -188,8 +188,8 @@ end;
 
 procedure TfCCe.btnCCeClick(Sender: TObject);
 begin
-    fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
-    fNFeletronica.ShowModal;
+  fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
+  fNFeletronica.ShowModal;
 end;
 
 end.

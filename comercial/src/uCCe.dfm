@@ -1,6 +1,6 @@
 object fCCe: TfCCe
   Left = 173
-  Top = 76
+  Top = 78
   Width = 783
   Height = 530
   Caption = 'Carta de Corre'#231#227'o Eletr'#244'nica'
@@ -230,7 +230,7 @@ object fCCe: TfCCe
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 767
+    Width = 775
     Height = 51
     Align = alTop
     TabOrder = 2
@@ -243,8 +243,8 @@ object fCCe: TfCCe
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 441
-    Width = 767
+    Top = 452
+    Width = 775
     Height = 51
     Align = alBottom
     TabOrder = 3
