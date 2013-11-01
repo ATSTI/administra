@@ -285,7 +285,7 @@ object fImporta_XML: TfImporta_XML
     Width = 97
     Height = 21
     TabOrder = 13
-    Text = '30'
+    Text = '33'
   end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
