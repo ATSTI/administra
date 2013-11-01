@@ -924,6 +924,12 @@ var
   Protocolo, Recibo, str, vAux, valida : String;
   tipoNota: Char;
 begin
+  if (edtNumSerie.Text = '') then
+  begin
+    MessageDlg('Selecione o Certificado!',mtWarning,[mbOk],0);
+    exit;
+  end;
+
   if (tp_amb = 3) then
   begin
     if (validaNumNfeScan = false) then
@@ -2915,6 +2921,11 @@ var protocolo, str, xCond :string;
     NumeroLote : Integer;
     TD: TTransactionDesc;
 begin
+  if (edtNumSerie2.Text = '') then
+  begin
+    MessageDlg('Selecione o Certificado!',mtWarning,[mbOk],0);
+    exit;
+  end;
   envio := Now;
   NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
   try
