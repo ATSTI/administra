@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, FMTBcd, Provider, DBClient, DB, SqlExpr, Menus,
   XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, Mask,
-  DBCtrls;
+  DBCtrls, dbxpress;
 
 type
   TfClassificacaoFIscalProduto = class(TfPai_new)
@@ -225,7 +225,11 @@ end;
 
 procedure TfClassificacaoFIscalProduto.btnGravarClick(Sender: TObject);
 var str:string;
+TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
   DecimalSeparator := '.';
   try
     if (cdsClassFisc.State in [dsEdit]) then
@@ -250,7 +254,19 @@ begin
       str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
       str := str + ' AND CFOP = ' + QuotedStr(CFOP);
       str := str + ' AND UF = ' + QuotedStr(UF);
-      dm.sqlsisAdimin.ExecuteDirect(str);
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+
       inherited;
     end
     else
@@ -293,13 +309,32 @@ end;
 
 procedure TfClassificacaoFIscalProduto.btnExcluirClick(Sender: TObject);
 var str: string;
+TD: TTransactionDesc;
 begin
-  inherited;
+  //inherited;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
   str := 'DELETE FROM ClassificacaoFiscalProduto ';
   str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
   str := str + ' AND CFOP = ' + QuotedStr(CFOP);
   str := str + ' AND UF = ' + QuotedStr(UF);
-  dm.sqlsisAdimin.ExecuteDirect(str);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(str);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+  if(cdsClassFisc.Active) then
+    cdsClassFisc.Close;
+  cdsClassFisc.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
+  cdsClassFisc.open;
 end;
 
 procedure TfClassificacaoFIscalProduto.BitBtn1Click(Sender: TObject);
