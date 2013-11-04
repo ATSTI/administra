@@ -39,6 +39,7 @@ AS
  Declare variable CALCTRIB varchar(1); 
  DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
 BEGIN
+  -- versao 1.2.2
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
   begin 
 	if ( (new.cfop = '') or (new.CFOP is null) ) then
@@ -213,7 +214,7 @@ BEGIN
                 CICMS_SUBST_IC = CICMS_SUBST_IC/100;
 				
 			if (CICMS_SUBST > 0) then
-			new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS * CICMS_SUBST), :arredondar);
+			new.ICMS_SUBSTD = UDF_ROUNDDEC(((TOTALITENS + new.VIPI) * CICMS_SUBST), :arredondar);
 			if ( new.ICMS_SUBSTD > 0) then
 			begin
 				VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
@@ -351,7 +352,7 @@ BEGIN
 					CICMS_SUBST_IC = CICMS_SUBST_IC/100;
 				
                 if (CICMS_SUBST > 0) then
-                    new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS *CICMS_SUBST), :arredondar);
+                    new.ICMS_SUBSTD = UDF_ROUNDDEC(((TOTALITENS + new.VIPI) *CICMS_SUBST), :arredondar);
                 if ( new.ICMS_SUBSTD > 0) then
                 begin
                     VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
@@ -568,7 +569,7 @@ BEGIN
                 new.ICMSFRETE = 0;
                 new.BCSTFRETE = 0;
             end
-        end
+        end    
     end
   end  
   else begin 
