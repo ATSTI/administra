@@ -2013,7 +2013,7 @@ begin
       AtualizandoScript('1.1.0.0');
       try
         EXECUTADDL('NOTAFISCAL_PROD_IMPORTA', 'COD_BARRA', 'VARCHAR(30)');
-        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ALTER CODPRODUTO TYPE Varchar(30);
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ALTER CODPRODUTO TYPE Varchar(30)');
       except
       end;
       mudaVersao('1.2.1.0');
