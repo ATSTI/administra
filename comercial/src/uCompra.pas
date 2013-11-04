@@ -1207,6 +1207,7 @@ begin
       if (not cds_ccusto.Active) then
         cds_ccusto.Open;
       cds_ccusto.First;
+      ffiltromov_compra.ComboBox1.Items.Clear;
       while not cds_ccusto.Eof do
       begin
         ffiltromov_compra.ComboBox1.Items.Add(cds_ccustoNOME.AsString);
