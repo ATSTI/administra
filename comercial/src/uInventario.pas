@@ -210,8 +210,6 @@ procedure TfInventario.btnProcListaClick(Sender: TObject);
 var sqlb : string;
 begin
   sqlb := '';
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
 
   if( (edLista.Text <> '') and (Dta.Text <> '  /  /    ')) then
   begin
