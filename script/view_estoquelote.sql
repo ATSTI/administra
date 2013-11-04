@@ -17,6 +17,7 @@ begin
         AND P.CODPRODUTO = md.CODPRODUTO
         AND ((MD.codproduto = :CODPRODUT) OR (:CODPRODUT = 0))
         AND ((md.LOTE = :LOTE_PESQ) OR (:LOTE_PESQ = '0'))
+        AND (MD.BAIXA IS NOT NULL)
       GROUP BY P.CODPRO, Md.CODPRODUTO, p.PRODUTO, COALESCE(md.LOTE,0)
       INTO :codpro, :codproduto, :produto, :lote 
       DO BEGIN 
