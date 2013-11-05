@@ -408,6 +408,7 @@ begin
   dm.cds_ccusto.Open;
   // populo a combobox
   dm.cds_ccusto.First;
+  cbLocal.Items.Clear;
   while not dm.cds_ccusto.Eof do
   begin
     cbLocal.Items.Add(dm.cds_ccustoNOME.AsString);
@@ -459,6 +460,7 @@ begin
   if (not dm.cds_Marca.Active) then
     dm.cds_Marca.Open;
   dm.cds_Marca.First;
+  cbMarca.Items.Clear;
   while not dm.cds_Marca.Eof do
   begin
      cbMarca.Items.Add(dm.cds_MarcaDESCMARCAS.AsString);
@@ -469,6 +471,7 @@ begin
   if (not dm.cds_familia.Active) then
     dm.cds_familia.Open;
   dm.cds_familia.First;
+  cbFamilia.Items.Clear;
   while not dm.cds_familia.Eof do
   begin
      cbFamilia.Items.Add(dm.cds_familiaDESCFAMILIA.AsString);
@@ -483,6 +486,7 @@ begin
   dm.cds_categoria.Params[1].AsString := 'todos';
   dm.cds_categoria.Open;
   dm.cds_categoria.First;
+  cbCategoria.Items.Clear;
   while not dm.cds_categoria.Eof do
   begin
      cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);

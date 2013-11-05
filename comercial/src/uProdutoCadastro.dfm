@@ -235,6 +235,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Top = 101
     Width = 483
     Height = 24
+    Color = clWhite
     DataField = 'PRODUTO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -1684,7 +1685,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [38]
-    Left = 152
+    Left = 128
     Top = 133
     Width = 417
     Height = 273
