@@ -349,6 +349,8 @@ begin
   Button1.SetFocus;
   dbEdit1.SetFocus;
   dbMarca.Text := '';
+  cbLocal.ItemIndex := -1;
+  cbAplicacao.ItemIndex := -1;
   if (DM.cds_Marca.Active) then
     DM.cds_Marca.Close;
   DM.cds_Marca.Open;
@@ -360,6 +362,33 @@ end;
 
 procedure TfProdutoCadastro.btnGravarClick(Sender: TObject);
 begin
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTOCADASTRO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if ((dm.cds_parametroD1.AsString = 'GRUPO') and (dbEdit14.Text = '')) then
+    begin
+      MessageDlg('O campo Familia/Grupo é obrigatório.', mtInformation, [mbOK], 0);
+      dbEdit14.SetFocus;
+      exit;
+    end;
+    if ((dm.cds_parametroD2.AsString = 'SUBGRUPO') and (dbEdit16.Text = '')) then
+    begin
+      MessageDlg('O campo Categoria/Sub-Grupo é obrigatório.', mtInformation, [mbOK], 0);
+      dbEdit16.SetFocus;
+      exit;
+    end;
+    if ((dm.cds_parametroD3.AsString = 'APLICACAO') and (cbAplicacao.ItemIndex = -1)) then
+    begin
+      MessageDlg('O campo Aplicação é obrigatório.', mtInformation, [mbOK], 0);
+      cbAplicacao.SetFocus;
+      exit;
+    end;
+
+  end;
+
   if (dbEdit1.Text <> '') then
     if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
       MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
