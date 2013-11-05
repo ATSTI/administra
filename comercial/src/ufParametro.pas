@@ -369,6 +369,15 @@ type
     btnOp: TBitBtn;
     GroupBox41: TGroupBox;
     rgEntSaiObg: TRadioGroup;
+    GroupBox42: TGroupBox;
+    BitBtn44: TBitBtn;
+    edCadProdutoCampo1: TEdit;
+    edCadProdutoCampo2: TEdit;
+    edCadProdutoCampo3: TEdit;
+    Label68: TLabel;
+    Label69: TLabel;
+    Label70: TLabel;
+    chkCadastroProduto: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -465,6 +474,8 @@ type
     procedure btnOpClick(Sender: TObject);
     procedure btnGravarOPClick(Sender: TObject);
     procedure rgEntSaiObgClick(Sender: TObject);
+    procedure BitBtn44Click(Sender: TObject);
+    procedure chkCadastroProdutoClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -895,6 +906,19 @@ begin
     Image2.Visible := True;
     Image3.Visible := False;
     Image4.Visible := False;
+  end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'PRODUTOCADASTRO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroD1.AsString = 'GRUPO') then
+      chkCadastroProduto.Checked := True;
+    //edCadProdutoCampo1.Text := 'GRUPO';
+    //edCadProdutoCampo2.Text := 'SUBGRUPO';
+    //edCadProdutoCampo3.Text := 'APLICACAO';
   end;
 
   if (dm.cds_parametro.Active) then
@@ -5403,6 +5427,67 @@ begin
       end;
   end;
 
+end;
+
+procedure TfParametro.BitBtn44Click(Sender: TObject);
+begin
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTOCADASTRO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1, D2, D3';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Cadastro de Produtos') + ', ';
+    strSql := strSql + QuotedStr('PRODUTOCADASTRO') + ', ';
+    strSql := strSql + QuotedStr('S') + ', ';
+    strSql := strSql + QuotedStr(edCadProdutoCampo1.Text) + ', ';
+    strSql := strSql + QuotedStr(edCadProdutoCampo2.Text) + ', ';
+    strSql := strSql + QuotedStr(edCadProdutoCampo3.Text) ;
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD);
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end
+  else
+  begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.cds_parametro.Edit;
+        dm.cds_parametroD1.AsString := edCadProdutoCampo1.Text;
+        dm.cds_parametroD2.AsString := edCadProdutoCampo2.Text;
+        dm.cds_parametroD3.AsString := edCadProdutoCampo3.Text;
+        dm.cds_parametro.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+  end;
+
+end;
+
+procedure TfParametro.chkCadastroProdutoClick(Sender: TObject);
+begin
+  inherited;
+  if (edCadProdutoCampo1.Text = 'GRUPO') then
+  begin
+    edCadProdutoCampo1.Text := '';
+    edCadProdutoCampo2.Text := '';
+    edCadProdutoCampo3.Text := '';
+  end
+  else begin
+    edCadProdutoCampo1.Text := 'GRUPO';
+    edCadProdutoCampo2.Text := 'SUBGRUPO';
+    edCadProdutoCampo3.Text := 'APLICACAO';
+  end;
 end;
 
 end.

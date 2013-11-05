@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet2
+    ActivePage = TabSheet6
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2158,7 +2158,7 @@ inherited fParametro: TfParametro
         OnClick = rgCadastroClienteClick
       end
       object GroupBox38: TGroupBox
-        Left = 8
+        Left = 5
         Top = 160
         Width = 801
         Height = 49
@@ -2255,6 +2255,80 @@ inherited fParametro: TfParametro
           Height = 21
           TabOrder = 7
           Text = '0'
+        end
+      end
+      object GroupBox42: TGroupBox
+        Left = 5
+        Top = 216
+        Width = 801
+        Height = 89
+        Caption = 'Cadastro Produto'
+        TabOrder = 3
+        object Label68: TLabel
+          Left = 142
+          Top = 12
+          Width = 39
+          Height = 13
+          Caption = 'GRUPO'
+        end
+        object Label69: TLabel
+          Left = 321
+          Top = 13
+          Width = 61
+          Height = 13
+          Caption = 'SUBGRUPO'
+        end
+        object Label70: TLabel
+          Left = 501
+          Top = 12
+          Width = 59
+          Height = 13
+          Caption = 'APLICACAO'
+        end
+        object BitBtn44: TBitBtn
+          Left = 681
+          Top = 24
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn44Click
+        end
+        object edCadProdutoCampo1: TEdit
+          Left = 139
+          Top = 27
+          Width = 176
+          Height = 21
+          Color = clInfoBk
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object edCadProdutoCampo2: TEdit
+          Left = 319
+          Top = 27
+          Width = 176
+          Height = 21
+          Color = clInfoBk
+          ReadOnly = True
+          TabOrder = 2
+        end
+        object edCadProdutoCampo3: TEdit
+          Left = 499
+          Top = 27
+          Width = 176
+          Height = 21
+          Color = clInfoBk
+          ReadOnly = True
+          TabOrder = 3
+        end
+        object chkCadastroProduto: TCheckBox
+          Left = 6
+          Top = 28
+          Width = 123
+          Height = 17
+          Caption = 'Campos Obrigat'#243'rios :'
+          TabOrder = 4
+          OnClick = chkCadastroProdutoClick
         end
       end
     end
