@@ -372,19 +372,6 @@ object fRelatorioFin: TfRelatorioFin
         Height = 21
         ItemHeight = 13
         TabOrder = 0
-        Items.Strings = (
-          'Janeiro'
-          'Fevereiro'
-          'Mar'#231'o'
-          'Abril'
-          'Maio'
-          'Junho'
-          'Julho'
-          'Agosto'
-          'Setembro'
-          'Outubro'
-          'Novembro'
-          'Dezembro')
       end
     end
     object GroupBox1: TGroupBox
