@@ -15,15 +15,22 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'EMPRESA'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'select * from Empresa'
     end
     item
       Alias = 'CLIENTES'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select * from VIEW_CLIENTE'#13#10'where data between :DATA1 and :DATA2' +
-        #13#10'order by data'
+        'select   UDF_DAY( DATA ) DIA, UDF_MONTH( DATA ) MES,  DATA, CODC' +
+        'LIENTE , '#13#10'  NOMECLIENTE, '#13#10'  RAZAOSOCIAL, '#13#10'  TIPOFIRMA  ,'#13#10'  C' +
+        'NPJ       ,'#13#10'  INSCESTADUAL,'#13#10'  STATUS      ,   '#13#10'  ENDERECO    ' +
+        ','#13#10'  NUMERO      ,'#13#10'  FONE        ,'#13#10'  FONE1       ,'#13#10'  FONE2   ' +
+        '    ,'#13#10'  BAIRRO      ,'#13#10'  COD_IBGE    ,'#13#10'  CIDADE      ,'#13#10'  UF  ' +
+        '        ,'#13#10'  COMPLEMENTO ,'#13#10'  DADOSADICIONAIS,'#13#10'  EMAIL         ' +
+        ' ,'#13#10'  PAIS           ,'#13#10'  TIPO_ENDERECO   '#13#10'  from CLIENTE_VIEW'#13 +
+        #10'where UDF_MONTH(data) between UDF_MONTH(:DATA1) and UDF_MONTH(:' +
+        'DATA2)'#13#10'order by 1'
     end>
   DatabaseInfo = <
     item
@@ -52,7 +59,7 @@ object TRpReport
     item
       Name = 'DATA1'
       AllowNulls = False
-      Value = 41275d
+      Value = 41609d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CLIENTES')
@@ -65,7 +72,7 @@ object TRpReport
     item
       Name = 'DATA2'
       AllowNulls = False
-      Value = 41524d
+      Value = 41615d
       ParamType = rpParamDate
       Datasets.Strings = (
         'CLIENTES')
@@ -264,10 +271,9 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 
-      'IIF(CLIENTES.TELEFONE<> null,CLIENTES.TELEFONE ,'#39#39') +'#13#10'IIF(CLIEN' +
-      'TES.TELEFONE1<> null,  '#39' / '#39'  + CLIENTES.TELEFONE1 ,'#39#39') +'#13#10'IIF(C' +
-      'LIENTES.TELEFONE2<> null,  '#39' / '#39'  + CLIENTES.TELEFONE2,'#39#39') +'#13#10'II' +
-      'F(CLIENTES.FAX<> null,  '#39' / '#39'  + CLIENTES.FAX,null)'
+      'IIF(CLIENTES.FONE<> '#39'-'#39',CLIENTES.FONE ,'#39#39') +'#13#10'IIF(CLIENTES.FONE1' +
+      '<> '#39'-'#39',  '#39' / '#39'  + CLIENTES.FONE1 ,'#39#39') +'#13#10'IIF(CLIENTES.FONE2<> '#39'-' +
+      #39',  '#39' / '#39'  + CLIENTES.FONE2,'#39#39')'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -291,7 +297,9 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'CLIENTES.DATANASC'
+    Expression = 
+      'formatstr('#39'00'#39',CLIENTES.DIA) + '#39'/'#39' + formatstr('#39'00'#39',CLIENTES.MES' +
+      ')'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -315,7 +323,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'CLIENTES.E_MAIL'
+    Expression = 'CLIENTES.EMAIL'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
