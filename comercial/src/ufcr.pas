@@ -458,6 +458,7 @@ end;
 procedure Tfcrproc.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fcrproc));
+  cbStatus.ItemIndex := 2;
   cbStatus.SetFocus;
 end;
 
