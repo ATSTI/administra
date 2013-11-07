@@ -90,7 +90,7 @@ inherited fOf: TfOf
     end
     inherited btnProcurar: TBitBtn
       Left = 96
-      Visible = False
+      OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
       Left = 536
@@ -232,8 +232,8 @@ inherited fOf: TfOf
     OnKeyPress = FormKeyPress
   end
   object btnProdutoProcura: TBitBtn [13]
-    Left = 287
-    Top = 72
+    Left = 288
+    Top = 70
     Width = 35
     Height = 26
     PopupMenu = PopupMenu1
@@ -1282,8 +1282,8 @@ inherited fOf: TfOf
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 320
-    Top = 65
+    Left = 304
+    Top = 17
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True

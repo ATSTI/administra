@@ -220,6 +220,7 @@ type
     procedure OfIdExit(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
   private
     codMovJaBaixado: Integer;
     dataMovJaBaixado: TDateTime;
@@ -241,7 +242,8 @@ var
 
 implementation
 
-uses ufprocura_prod, UDm, UDMNF, uMovimento, uVendaCls, uCompraCls;
+uses ufprocura_prod, UDm, UDMNF, uMovimento, uVendaCls, uCompraCls,
+  uOfProc;
 
 {$R *.dfm}
 
@@ -847,6 +849,17 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('PVMOV').Value := cdsOfOFID.AsInteger;
   VCLReport1.Execute;
+end;
+
+procedure TfOf.btnProcurarClick(Sender: TObject);
+begin
+  fOfProc := TfOfProc.Create(Application);
+  try
+    fOfProc.ShowModal;
+  finally
+    fOfProc.Free;
+  end;
+
 end;
 
 end.
