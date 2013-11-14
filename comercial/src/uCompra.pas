@@ -516,6 +516,7 @@ type
     procedure GroupBox11Click(Sender: TObject);
     procedure edCFOPExit(Sender: TObject);
   private
+    sqlBuscaProd: String;
     modo :string;
     { Private declarations }
   public
@@ -1329,9 +1330,19 @@ begin
     end;
     if dm.scds_produto_proc.Active then
       dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.CommandText := sqlBuscaProd;
     dm.scds_produto_proc.Params[0].AsInteger := 0;
     dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
     dm.scds_produto_proc.Open;
+    if dm.scds_produto_proc.IsEmpty then
+    begin
+      if dm.scds_produto_proc.Active then
+        dm.scds_produto_proc.Close;
+      dm.scds_produto_proc.CommandText := sqlBuscaProd +  ' WHERE COD_BARRA = ' + QuotedSTr(dbeProduto.Text);
+      dm.scds_produto_proc.Params[0].AsInteger := 0;
+      dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+      dm.scds_produto_proc.Open;
+    end;
     if dm.scds_produto_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
       [mbOk], 0);
@@ -1711,9 +1722,16 @@ end;
 procedure TfCompra.FormShow(Sender: TObject);
 begin
   inherited;
+  sqlBuscaProd := 'select CODPRODUTO , CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+   ' , ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+   ' , TIPO, ESTOQUEATUAL, LOCALIZACAO, NCM, LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, ' +
+   ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM ' +
+   ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+   ' , ' + QuotedStr('TODOSSUBGRUPOS') + ', ' + QuotedStr('TODASMARCAS') + ' , ' +
+   QuotedStr('TODASAPLICACOES') + ',0)';
   DecimalSeparator := ',';
   fLotes := TfLotes.Create(Application);
-  fDetalhe := TfDetalhe.Create(Application);  
+  fDetalhe := TfDetalhe.Create(Application);
   if (DM.tipoCompra = 'DEVOLUCAO') then
   begin
     MMJPanel1.Background.EndColor := clOlive;

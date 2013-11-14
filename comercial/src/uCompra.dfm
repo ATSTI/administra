@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
   Left = 275
-  Top = 83
+  Top = 84
   Width = 802
   Height = 615
   Caption = 'Compra'
