@@ -1939,7 +1939,6 @@ begin
       executaScript('view_estoque122.sql');
       //executaScript('estoque_customedio122.sql');
       executaScript('rel_vendaCompra122.sql');
-      executaScript('spestoque122.sql');
       executaScript('imprimevendadata122.sql');
       executaScript('proibe_alt_del_nf122.sql');
       EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
@@ -2000,6 +1999,7 @@ begin
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
 
+      executaScript('spestoque122.sql');      
       // Rotina nova para incluir e executar scripts.
       insereouatualizaScript('estoque_atualiza.sql', '1.1.0.0');
       insereouatualizaScript('filtroproduto.sql', '1.1.0.0');
