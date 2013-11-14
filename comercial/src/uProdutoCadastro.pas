@@ -976,9 +976,10 @@ end;
 
 procedure TfProdutoCadastro.DBEdit1Exit(Sender: TObject);
 begin
-  if (dbEdit1.Text <> '') then
+  {if (dbEdit1.Text <> '') then
     if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
       MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
+  }    
 end;
 
 end.
