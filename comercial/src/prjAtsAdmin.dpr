@@ -365,7 +365,8 @@ uses
   uMenuCupom in 'uMenuCupom.pas' {fMenuCupom},
   uGeraSPED in 'ugeraSPED.pas' {fGeraSPED},
   unfc in 'unfc.pas' {fnfc},
-  uListaVendaProc in 'uListaVendaProc.pas' {fListaVendaProc};
+  uListaVendaProc in 'uListaVendaProc.pas' {fListaVendaProc},
+  uOfProc in 'uOfProc.pas' {fOfProc};
 
 {$R *.res}
 
