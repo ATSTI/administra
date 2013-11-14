@@ -2289,14 +2289,16 @@ begin
 end;
 
 function TfNfePisCofins.cstIcms(cstI: String; nota: String): TACBrSituacaoTribICMS;
+var doisDigitoCST: String;
 begin
   if (trim(cstI) = '') then
   begin
     MessageDlg('CST - ICMS não preenchido. Nota número - ' + nota, mtWarning, [mbOK], 0);
     exit;
   end;
+  doisDigitoCST := copy(CstI,2,2);
 
-  Case StrtoInt(trim(CstI)) of
+  Case StrtoInt(trim(doisDigitoCST)) of
       0 : Result := sticmsTributadaIntegralmente;    // '000' //	Tributada integralmente
      10 : Result := sticmsTributadaComCobracaPorST;  // '010' //	Tributada e com cobrança do ICMS por substituição tributária
      20 : Result := sticmsComReducao;                // '020' //	Com redução de base de cálculo

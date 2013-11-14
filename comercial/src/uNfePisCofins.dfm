@@ -11,7 +11,7 @@ object fNfePisCofins: TfNfePisCofins
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   DesignSize = (
     1104
@@ -300,6 +300,7 @@ object fNfePisCofins: TfNfePisCofins
     Anchors = [akRight, akBottom]
     Caption = 'Gerar TXT Error'
     TabOrder = 6
+    Visible = False
     OnClick = btnErrorClick
   end
   object ProgressBar1: TJvProgressBar
