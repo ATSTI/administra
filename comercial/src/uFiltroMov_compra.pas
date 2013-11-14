@@ -119,6 +119,8 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
   private
+    sqlFiltroCompras: String;
+    ordenarFiltroCompras: String;
     { Private declarations }
   public
      codigo, SqlTexto : string;
@@ -304,7 +306,7 @@ begin
   sqlTexto := sqlTexto + '''' + edit5.Text + '''';
   end;
   //==============================================================================
-
+  sqlFiltroCompras := cds_cns.CommandText + sqlTexto;
   cds_cns.CommandText := cds_cns.CommandText + sqlTexto + ' order by mov.CODMOVIMENTO DESC';
   cds_cns.Open;
   DBGrid1.SetFocus;
@@ -543,7 +545,7 @@ begin
   //Relatorio recebe o CAMINHO do relatorio, a CONEXÃO so sistema e o SQL da pesquisa na Tela do sistema
   VCLReport1.Title := VCLReport1.FileName;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.DataInfo.Items[1].SQL := cds_cns.CommandText;
+  VCLReport1.Report.DataInfo.Items[1].SQL := sqlFiltroCompras + ordenarFiltroCompras;
   VCLReport1.Execute;
 end;
 
@@ -607,16 +609,19 @@ begin
 
     if (cds_cns.IndexName = str_IndexAsc) then
     begin
-    str_IndexName := str_IndexDesc;
-    enum_IndexOption := [ixDescending];
+      str_IndexName := str_IndexDesc;
+      enum_IndexOption := [ixDescending];
+      ordenarFiltroCompras := ' order by ' + Column.FieldName + ' DESC ';
     end
     else if (cds_cns.IndexName = str_IndexDesc) then
     begin
-    str_IndexName := str_IndexAsc;
+      str_IndexName := str_IndexAsc;
+      ordenarFiltroCompras := ' order by ' + Column.FieldName;
     end
     else
     begin
-    str_IndexName := str_IndexAsc;
+      str_IndexName := str_IndexAsc;
+      ordenarFiltroCompras := ' order by ' + Column.FieldName;
     end;
 
     cds_cns.IndexDefs.Clear;
