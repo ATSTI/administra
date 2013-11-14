@@ -539,6 +539,8 @@ procedure TfAtsAdmin.produtosClick(Sender: TObject);
 begin
   fProdutoCadastro := TfProdutoCadastro.Create(Application);
   try
+    if (dm.cds_produto.Active) then
+      dm.cds_produto.Close;
     fProdutoCadastro.ShowModal;
   finally
     fProdutoCadastro.Free;
