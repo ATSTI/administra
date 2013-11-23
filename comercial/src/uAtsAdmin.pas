@@ -247,6 +247,9 @@ type
     UnidadeMedida1: TMenuItem;
     ExportarCupom1: TMenuItem;
     ListadePreo1: TMenuItem;
+    N4: TMenuItem;
+    ExluirOrdemProduo1: TMenuItem;
+    N5: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -395,6 +398,7 @@ type
     procedure ExportarCupom1Click(Sender: TObject);
     procedure CFOPNCM1Click(Sender: TObject);
     procedure ListadePreo1Click(Sender: TObject);
+    procedure ExluirOrdemProduo1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2424,6 +2428,20 @@ begin
   finally
     fListaVenda.Free;
   end;
+end;
+
+procedure TfAtsAdmin.ExluirOrdemProduo1Click(Sender: TObject);
+begin
+	fOf := TfOf.Create(Application);
+	try
+    fOf.OfTipo := 'EXCLUSAO';
+    fOf.JvLabel1.Caption := 'Exclusão de Ordem de Produção';
+    fOf.Caption := 'Exclusão de Ordem de Produção';
+		fOf.ShowModal;
+	finally
+		fOf.Free;
+	end;
+
 end;
 
 end.
