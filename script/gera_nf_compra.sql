@@ -1,3 +1,4 @@
+set term ^ ;
 create or ALTER PROCEDURE GERA_NF_COMPRA (
     FORNECEDOR integer,
     DTEMISSAO date,
@@ -103,7 +104,7 @@ begin
   FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
       INTO :vIcmsT, :baseIcms;
 
-  /* pega número do novo movimento */
+  /* pega numero do novo movimento */
   select GEN_ID(GENMOV, 1) from RDB$DATABASE
   into :codMovNovo;
 
@@ -240,7 +241,7 @@ begin
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
     , :serie, :UF, 0, 0, 0);
  
-   /* Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr */
+   /* Faco um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr */
    /* da nf qdo esta e parcelada (dnz) */
    select valor_total_nota from notafiscal where numnf = :codnf
     into :total;
