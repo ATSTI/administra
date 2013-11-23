@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet6
+    ActivePage = TabSheet2
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3881,6 +3881,7 @@ inherited fParametro: TfParametro
             Height = 21
             BevelKind = bkFlat
             BorderStyle = bsNone
+            Color = clRed
             TabOrder = 4
             OnChange = edtCXInternoChange
           end
@@ -3919,6 +3920,7 @@ inherited fParametro: TfParametro
             Top = 328
             Width = 229
             Height = 21
+            Color = clRed
             TabOrder = 8
             OnChange = edtConsumidorChange
           end
