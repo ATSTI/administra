@@ -3321,6 +3321,7 @@ procedure TfTerminal2.incluiPedido;
 var id_movimento: integer;
   ccustoPedido: string;
 begin
+
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -3347,7 +3348,7 @@ begin
     if not dm.cds_parametro.IsEmpty then
       codCliente := StrToInt(dm.cds_parametroDADOS.AsString);
     dm.cds_parametro.Close;
-  end;  
+  end;
 
   str_sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
     'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, TIPO_PEDIDO) VALUES ( ' +
@@ -3378,9 +3379,12 @@ begin
      dm.sqlsisAdimin.ExecuteDirect(str_sql);
      dm.sqlsisAdimin.Commit(TD);
   except
-     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-     MessageDlg('Erro no sistema, o Movimento nao foi gravada.', mtError,
-         [mbOk], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+
   end;
 
   if (jvPageControl1.ActivePage = TabVenda) then
@@ -3588,9 +3592,11 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(str_sql);
     dm.sqlsisAdimin.Commit(TD);
   except
-    dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-    MessageDlg('Erro no sistema, o Iten nao foi gravada.', mtError,
-        [mbOk], 0);
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
   end;
 
    if (DM_MOV.c_movdet.Active) then
@@ -3620,7 +3626,7 @@ begin
     JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
   end;
   c_forma.Close;
-  codLote := '0'; 
+  codLote := '0';
 end;
 
 procedure TfTerminal2.EdtComandaKeyPress(Sender: TObject; var Key: Char);
@@ -3919,6 +3925,29 @@ procedure TfTerminal2.FormShow(Sender: TObject);
 var ImpressoraDet: TIniFile;
   dataHoje : TDate;
 begin
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+  dm.cds_parametro.Open;
+  if not dm.cds_parametro.IsEmpty then
+    codCliente := StrToInt(dm.cds_parametroDADOS.AsString);
+  dm.cds_parametro.Close;
+
+  if dm.scds_cliente_proc.Active then
+    dm.scds_cliente_proc.Close;
+  dm.scds_cliente_proc.Params[0].Clear;
+  dm.scds_cliente_proc.Params[1].Clear;
+  dm.scds_cliente_proc.Params[2].Clear;
+  dm.scds_cliente_proc.Params[2].AsInteger := codcliente;
+  dm.scds_cliente_proc.Open;
+  if (dm.scds_cliente_proc.IsEmpty) then
+  begin
+     MessageDlg('Código do Consumidor não cadastrado, Informe em Parametros PDV um código válido ?', mtWarning,
+       [mbOk], 0);
+     exit;
+  end;
+
+
   ImpressoraDet := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'dbxconnections.ini');
   try
     linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
