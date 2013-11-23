@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, JvToolEdit, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask, DBXpress,
   JvExMask, JvBaseEdits, FMTBcd, DBClient, Provider, SqlExpr, JvExControls,
-  JvLabel, DBLocal, DBLocalS, rpcompobase, rpvclreport;
+  JvLabel, DBLocal, DBLocalS, rpcompobase, rpvclreport, DateUtils;
 
 type
   TfOf = class(TfPai_new)
@@ -243,7 +243,7 @@ var
 implementation
 
 uses ufprocura_prod, UDm, UDMNF, uMovimento, uVendaCls, uCompraCls,
-  uOfProc;
+  uOfProc, uAtsAdmin;
 
 {$R *.dfm}
 
@@ -279,6 +279,12 @@ end;
 
 procedure TfOf.btnGravarClick(Sender: TObject);
 begin
+  if (cdsOfOFSTATUS.AsString  = 'E') then
+  begin
+    MessageDlg('OF já excluída, não é possível fazer alteração.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (codProd = 0) then
   begin
     if dm.scds_produto_proc.Active then
@@ -715,7 +721,8 @@ begin
 
       dm.sqlsisAdimin.Commit(TDA);
       dm.EstoqueAtualiza(codMovEntrada);
-      MessageDlg('Apontamento inserido com sucesso.', mtInformation,
+      if (OFTipo = 'APONTAMENTO') then
+        MessageDlg('Apontamento inserido com sucesso.', mtInformation,
            [mbOk], 0);
     except
       on E : Exception do
@@ -733,8 +740,12 @@ begin
 end;
 
 procedure TfOf.excluilancamentos(codof: integer);
-var TD: TTransactionDesc;
+var   TD: TTransactionDesc;
+  sqlUpOf : String;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
   //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
   if dm.cdsBusca.Active then
     dm.cdsBusca.Close;
@@ -743,8 +754,6 @@ begin
   dm.cdsBusca.Open;
   if not dm.cdsBusca.IsEmpty then
   begin
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
     try
       codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
@@ -754,6 +763,14 @@ begin
 
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+      sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
+        intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
+        ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
+        ', OFSTATUS = ' + QuotedStr('E') +
+        ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
+      dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
+
       dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
@@ -776,8 +793,6 @@ begin
   if not dm.cdsBusca.IsEmpty then
   begin
 
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
     try
 
@@ -789,6 +804,14 @@ begin
 
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+      sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
+        intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
+        ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
+        ', OFSTATUS = ' + QuotedStr('E') +
+        ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
+      dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
+
       dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
@@ -802,28 +825,21 @@ begin
 end;
 
 procedure TfOf.btnExcluirClick(Sender: TObject);
-var TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
+  if (OFTipo = 'EXCLUSAO') then
+  begin
     excluilancamentos(cdsOfOFID.AsInteger);
-    inherited;
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
-    end;
+    //inherited;
+    OfData.Clear;
+    OfId.Clear;
+    OFID_Ind.Clear;
+    OfProd.Clear;
+    OfDesc.Clear;
+    OfQtde.Clear;
+  end
+  else begin
+    MessageDlg('Não é permitido fazer exclusão por está tela.', mtWarning, [mbOK], 0);
   end;
-  OfData.Clear;
-  OfId.Clear;
-  OFID_Ind.Clear;
-  OfProd.Clear;
-  OfDesc.Clear;
-  OfQtde.Clear;
 end;
 
 procedure TfOf.alteranumeroserie;
