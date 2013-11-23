@@ -710,8 +710,10 @@ begin
   begin
     if (trim(cdsNFItemCOD_BARRA.AsString) = '') then
     begin
-      retornoCodBarra := trim(copy(completaCodBarra(IntToStr(cdsNFCodCliente_ats.asInteger)+
-        cdsNFItemCODPRODUTO.AsString,'0',12),1,20));
+      if (Length(cdsNFItemCODPRODUTO.AsString)<12) then
+        retornoCodBarra := trim(copy(completaCodBarra(cdsNFItemCODPRODUTO.AsString + IntToStr(cdsNFCodCliente_ats.asInteger),'0',12),1,15))
+      else
+        retornoCodBarra := trim(copy(completaCodBarra(cdsNFItemCODPRODUTO.AsString,'0',12),1,15));
     end
     else begin
       retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
