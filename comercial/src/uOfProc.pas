@@ -113,6 +113,8 @@ begin
   strOf := strOf + ' CASE WHEN r.OFSTATUS = ' + QuotedStr('A');
   strOf := strOf + ' THEN ' + QuotedStr('NOVA') + ' WHEN r.OFSTATUS = ';
   strOf := strOf + QuotedStr('F') + ' THEN ' + QuotedStr('FINALIZADA');
+  strOf := strOf + ' WHEN r.OFSTATUS = ';
+  strOf := strOf + QuotedStr('E') + ' THEN ' + QuotedStr('EXCLUIDA');
   strOf := strOf + ' end as STATUS , r.OFQTDESOLIC, r.OFQTDEPRODUZ, ';
   strOf := strOf + ' r.OFQTDEPERDA, r.OFMOTIVO, r.CODPRODUTO, p.CODPRO,';
   strOf := strOf + ' p.PRODUTO, p.UNIDADEMEDIDA';
