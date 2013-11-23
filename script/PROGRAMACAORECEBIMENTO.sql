@@ -22,13 +22,13 @@ BEGIN
   begin
     DATAFINAL = udf_IncDay(:DATAFINAL, 7);
     DATAREC = udf_IncDay(:DATAFINAL, 0);
-    For select rc.TITULO, rc.EMISSAO, rc.DATAVENCIMENTO, rc.VALOR_RESTO, cl.NOMECLIENTE,v.notafiscal, m.codmovimento
+    For select rc.TITULO, rc.EMISSAO, rc.DATAVENCIMENTO, rc.VALOR_RESTO, cl.NOMECLIENTE,v.notafiscal, m.codmovimento, rc.VALOR_RESTO * (1-(coalesce(cl.DESCONTO,0) /100)) as LIQUIDO
       from RECEBIMENTO rc inner join CLIENTES cl on cl.CODCLIENTE = rc.CODCLIENTE
        inner join venda v on v.codvenda = rc.codvenda
        inner join movimento m on m.codmovimento = v.codmovimento
         where rc.DATAVENCIMENTO BETWEEN :DATAINI and :DATAFINAL 
         and cl.RAZAOSOCIAL = :RAZAO  
-    into :NOTAF, :EMISSAO, :VENCIMENTO , :VALORNF, :CLIENTE, :notafiscal, :codmov do
+    into :NOTAF, :EMISSAO, :VENCIMENTO , :VALORNF, :CLIENTE, :notafiscal, :codmov, :totalgeral do
     begin
 		select first 1 nf.CFOP, nf.PROTOCOLOCANC from movimento m
 		inner join venda v on v.codmovimento = m.codmovimento
