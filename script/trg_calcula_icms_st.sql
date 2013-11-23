@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -185,21 +186,22 @@ BEGIN
 				--Calculos do ICMS
 				if (new.FRETE_BC = 'True') then
 				begin
-					--Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
+					-- Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS	
 					if (new.DESCONTO_BC = 'True') then
 						new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
-					--Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
+					
+					-- Soma Frete na BC ICMS e Nao Subtrai Desconto da BC ICMS
 					else	
 						new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
 				end
 				else
 				begin
-					--Subtrair Desconto a BC ICMS 
+					-- Subtrair Desconto a BC ICMS 
 					if (new.DESCONTO_BC <> 'True') then
 						new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
-					--Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
+					-- Nao Subtrai Desconto da BC ICMS, nao soma Frete a BC ICMS
 					else
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
+					  new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
 				end
 				new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (:CICMS / 100), :arredondar);
 			end
@@ -326,7 +328,7 @@ BEGIN
                         --Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
                         if (new.DESCONTO_BC = 'True') then
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
-					--Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
+					--Soma Frete na BC ICMS e Nao Subtrai Desconto da BC ICMS
                         else	
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
                     end
@@ -335,7 +337,7 @@ BEGIN
                         --Subtrair Desconto a BC ICMS 
 					if (new.DESCONTO_BC <> 'True') then
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
-                        --Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
+                        --Nao Subtrai Desconto da BC ICMS, nao soma Frete a BC ICMS
                         else
                         new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
                     end
@@ -485,7 +487,7 @@ BEGIN
                         --Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
                         if (new.DESCONTO_BC = 'True') then
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
-                        --Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
+                        --Soma Frete na BC ICMS e Nao Subtrai Desconto da BC ICMS
                         else
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
                     end
@@ -494,7 +496,7 @@ BEGIN
                         --Subtrair Desconto a BC ICMS 
                         if (new.DESCONTO_BC <> 'True') then
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
-                        --Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
+                        --Nao Subtrai Desconto da BC ICMS, nao soma Frete a BC ICMS
                         else
                             new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
                     end
@@ -578,5 +580,5 @@ BEGIN
 	  new.QTDE_ALT = 0;
       
 	new.VLR_BASE = UDF_ROUNDDEC(new.PRECO, :arredondar);  
-  end 
-END
+  end
+END ^
