@@ -122,7 +122,12 @@ DELETE FROM ESTOQUE^
 DELETE FROM CHG^
 DELETE FROM PROD_CHG^
 DELETE FROM LISTAPRECO^
-
+delete from email_enviar^
+delete from estoqueccusto^ 
+delete from faixa_etaria^
+delete from inventario^
+delete from os_det^
+delete from os^
 COMMIT^
 
 DELETE FROM UCTABRIGHTS^
