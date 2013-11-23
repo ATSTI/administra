@@ -3481,11 +3481,11 @@ begin
       if (scds_cliente_procUF.AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'CNPJ/CPF não informado;'+#13#10;
     end;
-    if (scds_cliente_procINSCESTADUAL.AsString = '') then
+    {if (scds_cliente_procINSCESTADUAL.AsString = '') then
     begin
       if (scds_cliente_procUF.AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'INSC. ESTADUAL/RG não informada;'+#13#10;
-    end;
+    end;}
     if (scds_cliente_procLOGRADOURO.AsString = '') then
     begin
       if (scds_cliente_procUF.AsString <> 'EX') then
