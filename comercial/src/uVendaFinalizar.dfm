@@ -1,6 +1,6 @@
 inherited fVendaFinalizar: TfVendaFinalizar
   Left = 306
-  Top = 191
+  Top = 194
   Width = 801
   Height = 571
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
@@ -2188,23 +2188,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnExit = DBEdit9Exit
       OnKeyPress = FormKeyPress
     end
-    object DBEdit10: TDBEdit
-      Left = 17
-      Top = 223
-      Width = 121
-      Height = 32
-      BorderStyle = bsNone
-      DataField = 'VALOR_PAGAR'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      OnKeyPress = FormKeyPress
-    end
     object DBEdit11: TDBEdit
       Left = 17
       Top = 279
@@ -2219,7 +2202,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
       OnExit = DBEdit11Exit
       OnKeyPress = FormKeyPress
     end
@@ -2238,8 +2221,22 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 4
       OnKeyPress = FormKeyPress
+    end
+    object edAPagar: TJvCalcEdit
+      Left = 16
+      Top = 227
+      Width = 121
+      Height = 24
+      BevelOuter = bvNone
+      BorderStyle = bsNone
+      DisplayFormat = ',##0.00'
+      ShowButton = False
+      TabOrder = 5
+      DecimalPlacesAlwaysShown = False
+      OnChange = dtPagColhedorChange
+      OnKeyPress = edVlrColhedorKeyPress
     end
   end
   object MMJPanel3: TMMJPanel [6]

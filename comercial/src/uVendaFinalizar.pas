@@ -45,7 +45,6 @@ type
     DBEdit7: TDBEdit;
     DBEdit8: TDBEdit;
     DBEdit9: TDBEdit;
-    DBEdit10: TDBEdit;
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
     Label14: TLabel;
@@ -507,6 +506,7 @@ type
     cdsVALOR_ST: TFloatField;
     ImprimirCupom1: TMenuItem;
     btnCupom: TBitBtn;
+    edAPagar: TJvCalcEdit;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -1162,7 +1162,7 @@ begin
       cdsOUTRAS_DESP.AsFloat - cdsDESCONTO.AsFloat;
     cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
     cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
-
+    edAPagar.Value := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
      da notafiscal }
     if (cds.State in [dsInsert, dsEdit]) then
@@ -2048,10 +2048,11 @@ begin
       cds.Close;
     cds.Params[0].AsInteger:=dm.scds_venda_procCODVENDA.AsInteger;
     cds.Open;
+    edAPagar.Value := FloatToCurr(cdsVALOR.AsFloat - cdsDESCONTO.AsFloat);
     diferenca := fVendas.cds_Mov_detTotalPedido.Value - (cdsVALOR.Value-(cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value +
       cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value + cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
     if (diferenca < 0) then
-      diferenca := diferenca * (-1);  
+      diferenca := diferenca * (-1);
     if (not cds.IsEmpty) then
     if ( diferenca > 0.001) then
     begin
@@ -2079,10 +2080,8 @@ begin
       cdsVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
       cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
-      cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat + ( +
-      cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
-      cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
       vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
+      edAPagar.Value := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat; 
       sqs_tit.Close;
       cds.post;
     end;
