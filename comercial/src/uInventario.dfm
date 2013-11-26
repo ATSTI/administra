@@ -1091,7 +1091,8 @@ inherited fInventario: TfInventario
       'IO, r.DATAIVENTARIO, r.CODPRODUTO, r.CODPRO, r.SITUACAO, r.DATAE' +
       'XECUTADO, r.ESTOQUE_ATUAL, r.QTDE_INVENTARIO, r.UN, r.CODCCUSTO,' +
       ' cast(p.produto as varchar(300)) PRODUTO  , r.LOTE, r.DATAVENCIM' +
-      'ENTO, r.DATAFABRICACAO  FROM INVENTARIO r'#13#10'inner join produtos p' +
+      'ENTO, r.DATAFABRICACAO , COALESCE(p.PRECOMEDIO, COALESCE(p.VALOR' +
+      'UNITARIOATUAL,0)) CUSTO FROM INVENTARIO r'#13#10'inner join produtos p' +
       ' on p.codproduto = r.codproduto '#13#10'order by 10, 1, 5 '#13#10
     MaxBlobSize = -1
     Params = <>
@@ -1170,6 +1171,10 @@ inherited fInventario: TfInventario
       FieldName = 'DATAFABRICACAO'
       ReadOnly = True
       EditMask = '!99/99/00;1;_'
+    end
+    object cdsInventCUSTO: TFloatField
+      FieldName = 'CUSTO'
+      ReadOnly = True
     end
   end
   object dsInvent: TDataSource

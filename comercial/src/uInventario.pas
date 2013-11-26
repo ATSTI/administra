@@ -111,6 +111,7 @@ type
     sdsProdESTOQUE: TFloatField;
     cdsProdESTOQUE: TFloatField;
     chkTemEstoque: TCheckBox;
+    cdsInventCUSTO: TFloatField;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -235,8 +236,10 @@ begin
     else
       sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
 
-    cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
-    'inner join produtos p on p.codproduto = i.codproduto ' + sqlb + ' order by DATAIVENTARIO DESC ';
+    cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
+      ' CASE WHEN p.TIPOPRECOVENDA = ' + QuotedStr('M') + ' THEN COALESCE(p.PRECOMEDIO, 0) ' +
+      ' ELSE COALESCE(p.VALORUNITARIOATUAL,0) END CUSTO FROM INVENTARIO i ' +
+      ' inner join produtos p on p.codproduto = i.codproduto ' + sqlb + ' order by DATAIVENTARIO DESC ';
     cdsInvent.Open;
     if (cdsInvent.IsEmpty) then
     begin
@@ -887,6 +890,7 @@ begin
           FMov.MovDetalhe.CodMov        := codMovEntrada;
           FMov.MovDetalhe.CodProduto    := cdsInventCODPRODUTO.AsInteger;
           FMov.MovDetalhe.Qtde          := cdsInventQTDE_INVENTARIO.AsFloat - cdsInventESTOQUE_ATUAL.AsFloat;
+          FMov.MovDetalhe.Preco         := cdsInventCUSTO.AsFloat;
           FMov.MovDetalhe.Lote          := cdsInventLOTE.AsString;
           FMov.MovDetalhe.DtaVcto       := cdsInventDATAVENCIMENTO.AsDateTime;
           FMov.MovDetalhe.DtaFab        := cdsInventDATAFABRICACAO.AsDateTime;
