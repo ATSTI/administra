@@ -113,8 +113,8 @@ begin
     if (ds1.DataSet.State in [dsEdit, dsInsert]) then
     begin
       dm.sqlsisAdimin.StartTransaction(TD);
-      //if (ds1.DataSet = fCompra.DtSrc1.DataSet) then
-      //  fCompra.cds_Mov_detPAGOU.AsString := 'M';
+      if (ds1.DataSet = fCompra.DtSrc1.DataSet) then
+        fCompra.cds_Mov_detPAGOU.AsString := 'M';  // Preciso disto pois, ao finalizar, se não estiver marcado o sistema ira recalcular.
       ds1.DataSet.Post;
       (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
       dm.sqlsisAdimin.Commit(TD);
