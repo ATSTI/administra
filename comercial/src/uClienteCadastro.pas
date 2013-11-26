@@ -1398,13 +1398,16 @@ begin
          end;
          exit;
         end;
-        if dm.c_6_genid.Active then
+        if (cdsEnderecoCli.State in [dsInsert]) then
+        begin
+          if dm.c_6_genid.Active then
+            dm.c_6_genid.Close;
+          dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
+          dm.c_6_genid.Open;
+          cdsEnderecoCliCODENDERECO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+         // cdsEnderecoCliPAIS.AsString := cbPais.Text;
           dm.c_6_genid.Close;
-        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
-        dm.c_6_genid.Open;
-        cdsEnderecoCliCODENDERECO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
-       // cdsEnderecoCliPAIS.AsString := cbPais.Text;
-        dm.c_6_genid.Close;
+        end;
         if (cdsEnderecoCliCODCLIENTE.AsInteger = 0) then
           cdsEnderecoCliCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
         cdsEnderecoCli.ApplyUpdates(0);
