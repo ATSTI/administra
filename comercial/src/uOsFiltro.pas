@@ -964,12 +964,11 @@ end;
 
 procedure TfOsFiltro.btnImprimirClick(Sender: TObject);
 begin
- { Rep.Filename := str_relatorio + 'comissao_os.rep';
+  Rep.Filename := str_relatorio + 'os.rep';
   Rep.Title    := Rep.Filename;
   Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(MaskEdit1.Text);
-  Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(MaskEdit2.Text);
-  rep.execute;  }
+  Rep.Report.Params.ParamByName('NUM_OS').Value := cdsOsCODOS.AsInteger;
+  rep.execute;
 end;
 
 procedure TfOsFiltro.BitBtn1Click(Sender: TObject);
