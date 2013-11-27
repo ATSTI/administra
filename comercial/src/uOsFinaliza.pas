@@ -239,6 +239,7 @@ type
     procedure imprimeDLLBema;
     procedure imprimeCupom;
     procedure imprimeRecibo;
+    procedure imprimeReciboDIRETO;
     { Private declarations }
   public
     dtaOsFinaliza : Tdate;
@@ -1732,6 +1733,15 @@ begin
     exit;
   end;
 
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBODIRETOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    imprimeReciboDireto;
+    exit;
+  end;
   ShowMessage('Parametro Tipo Impressão não configurado');
 
 end;
@@ -1760,6 +1770,16 @@ begin
     fCarne.Free;
   end;
 
+end;
+
+procedure TfOsFinaliza.imprimeReciboDIRETO;
+begin
+  VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+  VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
+  VCLReport2.Preview := False;
+  VCLReport2.ShowPrintDialog := False;
+  VCLReport2.Execute;
 end;
 
 end.
