@@ -247,6 +247,7 @@ type
     procedure msgErro;
     procedure imprimeCupom;
     procedure imprimeRecibo;
+    procedure imprimeReciboDireto;
     procedure imprimeDLLBema;
     procedure troco;
     procedure caixinha;
@@ -740,6 +741,7 @@ var
   baixou : Integer;
   resto : Double;
 begin
+  JvGravar.Click;
   if (DM_MOV.c_venda.Active) then
       DM_MOV.c_venda.Close;
   DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
@@ -961,9 +963,16 @@ begin
       if (not dm.cds_parametro.Eof) then
          tipoImpressao := 'RECIBO';
 
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'RECIBODIRETOPDV';
+      dm.cds_parametro.Open;
+      if (not dm.cds_parametro.Eof) then
+         tipoImpressao := 'RECIBODIRETO';
+
       if (tipoImpressao = '') then
       begin
-        ShowMessage('Parametro Tipo Impress?n?configurado');
+        ShowMessage('Parametro Tipo de Impressao, nao configurado');
         exit;
       end;
 
@@ -976,6 +985,10 @@ begin
       end;
       if (tipoImpressao = 'RECIBO') then
         imprimeRecibo;
+
+      if (tipoImpressao = 'RECIBODIRETO') then
+        imprimeReciboDireto;
+
   end;
   // se informou caixinha gravo na MOVIMENTOCONT
   // if (JvCaixinha.Value > 0) then
@@ -985,6 +998,7 @@ begin
   fTerminal2.var_FINALIZOU := 'SIM';
   //Close;
   DecimalSeparator := ',';
+  JvSair.Click;
 end;
 
 procedure TF_Entrada.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1507,6 +1521,7 @@ begin
 
   JvPago.Value := JvPedido.Value + JvComissao.Value - totalPedidoC;
   vlrDesc := 0;
+  jvDinheiro.SetFocus;
 end;
 
 procedure TF_Entrada.edDescontoEnter(Sender: TObject);
@@ -1635,6 +1650,16 @@ begin
       fTerminal_Delivery.Free;
     end;
   end;  
+end;
+
+procedure TF_Entrada.imprimeReciboDireto;
+begin
+  VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+  VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport2.Report.Params.ParamByName('PVENDA').Value := DM_MOV.c_vendaCODVENDA.AsInteger;
+  VCLReport2.Preview := False;
+  VCLReport2.ShowPrintDialog := False;
+  VCLReport2.Execute;
 end;
 
 end.
