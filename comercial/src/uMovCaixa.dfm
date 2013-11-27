@@ -2,7 +2,7 @@ object fMovCaixa: TfMovCaixa
   Left = 324
   Top = 114
   Width = 750
-  Height = 541
+  Height = 601
   BorderIcons = [biSystemMenu]
   Caption = 'fMovCaixa'
   Color = clBtnFace
@@ -569,7 +569,7 @@ object fMovCaixa: TfMovCaixa
     Left = 0
     Top = 61
     Width = 742
-    Height = 453
+    Height = 451
     Align = alClient
     Color = 10930928
     DataSource = dsrcaixa
@@ -597,36 +597,76 @@ object fMovCaixa: TfMovCaixa
       item
         Expanded = False
         FieldName = 'DTAPAGTO'
+        Title.Caption = 'Data'
         Width = 97
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCRICAO'
+        Title.Caption = 'Descri'#231#227'o'
         Width = 398
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORD'
-        Title.Caption = 'DEBITO'
+        Title.Caption = 'Entradas'
         Width = 75
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORC'
-        Title.Caption = 'CREDITO'
+        Title.Caption = 'Sa'#237'das'
         Width = 77
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR'
-        Title.Caption = 'SALDO'
+        Title.Caption = 'Saldo'
         Width = 74
         Visible = True
       end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 512
+    Width = 742
+    Height = 62
+    Align = alBottom
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 440
+      Top = 24
+      Width = 81
+      Height = 13
+      Caption = 'Total de Vendas '
+    end
+    object edTotalVendas: TJvValidateEdit
+      Left = 540
+      Top = 20
+      Width = 155
+      Height = 26
+      Flat = False
+      ParentFlat = False
+      BorderStyle = bsNone
+      Color = cl3DLight
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -21
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+    end
   end
   object sCaixa: TSQLDataSet
     CommandText = 
@@ -924,5 +964,12 @@ object fMovCaixa: TfMovCaixa
     DataSet = sdsCaixa1
     Left = 406
     Top = 224
+  end
+  object sqlTotalVendas: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 368
+    Top = 296
   end
 end

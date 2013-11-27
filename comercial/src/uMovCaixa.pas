@@ -79,6 +79,10 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     JvValor: TJvValidateEdit;
+    Panel1: TPanel;
+    Label1: TLabel;
+    edTotalVendas: TJvValidateEdit;
+    sqlTotalVendas: TSQLQuery;
     procedure FormShow(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure ConsultaClick(Sender: TObject);
@@ -173,6 +177,15 @@ begin
   cCaixa.Params[3].AsInteger := caixaMovCaixa; //sdsCaixaIDCAIXACONTROLE.AsInteger;
   cCaixa.Params[4].AsString  := 'T'; // Todas as Formas de Pagamento
   cCaixa.Open;
+
+  if (sqlTotalVendas.Active) then
+    sqlTotalVendas.Close;
+  sqlTotalVendas.SQL.Clear;
+  sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(VALORVENDA),0) TOTAL FROM VIEW_VENDA ' +
+    ' WHERE DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)));
+  sqlTotalVendas.Open;
+  edTotalVendas.Value := sqlTotalVendas.FieldByName('TOTAL').AsFloat;
 end;
 
 
