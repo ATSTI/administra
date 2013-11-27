@@ -2234,6 +2234,9 @@ begin
 
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
+        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+        strSql := strSql + QuotedStr('RECIBODIRETOPDV');
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
         Try
            dm.sqlsisAdimin.Commit(TD);
         except
@@ -2269,14 +2272,35 @@ begin
         end;
      end;
 
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('CUPOMPDV');
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('RECIBODIRETOPDV');
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+
+  end;
+  if (rgTipoImpressao.ItemIndex = 2) then  // Recibo
+  begin
      if (s_parametro.Active) then
        s_parametro.Close;
-     s_parametro.Params[0].AsString := 'CUPOMPDV';
+     s_parametro.Params[0].AsString := 'RECIBODIRETOPDV';
      s_parametro.Open;
-     if (not s_parametro.Eof) then
+     if (s_parametro.Eof) then
      begin
-        strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
-        strSql := strSql + QuotedStr('CUPOMPDV');
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Tipo de Impressão PDV') + ', ';
+        strSql := strSql + QuotedStr('RECIBODIRETOPDV');
+        strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
         Try
@@ -2287,6 +2311,22 @@ begin
                [mbOk], 0);
         end;
      end;
+
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('CUPOMPDV');
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('RECIBOPDV');
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+
   end;
 
 end;
@@ -2519,6 +2559,13 @@ begin
      s_parametro.Open;
      if (not s_parametro.Eof) then
         rgTipoImpressao.ItemIndex := 0;
+
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'RECIBODIRETOPDV';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+        rgTipoImpressao.ItemIndex := 2;
 
      if (s_parametro.Active) then
        s_parametro.Close;

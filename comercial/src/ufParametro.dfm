@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet2
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3454,13 +3454,14 @@ inherited fParametro: TfParametro
           object rgTipoImpressao: TRadioGroup
             Left = 8
             Top = 2
-            Width = 290
+            Width = 289
             Height = 40
             Caption = 'Tipo de Impress'#227'o'
-            Columns = 2
+            Columns = 3
             Items.Strings = (
-              'Modelo Cupom'
-              'Modelo Recibo')
+              'Cupom'
+              'Recibo PreVis.'
+              'Recibo Direto')
             TabOrder = 13
             OnClick = rgTipoImpressaoClick
           end
