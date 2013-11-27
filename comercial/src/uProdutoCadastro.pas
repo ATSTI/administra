@@ -742,17 +742,20 @@ begin
       exit;
     if ((dm.cds_produtoVALOR_PRAZO.AsFloat > 0) and (dm.cds_produtoVALORUNITARIOATUAL.AsFloat > 0)) then
     begin
-      valor := (dm.cds_produtoVALOR_PRAZO.AsFloat-dm.cds_produtoVALORUNITARIOATUAL.AsFloat);
-      valor := (valor/dm.cds_produtoVALORUNITARIOATUAL.AsFloat);
-      VALOR := (VALOR * 100);
-      if (dbedit17.Text = '') then
+      if (dm.cds_produtoTIPOPRECOVENDA.AsString = 'U') then
       begin
-        dm.cds_produtoMARGEM.AsFloat := valor;
-      end;
-      if (dbedit17.Text <> '') then
-      begin
-        if (((valor - dm.cds_produtoMARGEM.AsFloat) > 1) OR ((dm.cds_produtoMARGEM.AsFloat - valor) > 1)) then
+        valor := (dm.cds_produtoVALOR_PRAZO.AsFloat-dm.cds_produtoVALORUNITARIOATUAL.AsFloat);
+        valor := (valor/dm.cds_produtoVALORUNITARIOATUAL.AsFloat);
+        VALOR := (VALOR * 100);
+        if (dbedit17.Text = '') then
+        begin
           dm.cds_produtoMARGEM.AsFloat := valor;
+        end;
+        if (dbedit17.Text <> '') then
+        begin
+          if (((valor - dm.cds_produtoMARGEM.AsFloat) > 1) OR ((dm.cds_produtoMARGEM.AsFloat - valor) > 1)) then
+            dm.cds_produtoMARGEM.AsFloat := valor;
+        end;
       end;
     end;
   end;

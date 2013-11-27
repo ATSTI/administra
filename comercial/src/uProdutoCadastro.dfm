@@ -1685,7 +1685,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [38]
-    Left = 160
+    Left = 168
     Top = 133
     Width = 417
     Height = 273
