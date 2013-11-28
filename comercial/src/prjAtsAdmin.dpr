@@ -454,6 +454,14 @@ begin
     Application.CreateForm(TfOsInsere, fOsInsere);
     Application.CreateForm(TfOsInserePeca, fOsInserePeca);
   end;
+  if (dm.moduloUsado = 'AUTOMOTIVA2') then
+  begin
+    Application.CreateForm(TfOs, fOs);
+    Application.CreateForm(TfOsFiltro, fOsFiltro);
+    Application.CreateForm(TfProcura_ProdOficina, fProcura_ProdOficina);
+    Application.CreateForm(TfOsInsere, fOsInsere);
+    Application.CreateForm(TfOsInserePeca, fOsInserePeca);
+  end;
 
   Application.Run;
 end.
