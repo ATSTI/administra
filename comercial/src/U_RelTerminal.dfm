@@ -2153,4 +2153,10 @@ object F_RelTerminal: TF_RelTerminal
       FieldName = 'VALOR'
     end
   end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 48
+    Top = 88
+  end
 end

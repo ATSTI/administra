@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, SqlExpr, JvExControls, JvLabel, StdCtrls, Mask,
-  JvExMask, JvToolEdit, ExtCtrls, MMJPanel, Buttons, Provider, DBClient;
+  JvExMask, JvToolEdit, ExtCtrls, MMJPanel, Buttons, Provider, DBClient,
+  rpcompobase, rpvclreport;
 
 type
   TF_RelTerminal = class(TForm)
@@ -89,6 +90,7 @@ type
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
     sVendaVCOMISSAO: TFloatField;
+    VCLReport1: TVCLReport;
     procedure btnVendasClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -108,6 +110,7 @@ type
     codigo, idCaixa : integer;
     usaDll : string;
     ModeloImpressora : integer;
+    procedure imprimeVenda;
     { Private declarations }
   public
     { Public declarations }
@@ -217,6 +220,13 @@ begin
   if (not dm.cds_parametro.Eof) then
      tipoImpressao := 'RECIBO';
 
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBODIRETOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+     tipoImpressao := 'RECIBO';
+
   if (tipoImpressao = '') then
   begin
     ShowMessage('Parametro Tipo Impressão não configurado');
@@ -231,8 +241,8 @@ begin
        imprimeCupom;
   end;
 
-  //if (tipoImpressao = 'RECIBO') then
-  //  imprimeRecibo;
+  if (tipoImpressao = 'RECIBO') then
+    imprimeVenda;
 
 end;
 
@@ -726,6 +736,25 @@ begin   Result  := S;
   RestLen := Len - Length(s);
   if RestLen < 1 then Exit;
   Result := StringOfChar(Ch, RestLen) + S;
+end;
+
+procedure TF_RelTerminal.imprimeVenda;
+begin
+  VCLReport1.FileName := str_relatorio + 'terminal_vendaa.rep';
+  VCLReport1.Title := VCLReport1.FileName;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('DATA1').Value := edData.Date;
+  VCLReport1.Report.Params.ParamByName('DATA2').Value := edData1.Date;
+  if (cbb1.ItemIndex > -1) then
+  begin
+    VCLReport1.Report.Params.ParamByName('CAIXA').Value := cbb1.Text;
+  end
+  else begin
+    VCLReport1.Report.Params.ParamByName('CAIXA').Value := 'TODOS';
+  end;
+  //VCLReport1.Preview := False;
+  //VCLReport1.ShowPrintDialog := False;
+  VCLReport1.Execute;
 end;
 
 end.
