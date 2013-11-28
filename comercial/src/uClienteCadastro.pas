@@ -1916,7 +1916,7 @@ begin
   if (cds_cliCODCLIENTE.AsInteger = 0) then
   begin
     // Cliente do Sistema então vá para incluir
-    btnIncluir.Click;
+    cds_cli.Close;
   end;
   DBEdit63Exit(Sender);
 end;
