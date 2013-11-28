@@ -250,6 +250,23 @@ type
     N4: TMenuItem;
     ExluirOrdemProduo1: TMenuItem;
     N5: TMenuItem;
+    Cadastros2: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    N14: TMenuItem;
+    Diversos1: TMenuItem;
+    N15: TMenuItem;
+    N16: TMenuItem;
+    N17: TMenuItem;
+    N18: TMenuItem;
+    N19: TMenuItem;
+    N20: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -1038,29 +1055,38 @@ begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
 
-  if (DM.cds_parametro.Active) then
-       DM.cds_parametro.Close;
-  DM.cds_parametro.Params[0].AsString := 'PDVNTC';
-  DM.cds_parametro.Open;
-  if (DM.cds_parametro.Eof) then
+  if (dm.moduloUsado = 'AUTOMOTIVA2') then
   begin
-    //WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
-    fTerminal2 := TfTerminal2.Create(Application);
-    try
-      fTerminal2.ShowModal;
-    finally
-      fTerminal2.Free;
-    end;
-
+    if (fOsFiltro = nil) then
+      fOsFiltro := TfOsFiltro.Create(Self);
+    // sCtrlResize.CtrlResize(TForm(fClienteCadastro));
+    fOsFiltro.Show;
   end
-  else
-  begin
-    fTerminalNTC := TfTerminalNTC.Create(Application);
-    try
-      sCtrlResize.CtrlResize(TForm(fTerminalNTC));
-      fTerminalNTC.ShowModal;
-    finally
-      fTerminalNTC.Free;
+  else begin
+    if (DM.cds_parametro.Active) then
+         DM.cds_parametro.Close;
+    DM.cds_parametro.Params[0].AsString := 'PDVNTC';
+    DM.cds_parametro.Open;
+    if (DM.cds_parametro.Eof) then
+    begin
+      //WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
+      fTerminal2 := TfTerminal2.Create(Application);
+      try
+        fTerminal2.ShowModal;
+      finally
+        fTerminal2.Free;
+      end;
+
+    end
+    else
+    begin
+      fTerminalNTC := TfTerminalNTC.Create(Application);
+      try
+        sCtrlResize.CtrlResize(TForm(fTerminalNTC));
+        fTerminalNTC.ShowModal;
+      finally
+        fTerminalNTC.Free;
+      end;
     end;
   end;
 end;
