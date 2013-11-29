@@ -2088,8 +2088,8 @@ begin
 
     if (cdsFORMARECEBIMENTO.asString <> '') then
     begin
-        utilcrtitulo := Tutils.Create;
-        ComboBox1.ItemIndex := utilcrtitulo.retornaForma(cdsFORMARECEBIMENTO.asString);
+      utilcrtitulo := Tutils.Create;
+      ComboBox1.ItemIndex := utilcrtitulo.retornaForma(cdsFORMARECEBIMENTO.asString);
     end;
     if (dm.cds_7_contas.Locate('CODIGO', cdsCAIXA.AsInteger, [loCaseInsensitive])) then
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
@@ -2681,13 +2681,14 @@ end;
 procedure TfVendaFinalizar.dtPagColhedorChange(Sender: TObject);
 begin
   inherited;
-  if (DtSrc.State in [dsBrowse]) then
+  {if (DtSrc.State in [dsBrowse]) then
     cds.Edit;
-    {Tira o 1% do Total Colhido.}
+    //Tira o 1% do Total Colhido.
     if (CheckBox1.Checked = True) then
       edVlrColhedor.Value := (jvCalcEdit1.Value * 0.99) * edPrecoColhedor.Value
     else
       edVlrColhedor.Value := jvCalcEdit1.Value * edPrecoColhedor.Value;
+  }
 end;
 
 procedure TfVendaFinalizar.edPrecoColhedorKeyPress(Sender: TObject;
