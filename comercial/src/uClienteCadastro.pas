@@ -1405,11 +1405,11 @@ begin
           dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
           dm.c_6_genid.Open;
           cdsEnderecoCliCODENDERECO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
-         // cdsEnderecoCliPAIS.AsString := cbPais.Text;
           dm.c_6_genid.Close;
         end;
         if (cdsEnderecoCliCODCLIENTE.AsInteger = 0) then
           cdsEnderecoCliCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
+        cdsEnderecoCliPAIS.AsString := cbPais.Text;
         cdsEnderecoCli.ApplyUpdates(0);
      end;
   end;
@@ -1734,6 +1734,14 @@ var
     nbNext   : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
     nbLast   : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
   end;
+  if (cdsEnderecoCliPAIS.AsString = '') then
+    cbPais.ItemIndex := -1
+  else begin
+    if (not sqlPais.Active) then
+      sqlPais.Open;
+    if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+      cbPais.ItemIndex := sqlPais.RecNo-1;
+  end;
 end;
 
 procedure TfClienteCadastro.FormShow(Sender: TObject);
@@ -1787,7 +1795,9 @@ begin
     if (not sqlPais.Active) then
       sqlPais.Open;
     if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
-       cbPais.ItemIndex := sqlPais.RecNo-1;
+       cbPais.ItemIndex := sqlPais.RecNo-1
+    else
+      cbPais.ItemIndex := -1;
   end;
 
   if ((varform = 'consultaescola') or (varform = 'consultapedagogico')) then
@@ -1911,7 +1921,10 @@ begin
         sqlPais.Open;
       if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
         cbPais.ItemIndex := sqlPais.RecNo-1;
-    end;
+    end
+    else begin
+      cbPais.ItemIndex := -1;
+    end
   end;
   if (cds_cliCODCLIENTE.AsInteger = 0) then
   begin
