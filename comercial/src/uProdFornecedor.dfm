@@ -468,7 +468,6 @@ inherited fProdFornecedor: TfProdFornecedor
     object cdsPRODUTO: TStringField
       FieldName = 'PRODUTO'
       ProviderFlags = [pfInWhere]
-      ReadOnly = True
       Size = 300
     end
     object cdsCODIGO: TStringField

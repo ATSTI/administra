@@ -178,11 +178,9 @@ begin
   dm.c_6_genid.Close;
 
   if(listatipooper = 0)  then
-   cdsTIPOOPERACAO.AsString := 'F'
-   else
-   cdsTIPOOPERACAO.AsString := 'C';
-
-
+    cdsTIPOOPERACAO.AsString := 'F'
+  else
+    cdsTIPOOPERACAO.AsString := 'C';
 
 end;
 
@@ -228,7 +226,7 @@ begin
 
   if dm.scds_produto_proc.Active then
     dm.scds_produto_proc.Close;
-  dm.scds_produto_proc.Params[0].AsInteger := StrToInt(DBEdit1.Text);
+  dm.scds_produto_proc.Params[0].AsInteger := 0;
   dm.scds_produto_proc.Params[1].AsString := DBEdit1.Text;
   dm.scds_produto_proc.Open;
 
@@ -259,7 +257,7 @@ begin
     end;
     cdsCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
     cdsCODIGO.AsString := dm.scds_produto_procCODPRO.AsString;
-    cdsPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+    cdsDESCR.Value := dm.scds_produto_procPRODUTO.Value;
     cdsUNIDADE.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
     cdsCODFORNECEDOR.AsInteger := fProdFornecedor.codFornecedor;
     
