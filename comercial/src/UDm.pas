@@ -3453,32 +3453,39 @@ end;
 function TDM.validaClienteParaNF(codCliente: Integer): Boolean;
 var dadosClienteFaltando: String;
 begin
-  if (scds_cliente_proc.Active) then
-    scds_cliente_proc.Close;
-  scds_cliente_proc.Params[0].Clear;
-  scds_cliente_proc.Params[1].Clear;
-  scds_cliente_proc.Params[2].Clear;
-  scds_cliente_proc.Params[2].AsInteger := codCliente;
-  scds_cliente_proc.Open;
-  dadosClienteFaltando := '';  
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  dadosClienteFaltando := 'select cli.CODCLIENTE, cli.CODUSUARIO, cli.NOMECLIENTE,' +
+    ' cli.RAZAOSOCIAL, cli.CODBANCO, cli.PRAZORECEBIMENTO, cli.OBS, cli.SEGMENTO,' +
+    ' cli.STATUS, ende.UF, cli.BLOQUEIO  , cli.desconto, cli.CFOP,' +
+    ' cli.SUFRAMA, ende.PAIS, cli.CNPJ, cli.INSCESTADUAL,  ende.LOGRADOURO,' +
+    ' ende.BAIRRO, ende.CIDADE, ende.CEP, ende.CD_IBGE ' +
+    ' from CLIENTES cli '  +
+    ' left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE = cli.CODCLIENTE '  +
+    ' where cli.CODCLIENTE = ' + IntToStr(codCliente) +
+    '   and ende.TIPOEND = 0 ';
+  sqlBusca.SQL.Add(dadosClienteFaltando);
+  sqlBusca.Open;
+  dadosClienteFaltando := '';
   result := False;
-  if (not scds_cliente_proc.IsEmpty) then
+  if (not sqlBusca.IsEmpty) then
   begin
-    if (scds_cliente_procUF.AsString = '') then
+    if (sqlBusca.fieldByName('UF').AsString = '') then
     begin
       dadosClienteFaltando := 'UF não informado;'+#13#10;
     end;
-    if (scds_cliente_procRAZAOSOCIAL.AsString = '') then
+    if (sqlBusca.fieldByName('RAZAOSOCIAL').AsString = '') then
     begin
       dadosClienteFaltando := dadosClienteFaltando + 'RAZAO SOCIAL não informada;'+#13#10 ;
     end;
-    if (scds_cliente_procPAIS.AsString = '') then
+    if (sqlBusca.fieldByName('PAIS').AsString = '') then
     begin
       dadosClienteFaltando := dadosClienteFaltando + 'PAÍS não informado;'+#13#10;
     end;
-    if (scds_cliente_procCNPJ.AsString = '') then
+    if (sqlBusca.fieldByName('CNPJ').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'CNPJ/CPF não informado;'+#13#10;
     end;
     {if (scds_cliente_procINSCESTADUAL.AsString = '') then
@@ -3486,29 +3493,29 @@ begin
       if (scds_cliente_procUF.AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'INSC. ESTADUAL/RG não informada;'+#13#10;
     end;}
-    if (scds_cliente_procLOGRADOURO.AsString = '') then
+    if (sqlBusca.fieldByName('LOGRADOURO').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'ENDEREÇO não informado;'+#13#10;
     end;
-    if (scds_cliente_procBAIRRO.AsString = '') then
+    if (sqlBusca.fieldByName('BAIRRO').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'BAIRRO não informado;'+#13#10;
     end;
-    if (scds_cliente_procCIDADE.AsString = '') then
+    if (sqlBusca.fieldByName('CIDADE').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'CIDADE não informada;'+#13#10;
     end;
-    if (scds_cliente_procCEP.AsString = '') then
+    if (sqlBusca.fieldByName('CEP').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'CEP não informado;'+#13#10;
     end;
-    if (scds_cliente_procCD_IBGE.AsString = '') then
+    if (sqlBusca.fieldByName('CD_IBGE').AsString = '') then
     begin
-      if (scds_cliente_procUF.AsString <> 'EX') then
+      if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
         dadosClienteFaltando := dadosClienteFaltando + 'CÓD. IBGE não informado;'+#13#10;
     end;
   end;
