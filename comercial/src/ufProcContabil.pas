@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, Grids, DBGrids, StdCtrls, Buttons, Mask, DB, DBClient,
-  Provider, SqlExpr, XPMenu, ExtCtrls, MMJPanel, Menus;
+  Provider, SqlExpr, XPMenu, ExtCtrls, MMJPanel, Menus, JvExDBGrids,
+  JvDBGrid, JvDBUltimGrid;
 
 type
   TfProcContabil = class(TForm)
@@ -34,7 +35,6 @@ type
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
     MMJPanel2: TMMJPanel;
-    DBGrid1: TDBGrid;
     XPMenu1: TXPMenu;
     sds1: TSQLDataSet;
     sds1COD1: TIntegerField;
@@ -43,6 +43,7 @@ type
     Procurar1: TMenuItem;
     Incuir1: TMenuItem;
     Sair1: TMenuItem;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);

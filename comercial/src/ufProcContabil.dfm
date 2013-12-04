@@ -1,8 +1,8 @@
 object fProcContabil: TfProcContabil
-  Left = 192
-  Top = 107
-  Width = 747
-  Height = 495
+  Left = 336
+  Top = 218
+  Width = 956
+  Height = 593
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object fProcContabil: TfProcContabil
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 739
+    Width = 948
     Height = 53
     Align = alTop
     BevelInner = bvLowered
@@ -28,18 +28,18 @@ object fProcContabil: TfProcContabil
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
+    Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object Label3: TLabel
       Left = 42
       Top = 8
-      Width = 47
-      Height = 16
+      Width = 37
+      Height = 13
       Caption = 'Entrada'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
+      Font.Color = clWhite
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -48,12 +48,12 @@ object fProcContabil: TfProcContabil
     object Label1: TLabel
       Left = 152
       Top = 8
-      Width = 67
-      Height = 16
+      Width = 53
+      Height = 13
       Caption = 'Per'#237'odo de'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
+      Font.Color = clWhite
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -62,12 +62,12 @@ object fProcContabil: TfProcContabil
     object Label2: TLabel
       Left = 248
       Top = 8
-      Width = 19
-      Height = 16
+      Width = 15
+      Height = 13
       Caption = 'at'#233
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
+      Font.Color = clWhite
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -80,12 +80,6 @@ object fProcContabil: TfProcContabil
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 0
       OnKeyPress = FormKeyPress
@@ -98,13 +92,7 @@ object fProcContabil: TfProcContabil
       BevelKind = bkFlat
       BorderStyle = bsNone
       EditMask = '!99/99/00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
       MaxLength = 8
-      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 1
       Text = '  /  /  '
@@ -118,13 +106,7 @@ object fProcContabil: TfProcContabil
       BevelKind = bkFlat
       BorderStyle = bsNone
       EditMask = '!99/99/00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
       MaxLength = 8
-      ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 2
       Text = '  /  /  '
@@ -164,8 +146,8 @@ object fProcContabil: TfProcContabil
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 53
-    Width = 739
-    Height = 409
+    Width = 948
+    Height = 513
     Align = alClient
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
@@ -176,82 +158,81 @@ object fProcContabil: TfProcContabil
     Background.StartColor = clSilver
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
-    object DBGrid1: TDBGrid
-      Left = 42
-      Top = 5
-      Width = 654
-      Height = 387
+    object JvDBUltimGrid1: TJvDBUltimGrid
+      Left = 2
+      Top = 2
+      Width = 944
+      Height = 509
+      Align = alClient
       DataSource = ds
-      PopupMenu = PopupMenu1
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
       Columns = <
         item
           Expanded = False
           FieldName = 'DATA_LANC'
           Title.Caption = 'Data'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'NUM_ORIGEM'
-          Title.Caption = 'Tipo'
-          Width = 65
+          Width = 79
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TIPO_DOC'
-          Title.Caption = 'N'#250'mero'
-          Width = 80
+          Title.Caption = 'Documento'
+          Width = 91
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NUM_ORIGEM'
+          Title.Caption = 'N'#250'm. Origem'
+          Width = 86
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CONTA'
           Title.Caption = 'Conta'
-          Width = 80
+          Width = 150
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DESC_CONTA'
-          Title.Caption = 'Descric'#227'o'
-          Width = 150
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 246
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DEBITO'
           Title.Caption = 'D'#233'bito'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CREDITO'
           Title.Caption = 'Cr'#233'dito'
+          Width = 82
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'SALDO'
           Title.Caption = 'Saldo'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QTDE_D'
-          Title.Caption = 'Qtde D.'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QTDE_C'
-          Title.Caption = 'Qtde C.'
+          Width = 106
           Visible = True
         end>
     end
