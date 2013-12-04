@@ -1,9 +1,9 @@
 object fNFeMail: TfNFeMail
   Left = 194
   Top = 103
-  Width = 397
-  Height = 312
-  Caption = 'Envio de Nf-e para email Cleinte/Fornecedor'
+  Width = 402
+  Height = 318
+  Caption = 'Envio de Nf-e para email Cliente/Fornecedor'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object fNFeMail: TfNFeMail
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 389
-    Height = 285
+    Width = 394
+    Height = 291
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
