@@ -462,6 +462,7 @@ type
     procedure cboFreteChange(Sender: TObject);
     procedure btnCrClick(Sender: TObject);
   private
+    cod_natNotaf: Integer;
     { Private declarations }
     procedure carregaDadosAdicionais;
     procedure incluiSAida;
@@ -489,7 +490,7 @@ type
 var
   fNotaf: TfNotaf;
   valorUnitario: Double;
-  codmovdet, codserv, codmd, centro_receita, cod_nat, cod_vendedor_padrao: integer;
+  codmovdet, codserv, codmd, centro_receita, cod_vendedor_padrao: integer;
   natureza, contas_pendentes, nome_vendedor_padrao, valor_fatura, fatura_NF: string;
   // variaveis da venda finalizar
   prazo, valor: double;
@@ -849,7 +850,7 @@ begin
   DMNF.cds_Movimento.Params[0].Clear;
   DMNF.DtSrc.DataSet.Open;
   DMNF.DtSrc.DataSet.Append;
-  DMNF.cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
+  DMNF.cds_MovimentoCODNATUREZA.AsInteger := cod_natNotaF;
   DMNF.cds_MovimentoDESCNATUREZA.AsString := natureza;
   DMNF.cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
   DMNF.cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
@@ -992,9 +993,9 @@ begin
     if (dm.parametro.Locate('PARAMETRO','NATUREZANF',[loCaseInsensitive])) then
     begin
       Try
-        cod_nat := strToint(dm.parametroDADOS.asString);
+        cod_natNotaf := strToint(dm.parametroDADOS.asString);
       except
-        cod_nat := 15;
+        cod_natNotaf := 15;
       end;
       natureza := dm.parametroD1.AsString;
     end;

@@ -294,7 +294,7 @@ type
     procedure btnDIClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
   private
-    codNat     : Integer;
+    codNatNotafc     : Integer;
     movEstoque : String;
     geraTitulo : String;
     { Private declarations }
@@ -324,7 +324,7 @@ type
 var
   fNotaFc: TfNotaFc;
   valorUnitario: Double;
-  codmovdet, codserv, codmd, centro_receita, cod_nat, cod_vendedor_padrao: integer;
+  codmovdet, codserv, codmd, centro_receita, cod_vendedor_padrao: integer;
   natureza, contas_pendentes, nome_vendedor_padrao, valor_fatura, fatura_NF: string;
   // variaveis da venda finalizar
   prazo, valor: double;
@@ -361,7 +361,7 @@ begin
   //Populo combobox com a Razão do Fornecedor
   if (not dmnf.listaCFOP.Active) then
     dmnf.listaCFOP.Open;
-    
+
   { // Trazer so o CFOP de "ENTRADAS"
     select DISTINCT c.CFCOD, c.CFNOME from CFOP c
      inner JOIN ESTADO_ICMS ei on ei.CFOP = c.CFCOD
@@ -589,6 +589,7 @@ end;
 
 procedure TfNotaFc.FormShow(Sender: TObject);
 begin
+  codNatNotafc := 0;
   sCtrlResize.CtrlResize(TForm(fNotaFc));
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
@@ -643,7 +644,9 @@ begin
   if DMNF.DtSrc.DataSet.State in [dsInactive] then
     DMNF.DtSrc.DataSet.Open;
   DMNF.DtSrc.DataSet.Append;
-  DMNF.cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
+  if (codNatNotafc = 0) then
+    codNatNotafc := 20;
+  DMNF.cds_MovimentoCODNATUREZA.AsInteger := codNatNotafc;
   DMNF.cds_MovimentoDESCNATUREZA.AsString := natureza;
   DMNF.cds_MovimentoCODCLIENTE.AsInteger := 0;
   DMNF.cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
@@ -813,9 +816,9 @@ begin
     if (dm.parametro.Locate('PARAMETRO','NATUREZANFCOMPRA',[loCaseInsensitive])) then
     begin
       Try
-        cod_nat := strToint(dm.parametroDADOS.asString);
+        codNatNotafc := strToint(dm.parametroDADOS.asString);
       except
-        cod_nat := 20;
+        codNatNotafc := 20;
       end;
       natureza := dm.parametroD1.AsString;
     end;
@@ -2051,7 +2054,7 @@ begin
   begin
     if (dm.sqlNaturezaBAIXAMOVIMENTO.AsInteger = 0) then
       movEstoque := 'S';
-    codNat     := dm.sqlNaturezaCODNATUREZA.AsInteger;
+    codNatNotafc  := dm.sqlNaturezaCODNATUREZA.AsInteger;
     if (dm.sqlNaturezaGERATITULO.AsInteger = 0) then
       geraTitulo := 'S';
     lblNaturezaOperacao.Caption := dm.sqlNaturezaDESCNATUREZA.AsString;
