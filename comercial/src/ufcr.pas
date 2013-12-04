@@ -1178,9 +1178,12 @@ begin
             scdsCr_proc.EnableControls;
             dm.sqlsisAdimin.Commit(TD);
           except
-            dm.sqlsisAdimin.Rollback(TD);
-            MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-            exit;
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              exit;
+            end;
           end;
           if (codClienteNF = 0) then
           begin
@@ -1198,9 +1201,12 @@ begin
             dm.sqlsisAdimin.ExecuteDirect(str_sql);
             dm.sqlsisAdimin.Commit(TD);
           except
-            dm.sqlsisAdimin.Rollback(TD);
-            MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-            exit;
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              exit;              
+            end;
           end;
         except
           MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
