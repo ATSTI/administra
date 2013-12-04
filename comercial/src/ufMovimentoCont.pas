@@ -5,11 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
-  Grids, DBGrids;
+  Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfMovimentoCont = class(TfPai)
-    DBGrid1: TDBGrid;
+    JvDBUltimGrid1: TJvDBUltimGrid;
   private
     { Private declarations }
   public
