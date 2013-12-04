@@ -1937,7 +1937,7 @@ end;
 
 procedure TDMNF.cds_Mov_detAfterPost(DataSet: TDataSet);
 begin
-    if (FormExiste(fNotaf) = True) then
+    if ((FormExiste(fNotaf) = True) and (cds_nf.Active)) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         cds_nfVALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
@@ -1946,7 +1946,7 @@ begin
           cds_nfVALOR_TOTAL_NOTA.Value := cds_Mov_detTotalPedido.Value +  cds_vendaVALOR_ICMS.AsFloat + DMNF.cds_vendaVALOR_SEGURO.AsFloat +
            cds_vendaVALOR_SEGURO.AsFloat + cds_vendaVALOR_FRETE.AsFloat + cds_vendaOUTRAS_DESP.AsFloat - cds_vendaDESCONTO.AsFloat;
       end;
-    if (FormExiste(fNotaFc) = True) then
+    if ((FormExiste(fNotaFc) = True) and (cds_nf1.Active)) then
       if (cds_Mov_detTotalPedido.Value > 0)then
       begin
         cds_nf1VALOR_PRODUTO.Value := cds_Mov_detTotalPedido.Value;
