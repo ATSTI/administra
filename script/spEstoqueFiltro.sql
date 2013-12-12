@@ -57,7 +57,6 @@ DECLARE VARIABLE IMPRIME CHAR(1);
 declare variable datanf date;
 DECLARE VARIABLE CODDET INTEGER = 0;
 BEGIN 
-  -- versao 11
   -- MOVIMENTO DE MATERIAIS
   saida = 0;
   CODPRODU = 0;
@@ -101,7 +100,7 @@ BEGIN
              AND natu.CODNATUREZA = mov.CODNATUREZA 
              AND mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  
-             AND ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
+             AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')))
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND natu.BAIXAMOVIMENTO = 0 
              AND movdet.BAIXA is not null  
@@ -123,7 +122,7 @@ BEGIN
            WHERE c.CODMOVIMENTO = mov.CODMOVIMENTO
              AND mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  
-             and ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
+             AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')))
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND mov.CODNATUREZA = 4
              AND movdet.BAIXA is not null  
@@ -142,7 +141,7 @@ BEGIN
              AND mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
              AND v.DATAVENDA  < :DTA1
              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  
-             AND ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))
+             AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')))
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND natu.BAIXAMOVIMENTO = 1 
              AND movdet.BAIXA is not null 
@@ -217,7 +216,7 @@ BEGIN
                AND mov.CODMOVIMENTO = :CODMOV 
                AND movdet.CODPRODUTO = :CODPRODUTO  
                AND movdet.BAIXA is not null 
-               AND ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA'))
+               AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA')))
              GROUP BY movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE
              ORDER BY codDetalhe                  
               INTO :ENTRA, :VLR, :PRECOCOMPRA, :DATAMOVIMENTO, :CODDET
@@ -268,7 +267,7 @@ BEGIN
              AND movdet.CODMOVIMENTO = :CODMOV 
              AND movdet.CODPRODUTO = :CODPRODUTO   
              AND movdet.BAIXA is not null 
-             AND ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA'))
+             AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA')))
            group by movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE 
            order by movdet.CODDETALHE
             INTO :SAI, :VLR, :DATAMOVIMENTO, :VALORVENDA, :CODDET
