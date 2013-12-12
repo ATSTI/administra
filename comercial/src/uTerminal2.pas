@@ -3475,7 +3475,7 @@ begin
   if not dm.cds_parametro.IsEmpty then
      tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
   dm.cds_parametro.Close;
-  str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+  {str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
          ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
          ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
          ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
@@ -3485,6 +3485,18 @@ begin
          ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
          ' left outer join ESTOQUEMES est ' +
          ' on est.CODPRODUTO = prod.CODPRODUTO ' +
+         ' where ';}
+
+   str_sql := ' select CODPRODUTO, COD_BARRA' +
+        ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+        QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+        ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+        ', TIPO, ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+        ' from LISTAPRODUTO(0, ' +
+        QuotedStr('TODOSPRODUTOS') + ', ' +
+        QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)' +
          ' where ';
 
   if scds_produto_proc.Active then
@@ -3492,7 +3504,7 @@ begin
   scds_produto_proc.CommandText := '';
   if (codLote <> '0') then
   begin
-    scds_produto_proc.CommandText := str_sql + ' prod.CODPRODUTO = ' +
+    scds_produto_proc.CommandText := str_sql + ' CODPRODUTO = ' +
       IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
   end
   else begin
