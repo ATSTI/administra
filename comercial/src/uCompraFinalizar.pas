@@ -493,6 +493,7 @@ var cod_id : integer;
   TD: TTransactionDesc;
   FEstoque: TEstoque;
 begin
+
   if (dm.cCustoFechado(cds_compraCODCCUSTO.AsInteger, cds_compraDATACOMPRA.AsDateTime)) then
   begin
     MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
@@ -637,8 +638,12 @@ begin
        cds_Compra.ApplyUpdates(0);
        dm.sqlsisAdimin.Commit(TD);
     except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       MessageDlg('Status do pedido não alterado.', mtError, [mbOk], 0);
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+        Exit;
+      end;
     end;
   end;
 
