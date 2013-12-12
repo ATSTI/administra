@@ -733,8 +733,8 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'C'#243'digo :'
       end
       object Label11: TLabel
-        Left = 482
-        Top = 90
+        Left = 483
+        Top = 89
         Width = 34
         Height = 13
         Caption = 'Regi'#227'o'
@@ -770,11 +770,11 @@ inherited fClienteCadastro: TfClienteCadastro
         Caption = 'CFOP Venda'
       end
       object lbl1: TLabel
-        Left = 430
+        Left = 428
         Top = 89
-        Width = 57
+        Width = 39
         Height = 13
-        Caption = '% Desconto'
+        Caption = '% Desc.'
       end
       object Label79: TLabel
         Left = 524
@@ -1629,7 +1629,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object DBLookupComboBox1: TDBLookupComboBox
         Left = 480
-        Top = 106
+        Top = 105
         Width = 204
         Height = 24
         BevelKind = bkFlat
@@ -2158,6 +2158,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 105
         Width = 47
         Height = 24
+        Hint = 'Desconto que ser'#225' usado em cada venda para este cliente.'
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'DESCONTO'
@@ -2169,7 +2170,9 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        ParentShowHint = False
         PopupMenu = PopupMenu1
+        ShowHint = True
         TabOrder = 10
         OnKeyPress = FormKeyPress
       end
