@@ -27,6 +27,7 @@ BEGIN
        inner join venda v on v.codvenda = rc.codvenda
        inner join movimento m on m.codmovimento = v.codmovimento
         where rc.DATAVENCIMENTO BETWEEN :DATAINI and :DATAFINAL 
+		and m.CODNATUREZA = 3
         and cl.RAZAOSOCIAL = :RAZAO  
     into :NOTAF, :EMISSAO, :VENCIMENTO , :VALORNF, :CLIENTE, :notafiscal, :codmov, :totalgeral do
     begin
