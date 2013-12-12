@@ -27975,6 +27975,14 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = acNfeEmitirExecute
+          end
+          item
+            Action = acCartaCorrecao
+            Caption = 'Carta Corre'#231#227'o'
+            ImageIndex = 17
+            Tag = 0
+            AutoToggle = False
+            OnClick = acCartaCorrecaoExecute
           end>
         ButtonSize = olbsLarge
         Caption = 'Co&mercial'
@@ -53864,7 +53872,7 @@ object fAtsOS: TfAtsOS
       000000000000}
   end
   object ActuserAcesso: TActionList
-    Left = 209
+    Left = 217
     Top = 145
     object usuarios: TAction
       Category = 'acessos'
@@ -53888,6 +53896,11 @@ object fAtsOS: TfAtsOS
       Category = 'Comercial'
       Caption = 'NFe-Emiss'#227'o'
       OnExecute = acNfeEmitirExecute
+    end
+    object acCartaCorrecao: TAction
+      Category = 'Comercial'
+      Caption = 'Carta Corre'#231#227'o'
+      OnExecute = acCartaCorrecaoExecute
     end
   end
   object UserControlAuto: TUserControl

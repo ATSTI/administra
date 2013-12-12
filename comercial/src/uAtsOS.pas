@@ -30,6 +30,7 @@ type
     lblMensagemSistema: TLabel;
     acNfeEmitir: TAction;
     dxButton11: TdxButton;
+    acCartaCorrecao: TAction;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -72,6 +73,7 @@ type
     procedure UserControlAutoAfterLogin(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons8Click(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons9Click(Sender: TObject);
+    procedure acCartaCorrecaoExecute(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -100,7 +102,7 @@ uses
   uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
   uRelOS,
   uNotaf,
-  UDMNF, uNCM, uSeriaNF;
+  UDMNF, uNCM, uSeriaNF, uCCe;
 
 {$R *.dfm}
 
@@ -766,6 +768,16 @@ begin
  finally
   fSeriaNF.Free;
  end;
+end;
+
+procedure TfAtsOS.acCartaCorrecaoExecute(Sender: TObject);
+begin
+  fCCe := TfCCe.Create(Application);
+  try
+    fCCe.ShowModal;
+  finally
+    fCCe.Free;
+  end;
 end;
 
 end.
