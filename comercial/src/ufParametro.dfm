@@ -3276,7 +3276,7 @@ inherited fParametro: TfParametro
         Top = 0
         Width = 809
         Height = 485
-        ActivePage = ts1
+        ActivePage = ts2
         Align = alClient
         TabOrder = 0
         object ts1: TTabSheet
@@ -3792,9 +3792,9 @@ inherited fParametro: TfParametro
           object lbl11: TLabel
             Left = 10
             Top = 12
-            Width = 225
+            Width = 230
             Height = 13
-            Caption = 'Perfil sem autoriza'#231#227'o para abertura de Pedidos'
+            Caption = 'Perfil sem autoriz. abertura de comandas/sangria'
           end
           object Label50: TLabel
             Left = 10
