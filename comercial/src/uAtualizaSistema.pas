@@ -36,6 +36,7 @@ type
     procedure atualizaSistema;
     function VersaoAtual: String;
     function GetVersion: string;
+    procedure ExecutaScriptNovo(script : string; dataScript: TDateTime);
     procedure ExecutaScript(script : string);
     procedure ExecutaSql(sql : string);
     procedure ExecutaDDL(Tabela, Campo, Tipo : string);
@@ -48,7 +49,7 @@ type
     procedure DeletaTrigger(Trigger: String);
     procedure DeletaProc(Proc: String);
     function TamCampo(Tabela, Campo : String): Integer;
-    procedure insereouatualizaScript(Script, versaoScript: String);
+    procedure insereouatualizaScript(Script, versaoScript: String; dataScript: TdateTime);
     procedure AtualizandoScript(vVersao: String);
     { Private declarations }
   public
@@ -1972,7 +1973,7 @@ begin
       mudaVersao('1.1.0.0');
     end;// Fim Atualizacao Versao 1.0.0.123
 
-    if (versaoSistema = '1.1.0.0') then
+    if ((versaoSistema = '1.1.0.0') or (versaoSistema = '1.2.1.0')) then
     begin
       dm.sqlsisAdimin.StartTransaction(TD);
       try
@@ -1999,14 +2000,14 @@ begin
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
 
-      executaScript('spestoque122.sql');      
+      executaScript('spestoque122.sql');
       // Rotina nova para incluir e executar scripts.
-      insereouatualizaScript('estoque_atualiza.sql', '1.1.0.0');
-      insereouatualizaScript('filtroproduto.sql', '1.1.0.0');
-      insereouatualizaScript('gera_cupom.sql', '1.1.0.0');
-      insereouatualizaScript('gera_nf_compra.sql', '1.1.0.0');
-      insereouatualizaScript('view_estoquelote.sql', '1.1.0.0');
-      insereouatualizaScript('spEstoqueFiltro.sql', '1.1.0.0');
+      insereouatualizaScript('estoque_atualiza.sql', '1.1.0.0', StrToDate('04/12/2013'));
+      insereouatualizaScript('filtroproduto.sql', '1.1.0.0', StrToDate('01/11/2013'));
+      insereouatualizaScript('gera_cupom.sql', '1.1.0.0', StrToDate('01/11/2013'));
+      insereouatualizaScript('gera_nf_compra.sql', '1.1.0.0', StrToDate('01/11/2013'));
+      insereouatualizaScript('view_estoquelote.sql', '1.1.0.0', StrToDate('04/11/2013'));
+      insereouatualizaScript('spEstoqueFiltro.sql', '1.1.0.0', StrToDate('04/12/2013'));
       //insereouatualizaScript('trg_calcula_icms_st.sql', '1.1.0.0');
       MessageDlg('Execute o script trg_calcula_icms_st.sql.', mtWarning, [mbOK], 0);
       //insereouatualizaScript('', '1.1.0.0');
@@ -2016,8 +2017,20 @@ begin
         dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ALTER CODPRODUTO TYPE Varchar(30)');
       except
       end;
-      mudaVersao('1.2.1.0');
+      mudaVersao('2.0.0.7');
     end;// Fim Atualizacao Versao 1.1.0.0
+
+    if (versaoSistema = '2.0.0.7') then
+    begin
+      insereouatualizaScript('relContasReceber.sql', '2.0.0.7', StrToDate('16/12/2013'));
+      insereouatualizaScript('data_invalida.sql', '2.0.0.7', StrToDate('16/12/2013'));
+      insereouatualizaScript('data_invalida_compra.sql', '2.0.0.7', StrToDate('16/12/2013'));
+      insereouatualizaScript('data_invalida_venda.sql', '2.0.0.7', StrToDate('16/12/2013'));
+      //insereouatualizaScript('.sql', '2.0.0.7');
+      //insereouatualizaScript('.sql', '2.0.0.7');
+      AtualizandoScript('2.0.0.7');
+      //mudaVersao('2.0.0.7');
+    end;// Fim Atualizacao Versao 2.0.0.7
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
@@ -2428,12 +2441,12 @@ begin
   while not cdsAtualiza.Eof do
   begin
     if (cdsAtualiza.fieldByName('SCRIPT').AsString <> '') then
-      ExecutaScript(cdsAtualiza.fieldByName('SCRIPT').AsString);
+      ExecutaScriptNovo(cdsAtualiza.fieldByName('SCRIPT').AsString, cdsAtualiza.fieldByName('DATASCRIPT').asDateTime);
     cdsAtualiza.Next;
   end;
 end;
 
-procedure TfAtualizaSistema.insereouatualizaScript(Script, versaoScript: String);
+procedure TfAtualizaSistema.insereouatualizaScript(Script, versaoScript: String; dataScript: TdateTime);
 var TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
@@ -2450,7 +2463,7 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       try
         dm.sqlsisAdimin.ExecuteDirect('INSERT INTO ATUALIZA (SCRIPT, DATASCRIPT, VERSAO) VALUES (' +
-          QuotedStr(Script) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',now)) + ', ' +
+          QuotedStr(Script) + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',dataScript)) + ', ' +
           QuotedStr(versaoScript) + ')');
         dm.sqlsisAdimin.Commit(TD);
       except
@@ -2467,6 +2480,7 @@ begin
     try
       dm.sqlsisAdimin.ExecuteDirect('UPDATE  ATUALIZA SET VERSAO = ' +
         QuotedStr(versaoScript) + ' ,  DATA_MODIFICADO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',now)) +
+        ' , DATASCRIPT = ' + QuotedStr(FormatDateTime('mm/dd/yyyy',dataScript)) +
         ' WHERE SCRIPT = ' + QuotedStr(Script));
       dm.sqlsisAdimin.Commit(TD);
     except
@@ -2477,6 +2491,44 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfAtualizaSistema.ExecutaScriptNovo(script: string;
+  dataScript: TDateTime);
+var caminho,sp, sqlA :string;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  caminho := ExtractFilePath(Application.ExeName);
+  caminho := caminho + 'script\';
+  sp := caminho + script;
+ 
+  if (not FileExists(sp)) then
+  begin
+    MessageDlg('Erro 001. Informe o responsavel pelo sistema ! (' + SP + ')', mtWarning, [mbOK], 0);
+    abort;
+  end;
+  if (FileDateToDateTime(FileAge(sp)) < dataScript) then
+  begin
+    MessageDlg('Arquivo : ' + script + ' desatualizado, precisa ser mais novo que: ' +
+    FormatDateTime('dd/mm/yyyy',dataScript), mtWarning, [mbOK], 0);
+    abort;
+  end;
+  memo1.Lines.LoadFromFile(sp);
+  sqlA := PChar(memo1.Lines.GetText);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    if (dm.sqlsisAdimin.ExecuteDirect(sqlA) = 0) then
+    begin
+      dm.sqlsisAdimin.Commit(TD);
+    end;
+  except
+    dm.sqlsisAdimin.Rollback(TD);
+    MessageDlg('Erro 002. Informe o responsavel pelo programa ! (' + SP + ')', mtWarning, [mbOK], 0);
+    abort;
+  end;
+  { Fim execuaoo Script }
+
 end;
 
 end.
