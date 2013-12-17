@@ -285,6 +285,12 @@ begin
     exit;
   end;
 
+  if ((OFTipo = 'OP') and (cdsOf.State in [dsEdit])) then
+  begin
+    MessageDlg('OF já incluída, não é permitido fazer alteração.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (codProd = 0) then
   begin
     if dm.scds_produto_proc.Active then
@@ -764,12 +770,15 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
-      sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
-        intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
-        ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
-        ', OFSTATUS = ' + QuotedStr('E') +
-        ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
-      dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
+      if (OfTipo = 'EXCLUSAO') then
+      begin
+        sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
+          intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
+          ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
+          ', OFSTATUS = ' + QuotedStr('E') +
+          ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
+        dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
+      end;
 
       dm.sqlsisAdimin.Commit(TD);
     except
@@ -805,13 +814,15 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
-      sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
-        intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
-        ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
-        ', OFSTATUS = ' + QuotedStr('E') +
-        ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
-      dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
-
+      if (OfTipo = 'EXCLUSAO') then
+      begin
+        sqlUpOf := 'UPDATE OF_OF SET OFMOTIVO = ' + QuotedStr('EXCLUIDO : USER-' +
+          intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
+          ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
+          ', OFSTATUS = ' + QuotedStr('E') +
+          ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
+        dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
+      end;
       dm.sqlsisAdimin.Commit(TD);
     except
       on E : Exception do
