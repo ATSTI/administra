@@ -14,11 +14,11 @@ RETURNS ( STATUS                           VARCHAR( 2 )
         , DESCONTO                         DOUBLE PRECISION
         , SALDO                            DOUBLE PRECISION
         , VALORREC                         DOUBLE PRECISION
-        , NOMECLIENTE                      VARCHAR( 50 )
+        , NOMECLIENTE                      VARCHAR( 60 )
         , CODCLIENTE                       INTEGER
         , HISTORICO                        VARCHAR( 150 )
         , CODMOVIMENTO                     INTEGER
-        , RAZAOSOCIAL                      VARCHAR( 50 )
+        , RAZAOSOCIAL                      VARCHAR( 60 )
         , CAIXA                            INTEGER
         , CODALMOXARIFADO                  INTEGER
         , CODVENDEDOR                      INTEGER
@@ -30,7 +30,8 @@ RETURNS ( STATUS                           VARCHAR( 2 )
         , FORMARECEBIMENTO                 CHAR( 1 ) 
         , DESCONTADO                       CHAR( 1 )
         , CONTACREDITO                     INTEGER
-, DATACONSOLIDA                   DATE
+         , DATACONSOLIDA                   DATE,
+         CODIGOBOLETO varchar(20)
 )
         
 AS
@@ -57,39 +58,42 @@ begin
       WHEN '10' THEN 'NOVO TITULO' WHEN '3-' THEN 'PROTESTO' ELSE 'OUTROS' END AS STATUSP 
       , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
       , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
+      ,rec.VALOR_PRIM_VIA
       FROM RECEBIMENTO rec 
-      left outer join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE 
-      left outer join VENDA v on v.CODVENDA = rec.CODVENDA
+      inner join VENDA v on v.CODVENDA = rec.CODVENDA
+      inner join CLIENTES cli on cli.CODCLIENTE = v.CODCLIENTE       
       group by 
-        cli.NOMECLIENTE, 
-        rec.CODCLIENTE 
+        rec.CODCLIENTE
+        ,cli.NOMECLIENTE 
         , rec.TITULO,  rec.EMISSAO
         , rec.DATAVENCIMENTO, rec.DATACONSOLIDA, rec.CODRECEBIMENTO,  rec.VALOR_RESTO, 
         rec.STATUS, rec.DATARECEBIMENTO, rec.VALORRECEBIDO
         , rec.VIA, rec.N_DOCUMENTO 
         , rec.HISTORICO, rec.DESCONTO, rec.JUROS, rec.FUNRURAL, rec.PARCELAS, rec.PERDA
         , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
-        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
+        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO,rec.VALOR_PRIM_VIA
       into :status, :dataRecebimento, :DATACONSOLIDA, :vlrrec, :vlrJuros, :vlrMulta, :vlrPerda, :vlrDesc, :desconto,  :via
         , :N_documento, :emissao, :codRecebimento
         , :titulo, :dataVencimento, :valor_resto 
         , :nomeCliente, :codCliente, :historico, :statusP
         , :razaoSocial, :codMovimento, :caixa, codAlmoxarifado
-        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO
+        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO, valorTitulo
       do
       begin
 
-      For SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
+      /*For SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
         FROM RECEBIMENTO rec
        where rec.Valor_prim_via > 0 
          and (rec.codcliente = :codCliente)  
          and rec.titulo      = :titulo 
          and rec.VIA         = 1
-        into :titulo, valorTitulo, :codcliente
-     do begin  
-       valor_prim_via = valorTitulo;
-       saldo = valorTitulo;
-     end 
+        into :titulo, :codcliente
+     do begin  */
+        if (via = '01/01') then
+        begin 
+          valor_prim_via = valorTitulo;
+          saldo = valorTitulo;
+        end  
 
         if (vlrRec is null) then 
           vlrRec = 0;
@@ -105,7 +109,7 @@ begin
         if (vlrDesc is null) then 
           vlrDesc = 0;
                   
-        valorrecebido = vlrrec; -- vlrJuros - vlrMulta + vlrPerda + vlrDesc;
+        valorrecebido = vlrrec + vlrJuros + vlrMulta - vlrPerda - vlrDesc;
         if (valorrecebido < 0) then 
           valorRecebido = (-1) * valorrecebido;
         if (DESCONTADO = 'S') then
