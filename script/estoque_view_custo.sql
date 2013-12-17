@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE ESTOQUE_VIEW_CUSTO (
     DTA1 date,
     PROD1 integer,

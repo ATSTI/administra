@@ -10,6 +10,8 @@ RETURNS
  ESTOQUELOTE double precision)
 AS 
  declare variable codM integer;
+ declare variable ccusto integer; 
+ declare variable ccustoEstoque integer;  
  declare variable custoMateriaPrima double precision;
 BEGIN
   if (codMovimento > 0) then 
@@ -24,6 +26,16 @@ BEGIN
     codM = 0;
   end  
     
+  select CAST(COALESCE(DADOS, '0') as INTEGER) FROM PARAMETRO WHERE PARAMETRO = 'CCUSTOESTOQUE'
+    into :ccustoEstoque;
+    
+  if (ccustoEstoque IS NULL) THEN 
+    ccustoEstoque = 1;  
+   
+  if (ccustoEstoque = 0) then 
+    ccustoEstoque = 1;
+  
+    
   for SELECT DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO , coalesce(MD.LOTE,'0')
      , coalesce(p.LOTES, 'N')
      FROM MOVIMENTO M       
@@ -34,16 +46,25 @@ BEGIN
     ORDER BY M.CODMOVIMENTO DESC
     into :CODPRODUTO, :CODALMOXARIFADO, :LOTE, :USA_LOTE
     do begin 
+      
+      if (ccustoEstoque = 1) then 
+        ccusto = codAlmoxarifado;    
+      else 
+        ccusto = 1;
+    
       if (usa_lote = 'S') then
       begin 
+        
         select coalesce(ev.SALDOFIMACUM,0)
-         from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :codAlmoxarifado, :lote) ev 
+         from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :ccusto, :lote) ev 
          into :ESTOQUELOTE;
       end
+      
+      
 
       lote = 'TODOS OS LOTES CADASTRADOS NO SISTEMA';
       select coalesce(ev.PRECOCUSTO,0), coalesce(ev.SALDOFIMACUM,0), coalesce(ev.PRECOCOMPRA,0), ev.LOTES 
-      from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :codAlmoxarifado, :lote) ev 
+      from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :ccusto, :lote) ev 
       into :PRECO_CUSTO, :ESTOQUE, :PRECO_COMPRA, :Lote;
       
       select coalesce(CUSTOMEDIO,0) from estoque_customedio((current_date - 30), current_date, :codProduto)
