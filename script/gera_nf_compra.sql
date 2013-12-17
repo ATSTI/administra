@@ -1,4 +1,3 @@
-set term ^ ;
 create or ALTER PROCEDURE GERA_NF_COMPRA (
     FORNECEDOR integer,
     DTEMISSAO date,
