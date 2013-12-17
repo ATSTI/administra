@@ -397,23 +397,28 @@ begin
 end;
 
 function TFiscalCls.VerificaCaixaAberto(): Boolean;
+var perfilUserSemAutoricacao: String;
 begin
+  perfilUserSemAutoricacao := 'Nao Informado';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'PERFILSEMAUTORIZACAO';
   dm.cds_parametro.Open;
+  if (dm.cds_parametroD1.AsString <> '') then
+    perfilUserSemAutoricacao := dm.cds_parametroD1.AsString;
   v_NomePerfil :=  BuscaPerfilUsuario(nome_user);
   try
     sqlConsulta :=  TSqlQuery.Create(nil);
     sqlConsulta.SQLConnection := dm.sqlsisAdimin;
-    if (dm.cds_parametroD1.AsString <> v_NomePerfil) then
+    if (perfilUserSemAutoricacao <> v_NomePerfil) then
     begin
       v_SqlTexto := 'Select DATAABERTURA, CODCAIXA, NOMECAIXA, IDCAIXACONTROLE from CAIXA_CONTROLE where MAQUINA = ' + QuotedStr(NomeComputador);
       v_SqlTexto := v_SqlTexto + ' and SITUACAO = ' + QuotedStr('A');
     end
     else
     begin
-      v_SqlTexto := 'Select DATAABERTURA, CODCAIXA, NOMECAIXA, IDCAIXACONTROLE from CAIXA_CONTROLE where SITUACAO = ' + QuotedStr('A');
+      result := False;
+      exit;
     end;
     dm.cds_parametro.Close;
     sqlConsulta.SQL.Add(v_SqlTexto);
@@ -436,4 +441,4 @@ begin
 end;
 
 end.
- 
+
