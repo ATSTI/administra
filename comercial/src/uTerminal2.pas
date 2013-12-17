@@ -462,6 +462,7 @@ type
     DBEdit5: TDBEdit;
     JvLabel7: TJvLabel;
     JvSpeedButton3: TJvSpeedButton;
+    lblEstoque: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -3491,7 +3492,7 @@ begin
         ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
         QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
         ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
-        ', TIPO, ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+        ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
         ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
         ' from LISTAPRODUTO(0, ' +
         QuotedStr('TODOSPRODUTOS') + ', ' +
@@ -3542,6 +3543,9 @@ begin
       RETORNO := 'FALSO';
       scds_produto_proc.Close;
     end;
+  end
+  else begin
+    lblEstoque.Caption := Format('%10.1n', [scds_produto_procESTOQUEATUAL.AsFloat]);
   end;
 
   if ((estoque_negativo = 'TRUE') and (retorno = 'FALSO')) then // nao permito venda com saldo negativo

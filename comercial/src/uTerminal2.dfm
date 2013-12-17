@@ -3148,6 +3148,19 @@ object fTerminal2: TfTerminal2
           HotTrackFont.Name = 'Cooper Black'
           HotTrackFont.Style = []
         end
+        object lblEstoque: TLabel
+          Left = 5
+          Top = 38
+          Width = 9
+          Height = 13
+          Caption = '...'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
         object edtQtde1: TJvCalcEdit
           Left = 65
           Top = 6
