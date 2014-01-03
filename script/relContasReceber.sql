@@ -58,7 +58,7 @@ begin
       WHEN '10' THEN 'NOVO TITULO' WHEN '3-' THEN 'PROTESTO' ELSE 'OUTROS' END AS STATUSP 
       , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
       , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
-      ,rec.VALOR_PRIM_VIA
+      ,rec.VALOR_PRIM_VIA, rec.CODIGOBOLETO
       FROM RECEBIMENTO rec 
       inner join VENDA v on v.CODVENDA = rec.CODVENDA
       inner join CLIENTES cli on cli.CODCLIENTE = v.CODCLIENTE       
@@ -71,13 +71,13 @@ begin
         , rec.VIA, rec.N_DOCUMENTO 
         , rec.HISTORICO, rec.DESCONTO, rec.JUROS, rec.FUNRURAL, rec.PARCELAS, rec.PERDA
         , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
-        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO,rec.VALOR_PRIM_VIA
+        , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO,rec.VALOR_PRIM_VIA, rec.CODIGOBOLETO
       into :status, :dataRecebimento, :DATACONSOLIDA, :vlrrec, :vlrJuros, :vlrMulta, :vlrPerda, :vlrDesc, :desconto,  :via
         , :N_documento, :emissao, :codRecebimento
         , :titulo, :dataVencimento, :valor_resto 
         , :nomeCliente, :codCliente, :historico, :statusP
         , :razaoSocial, :codMovimento, :caixa, codAlmoxarifado
-        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO, valorTitulo
+        , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO, valorTitulo, :CODIGOBOLETO
       do
       begin
 
@@ -128,5 +128,6 @@ begin
         n_documento = null; 
         codVenda = null;
         codMovimento = null;
+		CODIGOBOLETO = null;
       end
    end
