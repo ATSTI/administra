@@ -259,7 +259,7 @@ object fNFeletronica: TfNFeletronica
             Width = 70
             Height = 36
             Caption = 'Listar'
-            TabOrder = 0
+            TabOrder = 4
             OnClick = btnListarClick
             Glyph.Data = {
               360C0000424D360C000000000000360000002800000020000000200000000100
@@ -366,7 +366,7 @@ object fNFeletronica: TfNFeletronica
             Top = 40
             Width = 89
             Height = 21
-            TabOrder = 1
+            TabOrder = 3
           end
           object chkTodas: TCheckBox
             Left = 367
@@ -374,7 +374,7 @@ object fNFeletronica: TfNFeletronica
             Width = 60
             Height = 17
             Caption = 'Todas'
-            TabOrder = 2
+            TabOrder = 0
           end
           object ComboBox1: TComboBox
             Left = 116
@@ -382,14 +382,14 @@ object fNFeletronica: TfNFeletronica
             Width = 247
             Height = 21
             ItemHeight = 13
-            TabOrder = 3
+            TabOrder = 1
           end
           object JvDateEdit1: TJvDateEdit
             Left = 117
             Top = 40
             Width = 88
             Height = 21
-            TabOrder = 4
+            TabOrder = 2
           end
         end
         object btnSairVenda: TBitBtn
@@ -1585,15 +1585,15 @@ object fNFeletronica: TfNFeletronica
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
       'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
-      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS '#13#10'from NOTAFISCAL nf '#13#10'inner' +
-      ' join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join e' +
-      'nderecocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'le' +
-      'ft outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTA' +
-      'EMISSAO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pv' +
-      'endacusto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'        ' +
-      '  and (endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.P' +
-      'ROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSA' +
-      'O DESC'
+      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10'from NOTAFISC' +
+      'AL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13 +
+      #10'inner join enderecocliente endecli on endecli.CODCLIENTE = cl.C' +
+      'ODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10 +
+      'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and ((n' +
+      'f.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesdenotaf' +
+      #39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZA = :natn' +
+      'f  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by' +
+      ' nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -1628,7 +1628,7 @@ object fNFeletronica: TfNFeletronica
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 456
-    Top = 347
+    Top = 344
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
@@ -1871,6 +1871,11 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sdsNFNOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      ReadOnly = True
+      Size = 60
     end
   end
   object cdsNF: TClientDataSet
@@ -2189,6 +2194,11 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object cdsNFNOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      ReadOnly = True
+      Size = 60
     end
   end
   object dspNF: TDataSetProvider

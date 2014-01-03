@@ -696,6 +696,8 @@ type
     ACBrValidador1: TACBrValidador;
     sdsItensNFCOD_BARRA: TStringField;
     cdsItensNFCOD_BARRA: TStringField;
+    sdsNFNOMEXML: TStringField;
+    cdsNFNOMEXML: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -818,7 +820,7 @@ begin
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, ' +
       ' nf.NOMETRANSP TRANSP2, nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, ' +
-      ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS  ' +
+      ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML  ' +
       '  from NOTAFISCAL nf ' +
       ' inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE ' +
       ' inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR ' +
@@ -847,7 +849,7 @@ begin
     ' nf.PROTOCOLOENV, nf.NOMETRANSP TRANSP2, nf.NUMRECIBO, nf.PROTOCOLOCANC, ' +
     ' co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     ', nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) ' +
-    ' as VLRTOT_TRIB, nf.STATUS  ' +
+    ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML   ' +
     '  from NOTAFISCAL nf ' +
     ' inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE ' +
     ' inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
@@ -1217,6 +1219,20 @@ begin
    AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
    ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
    MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\'+copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+   dm.sqlsisAdimin.StartTransaction(TD);
+   try
+     str := 'UPDATE NOTAFISCAL SET ';
+     str := str + ' NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+     str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+     dm.sqlsisAdimin.ExecuteDirect(str);
+     dm.sqlsisAdimin.Commit(TD);
+   except
+     on E : Exception do
+     begin
+       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     end;
+   end;
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
@@ -1235,7 +1251,7 @@ begin
      try
        str := 'UPDATE NOTAFISCAL SET ';
        str := str + ' XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
        str := str + ', STATUS = ' + QuotedStr('E');
        str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
        dm.sqlsisAdimin.ExecuteDirect(str);
@@ -1276,7 +1292,7 @@ begin
        //SALVA PROTOCOLO DPEC
        str := 'UPDATE NOTAFISCAL SET ';
        str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
        str := str + ', STATUS = ' + QuotedStr('E');
        if (ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC <> '') then
          str := str + ', PROTOCOLOENV = ' + quotedStr(ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC);
@@ -1320,7 +1336,7 @@ begin
        //SALVA NFe, PROTOCOLOS e NOMEXML no BD
        str := 'UPDATE NOTAFISCAL SET ';
        str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-       str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+       //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
        str := str + ', STATUS = ' + QuotedStr('E');
        if (Protocolo <> '') then
          str := str + ', PROTOCOLOENV = ' + quotedStr(Protocolo);
@@ -1451,33 +1467,86 @@ begin
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
+var strAtualizaNota: String;
+arquivx: String;
 begin
-  OpenDialog1.Title := 'Selecione a NFE';
-  OpenDialog1.DefaultExt := '*-nfe.XML';
-  OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
-  if OpenDialog1.Execute then
+  cdsNF.First;
+  while not cdsNF.Eof do
   begin
-    ACBrNFe1.NotasFiscais.Clear;
-    ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog1.FileName);
-    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
-    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
-    if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+    if (cdsNFSELECIONOU.AsString = 'S') then
     begin
-      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
-       DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
-      ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-      ACBrNFe1.WebServices.ConsultaDPEC.Executar;
-      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
-      ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.dhRegDPEC);
-    end
-    else
-    begin
-      ACBrNFe1.Consultar;
+      if FileExists(ACBrNFe1.Configuracoes.Geral.PathSalvar+'\' + cdsNFNOMEXML.AsString) then
+      begin
+        arquivx := ACBrNFe1.Configuracoes.Geral.PathSalvar+'\' + cdsNFNOMEXML.AsString;
+      end  
+      else begin
+        OpenDialog1.Title := 'Selecione a NFE';
+        OpenDialog1.DefaultExt := '*-nfe.XML';
+        OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+        OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+        if OpenDialog1.Execute then
+        begin
+          arquivx := OpenDialog1.FileName;
+        end;
+      end;
+      ACBrNFe1.NotasFiscais.Clear;
+      ACBrNFe1.NotasFiscais.LoadFromFile(arquivx);
+      ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
+      ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
+      if ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.tpEmis = teDPEC then
+      begin
+        ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.EnviarDPEC.nRegDPEC + ' ' +
+         DateTimeToStr(ACBrNFe1.WebServices.EnviarDPEC.DhRegDPEC);
+        ACBrNFe1.WebServices.ConsultaDPEC.NFeChave := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+        ACBrNFe1.WebServices.ConsultaDPEC.Executar;
+        ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.Retorno.Protocolo;
+        ACBrNFe1.DANFE.ProtocoloNFe := ACBrNFe1.WebServices.ConsultaDPEC.nRegDPEC +' '+ DateTimeToStr(ACBrNFe1.WebServices.ConsultaDPEC.dhRegDPEC);
+        if (cdsNFPROTOCOLOENV.IsNull) then
+        begin
+          strAtualizaNota := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' +
+          QuotedStr(ACBrNFe1.WebServices.Retorno.Protocolo) + ', STATUS = ' +
+          QuotedStr('E') + ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger) +
+          ' AND PROTOCOLOENV IS NULL ';
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+             dm.sqlsisAdimin.ExecuteDirect(strAtualizaNota);
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             on E : Exception do
+             begin
+               ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
+          end;
+        end;
+      end
+      else
+      begin
+        ACBrNFe1.Consultar;
+        if (cdsNFPROTOCOLOENV.IsNull) then
+        begin
+          strAtualizaNota := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' +
+          QuotedStr(ACBrNFe1.WebServices.Consulta.protNFe.nProt) + ', STATUS = ' +
+          QuotedStr('E') +  
+          ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger) +
+          ' AND PROTOCOLOENV IS NULL ';
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+             dm.sqlsisAdimin.ExecuteDirect(strAtualizaNota);
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             on E : Exception do
+             begin
+               ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
+          end;
+        end;
+      end;
+      ACBrNFe1.NotasFiscais.Imprimir;
+      ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
     end;
-    ACBrNFe1.NotasFiscais.Imprimir;
-   ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
-
+    cdsNf.Next;
   end;
 end;
 
