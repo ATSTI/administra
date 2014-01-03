@@ -475,7 +475,7 @@ begin
               Titulo.TotalParcelas := ds_cr.RecordCount; //TotalParcelas;
               Titulo.Parcela := ds_cr.RecNo; //Parcela; //I;
               Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
-              Titulo.Vencimento :=  ds_crDATAVENCIMENTO.AsDateTime;
+              Titulo.Vencimento := ds_crDATAVENCIMENTO.AsDateTime;
               Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
               Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
                 if (especie_DOC = 'REMESSA') then
@@ -535,7 +535,12 @@ begin
 
               //varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
               if (ds_crCODIGOBOLETO.AsString = '') then
-                varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1
+              begin
+                if (s_bancoCODIGOBOLETO.AsString <> '') then
+                  varNossoNumero := StrToInt64(s_bancoCODIGOBOLETO.AsString) + 1
+                else
+                  varNossoNumero := StrToInt(RemoveChar(ds_crTITULO.AsString));
+              end
               else
                 varNossoNumero := StrToInt64(ds_crCODIGOBOLETO.AsString);
 
