@@ -1789,25 +1789,23 @@ begin
     begin
       EXECUTADDL('MOVIMENTODETALHE', 'DESCONTO_BC', 'VARCHAR(5)');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF INACTIVE');
-
+      ExecutaSql('ALTER TRIGGER TRG_NF_CR_ALTERA INACTIVE');
+      ExecutaSql('ALTER TRIGGER FRETE_NF INACTIVE');
       dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
         + QuotedStr('C') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOCANC IS NOT NULL)');
 
       dm.sqlsisAdimin.ExecuteDirect('UPDATE NOTAFISCAL SET STATUS = '
         + QuotedStr('E') + ' WHERE (STATUS IS NULL) AND (PROTOCOLOENV IS NOT NULL)');
 
-      executaScript('trg_calcula_icms_st_116.sql');
-      executaScript('listaSpEstoqueFiltro116.sql');
-
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
+      ExecutaSql('ALTER TRIGGER TRG_NF_CR_ALTERA ACTIVE');
+      ExecutaSql('ALTER TRIGGER FRETE_NF ACTIVE');
 
       mudaVersao('1.0.0.117');
     end;// Fim Atualizacao Versao 1.0.0.117
 
     if (versaoSistema = '1.0.0.117') then
     begin
-      executaScript('listaSpEstoqueFiltro118.sql');
-      executaScript('estoque_view118.sql');
       mudaVersao('1.0.0.118');
     end;// Fim Atualizacao Versao 1.0.0.118
 
@@ -1938,6 +1936,7 @@ begin
     begin
       executaScript('invent_estoque122.sql');
       executaScript('view_estoque122.sql');
+
       //executaScript('estoque_customedio122.sql');
       executaScript('rel_vendaCompra122.sql');
       executaScript('imprimevendadata122.sql');
@@ -2022,6 +2021,9 @@ begin
 
     if (versaoSistema = '2.0.0.7') then
     begin
+      executaScript('listaSpEstoqueFiltro118.sql');
+      executaScript('estoque_view118.sql');
+
       insereouatualizaScript('relContasReceber.sql', '2.0.0.7', StrToDate('16/12/2013'));
       insereouatualizaScript('data_invalida.sql', '2.0.0.7', StrToDate('16/12/2013'));
       insereouatualizaScript('data_invalida_compra.sql', '2.0.0.7', StrToDate('16/12/2013'));
