@@ -1996,10 +1996,8 @@ inherited fCompra: TfCompra
     Left = 56
     Top = 497
     Width = 573
-    Height = 25
+    Height = 24
     TabStop = False
-    BevelKind = bkFlat
-    BorderStyle = bsNone
     Color = clInfoBk
     DataField = 'OBS'
     DataSource = DtSrc

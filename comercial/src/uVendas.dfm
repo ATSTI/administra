@@ -1121,8 +1121,6 @@ inherited fVendas: TfVendas
       Top = 16
       Width = 52
       Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
       DataField = 'CODCLIENTE'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
@@ -1143,7 +1141,7 @@ inherited fVendas: TfVendas
       Height = 33
       Enabled = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 2
       TabStop = False
       OnClick = btnClienteProcuraClick
       Glyph.Data = {
@@ -1205,13 +1203,11 @@ inherited fVendas: TfVendas
         C9C8C1C4C4BFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object DBEdit3: TDBEdit
-      Left = 57
+      Left = 137
       Top = 16
-      Width = 356
+      Width = 277
       Height = 24
       TabStop = False
-      BevelKind = bkFlat
-      BorderStyle = bsNone
       Color = clInfoBk
       DataField = 'NOMECLIENTE'
       DataSource = DtSrc
@@ -1223,7 +1219,7 @@ inherited fVendas: TfVendas
       ParentFont = False
       PopupMenu = PopupMenu1
       ReadOnly = True
-      TabOrder = 3
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object BitBtn5: TBitBtn
@@ -1233,7 +1229,7 @@ inherited fVendas: TfVendas
       Height = 33
       Enabled = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 3
       TabStop = False
       OnClick = BitBtn5Click
       Glyph.Data = {
@@ -1294,6 +1290,22 @@ inherited fVendas: TfVendas
         C0C0C0C0C0C0C0C0C0C0C0C0C0B09D9AAE918DB29592AB8F8EA79493C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object edClienteCnpj: TEdit
+      Left = 59
+      Top = 16
+      Width = 78
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      Text = 'CNPJ'
+      OnExit = edClienteCnpjExit
+      OnKeyPress = edClienteCnpjKeyPress
+    end
   end
   object GroupBox2: TGroupBox [11]
     Left = 489
@@ -1335,8 +1347,6 @@ inherited fVendas: TfVendas
       Top = 16
       Width = 98
       Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
       DataField = 'DATAMOVIMENTO'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
@@ -1482,8 +1492,6 @@ inherited fVendas: TfVendas
     Top = 487
     Width = 78
     Height = 24
-    BevelKind = bkFlat
-    BorderStyle = bsNone
     Color = clInfoBk
     DataField = 'CODVENDEDOR'
     DataSource = DtSrc
@@ -1503,8 +1511,6 @@ inherited fVendas: TfVendas
     Width = 387
     Height = 24
     TabStop = False
-    BevelKind = bkFlat
-    BorderStyle = bsNone
     Color = clInfoBk
     DataField = 'NOMEUSUARIO'
     DataSource = DtSrc
@@ -2245,8 +2251,6 @@ inherited fVendas: TfVendas
         Top = 48
         Width = 588
         Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
         DataField = 'DESCPRODUTO'
         DataSource = DtSrc1
         Font.Charset = DEFAULT_CHARSET
@@ -2282,8 +2286,6 @@ inherited fVendas: TfVendas
         Top = 73
         Width = 588
         Height = 24
-        BevelKind = bkFlat
-        BorderStyle = bsNone
         DataField = 'OBS'
         DataSource = DtSrc1
         Font.Charset = DEFAULT_CHARSET
@@ -2361,7 +2363,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2415,7 +2417,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2543,10 +2545,8 @@ inherited fVendas: TfVendas
     Left = 51
     Top = 512
     Width = 542
-    Height = 25
+    Height = 24
     TabStop = False
-    BevelKind = bkFlat
-    BorderStyle = bsNone
     Color = clInfoBk
     DataField = 'OBS'
     DataSource = DtSrc
@@ -2573,8 +2573,12 @@ inherited fVendas: TfVendas
     Top = 114
     Width = 98
     Height = 24
-    BiDiMode = bdRightToLeft
-    ParentBiDiMode = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 19
     OnExit = edCfopExit
   end
