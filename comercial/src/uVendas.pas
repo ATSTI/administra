@@ -598,6 +598,7 @@ type
     Label30: TLabel;
     lblEstoque: TLabel;
     rocarProduto1: TMenuItem;
+    edClienteCnpj: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -683,6 +684,8 @@ type
     procedure btnEstoqueVendaClick(Sender: TObject);
     procedure btnEstoqueMatPrimaClick(Sender: TObject);
     procedure rocarProduto1Click(Sender: TObject);
+    procedure edClienteCnpjKeyPress(Sender: TObject; var Key: Char);
+    procedure edClienteCnpjExit(Sender: TObject);
   private
     { Private declarations }
     procurouProd : String;
@@ -690,6 +693,7 @@ type
     procedure Margem_Confere;
     procedure insereMatPrima;
     procedure PesquisaProdutos;
+    procedure ProcuraClienteCnpj;
   public
     codFiscalClienteVenda: String;
     ufClienteVenda: String;  
@@ -988,6 +992,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  edClienteCnpj.Text := '';
   procurouProd := 'N';
   desconto := 0;
   DecimalSeparator := ',';  
@@ -1176,6 +1181,7 @@ begin
     cds_MovimentoNOMEUSUARIO.AsString := dm.scds_cliente_procNOMEUSUARIO.AsString;
     cds_MovimentoOBSCLI.AsString := dm.scds_cliente_procOBS.AsString;
     prazoCliente := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
+    edClienteCnpj.Text := dm.scds_cliente_procCNPJ.AsString;
     //desconto := dm.scds_cliente_procDESCONTO.AsFloat;
     cds_MovimentoDESCONTO.AsFloat := dm.scds_cliente_procDESCONTO.AsFloat;
     if ( cds_Mov_det.State in [dsBrowse]) then
@@ -3945,6 +3951,68 @@ begin
       fTroca.Free;
     end;
   end;
+end;
+
+procedure TfVendas.edClienteCnpjKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if (key = #13) then
+  begin
+    if (dbeCliente.Text = '') then  
+    if (dtsrc.State in [dsInsert]) then
+    begin
+      if (edClienteCnpj.Text = '') then
+      begin
+        ProcuraClienteCnpj;
+      end;
+    end;
+  end;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
+
+end;
+
+procedure TfVendas.ProcuraClienteCnpj;
+begin
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT C.* FROM CLIENTES C , ENDERECOCLIENTE ED ' +
+    '  WHERE ed.CODCLIENTE = c.CODCLIENTE ' +
+    '    AND UDF_DIGITS(c.CNPJ) = UDF_DIGITS(' + QuotedStr(edClienteCnpj.Text)+ ')';
+  dm.cdsBusca.Open;
+  if (not dm.cdsBusca.IsEmpty) then
+  begin
+    if ( cds_Movimento.State in [dsBrowse]) then
+      cds_Movimento.Edit;
+    cds_MovimentoCODCLIENTE.AsInteger := dm.cdsBusca.fieldByName('CODCLIENTE').AsInteger;
+    cds_MovimentoNOMECLIENTE.AsString := dm.cdsBusca.fieldByName('NOMECLIENTE').AsString;
+    cds_MovimentoCODVENDEDOR.AsInteger := dm.cdsBusca.fieldByName('CODUSUARIO').AsInteger;
+    cds_MovimentoNOMEUSUARIO.AsString := dm.cdsBusca.fieldByName('CONTATO').AsString;
+    cds_MovimentoOBSCLI.AsString := dm.cdsBusca.fieldByName('OBS').AsString;
+    prazoCliente := dm.cdsBusca.fieldByName('PRAZORECEBIMENTO').AsFloat;
+    cds_MovimentoDESCONTO.AsFloat := dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
+    if ( cds_Mov_det.State in [dsBrowse]) then
+      cds_Mov_det.Edit;
+    cds_Mov_detQTDE_ALT.AsFloat:= dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
+  end
+  else begin
+    MessageDlg('Cliente não localizado.', mtWarning, [mbOK], 0);
+    btnClienteProcura.Click;
+  end;
+
+end;
+
+procedure TfVendas.edClienteCnpjExit(Sender: TObject);
+begin
+  inherited;
+  if (dbeCliente.Text = '') then
+  if (dtsrc.State in [dsInsert]) then
+  begin
+    ProcuraClienteCnpj;
+  end;  
 end;
 
 end.
