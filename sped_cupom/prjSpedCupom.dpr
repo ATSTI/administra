@@ -2,12 +2,12 @@ program prjSpedCupom;
 
 uses
   Forms,
-  uSpedCupom in 'uSpedCupom.pas' {Form1};
+  uSpedCupom in 'uSpedCupom.pas' {fSpedCupom};
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfSpedCupom, fSpedCupom);
   Application.Run;
 end.
