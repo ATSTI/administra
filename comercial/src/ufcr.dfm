@@ -2447,7 +2447,7 @@ object fcrproc: Tfcrproc
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 0
       end
@@ -3408,6 +3408,22 @@ object fcrproc: Tfcrproc
   object JvFormStorage1: TJvFormStorage
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fcrproc\'
+    StoredProps.Strings = (
+      'cbForma.ItemIndex'
+      'cbComboCaixa.ItemIndex'
+      'cbReceitas.ItemIndex'
+      'cbStatus.ItemIndex'
+      'edCodCCusto.Text'
+      'edCodCliente.Text'
+      'edcodVendedor.Text'
+      'edTitulo.Text'
+      'edVendedor.Text'
+      'meDta1.Text'
+      'meDta2.Text'
+      'meDta3.Text'
+      'meDta4.Text'
+      'meDta5.Text'
+      'meDta6.Text')
     StoredValues = <>
     Left = 731
     Top = 30
