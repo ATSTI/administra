@@ -114,10 +114,11 @@ BEGIN
           ENTRA = 0;  
         TOTENTRA = TOTENTRA + ENTRA;   
       END
-      
+ 
       -- Preco da Ultima Compra
-      FOR SELECT FIRST 1 (movdet.VLR_BASE+((coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))
-         /coalesce(movdet.QUANTIDADE,1)))
+      
+      FOR SELECT FIRST 1 coalesce(coalesce(movdet.VLR_BASE,0)+((coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))
+         /coalesce(movdet.QUANTIDADE,1)),0)
             FROM COMPRA c, MOVIMENTO mov, MOVIMENTODETALHE movdet
            WHERE c.CODMOVIMENTO = mov.CODMOVIMENTO
              AND mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
@@ -127,12 +128,12 @@ BEGIN
              AND mov.CODNATUREZA = 4
              AND movdet.BAIXA is not null  
              AND c.DATACOMPRA  < :DTA1 
+             AND movdet.QUANTIDADE > 0
            ORDER BY c.DATACOMPRA DESC   
             INTO :PRECOCOMPRA
       DO BEGIN
         
       END
-      
       -- Qtde Inicial SAIDA
       FOR SELECT SUM(movdet.QUANTIDADE), sum(movdet.VLR_BASE * movdet.QUANTIDADE) 
             FROM VENDA v, MOVIMENTO mov, NATUREZAOPERACAO natu , MOVIMENTODETALHE movdet
@@ -190,6 +191,7 @@ BEGIN
       TOTPRECO = 0;
       --VALORESTOQUE = ACUMULAVLR;
       --SUSPEND;
+      
     end  -- FIM IF -- CALCULA ESTOQUE INICIAL E PRECO INICIAL, SO FAZ UMA VEZ POR PRODUTO
 
     IF (LOTES IS NULL) THEN
@@ -254,7 +256,8 @@ BEGIN
         end
       END
     end -- FIM ENTRADAS  
-      
+    
+    
     -- Saida
     IF (CODNATU = 1) THEN 
     BEGIN
@@ -314,13 +317,15 @@ BEGIN
        
     IF (PRECOUNIT IS NULL) THEN   
       PRECOUNIT = PRECOCUSTO;
-                     
+    
     IF (IMPRIME = 'S') THEN 
     begin
       --IF ((CCUSTO = CCUSTOS) OR (CCUSTO = 1)) then
       -- if ((LOTE = LOTES) OR (LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')) then
       SUSPEND;
     end
+    
+    
     NF      = null;
     SAIDA   = 0;
     ENTRADA = 0; 
@@ -329,6 +334,16 @@ BEGIN
     if (CODPRODU <> CODPRODUTO) then 
       VALORESTOQUE = 0;
     PRECOUNIT = 0;
+    --SUSPEND;
     --IF (CODPRODU <> CODPRODUTO) THEN    
   END
+  WHEN GDSCODE arith_except DO
+  BEGIN
+    --SALDOFIMACUM = 99999999;    
+    --precocompra = 0;
+    exception erro_proc ' ####  Erro no PRODUTO ****** ' || :codprod || ' ******. ####';
+    --suspend;  
+    exit; 
+  END
+  
 END
