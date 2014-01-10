@@ -3474,31 +3474,20 @@ begin
   dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
   dm.cds_parametro.Open;
   if not dm.cds_parametro.IsEmpty then
-     tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+    tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
   dm.cds_parametro.Close;
-  {str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
-         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
-         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
-         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
-         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
-         ' from PRODUTOS prod ' +
-         ' left outer join ALMOXARIFADO ccus ' +
-         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
-         ' left outer join ESTOQUEMES est ' +
-         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
-         ' where ';}
 
-   str_sql := ' select CODPRODUTO, COD_BARRA' +
-        ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
-        QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
-        ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
-        ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
-        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
-        ' from LISTAPRODUTO(0, ' +
-        QuotedStr('TODOSPRODUTOS') + ', ' +
-        QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
-        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)' +
-         ' where ';
+  str_sql := ' select CODPRODUTO, COD_BARRA' +
+    ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+    QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+    ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+    ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+    ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+    ' from LISTAPRODUTO(0, ' +
+    QuotedStr('TODOSPRODUTOS') + ', ' +
+    QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+    QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)' +
+    ' where ';
 
   if scds_produto_proc.Active then
     scds_produto_proc.Close;
@@ -3509,28 +3498,22 @@ begin
       IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
   end
   else begin
-    if (jvPageControl1.ActivePage = TabVenda) then
+    if (tipo_busca = 'CODBARRA') then
     begin
-      if (tipo_busca = 'CODBARRA') then
-        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-      else
-        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
-    end;
-
-    if (jvPageControl1.ActivePage = TabComanda) then
-    begin
-      if (tipo_busca = 'CODBARRA') then
-        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-      else
-        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
-    end;
-
-    if (jvPageControl1.ActivePage = TabDelivery) then
-    begin
-      if (tipo_busca = 'CODBARRA') then
-        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-      else
-        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + '''';
+    end
+    else begin
+      str_sql := ' select CODPRODUTO, COD_BARRA' +
+        ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+        QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+        ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+        ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+        ' from LISTAPRODUTO(0, ' ;
+      str_sql := str_sql + QuotedStr(EdtCodBarra1.Text) + ', ' +
+        QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
+      scds_produto_proc.CommandText := str_sql;
     end;
   end;
   scds_produto_proc.Open;
