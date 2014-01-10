@@ -406,9 +406,9 @@ begin
 end;
 
 Procedure TfSpedCupom.contarRegistros();
-var  arqFinal: TStringList;
- cont, i, BIndex: Integer;
- L1, R0190, R0200, R0990, RC990, R9999, RC400, RC405, RC410, RC420, RC460, RC470, RC490, R9900, R9990 : String;
+var  arqFinal, arqUN: TStringList;
+ cont, i, k, listaIndex: Integer;
+ L1, Lun, R0190, R0200, R0990, RC990, R9999, RC190,RC400, RC405, RC410, RC420, RC460, RC470, RC490, R9900, R9990, strUN, strUNa : String;
  arqA: TextFile;
 begin
   AssignFile(arqA, edArquivoNovo.Text);
@@ -416,8 +416,39 @@ begin
   cont := 0;
 
   arqFinal := TStringList.Create;
+  arqUN := TStringList.Create;
   try
     arqFinal.LoadFromFile(ExtractFilePath(Application.ExeName) + 'sped_cupom.txt');
+    //if (FileExists(ExtractFilePath(Application.ExeName) + 'un_cupom.txt')) then
+    //begin
+    //  DeleteFile(ExtractFilePath(Application.ExeName) + 'un_cupom.txt');
+    //  CreateFile(ExtractFilePath(Application.ExeName) + PansiChar('un_cupom.txt'));
+    //end;
+    //arqUN.LoadFromFile(ExtractFilePath(Application.ExeName) + 'un_cupom.txt');
+
+    // removendo UN repetidas
+    strUn := '';
+    strUna := '';
+    for i := arqFinal.Count - 1  downto 0 do
+    begin
+      L1 := arqFinal[i];
+      if (copy(L1, 1, 6) = '|0190|') then
+      begin
+        strUN := copy(L1, 7, 2);
+        if (pos('|', StrUN)>0) then
+        begin
+          StrUN := UpperCase(copy(strUN, 7, 1));
+        end;
+        strUNa := L1;
+        listaIndex := arqFinal.IndexOf(strUNa);
+
+        if (listaIndex <> -1) AND (listaIndex <> i) then
+        begin
+          arqFinal.Delete(listaIndex);
+        end;
+      end;
+    end;
+
     // Contar Registros 0
     for i := 0 to arqFinal.Count - 1 do
     begin
@@ -467,13 +498,28 @@ begin
     for i := 0 to arqFinal.Count - 1 do
     begin
       L1 := arqFinal[i];
-      if (copy(L1, 1, 2) = '|C') then
+      if ((copy(L1, 1, 2) = '|C')) then // and (copy(L1, 1, 6) <> '|C490|')) then
       begin
         cont := cont + 1;
       end;
       if (copy(L1, 1, 6) = '|C990|') then
       begin
         RC990 := '|C990|'  + IntToStr(cont) + '|';
+      end;
+    end;
+
+    cont := 0;
+    // Contar Registros C190
+    for i := 0 to arqFinal.Count - 1 do
+    begin
+      L1 := arqFinal[i];
+      if (copy(L1, 1, 6) = '|C190|') then
+      begin
+        cont := cont + 1;
+      end;
+      if (copy(L1, 1, 6) = '|C190|') then
+      begin
+        RC190 := '|9900|C190|'  + IntToStr(cont) + '|';
       end;
     end;
 
@@ -594,7 +640,7 @@ begin
       end;
       if (copy(L1, 1, 11) = '|9900|9900|') then
       begin
-        R9900 := '|9900|9900|'  + IntToStr(cont+7) + '|'; // 7 = C405 , C410 ... até C490
+        R9900 := '|9900|9900|'  + IntToStr(cont+8) + '|'; // 7 = C405 , C410 ... até C490
       end;
     end;
 
@@ -610,7 +656,7 @@ begin
       end;
       if (copy(L1, 1, 6) = '|9990|') then
       begin
-        R9990 := '|9990|'  + IntToStr(cont+7) + '|'; // 7 = C405 , C410 ... até C490
+        R9990 := '|9990|'  + IntToStr(cont+8) + '|'; // 7 = C405 , C410 ... até C490
       end;
     end;
 
@@ -619,10 +665,14 @@ begin
     for i := 0 to arqFinal.Count - 1 do
     begin
       L1 := arqFinal[i];
+      //if (copy(L1, 1, 6) <> '|C490|') then
+      //begin
+      //  cont := cont + 1;
+      //end;
       cont := cont + 1;
       if (copy(L1, 1, 6) = '|9999|') then
       begin
-        R9999 := '|9999|'  + IntToStr(cont+6) + '|';
+        R9999 := '|9999|'  + IntToStr(cont+7) + '|';
       end;
     end;
 
@@ -631,6 +681,7 @@ begin
     for i := 0 to arqFinal.Count - 1 do
     begin
       L1 := arqFinal[i];
+
       if (copy(L1, 1, 6) = '|0990|') then
       begin
         L1 := R0990;
@@ -653,6 +704,10 @@ begin
 
       if (copy(L1, 1, 11) = '|9900|C190|') then
       begin
+        L1 := RC190;
+        Write ( arqA, L1);
+        writeln(arqA, '');
+        exibe(L1);
         L1 := RC400;
         Write ( arqA, L1);
         writeln(arqA, '');
@@ -694,9 +749,44 @@ begin
       begin
         L1 := R9999;
       end;
-      Write ( arqA, L1);
-      writeln(arqA, '');
-      exibe(L1);
+
+      if (copy(L1, 1, 6) = '|C490|') then // esta vindo uma String vazia neste registro
+      begin
+        L1 := copy(L1, 1, length(L1)-4);
+        L1 := L1 + '|';
+        Write ( arqA, L1);
+        writeln(arqA, '');
+        exibe(L1);
+      end
+      else begin
+        // Nao imprime as UN repetidas
+        if (copy(L1, 1, 6) = '|0190|') then
+        begin
+          //strUN := copy(L1, 7, 2);
+          //if (pos('|', StrUN)>0) then
+          //begin
+          //  StrUN := UpperCase(copy(strUN, 7, 1));
+          //end;
+          strUNa := UpperCase(L1);
+          listaIndex := arqFinal.IndexOf(strUNa);
+
+          if (listaIndex <> -1) AND (listaIndex <> i) then
+          begin
+            // repetido entao nao imprime
+            logArquivo := logArquivo + ' Unidade repetida - ' + strUna;
+          end
+          else begin
+            Write ( arqA, L1);
+            writeln(arqA, '');
+            exibe(L1);
+          end
+        end
+        else begin
+          Write ( arqA, L1);
+          writeln(arqA, '');
+          exibe(L1);
+        end;
+      end;
     end;
 
     exibe(logArquivo);
