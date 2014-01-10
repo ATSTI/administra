@@ -1980,6 +1980,7 @@ begin
            ' where not exists (select p.codpro from produtos p where mp.CODPRODUTO = p.CODPRODUTO)');
         dm.sqlsisAdimin.ExecuteDirect('delete from MATERIA_PRIMA mp ' +
            ' where not exists (select p.codpro from produtos p where mp.codprodmp = p.CODPRODUTO)');
+        dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION erro_proc ' + QuotedStr('Mensagem de erro.'));           
         dm.sqlsisAdimin.Commit(TD);
       except
         dm.sqlsisAdimin.Rollback(TD);
@@ -2007,7 +2008,6 @@ begin
       insereouatualizaScript('gera_nf_compra.sql', '1.1.0.0', StrToDate('01/11/2013'));
       insereouatualizaScript('view_estoquelote.sql', '1.1.0.0', StrToDate('04/11/2013'));
       insereouatualizaScript('spEstoqueFiltro.sql', '1.1.0.0', StrToDate('04/12/2013'));
-      //insereouatualizaScript('trg_calcula_icms_st.sql', '1.1.0.0');
       MessageDlg('Execute o script trg_calcula_icms_st.sql.', mtWarning, [mbOK], 0);
       //insereouatualizaScript('', '1.1.0.0');
       AtualizandoScript('1.1.0.0');
@@ -2025,13 +2025,15 @@ begin
       executaScript('estoque_view118.sql');
 
       insereouatualizaScript('relContasReceber.sql', '2.0.0.7', StrToDate('16/12/2013'));
-      insereouatualizaScript('data_invalida.sql', '2.0.0.7', StrToDate('16/12/2013'));
+      try
+        dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION data_invalida ' + QuotedStr('Data menor que o permitido.'));
+      except
+      end;
       insereouatualizaScript('data_invalida_compra.sql', '2.0.0.7', StrToDate('16/12/2013'));
       insereouatualizaScript('data_invalida_venda.sql', '2.0.0.7', StrToDate('16/12/2013'));
-      //insereouatualizaScript('.sql', '2.0.0.7');
-      //insereouatualizaScript('.sql', '2.0.0.7');
+      insereouatualizaScript('boleto.sql', '2.0.0.7', StrToDate('02/01/2014'));
       AtualizandoScript('2.0.0.7');
-      //mudaVersao('2.0.0.7');
+      mudaVersao('2.0.0.8');
     end;// Fim Atualizacao Versao 2.0.0.7
 
     try
