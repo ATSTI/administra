@@ -378,7 +378,7 @@ procedure TfFiltroMovimento.btnProcurarClick(Sender: TObject);
  SqlTexto, DataStr : String;
 begin
 
-  if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
+  {if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
   begin
      DBGrid1.Columns[8].Visible := True;
      DBGrid1.Columns[9].Visible := False;
@@ -392,7 +392,7 @@ begin
   begin
      DBGrid1.Columns[8].Visible := True;
      DBGrid1.Columns[9].Visible := True;
-  end;
+  end;}
 
   if cds_cns.Active then
      cds_cns.Close;
@@ -410,7 +410,7 @@ begin
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
   end
   else begin
-    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
+    cds_cns.CommandText:= 'select  mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
