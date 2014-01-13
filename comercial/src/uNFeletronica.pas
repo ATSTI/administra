@@ -2060,7 +2060,7 @@ var
     end;
     getTransportadora();
     //VALOR TORAL
-    if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
+    if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
     begin
       Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
       Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
@@ -2504,7 +2504,7 @@ begin
           orig :=     sProdutosORIGEM.AsVariant;                       //ORIGEM DO PRODUTO
           modBC :=    BC;                                              //MODO DE BASE DE CALCULO (0) POR %
           //Não carregar ICMS para Simples Nacional
-          if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+          if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
           begin
             vBC := cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
             pICMS := cdsItensNFICMS.AsVariant;                     //ALIQUOTA DO ICMS
