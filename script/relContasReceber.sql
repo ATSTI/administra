@@ -56,12 +56,11 @@ begin
       ,CASE rec.STATUS WHEN '5-' THEN 'PENDENTE' WHEN '7-' THEN 'RECEBIDO'
       WHEN '8-' THEN 'CRED. DUVIDOSO' WHEN '9-' THEN 'EM COBRANCA' 
       WHEN '10' THEN 'NOVO TITULO' WHEN '3-' THEN 'PROTESTO' ELSE 'OUTROS' END AS STATUSP 
-      , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
+      , cli.RAZAOSOCIAL, rec.CAIXA, rec.CODALMOXARIFADO
       , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO
       ,rec.VALOR_PRIM_VIA, rec.CODIGOBOLETO
       FROM RECEBIMENTO rec 
-      inner join VENDA v on v.CODVENDA = rec.CODVENDA
-      inner join CLIENTES cli on cli.CODCLIENTE = v.CODCLIENTE       
+      inner join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE       
       group by 
         rec.CODCLIENTE
         ,cli.NOMECLIENTE 
@@ -70,25 +69,26 @@ begin
         rec.STATUS, rec.DATARECEBIMENTO, rec.VALORRECEBIDO
         , rec.VIA, rec.N_DOCUMENTO 
         , rec.HISTORICO, rec.DESCONTO, rec.JUROS, rec.FUNRURAL, rec.PARCELAS, rec.PERDA
-        , cli.RAZAOSOCIAL, v.CODMOVIMENTO, rec.CAIXA, rec.CODALMOXARIFADO
+        , cli.RAZAOSOCIAL, rec.CAIXA, rec.CODALMOXARIFADO
         , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, rec.CODVENDA, rec.FORMARECEBIMENTO ,rec.BL, rec.DESCONTADO, rec.CONTACREDITO,rec.VALOR_PRIM_VIA, rec.CODIGOBOLETO
       into :status, :dataRecebimento, :DATACONSOLIDA, :vlrrec, :vlrJuros, :vlrMulta, :vlrPerda, :vlrDesc, :desconto,  :via
         , :N_documento, :emissao, :codRecebimento
         , :titulo, :dataVencimento, :valor_resto 
         , :nomeCliente, :codCliente, :historico, :statusP
-        , :razaoSocial, :codMovimento, :caixa, codAlmoxarifado
+        , :razaoSocial,  :caixa, codAlmoxarifado
         , :codVendedor, :DP, :DUP_REC_NF, :codVenda, :FORMARECEBIMENTO ,:BL, :DESCONTADO, :CONTACREDITO, valorTitulo, :CODIGOBOLETO
       do
       begin
 
-      /*For SELECT rec.TITULO, rec.VALOR_PRIM_VIA, rec.CODCLIENTE
-        FROM RECEBIMENTO rec
-       where rec.Valor_prim_via > 0 
-         and (rec.codcliente = :codCliente)  
-         and rec.titulo      = :titulo 
-         and rec.VIA         = 1
-        into :titulo, :codcliente
-     do begin  */
+        if (codVenda is null) then  
+          codVenda = 0;
+     
+        if (codVenda > 0) then 
+          SELECT First 1 v.CODMOVIMENTO 
+          FROM Venda v
+            where v.CODVENDA = :codVenda 
+            into :codMovimento;     
+      
         if (via = '01/01') then
         begin 
           valor_prim_via = valorTitulo;
