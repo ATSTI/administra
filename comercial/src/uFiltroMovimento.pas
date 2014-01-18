@@ -123,6 +123,8 @@ type
     cds_cnsNFE: TStringField;
     sds_cnsCODPEDIDO: TIntegerField;
     cds_cnsCODPEDIDO: TIntegerField;
+    sds_cnsBLOQUEIO: TStringField;
+    cds_cnsBLOQUEIO: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -343,6 +345,9 @@ begin
     cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
     DM_MOV.ID_DO_MOVIMENTO := cds_cnsCODMOVIMENTO.AsInteger;
     DM.totalpago := cds_cnsAPAGAR.Value;
+    fVendas.clienteEstaBloqueado := 'NAO';
+    if (cds_cns.FieldByName('BLOQUEIO').AsString = 'S') then
+      fVendas.clienteEstaBloqueado := 'SIM';
     fFiltroMovimento.Close;
 end;
 
@@ -402,7 +407,9 @@ begin
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
-      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL,' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' , cli.BLOQUEIO ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -414,7 +421,9 @@ begin
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
-      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' , cli.BLOQUEIO ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -429,7 +438,9 @@ begin
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO)) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
-      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
+      ' , cli.BLOQUEIO ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -561,7 +572,7 @@ begin
    end;
   //==============================================================================
   //------------------------------------------------------------------------------
-  //REGIÃO
+  //REGIAO
   //------------------------------------------------------------------------------
   if ComboBox2.Text<>'' then
   begin
@@ -604,9 +615,10 @@ begin
      end;
     end;
   end;
-  sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
+  sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
+      'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO';
+      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO ';
 
   ordenar := '';
 

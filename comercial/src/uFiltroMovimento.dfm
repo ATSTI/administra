@@ -1,5 +1,5 @@
 object fFiltroMovimento: TfFiltroMovimento
-  Left = 8
+  Left = 11
   Top = 1
   Width = 800
   Height = 552
@@ -1541,6 +1541,13 @@ object fFiltroMovimento: TfFiltroMovimento
     object cds_cnsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
     end
+    object cds_cnsBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      ProviderFlags = []
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_cns: TDataSetProvider
     DataSet = sds_cns
@@ -1554,18 +1561,18 @@ object fFiltroMovimento: TfFiltroMovimento
       'MOVIMENTO, mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STATUS,  SU' +
       'M(movd.QUANTIDADE * movd.PRECO)  as PRECO,'#13#10'cli.NOMECLIENTE, nat' +
       '.DESCNATUREZA,  forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, '#13#10'ven.APAGAR, ven.datavenda, mov.NFE'#13#10'from MOVIMENTO ' +
-      'mov '#13#10'left outer join CLIENTES cli on cli.CODCLIENTE = mov.CODCL' +
-      'IENTE '#13#10'inner join NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = m' +
-      'ov.CODNATUREZA '#13#10'left outer join FORNECEDOR forn on forn.CODFORN' +
-      'ECEDOR = mov.CODFORNECEDOR '#13#10'left outer join VENDA ven on ven.CO' +
-      'DMOVIMENTO = mov.CODMOVIMENTO '#13#10'left outer join MOVIMENTODETALHE' +
-      ' movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10'group by '#13#10'     ' +
-      '  mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,'#13#10'      mov.CO' +
-      'DNATUREZA, mov.DATAMOVIMENTO, mov.STATUS,'#13#10'      cli.NOMECLIENTE' +
-      ', '#13#10'      nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECED' +
-      'OR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.datave' +
-      'nda, mov.NFE'
+      'ven.VALOR, '#13#10'ven.APAGAR, ven.datavenda, mov.NFE, cli.BLOQUEIO'#13#10'f' +
+      'rom MOVIMENTO mov '#13#10'left outer join CLIENTES cli on cli.CODCLIEN' +
+      'TE = mov.CODCLIENTE '#13#10'inner join NATUREZAOPERACAO nat on'#13#10' nat.C' +
+      'ODNATUREZA = mov.CODNATUREZA '#13#10'left outer join FORNECEDOR forn o' +
+      'n forn.CODFORNECEDOR = mov.CODFORNECEDOR '#13#10'left outer join VENDA' +
+      ' ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10'left outer join MO' +
+      'VIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10'gr' +
+      'oup by '#13#10'       mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
+      #13#10'      mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS,'#13#10'      c' +
+      'li.NOMECLIENTE, '#13#10'      nat.DESCNATUREZA, mov.CODFORNECEDOR, for' +
+      'n.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR, ven.APAG' +
+      'AR, ven.datavenda, mov.NFE, cli.BLOQUEIO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1636,6 +1643,13 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object sds_cnsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object sds_cnsBLOQUEIO: TStringField
+      FieldName = 'BLOQUEIO'
+      ProviderFlags = []
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object PopupMenu1: TPopupMenu
