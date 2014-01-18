@@ -104,6 +104,7 @@ type
     Label16: TLabel;
     btnImprimir: TBitBtn;
     VCLReport1: TVCLReport;
+    btnAumento: TBitBtn;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -119,6 +120,7 @@ type
     procedure btnIncluirClick(Sender: TObject);
     procedure cdsLista_detBeforePost(DataSet: TDataSet);
     procedure btnImprimirClick(Sender: TObject);
+    procedure btnAumentoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -130,7 +132,8 @@ var
 
 implementation
 
-uses UDm, uProcurar_nf, UDMNF, uListaVendaProc;
+uses UDm, uProcurar_nf, UDMNF, uListaVendaProc,
+  uProdGeraAumento;
 
 {$R *.dfm}
 
@@ -398,4 +401,16 @@ begin
   VCLReport1.Execute;
 end;
 
-end.                      
+procedure TfListaVenda.btnAumentoClick(Sender: TObject);
+begin
+  inherited;
+  fProdGeraAumento := TfProdGeraAumento.Create(Application);
+  try
+    fprodGeraAumento.codListaPreco := IntToStr(cdsLista_detCODLISTA.AsInteger);
+    fProdGeraAumento.ShowModal;
+  finally
+    fProdGeraAumento.Free;
+  end;
+end;
+
+end.
