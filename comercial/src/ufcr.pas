@@ -521,7 +521,7 @@ begin
        dm.cds_parametro.Close;
      end;
      dm.c_1_planoc.Locate('NOME', cbReceitas.text, [loCaseInsensitive]);
-       SqlCr := ' and rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
+       SqlCr := SqlCr + ' and rec.CONTACREDITO = ' + IntToStr(Dm.c_1_planocCODIGO.AsInteger);
    end;
 
   //------------------------------------------------------------------------------
