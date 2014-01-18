@@ -276,10 +276,10 @@ begin
       sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
     end;
 
-    if (Dta.Text = '  /  /    ') then
+    {if (Dta.Text = '  /  /    ') then
       sqlb := sqlb
     else
-      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
+      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
 
     cdsListaInventario.CommandText := 'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO i ' + sqlb;
     cdsListaInventario.Open;
@@ -693,8 +693,9 @@ begin
   sqlb := sqlb + ' AND i.CODIVENTARIO = ' + QuotedStr(cdsListaInventarioCODIVENTARIO.AsString);
   //sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsListaInventarioDATAIVENTARIO.AsDateTime));
 
-  cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
-  'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
+  cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
+  ' p.VALORUNITARIOATUAL CUSTO FROM INVENTARIO i ' +
+  ' inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
   cdsInvent.Open;
   edLista.Text := cdsListaInventarioCODIVENTARIO.AsString;
   Dta.Text := DateToStr(cdsListaInventarioDATAIVENTARIO.AsDateTime);
