@@ -152,6 +152,7 @@ end;
 
 procedure TfMovCaixa.ConsultaClick(Sender: TObject);
 var
+   totalVendas: Double;
    contaCaixaInterno : string;
    id_contaCX : Integer;
 begin
@@ -185,7 +186,17 @@ begin
     ' WHERE DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
     '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)));
   sqlTotalVendas.Open;
-  edTotalVendas.Value := sqlTotalVendas.FieldByName('TOTAL').AsFloat;
+  totalVendas := sqlTotalVendas.FieldByName('TOTAL').AsFloat;
+
+  if (sqlTotalVendas.Active) then
+    sqlTotalVendas.Close;
+  sqlTotalVendas.SQL.Clear;
+  sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(DESCONTO),0) DESCONTO FROM VENDA ' +
+    ' WHERE DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)));
+  sqlTotalVendas.Open;
+
+  edTotalVendas.Value := totalVendas - sqlTotalVendas.FieldByName('DESCONTO').AsFloat;
 end;
 
 
