@@ -493,6 +493,21 @@ var cod_id : integer;
   TD: TTransactionDesc;
   FEstoque: TEstoque;
 begin
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CAMPOS_OBRIGATORIOS';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.asString = 'S') then
+  begin
+    if (dm.cds_parametroD1.AsString = 'NFC') then
+    begin
+      if (cds_compraNOTAFISCAL.IsNull) then
+      begin
+        MessageDlg('Digite o número da Nota.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+    end;  
+  end;
 
   if (dm.cCustoFechado(cds_compraCODCCUSTO.AsInteger, cds_compraDATACOMPRA.AsDateTime)) then
   begin
