@@ -378,6 +378,9 @@ type
     Label69: TLabel;
     Label70: TLabel;
     chkCadastroProduto: TCheckBox;
+    GroupBox43: TGroupBox;
+    cbNFCompraFinalizar: TCheckBox;
+    BitBtn45: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -476,6 +479,7 @@ type
     procedure rgEntSaiObgClick(Sender: TObject);
     procedure BitBtn44Click(Sender: TObject);
     procedure chkCadastroProdutoClick(Sender: TObject);
+    procedure BitBtn45Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -1043,6 +1047,23 @@ begin
     edtOP.Text := dm.cds_paramD1.AsString;
   end;
 
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CAMPOS_OBRIGATORIOS';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+    begin
+      if (dm.cds_parametroD1.AsString = 'NFC') then
+      begin
+        cbNFCompraFinalizar.Checked := True;
+      end
+      else begin
+        cbNFCompraFinalizar.Checked := False;
+      end;
+    end;
+  end;
 end;
 
 
@@ -5535,6 +5556,67 @@ begin
     edCadProdutoCampo2.Text := 'SUBGRUPO';
     edCadProdutoCampo3.Text := 'APLICACAO';
   end;
+end;
+
+procedure TfParametro.BitBtn45Click(Sender: TObject);
+begin
+  inherited;
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CAMPOS_OBRIGATORIOS';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1, D2, D3';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Define se o campo é obrigatorio ou nao') + ', ';
+    strSql := strSql + QuotedStr('CAMPOS_OBRIGATORIOS') + ', ';
+    if (cbNFCompraFinalizar.Checked) then
+    begin
+      strSql := strSql + QuotedStr('S') + ', ';
+      strSql := strSql + QuotedStr('NFC') + ', '; // D1
+    end
+    else begin
+      strSql := strSql + QuotedStr('N') + ', ';
+      strSql := strSql + QuotedStr('') + ', '; // D1
+    end;
+    strSql := strSql + QuotedStr('') + ', ';  // D2
+    strSql := strSql + QuotedStr('') ; // D3
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD);
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end
+  else
+  begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.cds_parametro.Edit;
+        if (cbNFCompraFinalizar.Checked) then
+        begin
+          dm.cds_parametroCONFIGURADO.AsString := 'S';
+          dm.cds_parametroD1.AsString := 'NFC';
+        end
+        else begin
+          dm.cds_parametroCONFIGURADO.AsString := 'N';
+          dm.cds_parametroD1.AsString := '';
+        end;
+        dm.cds_parametroD2.AsString := '';
+        dm.cds_parametroD3.AsString := '';
+        dm.cds_parametro.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+  end;
+
 end;
 
 end.

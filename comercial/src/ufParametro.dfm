@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabPDV
+    ActivePage = TabSheet4
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2006,6 +2006,31 @@ inherited fParametro: TfParametro
           Height = 21
           TabOrder = 2
           Text = '2'
+        end
+      end
+      object GroupBox43: TGroupBox
+        Left = 16
+        Top = 368
+        Width = 761
+        Height = 65
+        Caption = 'Campos Obrigat'#243'rios'
+        TabOrder = 6
+        object cbNFCompraFinalizar: TCheckBox
+          Left = 8
+          Top = 16
+          Width = 177
+          Height = 17
+          Caption = 'Nota Fiscal - Compras Finalizar'
+          TabOrder = 0
+        end
+        object BitBtn45: TBitBtn
+          Left = 671
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn45Click
         end
       end
     end
