@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 213
-  Top = 152
+  Left = 2
+  Top = 2
   Width = 875
   Height = 580
   AutoSize = True

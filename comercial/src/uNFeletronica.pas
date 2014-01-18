@@ -1171,7 +1171,7 @@ begin
             end;  
             //VALOR TORAL
 
-            if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
+            if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
             begin
               if (cdsNFBASE_ICMS.IsNull) then
                   MessageDlg('Base de cálculo nula', mtError, [mbOK], 0);
@@ -1467,7 +1467,7 @@ begin
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
-var strAtualizaNota: String;
+var strAtualizaNota, nProtCanc: String;
 arquivx: String;
 begin
   cdsNF.First;
@@ -1527,7 +1527,7 @@ begin
         begin
           strAtualizaNota := 'UPDATE NOTAFISCAL SET PROTOCOLOENV = ' +
           QuotedStr(ACBrNFe1.WebServices.Consulta.protNFe.nProt) + ', STATUS = ' +
-          QuotedStr('E') +  
+          QuotedStr('E') +
           ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger) +
           ' AND PROTOCOLOENV IS NULL ';
           dm.sqlsisAdimin.StartTransaction(TD);
@@ -1541,6 +1541,28 @@ begin
                dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
              end;
           end;
+        end;
+        nProtCanc := '';
+        nProtCanc := ACBrNFe1.WebServices.Consulta.retCancNFe.nProt;
+        if (nProtCanc <> '') then
+        begin
+          strAtualizaNota := 'UPDATE NOTAFISCAL SET PROTOCOLOCANC = ' +
+          QuotedStr(ACBrNFe1.WebServices.Consulta.retCancNFe.nProt) + ', STATUS = ' +
+          QuotedStr('C') +
+          ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger) +
+          ' AND PROTOCOLOCANC IS NULL ';
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+             dm.sqlsisAdimin.ExecuteDirect(strAtualizaNota);
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             on E : Exception do
+             begin
+               ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
+          end;
+
         end;
       end;
       ACBrNFe1.NotasFiscais.Imprimir;
