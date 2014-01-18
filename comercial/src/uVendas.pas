@@ -696,14 +696,15 @@ type
     procedure ProcuraClienteCnpj;
   public
     codFiscalClienteVenda: String;
-    ufClienteVenda: String;  
+    ufClienteVenda: String;
+    clienteEstaBloqueado: String;  
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda, estoque_negativo : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
     procedure baixamatprimas(tipomat: string; codmovt: integer);
     procedure existevenda;
     procedure precolista;
-    procedure buscaCfop(codCli: Integer);    
+    procedure buscaCfop(codCli: Integer);
     { Public declarations }
   end;
 
@@ -927,7 +928,7 @@ begin
   if (dm.moduloUsado = 'CITRUS') then
   begin
     Label16.Caption := 'kg';
-    Label8.Caption := 'Refugo';    
+    Label8.Caption := 'Refugo';
   end;
 
   if Dm.cds_parametro.Active then
@@ -992,6 +993,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  clienteEstaBloqueado := 'NAO';
   edClienteCnpj.Text := '';
   procurouProd := 'N';
   desconto := 0;
@@ -1057,6 +1059,7 @@ end;
 procedure TfVendas.FormShow(Sender: TObject);
 begin
   inherited;
+  clienteEstaBloqueado := 'NAO';
   pnRelatorio.Visible := False;
   DecimalSeparator := ',';
   Incluir  := 'S';
@@ -1146,8 +1149,10 @@ begin
       btnClienteProcura.Click;
       exit;
     end;
+    clienteEstaBloqueado := 'NAO';
     if dm.scds_cliente_procBLOQUEIO.AsString = 'S' then
     begin
+      clienteEstaBloqueado := 'SIM';
       //if(DM.scds_cliente_procOBS.AsString) then
       if Dm.cds_parametro.Active then
         dm.cds_parametro.Close;
@@ -2025,8 +2030,10 @@ begin
         exit;
         //dbeCliente.SetFocus;
       end;
+      clienteEstaBloqueado := 'NAO';
       if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
       begin
+        clienteEstaBloqueado := 'SIM';
         //if(DM.scds_cliente_procOBS.AsString) then
         if Dm.cds_parametro.Active then
           dm.cds_parametro.Close;
@@ -2111,7 +2118,32 @@ end;
 procedure TfVendas.BitBtn1Click(Sender: TObject);
 var LIMITECOMPRA: String;
     Compra: Double;
+ usu_n, usu_s : string;
+  utilcrtitulo : Tutils;
 begin
+  if (clienteEstaBloqueado = 'SIM') then
+  begin
+    if Dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+    dm.cds_parametro.Open;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+    begin
+      MessageDlg(DM.scds_cliente_procOBS.AsString , mtError, [mbOK], 0);
+      usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+      usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+      utilcrtitulo := Tutils.Create;
+      if (utilcrtitulo.verificapermissao = False) then
+      begin
+        cds_Movimento.Cancel;
+        Exit;
+      end;
+    end
+    else begin
+      MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+      exit;
+    end;  
+  end;
   inherited;
   if (cds_MovimentoSTATUS.AsInteger = 2) then
   begin
@@ -3976,6 +4008,8 @@ begin
 end;
 
 procedure TfVendas.ProcuraClienteCnpj;
+var usu_n, usu_s : string;
+  utilcrtitulo : Tutils;
 begin
   if (dm.cdsBusca.Active) then
     dm.cdsBusca.Close;
@@ -3985,6 +4019,36 @@ begin
   dm.cdsBusca.Open;
   if (not dm.cdsBusca.IsEmpty) then
   begin
+    clienteEstaBloqueado := 'NAO';
+    if (dm.cdsBusca.fieldByName('BLOQUEIO').AsString = 'S') then
+    begin
+      clienteEstaBloqueado := 'SIM';
+      //if(DM.scds_cliente_procOBS.AsString) then
+      if Dm.cds_parametro.Active then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'BLOQUEIOPERSONALIZADO';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      begin
+        MessageDlg(DM.cdsBusca.fieldByName('OBS').AsString , mtError, [mbOK], 0);
+        usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
+        usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
+        utilcrtitulo := Tutils.Create;
+        if (utilcrtitulo.verificapermissao = False) then
+        begin
+          cds_Movimento.Cancel;
+          Exit;
+        end;
+      end
+      else
+      begin
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
+        cds_Movimento.Cancel;
+        exit;
+      end;
+      //dbeCliente.SetFocus;
+    end;
+
     if ( cds_Movimento.State in [dsBrowse]) then
       cds_Movimento.Edit;
     cds_MovimentoCODCLIENTE.AsInteger := dm.cdsBusca.fieldByName('CODCLIENTE').AsInteger;
