@@ -1,5 +1,5 @@
 SET TERM ^ ;
-ALTER PROCEDURE SP_CR (
+create or ALTER PROCEDURE SP_CR (
     PVENDA Integer )
 RETURNS (
     PARCELA Varchar(150),
