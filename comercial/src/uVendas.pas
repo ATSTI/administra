@@ -4061,6 +4061,7 @@ begin
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
     cds_Mov_detQTDE_ALT.AsFloat:= dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
+    buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
   end
   else begin
     MessageDlg('Cliente não localizado.', mtWarning, [mbOK], 0);
