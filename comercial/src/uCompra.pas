@@ -707,8 +707,8 @@ begin
   {------Pesquisando na tab Parametro Centro de Receita Padrão ---------}
     if not dm.cds_parametro.IsEmpty then
     begin
-      if (dm.cds_parametroD1.AsString = 'SIM') then
-        obrigatorio := dm.cds_parametroD1.AsString;
+      if (dm.cds_parametroD2.AsString = 'SIM') then
+        obrigatorio := dm.cds_parametroD2.AsString;
     end;
 
   conta_desp := dm.cds_parametroDADOS.AsString;
@@ -915,6 +915,11 @@ end;
 
 procedure TfCompra.btnGravarClick(Sender: TObject);
 begin
+  if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
+  begin
+    MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0);
+    exit;
+  end;
   //Não é permitido alteração em Compra ja finalizada
   if(DMNF.cds_compra.Active) then
     DMNF.cds_compra.Close;
@@ -937,9 +942,10 @@ begin
       DMNF.cds_compra.Params.ParamByName('PCODMOV').AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
       DMNF.cds_compra.Open;
       if(DMNF.cds_compra.IsEmpty) then
-        cds_MovimentoSTATUS.AsInteger := 0
-      else
       begin
+        cds_MovimentoSTATUS.AsInteger := 0;
+      end
+      else begin
         MessageDlg('Compra finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
         btnCancelar.Click;
         exit;
@@ -947,112 +953,95 @@ begin
     end;
   end;
 
-   //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
-   if(DBEdit15.Text = '') then
-   begin
-   if dm.scds_usuario_proc.Active then
-    dm.scds_usuario_proc.Close;
-   dm.scds_usuario_proc.Params[0].Clear;
-   dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
-   dm.scds_usuario_proc.Open;
-   if dm.scds_usuario_proc.IsEmpty then begin
-     MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-     [mbOk], 0);
-     SpeedButton1.Click;
-     exit;
-   end;
-   end;
+  //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
+  if(DBEdit15.Text = '') then
+  begin
+    if dm.scds_usuario_proc.Active then
+      dm.scds_usuario_proc.Close;
+    dm.scds_usuario_proc.Params[0].Clear;
+    dm.scds_usuario_proc.Params[1].AsInteger:=StrToInt(DBEdit15.Text);
+    dm.scds_usuario_proc.Open;
+    if dm.scds_usuario_proc.IsEmpty then begin
+      MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      [mbOk], 0);
+      SpeedButton1.Click;
+      exit;
+    end;
+  end;
 
-   if ( ((ComboBox1.Text = '') or (ComboBox1.Text = null)) and (obrigatorio = 'SIM') )then
-    MessageDlg('Centro de Custo Obrigatório', mtError, [mbOK], 0)
-   else
-   begin
-     modo := 'gravar';
-     if cds_Movimento.State in [dsInsert] then
-     begin
+  modo := 'gravar';
+  if cds_Movimento.State in [dsInsert] then
+  begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+  end;
+  IF (DtSrc.State in [dsInsert, dsEdit]) then
+  begin
+    if (cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive])) then
+      cds_MovimentoCODALMOXARIFADO.AsInteger := StrToInt(cds_ccustoCODIGO.AsString)
+    else
+      cds_MovimentoCODALMOXARIFADO.AsInteger:= ccustoCompras;
+    if (GroupBox7.Visible = True) then
+      if (MaskEdit1.Text <> '') then
+        if (cds_MovimentoCOD_VEICULO.IsNull) then
+        begin
+          if (cds_Veiculocli.Active) then
+            cds_Veiculocli.Close;
+          cds_Veiculocli.Params[1].Clear;
+          cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
+          cds_Veiculocli.Open;
+          cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
+        end;
+  end;
+  if(cds_MovimentoCODPEDIDO.IsNull) then
+    cds_MovimentoCODPEDIDO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  inherited;  // Preciso ver se gravou, do contrário, cancela o processo e para aqui
+  //********************************************************************************
+  // aqui corrijo o codigo do movimento na tabela mov_detalhe
+  if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
+  begin
+    cds_Mov_det.First;
+    While not cds_Mov_det.Eof do
+    begin
+      cds_Mov_det.Edit;
+      if (cds_Mov_detLOTE.asString = '') then
+        cds_Mov_detLOTE.Clear;
+      cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+      DBEdit10Exit(Sender);
       if dm.c_6_genid.Active then
         dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
       dm.c_6_genid.Open;
-      cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+      cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
-     end;
-    IF (DtSrc.State in [dsInsert, dsEdit]) then
-    begin
-      if (cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive])) then
-        cds_MovimentoCODALMOXARIFADO.AsInteger := StrToInt(cds_ccustoCODIGO.AsString)
-      else
-        cds_MovimentoCODALMOXARIFADO.AsInteger:= ccustoCompras;
-      if (GroupBox7.Visible = True) then
-      if (MaskEdit1.Text <> '') then
-      if (cds_MovimentoCOD_VEICULO.IsNull) then
+      if (dm.validaCfop(edCFOP.Text) = False) then
       begin
-        if (cds_Veiculocli.Active) then
-          cds_Veiculocli.Close;
-        cds_Veiculocli.Params[1].Clear;
-        cds_Veiculocli.Params[0].AsString := MaskEdit1.Text;
-        cds_Veiculocli.Open;
-        cds_MovimentoCOD_VEICULO.AsInteger := cds_VeiculocliCOD_VEICULO.AsInteger;
-      end;
-    end;
-    if(cds_MovimentoCODPEDIDO.IsNull) then
-      cds_MovimentoCODPEDIDO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-    inherited;  // Preciso ver se gravou, do contrário, cancela o processo e para aqui
-    {cds_Movimento.ApplyUpdates(0);
-    if cds_Movimento.ChangeCount > 0 then
-    begin
-    end;}
-    //else begin
-    {  if cds_Movimento.State in [dsInsert, dsEdit] then
-      begin
-        MessageDlg('Erro para gravar o registro.', mtWarning,
-           [mbOk], 0);
+        MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
         exit;
-      end;}
-    //end;
-    //********************************************************************************
-    // aqui corrijo o codigo do movimento na tabela mov_detalhe
-    if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
-    begin
-      cds_Mov_det.First;
-      While not cds_Mov_det.Eof do
-      begin
-        cds_Mov_det.Edit;
-        if (cds_Mov_detLOTE.asString = '') then
-          cds_Mov_detLOTE.Clear;
-        cds_Mov_detCODMOVIMENTO.AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-        DBEdit10Exit(Sender);
-        if dm.c_6_genid.Active then
-          dm.c_6_genid.Close;
-        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-        dm.c_6_genid.Open;
-        cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-        dm.c_6_genid.Close;
-        if (dm.validaCfop(edCFOP.Text) = False) then
-        begin
-          MessageDlg('CFOP não cadastrado em CFOP-Estado.', mtWarning, [mbOK], 0);
-          exit;
-        end;
-        cds_Mov_det.Post;
-        cds_Mov_det.Next;
-        codmovdet := 0;
       end;
+      cds_Mov_det.Post;
+      cds_Mov_det.Next;
+      codmovdet := 0;
     end;
-    cds_Mov_det.ApplyUpdates(0);
-    if (usarateio = 'SIM') then
-    begin
-      btnRateio.Click;
-      usarateio := 'NAO';
-    end;
+  end;
+  cds_Mov_det.ApplyUpdates(0);
+  if (usarateio = 'SIM') then
+  begin
+    btnRateio.Click;
+    usarateio := 'NAO';
+  end;
 
-    // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
-    // pra mudar o dtsrt para edit quando mudo o dtsrc1
-    DtSrc.DataSet.Cancel;
-    end;
-    cds_Mov_det.Close;
-    cds_Mov_det.Params[0].Clear;
-    cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-    cds_Mov_det.Open;
+  // Coloquei este cancel aqui pq , no dtsrc1 coloquei um código
+  // pra mudar o dtsrt para edit quando mudo o dtsrc1
+  DtSrc.DataSet.Cancel;
+  cds_Mov_det.Close;
+  cds_Mov_det.Params[0].Clear;
+  cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_det.Open;
 end;
 
 procedure TfCompra.cds_MovimentoNewRecord(DataSet: TDataSet);
@@ -1071,6 +1060,11 @@ begin
   cds_MovimentoCODALMOXARIFADO.AsInteger := ccustoCompras;
   if (cds_ccusto.Locate('CODIGO', ccustoCompras, [loCaseInsensitive])) then
     ComboBox1.Text := cds_ccustoNOME.AsString;
+  if (obrigatorio = 'SIM') then
+  begin
+    ComboBox1.Text := '';
+  end;
+
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'COMPRA'; // Busca o Resp. pela Aprovacao Cadastrado
