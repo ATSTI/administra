@@ -1817,11 +1817,11 @@ begin
       EXECUTADDL('EMPRESA', 'ECFMOD', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
-      executaScript('estoque_view_custo119.sql');
-      executaScript('listaProdutocli118.sql');
-      executaScript('listaProduto118.sql');
-      executaScript('rel_vendaCompra119.sql');
-      executaScript('spestoque119.sql');
+      //executaScript('estoque_view_custo119.sql');
+      //executaScript('listaProdutocli118.sql');
+      //executaScript('listaProduto118.sql');
+      //executaScript('rel_vendaCompra119.sql');
+      //executaScript('spestoque119.sql');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
       ExecutaSql('ALTER TRIGGER INSERE_ESTOQUE ACTIVE');
       ExecutaSql('ALTER TRIGGER BAIXA_ESTOQUE ACTIVE');
@@ -1980,10 +1980,13 @@ begin
            ' where not exists (select p.codpro from produtos p where mp.CODPRODUTO = p.CODPRODUTO)');
         dm.sqlsisAdimin.ExecuteDirect('delete from MATERIA_PRIMA mp ' +
            ' where not exists (select p.codpro from produtos p where mp.codprodmp = p.CODPRODUTO)');
-        dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION erro_proc ' + QuotedStr('Mensagem de erro.'));           
         dm.sqlsisAdimin.Commit(TD);
       except
         dm.sqlsisAdimin.Rollback(TD);
+      end;
+      try
+        CriaException('ERRO_PROC', 'Mensagem de erro.');
+      except
       end;
       try
         dm.sqlsisAdimin.ExecuteDirect('alter table MATERIA_PRIMA add constraint FK_MATERIA_PRIMA_PROD' +
@@ -2026,7 +2029,7 @@ begin
 
       insereouatualizaScript('relContasReceber.sql', '2.0.0.7', StrToDate('16/12/2013'));
       try
-        dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION data_invalida ' + QuotedStr('Data menor que o permitido.'));
+        CriaException('DATA_INVALIDA', 'Data menor que o permitido.');
       except
       end;
       insereouatualizaScript('data_invalida_compra.sql', '2.0.0.7', StrToDate('16/12/2013'));
