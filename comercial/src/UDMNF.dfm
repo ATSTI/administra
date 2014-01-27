@@ -654,7 +654,7 @@ object DMNF: TDMNF
     object cds_Mov_detPRECO: TFloatField
       FieldName = 'PRECO'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#.00'
+      DisplayFormat = ',#.000000'
       currency = True
     end
     object cds_Mov_detQUANTIDADE: TFloatField
