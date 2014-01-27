@@ -1710,7 +1710,7 @@ begin
         str := str + ' STATUS = ' + QuotedStr('C');
         if (protocolo <> '') then
           str := str + ' ,PROTOCOLOCANC = ' + quotedstr(Protocolo);
-        str := str + ' WHERE NOTAFISCAL = ' + numnf;
+        str := str + ' WHERE NOTASERIE = ' + numnf;
         dm.sqlsisAdimin.ExecuteDirect(str);
         dm.sqlsisAdimin.Commit(TD);
       except
