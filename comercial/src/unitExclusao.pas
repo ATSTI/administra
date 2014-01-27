@@ -77,8 +77,11 @@ begin
       Try
         if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
         begin
-          dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
-            ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString);
+          if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
+          begin
+            dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
+              ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString);
+          end;
           dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' +
             IntToStr(dmnf.cds_vendaCODVENDA.AsInteger));
         end;
