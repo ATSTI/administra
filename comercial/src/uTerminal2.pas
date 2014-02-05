@@ -2608,27 +2608,20 @@ begin
     DM_MOV.c_movimento.Open;
   end;
 
-  fOsFinaliza := TfOsFinaliza.Create(Application);
-  try
-    fOsFinaliza.porc_com := JvComissao.Value;
-    fOsFinaliza.dtaOsFinaliza := caixaTerminal2DataAbertura;
-    fOsFinaliza.ShowModal;
-    if (fOsFinaliza.OSFinalizaStatus = 'FINALIZADO') then
+  fOsFinaliza.porc_com := JvComissao.Value;
+  fOsFinaliza.dtaOsFinaliza := caixaTerminal2DataAbertura;
+  fOsFinaliza.ShowModal;
+  if (fOsFinaliza.OSFinalizaStatus = 'FINALIZADO') then
+  begin
+    if (jvPageControl1.ActivePage = TabVenda) then
     begin
-      if (jvPageControl1.ActivePage = TabVenda) then
-      begin
-        peditoTerminalFinalizado := 'N';
-        if (DM_MOV.c_movimento.Active) then
-          DM_MOV.c_movimento.Close;
-        if (DM_MOV.c_movdet.Active) then
-          DM_MOV.c_movdet.Close;
-      end;
+      peditoTerminalFinalizado := 'N';
+      if (DM_MOV.c_movimento.Active) then
+        DM_MOV.c_movimento.Close;
+      if (DM_MOV.c_movdet.Active) then
+        DM_MOV.c_movdet.Close;
     end;
-  finally
-    fOsFinaliza.Free;
   end;
-
-
 
   if (s_venda.Active) then
     s_venda.Close;
@@ -3053,6 +3046,7 @@ end;
 
 procedure TfTerminal2.EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
 begin
+  DecimalSeparator := ',';
   codLote := '0';
   if (key = #13) then
   begin
@@ -3176,11 +3170,13 @@ end;
 
 procedure TfTerminal2.EdtCodBarra1Enter(Sender: TObject);
 begin
+  DecimalSeparator := ',';
   EdtCodBarra1.Color := clYellow;
 end;
 
 procedure TfTerminal2.EdtCodBarra1Exit(Sender: TObject);
 begin
+  DecimalSeparator := ',';
   EdtCodBarra1.Color := clWindow;
 end;
 
