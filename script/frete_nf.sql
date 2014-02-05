@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER FRETE_NF FOR NOTAFISCAL ACTIVE
 AFTER INSERT OR UPDATE POSITION 0
 AS 
@@ -18,6 +19,7 @@ declare variable DESCONTO_TOTAL double precision;
 declare variable OUTRAS_TOTAL double precision;
 declare variable SEGURO_TOTAL double precision;
 declare variable valtot double precision;
+declare variable vp double precision;
 BEGIN
 /*alter table MOVIMENTODETALHE add VALOR_DESCONTO double precision */
     if ((new.NATUREZA = 15) or (new.NATUREZA = 12) or (new.NATUREZA = 16)) then
@@ -33,6 +35,8 @@ BEGIN
         into :codm;
     end
    
+   vp = new.VALOR_PRODUTO; 
+   
    FRETE = new.VALOR_FRETE;
    DESCONTO = new.VALOR_DESCONTO;
    OUTRAS = new.OUTRAS_DESP;
@@ -46,13 +50,25 @@ BEGIN
     OUTRAS = 0; 
    if (SEGURO is null) then
     SEGURO = 0; 
-
-   if ( new.VALOR_PRODUTO > 0) then
+    
+   if (vp is null) then 
+     vp = 0; 
+     
+   if (vp = 0) then 
    begin
-     Frete_UNIT = new.VALOR_FRETE / new.VALOR_PRODUTO;
-     DESCONTO_UNIT = new.VALOR_DESCONTO / new.VALOR_PRODUTO;
-     OUTRAS_UNIT = new.OUTRAS_DESP / new.VALOR_PRODUTO;
-     SEGURO_UNIT = new.VALOR_SEGURO / new.VALOR_PRODUTO;
+     if (new.BASE_ICMS > 0) then 
+       vp = new.BASE_ICMS; 
+     if (vp = 0) then 
+       vp = new.VALOR_TOTAL_NOTA;      
+   end 
+     
+
+   if ( vp > 0) then
+   begin
+     Frete_UNIT = new.VALOR_FRETE / vp;
+     DESCONTO_UNIT = new.VALOR_DESCONTO / vp;
+     OUTRAS_UNIT = new.OUTRAS_DESP / vp;
+     SEGURO_UNIT = new.VALOR_SEGURO / vp;
    end
    
    Frete_TOTAL = new.VALOR_FRETE;
@@ -65,7 +81,7 @@ BEGIN
    where md.CODMOVIMENTO = :codm
    into :det;
    det1 = 1;
-   for select md.CODDETALHE, md.VALTOTAL from MOVIMENTODETALHE md
+   for select md.CODDETALHE, (md.VALTOTAL) from MOVIMENTODETALHE md
    where md.CODMOVIMENTO = :codm
    into :coddet, :valtot
    do begin
@@ -82,18 +98,18 @@ BEGIN
 	else
      if((old.VALOR_FRETE <> new.VALOR_FRETE) or (old.VALOR_DESCONTO <> new.VALOR_DESCONTO) or (old.VALOR_SEGURO <> new.VALOR_SEGURO) or (old.OUTRAS_DESP <> new.OUTRAS_DESP)) then
      begin
-        update MOVIMENTODETALHE set FRETE = UDF_ROUNDDEC((:Frete_UNIT * :valtot), 2), valor_desconto = UDF_ROUNDDEC((:DESCONTO_UNIT * :valtot), 2), 
+        update MOVIMENTODETALHE set FRETE = UDF_ROUNDDEC((:Frete_UNIT * :valtot), 2), valor_desconto = UDF_ROUNDDEC(((new.VALOR_DESCONTO * :valtot)/(:vp)), 2), 
         valor_outros = UDF_ROUNDDEC((:OUTRAS_UNIT * :valtot), 2), valor_SEGURO = UDF_ROUNDDEC((:SEGURO_UNIT * :valtot), 2)
         where CODDETALHE = :coddet;
         if ( det = det1) then
 	      update MOVIMENTODETALHE set FRETE = :Frete_TOTAL, valor_desconto = :DESCONTO_TOTAL, valor_seguro = :SEGURO_TOTAL, 
 	      valor_outros = :OUTRAS_TOTAL
 	      where CODDETALHE = :coddet;
-    end
+     end
     det1 = det1 +1;
     Frete_TOTAL   = Frete_TOTAL - UDF_ROUNDDEC((:Frete_UNIT * :valtot), 2);
-    DESCONTO_TOTAL = DESCONTO_TOTAL - UDF_ROUNDDEC((:DESCONTO_UNIT * :valtot), 2);
+    DESCONTO_TOTAL = DESCONTO_TOTAL - UDF_ROUNDDEC(((new.VALOR_DESCONTO * :valtot)/(vp)), 2);
     OUTRAS_TOTAL = OUTRAS_TOTAL - UDF_ROUNDDEC((:OUTRAS_UNIT * :valtot), 2);
     SEGURO_TOTAL = SEGURO_TOTAL - UDF_ROUNDDEC((:SEGURO_UNIT * :valtot), 2);
-    end
+   end
 END

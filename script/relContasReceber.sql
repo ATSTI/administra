@@ -47,8 +47,8 @@ begin
      for SELECT rec.STATUS, rec.DATARECEBIMENTO, rec.DATACONSOLIDA
       , rec.VALORRECEBIDO, rec.JUROS, rec.FUNRURAL, rec.PERDA, rec.DESCONTO
       , rec.DESCONTO
-      , UDF_PADL(CAST(UDF_TRIM(rec.VIA) AS VARCHAR(2)),0,2) || '/'|| 
-      CAST(UDF_PADL(rec.PARCELAS,0,2) as varchar(2)) as VIA
+      , UDF_PADL(CAST(UDF_TRIM(rec.VIA) AS VARCHAR(3)),0,3) || '/'|| 
+      CAST(UDF_PADL(rec.PARCELAS,0,3) as varchar(3)) as VIA
       , rec.N_DOCUMENTO, rec.EMISSAO, rec.CODRECEBIMENTO
       , rec.TITULO, rec.DATAVENCIMENTO, rec.VALOR_RESTO
       , cli.NOMECLIENTE

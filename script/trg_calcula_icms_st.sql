@@ -31,7 +31,7 @@ AS
  Declare variable CSTIPI varchar(2);
  Declare variable CSTPIS varchar(2); 
  Declare variable CSTCOFINS varchar(2); 
- DECLARE VARIABLE arredondar DOUBLE PRECISION = 3;
+ DECLARE VARIABLE arredondar DOUBLE PRECISION = 6;
  DECLARE VARIABLE vd DOUBLE PRECISION;
  DECLARE VARIABLE aliqnac DOUBLE PRECISION;
  DECLARE VARIABLE aliqimp DOUBLE PRECISION;

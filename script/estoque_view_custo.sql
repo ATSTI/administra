@@ -130,9 +130,42 @@ BEGIN
 
    if (lotes is null) then 
       lotes = '0';
+      
+   if (precocusto is null) THEN 
+     precocusto = 0;   
+
+   if (precocompra is null) THEN 
+     precocompra = 0;   
    
-   --select ev.CUSTOMEDIO, ev.CUSTOENTRADAS from ESTOQUE_CUSTOMEDIO(UDF_INCDAY(:mesEstoque,1), :DTA1, :Prod1) ev  
-   --into :precocusto, :precocompra;  
+   if (precocusto <= 0) THEN 
+     precocusto = precocompra;
+     
+   if (precocusto <= 0) then -- busca o preco da ultima compra 
+   begin 
+     SELECT FIRST 1 movdet.PRECO FROM MOVIMENTODETALHE movdet, MOVIMENTO mov            
+       WHERE (mov.CODMOVIMENTO = movdet.CODMOVIMENTO) 
+         and (movdet.codProduto = :Prod1) 
+         and (movdet.baixa IS NOT NULL) 
+         and (mov.CODNATUREZA = 4) 
+         and (mov.DATAMOVIMENTO <= :dta1)
+      order by mov.DATAMOVIMENTO desc
+      INTO :precoCusto;
+      if (precoCusto is null) then 
+        precoCusto = 0;
+        
+      if (precoCusto = 0) then -- procura no cadastro do PRODUTO 
+      begin
+        SELECT CASE WHEN COALESCE(P.VALORUNITARIOATUAL,0) > 0 then COALESCE(P.VALORUNITARIOATUAL,0) else coalesce(p.PRECOMEDIO, 0) end 
+         FROM PRODUTOS P WHERE P.CODPRODUTO = :Prod1 
+          into :PrecoCusto;
+        if (precoCusto is null) then 
+          precoCusto = 0;
+      end    
+        
+      if (precoCompra <= 0) then 
+        precoCompra = precoCusto;  
+   end  
+    
    Suspend;
    
    SOMA_ENTRADA = 0;

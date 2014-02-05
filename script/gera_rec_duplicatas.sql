@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE  GERA_REC_DUPLICATAS( N_TITULO                         VARCHAR( 18 )
                                     , DT_EMISSAO                       DATE
                                     , COD_CLIENTE                      INTEGER
@@ -16,6 +17,7 @@ CREATE OR ALTER PROCEDURE  GERA_REC_DUPLICATAS( N_TITULO                        
 AS
 DECLARE VARIABLE I INTEGER;
 DECLARE VARIABLE STATUS_VENDA CHAR(2);
+DECLARE VARIABLE STATUSX SMALLINT;
 DECLARE VARIABLE Forma CHAR(1);
 DECLARE VARIABLE N_PARC INTEGER;
 DECLARE VARIABLE V_CODORIGEM INTEGER;
@@ -34,6 +36,7 @@ DECLARE VARIABLE NUM_DUP INTEGER;
 DECLARE VARIABLE TIT VARCHAR( 18 );
 begin
     status_venda = '5-';
+    statusx = 0; 
     if (caixa is null) THEN 
        caixa = 33;
      /* Pegando os dados do título lançado - pego só do primeiro pq os campos não são importantes*/
@@ -86,6 +89,11 @@ begin
       while (i < :PARC) do
       begin
         forma = '1';
+        if (tipoCobranca = 'BOLETO') then
+        begin
+          status_venda = '5-';        
+          statusx = null;        
+        end  
         if (tipoCobranca = 'CARTEIRA') then
           status_venda = '9-';
         if (tipoCobranca = 'DESCONTO') then
@@ -100,7 +108,7 @@ begin
          end
          VLR_RESTO =  ((V_VLRTITULO - V_DESCONTO + V_JUROS) - V_VLRRECEBIDO)/N_PARC;
 
-          UPDATE RECEBIMENTO SET DUP_REC_NF = :TIPONOVODOC, DP = null, STATUS = '10'
+         UPDATE RECEBIMENTO SET DUP_REC_NF = :TIPONOVODOC, DP = null, STATUS = '10', HISTORICO = COALESCE(HISTORICO,'') || :N_TITULO 
           , VALORRECEBIDO = VALOR_RESTO WHERE DP = 0;
           vlr_rec = 0;
          if (status_venda = '7-') then 
@@ -110,13 +118,13 @@ begin
            (CODVENDA, TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, STATUS 
            , VIA, FORMARECEBIMENTO, CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO
            , DATASISTEMA, VALOR_PRIM_VIA, VALOR_RESTO, VALORTITULO, PARCELAS 
-           , CAIXA, CONTADEBITO, CONTACREDITO, TITULO, DP, DATARECEBIMENTO, DATACONSOLIDA, VALORRECEBIDO
+           , CAIXA, CONTADEBITO, CONTACREDITO, DP, DATARECEBIMENTO, DATACONSOLIDA, VALORRECEBIDO
            , outro_credito, outro_debito)
          VALUES 
             (:V_CODORIGEM, (:N_TITULO), :DATA_EMISSAO, :COD_CLIENTE, udf_IncMonth(:DATA_VENC, :i),
             :status_venda, CAST((:i + 1) as CHAR(3)), :forma, :COD_CC, :COD_VEND, :COD_US,  
             'NOW', :VLR_PRIM_VIA, :VLR_RESTO, :V_VLRTITULO, :PARC
-            , :COD_CAIXA, :COD_CD, :COD_CCRE, :N_TITULO, 0, :dataRec, :dataRec, :vlr_rec,0,0);
+            , :COD_CAIXA, :COD_CD, :COD_CCRE, :statusx, :dataRec, :dataRec, :vlr_rec,0,0);
           --UPDATE SERIES SET ULTIMO_NUMERO =  :NUM_DUP WHERE SERIE = :SERIE;
          i = i + 1;    
       end

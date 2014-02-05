@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -59,6 +60,9 @@ declare variable precoVenda double PRECISION;
   declare variable usaListaTerceiros char(1);
   declare variable CCusto INTEGER;
   declare variable CCustoV INTEGER;
+  declare variable usaListaPreco char(1);
+  declare variable CodLista INTEGER;  
+  declare variable CodListaCli INTEGER;
 begin
     CCusto = 0;
     
@@ -70,6 +74,108 @@ begin
     
     cCustoV = CCusto;
     
+    usaListaPreco = 'N';  
+    -- SE USA LISTA de PRECO e TEM UMA ATIVA ENTAO SO BUSCA LA
+    SELECT first 1 r.CODLISTA, 'S' as usaLista
+      FROM LISTAPRECO_VENDA r 
+     WHERE r.DATAFINAL >= current_date    
+       AND r.VALIDADE >= current_date
+       AND ((r.NOMELISTA = :APLICACAO) OR (:APLICACAO = 'TODASAPLICACOES'))
+      INTO :codLista, :usaListaPreco; 
+    if (usaListaPreco = 'S') then  
+    begin  
+      codListaCli = 0;
+      select NUMERO from CLIENTES where codcliente = :local 
+       into :codListaCli;
+       
+       if (codListaCli is null) then 
+         codListaCli = 0;
+         
+       if (codListaCli = 0) then 
+       begin
+         -- busca a lista padrao    
+         select D4 from parametro where parametro = 'LISTAPRECO' 
+           INTO :codLista; 
+       end     
+    
+      for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, r.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
+        p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
+        p.LOTES, r.MARGEMMAX, r.PRECOVENDA, 'DESCRICAO USO', 
+        '1' as CODIGO, p.USA, p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, 
+        p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
+        p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO, p.NCM, p.ORIGEM
+        FROM LISTAPRECO_VENDADET r, PRODUTOS p 
+       WHERE r.CODPRODUTO = p.CODPRODUTO
+         AND r.CODLISTA = :codLista  
+         AND ((p.CODPRO = :codProd) OR (:codProd = 'TODOSPRODUTOS'))
+         and ((p.CODPRODUTO = :codP) or (:codP = 0))
+         and ((p.FAMILIA = :gp) or (:gp = 'TODOSGRUPOS'))
+         and ((p.CATEGORIA = :subgp) or (:subgp = 'TODOSSUBGRUPOS'))
+         and ((p.MARCA = :mc) OR (:mc = 'TODASMARCAS'))
+         and ((p.CLASSIFIC_FISCAL = :Aplicacao) OR (:Aplicacao = 'TODASAPLICACOES'))
+         --and ((p.CODALMOXARIFADO = :Local) OR (:Local = 0))      
+        into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
+       :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao,
+       :lotes, :margem, :precoVenda, :uso , 
+       :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, 
+       :ipi, :precoc, :aplicacao_produto, 
+       :obs, :estoqueAtual, :preco_compraMedio, :NCM, :origem
+       do begin
+         tipoPreco = 'F'; 
+         tipoprecovenda = 'F';
+         if (codAlmoxarifado is null) then 
+            codAlmoxarifado = 0;
+
+         cCustoV = codAlmoxarifado;
+          
+         preco_compraUltimo = precoc;     
+          
+         Preco_venda = precoVenda;
+         if (preco_venda is null) then
+           preco_venda = 0;
+
+         if (margem is null) then
+           margem = 0;
+      
+         IF (PRECOC IS NULL) THEN 
+           PRECOC = 0;  
+        
+         select sum(quantidade) from MOVIMENTODETALHE d
+          inner join movimento m on m.CODMOVIMENTO = d.CODMOVIMENTO
+          where codProduto = :codProduto and m.STATUS = 1
+           into :pedido;
+         
+         if (pedido is null) then
+           pedido = 0;
+
+         if (preco_compraMedio is null) then
+           preco_compraMedio = 0;
+      
+         IF (PRECO_COMPRAMEDIO = 0) THEN 
+           PRECO_COMPRAMEDIO = PRECOC;  
+
+         if (preco_compraUltimo is null) then
+           preco_compraUltimo = 0;
+
+         if (estoqueAtual is null) THEN
+           estoqueAtual = 0;
+
+         estoqueAtual = estoqueAtual - pedido;
+         suspend;
+         preco_compraMedio = 0;
+         preco_compraUltimo = 0;
+         precovenda = 0;
+         precomedio = 0;
+         preco_venda = 0;
+         estoqueAtual = 0;
+         cCustoV = CCusto;
+        end 
+    end  -- fim do IF usaListaPreco = S  
+
+
+    if (usaListaPreco = 'N') then  
+    begin  
+    
     -- Verificando que tipo de Preco e usado pelo Cliente  (Preco Medio ou o ultimo Preco no calculo do estoque)                                                   
     SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'PRECOESTOQUE'
     INTO :tipoPrecoParametro;
@@ -78,14 +184,14 @@ begin
     INTO :usaListaTerceiros;
     if (usaListaTerceiros is null) then
       usaListaTerceiros = 'N';
-
+    local = 0; 
   for select p.codProduto, p.CODPRO, p.cod_barra, p.produto, p.qtde_pct, p.unidademedida,
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
-    p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
+    p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, p.USA,
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
-	, p.NCM, CASE p.ORIGEM WHEN 0 then 'Nac.' WHEN 1 THEN 'Imp. Ext.' WHEN 2 THEN 'Imp. Int.' END as ORIGEM, 
+	, p.NCM, p.ORIGEM, 
 	p.ESTOQUEMAXIMO, p.ESTOQUEREPOSICAO, p.ESTOQUEMINIMO, p.PRECOMEDIO , p.MARGEM_LUCRO , p.DATACADASTRO,
-	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO, p.OBS
+	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO, p.OBS, p.ESTOQUEATUAL, p.VALORUNITARIOATUAL, cod.CODIGO
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -96,13 +202,11 @@ begin
       and ((p.MARCA = :mc) OR (:mc = 'TODASMARCAS'))
       and ((p.CLASSIFIC_FISCAL = :Aplicacao) OR (:Aplicacao = 'TODASAPLICACOES'))
       and ((p.CODALMOXARIFADO = :Local) OR (:Local = 0))
-      --and ((p.PRODUTO = :ProdutoDesc) or (:ProdutoDesc = 'TODOSPRODUTOS'))
-      --and ((p.COD_BARRA = :codBarra) OR (:codBarra = 'CODIGOBARRA'))
-      --and ((p.TIPO = :tipoProduto) OR (:tipoProduto = 'TODOSTIPOS'))
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
-    :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem,
-    :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, :TIPOPRECOVENDA, :VALORMINIMO, :obs
+    :precoVenda, :tipoPreco, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem,
+    :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, 
+    :TIPOPRECOVENDA, :VALORMINIMO, :obs, :estoqueAtual, :preco_compraUltimo, :codigo
   do begin
   
     if (codAlmoxarifado is null) then 
@@ -111,6 +215,8 @@ begin
     --if (codAlmoxarifado > 0) then 
     cCustoV = codAlmoxarifado;
   
+    preco_compraMedio = :precomedio;
+    
     Preco_venda = precoVenda;
     if (preco_venda is null) then
       preco_venda = 0;
@@ -119,29 +225,13 @@ begin
       margem = 0;
 
     if (usaListaTerceiros = 'N') then
-    select sum(quantidade) from MOVIMENTODETALHE d
-      inner join movimento m on m.CODMOVIMENTO = d.CODMOVIMENTO
-      where codProduto = :codProduto and m.STATUS = 1
-    into :pedido;
+      select sum(quantidade) from MOVIMENTODETALHE d
+       inner join movimento m on m.CODMOVIMENTO = d.CODMOVIMENTO
+       where codProduto = :codProduto and m.STATUS = 1
+        into :pedido;
     if (pedido is null) then
       pedido = 0;
-
-    if (usaListaTerceiros = 'N') then
-    begin
-      if (CCustoV = 0) then 
-      begin 
-        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
-          where m.CODPRODUTO = :codProduto order by m.MESANO DESC
-        into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
-      end 
-      else begin 
-        select first 1 m.PRECOCUSTO, m.SALDOESTOQUE, m.PRECOCOMPRA from ESTOQUEMES m
-          where m.CODPRODUTO = :codProduto 
-            and m.CENTROCUSTO = :CCustoV
-          order by m.MESANO DESC
-        into :preco_compraMedio, :estoqueAtual, :preco_compraUltimo;
-      end   
-    end 
+    
     if (preco_compraMedio is null) then
       preco_compraMedio = 0;
 
@@ -204,28 +294,47 @@ begin
         Preco_venda = precoVenda;
     end
 
+    custoMateriaPrima = 0;
     -- O custo do produto e baseado em cima das materias primas
-    select sum(m.QTDEUSADA * (case when p.VALORUNITARIOATUAL is null then p.PRECOMEDIO
-     when p.VALORUNITARIOATUAL = 0 then p.PRECOMEDIO
-     else p.VALORUNITARIOATUAL end ))
-
+    select sum(m.QTDEUSADA * (case when p.PRECOMEDIO is null then p.VALORUNITARIOATUAL
+     when p.PRECOMEDIO = 0 then p.VALORUNITARIOATUAL
+     else p.PRECOMEDIO end ))
     from MATERIA_PRIMA m
       inner join PRODUTOS p on p.CODPRODUTO = m.CODPRODMP
       where m.CODPRODUTO = :codProduto
     into :custoMateriaPrima;
+    
+    if (custoMateriaPrima is null) then 
+      custoMateriaPrima = 0;
+      
     if (preco_compraMedio = 0) then
       preco_compraMedio = custoMateriaPrima;
 
     if (preco_compraUltimo = 0) then
       preco_compraUltimo = precoc;
+      
     if (preco_compraMedio = 0) then
       preco_compraMedio = precoc;
+      
 	 if (preco_Venda = 0) then
 	  preco_Venda = precoVenda;
+	  
+	if (custoMateriaPrima > 0) then 
+	begin
+      preco_compraMedio = custoMateriaPrima;
+      preco_compraUltimo = custoMateriaPrima;
+	end   
+	  
     suspend;
     preco_compraMedio = 0;
     preco_compraUltimo = 0;
+    custoMateriaPrima = 0;
+    precovenda = 0;
+    precomedio = 0;
+    preco_venda = 0;
     estoqueAtual = 0;
     cCustoV = CCusto;
   end
-end;
+  
+  end -- fim do if  usaListaPreco = N  
+end

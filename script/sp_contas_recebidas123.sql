@@ -37,5 +37,6 @@ BEGIN
     SUSPEND;
     contacontabil = null;
   END
+
 END
 

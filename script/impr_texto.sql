@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE or ALTER PROCEDURE  IMPR_TEXTO( PVENDA                           INTEGER )
 RETURNS ( CLI                              VARCHAR( 80 )
         , RAZAO                            VARCHAR( 60 )
@@ -64,7 +65,7 @@ BEGIN
     , ENDE.UF, ENDE.CEP, ENDE.DDD, ENDE.TELEFONE, ENDE.DDD1, ENDE.TELEFONE1 , ENDE.DDD2, ENDE.TELEFONE2, ENDE.DDD3, ENDE.FAX, VEN.EMISSAO, VEN.DATAVENCIMENTO, VEN.VALOR_RESTO, ven.VALORRECEBIDO
     , VEN.TITULO , CLI.CNPJ, vd.CODMOVIMENTO, ven.parcelas
     , vd.VALOR_FRETE, vd.DESCONTO  , vd.SERIE, vd.NOTAFISCAL, vd.PRAZO, vd.obs ,m.NFE
-    into CLI, :RAZAO, :ENDERECO ,:NUMERO, :BAIRRO, :CIDADE 
+    into :CLI, :RAZAO, :ENDERECO ,:NUMERO, :BAIRRO, :CIDADE 
     , :UF, :CEP, :DDD, :FONE, :DDD1, :FONE1, :DDD2, :FONE2, :DDD3 , :FAX ,:EMISSAO, :DTAVENCIMENTO, :VALOR, :VR, 
     :TITULO, :CNPJ, :CODMOV, :PARC, :VALOR_FRETE, :DESCVENDA, :SERIE, :NOTAFISCAL, :PRAZO, :OBS , :NFE
     DO BEGIN
@@ -108,4 +109,9 @@ BEGIN
           J = J + 1; 
         END
     END
+  WHEN GDSCODE arith_except DO
+  BEGIN   
+    exception erro_proc ' ####  Erro no TITULO ****** ' || :TITULO || ' ******. ####';
+    exit; 
+  END    
 END
