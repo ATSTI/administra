@@ -56,9 +56,9 @@ type
     function GerarRegistroHeader240(NumeroRemessa : Integer): String; override;
     function GerarRegistroTransacao240(ACBrTitulo : TACBrTitulo): String; override;
     function GerarRegistroTrailler240(ARemessa : TStringList): String;  override;
-    function GerarRegistroHeader400(NumeroRemessa : Integer): String; override;
-    function GerarRegistroTransacao400(ACBrTitulo : TACBrTitulo): String; override;
-    function GerarRegistroTrailler400(ARemessa : TStringList): String;  override;
+    function GerarRegistroHeader400(NumeroRemessa : Integer): String;
+    function GerarRegistroTransacao400(ACBrTitulo : TACBrTitulo): String; 
+    function GerarRegistroTrailler400(ARemessa : TStringList): String;  
     Procedure LerRetorno240(ARetorno:TStringList); override;
    end;
 
@@ -479,7 +479,7 @@ begin
 end;
 
 
-function TACBrBancoBrasil.GerarRegistroHeader400(NumeroRemessa: Integer): String;
+function TACBrBancoBrasil.GerarRegistroHeader400(NumeroRemessa: Integer): String; 
 var
   TamConvenioMaior6 :Boolean;
   aAgencia, aConta  :String;

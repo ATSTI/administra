@@ -505,9 +505,9 @@ begin
               {$IFDEF FPC}
                 RLFiltro.Copies := NumCopias ;
               {$ENDIF}
-              RLFiltro.FileName := DirArqPDF_HTML +
-                                   PathDelim +
-                                   NomeArquivo ;
+              //RLFiltro.FileName := DirArqPDF_HTML +
+              //                     PathDelim +
+              //                     NomeArquivo ;
 
               {$IFDEF FPC}
                 RLFiltro.Pages := RLLayout.Pages ;
@@ -658,7 +658,7 @@ begin
   with fBoletoFC.ACBrBoleto do
   begin
      CodBarras      := Banco.MontarCodigoBarras( Titulo );
-     LinhaDigitavel := Banco.MontarLinhaDigitavel( CodBarras );
+     LinhaDigitavel := Banco.MontarLinhaDigitavel( CodBarras, Titulo );
 
      imgBanco3.Picture.Assign(imgBanco2.Picture);
      txtNumeroBanco3.Caption         := txtNumeroBanco2.Caption;
@@ -696,7 +696,7 @@ begin
    begin
       NossoNum       := Banco.MontarCampoNossoNumero( Titulo );
       CodBarras      := Banco.MontarCodigoBarras( Titulo );
-      LinhaDigitavel := Banco.MontarLinhaDigitavel( CodBarras );
+      LinhaDigitavel := Banco.MontarLinhaDigitavel( CodBarras, Titulo );
       CodCedente     := Banco.MontarCampoCodigoCedente(Titulo);
 
       MensagemPadrao.Clear;
