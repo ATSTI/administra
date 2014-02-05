@@ -352,6 +352,11 @@ var
   str_sql: String;
   TD: TTransactionDesc;
 begin
+  if (RadioGroup1.ItemIndex = -1) then
+  begin
+    MessageDlg('Informe o TIPO a ser gerado.', mtError, [mbOK], 0);
+    exit;
+  end;
   if (RadioGroup1.ItemIndex = 1) then
   begin
     if (cbConta.Text = '') then
@@ -452,8 +457,13 @@ begin
              sqltexto := sqltexto + ', null';
            sqltexto := sqltexto + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Edit5.Date));
          end;
+     2 : begin
+           sqltexto := sqltexto + QuotedStr('BOLETO');
+           sqltexto := sqltexto + ', null'; // Caixa
+           sqltexto := sqltexto + ', null'; // Data Recebimento
+         end;
    end;
-   sqltexto := sqltexto + ', ' + QuotedStr('DUPLICATA'); // Tipo do Novo Documento Gerado (Duplicata, Boleto, ..)   
+   sqltexto := sqltexto + ', ' + QuotedStr('DUPL/BOLETO'); // Tipo do Novo Documento Gerado (Duplicata, Boleto, ..)   
    sqltexto := sqltexto + ')';
    SQLDataSet1.CommandText := sqltexto;
    SQLDataSet1.ExecSQL();

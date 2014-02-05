@@ -1,7 +1,7 @@
 object fDuplicata: TfDuplicata
   Left = 244
   Top = 113
-  Width = 460
+  Width = 475
   Height = 425
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
@@ -90,7 +90,7 @@ object fDuplicata: TfDuplicata
     Caption = 'Caixa/Conta :'
   end
   object Label7: TLabel
-    Left = 186
+    Left = 156
     Top = 96
     Width = 90
     Height = 16
@@ -105,7 +105,7 @@ object fDuplicata: TfDuplicata
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 452
+    Width = 467
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -118,11 +118,11 @@ object fDuplicata: TfDuplicata
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object JvLabel1: TJvLabel
-      Left = 101
+      Left = 70
       Top = 8
-      Width = 240
+      Width = 341
       Height = 35
-      Caption = 'Gerar Duplicata'
+      Caption = 'Gerar Duplicata/Boleto'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindow
       Font.Height = -27
@@ -141,8 +141,8 @@ object fDuplicata: TfDuplicata
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 345
-    Width = 452
+    Top = 352
+    Width = 467
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -236,7 +236,7 @@ object fDuplicata: TfDuplicata
       Top = 5
       Width = 104
       Height = 37
-      Caption = '&Gerar Dupl.'
+      Caption = '&Gerar'
       PopupMenu = PopupMenu1
       TabOrder = 3
       OnClick = BitBtn1Click
@@ -635,7 +635,7 @@ object fDuplicata: TfDuplicata
   object DBGrid1: TDBGrid
     Left = 1
     Top = 154
-    Width = 440
+    Width = 464
     Height = 183
     DataSource = DataSource1
     Font.Charset = DEFAULT_CHARSET
@@ -728,22 +728,22 @@ object fDuplicata: TfDuplicata
     Text = 'Edit4'
   end
   object RadioGroup1: TRadioGroup
-    Left = 287
-    Top = 96
-    Width = 156
+    Left = 257
+    Top = 97
+    Width = 207
     Height = 41
-    Caption = 'Tipo'
-    Columns = 2
-    ItemIndex = 0
+    Caption = 'TIPO'
+    Columns = 3
     Items.Strings = (
       'Carteira'
-      'Desconto')
+      'Desconto'
+      'Boleto')
     TabOrder = 7
   end
   object cbConta: TComboBox
     Left = 4
     Top = 114
-    Width = 173
+    Width = 149
     Height = 21
     ItemHeight = 13
     TabOrder = 5
@@ -786,7 +786,7 @@ object fDuplicata: TfDuplicata
     TabOrder = 4
   end
   object Edit5: TJvDatePickerEdit
-    Left = 184
+    Left = 154
     Top = 113
     Width = 95
     Height = 24
