@@ -845,6 +845,7 @@ end;
 
 procedure TfProcura_prod.BitBtn4Click(Sender: TObject);
 begin
+  DecimalSeparator := ',';
   saldo_negativo := 'FALSE';
   usouAdiciona := 'usou';
   if (var_F = 'compra') then
