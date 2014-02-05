@@ -638,7 +638,7 @@ object fcrproc: Tfcrproc
       Top = 2
       Width = 77
       Height = 55
-      Caption = '&Duplicata'
+      Caption = '&Duplicata/Bol'
       PopupMenu = PopupMenu1
       TabOrder = 9
       OnClick = BitBtn5Click
