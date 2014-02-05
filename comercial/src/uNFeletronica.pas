@@ -2370,7 +2370,7 @@ begin
             end;
           end;
         end;
-      Prod.genero   := sProdutosGENERO.AsInteger;
+      //Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
       with Imposto do
       begin
