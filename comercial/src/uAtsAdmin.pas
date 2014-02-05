@@ -470,7 +470,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
   uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM, 
-  uNCM, uFiltroCorreio, uTerminal2;
+  uNCM, uFiltroCorreio, uTerminal2, uOsFinaliza;
 
 {$R *.dfm}
 
@@ -1071,12 +1071,13 @@ begin
     begin
       //WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
       fTerminal2 := TfTerminal2.Create(Application);
+      fOsFinaliza := TfOsFinaliza.Create(nil);
       try
         fTerminal2.ShowModal;
       finally
+        FreeAndNil(fOsFinaliza);
         fTerminal2.Free;
       end;
-
     end
     else
     begin
