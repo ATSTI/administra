@@ -8,7 +8,8 @@ uses IniFiles, ShellAPI,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, OleCtrls, SHDocVw, StdCtrls, Buttons, ExtCtrls,
   pcnConversao, pmdfeConversao, ACBrMDFe, ACBrMDFeDAMDFeClass,
-  ACBrMDFeDAMDFEQRClass, FMTBcd, DB, SqlExpr;
+  ACBrMDFeDAMDFEQRClass, FMTBcd, DB, SqlExpr, Mask, JvExMask, JvToolEdit,
+  JvBaseEdits;
 
 type
   TfACBrMDFe = class(TForm)
@@ -51,32 +52,6 @@ type
     edtProxyUser: TEdit;
     edtProxySenha: TEdit;
     TabSheet4: TTabSheet;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    Label18: TLabel;
-    Label19: TLabel;
-    Label20: TLabel;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label23: TLabel;
-    Label24: TLabel;
-    edtEmitCNPJ: TEdit;
-    edtEmitIE: TEdit;
-    edtEmitRazao: TEdit;
-    edtEmitFantasia: TEdit;
-    edtEmitFone: TEdit;
-    edtEmitCEP: TEdit;
-    edtEmitLogradouro: TEdit;
-    edtEmitNumero: TEdit;
-    edtEmitComp: TEdit;
-    edtEmitBairro: TEdit;
-    edtEmitCodCidade: TEdit;
-    edtEmitCidade: TEdit;
-    edtEmitUF: TEdit;
     TabSheet7: TTabSheet;
     GroupBox5: TGroupBox;
     Label3: TLabel;
@@ -149,15 +124,115 @@ type
     Label38: TLabel;
     edCondutor: TEdit;
     Label39: TLabel;
-    edCPFCondutor: TEdit;
+    edCondutorCPF: TEdit;
     Label40: TLabel;
     edMunicipioDescarga: TEdit;
     Label41: TLabel;
-    edCodIbgeDescarga: TEdit;
     TabSheet12: TTabSheet;
     Label42: TLabel;
     edNFe1: TEdit;
-    RadioGroup1: TRadioGroup;
+    rgTipoUnidCarga: TRadioGroup;
+    cbTransporte: TComboBox;
+    Label43: TLabel;
+    Label44: TLabel;
+    edIdentUnidTransp: TEdit;
+    Label45: TLabel;
+    edIdentUnidCarga: TEdit;
+    Label46: TLabel;
+    edNFe2: TEdit;
+    Label47: TLabel;
+    edNFe3: TEdit;
+    Label48: TLabel;
+    edNFe4: TEdit;
+    Label49: TLabel;
+    edNFe5: TEdit;
+    Label50: TLabel;
+    edNFe6: TEdit;
+    Label51: TLabel;
+    edNFe7: TEdit;
+    Label52: TLabel;
+    edQtdeNF: TEdit;
+    Label53: TLabel;
+    Label54: TLabel;
+    Label55: TLabel;
+    edValorTotal: TJvCalcEdit;
+    edPesoBruto: TJvCalcEdit;
+    TabSheet13: TTabSheet;
+    memInfoFisco: TMemo;
+    memInfoContribuinte: TMemo;
+    Label56: TLabel;
+    Label57: TLabel;
+    Label58: TLabel;
+    edPesoVol1: TJvCalcEdit;
+    Label59: TLabel;
+    edPesoVol2: TJvCalcEdit;
+    Label60: TLabel;
+    edPesoVol3: TJvCalcEdit;
+    Label61: TLabel;
+    edPesoVol4: TJvCalcEdit;
+    Label62: TLabel;
+    edPesoVol5: TJvCalcEdit;
+    Label63: TLabel;
+    edPesoVol6: TJvCalcEdit;
+    Label64: TLabel;
+    edPesoVol7: TJvCalcEdit;
+    GroupBox6: TGroupBox;
+    Label12: TLabel;
+    Label13: TLabel;
+    edtEmitIE: TEdit;
+    edtEmitCNPJ: TEdit;
+    Label14: TLabel;
+    edtEmitRazao: TEdit;
+    Label15: TLabel;
+    edtEmitFantasia: TEdit;
+    Label24: TLabel;
+    Label23: TLabel;
+    edtEmitFone: TEdit;
+    edtEmitCEP: TEdit;
+    Label16: TLabel;
+    Label17: TLabel;
+    edtEmitNumero: TEdit;
+    edtEmitLogradouro: TEdit;
+    Label18: TLabel;
+    edtEmitComp: TEdit;
+    Label19: TLabel;
+    edtEmitBairro: TEdit;
+    Label20: TLabel;
+    edtEmitCodCidade: TEdit;
+    Label21: TLabel;
+    edtEmitCidade: TEdit;
+    Label22: TLabel;
+    edtEmitUF: TEdit;
+    cbUnidade: TComboBox;
+    Label65: TLabel;
+    edUFDescarga: TEdit;
+    Label66: TLabel;
+    edUFLicVeiculo: TEdit;
+    edCodIbgeDescarga: TMaskEdit;
+    TabSheet14: TTabSheet;
+    GroupBox7: TGroupBox;
+    Label67: TLabel;
+    edAutorizado1: TEdit;
+    Label68: TLabel;
+    edAutorizado2: TEdit;
+    GroupBox8: TGroupBox;
+    Label69: TLabel;
+    edPropCNPJ: TEdit;
+    Label70: TLabel;
+    edPropRntrc: TEdit;
+    cbPropTipo: TComboBox;
+    Label71: TLabel;
+    Label72: TLabel;
+    edPropNome: TEdit;
+    GroupBox9: TGroupBox;
+    Label73: TLabel;
+    edPropIE: TEdit;
+    Label74: TLabel;
+    edPropUF: TEdit;
+    cbTipoRodado: TComboBox;
+    cbTipoCarroceria: TComboBox;
+    Label75: TLabel;
+    Label76: TLabel;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -190,8 +265,14 @@ type
     }
   private
     { Private declarations }
+    codMdfe: Integer;
+    codEmitente: integer;
     codigoUfEmitenteMDFe: Integer;
     ufDestinatarioMDFe: String;
+    chave_mdfe: String;
+    function RemoveChar(Const Texto:String):String;
+    function editParaSql(tipo: String;conteudoEdit: String): String;
+    procedure gravarMDFe;
     procedure GravarConfiguracao;
     procedure LerConfiguracao;
     procedure ConfiguraComponente;
@@ -347,13 +428,14 @@ begin
     ' WHERE UF.SIGLA = EMP.UF');
   sqlEmitente.Open;
 
+  codEmitente            := 1;
   edtEmitCNPJ.Text       := sqlEmitente.fieldByName('CNPJ_CPF').AsString;
   edtEmitIE.Text         := Copy(sqlEmitente.fieldByName('IE_RG').AsString,1,14);
   edtEmitRazao.Text      := Copy(sqlEmitente.fieldByName('RAZAO').AsString,1,60);
   edtEmitFantasia.Text   := Copy(sqlEmitente.fieldByName('EMPRESA').AsString,1,60);
   edtEmitFone.Text       := sqlEmitente.fieldByName('FONE').AsString;
   edtEmitCEP.Text        := sqlEmitente.fieldByName('CEP').AsString;
-  edtEmitLogradouro.Text := sqlEmitente.fieldByName('LOGRADOURO').AsString;
+  edtEmitLogradouro.Text := sqlEmitente.fieldByName('ENDERECO').AsString;
   edtEmitNumero.Text     := sqlEmitente.fieldByName('NUMERO').AsString;
   edtEmitComp.Text       := '';
   edtEmitBairro.Text     := sqlEmitente.fieldByName('BAIRRO').AsString;
@@ -447,215 +529,462 @@ begin
   end;
   with ACBrMDFe1.Manifestos.Add.MDFe do
   begin
-   //
-   // Dados de Identificação do MDF-e
-   //
-   Ide.cUF := codigoUfEmitenteMDFe;
+    //
+    // Dados de Identificação do MDF-e
+    //
+    Ide.cUF := codigoUfEmitenteMDFe;
 
-   // TpcnTipoAmbiente = (taProducao, taHomologacao);
-   case rgTipoAmb.ItemIndex of
-    0: Ide.tpAmb := taProducao;
-    1: Ide.tpAmb := taHomologacao;
-   end;
-
-   // TMDFeTpEmitente = ( teTransportadora, teTranspCargaPropria );
-   Ide.tpEmit  := teTranspCargaPropria;
-   Ide.modelo  := '58';
-   Ide.serie   := 1;
-   Ide.nMDF    := StrToIntDef(NumMDFe, 0);
-   Ide.cMDF    := 1;  // Código Aleatório
-   // TMDFeModal = ( moRodoviario, moAereo, moAquaviario, moFerroviario );
-   Ide.modal   := moRodoviario;
-   Ide.dhEmi   := Now;
-   // TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
-   Ide.tpEmis  := teNormal;
-   // TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
-   Ide.procEmi := peAplicativoContribuinte;
-   Ide.verProc := '1.0';
-   Ide.UFIni   := edtEmitUF.Text;
-   Ide.UFFim   := ufDestinatarioMDFe;
-
-   with Ide.infMunCarrega.Add do
-   begin
-     cMunCarrega := StrToInt(edtEmitCodCidade.Text);
-     xMunCarrega := edtEmitCidade.Text;
+    // TpcnTipoAmbiente = (taProducao, taHomologacao);
+    case rgTipoAmb.ItemIndex of
+      0: Ide.tpAmb := taProducao;
+      1: Ide.tpAmb := taHomologacao;
     end;
 
-   //
-   // Dados do Emitente
-   //
-   Emit.CNPJ  := edtEmitCNPJ.Text;
-   Emit.IE    := edtEmitIE.Text;
-   Emit.xNome := edtEmitRazao.Text;
-   Emit.xFant := edtEmitFantasia.Text;
+    // TMDFeTpEmitente = ( teTransportadora, teTranspCargaPropria );
+    Ide.tpEmit  := teTranspCargaPropria;
+    Ide.modelo  := '58';
+    Ide.serie   := 1;
+    Ide.nMDF    := StrToIntDef(NumMDFe, 0);
+    Ide.cMDF    := 1;  // Código Aleatório
+    // TMDFeModal = ( moRodoviario, moAereo, moAquaviario, moFerroviario );
+    Ide.modal   := moRodoviario;
+    Ide.dhEmi   := Now;
+    // TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
+    Ide.tpEmis  := teNormal;
+    // TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
+    Ide.procEmi := peAplicativoContribuinte;
+    Ide.verProc := '1.0';
+    Ide.UFIni   := edtEmitUF.Text;
+    Ide.UFFim   := edUFDescarga.Text;
 
-   Emit.EnderEmit.xLgr    := edtEmitLogradouro.Text;
-   Emit.EnderEmit.nro     := edtEmitNumero.Text;
-   Emit.EnderEmit.xCpl    := edtEmitComp.Text;
-   Emit.EnderEmit.xBairro := edtEmitBairro.Text;
-   Emit.EnderEmit.cMun    := StrToInt(edtEmitCodCidade.Text);
-   Emit.EnderEmit.xMun    := edtEmitCidade.Text;
-   Emit.EnderEmit.CEP     := StrToIntDef(edtEmitCEP.Text, 0);
-   Emit.EnderEmit.UF      := edtEmitUF.Text;
-   Emit.EnderEmit.fone    := edtEmitFone.Text;
-   Emit.enderEmit.email   := edtSmtpUser.Text;
-
-   rodo.RNTRC := edRntrc.Text;
-   rodo.CIOT  := edCIOT.Text;
-
-   rodo.veicTracao.cInt  := edCINT.Text;
-   rodo.veicTracao.placa := edPlaca.Text;
-   rodo.veicTracao.tara  := StrToInt(edTara.Text);
-   rodo.veicTracao.capKG := StrToInt(edCapKg.Text);
-   rodo.veicTracao.capM3 := strToInt(edCapM3.Text);
-//   rodo.veicTracao.RNTRC := '12345678';
-
-   with rodo.veicTracao.condutor.Add do
+    with Ide.infMunCarrega.Add do
     begin
-     xNome := edCondutor.Text;
-     CPF   := edCPFCondutor.Text;
+      cMunCarrega := StrToInt(RemoveChar(edtEmitCodCidade.Text));
+      xMunCarrega := edtEmitCidade.Text;
     end;
 
-   {with rodo.veicReboque.Add do
+    //
+    // Dados do Emitente
+    //
+    Emit.CNPJ  := edtEmitCNPJ.Text;
+    Emit.IE    := edtEmitIE.Text;
+    Emit.xNome := edtEmitRazao.Text;
+    Emit.xFant := edtEmitFantasia.Text;
+
+    Emit.EnderEmit.xLgr    := edtEmitLogradouro.Text;
+    Emit.EnderEmit.nro     := edtEmitNumero.Text;
+    Emit.EnderEmit.xCpl    := edtEmitComp.Text;
+    Emit.EnderEmit.xBairro := edtEmitBairro.Text;
+    Emit.EnderEmit.cMun    := StrToInt(RemoveChar(edtEmitCodCidade.Text));
+    Emit.EnderEmit.xMun    := edtEmitCidade.Text;
+    Emit.EnderEmit.CEP     := StrToIntDef(edtEmitCEP.Text, 0);
+    Emit.EnderEmit.UF      := edtEmitUF.Text;
+    Emit.EnderEmit.fone    := edtEmitFone.Text;
+    Emit.enderEmit.email   := edtSmtpUser.Text;
+
+    rodo.RNTRC := edRntrc.Text;
+    rodo.CIOT  := edCIOT.Text;
+
+    rodo.veicTracao.cInt  := edCINT.Text;
+    rodo.veicTracao.placa := edPlaca.Text;
+    rodo.veicTracao.tara  := StrToInt(edTara.Text);
+    rodo.veicTracao.capKG := StrToInt(edCapKg.Text);
+    rodo.veicTracao.capM3 := strToInt(edCapM3.Text);
+
+    case cbTipoRodado.ItemIndex of //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
+      0: rodo.veicTracao.tpRod := trNaoAplicavel;
+      1: rodo.veicTracao.tpRod := trTruck;
+      2: rodo.veicTracao.tpRod := trToco;
+      3: rodo.veicTracao.tpRod := trCavaloMecanico;
+      4: rodo.veicTracao.tpRod := trVAN;
+      5: rodo.veicTracao.tpRod := trUtilitario;
+      6: rodo.veicTracao.tpRod := trOutros;
+    end;
+
+    case cbTipoCarroceria.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
+      0: rodo.veicTracao.tpCar := tcNaoAplicavel;
+      1: rodo.veicTracao.tpCar := tcAberta;
+      2: rodo.veicTracao.tpCar := tcFechada;
+      3: rodo.veicTracao.tpCar := tcGraneleira;
+      4: rodo.veicTracao.tpCar := tcPortaContainer;
+      5: rodo.veicTracao.tpCar := tcSider;
+    end;
+
+    rodo.veicTracao.UF    := edUFLicVeiculo.Text;
+
+    with rodo.veicTracao.condutor.Add do
     begin
-     cInt  := '002';
-     placa := 'XYZ4567';
-     tara  := 4000;
-     capKG := 3000;
-     capM3 := 300;
-//     RNTRC := '87654321';
+      xNome := edCondutor.Text;
+      CPF   := edCondutorCPF.Text;
+    end;
+
+    {with rodo.veicReboque.Add do
+    begin
+      cInt  := '002';
+      placa := 'XYZ4567';
+      tara  := 4000;
+      capKG := 3000;
+      capM3 := 300;
+      //     RNTRC := '87654321';
     end;
     }
-   {with rodo.valePed.disp.Add do
+    {with rodo.valePed.disp.Add do
     begin
-     CNPJForn := '12345678000199';
-     CNPJPg   := '21543876000188';
-     nCompra  := '789';
+      CNPJForn := '12345678000199';
+      CNPJPg   := '21543876000188';
+      nCompra  := '789';
     end;
     }
-   with infDoc.infMunDescarga.Add do
-   begin
-     cMunDescarga := StrToInt(edCodIbgeDescarga.Text);
-     xMunDescarga := edMunicipioDescarga.Text;
+    with infDoc.infMunDescarga.Add do
+    begin
+      cMunDescarga := StrToInt(edCodIbgeDescarga.Text);
+      xMunDescarga := edMunicipioDescarga.Text;
 
-     with infNFe.Add do
-     begin
-       chNFe := edNFe1.Text;
+      with infNFe.Add do
+      begin
+        chNFe := edNFe1.Text;
 
-      // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+        // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
 
-      with infUnidTransp.Add do
-       begin
-        //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
-        tpUnidTransp := utRodoTracao;
-        idUnidTransp := 'Caminhao';
-        {with lacUnidTransp.Add do
-         begin
-          nLacre := '123';
-         end;}
-        // Informações das Unidades de carga (Containeres/ULD/Outros)
-        with infUnidCarga.Add do
-         begin
-          // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
-          tpUnidCarga := ucOutros;
-          idUnidCarga := 'Caixas';
-          with lacUnidCarga.Add do
-           begin
+        with infUnidTransp.Add do
+        begin
+          //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+          case cbTransporte.ItemIndex of
+            0 : tpUnidTransp := utRodoTracao;
+            1 : tpUnidTransp := utRodoReboque;
+            2 : tpUnidTransp := utNavio;
+            3 : tpUnidTransp := utBalsa;
+            4 : tpUnidTransp := utAeronave;
+            5 : tpUnidTransp := utVagao;
+            6 : tpUnidTransp := utOutros;
+          end;
+          idUnidTransp := edIdentUnidTransp.Text;
+          {with lacUnidTransp.Add do
+          begin
             nLacre := '123';
-           end;
+          end;}
+          // Informações das Unidades de carga (Containeres/ULD/Outros)
+          with infUnidCarga.Add do
+          begin
+            // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+            case rgTipoUnidCarga.ItemIndex of
+              0: tpUnidCarga := ucContainer;
+              1: tpUnidCarga := ucULD;
+              2: tpUnidCarga := ucPallet;
+              3: tpUnidCarga := ucOutros;
+            end;
+            idUnidCarga := edIdentUnidCarga.Text;
+            {with lacUnidCarga.Add do
+            begin
+               nLacre := '123';
+            end;}
+            qtdRat := 1.0;
+          end;
           qtdRat := 1.0;
-         end;
-        qtdRat := 1.0;
-       end;
+        end;
+      end; // fim do with NFe1
 
-      end; // fim do with
-
-     with infCTe.Add do
+      if (edNFe2.Text <> '') then
       begin
-       chCTe := '35110803911545000148570010000001021000001023';
+        with infNFe.Add do
+        begin
+          chNFe := edNFe2.Text;
 
-      // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
 
-      with infUnidTransp.Add do
-       begin
-        //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
-        tpUnidTransp := utRodoReboque;
-        idUnidTransp := 'Carreta';
-        with lacUnidTransp.Add do
-         begin
-          nLacre := '321';
-         end;
-        // Informações das Unidades de carga (Containeres/ULD/Outros)
-        with infUnidCarga.Add do
-         begin
-          // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
-          tpUnidCarga := ucOutros;
-          idUnidCarga := 'Caixas';
-          with lacUnidCarga.Add do
-           begin
-            nLacre := '321';
-           end;
-          qtdRat := 1.0;
-         end;
-        qtdRat := 1.0;
-       end;
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+            begin
+              nLacre := '123';
+            end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+            begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+              begin
+                nLacre := '123';
+              end;}
+              qtdRat := 1.0;
+            end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe2
+      end;
 
-      end; // fim do with
-
-     with infCT.Add do
+      if (edNFe3.Text <> '') then
       begin
-       nCT    := '13245';
-       serie  := 1;
-       subser := 0;
-       dEmi   := date;
-       vCarga := 230.00;
+        with infNFe.Add do
+        begin
+          chNFe := edNFe3.Text;
 
-      // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
 
-      with infUnidTransp.Add do
-       begin
-        //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
-        tpUnidTransp := utRodoReboque;
-        idUnidTransp := 'Carreta';
-        with lacUnidTransp.Add do
-         begin
-          nLacre := '456';
-         end;
-        // Informações das Unidades de carga (Containeres/ULD/Outros)
-        with infUnidCarga.Add do
-         begin
-          // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
-          tpUnidCarga := ucOutros;
-          idUnidCarga := 'Caixas';
-          with lacUnidCarga.Add do
-           begin
-            nLacre := '789';
-           end;
-          qtdRat := 1.0;
-         end;
-        qtdRat := 1.0;
-       end;
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+             begin
+              nLacre := '123';
+             end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+             begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+               begin
+                nLacre := '123';
+               end;}
+              qtdRat := 1.0;
+             end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe3
+      end;
 
-      end; // fim do with
+      if (edNFe4.Text <> '') then
+      begin
+        with infNFe.Add do
+        begin
+          chNFe := edNFe4.Text;
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
 
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+             begin
+              nLacre := '123';
+             end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+            begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+               begin
+                nLacre := '123';
+               end;}
+              qtdRat := 1.0;
+            end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe4
+      end;
+
+      if (edNFe5.Text <> '') then
+      begin
+        with infNFe.Add do
+        begin
+          chNFe := edNFe5.Text;
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+             begin
+              nLacre := '123';
+             end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+             begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+               begin
+                nLacre := '123';
+               end;}
+              qtdRat := 1.0;
+             end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe5
+      end;
+
+      if (edNFe6.Text <> '') then
+      begin
+        with infNFe.Add do
+        begin
+          chNFe := edNFe6.Text;
+
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+             begin
+              nLacre := '123';
+             end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+            begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+               begin
+                nLacre := '123';
+               end;}
+              qtdRat := 1.0;
+            end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe6
+      end;
+
+      if (edNFe7.Text <> '') then
+      begin
+        with infNFe.Add do
+        begin
+          chNFe := edNFe7.Text;
+
+          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+
+          with infUnidTransp.Add do
+          begin
+            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+            case cbTransporte.ItemIndex of
+              0 : tpUnidTransp := utRodoTracao;
+              1 : tpUnidTransp := utRodoReboque;
+              2 : tpUnidTransp := utNavio;
+              3 : tpUnidTransp := utBalsa;
+              4 : tpUnidTransp := utAeronave;
+              5 : tpUnidTransp := utVagao;
+              6 : tpUnidTransp := utOutros;
+            end;
+            idUnidTransp := edIdentUnidTransp.Text;
+            {with lacUnidTransp.Add do
+             begin
+              nLacre := '123';
+             end;}
+            // Informações das Unidades de carga (Containeres/ULD/Outros)
+            with infUnidCarga.Add do
+            begin
+              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+              case rgTipoUnidCarga.ItemIndex of
+                0: tpUnidCarga := ucContainer;
+                1: tpUnidCarga := ucULD;
+                2: tpUnidCarga := ucPallet;
+                3: tpUnidCarga := ucOutros;
+              end;
+              idUnidCarga := edIdentUnidCarga.Text;
+              {with lacUnidCarga.Add do
+               begin
+                nLacre := '123';
+               end;
+              qtdRat := 1.0;}
+            end;
+            qtdRat := 1.0;
+          end;
+        end; // fim do with NFe7
+      end;
+    end;
+    tot.qNFe := StrToInt(edQtdeNF.Text);
+    tot.vCarga := edValorTotal.Value;
+    // UnidMed = (,uKG, uTON, uUNIDADE, uLITROS);
+    case cbUnidade.ItemIndex of
+      0: tot.cUnid := uM3;
+      1: tot.cUnid := uKG;
+      2: tot.cUnid := uTON;
+      3: tot.cUnid := uUNIDADE;
+      4: tot.cUnid := uLITROS;
+      5: tot.cUnid := uMMBTU;
     end;
 
-   tot.qCTe := 2;
-   tot.qCT  := 1;
-   tot.vCarga := 3500.00;
-   // UnidMed = (uM3,uKG, uTON, uUNIDADE, uLITROS);
-   tot.cUnid  :=  uTon;
-   tot.qCarga := 2.8000;
-
-   with lacres.Add do
+    tot.qCarga := edPesoBruto.Value;
+    {with lacres.Add do
     begin
-     nLacre := '123';
-    end;
+      nLacre := '123';
+    end;}
 
-   infAdic.infCpl     := 'Empresa optante pelo Simples Nacional.; Caminhao VW.';
-   infAdic.infAdFisco := '';
+    infAdic.infCpl     := memInfoFisco.Text;
+    infAdic.infAdFisco := memInfoContribuinte.Text;
   end;
-
 end;
 
 procedure TfACBrMDFe.sbtnCaminhoCertClick(Sender: TObject);
@@ -706,6 +1035,7 @@ end;
 procedure TfACBrMDFe.FormCreate(Sender: TObject);
 begin
  LerConfiguracao;
+ //gravarMDFe;
 end;
 
 procedure TfACBrMDFe.btnSalvarConfigClick(Sender: TObject);
@@ -811,8 +1141,18 @@ procedure TfACBrMDFe.btnGerarMDFeClick(Sender: TObject);
 var
  vAux : String;
 begin
- if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
-  then exit;
+ //if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
+ // then exit;
+ if (dm.sqlBusca.Active) then
+   dm.sqlBusca.Close;
+ dm.sqlBusca.sql.Clear;
+ dm.sqlBusca.sql.Add('SELECT MAX(COD_MDFE) COD FROM MDFE');
+ dm.sqlBusca.Open;
+ if (dm.sqlBusca.fieldByName('COD').asInteger > 0) then
+   codMDFe := dm.sqlBusca.fieldByName('COD').asInteger
+ else
+   codMDFe := 1;
+ vAux := IntToStr(codMDFe);
 
  ACBrMDFe1.Manifestos.Clear;
  GerarMDFe(vAux);
@@ -821,8 +1161,10 @@ begin
  ShowMessage('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
  MemoDados.Lines.Add('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
  MemoResp.Lines.LoadFromFile(ACBrMDFe1.Manifestos.Items[0].NomeArq);
+ chave_mdfe := ExtractFileName(ACBrMDFe1.Manifestos.Items[0].NomeArq);
  LoadXML(MemoResp, WBResposta);
  PageControl2.ActivePageIndex := 1;
+ gravarMDFe;
 end;
 
 procedure TfACBrMDFe.btnValidarXMLClick(Sender: TObject);
@@ -1161,6 +1503,184 @@ begin
                              , cbEmailSSL.Checked ); // Auto TLS
     CC.Free;
     Evento.Free;
+  end;
+end;
+
+procedure TfACBrMDFe.gravarMDFe;
+var strInsere: String;
+  codMDFe: Integer;
+begin
+  codMDFe := 1;
+  DecimalSeparator := '.';
+  strInsere := 'INSERT INTO MDFE (COD_MDFE, CODEMITENTE, ' +
+    ' TIPOEMITENTE, MODELO, SERIE, NUMERO_MDF, ' +
+    ' CHAVE_MDF, MODALIDADE, DATA_MDF, ' +
+    ' FORMA_EMISSAO, VERSAO_APLICATIVO, ' +
+    ' UF_CARREGAMENTO, UF_DESCARREGAMENTO, ' +
+    ' COD_MUNICIPIO_CARREG, MUNICIPO_CARREG, ' +
+    ' UF_PERCURSO, COD_MUNICIPIO_DESCARREG, ' +
+    ' MUNICIPO_DESCARREG, CHAVE_NFE1, CHAVE_NFE2, ' +
+    ' CHAVE_NFE3, CHAVE_NFE4, CHAVE_NFE5, ' +
+    ' CHAVE_NFE6, CHAVE_NFE7, ' +
+    ' TIPO_TRANSP, UNID_TRANSP, TIPO_CARGA, UNID_CARGA, ' +
+    ' QTDE_NFE, VALOR_CARGA, UNID_PESO, ' +
+    ' PESO_BRUTO, CNPJ_AUTORIZADO1, CNPJ_AUTORIZADO2, ' +
+    ' INFO_ADIC_FISCO, INFO_ADIC_CONTRIBUINTE, ' +
+    ' RNTRC, CIOT, CINT, PLACA, TARA, CAPKG, CAPM3, ' +
+    ' PROP_CPF, PROP_CNPJ, PROP_RNTRC, PROP_NOME, ' +
+    ' PROP_IE, PROP_UF, PROP_TIPO, CONDUTOR_NOME, ' +
+    ' CONDUTOR_CPF, TIPO_RODADO, TIPO_CARROCERIA, ' +
+    ' UF_VEICULO, ' +
+    ' PESO_VOLUME1, PESO_VOLUME2, ' +
+    ' PESO_VOLUME3, PESO_VOLUME4, PESO_VOLUME5, ' +
+    ' PESO_VOLUME6, PESO_VOLUME7, ' +
+    ' CHAVE_MDFE ' +
+    ') VALUES ( ';
+
+    {    ' REBOQUE_CINT, REBOQUE_PLACA, ' +
+    ' REBOQUE_TARA, REBOQUE_CAPKG, REBOQUE_CAPM3, ' +
+    ' REBOQUE_CPF, REBOQUE_CNPJ, REBOQUE_RNTRC, ' +
+    ' REBOQUE_NOME, REBOQUE_IE, REBOQUE_UF, ' +
+    ' REBOQUE_TIPOPROP, REBOQUE_TIPOCARROCERIA, ' +
+    ' REBOQUE_UFVEICULO, ' +}
+
+  strInsere := strInsere + IntToStr(codMDFe);
+  strInsere := strInsere + ', ' + IntToStr(codEmitente);
+  strInsere := strInsere + ', ' + IntToStr(2) + ', 58, 1 ';   // 1-teTransportadora, 2-teTranspCargaPropria + Modelo e Serie
+  strInsere := strInsere + ', ' + IntToStr(codMDFe) + ', ' + IntToStr(codMDFe) + ', 1';  // MODALIDADE :1-moRodoviario, 2-moAereo, moAquaviario, moFerroviario
+  strInsere := strInsere + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy hh:MM', now));
+  strInsere := strInsere + ', 1,' + QuotedStr('1.01'); //TpcnTipoEmissao = (1-teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
+  strInsere := strInsere + ', ' + QuotedStr(edtEmitUF.Text) + ', ' +  QuotedStr(edUFDescarga.Text);
+  strInsere := strInsere + ', ' + QuotedStr(edtEmitCodCidade.Text) + ', ' + QuotedStr(edtEmitCidade.Text);
+  strInsere := strInsere + ', ' + QuotedStr('') + ', ' + QuotedStr(edCodIbgeDescarga.Text);
+  strInsere := strInsere + ', ' + QuotedStr(edMunicipioDescarga.Text) + ', ' + QuotedStr(edNFe1.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe2.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe3.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe4.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe5.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe6.Text);
+  strInsere := strInsere + ', ' + editParaSql('S',edNFe7.Text);
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(cbTransporte.ItemIndex+1)); // Tipo_Transp: 1 - Rodoviário Tração, 2 - Rodoviário Reboque, 3 - Navio, 4 - Balsa, 5 - Aeronave, 6 - Vagão, 7 - Outros
+  strInsere := strInsere + ', ' + editParaSql('S',edIdentUnidTransp.Text); // Unidade Transp
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(rgTipoUnidCarga.ItemIndex+1)) ;// Tipo Carga 1 - Container; 2 - ULD; 3 - Pallet; 4 - Outros;
+  strInsere := strInsere + ', ' + editParaSql('S',edIdentUnidCarga.Text); // Unidadde Carga
+  strInsere := strInsere + ', ' + editParaSql('N',edQtdeNF.Text); //QTDE_NFE
+  strInsere := strInsere + ', ' + Format('%8.2f', [edValorTotal.Value]); //VALOR_CARGA
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(cbUnidade.ItemIndex+1)) ;// UNID_PESO
+  strInsere := strInsere + ', ' + Format('%8.2f', [edPesoBruto.Value]); // PESO_BRUTO
+  strInsere := strInsere + ', ' + editParaSql('S',edAutorizado1.Text); // CNPJ_AUTORIZADO1
+  strInsere := strInsere + ', ' + editParaSql('S',edAutorizado2.Text); // CNPJ_AUTORIZADO2
+  strInsere := strInsere + ', ' + editParaSql('S',memInfoFisco.Text); // INFO_ADIC_FISCO
+  strInsere := strInsere + ', ' + editParaSql('S',memInfoContribuinte.Text); //INFO_ADIC_CONTRIBUINTE,
+  strInsere := strInsere + ', ' + editParaSql('N',edRntrc.Text) + ', ' + editParaSql('N',edCIOT.Text) + ', ' + editParaSql('N',edCINT.Text);  // RNTRC, CIOT, CINT
+  strInsere := strInsere + ', ' + editParaSql('S',edPlaca.Text) + ', ' + editParaSql('N',edTara.Text); //PLACA, TARA
+  strInsere := strInsere + ', ' + editParaSql('N',edCapKg.Text) + ', ' + editParaSql('S',edCapM3.Text); // CAPKG, CAPM3
+  strInsere := strInsere + ', ' + editParaSql('S',edPropCNPJ.Text); // PROP_CNPJ
+  strInsere := strInsere + ', ' + editParaSql('N',edPropRntrc.Text); // PROP_RNTRC
+  strInsere := strInsere + ', ' + editParaSql('S',edPropNome.Text); // PROP_NOME
+  strInsere := strInsere + ', ' + editParaSql('S',edPropIE.Text); // PROP_IE
+  strInsere := strInsere + ', ' + editParaSql('S',edPropUF.Text); // PROP_UF
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(cbPropTipo.ItemIndex+1)) ;// PROP_TIPO
+  strInsere := strInsere + ', ' + editParaSql('S', edCondutor.Text); // CONDUTOR_NOME
+  strInsere := strInsere + ', ' + editParaSql('S', edCondutorCPF.Text); //  CONDUTOR_CPF
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(cbTipoRodado.ItemIndex+1)) ;// TIPO_RODADO
+  strInsere := strInsere + ', ' + editParaSql('I',IntToStr(cbTipoCarroceria.ItemIndex+1)) ;// TIPO_CARROCERIA
+  strInsere := strInsere + ', ' + editParaSql('S',edUFLicVeiculo.Text); // UF_VEICULO
+  {, REBOQUE_CINT, REBOQUE_PLACA, ' +
+    ' REBOQUE_TARA, REBOQUE_CAPKG, REBOQUE_CAPM3, ' +
+    ' REBOQUE_CPF, REBOQUE_CNPJ, REBOQUE_RNTRC, ' +
+    ' REBOQUE_NOME, REBOQUE_IE, REBOQUE_UF, ' +
+    ' REBOQUE_TIPOPROP, REBOQUE_TIPOCARROCERIA, ' +
+    ' REBOQUE_UFVEICULO, ' +
+   }
+  strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol1.Value]);
+  if (edNFe2.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol2.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  if (edNFe3.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol3.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  if (edNFe4.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol4.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  if (edNFe5.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol5.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  if (edNFe6.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol6.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  if (edNFe7.Text <> '') then
+  begin
+    strInsere := strInsere + ', ' + Format('%8.2f', [edPesoVol7.Value]);
+  end
+  else begin
+    strInsere := strInsere + ', null ';
+  end;
+  strInsere := strInsere + ', ' + QuotedStr(chave_mdfe);
+
+  {rodo.veicTracao.tpRod := trTruck; //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
+  rodo.veicTracao.tpCar := tcNaoAplicavel; // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
+  rodo.veicTracao.UF    := edUFLicVeiculo.Text;
+   }
+  strInsere := strInsere + ')';
+  DecimalSeparator := ',';
+  dm.sc.ExecuteDirect(strInsere);
+end;
+
+function TfACBrMDFe.RemoveChar(const Texto: String): String;
+var
+  I: integer;
+  S: string;
+begin
+  S := '';
+  for I := 1 To Length(Texto) Do
+  begin
+    if (Texto[I] in ['0'..'9']) then
+    begin
+     S := S + Copy(Texto, I, 1);
+    end;
+  end;
+  result := S;
+end;
+
+function TfACBrMDFe.editParaSql(tipo: String; conteudoEdit: String): String;
+begin
+  if (conteudoEdit <> '') then
+  begin
+    if (tipo = 'N') then
+      result := conteudoEdit;
+    if (tipo = 'S') then
+      result := QuotedStr(conteudoEdit);
+    if (tipo = 'I') then
+    begin
+      if (conteudoEdit = '0') then
+        result := 'null'
+      else
+        result := conteudoEdit;
+    end;
+  end
+  else begin
+    result := 'null';
   end;
 end;
 

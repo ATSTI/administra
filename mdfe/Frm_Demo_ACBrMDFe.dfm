@@ -1,7 +1,7 @@
 object fACBrMDFe: TfACBrMDFe
-  Left = 592
-  Top = 143
-  Width = 1030
+  Left = 372
+  Top = 150
+  Width = 1031
   Height = 568
   Caption = 'ATS - ACBrMDFe'
   Color = clBtnFace
@@ -30,26 +30,1101 @@ object fACBrMDFe: TfACBrMDFe
     Align = alLeft
     TabOrder = 0
     object GroupBox1: TGroupBox
-      Left = 8
-      Top = 8
-      Width = 337
-      Height = 489
+      Left = 4
+      Top = 3
+      Width = 344
+      Height = 496
       Caption = 'Configura'#231#245'es'
       TabOrder = 0
       object PageControl1: TPageControl
         Left = 2
         Top = 15
-        Width = 333
-        Height = 472
-        ActivePage = TabSheet11
+        Width = 340
+        Height = 479
+        ActivePage = TabSheet12
         Align = alClient
         MultiLine = True
+        Style = tsButtons
         TabOrder = 0
+        object TabSheet4: TTabSheet
+          Caption = 'Emitente'
+          ImageIndex = 3
+          object GroupBox6: TGroupBox
+            Left = 32
+            Top = 16
+            Width = 265
+            Height = 321
+            Caption = 'Empresa'
+            TabOrder = 0
+            object Label12: TLabel
+              Left = 8
+              Top = 20
+              Width = 27
+              Height = 13
+              Caption = 'CNPJ'
+            end
+            object Label13: TLabel
+              Left = 136
+              Top = 20
+              Width = 41
+              Height = 13
+              Caption = 'Insc.Est.'
+            end
+            object Label14: TLabel
+              Left = 8
+              Top = 60
+              Width = 63
+              Height = 13
+              Caption = 'Raz'#227'o Social'
+            end
+            object Label15: TLabel
+              Left = 8
+              Top = 100
+              Width = 40
+              Height = 13
+              Caption = 'Fantasia'
+            end
+            object Label24: TLabel
+              Left = 8
+              Top = 140
+              Width = 24
+              Height = 13
+              Caption = 'Fone'
+            end
+            object Label23: TLabel
+              Left = 136
+              Top = 140
+              Width = 21
+              Height = 13
+              Caption = 'CEP'
+            end
+            object Label16: TLabel
+              Left = 8
+              Top = 180
+              Width = 54
+              Height = 13
+              Caption = 'Logradouro'
+            end
+            object Label17: TLabel
+              Left = 208
+              Top = 180
+              Width = 37
+              Height = 13
+              Caption = 'N'#250'mero'
+            end
+            object Label18: TLabel
+              Left = 8
+              Top = 220
+              Width = 64
+              Height = 13
+              Caption = 'Complemento'
+            end
+            object Label19: TLabel
+              Left = 136
+              Top = 220
+              Width = 27
+              Height = 13
+              Caption = 'Bairro'
+            end
+            object Label20: TLabel
+              Left = 8
+              Top = 260
+              Width = 61
+              Height = 13
+              Caption = 'C'#243'd. Cidade '
+            end
+            object Label21: TLabel
+              Left = 76
+              Top = 260
+              Width = 33
+              Height = 13
+              Caption = 'Cidade'
+            end
+            object Label22: TLabel
+              Left = 225
+              Top = 260
+              Width = 14
+              Height = 13
+              Caption = 'UF'
+            end
+            object edtEmitIE: TEdit
+              Left = 137
+              Top = 36
+              Width = 123
+              Height = 21
+              TabOrder = 0
+            end
+            object edtEmitCNPJ: TEdit
+              Left = 8
+              Top = 36
+              Width = 123
+              Height = 21
+              TabOrder = 1
+            end
+            object edtEmitRazao: TEdit
+              Left = 8
+              Top = 76
+              Width = 252
+              Height = 21
+              TabOrder = 2
+            end
+            object edtEmitFantasia: TEdit
+              Left = 8
+              Top = 116
+              Width = 252
+              Height = 21
+              TabOrder = 3
+            end
+            object edtEmitFone: TEdit
+              Left = 8
+              Top = 156
+              Width = 125
+              Height = 21
+              TabOrder = 4
+            end
+            object edtEmitCEP: TEdit
+              Left = 137
+              Top = 156
+              Width = 123
+              Height = 21
+              TabOrder = 5
+            end
+            object edtEmitNumero: TEdit
+              Left = 210
+              Top = 196
+              Width = 50
+              Height = 21
+              TabOrder = 6
+            end
+            object edtEmitLogradouro: TEdit
+              Left = 8
+              Top = 196
+              Width = 196
+              Height = 21
+              TabOrder = 7
+            end
+            object edtEmitComp: TEdit
+              Left = 8
+              Top = 236
+              Width = 123
+              Height = 21
+              TabOrder = 8
+            end
+            object edtEmitBairro: TEdit
+              Left = 137
+              Top = 236
+              Width = 123
+              Height = 21
+              TabOrder = 9
+            end
+            object edtEmitCodCidade: TEdit
+              Left = 8
+              Top = 276
+              Width = 61
+              Height = 21
+              TabOrder = 10
+            end
+            object edtEmitCidade: TEdit
+              Left = 76
+              Top = 276
+              Width = 142
+              Height = 21
+              TabOrder = 11
+            end
+            object edtEmitUF: TEdit
+              Left = 225
+              Top = 276
+              Width = 35
+              Height = 21
+              TabOrder = 12
+            end
+          end
+        end
+        object TabSheet12: TTabSheet
+          Caption = 'Notas Fiscais'
+          ImageIndex = 6
+          object Label42: TLabel
+            Left = 8
+            Top = 13
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 1'
+          end
+          object Label46: TLabel
+            Left = 8
+            Top = 64
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 2'
+          end
+          object Label47: TLabel
+            Left = 8
+            Top = 112
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 3'
+          end
+          object Label48: TLabel
+            Left = 8
+            Top = 160
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 4'
+          end
+          object Label49: TLabel
+            Left = 8
+            Top = 208
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 5'
+          end
+          object Label50: TLabel
+            Left = 8
+            Top = 256
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 6'
+          end
+          object Label51: TLabel
+            Left = 8
+            Top = 304
+            Width = 69
+            Height = 13
+            Caption = 'Chave NFe - 7'
+          end
+          object Label52: TLabel
+            Left = 0
+            Top = 368
+            Width = 43
+            Height = 13
+            Caption = 'Qtde. NF'
+          end
+          object Label53: TLabel
+            Left = 118
+            Top = 368
+            Width = 51
+            Height = 13
+            Caption = 'Valor Total'
+          end
+          object Label54: TLabel
+            Left = 0
+            Top = 400
+            Width = 40
+            Height = 13
+            Caption = 'Unidade'
+          end
+          object Label55: TLabel
+            Left = 118
+            Top = 400
+            Width = 52
+            Height = 13
+            Caption = 'Peso Bruto'
+          end
+          object Label58: TLabel
+            Left = 110
+            Top = 10
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label59: TLabel
+            Left = 110
+            Top = 61
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label60: TLabel
+            Left = 110
+            Top = 109
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label61: TLabel
+            Left = 110
+            Top = 157
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label62: TLabel
+            Left = 110
+            Top = 205
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label63: TLabel
+            Left = 110
+            Top = 253
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object Label64: TLabel
+            Left = 110
+            Top = 301
+            Width = 65
+            Height = 13
+            Caption = 'Peso, Volume'
+          end
+          object edNFe1: TEdit
+            Left = 8
+            Top = 29
+            Width = 305
+            Height = 21
+            TabOrder = 1
+            Text = '35130317297873000100550010000135241000000143-NFe'
+          end
+          object edNFe2: TEdit
+            Left = 8
+            Top = 80
+            Width = 305
+            Height = 21
+            TabOrder = 3
+            Text = '35130602425261000189550010000058681000118456-NFe'
+          end
+          object edNFe3: TEdit
+            Left = 8
+            Top = 128
+            Width = 305
+            Height = 21
+            TabOrder = 5
+          end
+          object edNFe4: TEdit
+            Left = 8
+            Top = 176
+            Width = 305
+            Height = 21
+            TabOrder = 7
+          end
+          object edNFe5: TEdit
+            Left = 8
+            Top = 224
+            Width = 305
+            Height = 21
+            TabOrder = 9
+          end
+          object edNFe6: TEdit
+            Left = 8
+            Top = 272
+            Width = 305
+            Height = 21
+            TabOrder = 11
+          end
+          object edNFe7: TEdit
+            Left = 8
+            Top = 320
+            Width = 305
+            Height = 21
+            TabOrder = 13
+          end
+          object edQtdeNF: TEdit
+            Left = 45
+            Top = 362
+            Width = 66
+            Height = 21
+            Hint = 'Quantidade total de NF-e relacionadas no '#13#10'Manifesto. '
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 14
+            Text = '2'
+          end
+          object edValorTotal: TJvCalcEdit
+            Left = 180
+            Top = 362
+            Width = 134
+            Height = 21
+            Hint = 'Valor total da carga / mercadorias '#13#10'transportadas.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 15
+            Value = 12000.000000000000000000
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoBruto: TJvCalcEdit
+            Left = 180
+            Top = 394
+            Width = 134
+            Height = 21
+            Hint = 'Peso Bruto Total da Carga / Mercadorias '#13#10'transportadas. '
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 17
+            Value = 235.000000000000000000
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol1: TJvCalcEdit
+            Left = 190
+            Top = 7
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 0
+            Value = 350.840000000000000000
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol2: TJvCalcEdit
+            Left = 190
+            Top = 58
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 2
+            Value = 30.100000000000000000
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol3: TJvCalcEdit
+            Left = 190
+            Top = 106
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 4
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol4: TJvCalcEdit
+            Left = 190
+            Top = 154
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 6
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol5: TJvCalcEdit
+            Left = 190
+            Top = 202
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 8
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol6: TJvCalcEdit
+            Left = 190
+            Top = 250
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 10
+            DecimalPlacesAlwaysShown = False
+          end
+          object edPesoVol7: TJvCalcEdit
+            Left = 190
+            Top = 298
+            Width = 123
+            Height = 21
+            Hint = 
+              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
+              'e 2 decimais.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 12
+            DecimalPlacesAlwaysShown = False
+          end
+          object cbUnidade: TComboBox
+            Left = 45
+            Top = 394
+            Width = 65
+            Height = 21
+            ItemHeight = 13
+            ItemIndex = 0
+            TabOrder = 16
+            Text = 'M3'
+            Items.Strings = (
+              'M3'
+              'KG'
+              'TON'
+              'UNIDADE'
+              'LITROS'
+              'MMBTU')
+          end
+        end
+        object TabSheet11: TTabSheet
+          Caption = 'Transporte'
+          ImageIndex = 5
+          object Label29: TLabel
+            Left = 8
+            Top = 8
+            Width = 38
+            Height = 13
+            Caption = 'RNTRC'
+          end
+          object Label30: TLabel
+            Left = 8
+            Top = 32
+            Width = 25
+            Height = 13
+            Caption = 'CIOT'
+          end
+          object Label31: TLabel
+            Left = 8
+            Top = 61
+            Width = 25
+            Height = 13
+            Caption = 'CINT'
+          end
+          object Label32: TLabel
+            Left = 135
+            Top = 58
+            Width = 27
+            Height = 13
+            Caption = 'Placa'
+          end
+          object Label33: TLabel
+            Left = 8
+            Top = 79
+            Width = 22
+            Height = 13
+            Caption = 'Tara'
+          end
+          object Label34: TLabel
+            Left = 118
+            Top = 80
+            Width = 37
+            Height = 13
+            Caption = 'Cap. kg'
+          end
+          object Label35: TLabel
+            Left = 227
+            Top = 80
+            Width = 39
+            Height = 13
+            Caption = 'Cap. m'#179' '
+          end
+          object Label36: TLabel
+            Left = 8
+            Top = 168
+            Width = 66
+            Height = 13
+            Caption = 'RNTRC Prop.'
+          end
+          object Label38: TLabel
+            Left = 8
+            Top = 196
+            Width = 43
+            Height = 13
+            Caption = 'Condutor'
+          end
+          object Label39: TLabel
+            Left = 8
+            Top = 223
+            Width = 66
+            Height = 13
+            Caption = 'CPF Condutor'
+          end
+          object Label40: TLabel
+            Left = 8
+            Top = 240
+            Width = 92
+            Height = 13
+            Caption = 'Municipo Descarga'
+          end
+          object Label41: TLabel
+            Left = 8
+            Top = 282
+            Width = 64
+            Height = 13
+            Caption = 'C'#243'digo IBGE '
+          end
+          object Label43: TLabel
+            Left = 8
+            Top = 305
+            Width = 51
+            Height = 13
+            Caption = 'Transporte'
+          end
+          object Label44: TLabel
+            Left = 8
+            Top = 329
+            Width = 61
+            Height = 13
+            Caption = 'Identifica'#231#227'o'
+          end
+          object Label45: TLabel
+            Left = 9
+            Top = 400
+            Width = 61
+            Height = 13
+            Caption = 'Identificacao'
+          end
+          object Label65: TLabel
+            Left = 203
+            Top = 281
+            Width = 69
+            Height = 13
+            Caption = 'UF - Descarga'
+          end
+          object Label66: TLabel
+            Left = 251
+            Top = 58
+            Width = 34
+            Height = 13
+            Caption = 'UF Lic.'
+          end
+          object Label75: TLabel
+            Left = 8
+            Top = 122
+            Width = 77
+            Height = 13
+            Caption = 'Tipo de Rodado'
+          end
+          object Label76: TLabel
+            Left = 168
+            Top = 122
+            Width = 87
+            Height = 13
+            Caption = 'Tipo de Carroceria'
+          end
+          object edRntrc: TEdit
+            Left = 64
+            Top = 8
+            Width = 249
+            Height = 21
+            Hint = 'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 0
+            Text = '12345678'
+          end
+          object edCIOT: TEdit
+            Left = 64
+            Top = 32
+            Width = 249
+            Height = 21
+            Hint = 'C'#243'digo Identificador da Opera'#231#227'o de Transporte.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 1
+            Text = '123456789123'
+          end
+          object edCINT: TEdit
+            Left = 64
+            Top = 56
+            Width = 65
+            Height = 21
+            TabOrder = 2
+            Text = '10'
+          end
+          object edTara: TEdit
+            Left = 8
+            Top = 96
+            Width = 97
+            Height = 21
+            TabOrder = 5
+            Text = '100'
+          end
+          object edCapKg: TEdit
+            Left = 115
+            Top = 96
+            Width = 97
+            Height = 21
+            TabOrder = 6
+            Text = '200'
+          end
+          object edCapM3: TEdit
+            Left = 221
+            Top = 96
+            Width = 92
+            Height = 21
+            TabOrder = 7
+            Text = '30'
+          end
+          object edPlaca: TEdit
+            Left = 169
+            Top = 56
+            Width = 80
+            Height = 21
+            CharCase = ecUpperCase
+            TabOrder = 3
+            Text = 'EJD5465'
+          end
+          object edRNTRCProp: TEdit
+            Left = 88
+            Top = 168
+            Width = 225
+            Height = 21
+            Hint = 
+              'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '#13#10'Pr' +
+              'opriet'#225'rios do Ve'#237'culo. S'#243' preenchido '#13#10'   quando o ve'#237'culo n'#227'o ' +
+              'pertencer '#224' '#13#10'      empresa emitente do MDF-e '
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 10
+          end
+          object edCondutor: TEdit
+            Left = 88
+            Top = 193
+            Width = 225
+            Height = 21
+            Hint = 
+              'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '#13#10'Pr' +
+              'opriet'#225'rios do Ve'#237'culo. S'#243' preenchido '#13#10'   quando o ve'#237'culo n'#227'o ' +
+              'pertencer '#224' '#13#10'      empresa emitente do MDF-e '
+            CharCase = ecUpperCase
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 11
+            Text = 'CARLOS SILVA'
+          end
+          object edCondutorCPF: TEdit
+            Left = 88
+            Top = 219
+            Width = 224
+            Height = 21
+            TabOrder = 12
+            Text = '11310141894'
+          end
+          object edMunicipioDescarga: TEdit
+            Left = 8
+            Top = 255
+            Width = 304
+            Height = 21
+            CharCase = ecUpperCase
+            TabOrder = 13
+            Text = 'HOLAMBRA'
+          end
+          object rgTipoUnidCarga: TRadioGroup
+            Left = 1
+            Top = 349
+            Width = 331
+            Height = 49
+            Caption = 'Tipo unidade da Carga'
+            Columns = 4
+            ItemIndex = 3
+            Items.Strings = (
+              '1 - Container'
+              '2 - ULD'
+              '3 - Pallet'
+              '4 - Outros')
+            TabOrder = 18
+          end
+          object cbTransporte: TComboBox
+            Left = 76
+            Top = 302
+            Width = 236
+            Height = 21
+            ItemHeight = 13
+            TabOrder = 16
+            Text = 'Rod. Tra'#231#227'o'
+            Items.Strings = (
+              '1 - Rodovi'#225'rio Tra'#231#227'o;'
+              '2 - Rodovi'#225'rio Reboque;'
+              '3 - Navio;'
+              '4 - Balsa;'
+              '5 - Aeronave;'
+              '6 - Vag'#227'o;'
+              '7 - Outros')
+          end
+          object edIdentUnidTransp: TEdit
+            Left = 76
+            Top = 325
+            Width = 236
+            Height = 21
+            Hint = 
+              'Informar a identifica'#231#227'o conforme o tipo de'#13#10'unidade de transpor' +
+              'te.'#13#10'Por exemplo: para rodovi'#225'rio tra'#231#227'o ou reboque'#13#10'dever'#225' pree' +
+              'ncher com a placa do ve'#237'culo.'
+            CharCase = ecUpperCase
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 17
+            Text = 'CAMINHAO'
+          end
+          object edIdentUnidCarga: TEdit
+            Left = 75
+            Top = 400
+            Width = 236
+            Height = 21
+            Hint = 
+              'Informar a identifica'#231#227'o da unidade de carga,'#13#10'por exemplo: n'#250'me' +
+              'ro do container.'
+            CharCase = ecUpperCase
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 19
+            Text = 'CAIXAS'
+          end
+          object edUFDescarga: TEdit
+            Left = 278
+            Top = 279
+            Width = 34
+            Height = 21
+            CharCase = ecUpperCase
+            TabOrder = 15
+            Text = 'SP'
+          end
+          object edUFLicVeiculo: TEdit
+            Left = 287
+            Top = 56
+            Width = 26
+            Height = 21
+            Hint = 'UF em que ve'#237'culo est'#225' licenciado '
+            CharCase = ecUpperCase
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 4
+            Text = 'SP'
+          end
+          object edCodIbgeDescarga: TMaskEdit
+            Left = 77
+            Top = 279
+            Width = 64
+            Height = 21
+            EditMask = '0000000;1;_'
+            MaxLength = 7
+            TabOrder = 14
+            Text = '3503307'
+          end
+          object cbTipoRodado: TComboBox
+            Left = 8
+            Top = 138
+            Width = 145
+            Height = 21
+            ItemHeight = 13
+            TabOrder = 8
+            Text = '01-N'#227'o Aplicavel'
+            Items.Strings = (
+              '01-N'#227'o Aplicavel'
+              '02-Truck'
+              '03-Toco'
+              '04-Cavalo Mecanico'
+              '05-Van'
+              '06-Utilitarios'
+              '07-Outros')
+          end
+          object cbTipoCarroceria: TComboBox
+            Left = 168
+            Top = 138
+            Width = 145
+            Height = 21
+            ItemHeight = 13
+            ItemIndex = 0
+            TabOrder = 9
+            Text = '00-N'#227'o Aplicavel'
+            Items.Strings = (
+              '00-N'#227'o Aplicavel'
+              '01-Aberta'
+              '02-Fechada/Bau'
+              '03-Granelera'
+              '04-Porta Container'
+              '05-Sider')
+          end
+        end
+        object TabSheet14: TTabSheet
+          Caption = 'Outros Info.'
+          ImageIndex = 8
+          object GroupBox7: TGroupBox
+            Left = 1
+            Top = 0
+            Width = 330
+            Height = 69
+            Caption = 'Autorizados para download do XML'
+            TabOrder = 0
+            object Label67: TLabel
+              Left = 8
+              Top = 20
+              Width = 61
+              Height = 13
+              Caption = 'CPF/CNPJ 1'
+            end
+            object Label68: TLabel
+              Left = 8
+              Top = 45
+              Width = 61
+              Height = 13
+              Caption = 'CPF/CNPJ 1'
+            end
+            object edAutorizado1: TEdit
+              Left = 80
+              Top = 16
+              Width = 233
+              Height = 21
+              TabOrder = 0
+            end
+            object edAutorizado2: TEdit
+              Left = 80
+              Top = 40
+              Width = 233
+              Height = 21
+              TabOrder = 1
+            end
+          end
+          object GroupBox8: TGroupBox
+            Left = 1
+            Top = 75
+            Width = 330
+            Height = 158
+            Caption = 'Propriet'#225'rio Ve'#237'culo (qdo n'#227'o pertencer a empresa emitente)'
+            TabOrder = 1
+            object Label69: TLabel
+              Left = 8
+              Top = 16
+              Width = 52
+              Height = 13
+              Caption = 'CPF/CNPJ'
+            end
+            object Label70: TLabel
+              Left = 8
+              Top = 94
+              Width = 41
+              Height = 13
+              Caption = 'RNTRC '
+            end
+            object Label71: TLabel
+              Left = 8
+              Top = 119
+              Width = 21
+              Height = 13
+              Caption = 'Tipo'
+            end
+            object Label72: TLabel
+              Left = 8
+              Top = 68
+              Width = 28
+              Height = 13
+              Caption = 'Nome'
+            end
+            object Label73: TLabel
+              Left = 8
+              Top = 42
+              Width = 67
+              Height = 13
+              Caption = 'Insc. Estadual'
+            end
+            object Label74: TLabel
+              Left = 238
+              Top = 95
+              Width = 14
+              Height = 13
+              Caption = 'UF'
+            end
+            object edPropCNPJ: TEdit
+              Left = 80
+              Top = 16
+              Width = 233
+              Height = 21
+              TabOrder = 0
+            end
+            object edPropRntrc: TEdit
+              Left = 80
+              Top = 92
+              Width = 97
+              Height = 21
+              TabOrder = 3
+            end
+            object cbPropTipo: TComboBox
+              Left = 80
+              Top = 116
+              Width = 233
+              Height = 21
+              ItemHeight = 13
+              TabOrder = 5
+              Items.Strings = (
+                '0-TAC Agregado'
+                '1-TAC Independente'
+                '2-Outros.')
+            end
+            object edPropNome: TEdit
+              Left = 80
+              Top = 68
+              Width = 233
+              Height = 21
+              TabOrder = 2
+            end
+            object edPropIE: TEdit
+              Left = 80
+              Top = 40
+              Width = 233
+              Height = 21
+              TabOrder = 1
+            end
+            object edPropUF: TEdit
+              Left = 259
+              Top = 92
+              Width = 54
+              Height = 21
+              TabOrder = 4
+            end
+          end
+          object GroupBox9: TGroupBox
+            Left = 8
+            Top = 248
+            Width = 321
+            Height = 161
+            Caption = 'Reboque'
+            TabOrder = 2
+          end
+        end
+        object TabSheet13: TTabSheet
+          Caption = 'Info. Adic.'
+          ImageIndex = 7
+          object Label56: TLabel
+            Left = 11
+            Top = 14
+            Width = 133
+            Height = 13
+            Caption = 'Informa'#231#245'es adicionais fisco'
+          end
+          object Label57: TLabel
+            Left = 11
+            Top = 193
+            Width = 166
+            Height = 13
+            Caption = 'Informa'#231#245'es adicionais contribuinte'
+          end
+          object memInfoFisco: TMemo
+            Left = 8
+            Top = 29
+            Width = 313
+            Height = 145
+            Hint = 'Informa'#231#245'es adicionais de interesse do '#13#10'  Fisco .'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 0
+          end
+          object memInfoContribuinte: TMemo
+            Left = 8
+            Top = 208
+            Width = 313
+            Height = 185
+            Hint = 'Informa'#231#245'es  complementares '#13#10'do  interesse do Contribuinte .'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 1
+          end
+        end
         object TabSheet1: TTabSheet
           Caption = 'Certificado'
           object GroupBox2: TGroupBox
-            Left = 0
-            Top = 4
+            Left = 32
+            Top = 36
             Width = 265
             Height = 144
             Caption = 'Certificado'
@@ -145,8 +1220,8 @@ object fACBrMDFe: TfACBrMDFe
           Caption = 'Geral'
           ImageIndex = 1
           object GroupBox3: TGroupBox
-            Left = 0
-            Top = 4
+            Left = 30
+            Top = 6
             Width = 265
             Height = 245
             Caption = 'Geral'
@@ -206,6 +1281,7 @@ object fACBrMDFe: TfACBrMDFe
               Width = 228
               Height = 21
               TabOrder = 0
+              Text = 'C:\Home\sisadmin\logo.bmp'
             end
             object edtPathLogs: TEdit
               Left = 8
@@ -213,6 +1289,7 @@ object fACBrMDFe: TfACBrMDFe
               Width = 228
               Height = 21
               TabOrder = 1
+              Text = 'c:\home'
             end
             object ckSalvar: TCheckBox
               Left = 8
@@ -256,13 +1333,13 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
           object rgVersaoDF: TRadioGroup
-            Left = 0
-            Top = 256
+            Left = 31
+            Top = 257
             Width = 265
             Height = 57
             Caption = 'Vers'#227'o do Documento Fiscal'
             Columns = 2
-            ItemIndex = 0
+            ItemIndex = 1
             Items.Strings = (
               '1.00'
               '1.00a')
@@ -273,7 +1350,7 @@ object fACBrMDFe: TfACBrMDFe
           Caption = 'WebService'
           ImageIndex = 2
           object GroupBox4: TGroupBox
-            Left = 0
+            Left = 32
             Top = 4
             Width = 265
             Height = 141
@@ -298,12 +1375,14 @@ object fACBrMDFe: TfACBrMDFe
               Width = 153
               Height = 17
               Caption = 'Visualizar Mensagem'
+              Checked = True
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               ParentFont = False
+              State = cbChecked
               TabOrder = 0
             end
             object cbUF: TComboBox
@@ -358,7 +1437,7 @@ object fACBrMDFe: TfACBrMDFe
               Height = 52
               Caption = 'Selecione o Ambiente de Destino'
               Columns = 2
-              ItemIndex = 0
+              ItemIndex = 1
               Items.Strings = (
                 'Produ'#231#227'o'
                 'Homologa'#231#227'o')
@@ -366,7 +1445,7 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
           object gbProxy: TGroupBox
-            Left = 0
+            Left = 32
             Top = 152
             Width = 265
             Height = 105
@@ -431,198 +1510,12 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
         end
-        object TabSheet4: TTabSheet
-          Caption = 'Emitente'
-          ImageIndex = 3
-          object Label12: TLabel
-            Left = 8
-            Top = 4
-            Width = 27
-            Height = 13
-            Caption = 'CNPJ'
-          end
-          object Label13: TLabel
-            Left = 136
-            Top = 4
-            Width = 41
-            Height = 13
-            Caption = 'Insc.Est.'
-          end
-          object Label14: TLabel
-            Left = 8
-            Top = 44
-            Width = 63
-            Height = 13
-            Caption = 'Raz'#227'o Social'
-          end
-          object Label15: TLabel
-            Left = 8
-            Top = 84
-            Width = 40
-            Height = 13
-            Caption = 'Fantasia'
-          end
-          object Label16: TLabel
-            Left = 8
-            Top = 164
-            Width = 54
-            Height = 13
-            Caption = 'Logradouro'
-          end
-          object Label17: TLabel
-            Left = 208
-            Top = 164
-            Width = 37
-            Height = 13
-            Caption = 'N'#250'mero'
-          end
-          object Label18: TLabel
-            Left = 8
-            Top = 204
-            Width = 64
-            Height = 13
-            Caption = 'Complemento'
-          end
-          object Label19: TLabel
-            Left = 136
-            Top = 204
-            Width = 27
-            Height = 13
-            Caption = 'Bairro'
-          end
-          object Label20: TLabel
-            Left = 8
-            Top = 244
-            Width = 61
-            Height = 13
-            Caption = 'C'#243'd. Cidade '
-          end
-          object Label21: TLabel
-            Left = 76
-            Top = 244
-            Width = 33
-            Height = 13
-            Caption = 'Cidade'
-          end
-          object Label22: TLabel
-            Left = 225
-            Top = 244
-            Width = 14
-            Height = 13
-            Caption = 'UF'
-          end
-          object Label23: TLabel
-            Left = 136
-            Top = 124
-            Width = 21
-            Height = 13
-            Caption = 'CEP'
-          end
-          object Label24: TLabel
-            Left = 8
-            Top = 124
-            Width = 24
-            Height = 13
-            Caption = 'Fone'
-          end
-          object edtEmitCNPJ: TEdit
-            Left = 8
-            Top = 20
-            Width = 123
-            Height = 21
-            TabOrder = 0
-          end
-          object edtEmitIE: TEdit
-            Left = 137
-            Top = 20
-            Width = 123
-            Height = 21
-            TabOrder = 1
-          end
-          object edtEmitRazao: TEdit
-            Left = 8
-            Top = 60
-            Width = 252
-            Height = 21
-            TabOrder = 2
-          end
-          object edtEmitFantasia: TEdit
-            Left = 8
-            Top = 100
-            Width = 252
-            Height = 21
-            TabOrder = 3
-          end
-          object edtEmitFone: TEdit
-            Left = 8
-            Top = 140
-            Width = 125
-            Height = 21
-            TabOrder = 4
-          end
-          object edtEmitCEP: TEdit
-            Left = 137
-            Top = 140
-            Width = 123
-            Height = 21
-            TabOrder = 5
-          end
-          object edtEmitLogradouro: TEdit
-            Left = 8
-            Top = 180
-            Width = 196
-            Height = 21
-            TabOrder = 6
-          end
-          object edtEmitNumero: TEdit
-            Left = 210
-            Top = 180
-            Width = 50
-            Height = 21
-            TabOrder = 7
-          end
-          object edtEmitComp: TEdit
-            Left = 8
-            Top = 220
-            Width = 123
-            Height = 21
-            TabOrder = 8
-          end
-          object edtEmitBairro: TEdit
-            Left = 137
-            Top = 220
-            Width = 123
-            Height = 21
-            TabOrder = 9
-          end
-          object edtEmitCodCidade: TEdit
-            Left = 8
-            Top = 260
-            Width = 61
-            Height = 21
-            TabOrder = 10
-          end
-          object edtEmitCidade: TEdit
-            Left = 76
-            Top = 260
-            Width = 142
-            Height = 21
-            TabOrder = 11
-          end
-          object edtEmitUF: TEdit
-            Left = 225
-            Top = 260
-            Width = 35
-            Height = 21
-            TabOrder = 12
-          end
-        end
         object TabSheet7: TTabSheet
           Caption = 'Email'
           ImageIndex = 4
           object GroupBox5: TGroupBox
-            Left = 1
-            Top = 4
+            Left = 25
+            Top = 12
             Width = 264
             Height = 324
             Caption = 'Email'
@@ -725,223 +1618,6 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
         end
-        object TabSheet11: TTabSheet
-          Caption = 'Transporte'
-          ImageIndex = 5
-          object Label29: TLabel
-            Left = 8
-            Top = 8
-            Width = 38
-            Height = 13
-            Caption = 'RNTRC'
-          end
-          object Label30: TLabel
-            Left = 8
-            Top = 32
-            Width = 25
-            Height = 17
-            Caption = 'CIOT'
-          end
-          object Label31: TLabel
-            Left = 8
-            Top = 61
-            Width = 25
-            Height = 13
-            Caption = 'CINT'
-          end
-          object Label32: TLabel
-            Left = 175
-            Top = 58
-            Width = 27
-            Height = 13
-            Caption = 'Placa'
-          end
-          object Label33: TLabel
-            Left = 8
-            Top = 87
-            Width = 22
-            Height = 13
-            Caption = 'Tara'
-          end
-          object Label34: TLabel
-            Left = 118
-            Top = 88
-            Width = 37
-            Height = 13
-            Caption = 'Cap. kg'
-          end
-          object Label35: TLabel
-            Left = 227
-            Top = 88
-            Width = 39
-            Height = 13
-            Caption = 'Cap. m'#179' '
-          end
-          object Label36: TLabel
-            Left = 8
-            Top = 139
-            Width = 66
-            Height = 13
-            Caption = 'RNTRC Prop.'
-          end
-          object Label38: TLabel
-            Left = 8
-            Top = 167
-            Width = 43
-            Height = 13
-            Caption = 'Condutor'
-          end
-          object Label39: TLabel
-            Left = 8
-            Top = 192
-            Width = 66
-            Height = 13
-            Caption = 'CPF Condutor'
-          end
-          object Label40: TLabel
-            Left = 8
-            Top = 230
-            Width = 92
-            Height = 13
-            Caption = 'Municipo Descarga'
-          end
-          object Label41: TLabel
-            Left = 8
-            Top = 273
-            Width = 64
-            Height = 13
-            Caption = 'C'#243'digo IBGE '
-          end
-          object edRntrc: TEdit
-            Left = 64
-            Top = 8
-            Width = 249
-            Height = 21
-            Hint = 'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 0
-          end
-          object edCIOT: TEdit
-            Left = 64
-            Top = 32
-            Width = 249
-            Height = 21
-            Hint = 'C'#243'digo Identificador da Opera'#231#227'o de Transporte.'
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 1
-          end
-          object edCINT: TEdit
-            Left = 64
-            Top = 56
-            Width = 81
-            Height = 21
-            TabOrder = 2
-          end
-          object edTara: TEdit
-            Left = 8
-            Top = 104
-            Width = 97
-            Height = 21
-            TabOrder = 3
-          end
-          object edCapKg: TEdit
-            Left = 115
-            Top = 104
-            Width = 97
-            Height = 21
-            TabOrder = 4
-          end
-          object edCapM3: TEdit
-            Left = 224
-            Top = 104
-            Width = 92
-            Height = 21
-            TabOrder = 5
-          end
-          object edPlaca: TEdit
-            Left = 209
-            Top = 56
-            Width = 103
-            Height = 21
-            TabOrder = 6
-          end
-          object edRNTRCProp: TEdit
-            Left = 88
-            Top = 139
-            Width = 225
-            Height = 21
-            Hint = 
-              'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '#13#10'Pr' +
-              'opriet'#225'rios do Ve'#237'culo. S'#243' preenchido '#13#10'   quando o ve'#237'culo n'#227'o ' +
-              'pertencer '#224' '#13#10'      empresa emitente do MDF-e '
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 7
-          end
-          object edCondutor: TEdit
-            Left = 88
-            Top = 164
-            Width = 225
-            Height = 21
-            Hint = 
-              'Registro Nacional de Transportadores '#13#10'Rodovi'#225'rios de Carga '#13#10'Pr' +
-              'opriet'#225'rios do Ve'#237'culo. S'#243' preenchido '#13#10'   quando o ve'#237'culo n'#227'o ' +
-              'pertencer '#224' '#13#10'      empresa emitente do MDF-e '
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 8
-          end
-          object edCPFCondutor: TEdit
-            Left = 88
-            Top = 190
-            Width = 224
-            Height = 21
-            TabOrder = 9
-            Text = 'edCPFCondutor'
-          end
-          object edMunicipioDescarga: TEdit
-            Left = 8
-            Top = 246
-            Width = 305
-            Height = 21
-            TabOrder = 10
-          end
-          object edCodIbgeDescarga: TEdit
-            Left = 8
-            Top = 289
-            Width = 121
-            Height = 21
-            TabOrder = 11
-          end
-          object RadioGroup1: TRadioGroup
-            Left = 8
-            Top = 320
-            Width = 305
-            Height = 49
-            Caption = 'RadioGroup1'
-            TabOrder = 12
-          end
-        end
-        object TabSheet12: TTabSheet
-          Caption = 'Notas Fiscais'
-          ImageIndex = 6
-          object Label42: TLabel
-            Left = 8
-            Top = 24
-            Width = 54
-            Height = 13
-            Caption = 'Chave NFe'
-          end
-          object edNFe1: TEdit
-            Left = 8
-            Top = 40
-            Width = 305
-            Height = 21
-            TabOrder = 0
-          end
-        end
       end
     end
     object btnSalvarConfig: TBitBtn
@@ -971,14 +1647,14 @@ object fACBrMDFe: TfACBrMDFe
   object Panel2: TPanel
     Left = 353
     Top = 0
-    Width = 669
+    Width = 670
     Height = 541
     Align = alClient
     TabOrder = 1
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 667
+      Width = 668
       Height = 176
       Align = alTop
       TabOrder = 0
@@ -1121,7 +1797,7 @@ object fACBrMDFe: TfACBrMDFe
     object PageControl2: TPageControl
       Left = 1
       Top = 177
-      Width = 667
+      Width = 668
       Height = 363
       ActivePage = TabSheet5
       Align = alClient
@@ -1131,7 +1807,7 @@ object fACBrMDFe: TfACBrMDFe
         object MemoResp: TMemo
           Left = 0
           Top = 0
-          Width = 659
+          Width = 660
           Height = 335
           Align = alClient
           TabOrder = 0
@@ -1174,7 +1850,7 @@ object fACBrMDFe: TfACBrMDFe
         object trvwMDFe: TTreeView
           Left = 0
           Top = 0
-          Width = 659
+          Width = 660
           Height = 335
           Align = alClient
           Indent = 19
@@ -1217,7 +1893,7 @@ object fACBrMDFe: TfACBrMDFe
     Top = 256
   end
   object ACBrMDFe1: TACBrMDFe
-    Configuracoes.Geral.PathSalvar = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    Configuracoes.Geral.PathSalvar = 'C:\home\'
     Configuracoes.Geral.ExibirErroSchema = True
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.WebServices.UF = 'SP'
@@ -1231,7 +1907,7 @@ object fACBrMDFe: TfACBrMDFe
   end
   object DAMDFE: TACBrMDFeDAMDFEQR
     ACBrMDFe = ACBrMDFe1
-    PathPDF = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    PathPDF = 'c:\home\'
     ImprimirHoraSaida = False
     MostrarPreview = True
     MostrarStatus = True
