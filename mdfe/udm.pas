@@ -3,11 +3,12 @@ unit udm;
 interface
 
 uses
-  SysUtils, Classes, DBXpress, DB, SqlExpr, Dialogs;
+  SysUtils, Classes, DBXpress, DB, SqlExpr, Dialogs, FMTBcd;
 
 type
   Tdm = class(TDataModule)
     sc: TSQLConnection;
+    sqlBusca: TSQLQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

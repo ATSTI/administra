@@ -2,7 +2,7 @@ object dm: Tdm
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 263
-  Top = 236
+  Top = 238
   Height = 254
   Width = 312
   object sc: TSQLConnection
@@ -27,6 +27,13 @@ object dm: Tdm
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
     Left = 32
+    Top = 24
+  end
+  object sqlBusca: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sc
+    Left = 96
     Top = 24
   end
 end
