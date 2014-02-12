@@ -118,6 +118,7 @@ type
     Label34: TLabel;
     BitBtn4: TBitBtn;
     ACBrValidador1: TACBrValidador;
+    BitBtn5: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -153,6 +154,7 @@ type
     procedure GroupBox6Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -983,6 +985,25 @@ begin
     if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
       MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
   }    
+end;
+
+procedure TfProdutoCadastro.BitBtn5Click(Sender: TObject);
+begin
+  inherited;
+  // pega o ultimo movimento deste produto
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT FIRST 1 CODMOVIMENTO ' +
+    '  FROM MOVIMENTODETALHE M, PRODUTOS P ' +
+    ' WHERE P.CODPRODUTO = M.CODPRODUTO ' +
+    '   AND M.BAIXA IS NOT NULL ' +
+    '   AND M.CODPRODUTO = ' + IntToStr(DM.cds_produtoCODPRODUTO.AsInteger) +
+    ' ORDER BY M.CODDETALHE DESC ';
+  dm.cdsBusca.Open;
+  if (dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger  > 0) then
+    dm.EstoqueAtualiza(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger);
+  dm.cds_produto.Close;
+  dm.cds_produto.Open;  
 end;
 
 end.
