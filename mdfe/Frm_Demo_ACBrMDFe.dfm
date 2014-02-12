@@ -3,7 +3,7 @@ object fACBrMDFe: TfACBrMDFe
   Top = 150
   Width = 1031
   Height = 568
-  Caption = 'ATS - ACBrMDFe'
+  Caption = 'ATS - ACBrMDFe 1.0'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -375,7 +375,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 305
             Height = 21
             TabOrder = 1
-            Text = '35130317297873000100550010000135241000000143-NFe'
           end
           object edNFe2: TEdit
             Left = 8
@@ -383,7 +382,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 305
             Height = 21
             TabOrder = 3
-            Text = '35130602425261000189550010000058681000118456-NFe'
           end
           object edNFe3: TEdit
             Left = 8
@@ -429,7 +427,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 14
-            Text = '2'
           end
           object edValorTotal: TJvCalcEdit
             Left = 180
@@ -440,7 +437,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 15
-            Value = 12000.000000000000000000
             DecimalPlacesAlwaysShown = False
           end
           object edPesoBruto: TJvCalcEdit
@@ -452,7 +448,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 17
-            Value = 235.000000000000000000
             DecimalPlacesAlwaysShown = False
           end
           object edPesoVol1: TJvCalcEdit
@@ -466,7 +461,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
-            Value = 350.840000000000000000
             DecimalPlacesAlwaysShown = False
           end
           object edPesoVol2: TJvCalcEdit
@@ -480,7 +474,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 2
-            Value = 30.100000000000000000
             DecimalPlacesAlwaysShown = False
           end
           object edPesoVol3: TJvCalcEdit
@@ -554,9 +547,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 65
             Height = 21
             ItemHeight = 13
-            ItemIndex = 0
             TabOrder = 16
-            Text = 'M3'
             Items.Strings = (
               'M3'
               'KG'
@@ -711,7 +702,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
-            Text = '12345678'
           end
           object edCIOT: TEdit
             Left = 64
@@ -722,15 +712,16 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 1
-            Text = '123456789123'
           end
           object edCINT: TEdit
             Left = 64
             Top = 56
             Width = 65
             Height = 21
+            Hint = 'C'#243'digo interno do ve'#237'culo '
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 2
-            Text = '10'
           end
           object edTara: TEdit
             Left = 8
@@ -738,7 +729,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 97
             Height = 21
             TabOrder = 5
-            Text = '100'
           end
           object edCapKg: TEdit
             Left = 115
@@ -746,7 +736,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 97
             Height = 21
             TabOrder = 6
-            Text = '200'
           end
           object edCapM3: TEdit
             Left = 221
@@ -754,7 +743,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 92
             Height = 21
             TabOrder = 7
-            Text = '30'
           end
           object edPlaca: TEdit
             Left = 169
@@ -763,7 +751,6 @@ object fACBrMDFe: TfACBrMDFe
             Height = 21
             CharCase = ecUpperCase
             TabOrder = 3
-            Text = 'EJD5465'
           end
           object edRNTRCProp: TEdit
             Left = 88
@@ -791,7 +778,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 11
-            Text = 'CARLOS SILVA'
           end
           object edCondutorCPF: TEdit
             Left = 88
@@ -799,7 +785,6 @@ object fACBrMDFe: TfACBrMDFe
             Width = 224
             Height = 21
             TabOrder = 12
-            Text = '11310141894'
           end
           object edMunicipioDescarga: TEdit
             Left = 8
@@ -808,7 +793,6 @@ object fACBrMDFe: TfACBrMDFe
             Height = 21
             CharCase = ecUpperCase
             TabOrder = 13
-            Text = 'HOLAMBRA'
           end
           object rgTipoUnidCarga: TRadioGroup
             Left = 1
@@ -831,8 +815,9 @@ object fACBrMDFe: TfACBrMDFe
             Width = 236
             Height = 21
             ItemHeight = 13
+            ItemIndex = 0
             TabOrder = 16
-            Text = 'Rod. Tra'#231#227'o'
+            Text = '1 - Rodovi'#225'rio Tra'#231#227'o;'
             Items.Strings = (
               '1 - Rodovi'#225'rio Tra'#231#227'o;'
               '2 - Rodovi'#225'rio Reboque;'
@@ -869,7 +854,6 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 19
-            Text = 'CAIXAS'
           end
           object edUFDescarga: TEdit
             Left = 278
@@ -878,7 +862,6 @@ object fACBrMDFe: TfACBrMDFe
             Height = 21
             CharCase = ecUpperCase
             TabOrder = 15
-            Text = 'SP'
           end
           object edUFLicVeiculo: TEdit
             Left = 287
@@ -890,17 +873,16 @@ object fACBrMDFe: TfACBrMDFe
             ParentShowHint = False
             ShowHint = True
             TabOrder = 4
-            Text = 'SP'
           end
           object edCodIbgeDescarga: TMaskEdit
             Left = 77
             Top = 279
-            Width = 64
+            Width = 63
             Height = 21
             EditMask = '0000000;1;_'
             MaxLength = 7
             TabOrder = 14
-            Text = '3503307'
+            Text = '0000000'
           end
           object cbTipoRodado: TComboBox
             Left = 8
@@ -908,8 +890,9 @@ object fACBrMDFe: TfACBrMDFe
             Width = 145
             Height = 21
             ItemHeight = 13
+            ItemIndex = 1
             TabOrder = 8
-            Text = '01-N'#227'o Aplicavel'
+            Text = '02-Truck'
             Items.Strings = (
               '01-N'#227'o Aplicavel'
               '02-Truck'
@@ -959,7 +942,7 @@ object fACBrMDFe: TfACBrMDFe
               Top = 45
               Width = 61
               Height = 13
-              Caption = 'CPF/CNPJ 1'
+              Caption = 'CPF/CNPJ 2'
             end
             object edAutorizado1: TEdit
               Left = 80
@@ -1663,7 +1646,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 104
         Width = 177
         Height = 25
-        Caption = 'Imprimir DAMDFe'
+        Caption = '4-Imprimir DAMDFe'
         TabOrder = 3
         OnClick = btnImprimirClick
       end
@@ -1681,7 +1664,13 @@ object fACBrMDFe: TfACBrMDFe
         Top = 8
         Width = 177
         Height = 25
-        Caption = 'Validar XML'
+        Caption = '2-Validar XML'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 1
         OnClick = btnValidarXMLClick
       end
@@ -1708,7 +1697,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 40
         Width = 177
         Height = 25
-        Caption = 'Criar e Enviar'
+        Caption = '3-Criar e Enviar'
         TabOrder = 2
         OnClick = btnCriarEnviarClick
       end
@@ -1717,7 +1706,13 @@ object fACBrMDFe: TfACBrMDFe
         Top = 8
         Width = 177
         Height = 25
-        Caption = 'Gerar MDFe'
+        Caption = '1-Gerar MDFe'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 6
         OnClick = btnGerarMDFeClick
       end
@@ -1894,6 +1889,7 @@ object fACBrMDFe: TfACBrMDFe
   end
   object ACBrMDFe1: TACBrMDFe
     Configuracoes.Geral.PathSalvar = 'C:\home\'
+    Configuracoes.Geral.VersaoDF = ve100a
     Configuracoes.Geral.ExibirErroSchema = True
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.WebServices.UF = 'SP'
@@ -1915,8 +1911,8 @@ object fACBrMDFe: TfACBrMDFe
     TamanhoPapel = tpA4
     NumCopias = 1
     ImprimirDescPorc = False
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
+    MargemInferior = 0.850000000000000000
+    MargemSuperior = 0.850000000000000000
     MargemEsquerda = 0.600000000000000000
     MargemDireita = 0.510000000000000000
     MDFeCancelada = False

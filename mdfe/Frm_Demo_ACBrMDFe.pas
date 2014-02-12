@@ -402,7 +402,6 @@ begin
     rgFormaEmissao.ItemIndex := Ini.ReadInteger('Geral','FormaEmissao', 0);
     ckSalvar.Checked         := Ini.ReadBool(   'Geral','Salvar'      , True);
     edtPathLogs.Text         := Ini.ReadString( 'Geral','PathSalvar'  , '');
-    rgVersaoDF.ItemIndex     := Ini.ReadInteger('Geral','VersaoDF'    , 0);
 
     cbUF.ItemIndex       := cbUF.Items.IndexOf(Ini.ReadString('WebService','UF', 'SP'));
     rgTipoAmb.ItemIndex  := Ini.ReadInteger('WebService','Ambiente'  , 0);
@@ -430,7 +429,7 @@ begin
 
   codEmitente            := 1;
   edtEmitCNPJ.Text       := sqlEmitente.fieldByName('CNPJ_CPF').AsString;
-  edtEmitIE.Text         := Copy(sqlEmitente.fieldByName('IE_RG').AsString,1,14);
+  edtEmitIE.Text         := Copy(sqlEmitente.fieldByName('IE_RG').AsString,1,15);
   edtEmitRazao.Text      := Copy(sqlEmitente.fieldByName('RAZAO').AsString,1,60);
   edtEmitFantasia.Text   := Copy(sqlEmitente.fieldByName('EMPRESA').AsString,1,60);
   edtEmitFone.Text       := sqlEmitente.fieldByName('FONE').AsString;
@@ -591,6 +590,7 @@ begin
     rodo.veicTracao.capKG := StrToInt(edCapKg.Text);
     rodo.veicTracao.capM3 := strToInt(edCapM3.Text);
 
+    rodo.veicTracao.tpRod := trNaoAplicavel;
     case cbTipoRodado.ItemIndex of //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
       0: rodo.veicTracao.tpRod := trNaoAplicavel;
       1: rodo.veicTracao.tpRod := trTruck;
@@ -601,6 +601,7 @@ begin
       6: rodo.veicTracao.tpRod := trOutros;
     end;
 
+    rodo.veicTracao.tpCar := tcNaoAplicavel;
     case cbTipoCarroceria.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
       0: rodo.veicTracao.tpCar := tcNaoAplicavel;
       1: rodo.veicTracao.tpCar := tcAberta;
@@ -1034,7 +1035,8 @@ end;
 
 procedure TfACBrMDFe.FormCreate(Sender: TObject);
 begin
- LerConfiguracao;
+  ACBrMDFe1.Configuracoes.Geral.PathSalvar := edtPathLogs.Text;
+  LerConfiguracao;
  //gravarMDFe;
 end;
 
@@ -1149,9 +1151,10 @@ begin
  dm.sqlBusca.sql.Add('SELECT MAX(COD_MDFE) COD FROM MDFE');
  dm.sqlBusca.Open;
  if (dm.sqlBusca.fieldByName('COD').asInteger > 0) then
-   codMDFe := dm.sqlBusca.fieldByName('COD').asInteger
+   codMDFe := dm.sqlBusca.fieldByName('COD').asInteger + 1
  else
    codMDFe := 1;
+   
  vAux := IntToStr(codMDFe);
 
  ACBrMDFe1.Manifestos.Clear;
@@ -1187,11 +1190,13 @@ procedure TfACBrMDFe.btnCriarEnviarClick(Sender: TObject);
 var
  vAux, vNumLote : String;
 begin
- if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
+ {if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
   then exit;
 
  if not(InputQuery('WebServices Enviar', 'Numero do Lote', vNumLote))
-  then exit;
+  then exit;}
+ vAux := IntToStr(codMdfe);
+ vNumLote := '1';
 
  ACBrMDFe1.Manifestos.Clear;
  GerarMDFe(vAux);
@@ -1527,7 +1532,7 @@ begin
     ' PESO_BRUTO, CNPJ_AUTORIZADO1, CNPJ_AUTORIZADO2, ' +
     ' INFO_ADIC_FISCO, INFO_ADIC_CONTRIBUINTE, ' +
     ' RNTRC, CIOT, CINT, PLACA, TARA, CAPKG, CAPM3, ' +
-    ' PROP_CPF, PROP_CNPJ, PROP_RNTRC, PROP_NOME, ' +
+    ' PROP_CNPJ, PROP_RNTRC, PROP_NOME, ' +
     ' PROP_IE, PROP_UF, PROP_TIPO, CONDUTOR_NOME, ' +
     ' CONDUTOR_CPF, TIPO_RODADO, TIPO_CARROCERIA, ' +
     ' UF_VEICULO, ' +
@@ -1572,11 +1577,11 @@ begin
   strInsere := strInsere + ', ' + editParaSql('S',edAutorizado2.Text); // CNPJ_AUTORIZADO2
   strInsere := strInsere + ', ' + editParaSql('S',memInfoFisco.Text); // INFO_ADIC_FISCO
   strInsere := strInsere + ', ' + editParaSql('S',memInfoContribuinte.Text); //INFO_ADIC_CONTRIBUINTE,
-  strInsere := strInsere + ', ' + editParaSql('N',edRntrc.Text) + ', ' + editParaSql('N',edCIOT.Text) + ', ' + editParaSql('N',edCINT.Text);  // RNTRC, CIOT, CINT
+  strInsere := strInsere + ', ' + editParaSql('S',edRntrc.Text) + ', ' + editParaSql('S',edCIOT.Text) + ', ' + editParaSql('S',edCINT.Text);  // RNTRC, CIOT, CINT
   strInsere := strInsere + ', ' + editParaSql('S',edPlaca.Text) + ', ' + editParaSql('N',edTara.Text); //PLACA, TARA
-  strInsere := strInsere + ', ' + editParaSql('N',edCapKg.Text) + ', ' + editParaSql('S',edCapM3.Text); // CAPKG, CAPM3
+  strInsere := strInsere + ', ' + editParaSql('N',edCapKg.Text) + ', ' + editParaSql('N',edCapM3.Text); // CAPKG, CAPM3
   strInsere := strInsere + ', ' + editParaSql('S',edPropCNPJ.Text); // PROP_CNPJ
-  strInsere := strInsere + ', ' + editParaSql('N',edPropRntrc.Text); // PROP_RNTRC
+  strInsere := strInsere + ', ' + editParaSql('S',edPropRntrc.Text); // PROP_RNTRC
   strInsere := strInsere + ', ' + editParaSql('S',edPropNome.Text); // PROP_NOME
   strInsere := strInsere + ', ' + editParaSql('S',edPropIE.Text); // PROP_IE
   strInsere := strInsere + ', ' + editParaSql('S',edPropUF.Text); // PROP_UF
