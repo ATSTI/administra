@@ -244,7 +244,9 @@ type
   public
     dtaOsFinaliza : Tdate;
     OSFinalizaStatus: String;
+    OSFinalizaNumOS: String;
     porc_com :  double;
+    OSFinalizaTipo: String;
     { Public declarations }
   end;
 
@@ -887,6 +889,8 @@ end;
 procedure TfOsFinaliza.FormCreate(Sender: TObject);
 var i,j : Integer;
 begin
+  OSFinalizaTipo := 'N';
+  OSFinalizaNumOS := '0';
   dtaOsFinaliza := now;
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -1041,10 +1045,12 @@ begin
       str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
     end;
-    if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
+    //if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
+    if (OSFinalizaTipo = 'OS') then
     begin
-      str_sql := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
-      //dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
+      str_sql := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + OSFinalizaNumOS;
+      if (DM_MOV.c_movimentoCODORIGEM.AsInteger > 0) then
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + OSFinalizaNumOS);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
     end;
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
@@ -1068,6 +1074,7 @@ begin
   scdscr_proc.Params[0].Clear;
   scdscr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
   scdscr_proc.Open;
+  close;
 end;
 
 procedure TfOsFinaliza.excluinf;

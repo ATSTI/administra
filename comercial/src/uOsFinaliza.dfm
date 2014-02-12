@@ -1,8 +1,8 @@
 object fOsFinaliza: TfOsFinaliza
   Left = 198
-  Top = 150
-  Width = 837
-  Height = 567
+  Top = 151
+  Width = 847
+  Height = 577
   Caption = 'Finalizar'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

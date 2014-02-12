@@ -704,7 +704,8 @@ begin
   fOsFinaliza := TfOsFinaliza.Create(Application);
   try
     DM_MOV.PAGECONTROL := 'PDV';
-
+    fOsFinaliza.OSFinalizaNumOS := IntToStr(cdsOsCODOS.AsInteger);
+    fOsFinaliza.OSFinalizaTipo := 'OS';
     // Abre a Movimento e Mov Detalhe
     DM_MOV.c_movimento.Close;
     DM_MOV.c_movimento.Params[0].Clear;
@@ -858,7 +859,8 @@ begin
       DM_MOV.c_movdet.Params[0].Clear;
       DM_MOV.c_movdet.Params[0].AsInteger := sdsBuscaMovExiste.FieldByName('CODMOVIMENTO').AsInteger;
       DM_MOV.c_movdet.Open;
-
+      fOsFinaliza.OSFinalizaTipo := 'OS';
+      fOsFinaliza.OSFinalizaNumOS := IntToStr(cdsOsCODOS.AsInteger);
       fOsFinaliza.ShowModal;
       btnProcurar.Click;
     finally
