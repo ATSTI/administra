@@ -4169,6 +4169,7 @@ object fNFeletronica: TfNFeletronica
     EspessuraBorda = 1
     TamanhoFonte_RazaoSocial = 12
     TamanhoFonte_ANTT = 10
+    TributosFonte = 'IBPT'
     TributosPercentual = ptValorProdutos
     Left = 457
     Top = 317
