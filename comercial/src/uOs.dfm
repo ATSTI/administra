@@ -2401,26 +2401,27 @@ object fOs: TfOs
     end
     object sdsPecasVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
+      ProviderFlags = [pfInWhere]
     end
     object sdsPecasCODPRO: TStringField
       FieldName = 'CODPRO'
+      ProviderFlags = [pfInWhere]
       Size = 15
     end
     object sdsPecasSTATUSDESC: TStringField
       FieldName = 'STATUSDESC'
+      ProviderFlags = [pfInWhere]
       ReadOnly = True
       FixedChar = True
       Size = 18
     end
     object sdsPecasSTATUS: TStringField
       FieldName = 'STATUS'
-      ReadOnly = True
       FixedChar = True
       Size = 1
     end
     object sdsPecasID_OSDET_SERV: TIntegerField
       FieldName = 'ID_OSDET_SERV'
-      ReadOnly = True
     end
   end
   object dspPecas: TDataSetProvider
@@ -2489,6 +2490,7 @@ object fOs: TfOs
     end
     object cdsPecasVALORTOTAL: TFloatField
       FieldName = 'VALORTOTAL'
+      ProviderFlags = [pfInWhere]
     end
     object cdsPecasCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
@@ -2496,12 +2498,12 @@ object fOs: TfOs
     end
     object cdsPecasCODPRO: TStringField
       FieldName = 'CODPRO'
-      ProviderFlags = [pfInUpdate]
+      ProviderFlags = []
       Size = 15
     end
     object cdsPecasSTATUSDESC: TStringField
       FieldName = 'STATUSDESC'
-      FixedChar = True
+      ProviderFlags = [pfInWhere]
       Size = 18
     end
     object cdsPecasID_OSDET_SERV: TIntegerField
@@ -2509,6 +2511,7 @@ object fOs: TfOs
     end
     object cdsPecasVlrTotal: TAggregateField
       FieldName = 'VlrTotal'
+      ProviderFlags = [pfInWhere]
       Active = True
       DisplayFormat = ',##0.00'
       Expression = 'SUM((PRECO*QTDE)-DESCONTO)'
