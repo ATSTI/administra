@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, DBClient, Provider, DB, SqlExpr, Menus, XPMenu,
-  StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls, Grids, DBGrids;
+  StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls, Grids, DBGrids,
+  JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfNCM = class(TfPai)
@@ -14,7 +15,6 @@ type
     btnProcNCM: TBitBtn;
     Label4: TLabel;
     DBEdit2: TDBEdit;
-    DBGrid1: TDBGrid;
     DBEdit3: TDBEdit;
     Label5: TLabel;
     cdsNCM: TClientDataSet;
@@ -26,6 +26,7 @@ type
     cdsNCMNCM: TStringField;
     cdsNCMALIQNAC: TFloatField;
     cdsNCMALIQIMP: TFloatField;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

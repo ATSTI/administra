@@ -1,6 +1,6 @@
 inherited fNCM: TfNCM
   Left = 263
-  Top = 172
+  Top = 174
   Width = 510
   Height = 457
   OldCreateOrder = True
@@ -80,7 +80,7 @@ inherited fNCM: TfNCM
   end
   inherited MMJPanel2: TMMJPanel
     Width = 502
-    TabOrder = 6
+    TabOrder = 5
     inherited Label1: TLabel
       Left = 107
       Width = 266
@@ -238,38 +238,7 @@ inherited fNCM: TfNCM
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [8]
-    Left = 19
-    Top = 102
-    Width = 462
-    Height = 259
-    DataSource = DtSrc
-    TabOrder = 5
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'NCM'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ALIQNAC'
-        Title.Caption = 'Aliquota Nacional'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ALIQIMP'
-        Title.Caption = 'Aliquota Internacional'
-        Visible = True
-      end>
-  end
-  object DBEdit3: TDBEdit [9]
+  object DBEdit3: TDBEdit [8]
     Left = 303
     Top = 72
     Width = 105
@@ -287,6 +256,47 @@ inherited fNCM: TfNCM
     ParentFont = False
     TabOrder = 3
     OnKeyPress = FormKeyPress
+  end
+  object JvDBUltimGrid1: TJvDBUltimGrid [9]
+    Left = 19
+    Top = 104
+    Width = 449
+    Height = 265
+    DataSource = DtSrc
+    TabOrder = 6
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    AutoSizeColumns = True
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Width = 94
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ALIQNAC'
+        Title.Caption = 'Aliquota Nacional'
+        Width = 157
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ALIQIMP'
+        Title.Caption = 'Al'#237'quota importa'#231#227'o'
+        Width = 179
+        Visible = True
+      end>
   end
   inherited XPMenu1: TXPMenu
     Left = 64
