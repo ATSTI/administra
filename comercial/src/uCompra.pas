@@ -515,6 +515,7 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure GroupBox11Click(Sender: TObject);
     procedure edCFOPExit(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
   private
     sqlBuscaProd: String;
     modo :string;
@@ -2230,6 +2231,8 @@ begin
         Fmov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
         Fmov.MovDetalhe.Un            := cds_Mov_detUN.AsString;
         Fmov.MovDetalhe.Desconto      := cds_Mov_detQTDE_ALT.AsFloat;
+        Fmov.MovDetalhe.Cfop          := cds_Mov_detCFOP.AsString;
+        
         FMov.MovDetalhe.inserirMovDet;
         cds_Mov_det.Next;
       end;
@@ -2333,6 +2336,13 @@ begin
       cds_Mov_detCFOP.AsString := edCfop.Text;
     end;
   end;  
+end;
+
+procedure TfCompra.ComboBox1Change(Sender: TObject);
+begin
+  inherited;
+  if (cds_Movimento.state in [dsBrowse]) then
+   cds_Movimento.Edit;
 end;
 
 end.

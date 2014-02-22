@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
   Left = 275
-  Top = 84
+  Top = 85
   Width = 802
   Height = 615
   Caption = 'Compra'
@@ -1363,6 +1363,7 @@ inherited fCompra: TfCompra
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 0
+      OnChange = ComboBox1Change
       OnKeyPress = FormKeyPress
     end
   end
