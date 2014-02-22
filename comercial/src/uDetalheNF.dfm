@@ -17,14 +17,14 @@ object fDetalheNF: TfDetalheNF
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 17
+    Left = 13
     Top = 124
     Width = 37
     Height = 13
     Caption = 'ICMS %'
   end
   object Label2: TLabel
-    Left = 17
+    Left = 13
     Top = 84
     Width = 55
     Height = 13
@@ -45,8 +45,8 @@ object fDetalheNF: TfDetalheNF
     Caption = 'UN'
   end
   object Label5: TLabel
-    Left = 193
-    Top = 206
+    Left = 189
+    Top = 208
     Width = 30
     Height = 13
     Caption = 'Total'
@@ -65,7 +65,7 @@ object fDetalheNF: TfDetalheNF
     Caption = 'Descri'#231#227'o'
   end
   object Label7: TLabel
-    Left = 97
+    Left = 76
     Top = 84
     Width = 67
     Height = 13
@@ -86,7 +86,7 @@ object fDetalheNF: TfDetalheNF
     Caption = 'ICMS'
   end
   object Label10: TLabel
-    Left = 97
+    Left = 87
     Top = 124
     Width = 49
     Height = 13
@@ -108,7 +108,7 @@ object fDetalheNF: TfDetalheNF
     Caption = 'CSOSN'
   end
   object Label13: TLabel
-    Left = 17
+    Left = 13
     Top = 207
     Width = 41
     Height = 13
@@ -192,7 +192,7 @@ object fDetalheNF: TfDetalheNF
     Caption = 'Observa'#231#227'o Produto'
   end
   object Label25: TLabel
-    Left = 17
+    Left = 13
     Top = 45
     Width = 33
     Height = 13
@@ -227,14 +227,14 @@ object fDetalheNF: TfDetalheNF
     Caption = 'PIS %'
   end
   object Label30: TLabel
-    Left = 15
+    Left = 13
     Top = 165
     Width = 63
     Height = 13
     Caption = 'CST COFINS'
   end
   object Label31: TLabel
-    Left = 95
+    Left = 87
     Top = 165
     Width = 50
     Height = 13
@@ -262,7 +262,7 @@ object fDetalheNF: TfDetalheNF
     Caption = 'COFINS R$'
   end
   object Label35: TLabel
-    Left = 97
+    Left = 87
     Top = 208
     Width = 83
     Height = 13
@@ -281,7 +281,7 @@ object fDetalheNF: TfDetalheNF
   object DBEdit2: TDBEdit
     Left = 13
     Top = 100
-    Width = 73
+    Width = 60
     Height = 21
     DataField = 'QUANTIDADE'
     DataSource = DMNF.DtSrc1
@@ -311,7 +311,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBEdit5: TDBEdit
     Left = 189
-    Top = 222
+    Top = 223
     Width = 90
     Height = 21
     DataField = 'VALTOTAL'
@@ -340,9 +340,9 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit8: TDBEdit
-    Left = 93
+    Left = 76
     Top = 100
-    Width = 73
+    Width = 94
     Height = 21
     DataField = 'PRECO'
     DataSource = DMNF.DtSrc1
@@ -350,9 +350,9 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit9: TDBEdit
-    Left = 93
+    Left = 87
     Top = 140
-    Width = 73
+    Width = 82
     Height = 21
     DataField = 'VLR_BASEICMS'
     DataSource = DMNF.DtSrc1
@@ -471,7 +471,7 @@ object fDetalheNF: TfDetalheNF
   end
   object Calcman: TCheckBox
     Left = 285
-    Top = 230
+    Top = 227
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
@@ -861,7 +861,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit28: TDBEdit
-    Left = 11
+    Left = 13
     Top = 180
     Width = 73
     Height = 21
@@ -881,9 +881,9 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit30: TDBEdit
-    Left = 91
+    Left = 87
     Top = 180
-    Width = 73
+    Width = 82
     Height = 21
     DataField = 'PCOFINS'
     DataSource = DMNF.DtSrc1
@@ -921,9 +921,9 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit34: TDBEdit
-    Left = 93
+    Left = 87
     Top = 223
-    Width = 90
+    Width = 96
     Height = 21
     DataField = 'VLRTOT_TRIB'
     DataSource = DMNF.DtSrc1

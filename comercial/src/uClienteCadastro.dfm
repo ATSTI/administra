@@ -1,10 +1,10 @@
 inherited fClienteCadastro: TfClienteCadastro
-  Left = 202
-  Top = 127
+  Left = 2
+  Top = 2
   VertScrollBar.Range = 0
   BorderStyle = bsSingle
-  ClientHeight = 615
-  ClientWidth = 763
+  ClientHeight = 614
+  ClientWidth = 762
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -87,8 +87,8 @@ inherited fClienteCadastro: TfClienteCadastro
     OnClick = SpeedButton7Click
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 561
-    Width = 763
+    Top = 560
+    Width = 762
     object BitBtn3: TBitBtn [0]
       Left = 8
       Top = -58
@@ -520,7 +520,7 @@ inherited fClienteCadastro: TfClienteCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 763
+    Width = 762
     Height = 46
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -575,8 +575,8 @@ inherited fClienteCadastro: TfClienteCadastro
   object PageControl1: TPageControl [6]
     Left = 0
     Top = 46
-    Width = 763
-    Height = 515
+    Width = 762
+    Height = 514
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
@@ -3382,8 +3382,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel3: TMMJPanel
         Left = 0
-        Top = 434
-        Width = 755
+        Top = 433
+        Width = 754
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4139,8 +4139,8 @@ inherited fClienteCadastro: TfClienteCadastro
       ImageIndex = 1
       object MMJPanel4: TMMJPanel
         Left = 0
-        Top = 434
-        Width = 755
+        Top = 433
+        Width = 754
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4584,8 +4584,8 @@ inherited fClienteCadastro: TfClienteCadastro
       TabVisible = False
       object MMJPanel6: TMMJPanel
         Left = 0
-        Top = 434
-        Width = 755
+        Top = 433
+        Width = 754
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -5073,8 +5073,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel7: TMMJPanel
         Left = 0
-        Top = 434
-        Width = 755
+        Top = 433
+        Width = 754
         Height = 53
         Align = alBottom
         BevelInner = bvLowered

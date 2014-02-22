@@ -1,6 +1,6 @@
 inherited fEstado: TfEstado
   Left = 237
-  Top = 19
+  Top = 21
   Width = 791
   Height = 640
   BorderIcons = [biSystemMenu, biMaximize]
@@ -13,7 +13,7 @@ inherited fEstado: TfEstado
   object Label18: TLabel [0]
     Left = 178
     Top = 57
-    Width = 25
+    Width = 29
     Height = 16
     Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
     Anchors = [akTop]
@@ -85,7 +85,7 @@ inherited fEstado: TfEstado
     object Label3: TLabel
       Left = 16
       Top = 45
-      Width = 36
+      Width = 39
       Height = 16
       Anchors = [akTop]
       Caption = 'CFOP'
@@ -100,7 +100,7 @@ inherited fEstado: TfEstado
     object Label4: TLabel
       Left = 104
       Top = 44
-      Width = 17
+      Width = 20
       Height = 16
       Hint = 'Estado'
       Anchors = [akTop]
@@ -118,7 +118,7 @@ inherited fEstado: TfEstado
     object Label8: TLabel
       Left = 272
       Top = 44
-      Width = 62
+      Width = 76
       Height = 16
       Anchors = [akTop]
       Caption = 'Aliq. ICMS'
@@ -133,7 +133,7 @@ inherited fEstado: TfEstado
     object Label6: TLabel
       Left = 356
       Top = 44
-      Width = 74
+      Width = 83
       Height = 16
       Anchors = [akTop]
       Caption = 'Red.B. C'#225'lc.'
@@ -148,7 +148,7 @@ inherited fEstado: TfEstado
     object Label10: TLabel
       Left = 442
       Top = 44
-      Width = 28
+      Width = 35
       Height = 16
       Hint = 'Margem De Valor Agregado(ST)'
       Anchors = [akTop]
@@ -166,7 +166,7 @@ inherited fEstado: TfEstado
     object Label11: TLabel
       Left = 527
       Top = 44
-      Width = 78
+      Width = 93
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Origem'
@@ -181,7 +181,7 @@ inherited fEstado: TfEstado
     object Label12: TLabel
       Left = 612
       Top = 44
-      Width = 67
+      Width = 76
       Height = 16
       Anchors = [akTop]
       Caption = 'ICMS Dest.'
@@ -216,7 +216,7 @@ inherited fEstado: TfEstado
     object Label7: TLabel
       Left = 102
       Top = 91
-      Width = 15
+      Width = 21
       Height = 16
       Hint = 'Imposto sobre produtos industrializados'
       Anchors = [akTop]
@@ -234,7 +234,7 @@ inherited fEstado: TfEstado
     object Label5: TLabel
       Left = 498
       Top = 91
-      Width = 63
+      Width = 76
       Height = 16
       Anchors = [akTop]
       Caption = 'Tipo Fiscal'
@@ -249,7 +249,7 @@ inherited fEstado: TfEstado
     object Label9: TLabel
       Left = 263
       Top = 93
-      Width = 21
+      Width = 24
       Height = 16
       Hint = 'Programa de Integra'#231#227'o Social'
       Anchors = [akTop]
@@ -267,7 +267,7 @@ inherited fEstado: TfEstado
     object Label14: TLabel
       Left = 426
       Top = 91
-      Width = 48
+      Width = 56
       Height = 16
       Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
       Anchors = [akTop]
@@ -717,8 +717,8 @@ inherited fEstado: TfEstado
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 775
-    Height = 217
+    Width = 783
+    Height = 228
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -883,7 +883,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 775
+    Width = 783
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -895,7 +895,7 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      775
+      783
       191)
     object DBEdit15: TDBEdit
       Left = 64
@@ -1019,7 +1019,7 @@ inherited fEstado: TfEstado
     end
   end
   object panelAjuda: TPanel [5]
-    Left = 68
+    Left = 116
     Top = 131
     Width = 673
     Height = 425

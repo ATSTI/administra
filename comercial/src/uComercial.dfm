@@ -1,8 +1,8 @@
 object fComercial: TfComercial
-  Left = 12
-  Top = 41
-  Width = 800
-  Height = 568
+  Left = 2
+  Top = 2
+  Width = 638
+  Height = 478
   Caption = 'Comercial'
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
@@ -21,8 +21,8 @@ object fComercial: TfComercial
   object Image1: TImage
     Left = 185
     Top = 57
-    Width = 607
-    Height = 441
+    Width = 445
+    Height = 351
     Align = alClient
     AutoSize = True
     Center = True
@@ -410,8 +410,8 @@ object fComercial: TfComercial
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 498
-    Width = 792
+    Top = 408
+    Width = 630
     Height = 24
     Color = clTeal
     Panels = <
@@ -436,7 +436,7 @@ object fComercial: TfComercial
     Left = 0
     Top = 57
     Width = 185
-    Height = 441
+    Height = 351
     Align = alLeft
     BevelInner = bvRaised
     BevelOuter = bvNone
@@ -1029,7 +1029,7 @@ object fComercial: TfComercial
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 630
     Height = 57
     Align = alTop
     BevelInner = bvRaised
@@ -1518,8 +1518,8 @@ object fComercial: TfComercial
   object MMJPanel3: TMMJPanel
     Left = 185
     Top = 57
-    Width = 607
-    Height = 441
+    Width = 445
+    Height = 351
     Align = alClient
     BevelInner = bvRaised
     BevelOuter = bvNone
