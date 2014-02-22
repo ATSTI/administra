@@ -16,17 +16,17 @@
         </parameter>
         <parameter>
             <name>oerp_host</name>
-            <default_value>192.168.6.100</default_value>
+            <default_value>ec2-54-201-149-183.us-west-2.compute.amazonaws.com</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>oerp_port</name>
-            <default_value>9069</default_value>
+            <default_value>48069</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>oerp_pwd</name>
-            <default_value>123</default_value>
+            <default_value>a2t00s7</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -98,7 +98,7 @@
     <server>192.168.6.100</server>
     <type>FIREBIRD</type>
     <access>Native</access>
-    <database>sge_ats</database>
+    <database>sge_iza1</database>
     <port>3050</port>
     <username>SYSDBA</username>
     <password>Encrypted 2be98afc86aa7f2e4b315fe24ce83fd8b</password>
@@ -294,6 +294,29 @@
     </attributes>
   </connection>
   <connection>
+    <name>iza</name>
+    <server>192.168.6.100</server>
+    <type>FIREBIRD</type>
+    <access>Native</access>
+    <database>sge_iza1</database>
+    <port>3050</port>
+    <username>SYSDBA</username>
+    <password>Encrypted 2be98afc86aa7f2e4b315fe24ce83fd8b</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_FIREBIRD.lc_ctype</code><attribute>WIN1252</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>3050</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>OLSA</name>
     <server>quad</server>
     <type>ORACLE</type>
@@ -371,8 +394,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>atsadmin</connection>
-    <sql>select * from produtos where codproduto &lt; 5 </sql>
+    <connection>iza</connection>
+    <sql>select * from produtos where codproduto &lt; 10 </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -400,10 +423,12 @@
 		<script>
 			<title>Ruby Script</title>
 			<body>unless ProductProduct.search([&apos;name&apos;, &apos;=&apos;, $row[&quot;PRODUTO&quot;]])[0]
+   ncm_id=AccountProductFiscalClassification.search([&apos;name&apos;,&apos;=&apos;,$row[&quot;NCM&quot;]])[0]
    ProductProduct.create(
      :name    =&gt; $row[&quot;PRODUTO&quot;], :default_code =&gt; $row[&quot;CODPRO&quot;],
-     :type =&gt; &apos;service&apos;, :origin =&gt;$row[&quot;ORIGEM&quot;], :list_price =&gt;$row[&quot;VALOR_PRAZO&quot;],
-     :standard_price =&gt;$row[&quot;PRECOMEDIO&quot;]
+     :type =&gt; &apos;product&apos;, :origin =&gt;$row[&quot;ORIGEM&quot;], :list_price =&gt;$row[&quot;VALOR_PRAZO&quot;],
+     :standard_price =&gt;$row[&quot;PRECOMEDIO&quot;], :property_fiscal_classification =&gt; ncm_id, 
+     :procure_method =&gt; &apos;make_to_order&apos;, :valuation =&gt; &apos;real_time&apos; 
    )
 end</body>
 			<role>ROW_SCRIPT</role>
@@ -413,7 +438,7 @@ end</body>
 			<body>require &apos;rubygems&apos;
 require &apos;ooor&apos;
 
-Ooor.new({:models =&gt;[&apos;product.product&apos;], :url =&gt; &quot;http:&#47;&#47;#{$step.get_variable(&apos;oerp_host&apos;)}:#{$step.get_variable(&apos;oerp_port&apos;)}&#47;xmlrpc&quot;, :database =&gt; $step.get_variable(&apos;oerp_db&apos;), :username =&gt; $step.get_variable(&apos;oerp_user&apos;), :password =&gt; $step.get_variable(&apos;oerp_pwd&apos;)})</body>
+Ooor.new({:models =&gt;[&apos;product.product&apos;, &apos;account.product.fiscal.classification&apos;], :url =&gt; &quot;http:&#47;&#47;#{$step.get_variable(&apos;oerp_host&apos;)}:#{$step.get_variable(&apos;oerp_port&apos;)}&#47;xmlrpc&quot;, :database =&gt; $step.get_variable(&apos;oerp_db&apos;), :username =&gt; $step.get_variable(&apos;oerp_user&apos;), :password =&gt; $step.get_variable(&apos;oerp_pwd&apos;)})</body>
 			<role>INIT_SCRIPT</role>
 		</script>
 	</scripts>

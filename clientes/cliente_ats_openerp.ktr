@@ -16,17 +16,17 @@
         </parameter>
         <parameter>
             <name>oerp_host</name>
-            <default_value>192.168.6.100</default_value>
+            <default_value>ec2-54-201-149-183.us-west-2.compute.amazonaws.com</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>oerp_port</name>
-            <default_value>9069</default_value>
+            <default_value>48069</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>oerp_pwd</name>
-            <default_value>123</default_value>
+            <default_value>a2t00s7</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -94,11 +94,11 @@
   <notepads>
   </notepads>
   <connection>
-    <name>atsadmin</name>
+    <name>iza</name>
     <server>192.168.6.100</server>
     <type>FIREBIRD</type>
     <access>Native</access>
-    <database>sge_ats</database>
+    <database>sge_iza1</database>
     <port>3050</port>
     <username>SYSDBA</username>
     <password>Encrypted 2be98afc86aa7f2e4b315fe24ce83fd8b</password>
@@ -371,7 +371,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>atsadmin</connection>
+    <connection>iza</connection>
     <sql>select c.CODCLIENTE, c.NOMECLIENTE, c.RAZAOSOCIAL, c.TIPOFIRMA, 
   c.CNPJ, c.INSCESTADUAL, c.STATUS, 
   ed.LOGRADOURO, ed.NUMERO, (ed.DDD || &apos;-&apos; || ed.TELEFONE) FONE1, (ed.DDD1 || &apos;-&apos; || ed.TELEFONE1) FONE2, 
@@ -388,7 +388,7 @@ ed.COMPLEMENTO, ed.DADOSADICIONAIS,
   from clientes c , ENDERECOCLIENTE ed 
  where c.CODCLIENTE = ed.CODCLIENTE 
    and c.CNPJ is not null
-   and c.codcliente between 150 and 160
+   and c.codcliente &gt; 1000119
    and c.STATUS = 1</sql>
     <limit>0</limit>
     <lookup/>
@@ -413,7 +413,7 @@ ed.COMPLEMENTO, ed.DADOSADICIONAIS,
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>atsadmin</connection>
+    <connection>iza</connection>
     <sql>select distinct fo.CODFORNECEDOR, TRIM(UDF_COLLATEBR(fo.NOMEFORNECEDOR)) as PROPRIETARIO      
   from NOTASPORCONTRATO n 
   inner join  CONTRATOS c on c.CTR_ID = n.CTR_ID 
@@ -502,10 +502,11 @@ Ooor.new({:models =&gt;[&apos;res.partner&apos;, &apos;res.users&apos;], :url =&
      :phone =&gt; $row[&quot;FONE1&quot;], :mobile =&gt; $row[&quot;FONE2&quot;],  
      :fax =&gt;  $row[&quot;FONE3&quot;], 
      :number =&gt;$row[&quot;NUMERO&quot;], :l10n_br_city_id =&gt; $row[&quot;Field4&quot;], :state_id =&gt; state_id, :country_id =&gt;32,
-     :email =&gt;$row[&quot;E_MAIL&quot;], :zip =&gt;$row[&quot;CEP&quot;], :is_company =&gt; true, 
+     :email =&gt;$row[&quot;E_MAIL&quot;], :zip =&gt;$row[&quot;CEP&quot;], :is_company =&gt; false, 
      :district =&gt; $row[&quot;BAIRRO&quot;],  
      :user_id =&gt;1 ,  :cnpj_cpf =&gt; $row[&quot;CNPJ&quot;], :inscr_est =&gt; $row[&quot;INSCESTADUAL&quot;], :ref =&gt; $row[&quot;CODCLIENTE&quot;],
-     :comment =&gt; $row[&quot;CIDADE&quot;], :street2 =&gt; $row[&quot;COMPLEMENTO&quot;]
+     :comment =&gt; $row[&quot;CIDADE&quot;], :street2 =&gt; $row[&quot;COMPLEMENTO&quot;], 
+     :company_id =&gt; 3, :property_account_position =&gt; 1, :partner_fiscal_type_id =&gt; 1
    )
 end</body>
 			<role>ROW_SCRIPT</role>
