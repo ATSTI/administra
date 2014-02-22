@@ -10,7 +10,7 @@ inherited fCheques_bol: TfCheques_bol
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 773
+    Width = 781
     Height = 60
     Align = alTop
     inherited btnCancelar: TBitBtn [0]
@@ -310,7 +310,7 @@ inherited fCheques_bol: TfCheques_bol
   end
   inherited MMJPanel2: TMMJPanel
     Top = 60
-    Width = 773
+    Width = 781
     Height = 53
     Background.StartColor = clSilver
     Background.EndColor = clTeal
@@ -568,8 +568,8 @@ inherited fCheques_bol: TfCheques_bol
   object DBGrid1: TDBGrid [2]
     Left = 0
     Top = 113
-    Width = 773
-    Height = 303
+    Width = 781
+    Height = 314
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET

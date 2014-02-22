@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, DB, DBClient, Provider, SqlExpr, Menus, XPMenu,
   StdCtrls, Buttons, ExtCtrls, MMJPanel, EExtenso, Grids, DBGrids, DBCtrls,
-  Mask, rpcompobase, rpvclreport, rplabelitem, DBXpress;
+  Mask, rpcompobase, rpvclreport, rplabelitem, DBXpress,DateUtils;
 
 type
   TfCheques_bol = class(TfPai)
@@ -185,6 +185,8 @@ type
     procedure DBEdit7Exit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
+    procedure baixaCheque;
+    procedure marcaTituloaSerBaixado(titulo: Integer);
     { Private declarations }
   public
      titulo : string;
@@ -199,7 +201,7 @@ var
 
 implementation
 
-uses UDm, uVendaFinalizar, uDuplicata, sCtrlResize;
+uses UDm, uVendaFinalizar, uDuplicata, sCtrlResize, uAtsAdmin, uReceberCls, uLogs, ufcr;
 
 {$R *.dfm}
 
@@ -414,110 +416,8 @@ begin
 end;
 
 procedure TfCheques_bol.btnBaixarTituloClick(Sender: TObject);
-var
-   str_sql, strsql, forma, data, tabela, clifor, sp: string;
-   TD: TTransactionDesc;
-   valortotaltit : double;
 begin
-  valortotaltit := valortitulo;
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  inherited;
-  if (cds_5_cheques.State in [dsInsert, dsEdit]) then
-    btnGravar.Click;
-  DecimalSeparator := '.';
-  cds_5_cheques.DisableControls;
-  cds_5_cheques.First;
-  while not cds_5_cheques.Eof do
-  begin
-    if ((cds_5_chequesLANCADO.AsInteger = 0) OR (cds_5_chequesLANCADO.IsNull)) then
-    begin
-      if (cds_5_chequesVALORCHEQUE.AsFloat > (valortotaltit + 0.009)) then
-      begin
-        MessageDlg('Valor do cheque maior do que o do Título?', mtWarning,
-          [mbOk], 0);
-        DecimalSeparator := ',';
-        exit;
-      end;
-      if ((Tipo_origem = 'VENDA') OR (Tipo_origem = 'T_RECEBER')) then
-      begin
-        tabela := 'RECEBIMENTO';
-        forma := 'FORMARECEBIMENTO';
-        data := 'DATARECEBIMENTO';
-        clifor := 'CODCLIENTE';
-        sp := 'BAIXATITULOSREC';
-      end;
-      if (Tipo_origem = 'COMPRA') then
-      begin
-        tabela := 'PAGAMENTO';
-        forma := 'FORMAPAGAMENTO';
-        data := 'DATAPAGAMENTO';
-        clifor := 'CODFORNECEDOR';
-        sp := 'BAIXATITULOSPAG';
-      end;
-      IF ((Tipo_origem = 'VENDA') OR (Tipo_origem = 'COMPRA') OR (Tipo_origem = 'T_RECEBER')) then
-      begin
-        {strsql := 'UPDATE ' + tabela + ' SET VALORRECEBIDO = ';
-        strsql := strsql + FloatToStr(cds_5_chequesVALORCHEQUE.AsFloat);
-        strsql := strsql + ', DATABAIXA = ';
-        strsql := strsql + '''' + formatdatetime('mm/dd/yy', cds_5_chequesDATAEMISSAO.AsDateTime) + '''';
-        strsql := strsql + ', ' + data + ' = ';
-        strsql := strsql + '''' + formatdatetime('mm/dd/yy', cds_5_chequesDATADEPOSITO.AsDateTime) + '''';
-        strsql := strsql + ', STATUS = ';
-        strsql := strsql + '''' + '7-' + '''';
-        strsql := strsql + ', N_DOCUMENTO = ''' + cds_5_chequesNUMERO_DOC.AsString + '''';
-        strsql := strsql + ', CAIXA = ' + IntToStr(caixa);
-        strsql := strsql + ', ' + forma + ' = 3';
-        strsql := strsql + ' WHERE TITULO = ';
-        strsql := strsql + '''' + titulo + '''';
-        strsql := strsql + ' and ' + clifor + ' = ';
-        strsql := strsql + ' and ' + clifor + ' = ';
-        strsql := strsql + IntToStr(cds_5_chequesCODCLI_FORN.AsInteger);
-        strsql := strsql + ' and STATUS = ''' + '5-' + '''';}
-
-        //Faco a baixa pela SP
-        DecimalSeparator := '.';
-        strsql := 'EXECUTE PROCEDURE ' + sp + '(';
-        strsql := strsql + FloatToStr(cds_5_chequesVALORCHEQUE.AsFloat);
-        strsql := strsql + ', 0';
-        strsql := strsql + ', 0';
-        strsql := strsql + ', 0';
-        strsql := strsql + ', 0';
-        strsql := strsql + ',''' + formatdatetime('mm/dd/yyyy', cds_5_chequesDATAEMISSAO.AsDateTime) + '''';
-        strsql := strsql + ',''' + formatdatetime('mm/dd/yyyy', cds_5_chequesDATAEMISSAO.AsDateTime) + '''';
-        strsql := strsql + ',''' + formatdatetime('mm/dd/yyyy', cds_5_chequesDATADEPOSITO.AsDateTime) + '''';
-        strsql := strsql + ',''' + '3' + '''';
-        strsql := strsql + ',''' + cds_5_chequesNUMERO_DOC.AsString + '''';
-        strsql := strsql + ',' + FloatToStr(caixa);
-        strsql := strsql + ',' + IntToStr(cds_5_chequesCODCLI_FORN.AsInteger);
-        strsql := strsql + ',''' + '7-' + '''';
-        strsql := strsql + ')';
-        DecimalSeparator := ',';
-
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(strsql);
-
-        Try
-          dm.sqlsisAdimin.Commit(TD);
-        except
-          dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-          MessageDlg('Erro no sistema, cheque não baixado?', mtError,
-            [mbOk], 0);
-          DecimalSeparator := ',';
-          exit;
-        end;
-      end;
-      cds_5_cheques.Edit;
-      cds_5_chequesLANCADO.AsInteger := 1;
-      cds_5_cheques.ApplyUpdates(0);
-    end;
-    valortotaltit := valortotaltit - cds_5_chequesVALORCHEQUE.AsFloat;
-    cds_5_cheques.Next;
-  end;
-  cds_5_cheques.EnableControls;
-  DecimalSeparator := ',';
-  MessageDlg('Títulos baixados com sucesso.', mtInformation,
-          [mbOk], 0);
+  baixaCheque;
 end;
 
 procedure TfCheques_bol.DBEdit7Exit(Sender: TObject);
@@ -531,6 +431,124 @@ procedure TfCheques_bol.FormCreate(Sender: TObject);
 begin
 //  inherited;
   sCtrlResize.CtrlResize(TForm(fCheques_bol));
+end;
+
+procedure TfCheques_bol.baixaCheque;
+var
+   str_sql, strsql, forma, data, tabela, clifor, sp, mesmoChq: string;
+   TD: TTransactionDesc;
+   valortotaltit, vlrChq, vlrChqResto : double;
+   REC : TReceberCls;
+   novoTitulo: integer;
+begin
+  valortotaltit := valortitulo;
+  novoTitulo := 0;
+  vlrChq := 0;
+  vlrChqResto := 0;
+  mesmoChq := 'N';
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  if (cds_5_cheques.State in [dsInsert, dsEdit]) then
+    btnGravar.Click;
+  DecimalSeparator := '.';
+  cds_5_cheques.DisableControls;
+  cds_5_cheques.First;
+  REC := TReceberCls.Create;
+  try
+    while not cds_5_cheques.Eof do
+    begin
+      marcaTituloaSerBaixado(novoTitulo);
+      if (mesmoChq <> IntToStr(cds_5_chequesCOD_CHEQ_BOL.AsInteger)) then
+      begin
+        vlrChq := cds_5_chequesVALORCHEQUE.AsFloat;
+        mesmoChq := IntToStr(cds_5_chequesCOD_CHEQ_BOL.AsInteger);
+      end;
+
+      if ((cds_5_chequesLANCADO.AsInteger = 0) OR (cds_5_chequesLANCADO.IsNull)) then
+      begin
+        vlrChqResto := cds_5_chequesVALORCHEQUE.AsFloat;
+        if (cds_5_chequesVALORCHEQUE.AsFloat > (valortotaltit + 0.009)) then
+        begin
+          vlrChqResto := valortotaltit;
+        end;
+
+        //Faco a baixa pela CLASSE
+
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+            novoTitulo := REC.baixaTitulo(vlrChqResto, 0, 0,
+            0, 0, today,
+            cds_5_chequesDATAEMISSAO.AsDateTime, cds_5_chequesDATADEPOSITO.AsDateTime,
+            '3', cds_5_chequesNUMERO_DOC.AsString, caixa,
+            cds_5_chequesCODCLI_FORN.AsInteger, '7-', fAtsAdmin.UserControlComercial.CurrentUser.UserID, '');
+
+            rec.gravaHistorico(dm.cds_crCODRECEBIMENTO.AsInteger, dm.cds_crTITULO.AsString,
+              dm.cds_crCAIXA.AsInteger, fAtsAdmin.UserControlComercial.CurrentUser.UserID, 'RECEBIMENTO',
+              'REC.DOC.-' + DBLookupComboBox1.Text + '-' +
+              formatdatetime('dd/mm/yyyy', today));
+            dm.sqlsisAdimin.Commit(TD);
+
+          except
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+              exit;
+            end;
+          end;
+
+
+        cds_5_cheques.Edit;
+        cds_5_chequesLANCADO.AsInteger := 1;
+        cds_5_cheques.ApplyUpdates(0);
+      end;
+      valortotaltit := valortotaltit - cds_5_chequesVALORCHEQUE.AsFloat;
+      if (vlrChqResto = (cds_5_chequesVALORCHEQUE.AsFloat)) then
+        cds_5_cheques.Next;
+    end;
+  finally
+    REC.Free;
+  end;
+  cds_5_cheques.EnableControls;
+  DecimalSeparator := ',';
+  MessageDlg('Títulos baixados com sucesso.', mtInformation,
+          [mbOk], 0);
+
+end;
+
+procedure TfCheques_bol.marcaTituloaSerBaixado(titulo: Integer);
+var j, num1: Integer;
+  strsql2: string;
+  TD: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  for j := 1 to length(nrec) do
+  begin
+    strsql2 := 'UPDATE RECEBIMENTO SET DP = 0 '; //, HISTORICO = ';
+    // strsql2 := strsql2 + QuotedStr(Memo1.Text);
+    strsql2 := strsql2 + ', USERID = ' + IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID);
+    strsql2 := strsql2 + ' WHERE CODRECEBIMENTO = ';
+    num1 := nrec[j - 1];
+    if (titulo = 0) then
+      strsql2 := strsql2 + IntToStr(num1)
+    else
+      strsql2 := strsql2 + IntToStr(titulo);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      dm.sqlsisAdimin.ExecuteDirect(strsql2);
+      dm.sqlsisAdimin.Commit(TD);
+
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  end;
+
 end;
 
 end.
