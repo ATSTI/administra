@@ -1157,86 +1157,93 @@ object fFiltroMov_compra: TfFiltroMov_compra
     Columns = <
       item
         Expanded = False
+        FieldName = 'CCUSTO'
+        Title.Caption = 'Local'
+        Width = 58
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'CODFORNECEDOR'
         Title.Caption = 'C'#243'd.For.'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMEFORNECEDOR'
         Title.Caption = 'Fornecedor'
-        Width = 199
+        Width = 183
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'N'#250'mero Pedido.'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ENTREGA'
         Title.Caption = 'Previs'#227'o'
-        Width = 41
+        Width = 38
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SERIE'
         Title.Caption = 'S'#233'rie'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Valor R$'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 42
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 123
+        Width = 113
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SITUACAO'
         Title.Caption = 'Status'
-        Width = 77
+        Width = 71
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'COD_VEICULO'
         Title.Caption = 'Numero'
-        Width = 35
+        Width = 32
         Visible = True
       end>
   end
@@ -1305,11 +1312,12 @@ object fFiltroMov_compra: TfFiltroMov_compra
       'mov.CODMOVIMENTO, mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10'mov.STAT' +
       'US, nat.DESCNATUREZA , comp.NOTAFISCAL, comp.SERIE, comp.VALOR, ' +
       'mov.CONTROLE, mov.COD_VEICULO, mov.USER_APROVA, mov.data_entrega' +
-      ',  '#39'SITUACAO STATUS'#39' SITUACAO '#13#10' from MOVIMENTO mov '#13#10#13#10' inner j' +
-      'oin NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA ' +
-      #13#10#13#10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.' +
-      'CODFORNECEDOR '#13#10' left outer join COMPRA comp on comp.CODMOVIMENT' +
-      'O = mov.CODMOVIMENTO '
+      ',  '#39'SITUACAO STATUS'#39' SITUACAO , pl.NOME CCUSTO'#13#10' from MOVIMENTO ' +
+      'mov '#13#10#13#10' inner join NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = ' +
+      'mov.CODNATUREZA '#13#10#13#10'left outer join FORNECEDOR forn on forn.CODF' +
+      'ORNECEDOR = mov.CODFORNECEDOR '#13#10' left outer join COMPRA comp on ' +
+      'comp.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10'left outer join PLANO pl ' +
+      'on pl.CODIGO = mov.CODALMOXARIFADO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1374,6 +1382,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object sds_cnsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object sds_cnsCCUSTO: TStringField
+      FieldName = 'CCUSTO'
+      ReadOnly = True
+      Size = 200
     end
   end
   object dsp_cns: TDataSetProvider
@@ -1449,6 +1462,11 @@ object fFiltroMov_compra: TfFiltroMov_compra
     end
     object cds_cnsCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+    end
+    object cds_cnsCCUSTO: TStringField
+      FieldName = 'CCUSTO'
+      ReadOnly = True
+      Size = 200
     end
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage

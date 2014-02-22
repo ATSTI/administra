@@ -96,6 +96,8 @@ type
     cds_cnsSITUACAO: TStringField;
     sds_cnsCODPEDIDO: TIntegerField;
     cds_cnsCODPEDIDO: TIntegerField;
+    sds_cnsCCUSTO: TStringField;
+    cds_cnsCCUSTO: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure edControleExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -148,7 +150,7 @@ begin
      cds_cns.Close;
   cds_cns.CommandText:= 'select mov.CODMOVIMENTO, mov.codpedido, comp.NOTAFISCAL, comp.SERIE, ' +
      ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, comp.VALOR, mov.COD_VEICULO,' +
-     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, ';
+     ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CONTROLE, mov.USER_APROVA, pl.NOME CCUSTO, ';
   if (dm.tipoCompra = 'COTACAO') then
   begin
     cds_cns.CommandText := cds_cns.CommandText + ' mov.data_entrega, CASE mov.STATUS WHEN 0 THEN ' + QuotedStr('PENDENTE') +
@@ -162,9 +164,10 @@ begin
      ' WHEN 5 THEN ' + QuotedStr('OUTROS') + ' END SITUACAO ' ;
   end;
   cds_cns.CommandText := cds_cns.CommandText + ' from MOVIMENTO mov ' +
-     ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
-     ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +
-     ' left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIMENTO ';
+     ' inner join NATUREZAOPERACAO nat on nat.CODNATUREZA = mov.CODNATUREZA ' +
+     ' left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR ' +
+     ' left outer join COMPRA comp on comp.CODMOVIMENTO = mov.CODMOVIMENTO ' +
+     ' left outer join PLANO pl on pl.CODIGO = mov.CODALMOXARIFADO';
   //==============================================================================
   {$IFDEF LINUX}
   datastr:='  -  -  ';
