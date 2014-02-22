@@ -13,41 +13,8 @@ type
     sdsClassFisc: TSQLDataSet;
     cdsClassFisc: TClientDataSet;
     dspClassFisc: TDataSetProvider;
-    Label1: TLabel;
-    DBEdit1: TDBEdit;
-    Label2: TLabel;
-    DBEdit2: TDBEdit;
-    Label3: TLabel;
-    DBEdit3: TDBEdit;
-    Label4: TLabel;
-    DBEdit4: TDBEdit;
-    Label5: TLabel;
-    DBEdit5: TDBEdit;
-    Label6: TLabel;
-    DBEdit6: TDBEdit;
-    Label7: TLabel;
-    DBEdit7: TDBEdit;
-    Label8: TLabel;
-    DBEdit8: TDBEdit;
     DBGrid1: TDBGrid;
     Label9: TLabel;
-    DBEdit9: TDBEdit;
-    Label10: TLabel;
-    Label11: TLabel;
-    DBEdit10: TDBEdit;
-    Label12: TLabel;
-    DBEdit11: TDBEdit;
-    Label13: TLabel;
-    DBEdit12: TDBEdit;
-    Label14: TLabel;
-    DBEdit13: TDBEdit;
-    Label15: TLabel;
-    DBEdit14: TDBEdit;
-    Label16: TLabel;
-    DBEdit15: TDBEdit;
-    Label17: TLabel;
-    DBEdit16: TDBEdit;
-    BitBtn1: TBitBtn;
     gbProduto: TGroupBox;
     btnExecutaCopia: TBitBtn;
     sdsNCMCopia: TSQLDataSet;
@@ -55,8 +22,6 @@ type
     cdsNCMCopia: TClientDataSet;
     Label19: TLabel;
     edNCM: TEdit;
-    sqlTestaSeExiste: TSQLQuery;
-    sqlTestaSeExisteCOUNT: TIntegerField;
     sdsClassFiscNCM: TStringField;
     sdsClassFiscCFOP: TStringField;
     sdsClassFiscUF: TStringField;
@@ -91,8 +56,6 @@ type
     cdsClassFiscCSTCOFINS: TStringField;
     cdsClassFiscPIS: TFloatField;
     cdsClassFiscCOFINS: TFloatField;
-    DBLookupComboBox1: TDBLookupComboBox;
-    Label20: TLabel;
     sdsNCMCopiaNCM: TStringField;
     sdsNCMCopiaCFOP: TStringField;
     sdsNCMCopiaUF: TStringField;
@@ -135,10 +98,70 @@ type
     cdsTFiscalCODFISCAL: TStringField;
     cdsTFiscalDESCRICAO: TStringField;
     DtSrcTFiscal: TDataSource;
-    Label18: TLabel;
-    DBEdit17: TDBEdit;
     sdsClassFiscORIGEM: TIntegerField;
     cdsClassFiscORIGEM: TIntegerField;
+    GroupBox1: TGroupBox;
+    DBEdit18: TDBEdit;
+    DBEdit19: TDBEdit;
+    DBEdit20: TDBEdit;
+    DBEdit21: TDBEdit;
+    DBEdit22: TDBEdit;
+    DBEdit23: TDBEdit;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label11: TLabel;
+    Label14: TLabel;
+    Label16: TLabel;
+    Label20: TLabel;
+    Label18: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    DBEdit9: TDBEdit;
+    DBEdit10: TDBEdit;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit13: TDBEdit;
+    DBEdit14: TDBEdit;
+    DBEdit15: TDBEdit;
+    DBEdit16: TDBEdit;
+    BitBtn1: TBitBtn;
+    DBLookupComboBox1: TDBLookupComboBox;
+    DBEdit17: TDBEdit;
+    sqlTestaSeExiste: TSQLQuery;
+    sqlTestaSeExisteCOUNT: TIntegerField;
+    Label21: TLabel;
+    Label10: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label15: TLabel;
+    panelAjuda: TPanel;
+    Memo1: TMemo;
+    sdsClassFiscDADOSADC1: TStringField;
+    sdsClassFiscDADOSADC2: TStringField;
+    sdsClassFiscDADOSADC3: TStringField;
+    sdsClassFiscDADOSADC4: TStringField;
+    sdsClassFiscDADOSADC5: TStringField;
+    sdsClassFiscDADOSADC6: TStringField;
+    cdsClassFiscDADOSADC1: TStringField;
+    cdsClassFiscDADOSADC2: TStringField;
+    cdsClassFiscDADOSADC3: TStringField;
+    cdsClassFiscDADOSADC4: TStringField;
+    cdsClassFiscDADOSADC5: TStringField;
+    cdsClassFiscDADOSADC6: TStringField;
+    Label17: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -153,6 +176,12 @@ type
     procedure btnExecutaCopiaClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
+    procedure Label12Click(Sender: TObject);
+    procedure Label21Click(Sender: TObject);
+    procedure Label10Click(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label13Click(Sender: TObject);
+    procedure Label17Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -212,7 +241,12 @@ begin
       str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
       str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
       str := str + ', CODFISCAL = ' + QuotedStr(cdsClassFiscCODFISCAL.AsString);
-
+      str := str + ', DADOSADC1 = ' + QuotedStr(cdsClassFiscDADOSADC1.AsString);
+      str := str + ', DADOSADC2 = ' + QuotedStr(cdsClassFiscDADOSADC2.AsString);
+      str := str + ', DADOSADC3 = ' + QuotedStr(cdsClassFiscDADOSADC3.AsString);
+      str := str + ', DADOSADC4 = ' + QuotedStr(cdsClassFiscDADOSADC4.AsString);
+      str := str + ', DADOSADC5 = ' + QuotedStr(cdsClassFiscDADOSADC5.AsString);
+      str := str + ', DADOSADC6 = ' + QuotedStr(cdsClassFiscDADOSADC6.AsString);
       str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
       str := str + ' AND CFOP = ' + QuotedStr(CFOP);
       str := str + ' AND UF = ' + QuotedStr(UF);
@@ -302,6 +336,240 @@ begin
   inherited;
   if (DtSrc.State in [dsEdit]) then
     tipofiscal := cdsClassFiscCODFISCAL.AsString;
+end;
+
+procedure TfClassificacaoFiscalNCM.Label12Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
+    Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
+    Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('TABELA I');
+    Memo1.Lines.Add('CÓDIGO DA SITUAÇÃO TRIBUTÁRIA REFERENTE AO IMPOSTO SOBRE ');
+    Memo1.Lines.Add('PRODUTOS INDUSTRIALIZADOS (CST-IPI):');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('00 Entrada com Recuperação de Crédito');
+    Memo1.Lines.Add('01 Entrada Tributável com Alíquota Zero');
+    Memo1.Lines.Add('02 Entrada Isenta');
+    Memo1.Lines.Add('03 Entrada Não-Tributada');
+    Memo1.Lines.Add('04 Entrada Imune');
+    Memo1.Lines.Add('05 Entrada com Suspensão');
+    Memo1.Lines.Add('49 Outras Entradas');
+    Memo1.Lines.Add('50 Saída Tributada');
+    Memo1.Lines.Add('51 Saída Tributável com Alíquota Zero');
+    Memo1.Lines.Add('52 Saída Isenta');
+    Memo1.Lines.Add('53 Saída Não-Tributada');
+    Memo1.Lines.Add('54 Saída Imune');
+    Memo1.Lines.Add('55 Saída com Suspensão');
+    Memo1.Lines.Add('99 Outras Saídas');
+    panelAjuda.Visible := True;
+  end;
+
+end;
+
+procedure TfClassificacaoFiscalNCM.Label21Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
+    Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
+    Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('Código de Situação Tributária(CST) na Nota Fiscal Eletrônica:');
+    Memo1.Lines.Add(' ');
+
+    Memo1.Lines.Add('Tabela A – Origem da Mercadoria');
+	  Memo1.Lines.Add('  ');
+
+	  Memo1.Lines.Add('Tabela B – Tributação pelo ICMS (Vigente desde 1-1-2001)');
+    Memo1.Lines.Add('  ');
+	  Memo1.Lines.Add('0. Nacional');
+	  Memo1.Lines.Add('1. Estrangeira – Importação direta');
+	  Memo1.Lines.Add('2. Estrangeira – Adquirida no mercado interno');
+    Memo1.Lines.Add('  ');
+    Memo1.Lines.Add('  ');
+	  Memo1.Lines.Add('00. Tributada integralmente');
+	  Memo1.Lines.Add('10. Tributada e com cobrança do ICMS por substituição tributária');
+	  Memo1.Lines.Add('20. Com redução de base de cálculo');
+	  Memo1.Lines.Add('30. Isenta ou não tributada e com cobrança do ICMS por substituição tributária');
+	  Memo1.Lines.Add('40. Isenta');
+	  Memo1.Lines.Add('41. Não tributada');
+	  Memo1.Lines.Add('50. Suspensão');
+	  Memo1.Lines.Add('51. Diferimento');
+	  Memo1.Lines.Add('60. ICMS cobrado anteriormente por substituição tributária');
+	  Memo1.Lines.Add('70. Com redução da base de cálculo e cobrança do ICMS por substituição tributária');
+	  Memo1.Lines.Add('90. Outras');
+    panelAjuda.Visible := True;
+  end;
+
+end;
+
+procedure TfClassificacaoFiscalNCM.Label10Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
+    Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
+    Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
+    Memo1.Lines.Add(' ');    
+    Memo1.Lines.Add('A partir da versão 2.00 do leiaute da NF-e, o contribuinte');
+    Memo1.Lines.Add('emissor do SIMPLES NACIONAL deve informar um dos seguintes');
+    Memo1.Lines.Add('Código de Situação da Operação - SIMPLES NACIONAL (CSOSN)');
+    Memo1.Lines.Add('em substituição ao CST :');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('101 - Tributada pelo Simples Nacional com permissão de crédito;');
+    Memo1.Lines.Add('102 - Tributada pelo Simples Nacional sem permissão de crédito;');
+    Memo1.Lines.Add('103 - Isenção do ICMS no Simples Nacional para faixa de receita bruta;');
+    Memo1.Lines.Add('201 - Tributada pelo Simples Nacional com permissão de crédito e com cobrança do ICMS por substituição tributária;');
+    Memo1.Lines.Add('202 - Tributada pelo Simples Nacional sem permissão de crédito e com cobrança do ICMS por substituição tributária;');
+    Memo1.Lines.Add('203 - Isenção do ICMS no Simples Nacional para faixa de receita bruta e com cobrança do ICMS por substituição tributária;');
+    Memo1.Lines.Add('300 - Imune;');
+    Memo1.Lines.Add('400 - Não tributada pelo Simples Nacional;');
+    Memo1.Lines.Add('500 - ICMS cobrado anteriormente por substituição tributária (substituído) ou por antecipação;');
+    Memo1.Lines.Add('900 - Outros.');
+    panelAjuda.Visible := True;
+  end;
+
+end;
+
+procedure TfClassificacaoFiscalNCM.Label15Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
+    Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
+    Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('CÓDIGO DA SITUAÇÃO TRIBUTÁRIA REFERENTE AO PIS/PASEP (CST-PIS):');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('01 - Operação Tributável com Alíquota Básica');
+    Memo1.Lines.Add('02 - Operação Tributável com Alíquota Diferenciada');
+    Memo1.Lines.Add('03 - Operação Tributável com Alíquota por Unidade de Medida de Produto');
+    Memo1.Lines.Add('04 - Operação Tributável Monofásica - Revenda a Alíquota Zero');
+    Memo1.Lines.Add('05 - Operação Tributável por Substituição Tributária');
+    Memo1.Lines.Add('06 - Operação Tributável a Alíquota Zero');
+    Memo1.Lines.Add('07 - Operação Isenta da Contribuição');
+    Memo1.Lines.Add('08 - Operação sem Incidência da Contribuição');
+    Memo1.Lines.Add('09 - Operação com Suspensão da Contribuição');
+    Memo1.Lines.Add('49 - Outras Operações de Saída');
+    Memo1.Lines.Add('50 - Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno');
+    Memo1.Lines.Add('51 - Operação com Direito a Crédito – Vinculada Exclusivamente a Receita Não Tributada no Mercado Interno');
+    Memo1.Lines.Add('52 - Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação');
+    Memo1.Lines.Add('53 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno');
+    Memo1.Lines.Add('54 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('55 - Operação com Direito a Crédito - Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('56 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação');
+    Memo1.Lines.Add('60 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno');
+    Memo1.Lines.Add('61 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno');
+    Memo1.Lines.Add('62 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação');
+    Memo1.Lines.Add('63 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno');
+    Memo1.Lines.Add('64 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('65 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('66 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação');
+    Memo1.Lines.Add('67 - Crédito Presumido - Outras Operações');
+    Memo1.Lines.Add('70 - Operação de Aquisição sem Direito a Crédito');
+    Memo1.Lines.Add('71 - Operação de Aquisição com Isenção');
+    Memo1.Lines.Add('72 - Operação de Aquisição com Suspensão');
+    Memo1.Lines.Add('73 - Operação de Aquisição a Alíquota Zero');
+    Memo1.Lines.Add('74 - Operação de Aquisição sem Incidência da Contribuição');
+    Memo1.Lines.Add('75 - Operação de Aquisição por Substituição Tributária');
+    Memo1.Lines.Add('98 - Outras Operações de Entrada');
+    Memo1.Lines.Add('99 - Outras Operações');
+    panelAjuda.Visible := True;
+  end;
+
+end;
+
+procedure TfClassificacaoFiscalNCM.Label13Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
+    Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
+    Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('CÓDIGO DA SITUAÇÃO TRIBUTÁRIA REFERENTE À COFINS (CST-COFINS):');
+    Memo1.Lines.Add(' ');
+    Memo1.Lines.Add('01 - Operação Tributável com Alíquota Básica');
+    Memo1.Lines.Add('02 - Operação Tributável com Alíquota Diferenciada');
+    Memo1.Lines.Add('03 - Operação Tributável com Alíquota por Unidade de Medida de Produto');
+    Memo1.Lines.Add('04 - Operação Tributável Monofásica - Revenda a Alíquota Zero');
+    Memo1.Lines.Add('05 - Operação Tributável por Substituição Tributária');
+    Memo1.Lines.Add('06 - Operação Tributável a Alíquota Zero');
+    Memo1.Lines.Add('07 - Operação Isenta da Contribuição');
+    Memo1.Lines.Add('08 - Operação sem Incidência da Contribuição');
+    Memo1.Lines.Add('09 - Operação com Suspensão da Contribuição');
+    Memo1.Lines.Add('49 - Outras Operações de Saída');
+    Memo1.Lines.Add('50 - Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno');
+    Memo1.Lines.Add('51 - Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno');
+    Memo1.Lines.Add('52 - Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação');
+    Memo1.Lines.Add('53 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno');
+    Memo1.Lines.Add('54 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('55 - Operação com Direito a Crédito - Vinculada a Receitas Não Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('56 - Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('60 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno');
+    Memo1.Lines.Add('61 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno');
+    Memo1.Lines.Add('62 - Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação');
+    Memo1.Lines.Add('63 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno');
+    Memo1.Lines.Add('64 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('65 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('66 - Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno e de Exportação');
+    Memo1.Lines.Add('67 - Crédito Presumido - Outras Operações');
+    Memo1.Lines.Add('70 - Operação de Aquisição sem Direito a Crédito');
+    Memo1.Lines.Add('71 - Operação de Aquisição com Isenção');
+    Memo1.Lines.Add('72 - Operação de Aquisição com Suspensão');
+    Memo1.Lines.Add('73 - Operação de Aquisição a Alíquota Zero');
+    Memo1.Lines.Add('74 - Operação de Aquisição sem Incidência da Contribuição');
+    Memo1.Lines.Add('75 - Operação de Aquisição por Substituição Tributária');
+    Memo1.Lines.Add('98 - Outras Operações de Entrada');
+    Memo1.Lines.Add('99 - Outras Operações');
+    panelAjuda.Visible := True;
+  end;
+
+end;
+
+procedure TfClassificacaoFiscalNCM.Label17Click(Sender: TObject);
+begin
+  inherited;
+  if (panelAjuda.Visible = True) then
+  begin
+    panelAjuda.Visible := False;
+  end
+  else begin
+    Memo1.Lines.Clear;
+    Memo1.Lines.Add('ATENÇÃO : o Sistema irá pegar os dados adicionais  do primeiro item. ');
+    Memo1.Lines.Add('Mesmo que, exista outros NCMs no pedido, irá aparecer na nota somente');
+    Memo1.Lines.Add('os dados adicionais do primeiro item da nota.');
+    Memo1.Lines.Add('');
+    panelAjuda.Visible := True;
+  end;
 end;
 
 end.
