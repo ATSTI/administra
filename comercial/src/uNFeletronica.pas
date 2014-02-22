@@ -698,6 +698,9 @@ type
     cdsItensNFCOD_BARRA: TStringField;
     sdsNFNOMEXML: TStringField;
     cdsNFNOMEXML: TStringField;
+    TabSheet8: TTabSheet;
+    Label15: TLabel;
+    btnAlteraStatus: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -741,6 +744,7 @@ type
     procedure cbTipoNotaClick(Sender: TObject);
     procedure chkScanClick(Sender: TObject);
     procedure btnAbaPrincipalClick(Sender: TObject);
+    procedure btnAlteraStatusClick(Sender: TObject);
 
   private
     tpNFe : integer;
@@ -3293,6 +3297,34 @@ end;
 procedure TfNFeletronica.btnAbaPrincipalClick(Sender: TObject);
 begin
   PageControl2.ActivePage := TabSheet1;
+end;
+
+procedure TfNFeletronica.btnAlteraStatusClick(Sender: TObject);
+var strCanc: String;
+begin
+  if  MessageDlg('Confirma a alteração de Status da NF : ' + cdsNFNOTASERIE.AsString + ' ?', mtConfirmation, [mbYes, mbNo],0) = mrNo then
+    exit;
+  strCanc := 'UPDATE NOTAFISCAL SET STATUS = ' +
+  QuotedStr('C') +
+  ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
+
+  if (cdsNFPROTOCOLOCANC.IsNull) then
+  begin
+    strCanc := 'UPDATE NOTAFISCAL SET STATUS = ' +
+      QuotedStr('C') + ', PROTOCOLOCANC = ' + QuotedStr('Canc.- ' + dm.varLogado) +
+      ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(strCanc);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 end.

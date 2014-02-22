@@ -1063,6 +1063,26 @@ object fNFeletronica: TfNFeletronica
             OnClick = btnAbaPrincipalClick
           end
         end
+        object TabSheet8: TTabSheet
+          Caption = 'Outros'
+          ImageIndex = 7
+          object Label15: TLabel
+            Left = 8
+            Top = 32
+            Width = 211
+            Height = 13
+            Caption = 'Mudar o Status da nota para CANCELADA : '
+          end
+          object btnAlteraStatus: TBitBtn
+            Left = 232
+            Top = 24
+            Width = 113
+            Height = 25
+            Caption = 'Confirma'
+            TabOrder = 0
+            OnClick = btnAlteraStatusClick
+          end
+        end
       end
     end
     object CCe: TTabSheet
@@ -1301,7 +1321,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
