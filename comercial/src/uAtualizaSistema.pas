@@ -2039,6 +2039,24 @@ begin
       mudaVersao('2.0.0.8');
     end;// Fim Atualizacao Versao 2.0.0.7
 
+    if (versaoSistema = '2.0.0.8') then
+    begin
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC1', 'VARCHAR(200)');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC2', 'VARCHAR(200)');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC3', 'VARCHAR(200)');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC4', 'VARCHAR(200)');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC5', 'VARCHAR(200)');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'DADOSADC6', 'VARCHAR(200)');
+      mudaVersao('2.0.0.19');
+    end;// Fim Atualizacao Versao 2.0.0.19
+
+    if (versaoSistema = '2.0.0.19') then
+    begin
+      insereouatualizaScript('gera_nf_venda.sql', '2.0.0.19', StrToDate('16/02/2014'));
+      AtualizandoScript('2.0.0.19');
+      mudaVersao('2.0.0.20');
+    end;// Fim Atualizacao Versao 2.0.0.20
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
