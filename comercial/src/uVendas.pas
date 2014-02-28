@@ -1167,6 +1167,7 @@ begin
         if (utilcrtitulo.verificapermissao = False) then
         begin
           cds_Movimento.Cancel;
+          cds_movimento.Close;
           Exit;
         end;
       end
@@ -1174,6 +1175,7 @@ begin
       begin
         MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
         cds_Movimento.Cancel;
+        cds_movimento.Close;
         exit;
       end;
       //dbeCliente.SetFocus;
@@ -1298,6 +1300,8 @@ end;
 procedure TfVendas.btnProdutoProcuraClick(Sender: TObject);
 begin
   inherited;
+  if (cds_movimento.Active = False) then
+    exit;
   var_F := 'venda';
   if DtSrc1.DataSet.State in [dsInactive] then
    exit;
@@ -2027,6 +2031,7 @@ begin
       if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
       begin
         MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        cds_movimento.Close;
         exit;
         //dbeCliente.SetFocus;
       end;
@@ -2049,6 +2054,7 @@ begin
           begin
             MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
             cds_Movimento.Cancel;
+            cds_movimento.Close;
             Exit;
           end;
         end
@@ -2056,6 +2062,7 @@ begin
         begin
           MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
           cds_Movimento.Cancel;
+          cds_movimento.Close;
           exit;
         end;
       //dbeCliente.SetFocus;
@@ -4037,6 +4044,7 @@ begin
         if (utilcrtitulo.verificapermissao = False) then
         begin
           cds_Movimento.Cancel;
+          cds_movimento.Close;
           Exit;
         end;
       end
@@ -4044,6 +4052,7 @@ begin
       begin
         MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
         cds_Movimento.Cancel;
+        cds_movimento.Close;
         exit;
       end;
       //dbeCliente.SetFocus;
