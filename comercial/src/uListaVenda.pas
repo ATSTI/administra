@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, StdCtrls, Mask, DBCtrls, DB, Menus, XPMenu, Buttons,
   ExtCtrls, MMJPanel, Grids, DBGrids, FMTBcd, SqlExpr, Provider, DBClient,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
-  JvDBDatePickerEdit, rpcompobase, rpvclreport;
+  JvDBDatePickerEdit, rpcompobase, rpvclreport, dbxpress;
 
 type
   TfListaVenda = class(TfPai)
@@ -105,6 +105,13 @@ type
     btnImprimir: TBitBtn;
     VCLReport1: TVCLReport;
     btnAumento: TBitBtn;
+    sdsLista_detCOD_P: TStringField;
+    cdsLista_detCOD_P: TStringField;
+    btnCopiarCusto: TBitBtn;
+    cbListaCopia: TComboBox;
+    Label17: TLabel;
+    BitBtn1: TBitBtn;
+    pnCopia: TPanel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -121,6 +128,9 @@ type
     procedure cdsLista_detBeforePost(DataSet: TDataSet);
     procedure btnImprimirClick(Sender: TObject);
     procedure btnAumentoClick(Sender: TObject);
+    procedure dbgDetalheTitleClick(Column: TColumn);
+    procedure btnCopiarCustoClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -161,6 +171,7 @@ end;
 
 procedure TfListaVenda.btnGravarClick(Sender: TObject);
 var linhacds: integer;
+  linha_grid: Integer;
 begin
   if (cdsListaVendaCODLISTA.AsInteger = 1999999) then
   begin
@@ -198,12 +209,13 @@ begin
         dm.c_6_genid.Close;
         DecimalSeparator := '.';
         dm.sqlsisAdimin.ExecuteDirect('INSERT INTO LISTAPRECO_VENDADET (CODLISTADET, ' +
-          ' CODLISTA, CODPRODUTO, PRODUTO, PRECOVENDA)  VALUES ( ' +
+          ' CODLISTA, CODPRODUTO, PRODUTO, PRECOVENDA, PRECOCOMPRA)  VALUES ( ' +
         IntToStr(cdsLista_detCODLISTADET.AsInteger) + ', ' +
         IntToStr(cdsListaVendaCODLISTA.AsInteger) + ', ' +
         IntToStr(cdsLista_detCODPRODUTO.AsInteger) + ', ' +
         QuotedStr(cdsLista_detPRODUTO.AsString) + ', ' +
-        FloatToStr(cdsLista_detPRECOVENDA.AsFloat) + ')');
+        FloatToStr(cdsLista_detPRECOVENDA.AsFloat) + ', '  +
+        FloatToStr(cdsLista_detPRECOCOMPRA.AsFloat) + ')');
         DecimalSeparator := ',';
       end;
       //cdsLista_det.ApplyUpdates(0);
@@ -212,16 +224,27 @@ begin
     cdsLista_det.RecNo := linhacds;
     cdsLista_det.EnableControls;
   end;
-  inherited;
+  //inherited;
   if (cdsLista_det.State in [dsEdit, dsInsert]) then
   begin
-    DecimalSeparator := '.';
-    dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET PRECOVENDA = ' +
-    floatToStr(cdsLista_detPRECOVENDA.AsFloat) + ' WHERE CODLISTADET = ' +
-      IntToStr(cdsLista_detCODLISTADET.AsInteger));
-    DecimalSeparator := ',';
     cdsLista_det.Post;
   end;
+  cdsLista_det.DisableControls;
+  linha_grid := cdsLista_det.RecNo;
+  cdsLista_det.First;
+  DecimalSeparator := '.';
+  while not cdsLista_det.Eof do
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET ' +
+      ' PRECOVENDA = ' + floatToStr(cdsLista_detPRECOVENDA.AsFloat) +
+      ' ,PRECOCOMPRA = ' + floatToStr(cdsLista_detPRECOCOMPRA.AsFloat) +
+      ' WHERE CODLISTADET = ' + IntToStr(cdsLista_detCODLISTADET.AsInteger));
+    cdsLista_det.Next;
+  end;
+  DecimalSeparator := ',';
+  cdsLista_det.EnableControls;
+  cdsLista_det.RecNo := linha_grid;
+  //cdsLista_det.Post;
 end;
 
 procedure TfListaVenda.dbValidadeExit(Sender: TObject);
@@ -357,7 +380,11 @@ begin
     cdsListaVenda.Open;
     if (cdsLista_det.Active) then
       cdsLista_det.Close;
-    cdsLista_det.Params[0].AsInteger := fListaVendaProc.codlista;
+    cdsLista_det.CommandText := ' SELECT UDF_STRZERO(UDF_DIGITS(p.CODPRO),12) AS COD_P,  l.*, p.CODPRO' +
+      '  FROM LISTAPRECO_VENDADET  l, PRODUTOS P ' +
+      ' where l.codproduto = p.codproduto ' +
+      '   and l.CODLISTA = ' + IntToSTr(fListaVendaProc.codlista) +
+      ' order by COD_P  ';
     cdsLista_det.Open;
     fListaVendaProc.Free;
   end;
@@ -366,7 +393,7 @@ end;
 procedure TfListaVenda.dbgDetalheKeyPress(Sender: TObject; var Key: Char);
 begin
   inherited;
-  if (key = #13) then
+  {if (key = #13) then
   begin
     DecimalSeparator := '.';
     dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET PRECOVENDA = ' +
@@ -374,7 +401,7 @@ begin
       IntToStr(cdsLista_detCODLISTADET.AsInteger));
     DecimalSeparator := ',';
     cdsLista_det.Next;
- end;
+ end;}
 
 end;
 
@@ -411,6 +438,98 @@ begin
   finally
     fProdGeraAumento.Free;
   end;
+end;
+
+procedure TfListaVenda.dbgDetalheTitleClick(Column: TColumn);
+begin
+  //inherited;
+  if (Column.FieldName = 'CODPRO') then
+  begin
+    cdsLista_det.IndexFieldNames := 'COD_P';
+  end
+  else begin
+    cdsLista_det.IndexFieldNames := Column.FieldName;
+  end;
+end;
+
+procedure TfListaVenda.btnCopiarCustoClick(Sender: TObject);
+var sqlC: String;
+begin
+  if (dbNomeLista.Text = '') then
+  begin
+    MessageDlg('Informe a Lista que sera usada para fazer a Cópia.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  sqlC := 'SELECT * FROM LISTAPRECO_VENDA';
+  sqlC := sqlC + ' where NOMELISTA not like ' + QuotedStr('BKP%');
+  sqlC := sqlC + '   and NOMELISTA <> ' + QuotedStr(dbNomeLista.Text);
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := sqlC;
+  dm.cdsBusca.Open;
+  cbListaCopia.Items.Clear;
+  while not dm.cdsBusca.Eof do
+  begin
+    cbListaCopia.Items.Add(dm.cdsBusca.FieldByName('NOMELISTA').AsString);
+    dm.cdsBusca.Next;
+  end;
+  pnCopia.Visible := True;
+end;
+
+procedure TfListaVenda.BitBtn1Click(Sender: TObject);
+var vcodLista: Integer;
+  Save_Cursor:TCursor;
+  TD : TTransactionDesc;
+begin
+  vCodLista := 0;
+  if (cbListaCopia.Text = '') then
+  begin
+    MessageDlg('Informe a Lista para onde sera copiado os valores.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT CODLISTA FROM LISTAPRECO_VENDA  ' +
+    '  WHERE NOMELISTA = ' + QuotedStr(cbListaCopia.Text);
+  dm.cdsBusca.Open;
+  vCodLista := dm.cdsBusca.fieldByName('CODLISTA').asInteger;
+
+  if (vCodLista = 0) then
+  begin
+    MessageDlg('Lista Informada não existe.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  cdsLista_det.First;
+  Save_Cursor   := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
+    try
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      DecimalSeparator := '.';
+      while not cdsLista_det.Eof do
+      begin
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET ' +
+          ' PRECOCOMPRA = ' + floatToStr(cdsLista_detPRECOCOMPRA.AsFloat) +
+          ' WHERE CODLISTA = ' + IntToStr(vCodLista) +
+          '   AND CODPRODUTO = ' + IntToStr(cdsLista_detCODPRODUTO.AsInteger));
+        cdsLista_det.Next;
+      end;
+      DecimalSeparator := ',';
+      pnCopia.Visible := False;
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+  Finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end;
+  MessageDlg('Cópia realizada com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 end.
