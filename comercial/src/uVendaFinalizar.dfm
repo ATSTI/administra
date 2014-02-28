@@ -1,6 +1,6 @@
 inherited fVendaFinalizar: TfVendaFinalizar
   Left = 306
-  Top = 194
+  Top = 203
   Width = 801
   Height = 571
   Caption = 'Gera Contas a Receber - Finaliza Vendas'

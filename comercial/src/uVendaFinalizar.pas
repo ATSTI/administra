@@ -1261,28 +1261,31 @@ var    utilcrtitulo : Tutils;
   FMov : TMovimento;
   FRec : TReceberCls;
 begin
+  {if scdscr_proc.Active then
+     scdscr_proc.Close;
+  scdscr_proc.Params[0].Clear;
+  scdscr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
+  scdscr_proc.Open;}
+  if cds_cr.Active then
+    cds_cr.Close;
+  cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
+  cds_cr.Open;
+  if (cds_crSTATUS.AsString = '7-') then
+  begin
+    MessageDlg('Título já se encontra recebido, não pode ser excluído'+#13+#10+'Cancele a baixa primeiro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   dataVenda := cdsDATAVENDA.AsDateTime;
-
   usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
   utilcrtitulo := Tutils.Create;
   if (utilcrtitulo.verificapermissao = True) then
   begin
-    if scdscr_proc.Active then
-       scdscr_proc.Close;
-    scdscr_proc.Params[0].Clear;
-    scdscr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
-    scdscr_proc.Open;
-    if cds_cr.Active then
-      cds_cr.Close;
-    cds_cr.Params[0].AsInteger := scdscr_procCODRECEBIMENTO.AsInteger;
-    cds_cr.Open;
     if (cds_crSTATUS.AsString = '5-') then
     begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1319,6 +1322,12 @@ begin
              end;
              dm.sqlBusca.Close;
              dm.sqlsisAdimin.Commit(TD);
+             FRec := TReceberCls.Create;
+             try
+               FRec.excluiTitulo(scdscr_proc.Params[0].AsInteger);
+             finally
+               Frec.Free;
+             end;
              ShowMessage('Venda Excluida com Sucesso');
            except
              on E : Exception do
@@ -1359,13 +1368,6 @@ begin
           end;
       end;
 
-    end;
-
-    FRec := TReceberCls.Create;
-    try
-      FRec.excluiTitulo(scdscr_proc.Params[0].AsInteger);
-    finally
-      Frec.Free;
     end;
 
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
@@ -2831,8 +2833,8 @@ begin
       Texto1 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
       scdsCr_procTITULO.AsString;
       Texto2 := '----------------------------------------' ;
-      Texto4 := '  Produto  UN     Qtde   V.Un.    V.Total ' ;
-      Texto5 := '  ' + DateTimeToStr(Now) + ' Total.: R$  ';
+      Texto4 := '  Produto       UN     Qtde   V.Un.  V.Total ' ;
+      Texto5 := '  ' + DateTimeToStr(Now) + ' Total.: R$     ';
      // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
       {-----------------------------------------------------------}
       {-------------------Imprimi Cabeçalho-----------------------}
@@ -2896,10 +2898,10 @@ begin
           texto3 := '';
           texto6 := '  ';
           //texto6 := Format('%-4s',[fVendas.cds_Mov_detCODPRO.Value]);
-          texto3 := texto3 + Format('           %-2s',[fVendas.cds_Mov_detUN.Value]);
-          texto3 := texto3 + Format('     %-6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
-          texto3 := texto3 + Format(' %-6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
-          texto3 := texto3 + Format('   %-6.2n',[fVendas.cds_Mov_detValorTotal.value]);
+          texto3 := texto3 + Format('                %-2s',[fVendas.cds_Mov_detUN.Value]);
+          texto3 := texto3 + Format('    %6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
+          texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
+          texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
           //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
           texto6 := texto6 + '  ' + Copy(fVendas.cds_Mov_detDESCPRODUTO.Value, 0, 36);       //descrição do produto
           Writeln(Impressora, c17cpi, RemoveAcento(texto6));
@@ -2916,7 +2918,7 @@ begin
         {-----------------------------------------------------------}
         {-------------------Imprimi Cabeçalho-----------------------}
         Texto2 := '----------------------------------------' ;
-        Texto3 := '  Vencimento  Status  Valor R$  ' ;
+        Texto3 := '   Vencimento    Status             Valor R$' ;
         Writeln(Impressora, c17cpi, texto2);
         Writeln(Impressora, c17cpi, texto3);
         {------------------------------------------------------}
@@ -2930,11 +2932,11 @@ begin
           Texto3 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
           Texto3 := '  ' + Texto3 + ' - '  + scdsCr_procSTATUS.Value;
           if (scdsCr_procSITUACAO.AsString = '7-') then
-             Texto3 := Texto3 + ' - '  +
-                    Format('%-6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
+             Texto3 := Texto3 + ' -  '  +
+                    Format('%6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
           else
-             Texto3 := Texto3 + ' - '  +
-                    Format('%-6.2n',[scdsCr_procVALORREC.AsFloat]);
+             Texto3 := Texto3 + ' -  '  +
+                    Format('%6.2n',[scdsCr_procVALORREC.AsFloat]);
           Writeln(Impressora, c17cpi, texto3);
           with Printer.Canvas do
           begin
@@ -2948,7 +2950,7 @@ begin
         total := fVendas.cds_Mov_detTotalPedido.Value;
         Writeln(Impressora, c17cpi, texto);
         Write(Impressora, c17cpi, texto5);
-        Writeln(Impressora, c17cpi + Format('%-6.2n',[total]));
+        Writeln(Impressora, c17cpi + Format('%6.2n',[total]));
         texto3 := '';
         texto3 := '  Ass.:____________________________';
         Writeln(IMPRESSORA);
@@ -2974,7 +2976,7 @@ begin
   if DtSrc.State in [dsBrowse] then
     BitBtn2.Enabled := True;
    btnImprimir.Enabled:=DtSrc.State in [dsBrowse];
-   btnNotaFiscal.Enabled:=DtSrc.State in [dsBrowse];   
+   btnNotaFiscal.Enabled:=DtSrc.State in [dsBrowse];
   inherited;
 
 end;
