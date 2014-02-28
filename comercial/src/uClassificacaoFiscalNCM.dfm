@@ -18,7 +18,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = 124
+      Width = 111
       Height = 36
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
@@ -81,6 +81,41 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       end
       item
         Expanded = False
+        FieldName = 'ICMS_SUBST'
+        Title.Caption = 'IVA'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_SUBST_IC'
+        Title.Caption = 'Icms Origem'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_SUBST_IND'
+        Title.Caption = 'Icms Destino'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS'
+        Title.Caption = 'Icms'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ICMS_BASE'
+        Title.Caption = 'Base Icms'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'CST'
         Width = 40
         Visible = True
@@ -93,72 +128,38 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       end
       item
         Expanded = False
-        FieldName = 'ICMS_SUBST'
-        Title.Caption = 'IVA'
+        FieldName = 'CSTIPI'
         Width = 50
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'ICMS_SUBST_IC'
-        Title.Caption = 'Icms Origem'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ICMS_SUBST_IND'
-        Title.Caption = 'Icms Destino'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ICMS'
-        Title.Caption = 'Icms'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ICMS_BASE'
-        Title.Caption = 'Base Icms'
-        Width = 68
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CST IPI'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
         FieldName = 'IPI'
-        Width = 70
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'CST COFINS'
-        Width = 70
+        FieldName = 'CSTCOFINS'
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'COFINS'
-        Width = 70
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'CST PIS'
-        Width = 70
+        FieldName = 'CSTPIS'
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PIS'
-        Width = 70
+        Width = 50
         Visible = True
       end>
   end

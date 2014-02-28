@@ -247,6 +247,7 @@ begin
       str := str + ', DADOSADC4 = ' + QuotedStr(cdsClassFiscDADOSADC4.AsString);
       str := str + ', DADOSADC5 = ' + QuotedStr(cdsClassFiscDADOSADC5.AsString);
       str := str + ', DADOSADC6 = ' + QuotedStr(cdsClassFiscDADOSADC6.AsString);
+      str := str + ', ORIGEM = ' + IntToStr(cdsClassFiscORIGEM.AsInteger);
       str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
       str := str + ' AND CFOP = ' + QuotedStr(CFOP);
       str := str + ' AND UF = ' + QuotedStr(UF);
