@@ -17,18 +17,19 @@ object TRpReport
         ', mov.DATAMOVIMENTO, mov.STATUS,'#13#10'      SUM(movd.QUANTIDADE * mo' +
         'vd.PRECO)  as PRECO,'#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DESCNAT' +
         'UREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, v' +
-        'en.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA   '#13#10'      from MO' +
-        'VIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE =  mo' +
-        'v.CODCLIENTE  inner join NATUREZAOPERACAO nat '#13#10'      on nat.COD' +
-        'NATUREZA  = mov.CODNATUREZA left outer join FORNECEDOR forn '#13#10'  ' +
-        '    on forn.CODFORNECEDOR = mov.CODFORNECEDOR left outer join VE' +
-        'NDA ven '#13#10'      on ven.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10'left ou' +
-        'ter join MOVIMENTODETALHE movd '#13#10'      on movd.CODMOVIMENTO = mo' +
-        'v.CODMOVIMENTO '#13#10'     group by '#13#10'       mov.CODCLIENTE, mov.CODM' +
-        'OVIMENTO, '#13#10'      mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS' +
-        ','#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DESCNATUREZA, mov.CODFORNE' +
-        'CEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ven.VALOR' +
-        ', ven.APAGAR, ven.DATAVENDA '
+        'en.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA ,  '#13#10'      ven.DE' +
+        'SCONTO,  mov.NFE'#13#10' from MOVIMENTO mov '#13#10'   left outer join CLIEN' +
+        'TES cli on cli.CODCLIENTE =  mov.CODCLIENTE '#13#10'inner join NATUREZ' +
+        'AOPERACAO nat   on nat.CODNATUREZA  = mov.CODNATUREZA'#13#10'   left o' +
+        'uter join FORNECEDOR forn     on forn.CODFORNECEDOR = mov.CODFOR' +
+        'NECEDOR '#13#10'   left outer join VENDA ven       on ven.CODMOVIMENTO' +
+        ' = mov.CODMOVIMENTO '#13#10'   left outer join MOVIMENTODETALHE movd  ' +
+        '     on movd.CODMOVIMENTO = mov.CODMOVIMENTO '#13#10#13#10'    group by '#13#10 +
+        '       mov.CODCLIENTE, mov.CODMOVIMENTO, '#13#10'      mov.CODNATUREZA' +
+        ', mov.DATAMOVIMENTO, mov.STATUS,'#13#10'      cli.NOMECLIENTE, '#13#10'     ' +
+        ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.N' +
+        'OTAFISCAL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.DATAVENDA ,'#13#10'  ' +
+        '    ven.DESCONTO, mov.NFE'
     end
     item
       Alias = 'EMPRESA'
@@ -90,6 +91,12 @@ object TRpReport
       end
       item
         Component = TRpExpression4
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpExpression9
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -140,6 +147,12 @@ object TRpReport
       end
       item
         Component = TRpShape0
+      end
+      item
+        Component = TRpLabel7
+      end
+      item
+        Component = TRpLabel8
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -170,23 +183,10 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = 'Pedido'
   end
-  object TRpLabel1: TRpLabel
-    Width = 690
-    Height = 240
-    PosX = 925
-    PosY = 1260
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Nota F.'
-  end
   object TRpLabel2: TRpLabel
     Width = 1155
     Height = 225
-    PosX = 1840
+    PosX = 2765
     PosY = 1260
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -199,7 +199,7 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 1155
     Height = 225
-    PosX = 3110
+    PosX = 3910
     PosY = 1260
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -208,19 +208,6 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Cliente'
-  end
-  object TRpLabel5: TRpLabel
-    Width = 1155
-    Height = 225
-    PosX = 9435
-    PosY = 1260
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Valor Venda'
   end
   object TRpExpression5: TRpExpression
     Width = 10755
@@ -277,7 +264,7 @@ object TRpReport
   object TRpExpression0: TRpExpression
     Width = 1050
     Height = 264
-    PosX = 1840
+    PosX = 2765
     PosY = 0
     Type1Font = poHelvetica
     DisplayFormat = 'dd/mm/yyyy'
@@ -298,11 +285,12 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression1: TRpExpression
-    Width = 4200
-    Height = 264
-    PosX = 3110
+    Width = 4035
+    Height = 225
+    PosX = 3905
     PosY = 0
     Type1Font = poHelvetica
+    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -344,8 +332,8 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression3: TRpExpression
-    Width = 780
-    Height = 264
+    Width = 660
+    Height = 225
     PosX = 30
     PosY = 0
     Type1Font = poHelvetica
@@ -366,9 +354,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression4: TRpExpression
-    Width = 780
-    Height = 264
-    PosX = 925
+    Width = 915
+    Height = 225
+    PosX = 810
     PosY = 0
     Type1Font = poHelvetica
     AutoExpand = False
@@ -381,7 +369,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'IMP.NOTAFISCAL'
+    Expression = 'STR(IMP.NOTAFISCAL) + '#39'-'#39' + IMP.SERIE'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
@@ -389,7 +377,7 @@ object TRpReport
   end
   object TRpSection2: TRpSection
     Width = 10772
-    Height = 360
+    Height = 465
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -405,6 +393,9 @@ object TRpReport
       end
       item
         Component = TRpExpression6
+      end
+      item
+        Component = TRpExpression8
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -425,8 +416,8 @@ object TRpReport
   object TRpLabel4: TRpLabel
     Width = 1035
     Height = 225
-    PosX = 7935
-    PosY = 115
+    PosX = 6555
+    PosY = 120
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -467,6 +458,129 @@ object TRpReport
     LFontName = 'Helvetica'
     Expression = 'IMP.VALOR'
     DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 8055
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMP.PRECO'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression8: TRpExpression
+    Width = 1050
+    Height = 264
+    PosX = 8055
+    PosY = 120
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMP.PRECO'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel5: TRpLabel
+    Width = 1155
+    Height = 225
+    PosX = 9435
+    PosY = 1260
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Valor Venda'
+  end
+  object TRpLabel7: TRpLabel
+    Width = 1155
+    Height = 225
+    PosX = 8055
+    PosY = 1260
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Valor Pedido'
+  end
+  object TRpLabel1: TRpLabel
+    Width = 690
+    Height = 240
+    PosX = 810
+    PosY = 1260
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Venda'
+  end
+  object TRpLabel8: TRpLabel
+    Width = 690
+    Height = 240
+    PosX = 1845
+    PosY = 1260
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Nota F.'
+  end
+  object TRpExpression9: TRpExpression
+    Width = 810
+    Height = 225
+    PosX = 1840
+    PosY = 0
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'IMP.NFE'
+    DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''

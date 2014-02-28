@@ -386,16 +386,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpShape2: TRpShape
-    Width = 10695
-    Height = 34
-    PosX = 0
-    PosY = 801
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
   object TRpExpression18: TRpExpression
     Width = 915
     Height = 225
@@ -578,74 +568,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel1: TRpLabel
-    Width = 510
-    Height = 300
-    PosX = 6435
-    PosY = 856
-    Type1Font = poHelvetica
-    Alignment = 4
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Qtde'
-  end
-  object TRpLabel2: TRpLabel
-    Width = 794
-    Height = 300
-    PosX = 7590
-    PosY = 856
-    Type1Font = poHelvetica
-    Alignment = 4
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Pre'#231'o'
-  end
-  object TRpLabel3: TRpLabel
-    Width = 915
-    Height = 300
-    PosX = 5
-    PosY = 856
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'C'#243'digo'
-  end
-  object TRpLabel4: TRpLabel
-    Width = 794
-    Height = 300
-    PosX = 8970
-    PosY = 856
-    Type1Font = poHelvetica
-    Alignment = 4
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Total'
-  end
-  object TRpLabel5: TRpLabel
-    Width = 2640
-    Height = 300
-    PosX = 920
-    PosY = 856
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Produto'
-  end
   object TRpShape0: TRpShape
     Width = 10694
     Height = 96
@@ -763,5 +685,83 @@ object TRpReport
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
+  end
+  object TRpLabel2: TRpLabel
+    Width = 794
+    Height = 300
+    PosX = 7590
+    PosY = 856
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Pre'#231'o'
+  end
+  object TRpLabel3: TRpLabel
+    Width = 915
+    Height = 300
+    PosX = 5
+    PosY = 856
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'C'#243'digo'
+  end
+  object TRpLabel4: TRpLabel
+    Width = 794
+    Height = 300
+    PosX = 8970
+    PosY = 856
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total'
+  end
+  object TRpLabel5: TRpLabel
+    Width = 2640
+    Height = 300
+    PosX = 920
+    PosY = 856
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Produto'
+  end
+  object TRpLabel1: TRpLabel
+    Width = 510
+    Height = 300
+    PosX = 6435
+    PosY = 856
+    Type1Font = poHelvetica
+    Alignment = 4
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Qtde'
+  end
+  object TRpShape2: TRpShape
+    Width = 10695
+    Height = 34
+    PosX = 0
+    PosY = 801
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
   end
 end
