@@ -1,10 +1,15 @@
-set term ^ ;
-create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
-  dtVcto date, serie char(8), numero varchar(7), codMov integer)
-as
-  declare variable codRec integer;
+Create or ALTER PROCEDURE GERA_NF_VENDA (
+    CLIENTE integer,
+    DTEMISSAO date,
+    DTVCTO date,
+    SERIE char(8),
+    NUMERO varchar(7),
+    CODMOV integer )
+AS
+declare variable codRec integer;
   declare variable codNF integer;
   declare variable codVen integer;
+  declare variable rcodVen integer;
   declare variable codMovNovo integer;
   declare variable codCCusto integer;
   declare variable codUser integer;
@@ -30,7 +35,9 @@ as
   declare variable vIcmsSubst DOUBLE PRECISION;
   declare variable vOutrosT DOUBLE PRECISION;
   declare variable pesoUn DOUBLE PRECISION;
+  declare variable pesoLiq DOUBLE PRECISION;
   declare variable pesoTotal DOUBLE PRECISION;
+  declare variable pesoLiqTotal DOUBLE PRECISION;
   declare variable un char(2);
   declare variable uf char(2);
   declare variable cst char(5);
@@ -39,6 +46,7 @@ as
   declare variable obsP varchar(300);
   declare variable cfop varchar(30);
   declare variable cfop_outros varchar(30);
+  declare variable cfop_ varchar(30);  
   declare variable np SMALLINT;
   declare variable CODTRANSP Integer;
   declare variable NOMETRANSP Varchar(50);
@@ -71,31 +79,23 @@ as
   declare variable CODTRANSPORTADORA INTEGER;
   declare variable Entrada double precision;
   declare variable xped varchar(20);
+  declare variable ncm_dadosadicionais varchar(20);
+  declare variable ncm varchar(20);
   declare variable nitemped integer;
   declare variable indpag integer;
-  declare variable CSTIPI double precision;
-  declare variable CSTPIS double precision;
-  declare variable CSTCOFINS double precision;
-  declare variable PPIS double precision;
-  declare variable PCOFINS double precision;
-  declare variable VALOR_PIS double precision;
-  declare variable VALOR_COFINS double precision;
-  declare variable II double precision;
-  declare variable BCII double precision;
-  declare variable VALOR_OUTROS double precision;
-  declare variable VALOR_SEGURO double precision;
-  declare variable VALOR_DESCONTO double precision;
-  declare variable STFRETE double precision;
-  declare variable BCFRETE double precision;
-  declare variable CSOSN double precision;
-  declare variable ICMSFRETE double precision;
-  declare variable BCSTFRETE double precision;
-  declare variable VIPI double precision;
-  declare variable PIPI double precision;
-  declare variable VLR_BASEICMS double precision;
-  declare variable ICMS_SUBST double precision;
-  declare variable ICMS_SUBSTD double precision;
-  declare variable VALOR_ICMS double precision;
+  declare variable VLR_BASE double precision;
+  declare variable rPARCELAS integer;
+  declare variable rDATAVENCIMENTO date; 
+  declare variable rDATARECEBIMENTO date;
+  declare variable rCAIXA smallint;
+  declare variable rVIA char(4);
+  declare variable rFORMARECEBIMENTO char(1);
+  declare variable rDATABAIXA date;
+  declare variable rVALORRECEBIDO double precision;
+  declare variable rVALOR_PRIM_VIA double precision;
+  declare variable rVALOR_RESTO double precision;
+  declare variable rVALORTITULO   double precision;
+  declare variable vDesconto   double precision;
 begin 
 
   Select first 1 mov.CODNATUREZA
@@ -109,6 +109,8 @@ begin
     vIpiT = 0;
     vSeguroT = 0;
     vOutrosT = 0; 
+    ncm_dadosadicionais = null;
+    corponf1 = null;
 
     tBaseIcms = 0;
     total = 0;
@@ -128,11 +130,18 @@ begin
      where cli.CODCLIENTE  = :cliente
       into :cfop_cli, :TF;
     
+    cfop_ = cfop;
     if (uf <> 'SP') then 
+    begin
       cfop = cfop_outros;
+      cfop_ = cfop;
+    end
     
     if (cfop_cli <> '')then
+    begin
       cfop = cfop_cli;
+      cfop_ = cfop;
+    end
 
     SELECT FIRST 1 ICMS, REDUCAO
       FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
@@ -144,11 +153,11 @@ begin
 
     -- insiro o Movimento   
     for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, 
-               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO
+               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO, ven.CODVENDA , ven.DESCONTO
           from movimento mov 
          inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
          where mov.CODMOVIMENTO = :codMov
-          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped
+          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped, :rcodven , :vDesconto
     do begin 
       insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
@@ -156,94 +165,45 @@ begin
         , :codVendedor, :dtEmissao, 0, 15, :codMov, :CODTRANSPORTADORA);  
     end 
     pesoTotal = 0;
+    pesoLiqTotal = 0;
     nitemped = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST, md.OBS
-      , md.CSTIPI, md.CSTPIS, md.CSTCOFINS, md.PPIS, md.PCOFINS, md.VALOR_PIS, md.VALOR_COFINS, md.II, md.BCII
-      , md.VALOR_OUTROS, md.VALOR_SEGURO, md.VALOR_DESCONTO, md.STFRETE, md.BCFRETE, md.FRETE, md.CSOSN, md.ICMSFRETE
-      , md.BCSTFRETE, md.CFOP, md.VIPI, md.PIPI, md.VLR_BASEICMS, md.ICMS_SUBST, md.ICMS_SUBSTD, md.VALOR_ICMS, md.CST
+      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base, prod.NCM
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto,     :codProduto,   :qtde,           :un,      :preco,       :descP,     :icms,         :baseIcms, 
-         :pesoUn,       :cstProd,      :obsp,
-         :CSTIPI,       :CSTPIS,       :CSTCOFINS,      :PPIS,    :PCOFINS,     :VALOR_PIS, :VALOR_COFINS, :II, 
-         :VALOR_OUTROS, :VALOR_SEGURO, :VALOR_DESCONTO, :STFRETE, :BCFRETE,     :FRETE,     :CSOSN,        :ICMSFRETE,
-         :BCSTFRETE,    :CFOP,         :VIPI,           :PIPI,    :VLR_BASEICMS,:ICMS_SUBST,:ICMS_SUBSTD,  :VALOR_ICMS,
-         :CST,          :BCII 
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :pesoLiq, :cstProd, :obsp, :cfop, :vlr_base, :ncm
     do begin 
       nitemped = nitemped + 1;
+      if (ncm_dadosadicionais is null) then 
+        ncm_dadosadicionais = :ncm;
 
      if (pesoUn is null) then 
         pesoUn = 0;
+     if (pesoLiq is null) then 
+        pesoLiq = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
+      pesoLiqTotal = pesoLiqTotal + (:pesoLiq * :qtde);
       if (:icms > 0) then 
         tBaseIcms = tBaseIcms + (preco * qtde);
-      -- codigo cst   
-      /*cst = '000';
-      if (icms is null) then 
-         icms = vIcmsT;
-      
-      if (icms is null) then 
-      begin  
-        cst = '041';
-      end        
+        
+    if(:cfop = '') then
+        cfop = :cfop_;
+    if(:cfop is null) then
+        cfop = :cfop_;
 
-      if ((baseIcms = 100) and (icms > 0)) then 
-      begin  
-        cst = '000';
-      end        
-      if (icms = 0) then 
-      begin  
-        cst = '040';
-      end        
-      if ((baseICMS < 100) and (baseICMS > 0) and (icms > 0)) then 
-      begin
-        cst = '020'; 
-      end 
-
-      if ((cstProd is not null) or (cstProd <> '')) then 
-        cst = cstProd;*/
-
-      if (icms is null) then 
-        icms = 0;
-      if (baseIcms is null) then 
-        baseIcms = 0;
-
-      -- Calculo ICMS 
-      if (uf = 'SP') then 
-      begin 
-        valoricms = (preco * qtde) * (baseIcms / 100) * (icms / 100); 
-      end  
-      if (uf <> 'SP') then 
-      begin 
-    
-        if (baseIcms is null) then 
-          baseIcms = 0;
-        valoricms = (preco * qtde) * (baseIcms / 100) * (icms / 100); 
-      end  
-          
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
-       , preco, un, descProduto, icms, valor_icms, qtde_alt, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO
-       ,CSTIPI, CSTPIS, CSTCOFINS, PPIS, PCOFINS, VALOR_PIS, VALOR_COFINS 
-      , VALOR_OUTROS, VALOR_SEGURO, VALOR_DESCONTO, STFRETE, BCFRETE, FRETE, CSOSN, ICMSFRETE
-      , BCSTFRETE, CFOP, VIPI, PIPI, VLR_BASEICMS, ICMS_SUBST, ICMS_SUBSTD, CST
-       ) 
+       , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO, CFOP) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :VALOR_ICMS,  :desconto, (:preco-((:preco)*(:desconto/100))), 
-       :II, :BCII, :obsp, :nitemped, :xped, 
-       :CSTIPI,       :CSTPIS,       :CSTCOFINS,      :PPIS,    :PCOFINS,     :VALOR_PIS, :VALOR_COFINS, 
-       :VALOR_OUTROS, :VALOR_SEGURO, :VALOR_DESCONTO, :STFRETE, :BCFRETE,     :FRETE,     :CSOSN,        :ICMSFRETE,
-       :BCSTFRETE,    :CFOP,         :VIPI,           :PIPI,    :VLR_BASEICMS,:ICMS_SUBST,:ICMS_SUBSTD, :cst
-       );  
-      total = total + (qtde * (:preco*(1-(:desconto/100))));
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),:vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop);  
+      total = total + (qtde * :vlr_base);
       totalIcms = totalIcms + :valoricms;
     end 
     vIcmsT = 0; 
     if (vFreteT is null) then
       vFreteT = 0;
-    /* Buscando a numeracao da duplicata */
+    -- Buscando a numeracao da duplicata
     preco = total;
     total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT; 
 
@@ -270,19 +230,36 @@ begin
   
     SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
       UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
-      FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf and ei.CODFISCAL = :TF
+      FROM CLASSIFICACAOFISCALNCM ei 
+     where ei.CFOP = :cfop 
+       and ei.UF = :uf 
+       and ei.CODFISCAL = :TF
+       and ei.NCM = :ncm_dadosadicionais       
       into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
+      
+     if (UDF_TRIM(corponf1) = '') then 
+       CORPONF1 = null;           
+      
+     if (corponf1 is null) then 
+     begin  
+       SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
+        UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
+        FROM ESTADO_ICMS ei where ei.CFOP = :cfop and ei.UF = :uf and ei.CODFISCAL = :TF
+        into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
+     end
 
     if(:CODTRANSPORTADORA is null) then
     begin
       select first 1 t.CODTRANSP, t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
         , t.CIDADE_TRANSP, t.UF_VEICULO_TRANSP, t.UF_TRANSP, t.FRETE, t.INSCRICAOESTADUAL
         , t.FONE, t.FONE2, t.FAX, t.CONTATO, t.CEP, t.BAIRRO
-       from TRANSPORTADORA t inner join CLIENTES c on c.COD_TRANPORTADORA = t.CODTRANSP
+      from TRANSPORTADORA t inner join CLIENTES c on c.COD_TRANPORTADORA = t.CODTRANSP
       where c.CODCLIENTE = :Cliente
-       into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
-          , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
-          , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
+      into :CODTRANSP, :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
+        , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
+        , :FONE, :FONE2, :FAX, :CONTATO, :CEP, :BAIRRO;
+    if (TFRETE > 0) then
+	  TFRETE = TFRETE -1;	  
     end
     else begin
       select first 1 t.NOMETRANSP, t.PLACATRANSP, t.CNPJ_CPF, t.END_TRANSP
@@ -305,6 +282,12 @@ begin
     if( TPFRETE = '3') then
       TFRETE = 3;   
 
+
+    if(:cfop = '') then
+        cfop = :cfop_;
+    if(:cfop is null) then
+        cfop = :cfop_;
+                
     INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, codVenda, codCliente, cfop
       , valor_total_nota, dtaEmissao, VALOR_ICMS, BASE_ICMS_SUBST, VALOR_ICMS_SUBST
       , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
@@ -316,10 +299,33 @@ begin
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
-    , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
-    , :serie, :UF, 0, 0, 0, :indpag);
+    , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoLiqTotal
+    , :serie, :UF, :vDesconto, 0, 0, :indpag);
  
-    -- Faço um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
+    For SELECT r.PARCELAS,       r.DATAVENCIMENTO, r.DATARECEBIMENTO,  
+               r.CAIXA,          r.VIA,           r.FORMARECEBIMENTO, 
+               r.DATABAIXA,      r.VALORRECEBIDO, r.VALOR_PRIM_VIA, r.VALOR_RESTO, 
+               r.VALORTITULO
+          FROM RECEBIMENTO r 
+         WHERE r.CODVENDA = :rcodven
+          INTO :rPARCELAS,  :rDATAVENCIMENTO, :rDATARECEBIMENTO, :rCAIXA, :rVIA, :rFORMARECEBIMENTO, 
+               :rDATABAIXA, :rVALORRECEBIDO, :rVALOR_PRIM_VIA, :rVALOR_RESTO, :rVALORTITULO
+    do begin        
+       INSERT INTO RECEBIMENTO (CODRECEBIMENTO,       TITULO,        EMISSAO,        CODCLIENTE,    DATAVENCIMENTO,
+                                DATARECEBIMENTO,      CAIXA,         STATUS,         VIA,           FORMARECEBIMENTO, 
+                                DATABAIXA,            CODVENDA,      CODALMOXARIFADO,CODVENDEDOR,   CODUSUARIO, 
+                                DATASISTEMA,          VALORRECEBIDO, JUROS,          DESCONTO,      PERDA, 
+                                TROCA,                FUNRURAL,      VALOR_PRIM_VIA, VALOR_RESTO,   VALORTITULO, 
+                                OUTRO_CREDITO,        OUTRO_DEBITO,  PARCELAS)
+                    VALUES (GEN_ID(COD_AREC,1),        CAST(:numero as Varchar(10)) || '-NF',      :dtEmissao,     :Cliente,      :rDATAVENCIMENTO, 
+                                :rDATARECEBIMENTO,    :rCAIXA,       'NF',           :rVIA,         :rFORMARECEBIMENTO, 
+                                :rDATABAIXA,          :codVen,       :codCCusto,     :codVendedor,  :codUser,
+                                current_date,         :rVALORRECEBIDO, 0,             0,             0,              
+                                0,                     0,            :rVALOR_PRIM_VIA,:rVALOR_RESTO, :rVALORTITULO,
+                                0,                     0,            :rPARCELAS); 
+    end
+ 
+    -- Faco um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr
     -- da nf qdo esta e parcelada (dnz)
     select valor_total_nota from notafiscal where numnf = :codnf
     into :total;
@@ -327,4 +333,4 @@ begin
     EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);
   end
-end 
+end
