@@ -319,7 +319,7 @@ begin
               , '', sqlBuscaR.FieldByName('TITULO').asString, 'RECEBIDO');
       end;
       VLR_RESTO := VLR_RESTO - (VLR + VLJU + VLFUN - VLPER - VLDESC);
-
+      Result := 0;
       // Se sobrou algum valor então gera novo titulo
       if ((VLR_RESTO > 0.01) and (tipoBaixa <> 'DESCONTO') and (VLR_RESTO <> VLRESTO) )then
       begin
@@ -328,7 +328,6 @@ begin
       end;
      sqlBuscaR.Next;
     end;
-    Result := 0;
   finally
     sqlBuscaR.Free;
   end;

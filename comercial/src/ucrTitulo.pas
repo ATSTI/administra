@@ -160,7 +160,7 @@ var
   fcrTitulo: TfcrTitulo;
   valorAReceber, ValorRecebido, desc, juros, perda,
   funrural,outros, valorr, resto: Double;
-  
+
 
 implementation
 
@@ -435,23 +435,6 @@ var j, num1 : integer;
   TD: TTransactionDesc;
 begin
   inherited;
-  for j := 1 to length(nrec) do
-  begin
-    strsql2 := 'UPDATE RECEBIMENTO SET DP = 0, HISTORICO = ';
-    strsql2 := strsql2 + QuotedStr(Memo1.Text);
-    strsql2 := strsql2 + ' WHERE CODRECEBIMENTO = ';
-    num1 := nrec[j - 1];
-    strsql2 := strsql2 + IntToStr(num1);
-    dm.sqlsisAdimin.StartTransaction(TD);
-    try
-      dm.sqlsisAdimin.ExecuteDirect(strsql2);
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
-      exit;
-    end;
-  end;
   codrec := dm.cds_crCODRECEBIMENTO.AsInteger;
   Cod_orig := dm.cds_crCODRECEBIMENTO.AsInteger;
   tipo_origem := 'T_RECEBER';

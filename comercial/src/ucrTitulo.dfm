@@ -1,6 +1,6 @@
 inherited fcrTitulo: TfcrTitulo
   Left = 139
-  Top = 122
+  Top = 123
   Width = 819
   Height = 554
   Caption = 'Baixar Lan'#231'amentos'
