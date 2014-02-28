@@ -2197,7 +2197,10 @@ var   FMov : TMovimento;
 begin
   inherited;
   if DtSrc.DataSet.State in [dsInactive] then
-  exit;
+    exit;
+
+  if DtSrc.DataSet.State in [dsEdit, dsInsert] then
+    btnGravar.Click;
 
   TDA.TransactionID  := 1;
   TDA.IsolationLevel := xilREADCOMMITTED;
@@ -2216,6 +2219,7 @@ begin
       FMov.CodUsuario  := usulog;
       FMov.CodVendedor := cds_MovimentoCODVENDEDOR.AsInteger;
       FMov.DataMov     := cds_MovimentoDATAMOVIMENTO.AsDateTime ;
+      FMov.DataEntrega := cds_MovimentoDATA_ENTREGA.AsDateTime ;
       FMov.Obs         := cds_MovimentoOBS.AsString;
       Fmov.CodFornec   := cds_MovimentoCODFORNECEDOR.AsInteger;
       Fmov.CodPedido   := cds_MovimentoCODPEDIDO.AsInteger;
@@ -2232,7 +2236,7 @@ begin
         Fmov.MovDetalhe.Un            := cds_Mov_detUN.AsString;
         Fmov.MovDetalhe.Desconto      := cds_Mov_detQTDE_ALT.AsFloat;
         Fmov.MovDetalhe.Cfop          := cds_Mov_detCFOP.AsString;
-        
+        Fmov.MovDetalhe.Frete         := cds_Mov_detFRETE.AsFloat;
         FMov.MovDetalhe.inserirMovDet;
         cds_Mov_det.Next;
       end;

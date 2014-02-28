@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
   Left = 275
-  Top = 85
+  Top = 89
   Width = 802
   Height = 615
   Caption = 'Compra'
@@ -2628,6 +2628,7 @@ inherited fCompra: TfCompra
     end
     object cds_MovimentoDATA_ENTREGA: TDateField
       FieldName = 'DATA_ENTREGA'
+      EditMask = '!99/99/00;1;_'
     end
     object cds_MovimentoPRAZO_PAGAMENTO: TStringField
       FieldName = 'PRAZO_PAGAMENTO'
