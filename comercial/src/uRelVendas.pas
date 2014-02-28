@@ -141,6 +141,7 @@ type
     Label16: TLabel;
     cbMarca: TComboBox;
     chkVendedor: TCheckBox;
+    BitBtn15: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -170,6 +171,7 @@ type
     procedure chkVendedorClick(Sender: TObject);
     procedure BitBtn14Click(Sender: TObject);
     procedure BitBtn16Click(Sender: TObject);
+    procedure BitBtn15Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -1040,6 +1042,24 @@ begin
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
   end;
+end;
+
+procedure TfRelVenda.BitBtn15Click(Sender: TObject);
+begin
+  try
+    Rep.Filename := str_relatorio + 'comissaoporproduto.rep';
+    Rep.Title := rep.Filename;
+    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    Rep.Report.Params.ParamByName('DATA1').Value := Data1.Date;
+    Rep.Report.Params.ParamByName('DATA2').Value := Data2.Date;
+    if (Edit1.Text <> '') then
+      Rep.Report.Params.ParamByName('PFUN').Value := StrToInt(Edit1.Text)
+    else
+      Rep.Report.Params.ParamByName('PFUN').Value := 0;
+  except
+  end;
+  Rep.Execute;
+
 end;
 
 end.
