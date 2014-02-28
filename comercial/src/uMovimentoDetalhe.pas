@@ -55,6 +55,8 @@ type
     function getDtaVcto: TDateTime;
     procedure setDtaFab(const Value: TDateTime);
     procedure setDtaVcto(const Value: TDateTime);
+    function getFrete: Double;
+    procedure setFrete(const Value: Double);
   protected
     //Atributos
     _codDet          : Integer;
@@ -65,6 +67,7 @@ type
     _preco           : Double;
     _icms            : Double;
     _desconto        : Double;
+    _frete           : Double;
     _descricao       : String;
     _baixa           : String;
     _un              : String;
@@ -80,7 +83,40 @@ type
     _Cfop            : String;
     _dtaFab          : TDateTime;
     _dtaVcto         : TDateTime;
-
+   { _CST             : String;
+    _VALOR_ICMS      : Double;
+    _VLR_BASE
+    _ICMS_SUBST double precision,
+  ICMS_SUBSTD double precision,
+  VLR_BASEICMS double precision,
+  PIPI double precision,
+  VIPI
+   BCSTFRETE double precision,
+  ICMSFRETE double precision,
+  CSOSN varchar(3),
+  FRETE double precision,
+  BCFRETE double precision,
+  STFRETE char(4),
+  VALOR_DESCONTO double precision,
+  VALOR_SEGURO double precision,
+  VALOR_OUTROS double precision,
+  VALOR_PIS double precision,
+  VALOR_COFINS double precision,
+  II double precision,
+  BCII double precision,
+  PPIS double precision,
+  PCOFINS double precision,
+  CSTIPI varchar(2),
+  CSTPIS varchar(2),
+  CSTCOFINS varchar(2),
+  PAGOU char(1),  // se e calculo manual ou não.
+  FRETE_BC varchar(5),
+  DESCONTO_BC varchar(5),
+  VLRBC_IPI double precision,
+  VLRBC_PIS double precision,
+  VLRBC_COFINS double precision,
+  VLRTOT_TRIB double precision,
+    }
     function executaSql(strSql: String): Boolean;
   public
     property CodDet      : Integer read getCodDet write setCodDet;
@@ -91,6 +127,7 @@ type
     property Preco       : Double  read getPreco write setPreco;
     property Icms        : Double  read getIcms write setIcms;
     property Desconto    : Double  read getDesconto write setDesconto;
+    property Frete       : Double  read getFrete write setFrete;    
     property Descricao   : String  read getDescricao write setDescricao;
     property Baixa       : String  read getBaixa write setBaixa;
     property Un          : String  read getUn write setUn;
@@ -239,6 +276,11 @@ begin
   Result := _dtaVcto;
 end;
 
+function TMovimentoDetalhe.getFrete: Double;
+begin
+  Result := _frete;
+end;
+
 function TMovimentoDetalhe.getIcms: Double;
 begin
   Result := _icms;
@@ -280,7 +322,7 @@ begin
   DecimalSeparator := '.';
   str := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODMOVIMENTO, ' +
     'CODPRODUTO, QUANTIDADE, PRECO, ICMS, QTDE_ALT, UN, BAIXA, DESCPRODUTO, CODIGO , LOTE, ' +
-    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAUTORIZACAO, CFOP, DTAVCTO, DTAFAB) VALUES (';
+    ' ACRESCIMO, CORTESIA, ATENDENTE, COLABORADOR, SUITE, CODAUTORIZACAO, CFOP, DTAVCTO, DTAFAB, FRETE) VALUES (';
   str := str + 'GEN_ID(GENMOVDET,1), ' + IntToStr(self.CodMov) + ', ' + IntToStr(Self.CodProduto);
   str := str + ', ' + FloatToStr(Self.Qtde) + ', ' + FloatToStr(Self.Preco);
   str := str + ', ' + FloatToStr(Self.Icms) + ', ' + FloatToStr(Self.Desconto);
@@ -297,6 +339,7 @@ begin
   str := str + ', ' + QuotedStr(Self.CFOP);
   str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DtaVcto));
   str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DtaFab));
+  str := str + ', ' + FloatToStr(Self.Frete);  
   str := str + ')';
   executaSql(str);
 end;
@@ -379,6 +422,11 @@ end;
 procedure TMovimentoDetalhe.setFormaRecebimento(const Value: String);
 begin
   _FormaRcebimento := Trim(Value);
+end;
+
+procedure TMovimentoDetalhe.setFrete(const Value: Double);
+begin
+  _frete := Value;
 end;
 
 procedure TMovimentoDetalhe.setIcms(const Value: Double);
