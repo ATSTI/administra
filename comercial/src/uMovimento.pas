@@ -255,7 +255,10 @@ begin
   str := str + ', ' + IntToStr(Self.CodVendedor) + ', ' + IntToStr(Self.CodCCusto);
   str := str + ', ' + IntToStr(Self.CodFornec) + ', CURRENT_TIMESTAMP ';
   str := str + ', ' + QuotedStr(Self.Controle) + ', ' + IntToStr(Self.CodPedido);
-  str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrega));
+  if (Self.DataEntrega > 0) then
+    str := str + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataEntrega))
+  else
+    str := str + ', null'; 
   str := str + ', ' + QuotedStr(Self.Obs);
   str := str + ', ' + IntToStr(Self.CodOrigem);
   str := str + ', ' + QuotedStr(Self.TipoPedido);
