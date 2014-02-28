@@ -1,6 +1,6 @@
 inherited fInventario: TfInventario
   Left = 221
-  Top = 65
+  Top = 68
   Width = 922
   Height = 663
   Caption = 'Inventario'
@@ -16,10 +16,9 @@ inherited fInventario: TfInventario
     Width = 914
     Height = 66
     inherited btnGravar: TBitBtn
-      Left = 344
+      Left = 425
       Top = 22
       Caption = 'Gravar'
-      Enabled = False
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
         180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
@@ -121,33 +120,33 @@ inherited fInventario: TfInventario
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     inherited btnIncluir: TBitBtn
-      Left = 578
+      Left = 659
       Top = 22
       Caption = 'Executar'
     end
     inherited btnCancelar: TBitBtn
-      Left = 461
+      Left = 542
       Top = 22
       Caption = 'Cancelar'
       Visible = False
     end
     inherited btnExcluir: TBitBtn
-      Left = 461
+      Left = 542
       Top = 22
       Caption = 'Excluir Lista'
       Enabled = True
     end
     inherited btnProcurar: TBitBtn
-      Left = 115
+      Left = 196
       Top = 22
       Visible = False
     end
     inherited btnSair: TBitBtn
-      Left = 694
+      Left = 775
       Top = 22
     end
     object btnImprimir: TBitBtn
-      Left = 229
+      Left = 310
       Top = 22
       Width = 107
       Height = 42
@@ -186,6 +185,40 @@ inherited fInventario: TfInventario
       Width = 800
       Height = 16
       TabOrder = 7
+    end
+    object ckCusto: TJvCheckBox
+      Left = 5
+      Top = 21
+      Width = 107
+      Height = 17
+      Hint = 
+        'O Custo do produto vira da Lista de Venda.'#13#10'Se, n'#227'o selecionado,' +
+        ' o funcionamento normal,'#13#10' '#233', pegar o custo do produto que est'#225' ' +
+        'no  Cadastro deste.'
+      Caption = 'Custo Lista Venda'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 8
+      OnClick = ckCustoClick
+      LinkedControls = <>
+      HotTrackFont.Charset = DEFAULT_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'MS Sans Serif'
+      HotTrackFont.Style = []
+    end
+    object cbListaVenda: TJvHTComboBox
+      Left = 5
+      Top = 40
+      Width = 174
+      Height = 22
+      HideSel = False
+      DropWidth = 145
+      ColorHighlight = clHighlight
+      ColorHighlightText = clHighlightText
+      ColorDisabledText = clGrayText
+      TabOrder = 9
+      Visible = False
     end
   end
   object Panel1: TPanel [2]
@@ -555,6 +588,12 @@ inherited fInventario: TfInventario
           FieldName = 'QTDE_INVENTARIO'
           Title.Caption = 'Inventariado'
           Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CUSTO'
+          Title.Caption = 'Custo'
           Visible = True
         end
         item
@@ -1175,6 +1214,7 @@ inherited fInventario: TfInventario
     object cdsInventCUSTO: TFloatField
       FieldName = 'CUSTO'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
   end
   object dsInvent: TDataSource

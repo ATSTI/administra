@@ -8,7 +8,8 @@ uses
   Menus, XPMenu, DB, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient,
   Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, rpcompobase, rpvclreport, dbxpress, ComCtrls,
-  JvExComCtrls, JvProgressBar, umovimento, uVendaCls, uCompraCls, DateUtils;
+  JvExComCtrls, JvProgressBar, umovimento, uVendaCls, uCompraCls, DateUtils,
+  JvExStdCtrls, JvCheckBox, JvHtControls;
 
 type
   TfInventario = class(TfPai_new)
@@ -112,6 +113,8 @@ type
     cdsProdESTOQUE: TFloatField;
     chkTemEstoque: TCheckBox;
     cdsInventCUSTO: TFloatField;
+    ckCusto: TJvCheckBox;
+    cbListaVenda: TJvHTComboBox;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -127,18 +130,19 @@ type
     procedure btnImprimirClick(Sender: TObject);
     procedure JvDBGrid2TitleClick(Column: TColumn);
     procedure JvDBGrid3CellClick(Column: TColumn);
-    procedure dsInventStateChange(Sender: TObject);
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
     procedure btnGravarClick(Sender: TObject);
     procedure cbCCustoChange(Sender: TObject);
     procedure cbCCusto1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ckCustoClick(Sender: TObject);
   private
     { Private declarations }
     CCusto: Integer;
     TD: TTransactionDesc;
     procedure incluirInventario;
     procedure executaLista;
+    procedure abrirListaInventario;
   public
     { Public declarations }
   end;
@@ -208,84 +212,22 @@ begin
 end;
 
 procedure TfInventario.btnProcListaClick(Sender: TObject);
-var sqlb : string;
 begin
-  sqlb := '';
-
-  if( (edLista.Text <> '') and (Dta.Text <> '  /  /    ')) then
+  abrirListaInventario;
+  if (cdsInvent.IsEmpty) then
   begin
-    if (cdsInvent.Active) then
-      cdsInvent.Close;
-
-    if (rgLista.ItemIndex = 0) then
+    if ((Dta.Text <> '  /  /    ') and  (edLista.Text <> '')) then
     begin
-      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('A');
-    end;
-    if (rgLista.ItemIndex = 1) then
-    begin
-      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('G');
-    end;
-
-    if (edLista.Text <> '') then
-    begin
-      sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
-    end;
-
-    {if (Dta.Text = '  /  /    ') then
-      sqlb := sqlb
-    else
-      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
-
-    cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
-      ' CASE WHEN p.TIPOPRECOVENDA = ' + QuotedStr('M') + ' THEN COALESCE(p.PRECOMEDIO, 0) ' +
-      ' ELSE COALESCE(p.VALORUNITARIOATUAL,0) END CUSTO FROM INVENTARIO i ' +
-      ' inner join produtos p on p.codproduto = i.codproduto ' + sqlb + ' order by DATAIVENTARIO DESC ';
-    cdsInvent.Open;
-    if (cdsInvent.IsEmpty) then
-    begin
-      if ((Dta.Text <> '  /  /    ') and  (edLista.Text <> '')) then
+      if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
+                  [mbYes,mbNo],0) = mrYes then
       begin
-        if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
-                    [mbYes,mbNo],0) = mrYes then
-        begin
-          cdsInvent.Append;
-          cdsInventCODIVENTARIO.AsString := edLista.text;
-          btnGravar.Enabled := True;
-        end;
+        cdsInvent.Append;
+        cdsInventCODIVENTARIO.AsString := edLista.text;
       end;
-    end
-    else
-      btnGravar.Enabled := True;
+    end;
   end
-  else
-  begin
-    if (cdsListaInventario.Active) then
-      cdsListaInventario.Close;
-
-    if (rgLista.ItemIndex = 0) then
-    begin
-      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('A');
-    end;
-    if (rgLista.ItemIndex = 1) then
-    begin
-      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('G');
-    end;
-
-    if (edLista.Text <> '') then
-    begin
-      sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
-    end;
-
-    {if (Dta.Text = '  /  /    ') then
-      sqlb := sqlb
-    else
-      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
-
-    cdsListaInventario.CommandText := 'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO i ' + sqlb;
-    cdsListaInventario.Open;
-
-    btnGravar.Enabled := False;
-
+  else begin
+    btnGravar.Enabled := True;
     if (cdsListaInventario.IsEmpty) then
     begin
       if MessageDlg('Não existe esta Lista, criar uma ?',mtConfirmation,
@@ -295,9 +237,7 @@ begin
         cdsInventCODIVENTARIO.AsString := edLista.text;
         btnGravar.Enabled := True;
       end;
-    end;
-
-
+    end
   end;
 end;
 
@@ -675,40 +615,11 @@ begin
 end;
 
 procedure TfInventario.JvDBGrid3CellClick(Column: TColumn);
-var sqlb : String;
 begin
-  sqlb := '';
-  if (cdsInvent.Active) then
-    cdsInvent.Close;
-
-  if (rgLista.ItemIndex = 0) then
-  begin
-    sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('A');
-  end;
-  if (rgLista.ItemIndex = 1) then
-  begin
-    sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('G');
-  end;
-
-  sqlb := sqlb + ' AND i.CODIVENTARIO = ' + QuotedStr(cdsListaInventarioCODIVENTARIO.AsString);
-  //sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsListaInventarioDATAIVENTARIO.AsDateTime));
-
-  cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
-  ' p.VALORUNITARIOATUAL CUSTO FROM INVENTARIO i ' +
-  ' inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
-  cdsInvent.Open;
+  abrirListaInventario;
   edLista.Text := cdsListaInventarioCODIVENTARIO.AsString;
   Dta.Text := DateToStr(cdsListaInventarioDATAIVENTARIO.AsDateTime);
   btnGravar.Enabled := True;  
-end;
-
-procedure TfInventario.dsInventStateChange(Sender: TObject);
-begin
-  inherited;
-  {if (cdsInvent.State in [dsInsert, dsEdit]) then
-  begin
-    cdsInvent.ApplyUpdates(0);
-  end;}
 end;
 
 procedure TfInventario.JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
@@ -910,6 +821,7 @@ begin
         fven.NotaFiscal           := codMovSaida;
         fven.CodCliente           := 0;
         fven.CodVendedor          := 1;
+        fven.CodUsuario           := 1;
         fven.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
         fven.ValorPagar           := 0;
         fven.NParcela             := 1;
@@ -925,6 +837,7 @@ begin
         fCom.NotaFiscal           := codMovEntrada;
         fCom.CodFornecedor        := 0;
         fCom.CodComprador         := 1;
+        fCom.CodUsuario           := 1;
         fCom.CodCCusto            := cdsInventCODCCUSTO.AsInteger;
         fCom.ValorPagar           := 0;
         fCom.NParcela             := 1;
@@ -976,7 +889,122 @@ procedure TfInventario.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  //dm.EstoqueAtualiza;  
+  //dm.EstoqueAtualiza;
+end;
+
+procedure TfInventario.abrirListaInventario;
+var sqlb : string;
+begin
+  if (ckCusto.Checked) then
+  begin
+    if (cbListaVenda.ItemIndex = -1) then
+    begin
+      MessageDlg('Foi marcado a opção utilizar Custo da Lista de Venda, mas não foi informado de qual lista.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
+  sqlb := '';
+
+  if( (edLista.Text <> '') and (Dta.Text <> '  /  /    ')) then
+  begin
+    if (cdsInvent.Active) then
+      cdsInvent.Close;
+
+    if (rgLista.ItemIndex = 0) then
+    begin
+      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('A');
+    end;
+    if (rgLista.ItemIndex = 1) then
+    begin
+      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('G');
+    end;
+
+    if (edLista.Text <> '') then
+    begin
+      sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
+    end;
+
+    if (ckCusto.Checked) then // O Custo do produto vira da Lista de Venda
+    begin
+      if (dm.cdsBusca.Active) then
+        dm.cdsBusca.Close;
+      dm.cdsBusca.CommandText := 'SELECT r.CODLISTA ' +
+        '  FROM LISTAPRECO_VENDA r' +
+        ' WHERE r.NOMELISTA = ' + QuotedStr(cbListaVenda.Text);
+      dm.cdsBusca.Open;
+      if (dm.cdsBusca.IsEmpty) then
+      begin
+        MessageDlg('Lista de Venda não encontrada.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      sqlb := sqlb + ' AND lv.CODLISTA = ' + IntToStr(dm.cdsBusca.fieldByName('CODLISTA').AsInteger);
+
+      cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
+        ' COALESCE(lv.PRECOCOMPRA,0) CUSTO FROM INVENTARIO i ' +
+        ' INNER JOIN PRODUTOS p ON p.CODPRODUTO = i.CODPRODUTO ' +
+        ' INNER JOIN LISTAPRECO_VENDADET lv ON lv.CODPRODUTO = i.CODPRODUTO ' +
+        sqlb + ' order by DATAIVENTARIO DESC ';
+    end
+    else begin
+      cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto, ' +
+        ' CASE WHEN p.TIPOPRECOVENDA = ' + QuotedStr('M') + ' THEN COALESCE(p.PRECOMEDIO, 0) ' +
+        ' ELSE COALESCE(p.VALORUNITARIOATUAL,0) END CUSTO FROM INVENTARIO i ' +
+        ' inner join produtos p on p.codproduto = i.codproduto ' + sqlb + ' order by DATAIVENTARIO DESC ';
+    end;
+    cdsInvent.Open;
+  end;
+  //else
+  //begin
+    if (cdsListaInventario.Active) then
+      cdsListaInventario.Close;
+
+    if (rgLista.ItemIndex = 0) then
+    begin
+      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('A');
+    end;
+    if (rgLista.ItemIndex = 1) then
+    begin
+      sqlb := ' WHERE i.SITUACAO = ' + QuotedStr('G');
+    end;
+
+    if (edLista.Text <> '') then
+    begin
+      sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
+    end;
+
+    {if (Dta.Text = '  /  /    ') then
+      sqlb := sqlb
+    else
+      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
+
+    cdsListaInventario.CommandText := 'SELECT distinct i.CODIVENTARIO, i.DATAIVENTARIO FROM INVENTARIO i ' + sqlb;
+    cdsListaInventario.Open;
+  //end;
+end;
+
+procedure TfInventario.ckCustoClick(Sender: TObject);
+begin
+  inherited;
+  if (ckCusto.Checked) then
+  begin
+    cbListaVenda.Visible := True;
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT r.CODLISTA, r.CODCLIENTE, r.NOMELISTA, ' +
+      ' r.VALIDADE, r.DATAINICIAL, r.DATAFINAL ' +
+      '  FROM LISTAPRECO_VENDA r' +
+      ' WHERE NOT r.NOMELISTA LIKE ' + QuotedStr('BKP%');
+    dm.cdsBusca.Open;
+    cbListaVenda.Items.Clear;
+    While not dm.cdsBusca.Eof do
+    begin
+      cbListaVenda.Items.Add(dm.cdsBusca.fieldByName('NOMELISTA').AsString);
+      dm.cdsBusca.Next;
+    end;
+  end
+  else begin
+    cbListaVenda.Visible := False;
+  end;
 end;
 
 end.
