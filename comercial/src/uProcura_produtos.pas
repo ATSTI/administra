@@ -220,6 +220,8 @@ type
     edCondicao3: TJvCalcEdit;
     edCondicao1: TJvCalcEdit;
     cbAplicacao: TComboBox;
+    sds_procCODPROD_ORDER: TStringField;
+    cds_procCODPROD_ORDER: TStringField;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -594,7 +596,7 @@ begin
    'PRECO_COMPRAMEDIO as PRECOMEDIO, PEDIDO, NCM, ORIGEM, ' +
    'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, ' +
    'PRECOMEDIO , MARGEM_LUCRO , DATACADASTRO , PRO_COD, ' +
-   'DATAGRAV, TIPOPRECOVENDA, VALORMINIMO ' +
+   'DATAGRAV, TIPOPRECOVENDA, VALORMINIMO, UDF_STRZERO(UDF_DIGITS(CODPRO), 12) CODPROD_ORDER ' +
    'from LISTAPRODUTO(0, ';
  // Códigos
  varSql1 := 'select distinct cod.CODIGO ' +
@@ -767,7 +769,7 @@ begin
   cds_proc2.CommandText := varSql2;
 
   //Ordena por padrão o grid por PRODUTO
-  cds_proc.IndexFieldNames:= 'PRODUTO';
+  cds_proc.IndexFieldNames:= 'CODPROD_ORDER';
 end;
 
 procedure TfProcura_produtos.BitBtn2Click(Sender: TObject);
@@ -1741,7 +1743,13 @@ end;
 
 procedure TfProcura_produtos.JvDBGrid1TitleClick(Column: TColumn);
 begin
-  cds_proc.IndexFieldNames:=Column.FieldName;
+  if (cds_proc.IndexFieldNames = 'CODPRO') then
+  begin
+    cds_proc.IndexFieldNames := 'CODPROD_ORDER';
+  end
+  else begin
+    cds_proc.IndexFieldNames := Column.FieldName;
+  end;
 end;
 
 procedure TfProcura_produtos.DoExportProgress(Sender: TObject; Min, Max,

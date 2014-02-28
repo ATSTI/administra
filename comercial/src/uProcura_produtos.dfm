@@ -2011,9 +2011,9 @@ object fProcura_produtos: TfProcura_produtos
       'PESO_QTDE, '#13#10'COD_COMISSAO, RATEIO, conta_despesa , IPI, ncm, ori' +
       'gem, '#13#10'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, '#13#10'PRECOME' +
       'DIO , MARGEM_LUCRO , DATACADASTRO , PRO_COD, '#13#10'DATAGRAV, TIPOPRE' +
-      'COVENDA, VALORMINIMO'#13#10'from LISTAPRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'TOD' +
-      'OSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39', '#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39', 0' +
-      ')'#13#10
+      'COVENDA, VALORMINIMO, UDF_STRZERO(CODPRO, 12) CODPROD_ORDER '#13#10'fr' +
+      'om LISTAPRODUTO(0, '#39'TODOSPRODUTOS'#39', '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUP' +
+      'OS'#39', '#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39', 0)'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -2177,6 +2177,10 @@ object fProcura_produtos: TfProcura_produtos
       FieldName = 'SUBGRUPO'
       ReadOnly = True
       Size = 30
+    end
+    object sds_procCODPROD_ORDER: TStringField
+      FieldName = 'CODPROD_ORDER'
+      ReadOnly = True
     end
   end
   object dsp_proc: TDataSetProvider
@@ -2360,6 +2364,10 @@ object fProcura_produtos: TfProcura_produtos
       FieldName = 'SUBGRUPO'
       ReadOnly = True
       Size = 30
+    end
+    object cds_procCODPROD_ORDER: TStringField
+      FieldName = 'CODPROD_ORDER'
+      ReadOnly = True
     end
   end
   object Dtsrc: TDataSource
