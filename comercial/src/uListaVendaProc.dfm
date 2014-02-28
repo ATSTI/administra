@@ -1,6 +1,6 @@
 object fListaVendaProc: TfListaVendaProc
-  Left = 440
-  Top = 197
+  Left = 441
+  Top = 206
   Width = 468
   Height = 518
   Caption = 'Procura Lista Pre'#231'o'
@@ -171,7 +171,7 @@ object fListaVendaProc: TfListaVendaProc
       Top = 2
       Width = 77
       Height = 55
-      Caption = 'F9-Fechar'
+      Caption = 'F9-Retornar'
       TabOrder = 1
       OnClick = btnSairClick
       Glyph.Data = {
@@ -695,7 +695,7 @@ object fListaVendaProc: TfListaVendaProc
     Left = 0
     Top = 169
     Width = 460
-    Height = 315
+    Height = 322
     Align = alClient
     DataSource = DtSrc
     TabOrder = 2
