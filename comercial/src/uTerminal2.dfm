@@ -1792,7 +1792,7 @@ object fTerminal2: TfTerminal2
       Top = 1
       Width = 471
       Height = 550
-      ActivePage = TabVenda
+      ActivePage = TabComanda
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0

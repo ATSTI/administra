@@ -994,6 +994,14 @@ begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fTerminal_Delivery));
 
+  vCFOP := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[1].Clear;
+  dm.cds_parametro.Params[0].AsString := 'CFOP';
+  dm.cds_parametro.Open;
+  vCFOP := dm.cds_parametroDADOS.AsString;
+
   if (not Caixa.Active) then
     Caixa.Open;
   if (Caixa.IsEmpty) then
@@ -1266,12 +1274,6 @@ begin
   vNUMERO_NF := IntToStr(numTitulo);
   vSERIE := serie;
   vUF := Edit7.Text;
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[1].Clear;
-  dm.cds_parametro.Params[0].AsString := 'CFOP';
-  dm.cds_parametro.Open;
-  vCFOP := dm.cds_parametroDADOS.AsString;
 end;
 
 procedure TfTerminal_Delivery.updatevenda;
@@ -1364,6 +1366,7 @@ begin
 end;
 
 procedure TfTerminal_Delivery.BitBtn4Click(Sender: TObject);
+var sqltexto: String;
 begin
   inherited;
   {if (cdsTitulo.Active) then
@@ -1403,6 +1406,23 @@ begin
       vendaaprazo
     else
       vendaavista;
+
+   //busca ICMS e Sub.Tributaria
+   if (vCFOP = '') then
+   begin
+     MessageDlg('Não foi informado o CFOP Padrão em Parametros.', mtWarning, [mbOK], 0);
+   end;
+   sqltexto := 'UPDATE MOVIMENTODETALHE SET CFOP = ' + QuotedStr(vCFOP);
+   sqltexto := sqltexto + ' WHERE CFOP IS NULL ';
+   sqltexto := sqltexto + ' AND CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+   dm.sqlsisAdimin.StartTransaction(TD);
+   dm.sqlsisAdimin.ExecuteDirect(sqltexto);
+   Try
+     dm.sqlsisAdimin.Commit(TD);
+   except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, Sem CFOP na cupom.', mtError, [mbOk], 0);
+   end;
 
   if (cds_Mov_det.Active) then
     cds_Mov_det.Close;

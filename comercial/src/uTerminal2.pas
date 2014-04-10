@@ -512,7 +512,7 @@ type
     procedure JvSpeedButton3Click(Sender: TObject);
   private
     peditoTerminalFinalizado: String;
-    linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
+    linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
     tamtexto : Integer;
     col: String;
@@ -2529,7 +2529,8 @@ begin
      begin
        Writeln(IMPRESSORA);
      end;
-     Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
+     if ((recortacupom = 'S') or (recortacupom = '')) then
+       Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
   end;
@@ -3942,6 +3943,16 @@ begin
      exit;
   end;
 
+  linhaTracejada  := '------------------------';
+  linhaTituloItem := 'UN  Qtde  V.Un.  V.Total';
+  linhaDescItem   := '30';
+  linhaItemUn     := '%-2s';
+  linhaItemQtde   :='%5.2n';
+  linhaItemVlUnit := '%7.2n';
+  linhaItemVlTotal := '%12.2n';
+  linhaTotal      := '%18s';
+  qntespacos      := '6';
+  recortacupom   := '';
 
   ImpressoraDet := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'dbxconnections.ini');
   try
@@ -3954,6 +3965,7 @@ begin
     linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
     linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
     qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
+    recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
   finally
     ImpressoraDet.Free;
   end;
