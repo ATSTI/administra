@@ -939,6 +939,7 @@ begin
     dm.cds_7_contas.Close;
   dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_7_contas.Open;
+  cbConta.Items.Clear;
   while not dm.cds_7_contas.Eof do
   begin
     cbConta.Items.Add(dm.cds_7_contas.Fields[2].asString);
