@@ -1135,12 +1135,14 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
+      COD_VER          := vlVersao107;
+      if (data_ini.Date < StrToDate('01/01/2014')) then
+      begin
+        COD_VER        := vlVersao106;
+      end;
       if (data_ini.Date < StrToDate('01/01/2013')) then
       begin
-        COD_VER          := vlVersao105;
-      end
-      else begin
-        COD_VER          := vlVersao106;
+        COD_VER        := vlVersao105;
       end;
       if (cbTipo.ItemIndex = 0) then
         COD_FIN          := raOriginal;
