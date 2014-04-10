@@ -408,7 +408,7 @@ begin
           s_ccaixa.Close;
         s_ccaixa.Params[0].AsDate := edData.Date;
         s_ccaixa.Params[1].AsDate := edData1.Date;
-        s_ccaixa.Params[2].AsInteger := 0;//idCCusto;
+        s_ccaixa.Params[2].AsInteger := idCCusto;
         s_ccaixa.Open;
         s_ccaixa.First;
         Totalgeral := 0;
