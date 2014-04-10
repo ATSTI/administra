@@ -1502,25 +1502,46 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit
-    Left = 368
-    Top = 222
-    Width = 121
-    Height = 21
+  object dbEdit4: TJvDBDatePickerEdit
+    Left = 381
+    Top = 221
+    Width = 108
+    Height = 24
+    AllowNoDate = True
     DataField = 'DTAFAB'
     DataSource = DtSrc1
+    DateFormat = 'd/M/yy'
+    DateSeparator = '/'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    StoreDateFormat = True
     TabOrder = 17
-    OnExit = DBEdit4Exit
+    OnExit = dbEdit1Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit
-    Left = 560
-    Top = 222
-    Width = 121
-    Height = 21
+  object dbEdit5: TJvDBDatePickerEdit
+    Left = 568
+    Top = 223
+    Width = 113
+    Height = 24
+    AllowNoDate = True
     DataField = 'DTAVCTO'
     DataSource = DtSrc1
+    DateFormat = 'd/M/yy'
+    DateSeparator = '/'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    StoreDateFormat = True
     TabOrder = 18
+    OnExit = DBEdit5Exit
     OnKeyPress = FormKeyPress
   end
   object DataSource1: TDataSource

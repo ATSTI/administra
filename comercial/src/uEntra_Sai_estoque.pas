@@ -373,8 +373,6 @@ type
     DBEdit3: TDBEdit;
     Label19: TLabel;
     Label20: TLabel;
-    DBEdit4: TDBEdit;
-    DBEdit5: TDBEdit;
     sqlProd: TSQLQuery;
     ExcluirItem1: TMenuItem;
     ExcluirItem2: TMenuItem;
@@ -388,6 +386,8 @@ type
     VCLReport1: TVCLReport;
     cdsPRECO_VENDA: TBCDField;
     cdsPRECO_COMPRA: TFloatField;
+    dbEdit4: TJvDBDatePickerEdit;
+    dbEdit5: TJvDBDatePickerEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -432,6 +432,7 @@ type
     procedure DBEdit4Exit(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure MaskEdit1Change(Sender: TObject);
+    procedure DBEdit5Exit(Sender: TObject);
   private
     loteant : string;
     { Private declarations }
@@ -1347,7 +1348,8 @@ begin
   end;
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
-  cds_Mov_detDTAFAB.AsDateTime := MaskEdit1.Date;
+  if (maskEdit1.Checked) then
+    cds_Mov_detDTAFAB.AsDateTime := MaskEdit1.Date;
 end;
 
 procedure TfEntra_Sai_estoque.cds_Mov_detCalcFields(DataSet: TDataSet);
@@ -1720,7 +1722,8 @@ end;
 
 procedure TfEntra_Sai_estoque.DBEdit1Exit(Sender: TObject);
 begin
-  MaskEdit1.Text := dbEdit1.Text;
+  cds_Mov_detDTAFAB.AsDateTime := MaskEdit1.Date;
+  //MaskEdit1.Text := dbEdit1.Text;
 end;
 
 procedure TfEntra_Sai_estoque.DtSrc1StateChange(Sender: TObject);
@@ -1990,6 +1993,12 @@ end;
 procedure TfEntra_Sai_estoque.MaskEdit1Change(Sender: TObject);
 begin
   dbEdit4.Text := MaskEdit1.Text;
+  dbEdit5.Text := MaskEdit1.Text;
+end;
+
+procedure TfEntra_Sai_estoque.DBEdit5Exit(Sender: TObject);
+begin
+  btnNovo.SetFocus;
 end;
 
 end.
