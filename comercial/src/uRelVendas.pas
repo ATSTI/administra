@@ -142,6 +142,9 @@ type
     cbMarca: TComboBox;
     chkVendedor: TCheckBox;
     BitBtn15: TBitBtn;
+    GroupBox11: TGroupBox;
+    BitBtn17: TBitBtn;
+    BitBtn18: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -172,6 +175,8 @@ type
     procedure BitBtn14Click(Sender: TObject);
     procedure BitBtn16Click(Sender: TObject);
     procedure BitBtn15Click(Sender: TObject);
+    procedure BitBtn17Click(Sender: TObject);
+    procedure BitBtn18Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -1060,6 +1065,26 @@ begin
   end;
   Rep.Execute;
 
+end;
+
+procedure TfRelVenda.BitBtn17Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'listavenda_entrega.rep';
+  Rep.Title := rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DTA1').Value := Data1.Date;
+  Rep.Report.Params.ParamByName('DTA2').Value := Data2.Date;
+  Rep.Execute;
+end;
+
+procedure TfRelVenda.BitBtn18Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'listavenda_naoentrega.rep';
+  Rep.Title := rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DTA1').Value := Data1.Date;
+  Rep.Report.Params.ParamByName('DTA2').Value := Data2.Date;
+  Rep.Execute;
 end;
 
 end.
