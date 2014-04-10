@@ -151,6 +151,8 @@ begin
       LotSeq.Visible := False;
     fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
     fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;
+    if (fCompra.cds_Mov_detLOTE.AsString = '0') then
+      fCompra.cds_Mov_detLOTE.AsString := '';
   end;
   if (TIPO = 'ENT_SAI') then
   begin
