@@ -460,6 +460,13 @@ begin
   sCtrlResize.CtrlResize(TForm(fcrproc));
   cbStatus.ItemIndex := 2;
   cbStatus.SetFocus;
+  if (edCodCliente.Text <> '') then
+  begin
+    dm.scds_cliente_proc.Params[2].AsInteger := StrToInt(edCodCliente.Text);
+    dm.scds_cliente_proc.Open;
+      edCliente.Text := dm.scds_cliente_procNOMECLIENTE.asString;
+    dm.scds_cliente_proc.Close;
+  end;
 end;
 
 procedure Tfcrproc.BitBtn12Click(Sender: TObject);
