@@ -8,7 +8,7 @@ uses
   StdCtrls, ExtCtrls, XPMenu, Buttons, MMJPanel, DBLocal, DBLocalS, Mask,
   JvFormPlacement, JvComponentBase, JvAppStorage, JvAppXMLStorage,
   rpcompobase, rpvclreport, JvExDBGrids, JvDBGrid, JvExControls, JvLabel,
-  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox;
+  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress;
 
 type
   TfFiltroMovimento = class(TForm)
@@ -125,6 +125,16 @@ type
     cds_cnsCODPEDIDO: TIntegerField;
     sds_cnsBLOQUEIO: TStringField;
     cds_cnsBLOQUEIO: TStringField;
+    pnDataEntrega: TPanel;
+    edDataEntrega: TJvDateEdit;
+    Label9: TLabel;
+    Label12: TLabel;
+    btnDataEntrega: TBitBtn;
+    sds_cnsDATA_ENTREGA: TDateField;
+    cds_cnsDATA_ENTREGA: TDateField;
+    AlterarDataEntrega1: TMenuItem;
+    btnFecharPainel: TBitBtn;
+    btnDataEntregaLimpa: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -150,6 +160,10 @@ type
     procedure RadioGroup1Click(Sender: TObject);
     procedure edControleKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn12Click(Sender: TObject);
+    procedure btnDataEntregaClick(Sender: TObject);
+    procedure AlterarDataEntrega1Click(Sender: TObject);
+    procedure btnFecharPainelClick(Sender: TObject);
+    procedure btnDataEntregaLimpaClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -362,7 +376,7 @@ begin
   try
     if fPdm.cds_Movimento.Active then
        fPdm.cds_movimento.Close;
-    fPdm.cds_Movimento.Params[0].Clear;       
+    fPdm.cds_Movimento.Params[0].Clear;
     fPdm.cds_movimento.Params[0].AsInteger:= cds_cns.Fields[0].AsInteger;
     fPdm.cds_movimento.Open;
     if fPdm.cds_Mov_det.Active then
@@ -409,7 +423,7 @@ begin
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL,' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO ' +
+      ' , cli.BLOQUEIO, mov.DATA_ENTREGA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -423,7 +437,7 @@ begin
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO ' +
+      ' , cli.BLOQUEIO , mov.DATA_ENTREGA ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -440,7 +454,7 @@ begin
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO ' +
+      ' , cli.BLOQUEIO, mov.DATA_ENTREGA  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -618,7 +632,7 @@ begin
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
       'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO ';
+      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO, mov.DATA_ENTREGA  ';
 
   ordenar := '';
 
@@ -734,6 +748,60 @@ begin
   //  VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
   //end;
   VCLReport1.Execute;
+end;
+
+procedure TfFiltroMovimento.btnDataEntregaClick(Sender: TObject);
+var   TDA: TTransactionDesc;
+  logvelho, logNovo: String;
+  varSqlDataEntrega: String;
+begin
+
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TDA);
+    //cds_cns.First;
+    //while not cds_cns.Eof do
+    //begin
+      varSqlDataEntrega := 'UPDATE MOVIMENTO SET DATA_ENTREGA = ';
+      if (edDataEntrega.Date > StrToDate('01/01/2001')) then
+        varSqlDataEntrega := varSqlDataEntrega + QuotedStr(formatdatetime('mm/dd/yy', edDataEntrega.Date))
+      else
+        varSqlDataEntrega := varSqlDataEntrega + ' null';
+      varSqlDataEntrega := varSqlDataEntrega + ' WHERE CODMOVIMENTO = ' + IntToStr(cds_cnsCODMOVIMENTO.asInteger);
+      logVelho := 'Data Anterior : ' + formatdatetime('dd/mm/yyyy', cds_cnsDATA_ENTREGA.AsDateTime);
+      logNovo := ' Data nova: ' + formatdatetime('dd/mm/yyyy', edDataEntrega.Date);
+      dm.sqlsisAdimin.ExecuteDirect(varSqlDataEntrega);
+      dm.gravaLog(Now, dm.varLogado, 'MOVIMENTO', MICRO, logVelho, logNovo ,IntToStr(cds_cnsCODMOVIMENTO.asInteger), 'ALTERADO');
+      //cds_cns.Next;
+    //end;
+    dm.sqlsisAdimin.Commit(TDA);
+    MessageDlg('Data de Entrega alterada com sucesso.', mtInformation, [mbOk], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+    end;
+  end;
+  btnProcurar.Click;
+  pnDataEntrega.Visible := False;
+end;
+
+procedure TfFiltroMovimento.AlterarDataEntrega1Click(Sender: TObject);
+begin
+  pnDataEntrega.Visible := True;
+end;
+
+procedure TfFiltroMovimento.btnFecharPainelClick(Sender: TObject);
+begin
+  pnDataEntrega.Visible := False;
+end;
+
+procedure TfFiltroMovimento.btnDataEntregaLimpaClick(Sender: TObject);
+begin
+  edDataEntrega.Clear;
 end;
 
 end.
