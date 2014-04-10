@@ -2057,6 +2057,13 @@ begin
       mudaVersao('2.0.0.20');
     end;// Fim Atualizacao Versao 2.0.0.20
 
+    if (versaoSistema = '2.0.0.20') then
+    begin
+      insereouatualizaScript('relContasReceber.sql', '2.0.0.20', StrToDate('16/12/2013'));
+      AtualizandoScript('2.0.0.20');
+      mudaVersao('2.0.0.27');
+    end;// Fim Atualizacao Versao 2.0.0.27
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
