@@ -1,6 +1,6 @@
 object fDlgLogin: TfDlgLogin
-  Left = 404
-  Top = 300
+  Left = 407
+  Top = 302
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'AUTORIZA'#199#195'O'
@@ -172,37 +172,6 @@ object fDlgLogin: TfDlgLogin
       end
     end
   end
-  object XPMenu1: TXPMenu
-    DimLevel = 30
-    GrayLevel = 10
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clMenuText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Color = clBtnFace
-    DrawMenuBar = False
-    IconBackColor = clBtnFace
-    MenuBarColor = clBtnFace
-    SelectColor = clHighlight
-    SelectBorderColor = clHighlight
-    SelectFontColor = clMenuText
-    DisabledColor = clInactiveCaption
-    SeparatorColor = clBtnFace
-    CheckedColor = clHighlight
-    IconWidth = 24
-    DrawSelect = True
-    UseSystemColors = True
-    UseDimColor = False
-    OverrideOwnerDraw = False
-    Gradient = False
-    FlatMenu = False
-    AutoDetect = True
-    XPControls = [xcMainMenu, xcPopupMenu, xcToolbar, xcControlbar, xcCombo, xcMaskEdit, xcMemo, xcRichEdit, xcCheckBox, xcRadioButton, xcButton, xcBitBtn, xcSpeedButton, xcPanel, xcGroupBox]
-    Active = True
-    Left = 24
-    Top = 136
-  end
   object cds_Login: TClientDataSet
     Aggregates = <>
     Params = <
@@ -283,10 +252,6 @@ object fDlgLogin: TfDlgLogin
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-  end
-  object EvOneInstance1: TEvOneInstance
-    Left = 48
-    Top = 72
   end
   object sPermissao: TSQLDataSet
     CommandText = 

@@ -11,7 +11,6 @@ type
   TfDlgLogin = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
-    XPMenu1: TXPMenu;
     MMJPanel2: TMMJPanel;
     MMJPanel1: TMMJPanel;
     Label2: TLabel;
@@ -31,7 +30,6 @@ type
     sds_LoginMICRO: TStringField;
     sds_LoginMODULO: TStringField;
     sds_LoginID_LOG: TIntegerField;
-    EvOneInstance1: TEvOneInstance;
     sPermissao: TSQLDataSet;
     sPermissaoUCIDUSER: TIntegerField;
     sPermissaoUCUSERNAME: TStringField;
