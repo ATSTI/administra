@@ -688,8 +688,10 @@ type
     procedure edClienteCnpjExit(Sender: TObject);
   private
     { Private declarations }
+    limiteCred: Double;
     procurouProd : String;
     modo :string;
+    function clienteLimiteCredito(codCliente: Integer): Double;
     procedure Margem_Confere;
     procedure insereMatPrima;
     procedure PesquisaProdutos;
@@ -697,7 +699,7 @@ type
   public
     codFiscalClienteVenda: String;
     ufClienteVenda: String;
-    clienteEstaBloqueado: String;  
+    clienteEstaBloqueado: String;
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda, estoque_negativo : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
@@ -1199,7 +1201,12 @@ begin
     buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
 
     dm.scds_cliente_proc.Close;
-
+    limiteCred := clienteLimiteCredito(cds_MovimentoCODCLIENTE.AsInteger);
+    if (limiteCred < 0) then
+    begin
+      MessageDlg('Cliente sem Limite de crédito.', mtWarning, [mbOk], 0);
+      exit;
+    end;
     //mostra veiculos do cliente
     {if cds_Veiculocli.Active then
       cds_Veiculocli.Close;
@@ -1690,6 +1697,18 @@ end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
 begin
+  if (dbeCliente.Text = '') then
+  begin
+    MessageDlg('Informe o Cliente.', mtWarning, [mbOk], 0);
+    exit;
+  end;
+  limiteCred := clienteLimiteCredito(StrToInt(dbeCliente.Text));
+  if (limiteCred < 0) then
+  begin
+    MessageDlg('Cliente sem Limite de crédito.', mtWarning, [mbOk], 0);
+    exit;
+  end;
+
   // Se Venda ja Finalizada não permite alteração sem excluir a Finalizacao
   // Isto é necessario para não atrapalhar o estoque
   if ((cds_MovimentoCODMOVIMENTO.AsInteger < 1999999) or (cds_MovimentoCODMOVIMENTO.AsInteger > 1999999)) then
@@ -1703,7 +1722,8 @@ begin
       MessageDlg('Venda finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
       exit;
     end;
-  end;  
+  end;
+
    valida := 'S';
    //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
    if(DBEdit15.Text <> '') then
@@ -2069,7 +2089,14 @@ begin
       end;
     prazoCliente := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     //imex  := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
-//    if DtSrc1.State in [dsBrowse] then
+    //    if DtSrc1.State in [dsBrowse] then
+    limiteCred := clienteLimiteCredito(dm.codcli);
+    if (limiteCred < 0) then
+    begin
+      MessageDlg('Cliente sem Limite de crédito.', mtWarning, [mbOk], 0);
+      exit;
+    end;
+
     buscaCfop(dm.codcli);
     cds_Mov_det.First;
     while not cds_Mov_det.Eof do
@@ -2150,6 +2177,12 @@ begin
       MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
       exit;
     end;  
+  end;
+  limiteCred := clienteLimiteCredito(cds_MovimentoCODCLIENTE.AsInteger);
+  if (cds_Mov_detTotalPedido.Value > limiteCred) then
+  begin
+    MessageDlg('Limite de crédito para este cliente está em: R$ ' + format('%8.2n', [limiteCred]), mtWarning, [mbOK], 0);
+    exit;
   end;
   inherited;
   if (cds_MovimentoSTATUS.AsInteger = 2) then
@@ -4070,7 +4103,7 @@ begin
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
     cds_Mov_detQTDE_ALT.AsFloat:= dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
-    buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
+    buscaCfop(dm.cdsBusca.fieldByName('CODCLIENTE').AsInteger);
   end
   else begin
     MessageDlg('Cliente não localizado.', mtWarning, [mbOK], 0);
@@ -4086,7 +4119,43 @@ begin
   if (dtsrc.State in [dsInsert]) then
   begin
     ProcuraClienteCnpj;
-  end;  
+  end;
+end;
+
+function TfVendas.clienteLimiteCredito(codCliente: Integer): Double;
+var limiteCreditoCliente, TotalPendenteCliente: Double;
+//var usu_n, usu_s : string;
+//  utilcrtitulo : Tutils;
+begin
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BLOQUEIOLIMITECREDITO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'select c.LIMITECREDITO, SUM(r.VALOR_RESTO) AS TOTALPENDENTE' +
+      '  from RECEBIMENTO r, clientes c ' +
+      ' where c.CODCLIENTE = r.CODCLIENTE ' +
+      '   and r.CODCLIENTE = ' + IntToStr(codCliente) +
+      '   and r.STATUS = ' + QuotedStr('5-') +
+      ' group by c.LIMITECREDITO  ';
+    dm.cdsBusca.Open;
+    if (not dm.cdsBusca.IsEmpty) then
+    begin
+      result := limiteCreditoCliente-TotalPendenteCliente;
+      limiteCreditoCliente := dm.cdsBusca.fieldByName('LIMITECREDITO').AsFloat;
+      TotalPendenteCliente := dm.cdsBusca.fieldByName('TOTALPENDENTE').AsFloat;
+      //if ((TotalPendenteCliente-limiteCreditoCliente) > 0) then
+      //begin
+      result := limiteCreditoCliente-TotalPendenteCliente;
+      //end;
+    end;
+  end
+  else begin
+    result := 99999999;
+  end;
 end;
 
 end.
