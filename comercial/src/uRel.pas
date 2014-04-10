@@ -64,6 +64,8 @@ type
     chkPedido: TCheckBox;
     BitBtn11: TBitBtn;
     cbPedido: TComboBox;
+    GroupBox9: TGroupBox;
+    ComboBox9: TComboBox;
     procedure cbMesChange(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
@@ -85,7 +87,9 @@ type
     procedure edit4Change(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
     procedure chkPedidoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
+    conta_local : String;
     { Private declarations }
   public
     { Public declarations }
@@ -127,6 +131,18 @@ begin
     Rep.Report.Params.ParamByName('PRODUTO').Value := Edit3.Text
   else
     Rep.Report.Params.ParamByName('PRODUTO').Value := 'TODOS PRODUTOS';
+  if (ComboBox9.Text <> '') then
+  begin
+    if dm.cds_ccusto.Active then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := conta_local;
+    dm.cds_ccusto.Open;
+    if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+      Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+    else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+  end;
+
   rep.execute;
 end;
 
@@ -141,7 +157,17 @@ begin
     Rep.Report.Params.ParamByName('PRO1').Value := Edit1.Text
   else
     Rep.Report.Params.ParamByName('PRO1').Value := '9999999';
-
+  if (ComboBox9.Text <> '') then
+  begin
+    if dm.cds_ccusto.Active then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := conta_local;
+    dm.cds_ccusto.Open;
+    if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+      Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+    else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+  end;
   rep.execute;
 end;
 
@@ -156,7 +182,17 @@ begin
     Rep.Report.Params.ParamByName('PRO1').Value := Edit1.Text
   else
     Rep.Report.Params.ParamByName('PRO1').Value := '9999999';
-
+  if (ComboBox9.Text <> '') then
+  begin
+    if dm.cds_ccusto.Active then
+      dm.cds_ccusto.Close;
+    dm.cds_ccusto.Params[0].AsString := conta_local;
+    dm.cds_ccusto.Open;
+    if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+      Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+    else
+      Rep.Report.Params.ParamByName('CCUSTO').Value := 0;
+  end;
   rep.execute;
 end;
 
@@ -508,6 +544,30 @@ end;
 procedure TfRel.chkPedidoClick(Sender: TObject);
 begin
   cbPedido.Enabled := chkPedido.Checked;
+end;
+
+procedure TfRel.FormShow(Sender: TObject);
+begin
+  //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  conta_local := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if dm.cds_ccusto.Active then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := conta_local;
+  dm.cds_ccusto.Open;
+  ComboBox9.Items.Clear;
+  ComboBox9.Items.Add('TODOS');
+  While not dm.cds_ccusto.Eof do
+  begin
+    ComboBox9.Items.Add(dm.cds_ccustoNOME.AsString);
+    dm.cds_ccusto.Next;
+  end;
+  dm.cds_parametro.Close;
+
 end;
 
 end.

@@ -1,6 +1,6 @@
 object fRel: TfRel
   Left = 280
-  Top = 46
+  Top = 48
   Width = 516
   Height = 648
   Caption = 'Relat'#243'rio'
@@ -13,6 +13,7 @@ object fRel: TfRel
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox5: TGroupBox
@@ -100,7 +101,7 @@ object fRel: TfRel
     end
     object BitBtn3: TBitBtn
       Left = 150
-      Top = 542
+      Top = 563
       Width = 75
       Height = 55
       Caption = 'Detalhado'
@@ -210,7 +211,7 @@ object fRel: TfRel
     end
     object BitBtn4: TBitBtn
       Left = 242
-      Top = 542
+      Top = 563
       Width = 75
       Height = 55
       Caption = 'Res. Pedido'
@@ -320,7 +321,7 @@ object fRel: TfRel
     end
     object BitBtn5: TBitBtn
       Left = 334
-      Top = 542
+      Top = 563
       Width = 75
       Height = 55
       Caption = 'Resumido'
@@ -430,7 +431,7 @@ object fRel: TfRel
     end
     object GroupBox2: TGroupBox
       Left = 28
-      Top = 90
+      Top = 149
       Width = 473
       Height = 55
       Caption = 'Fornecedor'
@@ -539,7 +540,7 @@ object fRel: TfRel
     end
     object CheckBox1: TCheckBox
       Left = 7
-      Top = 71
+      Top = 132
       Width = 95
       Height = 17
       Caption = 'Por Fornecedor'
@@ -548,7 +549,7 @@ object fRel: TfRel
     end
     object CheckBox2: TCheckBox
       Left = 8
-      Top = 150
+      Top = 215
       Width = 207
       Height = 17
       Caption = 'Por Produto (so Detalhado)'
@@ -557,7 +558,7 @@ object fRel: TfRel
     end
     object GroupBox3: TGroupBox
       Left = 28
-      Top = 164
+      Top = 230
       Width = 473
       Height = 53
       Caption = 'Produto'
@@ -666,7 +667,7 @@ object fRel: TfRel
     end
     object GroupBox4: TGroupBox
       Left = 7
-      Top = 326
+      Top = 356
       Width = 494
       Height = 99
       Caption = 
@@ -1009,7 +1010,7 @@ object fRel: TfRel
     end
     object BitBtn7: TBitBtn
       Left = 58
-      Top = 542
+      Top = 563
       Width = 75
       Height = 55
       Hint = 'Busca por per'#237'odo e/ou  Fornecedor'
@@ -1122,7 +1123,7 @@ object fRel: TfRel
     end
     object btnSair: TBitBtn
       Left = 418
-      Top = 542
+      Top = 563
       Width = 75
       Height = 55
       Caption = 'F9-Sair'
@@ -1237,7 +1238,7 @@ object fRel: TfRel
     end
     object GroupBox6: TGroupBox
       Left = 8
-      Top = 433
+      Top = 457
       Width = 494
       Height = 99
       Caption = 'Relat'#243'rio de Comiss'#245'es'
@@ -1581,7 +1582,7 @@ object fRel: TfRel
     end
     object GroupBox8: TGroupBox
       Left = 7
-      Top = 224
+      Top = 284
       Width = 494
       Height = 70
       Caption = 'Relat'#243'rio de Pedidos'
@@ -1720,6 +1721,22 @@ object fRel: TfRel
           'Finalizado'
           'Pend. Entr. NF'
           'Nao Recebido')
+      end
+    end
+    object GroupBox9: TGroupBox
+      Left = 9
+      Top = 70
+      Width = 492
+      Height = 55
+      Caption = 'Centro de Resultado'
+      TabOrder = 15
+      object ComboBox9: TComboBox
+        Left = 71
+        Top = 22
+        Width = 306
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 0
       end
     end
   end
