@@ -119,6 +119,7 @@ type
     BitBtn4: TBitBtn;
     ACBrValidador1: TACBrValidador;
     BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -155,6 +156,8 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure DBEdit1Exit(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure DBEdit22Exit(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -173,7 +176,8 @@ implementation
 
 uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
   uContaRateio, uClassificacaoFiscal, uCodigoTerceiros, uUsoCadastro,
-  ufListaProd, uProduto_Mat_prima, sCtrlResize, Math, uFiltro_forn_plano;
+  ufListaProd, uProduto_Mat_prima, sCtrlResize, Math, uFiltro_forn_plano,
+  uNCM;
 
 {$R *.dfm}
 
@@ -740,8 +744,19 @@ begin
   inherited;
   if (dm.cds_produto.State in [dsEdit, dsInsert]) then
   begin
-    if ((dm.cds_produtoVALOR_PRAZO.IsNull) or (dm.cds_produtoVALORUNITARIOATUAL.IsNull)) then
+    if ((dm.cds_produtoVALOR_PRAZO.IsNull) and (dm.cds_produtoVALORUNITARIOATUAL.IsNull)) then
       exit;
+    if ((dm.cds_produtoVALOR_PRAZO.AsFloat > 0) and (dm.cds_produtoPRECOMEDIO.AsFloat > 0)) then
+    begin
+      valor := (dm.cds_produtoVALOR_PRAZO.AsFloat-dm.cds_produtoPRECOMEDIO.AsFloat);
+      valor := (valor/dm.cds_produtoPRECOMEDIO.AsFloat);
+      VALOR := (VALOR * 100);
+      //if (dbedit17.Text = '') then
+      //begin
+      dm.cds_produtoMARGEM.AsFloat := valor;
+      //end;
+    end;
+
     if ((dm.cds_produtoVALOR_PRAZO.AsFloat > 0) and (dm.cds_produtoVALORUNITARIOATUAL.AsFloat > 0)) then
     begin
       if (dm.cds_produtoTIPOPRECOVENDA.AsString = 'U') then
@@ -1004,6 +1019,39 @@ begin
     dm.EstoqueAtualiza(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger);
   dm.cds_produto.Close;
   dm.cds_produto.Open;  
+end;
+
+procedure TfProdutoCadastro.DBEdit22Exit(Sender: TObject);
+begin
+  inherited;
+  if (DBEdit22.Text <> '') then
+  begin
+    // Procura o NCM no cadastro de NCM
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT NCM ' +
+      '  FROM NCM ' +
+      ' WHERE NCM = ' + QuotedStr(DBEdit22.Text);
+    dm.cdsBusca.Open;
+    if (dm.cdsBusca.FieldByName('NCM').AsString = '') then
+    begin
+      MessageDlg('NCM não cadastrado.', mtWarning, [mbOK], 0);
+      dbEdit22.SetFocus;
+    end;
+  end;
+end;
+
+procedure TfProdutoCadastro.BitBtn6Click(Sender: TObject);
+begin
+  fNCM := TfNCM.Create(Application);
+  try
+    fNCM.ShowModal;
+    if (DM.cds_produto.State in [dsBrowse]) then
+      DM.cds_produto.Edit;
+    DM.cds_produtoNCM.AsString := fNCM.vrNCM;
+  finally
+    fNCM.Free;
+  end;
 end;
 
 end.

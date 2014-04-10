@@ -33,9 +33,11 @@ type
     procedure btnProcNCMClick(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
+    vrNCM: String;
     { Public declarations }
   end;
 
@@ -110,6 +112,13 @@ begin
   finally
     fClassificacaoFiscalNCM.Free;
   end;
+end;
+
+procedure TfNCM.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  vrNCM := cdsNCMNCM.AsString;
+  inherited;
+
 end;
 
 end.
