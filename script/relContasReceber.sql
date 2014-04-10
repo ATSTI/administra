@@ -109,7 +109,8 @@ begin
         if (vlrDesc is null) then 
           vlrDesc = 0;
                   
-        valorrecebido = vlrrec + vlrJuros + vlrMulta - vlrPerda - vlrDesc;
+        valorrecebido = vlrrec + vlrJuros + vlrMulta;
+         -- retirei isto da linha acima 25032014:    - vlrPerda - vlrDesc
         if (valorrecebido < 0) then 
           valorRecebido = (-1) * valorrecebido;
         if (DESCONTADO = 'S') then
