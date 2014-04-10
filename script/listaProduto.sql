@@ -288,7 +288,7 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco is null) then  -- Preco de Venda que está no cadastro Produto;
+    if (tipoPreco is null) then  -- Preco de Venda que esta no cadastro Produto;
     begin
       if (precoVenda > 0) then
         Preco_venda = precoVenda;

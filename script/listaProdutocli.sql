@@ -275,14 +275,14 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'F') then  -- Preco de Venda que estÃ¡ no cadastro Produto;
+    if (tipoPreco = 'F') then  -- Preco de Venda que estao no cadastro Produto;
     begin
       if (precoVenda > 0) then
         Preco_venda = precoVenda;
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'M') then -- Preco de Venda = PreÃ§o MÃ©dio de Compra * Margem;
+    if (tipoPreco = 'M') then -- Preco de Venda = Precoo Medio de Compra * Margem;
     begin
       if (preco_compraMedio > 0) then
       if (margem > 0) then
@@ -290,7 +290,7 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco = 'U') then -- Preco de Venda = PreÃ§o Ultima Compra * Margem;
+    if (tipoPreco = 'U') then -- Preco de Venda = Preco Ultima Compra * Margem;
     begin
       if (preco_compraUltimo > 0) then
       if (margem > 0) then
@@ -298,7 +298,7 @@ begin
     end
 
     if (usaListaTerceiros = 'N') then
-    if (tipoPreco is null) then  -- Preco de Venda que está no cadastro Produto;
+    if (tipoPreco is null) then  -- Preco de Venda que esta no cadastro Produto;
     begin
       if (precoVenda > 0) then
         Preco_venda = precoVenda;
