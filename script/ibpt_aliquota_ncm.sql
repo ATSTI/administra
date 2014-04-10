@@ -1,0 +1,13 @@
+CREATE OR ALTER  PROCEDURE  IBPT_ALIQUOTA
+AS
+DECLARE VARIABLE NCM VARCHAR(8); 
+DECLARE VARIABLE ALN DOUBLE PRECISION; 
+DECLARE VARIABLE ALI DOUBLE PRECISION; 
+       
+BEGIN
+  FOR Select NCM, ALIQNAC, ALIQIMP FROM IBPT
+     INTO :NCM, :ALN, :ALI
+   do begin
+     update ncm  set aliqnac = :aln, aliqimp = :ali  where ncm = :ncm;
+  end 
+END
