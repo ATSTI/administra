@@ -596,7 +596,9 @@ begin
    'PRECO_COMPRAMEDIO as PRECOMEDIO, PEDIDO, NCM, ORIGEM, ' +
    'ESTOQUEMAXIMO, ESTOQUEREPOSICAO, ESTOQUEMINIMO, ' +
    'PRECOMEDIO , MARGEM_LUCRO , DATACADASTRO , PRO_COD, ' +
-   'DATAGRAV, TIPOPRECOVENDA, VALORMINIMO, UDF_STRZERO(UDF_DIGITS(CODPRO), 12) CODPROD_ORDER ' +
+   'DATAGRAV, TIPOPRECOVENDA, VALORMINIMO, ' +
+   'CASE WHEN UDF_LEN(CODPRO) < 8 THEN (UDF_STRZERO(CASE WHEN UDF_DIGITS(CODPRO) = ' +
+   QuotedStr('') + ' THEN ' + QuotedStr('0') + ' else UDF_DIGITS(CODPRO) END, 12)) else (codpro) end CODPROD_ORDER  ' +
    'from LISTAPRODUTO(0, ';
  // Códigos
  varSql1 := 'select distinct cod.CODIGO ' +
@@ -769,7 +771,7 @@ begin
   cds_proc2.CommandText := varSql2;
 
   //Ordena por padrão o grid por PRODUTO
-  cds_proc.IndexFieldNames:= 'CODPROD_ORDER';
+  cds_proc.IndexFieldNames:= 'PRODUTO';
 end;
 
 procedure TfProcura_produtos.BitBtn2Click(Sender: TObject);
