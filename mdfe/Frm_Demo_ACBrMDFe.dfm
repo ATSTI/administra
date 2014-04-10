@@ -1,6 +1,6 @@
 object fACBrMDFe: TfACBrMDFe
-  Left = 372
-  Top = 150
+  Left = 373
+  Top = 151
   Width = 1031
   Height = 568
   Caption = 'ATS - ACBrMDFe 1.0'
@@ -13,6 +13,7 @@ object fACBrMDFe: TfACBrMDFe
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label37: TLabel
@@ -237,6 +238,45 @@ object fACBrMDFe: TfACBrMDFe
               Width = 35
               Height = 21
               TabOrder = 12
+            end
+          end
+          object GroupBox10: TGroupBox
+            Left = 32
+            Top = 344
+            Width = 265
+            Height = 81
+            Caption = 'MDF-e'
+            TabOrder = 1
+            object Label77: TLabel
+              Left = 8
+              Top = 16
+              Width = 37
+              Height = 13
+              Caption = 'N'#250'mero'
+            end
+            object Label78: TLabel
+              Left = 11
+              Top = 48
+              Width = 23
+              Height = 13
+              Caption = 'Data'
+            end
+            object edNumMdfe: TEdit
+              Left = 68
+              Top = 14
+              Width = 121
+              Height = 21
+              ReadOnly = True
+              TabOrder = 0
+            end
+            object dtaMdfe: TJvDatePickerEdit
+              Left = 68
+              Top = 44
+              Width = 121
+              Height = 21
+              AllowNoDate = True
+              Checked = True
+              TabOrder = 1
             end
           end
         end
