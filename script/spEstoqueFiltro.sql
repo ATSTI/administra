@@ -84,6 +84,7 @@ BEGIN
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, 
              :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES, :CODPRODUTO, :PRECOUNIT , :VALORVENDA, :codProduto
   DO BEGIN
+    precounit = 0;
     -- SO PEGA UMA VEZ O ESTOQUE INICIAL
     if (CODPRODU <> codproduto) then -- IF 1 - SO ENTRA AQUI SE MUDAR O PRODUTO
     begin 
@@ -94,7 +95,7 @@ BEGIN
            
       -- SALDO INICIAL DO ESTOQUE 
       -- Qtde Inicial ENTRADA e PRECO CUSTO
-      FOR SELECT SUM(movdet.QUANTIDADE), sum((movdet.VLR_BASE*movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0)))
+      FOR SELECT SUM(movdet.QUANTIDADE), sum((coalesce(movdet.VLR_BASE, movdet.PRECO)*movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0)))
             FROM COMPRA c, MOVIMENTO mov, NATUREZAOPERACAO natu, MOVIMENTODETALHE movdet 
            WHERE c.CODMOVIMENTO = mov.CODMOVIMENTO 
              AND natu.CODNATUREZA = mov.CODNATUREZA 
@@ -135,7 +136,7 @@ BEGIN
         
       END
       -- Qtde Inicial SAIDA
-      FOR SELECT SUM(movdet.QUANTIDADE), sum(movdet.VLR_BASE * movdet.QUANTIDADE) 
+      FOR SELECT SUM(movdet.QUANTIDADE), sum(coalesce(movdet.VLR_BASE, movdet.PRECO) * movdet.QUANTIDADE) 
             FROM VENDA v, MOVIMENTO mov, NATUREZAOPERACAO natu , MOVIMENTODETALHE movdet
            WHERE v.CODMOVIMENTO = mov.CODMOVIMENTO 
              AND natu.CODNATUREZA = mov.CODNATUREZA  
@@ -211,7 +212,8 @@ BEGIN
         TOTENTRA = 0;
         TOTPRECO = 0;
         IMPRIME = 'S';              
-        For SELECT sum(movdet.QUANTIDADE), sum((movdet.VLR_BASE * movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))), movdet.VLR_BASE
+        For SELECT sum(movdet.QUANTIDADE), sum((coalesce(movdet.VLR_BASE, movdet.PRECO) * movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0)))
+                 ,coalesce(movdet.VLR_BASE, movdet.PRECO)
                  ,mov.DATAMOVIMENTO, movdet.CODDETALHE
               FROM MOVIMENTO mov, MOVIMENTODETALHE movdet 
              WHERE movdet.CODMOVIMENTO = mov.CODMOVIMENTO 
@@ -219,7 +221,7 @@ BEGIN
                AND movdet.CODPRODUTO = :CODPRODUTO  
                AND movdet.BAIXA is not null 
                AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA')))
-             GROUP BY movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE
+             GROUP BY movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE,movdet.PRECO
              ORDER BY codDetalhe                  
               INTO :ENTRA, :VLR, :PRECOCOMPRA, :DATAMOVIMENTO, :CODDET
         do begin
@@ -263,15 +265,15 @@ BEGIN
     BEGIN
       TOTSAI = 0;
       IMPRIME = 'S';
-      FOR SELECT SUM(movdet.QUANTIDADE),sum(movdet.VLR_BASE * movdet.QUANTIDADE)
-           ,mov.DATAMOVIMENTO, movdet.VLR_BASE, movdet.CODDETALHE
+      FOR SELECT SUM(movdet.QUANTIDADE),sum(coalesce(movdet.VLR_BASE, movdet.PRECO) * movdet.QUANTIDADE)
+           ,mov.DATAMOVIMENTO, coalesce(movdet.VLR_BASE, movdet.PRECO), movdet.CODDETALHE
             FROM MOVIMENTODETALHE movdet, MOVIMENTO mov
            WHERE movdet.CODMOVIMENTO = mov.CODMOVIMENTO
              AND movdet.CODMOVIMENTO = :CODMOV 
              AND movdet.CODPRODUTO = :CODPRODUTO   
              AND movdet.BAIXA is not null 
              AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTES) or (:LOTES = 'TODOS OS LOTES SISTEMA')))
-           group by movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE 
+           group by movdet.CODDETALHE, mov.DATAMOVIMENTO, movdet.VLR_BASE , movdet.PRECO
            order by movdet.CODDETALHE
             INTO :SAI, :VLR, :DATAMOVIMENTO, :VALORVENDA, :CODDET
       do begin
