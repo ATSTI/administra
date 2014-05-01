@@ -469,6 +469,7 @@ type
     { Private declarations }
      procedure alteraStatusMovimento;
   public
+     cupom_codMov :  Integer;
      prazoparapgto : Integer;
      function buscaProdLista(codBarra, ProdLista:String): Integer;
      procedure buscaProduto;
@@ -2276,6 +2277,7 @@ begin
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
   try
+    cupom_codMov := cds_MovimentoCODMOVIMENTO.AsInteger ;
     sqlAlteraMov := 'update MOVIMENTO set status = 9 ' + 
       ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
     dm.sqlsisAdimin.ExecuteDirect(sqlAlteraMov);
