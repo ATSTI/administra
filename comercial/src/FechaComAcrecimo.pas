@@ -72,7 +72,7 @@ Procedure TFormFechaComAcrecimo.Button1Click(Sender: TObject);
 
     if (cdsTrib.Active) then
       cdsTrib.Close;
-    cdsTrib.Params[0].AsInteger := fTerminal_Delivery.cds_MovimentoCODMOVIMENTO.AsInteger;
+    cdsTrib.Params[0].AsInteger := fTerminal_Delivery.cupom_codMov;
     cdsTrib.Open;
     porcentagem := (cdsTribSUM.AsFloat / StrToFloat(StringReplace(Edit3.Text, '.', '', [rfReplaceAll]))) *100 ;
     Tributos := #13+#10+ 'Val Aprox Tributos R$' + FloatToStr(cdsTribSUM.AsFloat) + '(' + Format('%-3.2n', [porcentagem]) + '%) '+ #13+#10 + 'Fonte: IBPT';
