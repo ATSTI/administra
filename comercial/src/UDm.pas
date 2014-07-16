@@ -2052,7 +2052,7 @@ type
 
     //CUPOM
     varCOD_VENDA, varCOD_MOV : integer;
-    situacaoCaixa : string;
+    situacaoCaixa, vTipoFiscal : string;
     //CUPOM
     origemProdutoCfop: Integer;
     cadastroClienteTipo: String;

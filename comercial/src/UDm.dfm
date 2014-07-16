@@ -1,10 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 206
-  Top = 111
-  Height = 738
-  Width = 1152
+  Left = 65532
+  Top = 65532
+  Height = 866
+  Width = 1561
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_luciana'
+      'Database=192.168.6.100:sge_lajes'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
