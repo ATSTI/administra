@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
   Left = 256
-  Top = 164
+  Top = 165
   Width = 801
   Height = 614
   BorderIcons = [biSystemMenu, biMaximize]
@@ -167,7 +167,7 @@ object fNotaf: TfNotaf
           OnKeyPress = FormKeyPress
         end
         object btnProcCli: TBitBtn
-          Left = 224
+          Left = 225
           Top = 11
           Width = 31
           Height = 25
@@ -4222,5 +4222,12 @@ object fNotaf: TfNotaf
     DataSet = scdsCr_proc
     Left = 689
     Top = 376
+  end
+  object sqlBSerie: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 280
+    Top = 64
   end
 end

@@ -424,6 +424,7 @@ type
     JvGroupBox59: TJvGroupBox;
     DBEdit55: TDBEdit;
     calcman: TCheckBox;
+    sqlBSerie: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -566,19 +567,21 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].asString := 'SERIENFE';
   dm.cds_parametro.Open;
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+  dmnf.scds_serienfe.Open;
 
   if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
   begin
-    if (dmnf.scds_serienfe.Active) then
-      dmnf.scds_serienfe.Close;
-    dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
-    dmnf.scds_serienfe.Open;
     dbeSerie.Text := dm.cds_parametroD1.AsString;
     numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
     gravaSerie(StrToInt(numNf));
   end
   else begin
-    numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
+    dbeSerie.Text := dm.cds_parametroD1.AsString;
+    numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+    //numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
   end;
 
   if (not dm.cds_empresa.Active) then
@@ -590,7 +593,7 @@ begin
     sdsTotal.params[0].AsInteger := codMovFin;
     sdsTotal.open;
     incluiNotaFiscal;
-    dmnf.cds_nfSERIE.AsString := dm.cds_parametroD1.AsString;
+    dmnf.cds_nfSERIE.AsString := dbeSerie.Text;
     dmnf.cds_nfNOTASERIE.AsString := numNf;
     dmnf.cds_nfVALOR_PRODUTO.AsFloat := sdsTotal.Fields[0].AsFloat;
     dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_PRODUTO.AsFloat +
@@ -677,6 +680,8 @@ begin
     // Pego os parametros para Lanç. Entrada
     CarregaParametros;
     incluiSAida;
+    dmnf.cds_nfSERIE.AsString := dbeSerie.Text;
+    dmnf.cds_nfNOTASERIE.AsString := numNf;
   end;
 end;
 
@@ -1027,6 +1032,8 @@ begin
     DMNF.cds_nfUFCLI.AsString := DMNF.listaClienteUF.AsString;
     DMNF.cds_nfTELEFONE.AsString := DMNF.listaClienteTELEFONE.AsString;
     prazo := dmnf.listaClientePRAZORECEBIMENTO.AsFloat;
+    dm.ufPadrao := DMNF.listaClienteUF.AsString;
+    dm.vTipoFiscal := dmnf.listaClienteCODFISCAL.AsString;
 
     if (DMNF.listaClienteCOD_TRANPORTADORA.AsInteger > 0 ) then
     begin
@@ -1365,10 +1372,7 @@ begin
 
   //GRAVAR COM TRANSAÇÃO
   try
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
-
     if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
       if (dmnf.cds_Mov_det.State in [dsInsert]) then
          dmnf.cds_Mov_det.Post;
@@ -1382,7 +1386,9 @@ begin
     //if (cbFinanceiro.Checked) then  -- Neste caso usa a tabela venda ,
     //  -- pois, a natureza q está nota é gravado não gera financeiro
     if (DMNF.DtSrcVenda.State in [dsInsert, dsEdit]) then
+    begin
      gravavenda;
+    end;
     //Salvo Nota Fiscal
     if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
      gravanotafiscal;
@@ -1393,6 +1399,13 @@ begin
     end;
 
     dm.sqlsisAdimin.Commit(TD);
+
+    // o bloco abaixo estava no grava Venda -- 04/06/2014
+    gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
+    if (scdsCr_proc.Active) then
+      scdsCr_proc.Close;
+    scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+    scdsCr_proc.Open;
 
     //dmnf.cds_Mov_det.Refresh;
     numnf := DMNF.cds_nfNUMNF.AsInteger;
@@ -1554,14 +1567,6 @@ begin
     alteraVlrVenda;
 
   dmnf.cds_venda.ApplyUpdates(0);
-
-  gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
-
-  if (scdsCr_proc.Active) then
-    scdsCr_proc.Close;
-  scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
-  scdsCr_proc.Open;
-
 end;
 
 procedure TfNotaf.btnImpNFClick(Sender: TObject);
@@ -2259,6 +2264,8 @@ begin
   try
     //fDetalheNF.tipoFiscalNota := dmnf.cds_nf
     //fDetalheNF.UFNota :=
+    var_F := 'formnf';
+    dm.cfopSaida := cbCFOP.Text;
     fDetalheNF.ShowModal;
   finally
     fDetalheNF.Free;
@@ -2361,12 +2368,12 @@ begin
   begin
     strS := 'SELECT MAX(CAST(NOTASERIE AS INTEGER)) NUMNF FROM NOTAFISCAL ' +
             ' where SERIE = ' + QuotedStr(dbeSerie.Text);
-    if (dm.sqlBusca.Active) then
-      dm.sqlBusca.Close;
-    dm.sqlBusca.SQL.Clear;
-    dm.sqlBusca.SQL.Add(strS);
-    dm.sqlBusca.Open;
-    ultimoNumUsado := dm.sqlBusca.fieldByName('NUMNF').AsInteger;
+    if (sqlBSerie.Active) then
+      sqlBSerie.Close;
+    sqlBSerie.SQL.Clear;
+    sqlBSerie.SQL.Add(strS);
+    sqlBSerie.Open;
+    ultimoNumUsado := sqlBSerie.fieldByName('NUMNF').AsInteger;
     if ((ultimoNumUsado + 1) < numero) then
     begin
       MessageDlg('O último número de nota emitido foi : ' + IntToSTr(ultimoNumUsado) +
