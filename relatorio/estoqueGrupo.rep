@@ -10,10 +10,10 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'SPESTOQUE'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select  *'#13#10' from SPESTOQUEGRUPO(:PDTA1,:PDTA2, :GRUPO, :PCCUSTO)' +
-        #13#10
+        'select  *  from SPESTOQUEGRUPO(:PDTA1,:PDTA2, :GRUPO, :PCCUSTO)'#13 +
+        #10
     end>
   DatabaseInfo = <
     item
@@ -37,12 +37,23 @@ object TRpReport
       ReportField = 'REPORT'
       ReportGroupsTable = 'REPMAN_GROUPS'
       ADOConnectionString = ''
+    end
+    item
+      Alias = 'SISADMIN'
+      LoadParams = True
+      LoadDriverParams = True
+      LoginPrompt = False
+      ReportTable = 'REPMAN_REPORTS'
+      ReportSearchField = 'REPORT_NAME'
+      ReportField = 'REPORT'
+      ReportGroupsTable = 'REPMAN_GROUPS'
+      ADOConnectionString = ''
     end>
   Params = <
     item
       Name = 'PDTA1'
       AllowNulls = False
-      Value = 39448d
+      Value = 41640d
       ParamType = rpParamDate
       Datasets.Strings = (
         'SPESTOQUE')
@@ -55,7 +66,7 @@ object TRpReport
     item
       Name = 'PDTA2'
       AllowNulls = False
-      Value = 39478d
+      Value = 41790d
       ParamType = rpParamDate
       Datasets.Strings = (
         'SPESTOQUE')
@@ -101,7 +112,13 @@ object TRpReport
         Section = TRpSection5
       end
       item
+        Section = TRpSection1
+      end
+      item
         Section = TRpSection0
+      end
+      item
+        Section = TRpSection2
       end
       item
         Section = TRpSection3
@@ -119,9 +136,6 @@ object TRpReport
     SectionType = rpsecdetail
     Components = <
       item
-        Component = TRpExpression1
-      end
-      item
         Component = TRpExpression2
       end
       item
@@ -134,10 +148,10 @@ object TRpReport
         Component = TRpExpression5
       end
       item
-        Component = TRpExpression7
+        Component = TRpExpression1
       end
       item
-        Component = TRpExpression8
+        Component = TRpExpression11
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -155,37 +169,14 @@ object TRpReport
     BackExpression = ''
     Stream = {0000000000000000}
   end
-  object TRpExpression1: TRpExpression
-    Width = 4710
-    Height = 225
-    PosX = 120
-    PosY = 0
-    Type1Font = poHelvetica
-    CutText = True
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.GRUPOVER'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression2: TRpExpression
     Width = 795
     Height = 232
-    PosX = 4825
+    PosX = 6900
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -197,7 +188,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'SPESTOQUE.SALDOINI'
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -205,11 +196,11 @@ object TRpReport
   object TRpExpression3: TRpExpression
     Width = 795
     Height = 232
-    PosX = 5755
+    PosX = 7830
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -221,7 +212,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'SPESTOQUE.ENTRADA'
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -229,11 +220,11 @@ object TRpReport
   object TRpExpression4: TRpExpression
     Width = 795
     Height = 232
-    PosX = 6670
+    PosX = 8745
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -245,7 +236,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'SPESTOQUE.SAIDA'
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -260,9 +251,6 @@ object TRpReport
     AlignBottom = False
     SectionType = rpsecpheader
     Components = <
-      item
-        Component = TRpLabel1
-      end
       item
         Component = TRpLabel2
       end
@@ -285,10 +273,10 @@ object TRpReport
         Component = TRpExpression6
       end
       item
-        Component = TRpLabel6
+        Component = TRpLabel0
       end
       item
-        Component = TRpLabel7
+        Component = TRpLabel1
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -306,23 +294,10 @@ object TRpReport
     BackExpression = ''
     Stream = {0000000000000000}
   end
-  object TRpLabel1: TRpLabel
-    Width = 4710
-    Height = 345
-    PosX = 120
-    PosY = 690
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Grupo'
-  end
   object TRpLabel2: TRpLabel
     Width = 930
     Height = 345
-    PosX = 4710
+    PosX = 6780
     PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
@@ -336,7 +311,7 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 810
     Height = 345
-    PosX = 5745
+    PosX = 7815
     PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
@@ -350,7 +325,7 @@ object TRpReport
   object TRpLabel4: TRpLabel
     Width = 810
     Height = 345
-    PosX = 6665
+    PosX = 8735
     PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
@@ -364,7 +339,7 @@ object TRpReport
   object TRpLabel5: TRpLabel
     Width = 915
     Height = 345
-    PosX = 7585
+    PosX = 9655
     PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
@@ -405,49 +380,22 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 
-      #39'Rela'#231#227'o do ESTOQUE por Grupo no per'#237'odo de '#39' + STR('#10'M.PDTA1) + ' +
-      ' '#39' '#224' '#39' +  STR(M.PDTA2)'
+      #39'Rela'#231#227'o do ESTOQUE por Grupo no per'#237'odo de '#39' + STR('#13#10'M.PDTA1) +' +
+      '  '#39' '#224' '#39' +  STR(M.PDTA2)'#13#10'+ IIF(SPESTOQUE.CCUSTO > 1,  '#39' - '#39' + SP' +
+      'ESTOQUE.CRESULTADO, '#39#39')'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpLabel6: TRpLabel
-    Width = 915
-    Height = 345
-    PosX = 8745
-    PosY = 690
-    Type1Font = poHelvetica
-    Alignment = 2
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Custo'
-  end
-  object TRpLabel7: TRpLabel
-    Width = 915
-    Height = 345
-    PosX = 9660
-    PosY = 690
-    Type1Font = poHelvetica
-    Alignment = 2
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Venda'
-  end
   object TRpExpression5: TRpExpression
     Width = 900
     Height = 232
-    PosX = 7585
+    PosX = 9660
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 2
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -459,14 +407,14 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'SPESTOQUE.SALDOFIM'
-    DisplayFormat = ',##0.0'
+    DisplayFormat = ',##0.000'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
   object TRpSection3: TRpSection
     Width = 10772
-    Height = 397
+    Height = 180
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -474,15 +422,6 @@ object TRpReport
     AlignBottom = False
     SectionType = rpsecpfooter
     Components = <
-      item
-        Component = TRpExpression9
-      end
-      item
-        Component = TRpExpression10
-      end
-      item
-        Component = TRpLabel8
-      end
       item
         Component = TRpShape2
       end>
@@ -502,122 +441,11 @@ object TRpReport
     BackExpression = ''
     Stream = {0000000000000000}
   end
-  object TRpExpression7: TRpExpression
-    Width = 915
-    Height = 232
-    PosX = 8745
-    PosY = 5
-    Type1Font = poHelvetica
-    Alignment = 2
-    DisplayFormat = ',##0.00'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.VALORCUSTO'
-    DisplayFormat = ',##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression8: TRpExpression
-    Width = 915
-    Height = 232
-    PosX = 9780
-    PosY = 5
-    Type1Font = poHelvetica
-    Alignment = 2
-    DisplayFormat = ',##0.00'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.VALORVENDA'
-    DisplayFormat = ',##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression9: TRpExpression
-    Width = 915
-    Height = 345
-    PosX = 8745
-    PosY = 115
-    Type1Font = poHelvetica
-    Alignment = 2
-    DisplayFormat = ',##0.00'
-    Aggregate = rpAgGeneral
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.VALORCUSTO'
-    DisplayFormat = ',##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression10: TRpExpression
-    Width = 915
-    Height = 345
-    PosX = 9780
-    PosY = 115
-    Type1Font = poHelvetica
-    Alignment = 2
-    DisplayFormat = ',##0.00'
-    Aggregate = rpAgGeneral
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.VALORVENDA'
-    DisplayFormat = ',##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpLabel8: TRpLabel
-    Width = 2175
-    Height = 345
-    PosX = 6330
-    PosY = 115
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Valor Total --------------->'
-  end
   object TRpShape0: TRpShape
     Width = 10695
     Height = 570
     PosX = 0
-    PosY = 465
+    PosY = 455
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -625,11 +453,189 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape2: TRpShape
-    Width = 10695
-    Height = 375
+    Width = 10755
+    Height = 120
     PosX = 0
     PosY = 0
     BrushStyle = 1
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpSection1: TRpSection
+    Width = 10772
+    Height = 420
+    SubReport = TRpSubReport0
+    GroupName = 'FAMILIA_PROD'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgheader
+    Components = <
+      item
+        Component = TRpExpression0
+      end
+      item
+        Component = TRpShape3
+      end
+      item
+        Component = TRpShape4
+      end>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'SPESTOQUE.GRUPODESC'
+    BeginPageExpression = ''
+    ChangeExpression = 'SPESTOQUE.GRUPODESC'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpSection2: TRpSection
+    Width = 10772
+    Height = 0
+    SubReport = TRpSubReport0
+    GroupName = 'FAMILIA_PROD'
+    ChangeBool = False
+    PageRepeat = False
+    SkipPage = False
+    AlignBottom = False
+    SectionType = rpsecgfooter
+    Components = <>
+    ExternalTable = 'REPMAN_REPORTS'
+    ExternalField = 'REPORT'
+    ExternalSearchField = 'REPORT_NAME'
+    StreamFormat = rpStreamText
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    ChangeExpression = 'SPESTOQUE.GRUPODESC'
+    BeginPageExpression = ''
+    ChangeExpression = 'SPESTOQUE.GRUPODESC'
+    SkipExpreV = ''
+    SkipExpreH = ''
+    SkipToPageExpre = ''
+    BackExpression = ''
+    Stream = {0000000000000000}
+  end
+  object TRpExpression0: TRpExpression
+    Width = 6015
+    Height = 300
+    PosX = 120
+    PosY = 120
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.GRUPODESC'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel0: TRpLabel
+    Width = 5760
+    Height = 225
+    PosX = 915
+    PosY = 690
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Produto'
+  end
+  object TRpLabel1: TRpLabel
+    Width = 810
+    Height = 225
+    PosX = 115
+    PosY = 695
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'C'#243'd.'
+  end
+  object TRpExpression1: TRpExpression
+    Width = 945
+    Height = 285
+    PosX = 90
+    PosY = 0
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.CODPROD'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression11: TRpExpression
+    Width = 5745
+    Height = 285
+    PosX = 1035
+    PosY = 0
+    Type1Font = poHelvetica
+    CutText = True
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.PRODUTO'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpShape3: TRpShape
+    Width = 10695
+    Height = 105
+    PosX = 5
+    PosY = 350
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
+  object TRpShape4: TRpShape
+    Width = 10695
+    Height = 105
+    PosX = 5
+    PosY = 5
+    Shape = rpsHorzLine
     PenWidth = 0
     PrintCondition = ''
     DoBeforePrint = ''

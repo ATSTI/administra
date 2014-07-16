@@ -65,7 +65,7 @@ object TRpReport
     item
       Name = 'PDTA1'
       AllowNulls = False
-      Value = 39814d
+      Value = 39965d
       ParamType = rpParamDate
       Datasets.Strings = (
         'IMPR')
@@ -78,7 +78,7 @@ object TRpReport
     item
       Name = 'PDTA2'
       AllowNulls = False
-      Value = 39844d
+      Value = 39994d
       ParamType = rpParamDate
       Datasets.Strings = (
         'IMPR')
@@ -422,6 +422,7 @@ object TRpReport
     PosX = 690
     PosY = 0
     Type1Font = poHelvetica
+    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -439,12 +440,13 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression6: TRpExpression
-    Width = 5400
+    Width = 5340
     Height = 225
     PosX = 690
     PosY = 0
     Type1Font = poHelvetica
     FontStyle = 1
+    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
