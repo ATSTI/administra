@@ -1428,6 +1428,7 @@ type
     cds_nf1BASE_COFINS: TFloatField;
     sds_Mov_DetPAGOU: TStringField;
     cds_Mov_detPAGOU: TStringField;
+    listaClienteCODFISCAL: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

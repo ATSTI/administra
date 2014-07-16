@@ -1,9 +1,9 @@
 object DMNF: TDMNF
   OldCreateOrder = False
-  Left = 76
-  Top = 28
-  Height = 669
-  Width = 891
+  Left = 2
+  Top = 2
+  Height = 450
+  Width = 638
   object sCliente: TSQLDataSet
     CommandText = 
       'select CODCLIENTE, NOMECLIENTE from CLIENTES '#13#10'order by NOMECLIE' +
@@ -5296,10 +5296,10 @@ object DMNF: TDMNF
       'select cli.CODCLIENTE, cli.NOMECLIENTE, cli.RAZAOSOCIAL, cli.CNP' +
       'J, cli.INSCESTADUAL, cli.PRAZORECEBIMENTO, cli.COD_TRANPORTADORA' +
       ' '#13#10', ende.LOGRADOURO, ende.BAIRRO, ende.COMPLEMENTO, ende.CIDADE' +
-      ', ende.UF, ende.CEP, ende.TELEFONE, cli.TIPOFIRMA'#13#10'from CLIENTES' +
-      ' cli '#13#10'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE =' +
-      ' cli.CODCLIENTE '#13#10'where ende.TIPOEND = 0'#13#10' order by cli.RAZAOSOC' +
-      'IAL '
+      ', ende.UF, ende.CEP, ende.TELEFONE, cli.TIPOFIRMA, cli.CODFISCAL' +
+      ' '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende on e' +
+      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where ende.TIPOEND = 0'#13#10' order' +
+      ' by cli.RAZAOSOCIAL '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -5383,6 +5383,11 @@ object DMNF: TDMNF
     object listaClienteTIPOFIRMA: TSmallintField
       FieldName = 'TIPOFIRMA'
       Required = True
+    end
+    object listaClienteCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object listaFornecedor: TSQLDataSet
