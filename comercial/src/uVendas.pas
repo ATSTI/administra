@@ -1023,7 +1023,8 @@ begin
   cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
   cds_MovimentoCOD_VEICULO.AsInteger := 0;
 
-  ComboBox1.Text := ccpadrao;
+  if (ComboBox1.Text = '') then
+    ComboBox1.Text := ccpadrao;
   MaskEdit1.Text := '';
 
   if cds_Mov_det.Active then
@@ -1844,7 +1845,7 @@ begin
       IF (DtSrc.State in [dsInsert, dsEdit]) then
       begin
         cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
-        cds_MovimentoCODALMOXARIFADO.AsString := cds_ccustoCODIGO.AsString;
+        cds_MovimentoCODALMOXARIFADO.AsInteger := cds_ccustoCODIGO.AsInteger;
         if (DBComboBox1.Text <> '') then
           if  (cds_MovimentoCONTROLE.AsString <> DBComboBox1.Text) then
             cds_movimentoControle.AsString := DBComboBox1.Text;
@@ -2720,9 +2721,12 @@ begin
   toti := 0;
   estoque := 0;
   if (cdsDetalhe.Active) then
-      cdsDetalhe.Close;
-  cdsDetalhe.Params[0].AsInteger := codmovt;
-  cdsDetalhe.Params[1].AsString := tipomat;
+    cdsDetalhe.Close;
+  //cdsDetalhe.Params[0].AsInteger := codmovt;
+  //cdsDetalhe.Params[1].AsString := tipomat;
+  cdsDetalhe.CommandText := 'select CODPRODMP, USAPRECO, sum(TOTAL) ' +
+    ' from MATERIA_PRIMA_ITENS(' + IntToStr(codMovt) + ', ' +
+    QuotedStr(tipomat) + ') group by CODPRODMP, USAPRECO';
   cdsDetalhe.Open;
   {** se não estiver vazio procuro pela matéria prima}
   if (not cdsDetalhe.IsEmpty) then
@@ -2886,7 +2890,7 @@ begin
     //codigo_moviemento := cds_MovimentoCODMOVIMENTO.AsInteger;
     cdsLotesMem.Close;
   end;
-  if ((teveLancamento = 'SIM') and (tipomat = 'BAIXAAUTOMATICA')) then
+  if ((teveLancamento = 'SIM') and ((tipomat = 'BAIXAAUTOMATICA') or (tipomat = 'BAIXASEPARADA'))) then
   begin
     try
       TD.TransactionID := 1;
@@ -4151,6 +4155,17 @@ begin
       //begin
       result := limiteCreditoCliente-TotalPendenteCliente;
       //end;
+    end;
+    if (dm.cdsBusca.IsEmpty) then
+    begin
+      if (dm.cdsBusca.Active) then
+        dm.cdsBusca.Close;
+      dm.cdsBusca.CommandText := 'select c.LIMITECREDITO ' +
+        '  from clientes c ' +
+        ' where c.CODCLIENTE = ' + IntToStr(codCliente);
+      dm.cdsBusca.Open;
+      limiteCreditoCliente := dm.cdsBusca.fieldByName('LIMITECREDITO').AsFloat;
+      result := limiteCreditoCliente;
     end;
   end
   else begin
