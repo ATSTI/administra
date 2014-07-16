@@ -258,6 +258,8 @@ type
     JvGroupBox27: TJvGroupBox;
     DBEdit19: TDBEdit;
     calcman: TCheckBox;
+    listaFornecedoresCODFISCAL: TStringField;
+    listaFornecedorCODFISCAL: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -848,6 +850,8 @@ begin
     dmnf.cds_nf1UFCLI.AsString := listaFornecedorUF.AsString;
     dmnf.cds_nf1TELEFONE.AsString := listaFornecedorTELEFONE.AsString;
     prazo := listaFornecedorPRAZOPAGAMENTO.AsFloat;
+    dm.ufPadrao := listaFornecedorUF.AsString;
+    dm.vTipoFiscal := listaFornecedorCODFISCAL.AsString;
 
     if (listaFornecedorCODTRANSP.AsInteger > 0 ) then
     begin
@@ -2021,6 +2025,8 @@ procedure TfNotaFc.JvDBGrid1DblClick(Sender: TObject);
 begin
   fDetalheNF := TfDetalheNF.Create(Application);
   try
+    var_F := 'formnfCompra';
+    dm.cfopSaida := cbCFOP.Text;
     fDetalheNF.ShowModal;
   finally
     fDetalheNF.Free;

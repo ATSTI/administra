@@ -2862,13 +2862,13 @@ object fNotafc: TfNotafc
     CommandText = 
       'select f.CODFORNECEDOR, '#13#10'           f.RAZAOSOCIAL,  '#13#10'         ' +
       '  f.CNPJ, '#13#10'           f.INSCESTADUAL, '#13#10'           f.PRAZOPAGAM' +
-      'ENTO,'#13#10'           f.CODTRANSP,'#13#10'           ende.LOGRADOURO, '#13#10'  ' +
-      '         ende.BAIRRO, '#13#10'           ende.COMPLEMENTO, '#13#10'         ' +
-      '  ende.CIDADE, '#13#10'           ende.UF, '#13#10'           ende.CEP, '#13#10'  ' +
-      '         ende.TELEFONE '#13#10'from FORNECEDOR f '#13#10'left outer join END' +
-      'ERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10 +
-      'where ende.TIPOEND = 0 and f.RAZAOSOCIAL = :pRazao'#13#10' order by f.' +
-      'RAZAOSOCIAL '#13#10
+      'ENTO,'#13#10'           f.CODTRANSP, f.CODFISCAL , '#13#10'           ende.L' +
+      'OGRADOURO, '#13#10'           ende.BAIRRO, '#13#10'           ende.COMPLEMEN' +
+      'TO, '#13#10'           ende.CIDADE, '#13#10'           ende.UF, '#13#10'          ' +
+      ' ende.CEP, '#13#10'           ende.TELEFONE '#13#10'from FORNECEDOR f '#13#10'left' +
+      ' outer join ENDERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.CO' +
+      'DFORNECEDOR  '#13#10'where ende.TIPOEND = 0 and f.RAZAOSOCIAL = :pRaza' +
+      'o'#13#10' order by f.RAZAOSOCIAL '#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -2930,6 +2930,11 @@ object fNotafc: TfNotafc
     end
     object listaFornecedorCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
+    end
+    object listaFornecedorCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object sCfop: TSQLDataSet
@@ -3007,10 +3012,10 @@ object fNotafc: TfNotafc
       'ENTO,'#13#10'           f.CODTRANSP,'#13#10'           ende.LOGRADOURO, '#13#10'  ' +
       '         ende.BAIRRO, '#13#10'           ende.COMPLEMENTO, '#13#10'         ' +
       '  ende.CIDADE, '#13#10'           ende.UF, '#13#10'           ende.CEP, '#13#10'  ' +
-      '         ende.TELEFONE '#13#10'from FORNECEDOR f '#13#10'left outer join END' +
-      'ERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10 +
-      'where ende.TIPOEND = 0 and f.CODFORNECEDOR = :pCodCli'#13#10' order by' +
-      ' f.RAZAOSOCIAL '#13#10
+      '         ende.TELEFONE , f.CODFISCAL '#13#10'from FORNECEDOR f '#13#10'left ' +
+      'outer join ENDERECOFORNECEDOR ende on ende.CODFORNECEDOR = f.COD' +
+      'FORNECEDOR  '#13#10'where ende.TIPOEND = 0 and f.CODFORNECEDOR = :pCod' +
+      'Cli'#13#10' order by f.RAZAOSOCIAL '#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -3072,6 +3077,11 @@ object fNotafc: TfNotafc
     object listaFornecedoresTELEFONE: TStringField
       FieldName = 'TELEFONE'
       Size = 9
+    end
+    object listaFornecedoresCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
 end
