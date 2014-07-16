@@ -2064,6 +2064,28 @@ begin
       mudaVersao('2.0.0.27');
     end;// Fim Atualizacao Versao 2.0.0.27
 
+    if (versaoSistema = '2.0.0.27') then
+    begin
+      insereouatualizaScript('spestoque.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('sp_mov_caixa.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('mat_prima_itens.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('sp_mov_caixa_ordem.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('gera_nf_venda.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('frete_nf.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('calcula_icms.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('relContasReceber.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('rel_vendaCompra.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('spEstoqueFiltro.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('listaProdutocli.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      insereouatualizaScript('listaProduto.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      //insereouatualizaScript('.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      //insereouatualizaScript('.sql', '2.0.0.27', StrToDate('01/05/2014'));
+      AtualizandoScript('2.0.0.27');
+      mudaVersao('2.1.0.0');
+    end;// Fim Atualizacao Versao 2.1.0.0
+
+
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
