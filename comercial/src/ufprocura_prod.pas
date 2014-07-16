@@ -916,10 +916,10 @@ begin
    fCompra.btnNovo.Click;
 
  if (var_F = 'formnf') then
-   fNF.btnNovo.Click;
+   DMNF.cds_Mov_det.Append;
 
  if (var_F = 'formnfCompra') then
-   fNFCompra.btnNovo.Click;
+   DMNF.cds_Mov_det.Append;
 
   if (var_F = 'MovEstoque') then
     fMovimenta_Estoque.btnNovo.Click;
@@ -1362,6 +1362,12 @@ begin
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
+    dmnf.cds_Mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_procCODPRODUTO.AsInteger,
+      dm.ufPadrao, dm.vTipoFiscal, StrToInt(cds_procORIGEM.asString), cds_procNCM.AsString, 'Saida');
+    if (dmnf.cds_mov_detCFOP.asString = '') then
+    begin
+      dmnf.cds_mov_detCFOP.asString := dm.cfopSaida;
+    end;
     dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;
     dmnf.cds_Mov_det.Post;
@@ -1670,6 +1676,12 @@ begin
     dmnf.cds_Mov_detVLR_BASE.AsFloat := StrToFloat(Edit4.Text);
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+    dmnf.cds_Mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_procCODPRODUTO.AsInteger,
+      dm.ufPadrao, dm.vTipoFiscal, StrToInt(cds_procORIGEM.asString), cds_procNCM.AsString, 'Saida');
+    if (dmnf.cds_mov_detCFOP.asString = '') then
+    begin
+      dmnf.cds_mov_detCFOP.asString := dm.cfopSaida;
+    end;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;

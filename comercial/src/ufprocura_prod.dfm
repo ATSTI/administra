@@ -1,6 +1,6 @@
 object fProcura_prod: TfProcura_prod
   Left = 26
-  Top = 33
+  Top = 34
   Width = 811
   Height = 562
   Caption = 'Lista de Produtos'
