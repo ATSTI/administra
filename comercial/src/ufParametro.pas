@@ -4750,6 +4750,7 @@ begin
   begin
     dm.cds_parametro.Edit;
     dm.cds_parametroD1.AsString := edtSerieNF.Text;
+    dm.cds_parametroCONFIGURADO.AsString := 'S';
     dm.cds_parametro.ApplyUpdates(0);
   end;
 end;
