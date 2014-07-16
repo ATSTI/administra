@@ -122,6 +122,8 @@ begin
             fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := codalmox;
             fCompra.cds_Mov_detALMOXARIFADO.AsString := almox;
             fCompra.cds_Mov_detICMS.AsFloat := icms;
+            fCompra.cds_Mov_detLOTE.AsString := '';
+            dbEdit1.SetFocus;
         end;
     end
     else
