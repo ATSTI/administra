@@ -2365,15 +2365,18 @@ begin
 end;
 
 procedure TfVendaFinalizar.baixaestoque(Tipo: string);
+var codCResultVenda: Integer;
 begin
   codigo_cliente :=  fVendas.cds_MovimentoCODCLIENTE.AsInteger;
   data_movimento :=  DateToStr(fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime);
   codigo_moviemento := fVendas.cds_MovimentoCODMOVIMENTO.AsInteger;
+  codCResultVenda := fVendas.cds_MovimentoCODALMOXARIFADO.AsInteger;
 
   {** adiciono um novo movimento}
   fVendas.btnIncluir.Click;
   fVendas.cds_MovimentoCODCLIENTE.AsInteger := codigo_cliente;
   fVendas.cds_MovimentoCODPEDIDO.AsInteger  := codigo_moviemento;
+  fVendas.cds_MovimentoCODALMOXARIFADO.AsInteger := codCResultVenda;
 
   fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime := StrToDate(data_movimento);
   { Natureza = 'Saída' }

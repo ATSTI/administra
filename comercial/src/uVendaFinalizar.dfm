@@ -1,8 +1,8 @@
 inherited fVendaFinalizar: TfVendaFinalizar
-  Left = 306
-  Top = 203
-  Width = 801
-  Height = 571
+  Left = 2
+  Top = 2
+  Width = 791
+  Height = 562
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
   Font.Height = -13
   OldCreateOrder = True
@@ -412,7 +412,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 793
+    Width = 783
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -2241,8 +2241,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 507
-    Width = 793
+    Top = 498
+    Width = 783
     Height = 37
     Align = alBottom
     BevelInner = bvLowered
