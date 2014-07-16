@@ -346,9 +346,12 @@ begin
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
         dm.sqlsisAdimin.Commit(TD);
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
-        exit;
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
       end;
     end;
     if (dm.cds_4_pagar.State in [dsBrowse, dsInactive]) then
@@ -387,17 +390,20 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       dm.sqlsisAdimin.Commit(TD);
     except
-      dm.sqlsisAdimin.Rollback(TD);
-      MessageDlg('Erro para efetuar a baixa.', mtError, [mbOK], 0);
-      if (dm.cds_4_pagar.State in [dsBrowse, dsInactive]) then
-        dm.cds_4_pagar.Edit;
-      dm.cds_4_pagarFORMAPAGAMENTO.AsString := (varCpTitulo.pegaForma(DBComboBox1.Text));
-      dm.cds_4_pagarSTATUS.AsString := '5-';
-      dm.cds_4_pagar.Post;
-      btnCancela_Baixa.Enabled := False;
-      //btnImprimi.Enabled := True;
-      BitBtn2.Enabled := True;
-      exit;
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        if (dm.cds_4_pagar.State in [dsBrowse, dsInactive]) then
+          dm.cds_4_pagar.Edit;
+        dm.cds_4_pagarFORMAPAGAMENTO.AsString := (varCpTitulo.pegaForma(DBComboBox1.Text));
+        dm.cds_4_pagarSTATUS.AsString := '5-';
+        dm.cds_4_pagar.Post;
+        btnCancela_Baixa.Enabled := False;
+        //btnImprimi.Enabled := True;
+        BitBtn2.Enabled := True;
+        exit;
+      end;
     end;
   except
     MessageDlg('Erro na baixa , execute o processo novamente.', mtError, [mbOK], 0);
