@@ -131,6 +131,7 @@ type
     procedure dbgDetalheTitleClick(Column: TColumn);
     procedure btnCopiarCustoClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -238,6 +239,7 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET ' +
       ' PRECOVENDA = ' + floatToStr(cdsLista_detPRECOVENDA.AsFloat) +
       ' ,PRECOCOMPRA = ' + floatToStr(cdsLista_detPRECOCOMPRA.AsFloat) +
+      ' ,PRODUTO     = ' + QuotedStr(cdsLista_detPRODUTO.AsString) +
       ' WHERE CODLISTADET = ' + IntToStr(cdsLista_detCODLISTADET.AsInteger));
     cdsLista_det.Next;
   end;
@@ -530,6 +532,33 @@ begin
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
   end;
   MessageDlg('Cópia realizada com sucesso.', mtInformation, [mbOK], 0);
+end;
+
+procedure TfListaVenda.btnExcluirClick(Sender: TObject);
+  var TD : TTransactionDesc;
+begin
+  //MessageDlg('Operação não permitida.', mtWarning, [mbOK], 0);
+  //inherited;
+  if  MessageDlg('Confirma a exclusão do produto : ' + cdsLista_detPRODUTO.AsString + '?',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM LISTAPRECO_VENDADET  ' +
+      ' WHERE CODLISTA = ' + IntToStr(cdsListaVendaCODLISTA.AsInteger) +
+      '   AND CODPRODUTO = ' + IntToStr(cdsLista_detCODPRODUTO.AsInteger));
+    dm.sqlsisAdimin.Commit(TD);
+    cdsLista_det.Close;
+    cdsLista_det.Open;
+    MessageDlg('Produto excluido com sucesso.', mtInformation, [mbOK], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 end.
