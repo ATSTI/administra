@@ -358,7 +358,7 @@ begin
     end;
     cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
     DM_MOV.ID_DO_MOVIMENTO := cds_cnsCODMOVIMENTO.AsInteger;
-    DM.totalpago := cds_cnsAPAGAR.Value;
+    DM.totalpago := cds_cnsVALOR.Value;
     fVendas.clienteEstaBloqueado := 'NAO';
     if (cds_cns.FieldByName('BLOQUEIO').AsString = 'S') then
       fVendas.clienteEstaBloqueado := 'SIM';
