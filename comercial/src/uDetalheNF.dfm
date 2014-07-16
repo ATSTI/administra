@@ -1,6 +1,6 @@
 object fDetalheNF: TfDetalheNF
   Left = 343
-  Top = 249
+  Top = 250
   Width = 676
   Height = 320
   Caption = 'Detalhe Produtos'

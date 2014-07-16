@@ -304,7 +304,8 @@ begin
       fProcura_prod.cds_proc.Close;
   end;
   varonde := 'compra';
-  var_F := 'formnfCompra';
+  if (var_f = '') then
+    var_F := 'formnfCompra';
   fProcura_prod.codcli := DMNF.cds_MovimentoCODCLIENTE.AsInteger;
   fProcura_prod.ShowModal;
 
