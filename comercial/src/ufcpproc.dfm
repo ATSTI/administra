@@ -14,6 +14,7 @@ object fCpProc: TfCpProc
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  Scaled = False
   WindowState = wsMaximized
   OnCreate = FormCreate
   OnShow = FormShow

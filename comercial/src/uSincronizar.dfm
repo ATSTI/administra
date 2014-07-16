@@ -1,6 +1,6 @@
 object fSincronizar: TfSincronizar
   Left = 429
-  Top = 174
+  Top = 175
   Width = 386
   Height = 322
   Caption = 'Sincronizar Cupom'

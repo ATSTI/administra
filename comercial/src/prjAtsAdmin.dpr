@@ -366,7 +366,8 @@ uses
   uGeraSPED in 'ugeraSPED.pas' {fGeraSPED},
   unfc in 'unfc.pas' {fnfc},
   uListaVendaProc in 'uListaVendaProc.pas' {fListaVendaProc},
-  uOfProc in 'uOfProc.pas' {fOfProc};
+  uOfProc in 'uOfProc.pas' {fOfProc},
+  uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente};
 
 {$R *.res}
 

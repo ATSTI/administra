@@ -90,7 +90,7 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=c:\home\sisadmin
+OutputDir=C:\Home\sisadmin
 UnitOutputDir=c:\tmp
 PackageDLLOutputDir=c:\tmp
 PackageDCPOutputDir=c:\tmp
@@ -111,11 +111,11 @@ ProjectLang=
 RootDir=C:\Arquivos de programas\Borland\Delphi7\Bin\
 [Version Info]
 IncludeVerInfo=1
-AutoIncBuild=0
-MajorVer=1
-MinorVer=2
+AutoIncBuild=1
+MajorVer=2
+MinorVer=1
 Release=0
-Build=0
+Build=5
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=
-FileVersion=1.2.0.0
+FileVersion=2.1.0.5
 InternalName=
 LegalCopyright=
 LegalTrademarks=
@@ -160,8 +160,9 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=c:\tmp
 [HistoryLists\hlOutputDirectorry]
-Count=1
-Item0=c:\home\sisadmin
+Count=2
+Item0=C:\Home\sisadmin
+Item1=Z:\atsadmin_dev
 [HistoryLists\hlBPLOutput]
 Count=1
 Item0=c:\tmp

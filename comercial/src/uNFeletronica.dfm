@@ -22,7 +22,7 @@ object fNFeletronica: TfNFeletronica
     Top = 0
     Width = 867
     Height = 553
-    ActivePage = NFe
+    ActivePage = CCe
     TabOrder = 0
     object NFe: TTabSheet
       Caption = 'NFe'

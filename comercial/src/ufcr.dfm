@@ -1,6 +1,6 @@
 object fcrproc: Tfcrproc
   Left = 188
-  Top = 104
+  Top = 105
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
   ClientHeight = 591
@@ -14,6 +14,7 @@ object fcrproc: Tfcrproc
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow

@@ -1,8 +1,8 @@
 object fPai_new: TfPai_new
-  Left = 200
-  Top = 156
-  Width = 780
-  Height = 552
+  Left = 5
+  Top = 4
+  Width = 638
+  Height = 450
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,7 +21,7 @@ object fPai_new: TfPai_new
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 772
+    Width = 630
     Height = 51
     Align = alTop
     PopupMenu = PopupMenu1
@@ -35,8 +35,8 @@ object fPai_new: TfPai_new
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 474
-    Width = 772
+    Top = 372
+    Width = 630
     Height = 51
     Align = alBottom
     PopupMenu = PopupMenu1

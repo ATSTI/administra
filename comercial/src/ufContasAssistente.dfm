@@ -1,6 +1,6 @@
 object fContasAssistente: TfContasAssistente
   Left = 192
-  Top = 107
+  Top = 108
   Width = 559
   Height = 405
   Color = clBtnFace
@@ -16,7 +16,7 @@ object fContasAssistente: TfContasAssistente
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 339
+    Top = 346
     Width = 551
     Height = 32
     Align = alBottom
@@ -117,7 +117,7 @@ object fContasAssistente: TfContasAssistente
     Left = 0
     Top = 36
     Width = 551
-    Height = 303
+    Height = 310
     ActivePage = TabSheet3
     Align = alClient
     TabOrder = 2
