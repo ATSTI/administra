@@ -96,7 +96,18 @@ declare variable codRec integer;
   declare variable rVALOR_RESTO double precision;
   declare variable rVALORTITULO   double precision;
   declare variable vDesconto   double precision;
+  declare variable vDescontoProd   double precision;
+  declare variable levaDesc char(1);
+  declare variable arredondar DOUBLE PRECISION;
 begin 
+  -- versao 2.0.0.20
+  vDesconto = 0;
+  levaDesc = 'N';
+  select pmt.CONFIGURADO from parametro pmt where pmt.PARAMETRO = 'NF_DESCONTO'
+    into :levaDesc;
+    
+  if (levaDesc is null) then 
+    levaDesc = 'N';  
 
   Select first 1 mov.CODNATUREZA
     from movimento mov 
@@ -147,7 +158,7 @@ begin
       FROM ESTADO_ICMS WHERE UF = :uf AND CFOP = :cfop
       INTO :vIcmsT, :baseIcms;
 
-    -- pega número do novo movimento
+    -- pega numero do novo movimento
     select GEN_ID(GENMOV, 1) from RDB$DATABASE
       into :codMovNovo;
 
@@ -179,24 +190,48 @@ begin
       if (ncm_dadosadicionais is null) then 
         ncm_dadosadicionais = :ncm;
 
-     if (pesoUn is null) then 
+      if (pesoUn is null) then 
         pesoUn = 0;
-     if (pesoLiq is null) then 
+      if (pesoLiq is null) then 
         pesoLiq = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
       pesoLiqTotal = pesoLiqTotal + (:pesoLiq * :qtde);
       if (:icms > 0) then 
         tBaseIcms = tBaseIcms + (preco * qtde);
         
-    if(:cfop = '') then
+      if(:cfop = '') then
         cfop = :cfop_;
-    if(:cfop is null) then
+      if(:cfop is null) then
         cfop = :cfop_;
 
+      vDescontoProd = 0;
+      if (levaDesc = 'N') then 
+      begin 
+        vDescontoProd = ((:qtde * :preco)*(:desconto/100));
+      end  
+      if (levaDesc = 'S') then 
+      begin 
+	    select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
+         into :arredondar;
+       
+        if (arredondar is null) then 
+		  arredondar = 2;    
+		
+        if (desconto > 0) then
+        begin  
+	      vDescontoProd = UDF_ROUNDDEC(((:PRECO*:qtde)*(:desconto/100)), :arredondar);
+        end
+        vlr_base = preco;
+        vDesconto = vDesconto + vDescontoProd; 
+        desconto = 0;
+      end
+      if (vDescontoProd is null) then 
+        vDescontoProd = 0;
+      
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO, CFOP) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),:vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop);  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, :vDescontoProd, :vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop);  
       total = total + (qtde * :vlr_base);
       totalIcms = totalIcms + :valoricms;
     end 

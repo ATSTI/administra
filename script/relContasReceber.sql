@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE  RELCONTASRECEBER
 RETURNS ( STATUS                           VARCHAR( 2 )
         , STATUSP                          VARCHAR( 15 )
@@ -42,6 +43,7 @@ declare variable vlrMulta  DOUBLE PRECISION;
 declare variable vlrPerda  DOUBLE PRECISION;
 declare variable vlrDesc  DOUBLE PRECISION;
 begin
+  -- versao 2.0.0.20
    tituloAtual = 'vazio';
    valorTitulo = 0;
      for SELECT rec.STATUS, rec.DATARECEBIMENTO, rec.DATACONSOLIDA
@@ -61,6 +63,8 @@ begin
       ,rec.VALOR_PRIM_VIA, rec.CODIGOBOLETO
       FROM RECEBIMENTO rec 
       inner join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE       
+      left outer join venda v on v.CODVENDA = rec.CODVENDA 
+      where rec.STATUS <> 'NF'
       group by 
         rec.CODCLIENTE
         ,cli.NOMECLIENTE 

@@ -1,24 +1,25 @@
-create or ALTER PROCEDURE  SP_MOV_CAIXA_ORDEM( DTAINI                           DATE
-                                   , DTAFIM                           DATE
-                                   , COD_CAIXA                        SMALLINT 
-                                   , pSTATUS                          SMALLINT )
-  
-RETURNS ( DTAPAGTO                         DATE
-        , ORDEM                            SMALLINT
-        , DESCRICAO                        VARCHAR( 350 )
-        , VALORC                           DOUBLE PRECISION
-        , VALORD                           DOUBLE PRECISION
-        , VALOR                            DOUBLE PRECISION
-        , CONTACONTABIL                    VARCHAR( 200 )
-        , CAIXA                            VARCHAR( 60 )
-        , CODCONTA                         VARCHAR( 20 )
-        , FORMA                            VARCHAR( 20 )
-        , N_DOC                            VARCHAR( 20 )
-        , ORDENA                           SMALLINT
-        ,compensado varchar(10)  )
+ALTER PROCEDURE SP_MOV_CAIXA_ORDEM (
+    DTAINI DATE,
+    DTAFIM DATE,
+    COD_CAIXA SMALLINT )
+RETURNS (
+    DTAPAGTO DATE,
+    ORDEM SMALLINT,
+    DESCRICAO VARCHAR(300),
+    VALORC DOUBLE PRECISION,
+    VALORD DOUBLE PRECISION,
+    VALOR DOUBLE PRECISION,
+    CONTACONTABIL VARCHAR(300),
+    CAIXA VARCHAR(60),
+    CODCONTA VARCHAR(20),
+    FORMA VARCHAR(20),
+    N_DOC VARCHAR(20),
+    ORDENA SMALLINT,
+    COMPENSADO VARCHAR(10) )
 AS
 declare variable uso char(1);
 BEGIN 
+  -- versao 2.0.0.20
   select D6 from parametro where parametro = 'MODULO'
    into :uso; 
   if (uso = 'S') then
@@ -33,7 +34,7 @@ BEGIN
       VALOR = VALOR + VALORD - VALORC;
       if ((valord = 0) and (valorc = 0)) then
       begin
-        --não imprimir quando os 2 são Zero
+        --nao imprimir quando os 2 sao Zero
       end
       else 
         SUSPEND;
@@ -42,8 +43,8 @@ BEGIN
   else begin 
     SELECT FIRST 1 VALOR FROM SP_MOV_CAIXA(:DTAINI, :DTAFIM, :COD_CAIXA)
       INTO :VALOR;
-    -- Mostra linha a Linha
-    /*FOR SELECT DTAPAGTO, ORDEM, DESCRICAO, VALORC, VALORD, CONTACONTABIL, CAIXA, CODCONTA, FORMA, N_DOC, COMPENSADO
+  
+    FOR SELECT DTAPAGTO, ORDEM, DESCRICAO, VALORC, VALORD, CONTACONTABIL, CAIXA, CODCONTA, FORMA, N_DOC, COMPENSADO
       FROM SP_MOV_CAIXA(:DTAINI, :DTAFIM, :COD_CAIXA) ORDER BY DTAPAGTO, ORDEM, N_DOC 
     INTO :DTAPAGTO, :ORDEM, :DESCRICAO, :VALORC, :VALORD, :CONTACONTABIL, :CAIXA, :CODCONTA
        , :FORMA, :N_DOC, :COMPENSADO
@@ -51,26 +52,10 @@ BEGIN
       VALOR = VALOR + VALORD - VALORC;
       if ((valord = 0) and (valorc = 0)) then
       begin
-        --não imprimir quando os 2 são Zero
-      end
-      else 
-        SUSPEND;
-    END*/
-    -- Agrupo por número de Documento
-    FOR SELECT DTAPAGTO, ORDEM, DESCRICAO, sum(VALORC), sum(VALORD), CAIXA, FORMA, N_DOC, COMPENSADO
-      FROM SP_MOV_CAIXA(:DTAINI, :DTAFIM, :COD_CAIXA) 
-      group by DTAPAGTO, ORDEM, N_DOC, DESCRICAO, CAIXA, FORMA, COMPENSADO
-    INTO :DTAPAGTO, :ORDEM, :DESCRICAO, :VALORC, :VALORD, :CAIXA
-       , :FORMA, :N_DOC, :COMPENSADO
-    DO BEGIN
-      VALOR = VALOR + VALORD - VALORC;
-      if ((valord = 0) and (valorc = 0)) then
-      begin
-        --não imprimir quando os 2 são Zero
+        --nao imprimir quando os 2 sao Zero
       end
       else 
         SUSPEND;
     END
-
   end
 END

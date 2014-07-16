@@ -1,3 +1,4 @@
+set term ^;
 CREATE OR ALTER PROCEDURE SPESTOQUE (
     DTA1 date,
     DTA2 date,
@@ -20,20 +21,33 @@ RETURNS (
     SALDOFIM double precision,
     VALORCUSTO double precision,
     CUSTOUNIT  double precision,
+    cResultado varchar(60),
     CCUSTO integer )
 AS
 DECLARE VARIABLE COD INTEGER;
+DECLARE VARIABLE CODCPERDA INTEGER;
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
 DECLARE VARIABLE ENTRA DOUBLE PRECISION = 0;
 DECLARE VARIABLE SAI DOUBLE PRECISION = 0;
 BEGIN
+
+   -- versao = '2.1.0.1'
+   -- nao exibe no relatorio
+   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
+   INTO :CODCPERDA;
+   if (codCperda is null) then 
+     codCperda = 99999;
+   
     ENTRADA = 0;
     SAIDA = 0;
     -- CCUSTO
-  --  FOR SELECT DISTINCT CODALMOXARIFADO FROM MOVIMENTO WHERE  DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
-  --  INTO :CCUSTO 
-  --   do begin
-    CCUSTO = 1; 
+    FOR SELECT DISTINCT M.CODALMOXARIFADO, PL.NOME FROM MOVIMENTO M, PLANO pl 
+      WHERE pl.CODIGO = m.CODALMOXARIFADO 
+        and m.CODALMOXARIFADO <> :codCPerda
+        and DATAMOVIMENTO BETWEEN :DTA1 AND :DTA2 
+    INTO :CCUSTO, :CResultado 
+    do begin
+      --CCUSTO = 1; 
       
     FOR SELECT CODPRODUTO, CODPRO, cast(PRODUTO as varchar(300)), FAMILIA, CATEGORIA, UNIDADEMEDIDA 
           FROM PRODUTOS 
@@ -129,5 +143,5 @@ BEGIN
         SAIDA = 0;
         valorCusto = null;
     END
-  --END -- CCUSTO
+  END -- CCUSTO
 END

@@ -48,8 +48,13 @@ DECLARE VARIABLE ICMS_DESTACADO_DESC2 VARCHAR(100);
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PIS DOUBLE PRECISION;
 DECLARE VARIABLE COFINS DOUBLE PRECISION;
+DECLARE VARIABLE BCCOFINS DOUBLE PRECISION;
+DECLARE VARIABLE BCPIS DOUBLE PRECISION;
+DECLARE VARIABLE BCIPI DOUBLE PRECISION;
+DECLARE VARIABLE VTOTTRIB DOUBLE PRECISION;
 declare variable codmovorigem integer;
 begin
+  -- versao 2.0.0.20
     ICMS_DESTACADO_DESC = '';
     ICMS_DESTACADO_DESC2 = '';
 
@@ -102,41 +107,15 @@ begin
     select COALESCE(sum(md.ICMS_SUBST), 0), COALESCE(sum(md.ICMS_SUBSTD), 0), COALESCE(sum(md.VALOR_ICMS), 0), COALESCE(sum(md.VLR_BASEICMS), 0)
     , COALESCE(sum(md.VIPI), 0), COALESCE(sum(md.QUANTIDADE * md.VLR_BASE), 0) , COALESCE(sum(md.VALOR_DESCONTO), 0), COALESCE(sum(md.VALOR_SEGURO), 0)
     , COALESCE(sum(md.VALOR_OUTROS), 0) , COALESCE(sum(md.FRETE), 0), COALESCE(sum(md.VALOR_PIS), 0), COALESCE(sum(md.VALOR_COFINS), 0) 
-    , COALESCE(sum(md.II), 0) , COALESCE(sum(md.BCII), 0) 
+    , COALESCE(sum(md.II), 0) , COALESCE(sum(md.BCII), 0) , COALESCE(sum(md.VLRBC_COFINS), 0) , COALESCE(sum(md.VLRBC_IPI), 0), COALESCE(sum(md.VLRBC_PIS), 0)
+    , COALESCE(sum(md.VLRTOT_TRIB), 0) 
     from MOVIMENTODETALHE md
     where md.CODMOVIMENTO = :cod
-    into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD, :DESCONTO, :VSEGURO, :OUTRAS, :VFRETE, :PIS, :COFINS, :TOTII, :TOTBCII;
+    into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD, :DESCONTO, :VSEGURO, :OUTRAS, :VFRETE, :PIS, :COFINS, :TOTII, :TOTBCII, :BCCOFINS, :BCIPI, :BCPIS, :VTOTTRIB;
     
 
     UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST , VALOR_ICMS_SUBST = :TOTST , VALOR_IPI = :TOTIPI, VALOR_ICMS = :TOTICMS , BASE_ICMS = :TOTBASEICMS ,
       VALOR_TOTAL_NOTA = :TOTPROD + :TOTST + :TOTIPI + :VSEGURO - :DESCONTO + :OUTRAS  + :VFRETE, VALOR_PIS = :PIS, VALOR_COFINS = :COFINS
-      , II = :TOTII, BCII = :TOTBCII 
+      , II = :TOTII, BCII = :TOTBCII, VALOR_PRODUTO = :TOTPROD, VALOR_DESCONTO = :DESCONTO, VLRTOT_TRIB = :VTOTTRIB
       where NUMNF = :numero_nf;
-    
-      NumeroFatura = notaFiscalVenda || '-' || serie;
-        
-    -- vejo se usa nf Parcial
-    select parametro from parametro where parametro = 'NFVALOR'
-    into :parametro;
-    if (parametro is not null) then
-    begin        
-      select first 1 cast(p.d9 as integer) from PARAMETRO p  where p.PARAMETRO = :Prazo
-        into :d9; 
-
-      if (d9 is null) then 
-        d9 = 999;
-    
-      if (d9 <> 999) then 
-        EXECUTE PROCEDURE Corrige_fatura(:NumeroFatura);  
-    end
-    
-    select CONTROLE from MOVIMENTO where CODMOVIMENTO = :cod
-    into :codmovorigem;
-    
-    update VENDA set VALOR_IPI = :TOTIPI where CODMOVIMENTO = :codmovorigem;
-    
-    
-    if ((:nat = 15) or (:nat = 12)) then
-      update recebimento set valst = :TOTST where titulo = :notafiscalVenda || '-' || :serie and via = 1;
-       
 end

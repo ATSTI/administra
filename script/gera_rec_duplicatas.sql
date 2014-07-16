@@ -34,6 +34,7 @@ DECLARE VARIABLE COD_CCRE INTEGER;
 DECLARE VARIABLE SERIE CHARACTER(2);
 DECLARE VARIABLE NUM_DUP INTEGER;
 DECLARE VARIABLE TIT VARCHAR( 18 );
+DECLARE VARIABLE ERRO_LOCAL VARCHAR( 18 );
 begin
     status_venda = '5-';
     statusx = 0; 
@@ -72,6 +73,7 @@ begin
         INTO :NUM_DUP;
         IF (NUM_DUP IS NULL) THEN 
         BEGIN
+          ERRO_LOCAL = ' INSERE SERIES - ' || :N_TITULO;
           INSERT INTO SERIES (SERIE, ULTIMO_NUMERO) VALUES ('D', 1);
           NUM_DUP = 1;
         END
@@ -81,7 +83,15 @@ begin
       else begin 
         Select ULTIMO_NUMERO FROM SERIES WHERE SERIE = :SERIE 
           into :NUM_DUP; 
-        NUM_DUP = NUM_DUP + 1;
+        IF (NUM_DUP IS NULL) THEN 
+        BEGIN
+          ERRO_LOCAL = ' INSERE SERIES - ' || :N_TITULO;
+          INSERT INTO SERIES (SERIE, ULTIMO_NUMERO) VALUES ('D', 1);
+          NUM_DUP = 1;
+        END          
+        else begin 
+          NUM_DUP = NUM_DUP + 1;
+        end
         N_TITULO = CAST(NUM_DUP AS VARCHAR(10)) || '-' || SERIE; 
       end
       --if (TipoNovoDoc = 'DUPLICATA') then 
@@ -108,12 +118,16 @@ begin
          end
          VLR_RESTO =  ((V_VLRTITULO - V_DESCONTO + V_JUROS) - V_VLRRECEBIDO)/N_PARC;
 
+         ERRO_LOCAL = ' UPDATE - ' || :N_TITULO;  
+         
          UPDATE RECEBIMENTO SET DUP_REC_NF = :TIPONOVODOC, DP = null, STATUS = '10', HISTORICO = COALESCE(HISTORICO,'') || :N_TITULO 
           , VALORRECEBIDO = VALOR_RESTO WHERE DP = 0;
           vlr_rec = 0;
          if (status_venda = '7-') then 
            vlr_rec = vlr_resto;
 
+         ERRO_LOCAL = ' INSERT - ' || :N_TITULO || ' COD_ORIGEM: ' || :V_CODORIGEM || ' SERIE ' || :SERIE;  
+         
          INSERT INTO RECEBIMENTO 
            (CODVENDA, TITULO, EMISSAO, CODCLIENTE, DATAVENCIMENTO, STATUS 
            , VIA, FORMARECEBIMENTO, CODALMOXARIFADO, CODVENDEDOR, CODUSUARIO
@@ -128,6 +142,11 @@ begin
           --UPDATE SERIES SET ULTIMO_NUMERO =  :NUM_DUP WHERE SERIE = :SERIE;
          i = i + 1;    
       end
+    exception exc_c;
+    ERRO_LOCAL = ' UPDATE SERIES - ' || :SERIE;  
     UPDATE SERIES SET ULTIMO_NUMERO = :NUM_DUP WHERE SERIE = :SERIE; 
-          
+    --when any do 
+    --begin 
+    --  exception errortxt ' OPS ' || erro_local;      
+    --end  
 end

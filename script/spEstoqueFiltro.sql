@@ -57,6 +57,7 @@ DECLARE VARIABLE IMPRIME CHAR(1);
 declare variable datanf date;
 DECLARE VARIABLE CODDET INTEGER = 0;
 BEGIN 
+  -- versao 2.0.0.20
   -- MOVIMENTO DE MATERIAIS
   saida = 0;
   CODPRODU = 0;

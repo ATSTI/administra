@@ -1,4 +1,4 @@
-SET TERM ^ ;
+set term ^ ;
 CREATE OR ALTER PROCEDURE MATERIAPRIMA_CUSTO
 RETURNS (
     CODPROD integer,
@@ -23,26 +23,28 @@ BEGIN
         into :codProd, :Produto, :codProdPro
   do begin         
     -- busco a materia prima   
-    for SELECT r.CODPRODMP, r.QTDEUSADA, p.PRODUTO, p.CODPRO
+    for SELECT r.CODPRODMP, r.QTDEUSADA, p.PRODUTO, p.CODPRO, COALESCE(p.VALORUNITARIOATUAL, p.PRECOMEDIO) 
           FROM MATERIA_PRIMA r, PRODUTOS p
          WHERE r.CODPRODMP  = p.CODPRODUTO 
            AND r.CODPRODUTO = :codProd 
-          INTO :codMat, :qtde, :matPrima, :codProdMat
+          INTO :codMat, :qtde, :matPrima, :codProdMat, :custoUnit
     do begin
-      -- Calcular o Custo de Cada Item 
-      select first 1 m.PRECOCOMPRA 
-        from ESTOQUEMES m
-       where m.CODPRODUTO = :codMat 
-       order by m.MESANO DESC  
-        into :custoUnit;
+      if (custoUnit is null) then 
+        custoUnit = 0; 
       custoTot = custoUnit * qtde;  
+      if (custoTot = 0) then
+      begin
+         SELECT sum(r.QTDEUSADA * COALESCE(p.VALORUNITARIOATUAL, p.PRECOMEDIO))
+          FROM MATERIA_PRIMA r, PRODUTOS p
+         WHERE r.CODPRODMP  = p.CODPRODUTO 
+           AND r.CODPRODUTO = :codMat
+         into :custoUnit;  
+         if (custoUnit is null) then 
+           custoUnit = 0; 
+         if ((custoUnit > 0) and (qtde > 0)) then  
+           custoTot = :custoUnit * :qtde;  
+      end 
       suspend;  
     end 
   end           
-END^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE MATERIAPRIMA_CUSTO TO  SYSDBA;
-
+END

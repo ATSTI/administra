@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTOCLI(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -59,6 +58,7 @@ declare variable precoVenda double PRECISION;
   declare variable CodLista INTEGER;
   declare variable CodListaCli INTEGER;
 begin
+  -- versao 2.0.0.20
     CCusto = 0;
     pdv = 'N';
         
