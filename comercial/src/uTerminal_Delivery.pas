@@ -583,6 +583,7 @@ begin
 end;
 
 procedure TfTerminal_Delivery.btnIncluirClick(Sender: TObject);
+  //FMov: TMovimento;
 begin
   Edit5.Text := '';
   if (Panel2.Visible = True) then
@@ -609,6 +610,19 @@ begin
   if c_8_serv.Active then
     c_8_serv.Close;
 
+  {Try
+    FMov := TMovimento.Create;
+    FMov.CodMov      := 0;
+    FMov.CodCCusto   := cdsInventCODCCUSTO.AsInteger;
+    FMov.CodCliente  := 0;
+    FMov.CodNatureza := 7;
+    FMov.Status      := 0;
+    FMov.CodUsuario  := cod_vendedor_padrao;
+    FMov.CodVendedor := cod_vendedor_padrao;
+    FMov.DataMov     := dta.Date;
+    FMov.Obs         := cdsInventCODIVENTARIO.AsString;
+    codMovSaida := FMov.inserirMovimento(0);}
+
   if not DtSrc.DataSet.Active then
      DtSrc.DataSet.open;
   DtSrc.DataSet.Append;
@@ -619,11 +633,23 @@ begin
     cds_MovimentoDESCNATUREZA.AsString := 'CUPOM FISCAL';
     cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
     cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
-    cds_MovimentoCODCLIENTE.AsInteger := 0;
-    cds_MovimentoNOMECLIENTE.AsString := 'CONSUMIDOR';
-    cds_MovimentoNewRecord(DtSrc.DataSet);
-    cds_Movimento.Edit;
+    cds_MovimentoCODCLIENTE.AsInteger := codcliente;
+    cds_MovimentoNOMECLIENTE.AsString := nomecliente;
+    //cds_MovimentoNewRecord(DtSrc.DataSet);
+    //cds_Movimento.Edit;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    cds_Movimento.ApplyUpdates(0);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
   end;
+  cds_Movimento.edit;
 
   if DtSrc.DataSet.State in [dsInsert, dsEdit] then
   begin
@@ -729,7 +755,13 @@ begin
     dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
     dm.cds_parametro.Open;
     if not dm.cds_parametro.IsEmpty then
+    begin
       clienteConsumidor := dm.cds_parametroDADOS.AsString;
+    end
+    else begin
+      ShowMessage('Cadastre o PARAMETRO :    CONSUMIDOR e em dados coloque o código do cliente consumidor.');
+      exit;
+    end;
     dm.cds_parametro.Close;
 
     if (b_cliente.Active) then
@@ -870,6 +902,17 @@ begin
   codmovdet := 1999999;
   codserv := 1999999;
   centro_receita := 0;
+
+  if (dm.sqlNatureza.Active) then
+    dm.sqlNatureza.Close;
+  dm.sqlNatureza.Params[0].AsInteger := 7;
+  dm.sqlNatureza.open;
+  if (dm.sqlNatureza.IsEmpty) then
+  begin
+    MessageDlg('Natureza da operação 7(Consumidor),13(Mesa) e 14(Delivery) - para uso no cupom não cadastrada', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+
     //------Pesquisando na tab Parametro Centro de Receita Padrão ---------
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
@@ -1357,11 +1400,14 @@ begin
   Try
      dm.sqlsisAdimin.Commit(TD);
   except
-     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-     MessageDlg('Erro no sistema, a venda não foi gravada.', mtError,
-         [mbOk], 0);
-     DecimalSeparator := ',';
-     ThousandSeparator := '.';
+    on E : Exception do
+    begin
+      DecimalSeparator := ',';
+      ThousandSeparator := '.';
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+
   end;
 
 end;
@@ -2095,9 +2141,9 @@ begin
 
   if (RadioGroup1.ItemIndex = 2) then
       cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
-   cds_Movimento.ApplyUpdates(0);
-   Refresh;
-   cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
+
+  cds_Movimento.ApplyUpdates(0);
+  cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
 
   // Corrijo o codigo da movimento detalhe(tabela)
   if (cds_Mov_detCODMOVIMENTO.AsInteger = 1999999) then

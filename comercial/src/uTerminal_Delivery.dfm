@@ -1,6 +1,6 @@
 inherited fTerminal_Delivery: TfTerminal_Delivery
-  Left = 211
-  Top = 59
+  Left = 214
+  Top = 61
   Width = 875
   Height = 594
   BorderIcons = [biSystemMenu, biMinimize, biMaximize]
