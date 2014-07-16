@@ -1,0 +1,9 @@
+Coloque no arquivo CONFIG.INI  a pasta onde se encontra os DBFs :
+
+CONFIG.INI
+[IMPRESSORA]
+porta=c:\temp1\teste.txt
+
+[DIRETORIO]
+pasta=c:\home\compras
+mov  =es.dbf 
