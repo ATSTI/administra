@@ -533,19 +533,20 @@ var str: String;
 begin
   if  MessageDlg('Confirma a atualização do estoque ? ',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+  dm.EstoqueAtualiza(0);    
   Save_Cursor := Screen.Cursor;
   Try
     lblAtualizando.Visible := True;
-    lblAtualizando.Caption := 'Atualizando ....';  
+    lblAtualizando.Caption := 'Atualizando ....';
     Screen.Cursor := crHourGlass;
-    dm.EstoqueAtualiza(0);
+
     if (cdsB.Active) then
-    cdsB.Close;
-    str := 'SELECT count(CODMOVIMENTO) CODMOV from MOVIMENTO ';
-    cdsB.CommandText := str;
-    cdsB.Open;
-    cdsB.Close;
-    str := 'SELECT CODMOVIMENTO from MOVIMENTO ';
+      cdsB.Close;
+    //str := 'SELECT count(CODMOVIMENTO) CODMOV from MOVIMENTO ';
+    //cdsB.CommandText := str;
+    //cdsB.Open;
+    //cdsB.Close;
+    str := 'SELECT FIRST 500 CODMOVIMENTO from MOVIMENTO ORDER BY CODMOVIMENTO DESC ';
     cdsB.CommandText := str;
     cdsB.Open;
     prog2.Max := cdsB.RecordCount;
