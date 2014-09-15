@@ -495,9 +495,19 @@ begin
      dm.cds_categoria.Next;
   end;
   dm.cds_categoria.Close;
-  Panel1.Visible := False;
-  Panel2.Visible := True;
-  RadioButton2.Checked := True;
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    Panel1.Visible := False;
+    Panel2.Visible := True;
+    RadioButton2.Checked := True;
+  end
+  else begin
+    Panel1.Visible := True;
+    Panel2.Visible := False;
+    RadioButton2.Checked := False;
+    RadioButton1.Checked := True;    
+  end;
+
   {cbMarca.Text := '';
   panel2.TabOrder := 0;
   EvDBFind1.SetFocus;   }
@@ -686,7 +696,7 @@ begin
 
   if edProduto.Text <> '' then
    if varCondicaoA <> '' then
-     varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(PRODUTO) containing ' + '''' + edProduto.Text + ''''
+     varCondicaoA := varCondicaoA + ' and PRODUTO containing ' + '''' + edProduto.Text + ''''
    else
      varCondicaoA := 'where PRODUTO containing ' + '''' + edProduto.Text + '''';
 
@@ -1085,13 +1095,13 @@ begin
 //  if (cbMarca.Text = '') then
  //   exit;
 
-  if DM.cds_familia.Active then
+{  if DM.cds_familia.Active then
     DM.cds_familia.Close;
   sqlFam := dm.sds_familia.CommandText;
   if (cbMarca.Text <> '') then
   begin
-    dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
-      'where MARCA = ' + QuotedStr(cbMarca.Text);
+    dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ';
+    //  'where MARCA = ' + QuotedStr(cbMarca.Text);   // Carlos 18/08/2014  não esta ligado a marca
   end
   else
     dm.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS';
@@ -1104,6 +1114,7 @@ begin
      DM.cds_familia.Next;
   end;
   DM.cds_familia.CommandText := sqlFam;
+}
   {if DM.cds_categoria.Active then
     DM.cds_categoria.Close;
   DM.cds_categoria.Params[0].Clear;
@@ -1183,7 +1194,7 @@ end;
 
 procedure TfProcura_produtos.cbFamiliaChange(Sender: TObject);
 begin
- if (cbFamilia.Text <> '') then
+ {if (cbFamilia.Text <> '') then
  begin
     if not DM.cds_familia.Active then
         DM.cds_familia.Open;
@@ -1220,7 +1231,7 @@ begin
        dm.cds_categoria.Next;
     end;
     dm.cds_categoria.Close;
- end;
+ end;}
 end;
 
 procedure TfProcura_produtos.RadioButton1Click(Sender: TObject);
