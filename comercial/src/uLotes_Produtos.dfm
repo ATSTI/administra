@@ -6,8 +6,8 @@ object fLotes_Produtos: TfLotes_Produtos
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Serie Produto'
-  ClientHeight = 89
-  ClientWidth = 496
+  ClientHeight = 211
+  ClientWidth = 498
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,8 @@ object fLotes_Produtos: TfLotes_Produtos
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 496
-    Height = 89
+    Width = 498
+    Height = 211
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -83,12 +83,20 @@ object fLotes_Produtos: TfLotes_Produtos
       ParentFont = False
       Transparent = True
     end
+    object Label4: TLabel
+      Left = 8
+      Top = 72
+      Width = 29
+      Height = 13
+      Caption = 'Grade'
+      Transparent = True
+    end
     object btnSair: TBitBtn
       Left = 351
       Top = 11
       Width = 59
       Height = 53
-      Caption = 'Proximo'
+      Caption = 'Gravar'
       TabOrder = 3
       OnClick = btnSairClick
       Glyph.Data = {
@@ -236,7 +244,7 @@ object fLotes_Produtos: TfLotes_Produtos
     end
     object LotSeq: TCheckBox
       Left = 9
-      Top = 68
+      Top = 124
       Width = 82
       Height = 17
       Caption = 'Sequencial?'
@@ -349,5 +357,31 @@ object fLotes_Produtos: TfLotes_Produtos
       DataSource = fCompra.DtSrc1
       TabOrder = 2
     end
+    object DBNavigator1: TDBNavigator
+      Left = 128
+      Top = 176
+      Width = 224
+      Height = 25
+      DataSource = fCompra.DtSrc1
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+      TabOrder = 6
+    end
+    object DBEdit2: TDBEdit
+      Left = 8
+      Top = 88
+      Width = 146
+      Height = 21
+      DataField = 'OBS'
+      DataSource = fCompra.DtSrc1
+      TabOrder = 7
+      OnKeyPress = DBEdit2KeyPress
+    end
+  end
+  object sqlGrade: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 216
+    Top = 80
   end
 end
