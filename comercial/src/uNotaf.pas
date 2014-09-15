@@ -1340,11 +1340,14 @@ begin
     begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = ' +
         QuotedStr('M') + ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER FRETE_NF INACTIVE;');
+
     end
     else
     begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = NULL ' +
         ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER FRETE_NF ACTIVE;');
     end;
     dm.sqlsisAdimin.Commit(TD);
   except

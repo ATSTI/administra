@@ -2074,6 +2074,20 @@ begin
     MessageDlg('Grave as modificações primeiro.', mtWarning, [mbOK], 0);
     Exit;
   end;
+
+  //se o CFOP não começa com 3 , então não é nota de importação
+  dmnf.cds_Mov_det.First;
+  while not dmnf.cds_Mov_det.Eof do
+  begin
+    if (copy(dmnf.cds_Mov_detCFOP.AsString,1,1) <> '3') then
+    begin
+      MessageDlg('Existe produto com CFOP diferente de 3..., a DI é somente para cfop de importação', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    dmnf.cds_Mov_det.Next;
+  end;
+
+
   fDadosImportacao := TfDadosImportacao.Create(Application);
   try
     fDadosImportacao.notaSerieDi       := dmnf.cds_nf1NOTASERIE.AsString;
