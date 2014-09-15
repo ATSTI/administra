@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE estoque_customedio
  (dataini date, datafim date, codproduto integer) 
 RETURNS 
@@ -24,6 +23,9 @@ BEGIN
     saldoinicial = 0;  
   if (saldoinicial = 0) then 
     custoinicial = 0; 
+    
+  if (saldoinicial < 0) then 
+    saldoinicial = 0;  
       
   --custo no periodo          
   select (case when sum(md.QUANTIDADE) > 0 then ((sum(md.VALTOTAL+(coalesce(md.VIPI,0)+coalesce(md.FRETE,0)+coalesce(md.ICMS_SUBST,0)))) / sum(md.QUANTIDADE)) else 0 end) as CUSTOMEDIO, sum(md.QUANTIDADE) 
