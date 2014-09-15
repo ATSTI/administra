@@ -1,4 +1,3 @@
-SET TERM ^ ;
 CREATE OR ALTER TRIGGER INVENT_ESTOQUE FOR INVENTARIO ACTIVE
 BEFORE INSERT POSITION 0
 AS 
@@ -14,8 +13,8 @@ BEGIN
       lote = '0';
     if (lote = '') then 
       lote = '0';
-    if (lote = '0') then 
-      lote = 'TODOS OS LOTES CADASTRADOS NO SISTEMA';    
+    --if (lote = '0') then 
+    --  lote = 'TODOS OS LOTES CADASTRADOS NO SISTEMA';    
     ccusto = new.CODCCUSTO;
     if (ccusto is null) then 
       ccusto = 0;
@@ -31,5 +30,4 @@ BEGIN
       qtde = 0;
     NEW.ESTOQUE_ATUAL = :qtde;    
   end 
-END^
-SET TERM ; ^
+END

@@ -98,7 +98,7 @@ begin
            INTO :codLista; 
        end     
     
-      for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, r.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
+      for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, p.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
         p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
         p.LOTES, r.MARGEMMAX, r.PRECOVENDA, 'DESCRICAO USO', 
         '1' as CODIGO, p.USA, p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, 
@@ -318,6 +318,25 @@ begin
       
 	 if (preco_Venda = 0) then
 	  preco_Venda = precoVenda;
+
+	 if (preco_Venda = 0) then
+        begin
+          if (preco_compraMedio > 0) then  
+          begin 
+            if (margem > 0) then
+              Preco_venda = preco_compraMedio * (1 + (margem / 100));
+          end
+        end
+
+	 if (preco_Venda = 0) then
+        begin
+          if (preco_compraUltimo > 0) then  
+          begin 
+            if (margem > 0) then
+              Preco_venda = preco_compraUltimo * (1 + (margem / 100));
+          end
+        end
+
 	  
 	if (custoMateriaPrima > 0) then 
 	begin
