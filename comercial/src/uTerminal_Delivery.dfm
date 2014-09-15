@@ -6176,6 +6176,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       FieldName = 'VALOR_ICMS'
       ProviderFlags = [pfInUpdate]
     end
+    object cds_Mov_detNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object cds_Mov_detCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -6207,15 +6215,16 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       'QUANTIDADE'#13#10'        , movd.QTDE_ALT'#13#10'        , movd.UN'#13#10'        ' +
       ', movd.BAIXA'#13#10'        , movd.CONTROLE'#13#10'        , movd.COD_COMISS' +
       'AO '#13#10'        , movd.VALTOTAL'#13#10'        , movd.PRECOCUSTO'#13#10'       ' +
-      ' , movd.DESCPRODUTO'#13#10'        , prod.CODPRO'#13#10'        , prod.PRODU' +
-      'TO'#13#10'        , prod.CODALMOXARIFADO'#13#10'        , prod.VALORUNITARIO' +
-      'ATUAL'#13#10'        , prod.QTDE_PCT'#13#10'        , ccus.ALMOXARIFADO'#13#10'   ' +
-      '     , prod.CONTA_DESPESA  '#13#10'        , prod.COD_BARRA '#13#10'        ' +
-      ', prod.LOCALIZACAO '#13#10'        , prod.ESTOQUEATUAL '#13#10'from MOVIMENT' +
-      'ODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd' +
-      '.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOX' +
-      'ARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDETAL' +
-      'HE or movd.CODMOVIMENTO=:pCODMOV '#13#10
+      ' , COALESCE(movd.DESCPRODUTO, prod.PRODUTO) DESCPRODUTO '#13#10'      ' +
+      '  , prod.CODPRO'#13#10'        , prod.PRODUTO'#13#10'        , prod.CODALMOX' +
+      'ARIFADO'#13#10'        , prod.VALORUNITARIOATUAL'#13#10'        , prod.QTDE_' +
+      'PCT'#13#10'        , ccus.ALMOXARIFADO'#13#10'        , prod.CONTA_DESPESA  ' +
+      #13#10'        , prod.COD_BARRA '#13#10'        , prod.LOCALIZACAO '#13#10'      ' +
+      '  , prod.ESTOQUEATUAL '#13#10'        , prod.NCM'#13#10'        , movd.CST'#13#10 +
+      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
+      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ' +
+      'ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.CODDETA' +
+      'LHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV '#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -6345,6 +6354,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object sds_Mov_DetVALOR_ICMS: TFloatField
       FieldName = 'VALOR_ICMS'
       ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object sds_Mov_DetCST: TStringField
+      FieldName = 'CST'
+      Size = 5
     end
   end
   object sds_venda: TSQLDataSet

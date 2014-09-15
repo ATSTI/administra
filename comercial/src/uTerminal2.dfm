@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
-  Left = 249
-  Top = 86
+  Left = 80
+  Top = 69
   Width = 913
   Height = 636
   AutoSize = True

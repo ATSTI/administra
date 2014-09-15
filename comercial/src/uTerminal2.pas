@@ -511,9 +511,9 @@ type
     procedure RelatriosFechamentos1Click(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
   private
+    terminalCaixa: Integer;
+    gradeVenda: String;
     peditoTerminalFinalizado: String;
-    linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
-    linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
     tamtexto : Integer;
     col: String;
     usaDll : String;
@@ -740,7 +740,7 @@ begin
   if (not s_parametro.IsEmpty) then
   begin
     DM.USACONTROLECAIXA := 'SIM';
-  end  
+  end
   else begin
     DM.USACONTROLECAIXA := 'NAO';
     caixaTerminal2 := dm.CCustoPadrao;
@@ -755,9 +755,9 @@ begin
   sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
   sCaixa1.Open;
   if (not sCaixa1.IsEmpty) then
-    DM_MOV.ID_CCUSTO := sCaixa1CODCAIXA.AsInteger
+    terminalCaixa := sCaixa1CODCAIXA.AsInteger
   else
-    DM_MOV.ID_CCUSTO := 0;
+    terminalCaixa := 0;
   sCaixa1.Close;
 
 end;
@@ -1091,6 +1091,7 @@ begin
   end
   else begin
     DM.resultadoOperacao := 'TRUE';
+    dm_mov.CAIXA_CONTA := sCaixa1CODCAIXA.asInteger;
     caixaTerminal2 := sCaixa1CODCAIXA.AsInteger;
     caixaTerminal2DataAbertura := sCaixa1DATAABERTURA.AsDateTime;
     caixaTerminal2Id := sCaixa1IDCAIXACONTROLE.AsInteger;
@@ -2054,10 +2055,10 @@ begin
         exit;
       end;
       buffer  := Format('%-13s',[DM_MOV.c_movdetCODPRO.Value]);
-      buffer  := buffer + Format(linhaItemUn,[DM_MOV.c_movdetUN.Value]);
-      buffer  := buffer + Format(linhaItemQtde,[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
-      buffer  := buffer + Format(linhaItemVlUnit,[DM_MOV.c_movdetPRECO.AsFloat]);
-      buffer  := buffer + Format(linhaItemVlTotal,[DM_MOV.c_movdetValorTotal.value]);
+      buffer  := buffer + Format(dm.linhaItemUn,[DM_MOV.c_movdetUN.Value]);
+      buffer  := buffer + Format(dm.linhaItemQtde,[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+      buffer  := buffer + Format(dm.linhaItemVlUnit,[DM_MOV.c_movdetPRECO.AsFloat]);
+      buffer  := buffer + Format(dm.linhaItemVlTotal,[DM_MOV.c_movdetValorTotal.value]);
       buffer  := buffer + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
@@ -2408,12 +2409,12 @@ begin
      ' - ' + dm.cds_empresaCEP.Value;
      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
      ' / ' + dm.cds_empresaFONE_2.Value;
-     Texto  := linhaTracejada;
+     Texto  := dm.linhaTracejada;
      Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
       IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
-     Texto2 := linhaTracejada;
+     Texto2 := dm.linhaTracejada;
      Texto3 := 'Produto ' ;
-     Texto4 := linhaTituloItem;
+     Texto4 := dm.linhaTituloItem;
      Texto5 := DateTimeToStr(Now) + 'Total.: R$   ';
 
      if (jvPageControl1.ActivePage = TabVenda) then
@@ -2480,12 +2481,12 @@ begin
      begin
        cds_iMovdet.RecordCount;
        // imprime
-       Writeln(Impressora, c10cpi + Format('%-24s',[Copy(cds_iMovdetDESCPRODUTO.Value,0,StrToInt(linhaDescItem))]));
+       Writeln(Impressora, c10cpi + Format('%-24s',[Copy(cds_iMovdetDESCPRODUTO.Value,0,StrToInt(dm.linhaDescItem))]));
        //Write(Impressora, c10cpi, Format('%-4s',[cds_iMovdetCOD_BARRA.Value]));
-       Write(Impressora, c10cpi + Format(linhaItemUn ,[cds_iMovdetUN.Value]));
-       Write(Impressora, c10cpi + Format(linhaItemQtde,[cds_imovdetQTDE.AsFloat]));
-       Write(Impressora, c10cpi + Format(linhaItemVlUnit,[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
-       Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[cds_imovdetVALTOTAL.asFloat]));
+       Write(Impressora, c10cpi + Format(dm.linhaItemUn ,[cds_iMovdetUN.Value]));
+       Write(Impressora, c10cpi + Format(dm.linhaItemQtde,[cds_imovdetQTDE.AsFloat]));
+       Write(Impressora, c10cpi + Format(dm.linhaItemVlUnit,[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
+       Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[cds_imovdetVALTOTAL.asFloat]));
 
        with Printer.Canvas do
        begin
@@ -2497,8 +2498,8 @@ begin
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c10cpi, texto);
      Texto5 := '  Total : R$ ';
-     Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
-     Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[total]));
+     Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+     Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
 
 
      s_parametro.Close;
@@ -2511,25 +2512,25 @@ begin
        if (JvComissao.Value > 0) then
        begin
          Texto5 := '  % : R$ ';
-         Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
+         Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
          porc    := JvComissao.Value / 100;
          porc    := porc * JvTotal.Value;
-         Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[porc]));
+         Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[porc]));
          total   := total + porc;
          Texto5 := 'Total + perc:R$ ';
-         Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
-         Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[total]));
+         Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+         Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
        end;
      end;
      s_parametro.Close;
 
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);
-     for i := 0 to StrToInt(qntespacos) do
+     for i := 0 to StrToInt(dm.qntespacos) do
      begin
        Writeln(IMPRESSORA);
      end;
-     if ((recortacupom = 'S') or (recortacupom = '')) then
+     if ((dm.recortacupom = 'S') or (dm.recortacupom = '')) then
        Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
@@ -3048,7 +3049,8 @@ end;
 procedure TfTerminal2.EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
 begin
   DecimalSeparator := ',';
-  codLote := '0';
+  codLote := '0';    
+  gradeVenda := '';
   if (key = #13) then
   begin
     if (DM.USACONTROLECAIXA = 'SIM') then
@@ -3317,7 +3319,6 @@ end;
 
 procedure TfTerminal2.incluiPedido;
 var id_movimento: integer;
-  ccustoPedido: string;
 begin
 
   if dm.c_6_genid.Active then
@@ -3326,15 +3327,6 @@ begin
   dm.c_6_genid.Open;
   id_movimento := dm.c_6_genid.Fields[0].AsInteger;
   dm.totalpago := 0;
-
-  if dm.cds_parametro.Active then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
-  dm.cds_parametro.Open;
-
-  ccustoPedido := '51';
-  if (not dm.cds_parametro.IsEmpty) then
-    ccustoPedido := DM.cds_parametroD1.AsString;
 
   if (codCliente = 0) then
   begin
@@ -3349,7 +3341,7 @@ begin
   end;
 
   str_sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
-    'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, TIPO_PEDIDO) VALUES ( ' +
+    'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, COD_VEICULO, TIPO_PEDIDO) VALUES ( ' +
     IntToStr(id_movimento) + ', ' + IntToStr(id_movimento) +
     ', ' + IntToStr(3) +
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', caixaTerminal2DataAbertura)) +
@@ -3357,12 +3349,9 @@ begin
     ', ' + IntToStr(20) +
     ', ' + IntToStr(1) +
     ', ' + IntToStr(1) + ', ';
-  if (DM_MOV.ID_CCUSTO > 0) then
-    str_sql := str_sql + IntToStr(DM_MOV.ID_CCUSTO)
-  else
-    str_sql := str_sql + ccustoPedido;
-
+  str_sql := str_sql + IntToStr(DM_MOV.ID_CCUSTO);
   str_sql := str_sql +  ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
+  str_sql := str_sql + IntToStr(terminalCaixa) + ', ';
   if (jvPageControl1.ActivePage = TabVenda) then
     str_sql := str_sql + QuotedStr('P') + ')'; // Pedido Consumidor
   if (jvPageControl1.ActivePage = TabComanda) then
@@ -3564,7 +3553,7 @@ begin
   dm.c_6_genid.Close;
 
   str_sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
-         'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
+         'PRECO, DESCPRODUTO, LOTE, OBS) VALUES ( ' +
          IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
          'null' + ', ' + IntToStr(0) + ', ';
   if (jvPageControl1.ActivePage = TabVenda) then
@@ -3579,9 +3568,10 @@ begin
   str_sql := str_sql +  QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
 
    if (codLote <> '0') then  // so preencho o campo Lote se o parametro usa lote for 3
-     str_sql := str_sql + QuotedStr(codlote) + ')'
+     str_sql := str_sql + QuotedStr(codlote) + ','
    else
-     str_sql := str_sql + 'null' + ')' ;
+     str_sql := str_sql + 'null' + ',' ;
+  str_sql := str_sql + QuotedStr(gradeVenda) + ')';
   dm.sqlsisAdimin.StartTransaction(TD);
   DecimalSeparator := ',';
   Try
@@ -3850,7 +3840,7 @@ procedure TfTerminal2.buscaLote;
 begin
   codLote := '0';
 
-  str_sql := 'SELECT r.SALDO,r.CODPRO,r.CODPRODUTO, r.PRODUTO FROM VIEW_ESTOQUELOTE(' +
+  str_sql := 'SELECT r.SALDO,r.CODPRO,r.CODPRODUTO, r.PRODUTO, r.GRADE FROM VIEW_ESTOQUELOTE(' +
     '0, ' + QuotedStr(EdtCodBarra1.Text) + ') r ';
 
   if (dm.sqlBusca.Active) then
@@ -3868,6 +3858,7 @@ begin
   else begin
     if(dm.sqlBusca.FieldByName('SALDO').asFloat > 0) then
     begin
+      gradeVenda := dm.sqlBusca.FieldByName('GRADE').asString;
       RETORNO := 'True';
       ESTOQUE := True;
       if (jvPageControl1.ActivePage = TabVenda) then
@@ -3894,7 +3885,7 @@ begin
         scds_produto_proc.Close;
       scds_produto_proc.CommandText := str_sql + ' prod.CODPRODUTO = ' +
         IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
-      scds_produto_proc.Open;        
+      scds_produto_proc.Open;
     end
     else begin
       RETORNO := 'FALSO';
@@ -3918,9 +3909,23 @@ begin
 end;
 
 procedure TfTerminal2.FormShow(Sender: TObject);
-var ImpressoraDet: TIniFile;
-  dataHoje : TDate;
+var dataHoje : TDate;
 begin
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
+
+  dm_mov.ID_CCUSTO := 51;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    try
+      dm_mov.ID_CCUSTO := StrToInt(DM.cds_parametroD1.AsString);
+    except
+      dm_mov.ID_CCUSTO := 51;
+    end;
+  end;
+
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
@@ -3941,33 +3946,6 @@ begin
      MessageDlg('Código do Consumidor não cadastrado, Informe em Parametros PDV um código válido ?', mtWarning,
        [mbOk], 0);
      exit;
-  end;
-
-  linhaTracejada  := '------------------------';
-  linhaTituloItem := 'UN  Qtde  V.Un.  V.Total';
-  linhaDescItem   := '30';
-  linhaItemUn     := '%-2s';
-  linhaItemQtde   :='%5.2n';
-  linhaItemVlUnit := '%7.2n';
-  linhaItemVlTotal := '%12.2n';
-  linhaTotal      := '%18s';
-  qntespacos      := '6';
-  recortacupom   := '';
-
-  ImpressoraDet := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'dbxconnections.ini');
-  try
-    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
-    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
-    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
-    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
-    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
-    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
-    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
-    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
-    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
-    recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
-  finally
-    ImpressoraDet.Free;
   end;
 
   if (s_parametro.Active) then
@@ -4556,6 +4534,7 @@ end;
 
 procedure TfTerminal2.Pagamentos1Click(Sender: TObject);
 begin
+  testaCaixaAberto;
   fcrTituloPagto.ShowModal;
 end;
 
@@ -4566,7 +4545,7 @@ begin
   testaCaixaAberto;
   fMovCaixa := TfMovCaixa.Create(Application);
   try
-    fMovCaixa.caixaMovCaixa := caixaTerminal2;
+    fMovCaixa.caixaMovCaixa := terminalCaixa;
     fMovCaixa.caixaDtaMovCaixa := caixaTerminal2DataAbertura;
     fMovCaixa.caixaIdMovCaixa := caixaTerminal2Id;
     fMovCaixa.ShowModal;

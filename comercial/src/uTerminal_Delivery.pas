@@ -398,6 +398,10 @@ type
     cdsTitulo: TClientDataSet;
     cdsTituloSTATUS: TSmallintField;
     cdsTituloFORMARECEBIMENTO: TStringField;
+    sds_Mov_DetNCM: TStringField;
+    cds_Mov_detNCM: TStringField;
+    sds_Mov_DetCST: TStringField;
+    cds_Mov_detCST: TStringField;
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
@@ -563,12 +567,22 @@ begin
   if DtSrc1.DataSet.State in [dsInactive] then
     exit;
   var_F := 'cupom';
-  if (fProcura_prod.Panel2.Visible = False) then
-    fProcura_prod.Panel2.Visible := True;
-  if (fProcura_prod.Panel1.Visible = True) then
-    fProcura_prod.Panel1.Visible := False;
-  fProcura_prod.Edit2.ReadOnly := True;
-  fProcura_prod.Edit2.TabStop := False;
+
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    fProcura_prod.Panel1.Visible := false;
+    fProcura_prod.Panel2.Visible := true;
+    //fProcura_prod.CheckBox1.Checked := True;
+    fProcura_prod.BitBtn1.Click;
+  end
+  else begin
+    fProcura_prod.Panel2.Visible := true;
+    fProcura_prod.Panel1.Visible := true;
+    //fProcura_prod.CheckBox1.Checked := False;
+    if (fProcura_prod.cds_proc.Active) then
+      fProcura_prod.cds_proc.Close;
+  end;
+
   // Define busca pelos produtos de venda
   fProcura_prod.cbTipo.ItemIndex := 2;
   fProcura_prod.BitBtn1.Click;
@@ -1050,7 +1064,7 @@ begin
     Caixa.Open;
   if (Caixa.IsEmpty) then
     dm.situacaoCaixa := 'Fechado';
-  Caixa.Close;    
+  Caixa.Close;
   utilcrtitulo := Tutils.Create;
   try
     // Popula Status
@@ -1069,6 +1083,10 @@ begin
     begin
       ComboBox4.ItemIndex := utilcrtitulo.retornaForma(cdsTituloFORMARECEBIMENTO.asString);
       ComboBox2.ItemIndex := utilcrtitulo.retornaForma(cdsTituloFORMARECEBIMENTO.asString);
+    end else
+    begin
+      ComboBox4.ItemIndex := 0;
+      ComboBox2.ItemIndex := 0;
     end;
   finally
     utilcrtitulo.Free;
@@ -1416,16 +1434,6 @@ procedure TfTerminal_Delivery.BitBtn4Click(Sender: TObject);
 var sqltexto: String;
 begin
   inherited;
-  {if (cdsTitulo.Active) then
-      cdsTitulo.Close;
-  cdsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  cdsTitulo.Open;
-
-  if (cdsTituloSTATUS.AsString = '7-') then
-  begin
-    MessageDlg('Venda Já Finalizada.', mtWarning, [mbOK], 0);
-    exit;
-  end;}
 
   if (jvPago.Value = 0) then
   begin
@@ -1476,6 +1484,17 @@ begin
   cds_Mov_det.Params[0].Clear;
   cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_det.Open;
+
+  // verificando sem tem produto sem CST
+  while not cds_mov_det.Eof do
+  begin
+    if ((cds_Mov_detCST.IsNull) or (Trim(cds_Mov_detCST.AsString) = '')) then
+    begin
+      MessageDlg('O Produto : ' + cds_Mov_detDESCPRODUTO.AsString + ', esta sem CST.', mtError, [mbOk], 0);
+      exit;
+    end;
+    cds_mov_det.Next;
+  end;
 
   if (ComboBox1.Text = 'À VISTA') then
     imprimecupom;
@@ -1563,6 +1582,10 @@ var
   sDesconto, sAcrescimo: String;
   I : integer;
 begin
+  if (ComboBox2.Text = '')then
+  begin
+    ComboBox2.ItemIndex := 0;
+  end;
   inherited;
   if (cds_MovimentoSTATUS.AsInteger = 9) then
   begin
@@ -1584,17 +1607,8 @@ begin
   Else
   Begin
     iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
-    //If (iRetorno <> 1) Or (iRetorno = -27) Then
-    //begin
-       //VerificaRetornoFuncaoImpressoraMFD(iRetorno);
-    //  MessageDlg('Erro na porta da Impressora, verifique o arquivo BemaFi32.ini no System32.', mtWarning, [mbOK], 0);
-    //  Exit;
-    //end
-    //Else
-    //begin
-      frmPrincipal.Analisa_iRetorno();
-      frmPrincipal.Retorno_Impressora();
-    //end;
+    frmPrincipal.Analisa_iRetorno();
+    frmPrincipal.Retorno_Impressora();
   End;
 
   DecimalSeparator := '.';
@@ -1602,10 +1616,24 @@ begin
   while not cds_Mov_det.Eof do
   begin
     // busco a classificação fiscal do produto
-    if (buscaTributacao.Active) then
+    // ESQUECE - a CALCULA ST ja faz isto - Carlos 22/08/2014
+    {if (buscaTributacao.Active) then
       buscaTributacao.Close;
+    buscaTributacao.CommandText := 'select ICMS_SUBST, ICMS,CST ' +
+      ' from CLASSIFICACAOFISCALPRODUTO ' +
+      ' where COD_PROD = :id ';
     buscaTributacao.Params[0].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
     buscaTributacao.Open;
+    if (buscaTributacao.IsEmpty) then
+    begin
+      // Busca na NCM
+      buscaTributacao.Close;
+      buscaTributacao.CommandText := 'select ICMS_SUBST, ICMS ,CST ' +
+        ' from CLASSIFICACAOFISCALNCM ' +
+        ' where NCM = ' + QuotedStr(cds_mov_detNCM.AsString) +
+        '   and CFOP = ' + QuotedStr(vCFOP);
+      buscaTributacao.Open;
+    end;}
     //  Verifica o Tipo da Quantidade:
     // 'I' para Inteira ou 'F' para Fracionária
     sTipoQtde := 'I';
@@ -1617,25 +1645,30 @@ begin
     sTipoDesconto := '%';
     texto1 := cds_Mov_detCODPRO.AsString;
     texto2 := cds_Mov_detDESCPRODUTO.AsString;
-    texto3 := FloatToStr(buscaTributacaoICMS.AsFloat); //'II'; // Aliquota
+    texto3 := FloatToStr(cds_Mov_detICMS.AsFloat); //'II'; // Aliquota
     //texto4 := FloatToStr(buscaTributacaoICMS_SUBST.AsFloat); //'FF'; // Aliquota
     I := StrToInt(texto3);
     //if (buscaTributacaoICMS_SUBST.AsFloat > 0) then
-    if (buscaTributacaoCST.AsString <> '') then
+    if (Trim(cds_Mov_detCST.AsString) = '060') then
     begin
       texto3 := 'FF';
-    end
-    else
-    begin
-      if (I > 16) then
-        texto3 := texto3 + '00';
-      if (texto3 = '0') then
-        texto3 := 'II';
-
-      if (dm.regimeEmpresa = 'SIMPLES') then
-        texto3 := 'NN';
-      buscaTributacao.Close;
     end;
+    if (Trim(cds_Mov_detCST.AsString) = '000') then
+    begin
+      texto3 := texto3 + '00';
+    end;
+    if (Trim(cds_Mov_detCST.AsString) = '040') then
+    begin
+      texto3 := 'II';
+    end;
+    if (Trim(cds_Mov_detCST.AsString) = '041') then
+    begin
+      texto3 := 'NN';
+    end;
+
+
+    //buscaTributacao.Close;
+
     varAliquota := texto3;
     sAliquota := varAliquota;
     texto4 := Format('%-6.3n',  [cds_Mov_detQUANTIDADE.AsFloat]);
