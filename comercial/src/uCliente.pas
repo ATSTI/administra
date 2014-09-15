@@ -39,6 +39,8 @@ type
     procedure setReferencia(const Value: String);
     function getCodFiscal: String;
     procedure setCodFiscal(const Value: String);
+    function getCfop: String;
+    procedure setCfop(const Value: String);
   protected
     //Atributos
     _codCli          : Integer;
@@ -55,6 +57,7 @@ type
     _obs             : String;
     _referencia      : String;
     _codFiscal       : String;
+    _cfop            : String;    
     _dataCadastro    : TDateTime;
     _dataNasc        : TDateTime;
     _endereco        : TEnderecos;
@@ -66,6 +69,7 @@ type
     property Status      : Smallint read getStatus write setStatus;
     property TipoFirma   : Smallint read getTipoFirma write setTipoFirma;
     property NomeCliente : String read getNomeCliente write setNomeCliente;
+    property Cfop        : String read getCfop write setCfop;
     property RazaoSocial : String read getRazaoSocial write setRazaoSocial;
     property Contato     : String read getContato write setContato;
     property Cnpj        : String read getCnpj write setCnpj;
@@ -152,6 +156,11 @@ begin
     Result := False;
     raise Exception.Create( 'Error: code = ' + IntToStr( ErrorCode ) )
   end;
+end;
+
+function TCliente.getCfop: String;
+begin
+  Result := Trim(_cfop);
 end;
 
 function TCliente.getCnpj: String;
@@ -249,7 +258,7 @@ begin
   sqlInc := sqlInc + ' CODCLIENTE,   NOMECLIENTE,  RAZAOSOCIAL, CONTATO,';
   sqlInc := sqlInc + ' CNPJ,         INSCESTADUAL, SEGMENTO,    REGIAO, ';
   sqlInc := sqlInc + ' DATACADASTRO, DATANASC,     CODUSUARIO,  STATUS, ';
-  sqlInc := sqlInc + ' TIPOFIRMA, MARCA)';
+  sqlInc := sqlInc + ' TIPOFIRMA, MARCA, CFOP)';
   sqlInc := sqlInc + ' VALUES(';
   sqlInc := sqlInc + IntToStr(Self.CodCli) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.NomeCliente) + ', ';
@@ -262,7 +271,8 @@ begin
   sqlInc := sqlInc + IntToStr(Self.CodUsuario) + ', ';
   sqlInc := sqlInc + IntToStr(Self.Status) + ', ';
   sqlInc := sqlInc + IntToStr(Self.TipoFirma) + ', ';
-  sqlInc := sqlInc + QuotedStr(Self.Referencia) + ')';
+  sqlInc := sqlInc + QuotedStr(Self.Referencia) + ',';
+  sqlInc := sqlInc + QuotedStr(Self.Cfop) + ')';
   try
     executaSql(sqlInc);
     Result := Self.CodCli;
@@ -273,6 +283,11 @@ begin
       Result := 0;
     end;
   end;
+end;
+
+procedure TCliente.setCfop(const Value: String);
+begin
+  _cfop := Value;
 end;
 
 procedure TCliente.setCnpj(const Value: String);
