@@ -16,7 +16,7 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select clientes,'#13#10'          SUM(valorresto) '#13#10' from SP_CONTAS_A_' +
-        'RECEBER(:DTAINI, :DTAFIM, :CCUSTO) '#13#10'group by clientes'
+        'RECEBER(:DTAINI, :DTAFIM, :ccusto) '#13#10'group by clientes'
     end
     item
       Alias = 'CABECALHO'
@@ -25,13 +25,6 @@ object TRpReport
         'SELECT RAZAO as EMP, BAIRRO,ENDERECO, CIDADE || '#39' - '#39' || UF || '#39 +
         ' - '#39' || CEP as local, '#13#10#39'FONE: (19)'#39' || FONE || '#39' - '#39' || WEB || ' +
         ' e_mail as comunica '#13#10'FROM EMPRESA'
-    end
-    item
-      Alias = 'NOMECCUSTO'
-      DatabaseAlias = 'SISADMIN'
-      SQL = 
-        'SELECT p.CODIGO, p.NOME'#13#10'FROM PLANO p where ((p.CODIGO = :CCUSTO' +
-        ') or (p.CODIGO = 0))'
     end>
   DatabaseInfo = <
     item
@@ -60,7 +53,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 40179d
+      Value = 39661d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -73,7 +66,7 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 40451d
+      Value = 40086d
       ParamType = rpParamDate
       Datasets.Strings = (
         'LISTA_PRODUTOS')
@@ -86,10 +79,10 @@ object TRpReport
     item
       Name = 'CCUSTO'
       AllowNulls = False
-      Value = '51'
+      Value = 0
+      ParamType = rpParamInteger
       Datasets.Strings = (
-        'LISTA_PRODUTOS'
-        'NOMECCUSTO')
+        'LISTA_PRODUTOS')
       Description = ''
       Hint = ''
       Search = ''
@@ -185,9 +178,6 @@ object TRpReport
       end
       item
         Component = TRpExpression9
-      end
-      item
-        Component = TRpExpression2
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -375,7 +365,7 @@ object TRpReport
     Width = 10605
     Height = 300
     PosX = 45
-    PosY = 845
+    PosY = 945
     Type1Font = poHelvetica
     FontSize = 12
     FontStyle = 3
@@ -625,31 +615,5 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     WideText = 'Total Geral ->'
-  end
-  object TRpExpression2: TRpExpression
-    Width = 2250
-    Height = 300
-    PosX = 4250
-    PosY = 1100
-    Type1Font = poHelvetica
-    FontSize = 14
-    FontStyle = 3
-    Alignment = 4
-    WordWrap = True
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'NOMECCUSTO.NOME'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
   end
 end
