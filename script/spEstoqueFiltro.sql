@@ -1,3 +1,4 @@
+set term ^;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 date,
     DTA2 date,
@@ -36,25 +37,31 @@ RETURNS (
     CLIFOR varchar(60),
     CODLOTE integer,
     ANOTACOES varchar(100),
+    GRADE varchar(100),
     APLICACAO varchar(30) )
 AS
 DECLARE VARIABLE CODNATU SMALLINT;
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
 DECLARE VARIABLE ENTRA DOUBLE PRECISION = 0;
+DECLARE VARIABLE ENTRAEM DOUBLE PRECISION = 0;
 DECLARE VARIABLE SAI DOUBLE PRECISION = 0;
 DECLARE VARIABLE TOTENTRA DOUBLE PRECISION = 0;
 DECLARE VARIABLE TOTPRECO DOUBLE PRECISION = 0;
 DECLARE VARIABLE CUSTOEM DOUBLE PRECISION = 0;
 DECLARE VARIABLE COMPRAEM DOUBLE PRECISION = 0;
+DECLARE VARIABLE COMPRAQT DOUBLE PRECISION = 0;
+DECLARE VARIABLE COMPRAVR DOUBLE PRECISION = 0;
 DECLARE VARIABLE TOTSAI DOUBLE PRECISION = 0;
 DECLARE VARIABLE SALDOINI DOUBLE PRECISION = 0;
 DECLARE VARIABLE SALDOFIM DOUBLE PRECISION = 0;
 DECLARE VARIABLE AcumulaQtde DOUBLE PRECISION = 0;
 DECLARE VARIABLE AcumulaVlr DOUBLE PRECISION = 0;
 DECLARE VARIABLE VLR DOUBLE PRECISION = 0;
+DECLARE VARIABLE VLREM DOUBLE PRECISION = 0;
 DECLARE VARIABLE CODPRODU INTEGER = 0;
 DECLARE VARIABLE IMPRIME CHAR(1);
 declare variable datanf date;
+declare variable dataEstoqueMes date;
 DECLARE VARIABLE CODDET INTEGER = 0;
 BEGIN 
   -- versao 2.0.0.20
@@ -73,27 +80,48 @@ BEGIN
   TOTSAI   = 0;
   ENTRADA  = 0;
   SAIDA    = 0;
+  COMPRAQT = 0;
+  COMPRAVR = 0;
   
   if (CCUSTO = 0) then 
     CCUSTO = 1;
   -- PEGO A LISTA DOS PRODUTOS QUE TIVERAM MOVIMENTO 
   FOR SELECT distinct CODPROD, CODMOV, TIPOMOVIMENTO, PRODUTO, GRUPO, SUBGRUPOPROD, codlote, Datanf, CODNATU, 
-     LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES, CODPRODUTO, PRECOUNIT, VALORVENDA , CODPRODUTO
+     LOTES, DTAFAB, DTAVCTO, CCUSTOS, ANOTACOES, CODPRODUTO, PRECOUNIT, VALORVENDA , CODPRODUTO, GRADE
         FROM LISTASPESTOQUEFILTRO(:DTA1, :DTA2, :PROD1, :PROD2, :SUBGRUPO, :NATUREZA, :CCUSTO
              ,:MARCA, :LOTE, :GRUPOPROC) ev
        order by codprod ,datanf , TIPOMOVIMENTO, codnatu desc ,codlote  
         INTO :CODPROD, :CODMOV, :TIPOMOVIMENTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :codlote, :Datanf, :CODNATU, 
-             :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES, :CODPRODUTO, :PRECOUNIT , :VALORVENDA, :codProduto
+             :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, :ANOTACOES, :CODPRODUTO, :PRECOUNIT , :VALORVENDA, :codProduto, :GRADE
   DO BEGIN
     precounit = 0;
     -- SO PEGA UMA VEZ O ESTOQUE INICIAL
     if (CODPRODU <> codproduto) then -- IF 1 - SO ENTRA AQUI SE MUDAR O PRODUTO
     begin 
       PRECOCUSTO = PRECOUNIT;
-      PRECOCOMPRA = PRECOUNIT;
+      PRECOCOMPRA = PRECOUNIT;  
+      COMPRAQT = 0;
+      COMPRAVR = 0;
+      dataEstoqueMes = '01.01.01';
+      VLREM = 0;
+      ENTRAEM = 0;
+            
 
       -- SALDOS ANTERIORES DE ENTRADA E SAIDA 
-           
+      SELECT FIRST 1 (EM.QTDECOMPRA+em.QTDEENTRADA) TOTALENTRADA, em.PRECOCUSTO, em.MESANO FROM ESTOQUEMES EM 
+       WHERE em.MESANO < :DTA1 
+         AND em.CODPRODUTO = :CODPRODUTO
+         AND ((em.CENTROCUSTO = :CCUSTO) OR (:CCUSTO = 1))
+         AND ((em.LOTE is null) or ((em.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))) 
+       ORDER BY em.MESANO DESC
+        INTO :ENTRAEM, :VLREM, :dataEstoqueMEs;
+        precocusto = vlrem;
+        if (entraem is null) then 
+          entraem = 0;
+          
+        if (dataEstoqueMes is null) then 
+          dataEstoqueMes = '01.01.01';  
+          
       -- SALDO INICIAL DO ESTOQUE 
       -- Qtde Inicial ENTRADA e PRECO CUSTO
       FOR SELECT SUM(movdet.QUANTIDADE), sum((coalesce(movdet.VLR_BASE, movdet.PRECO)*movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0)))
@@ -106,9 +134,11 @@ BEGIN
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND natu.BAIXAMOVIMENTO = 0 
              AND movdet.BAIXA is not null  
-             AND c.DATACOMPRA  < :DTA1 
+             AND c.DATACOMPRA  BETWEEN UDF_INCDAY(:dataEstoqueMEs,1) and UDF_INCDAY(:DTA1,-1) 
             INTO :ENTRA, :VLR
       DO BEGIN     
+        ENTRA = ENTRA + ENTRAEM;
+        VLR = VLR + VLREM;
         if ((ENTRA > 0) AND (VLR > 0)) then 
           PRECOCUSTO = VLR / ENTRA;
         PRECOUNIT = PRECOCUSTO;    
@@ -116,7 +146,12 @@ BEGIN
           ENTRA = 0;  
         TOTENTRA = TOTENTRA + ENTRA;   
       END
- 
+      
+      if ((Entra = 0) and (entraEM > 0)) then 
+      begin 
+        totentra = totentra + entraEm;
+      end
+      
       -- Preco da Ultima Compra
       
       FOR SELECT FIRST 1 coalesce(coalesce(movdet.VLR_BASE,0)+((coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))
@@ -207,6 +242,7 @@ BEGIN
       IMPRIME = 'N';
       --anotacoes = ' aqui ' || codnatu;
       --suspend; 
+      CUSTOEM = 0;
       IF (CODNATU = 0) THEN 
       BEGIN
         -- Entrada
@@ -228,7 +264,8 @@ BEGIN
         do begin
           if (ENTRA IS NULL) then
             ENTRA = 0;
-            
+          COMPRAQT = COMPRAQT + ENTRA;  
+          COMPRAVR = COMPRAVR + VLR;  
           TOTENTRA = TOTENTRA + ENTRA; -- Quantidade Entrou
           TOTPRECO = TOTPRECO + VLR; -- Quantidade Entrou
           -- PRIMEIRO VEJO O VALORDOESTOQUE ANTERIOIR ACUMULADO ANTES DESTA ENTRADA 
@@ -241,7 +278,10 @@ BEGIN
           --suspend;          
           -- CALCULAR PRECO MEDIO  
           IF ((ACUMULAQTDE + TOTENTRA) > 0) THEN 
-            PRECOCUSTO = (ACUMULAVLR + TOTPRECO)/(ACUMULAQTDE + TOTENTRA);                    
+          begin
+            if ((acumulavlr > 0) and (acumulaqtde > 0)) then 
+              PRECOCUSTO = (ACUMULAVLR + TOTPRECO)/(ACUMULAQTDE + TOTENTRA);                    
+          end  
             
           PRECOUNIT = PRECOCUSTO;  
                  
@@ -321,6 +361,9 @@ BEGIN
     IF (PRECOUNIT IS NULL) THEN   
       PRECOUNIT = PRECOCUSTO;
     
+    IF ((COMPRAQT > 0) AND (COMPRAVR > 0)) THEN   
+      PRECOCOMPRA = COMPRAVR/COMPRAQT; -- Preco Medio COMPRA    
+    
     IF (IMPRIME = 'S') THEN 
     begin
       --IF ((CCUSTO = CCUSTOS) OR (CCUSTO = 1)) then
@@ -350,3 +393,4 @@ BEGIN
   END
   
 END
+
