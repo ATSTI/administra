@@ -525,14 +525,14 @@ uses RelatorioGerencial, TextoImprimir, SimboloMoeda, AdicaoAliquota,
   TerminaFechamento, EstornoFormaPagamento, UsaUnidadeMedida,
   AumentaDescricaoItem, MemoriaFiscal, MemoriaFiscalMFD, Recebimento,
   ComprovanteVinculado,  ImprimeCheque, ProgramaMoeda, CidadeFavorecido,
-  ProgramaCaracter, AbreCupomRestaurante, RegistroVendas, ConferenciaMesa,
-  AbreConferencia, FechaConferenciaMesa, FechaCupom,
-  FechaCupomContaDividida, TranfItem, LeRegVendas, TranfMesa, AberturaDia,
+  ProgramaCaracter, RegistroVendas,
+  AbreConferencia,  FechaCupom,
+  FechaCupomContaDividida, TranfItem, LeRegVendas, AberturaDia,
   FormaPagamento, InformacaoBalanca, BemaCarne, IniciaFechamentoCupomMFD,
   DadosSintegra, RelatorioSintegraMFD, AbreCupomMFD,
   CancelamentoAcrescimoDesconto, RetornoValor, UnitDeclaracoes, DownloadMFD,
   AtivaDesativaVendaUmaLinha, TerminaFechamentoCupomMFD;
-
+  //ConferenciaMesa,FechaConferenciaMesa,TranfMesa,
 
 {$R *.DFM}
 
@@ -1506,21 +1506,21 @@ end;
 
 procedure TfrmPrincipal.AbreCupomRest1Click(Sender: TObject);
 begin
-  with TFormAbreCupomRestaurante.Create(self) do
+  {with TFormAbreCupomRestaurante.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.RegistraVenda1Click(Sender: TObject);
 begin
   iControle := 1;
-  with TFormRegistroVendas.Create(self) do
+  {with TFormRegistroVendas.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.CancelaVenda1Click(Sender: TObject);
@@ -1535,29 +1535,29 @@ end;
 
 procedure TfrmPrincipal.ConfernciadeMesa1Click(Sender: TObject);
 begin
-  with TFormConferenciaMesa.Create(self) do
+  {with TFormConferenciaMesa.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.AbreConfernciadeMesa1Click(Sender: TObject);
 begin
-  with TFormAbreConferencia.Create(self) do
+  {with TFormAbreConferencia.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.FechaConfernciadeMesa1Click(Sender: TObject);
 begin
-  with TFormFechaConferenciaMesa.Create(self) do
+  {with TFormFechaConferenciaMesa.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.FechaCupom1Click(Sender: TObject);
@@ -1603,7 +1603,7 @@ procedure TfrmPrincipal.ImprimeCardpio1Click(Sender: TObject);
 begin
   //------------- Imprissão do Cardápio --------------//
 
-  iRetorno := Bematech_FIR_ImprimeCardapio();
+  //iRetorno := Bematech_FIR_ImprimeCardapio();
 
   Analisa_iRetorno();
   Retorno_Impressora();
@@ -1615,7 +1615,7 @@ begin
 
   // Imprime o relatório completo de mesas em aberto
   // o parâmetro zero (0) imprime o relatório parcial
-  iRetorno := Bematech_FIR_RelatorioMesasAbertas(1);
+  //iRetorno := Bematech_FIR_RelatorioMesasAbertas(1);
 
   Analisa_iRetorno();
   Retorno_Impressora();
@@ -1624,7 +1624,7 @@ end;
 procedure TfrmPrincipal.LeituradoCardpiopelaSerial1Click(Sender: TObject);
 begin
   //--------- Leitura do Cardápio pela Serial ---------//
-  iRetorno := Bematech_FIR_CardapioPelaSerial();
+  //iRetorno := Bematech_FIR_CardapioPelaSerial();
 
   Analisa_iRetorno();
   Retorno_Impressora();
@@ -1633,7 +1633,7 @@ end;
 procedure TfrmPrincipal.RelatriopelaSerialdeMesasemAberto1Click(Sender: TObject);
 begin
   //---- Relatório de Mesas em Aberto pela Serial ----//
-  iRetorno := Bematech_FIR_RelatorioMesasAbertasSerial();
+  //iRetorno := Bematech_FIR_RelatorioMesasAbertasSerial();
 
   Analisa_iRetorno();
   Retorno_Impressora();
@@ -1651,11 +1651,11 @@ end;
 
 procedure TfrmPrincipal.TransfernciadeMesa1Click(Sender: TObject);
 begin
-  with TFormTranfMesa.Create(self) do
+  {with TFormTranfMesa.Create(self) do
   begin
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.MapaResumo1Click(Sender: TObject);
@@ -1792,12 +1792,12 @@ end;
 
 procedure TfrmPrincipal.subFechaCupomResumidoClick(Sender: TObject);
 begin
-  with TFormFechaResumido.Create(self) do
+  {with TFormFechaResumido.Create(self) do
   begin
     Caption := 'Inicia Fechamento do Cupom - RESUMIDO Restaurante';
     ShowModal;
     free;
-  end;
+  end;}
 end;
 
 procedure TfrmPrincipal.subRetornoDasFormasDePagamentoClick(Sender: TObject);

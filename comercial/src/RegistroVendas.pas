@@ -78,16 +78,16 @@ begin
 
     If iControle = 1 Then
         // Função para Registrar venda na imp. Restaurante
-        iRetorno := Bematech_FIR_RegistraVenda(Mesa, Codigo, Descricao,
+        {iRetorno := Bematech_FIR_RegistraVenda(Mesa, Codigo, Descricao,
                     Aliquota, Quantidade, ValorUnitario, AcrescimoDesconto,
                     ValorAcreDesconto)
-
+         }
     Else if iControle = 2 Then
         // Função para Cancelar um registro de venda na imp. Restaurante
-        iRetorno := Bematech_FIR_CancelaVenda(Mesa, Codigo, Descricao,
+        {iRetorno := Bematech_FIR_CancelaVenda(Mesa, Codigo, Descricao,
                     Aliquota, Quantidade, ValorUnitario, AcrescimoDesconto,
                     ValorAcreDesconto);
-
+         }
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
 

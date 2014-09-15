@@ -77,9 +77,9 @@ begin
     ValorAcreDesconto := txtValorAcreDesc.Text;
 
     // Função de transferência de itens
-    iRetorno := Bematech_FIR_TransferenciaItem(MesaOrigem, Codigo, Descricao,
-                Aliquota, Quantidade, ValorUnitario, AcrescimoDesconto,
-                ValorAcreDesconto, MesaDestino);
+    //iRetorno := Bematech_FIR_TransferenciaItem(MesaOrigem, Codigo, Descricao,
+    //            Aliquota, Quantidade, ValorUnitario, AcrescimoDesconto,
+     //           ValorAcreDesconto, MesaDestino);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();

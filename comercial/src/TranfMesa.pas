@@ -35,7 +35,7 @@ uses Principal, UnitDeclaracoes;
 procedure TFormTranfMesa.btnOKClick(Sender: TObject);
 begin
     // Função de transferência de mesa
-    iRetorno := Bematech_FIR_TransferenciaMesa(txtMesaOrigem.Text, txtMesaDestino.Text);
+    //iRetorno := Bematech_FIR_TransferenciaMesa(txtMesaOrigem.Text, txtMesaDestino.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
