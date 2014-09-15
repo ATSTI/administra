@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE  RELCONTASRECEBER
 RETURNS ( STATUS                           VARCHAR( 2 )
         , STATUSP                          VARCHAR( 15 )
