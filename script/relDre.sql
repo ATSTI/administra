@@ -55,7 +55,7 @@ BEGIN
   FOR select sum(v.VALORVENDA)    
      FROM VIEW_VENDA V 
      where (v.DATAVENDA between :PDTA1 AND :PDTA2) 
-          and ((v.TIPOPRODUTO = 'PROD') OR (v.TIPOPRODUTO IS NULL)) and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
+          and ((v.TIPOPRODUTO <> 'SERV') OR (v.TIPOPRODUTO IS NULL)) and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
      INTO :CREDITO
   do
   begin    
@@ -302,28 +302,24 @@ BEGIN
 
   /* Total dos produtos VENDIDOS * seu custo  */
 
-  FOR select md.CODPRODUTO,  case when sum(md.VLRESTOQUE) > 0 then sum(md.VLRESTOQUE) else 
-    sum(md.QUANTIDADE*(case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end)) end    
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-       inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-     where  (natu.TIPOMOVIMENTO = 3) and (ven.DATAVENDA between :PDTA1 AND :PDTA2)
-       and ((prod.TIPO = 'PROD') or (prod.TIPO is null))  and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     group by md.CODPRODUTO  
-    INTO :PRO, :CUSTO
+  -- CUSTO REAL = (select CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, md.CODPRODUTO)) 
+  FOR select 
+     sum(v.QTDE * (case when coalesce(p.PRECOMEDIO,0) > 0 then p.PRECOMEDIO else coalesce(p.VALORUNITARIOATUAL,0) end)) total 
+     from view_venda v, produtos p  
+    where p.CODPRODUTO = v.CODPRODUTO 
+      and (v.DATAVENDA between :PDTA1 AND :PDTA2)
+      and ((p.TIPO <> 'SERV') or (p.TIPO is null))  
+      and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
+    INTO :CUSTO
     do
     begin
-    
       IF (CUSTO IS NULL) THEN
         CUSTO = 0;
-
       DESC_CONTA = '     Custo dos Produtos Vendidos';
       TOTALIZA   = TOTALIZA - CUSTO;
       TOT        = 'N';
-      
-    end
+    end  
+    
     CREDITO = TOTALIZA;
     TOTAL   = TOTAL + TOTALIZA;
     ACUMULA = TOTAL;
@@ -332,18 +328,14 @@ BEGIN
     
     CREDITO = 0;
     TOTALIZA = 0;
-    FOR select md.CODPRODUTO, sum(md.QUANTIDADE * (case when prod.VALORUNITARIOATUAL > 0 then prod.VALORUNITARIOATUAL else prod.PRECOMEDIO end))     
-     FROM MOVIMENTO mov 
-       inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = mov.CODMOVIMENTO
-       inner join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO     
-       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO 
-       inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA
-     where (natu.TIPOMOVIMENTO = 3) 
-       and (ven.DATAVENDA between :PDTA1 AND :PDTA2) 
-       and prod.TIPO = 'SERV'  
-       and ((ven.CODCCUSTO = :PCC) OR (:PCC = 0))
-     group by md.CODPRODUTO       
-    INTO :PRO, :CUSTO
+    FOR select 
+     sum(v.QTDE * (case when coalesce(p.PRECOMEDIO,0) > 0 then p.PRECOMEDIO else coalesce(p.VALORUNITARIOATUAL,0) end)) total 
+     from view_venda v, produtos p  
+    where p.CODPRODUTO = v.CODPRODUTO 
+      and (v.DATAVENDA between :PDTA1 AND :PDTA2)
+      and (p.TIPO = 'SERV')  
+      and ((v.CODCCUSTO = :PCC) OR (:PCC = 0))
+    INTO :CUSTO
     do
     begin
       IF (CUSTO IS NULL) THEN
