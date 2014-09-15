@@ -88,6 +88,7 @@ declare variable codRec integer;
   declare variable rDATAVENCIMENTO date; 
   declare variable rDATARECEBIMENTO date;
   declare variable rCAIXA smallint;
+  declare variable suframa smallint;
   declare variable rVIA char(4);
   declare variable rFORMARECEBIMENTO char(1);
   declare variable rDATABAIXA date;
@@ -97,12 +98,14 @@ declare variable codRec integer;
   declare variable rVALORTITULO   double precision;
   declare variable vDesconto   double precision;
   declare variable vDescontoProd   double precision;
+  declare variable vVendaTotal   double precision;
   declare variable levaDesc char(1);
   declare variable arredondar DOUBLE PRECISION;
 begin 
   -- versao 2.0.0.20
   vDesconto = 0;
   levaDesc = 'N';
+  suframa = 0;
   select pmt.CONFIGURADO from parametro pmt where pmt.PARAMETRO = 'NF_DESCONTO'
     into :levaDesc;
     
@@ -137,9 +140,11 @@ begin
      where ende.CODCLIENTE = :cliente and ende.TIPOEND = 0
       into :uf;
   
-    select cli.CFOP, cli.codfiscal from CLIENTES cli
+    select cli.CFOP, cli.codfiscal, udf_len(cli.suframa) from CLIENTES cli
      where cli.CODCLIENTE  = :cliente
-      into :cfop_cli, :TF;
+      into :cfop_cli, :TF, :suframa;
+    if (suframa is null) then 
+      suframa = 0;  
     
     cfop_ = cfop;
     if (uf <> 'SP') then 
@@ -164,11 +169,11 @@ begin
 
     -- insiro o Movimento   
     for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, 
-               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO, ven.CODVENDA , ven.DESCONTO
+               ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO, ven.CODVENDA , ven.DESCONTO, (ven.VALOR + ven.DESCONTO) TOT
           from movimento mov 
          inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
          where mov.CODMOVIMENTO = :codMov
-          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped, :rcodven , :vDesconto
+          into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped, :rcodven , :vDesconto, :vVendaTotal
     do begin 
       insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
@@ -178,6 +183,8 @@ begin
     pesoTotal = 0;
     pesoLiqTotal = 0;
     nitemped = 0;
+    if (vVendaTotal is null) then 
+      vVendaTotal = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
       , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base, prod.NCM
@@ -207,7 +214,26 @@ begin
       vDescontoProd = 0;
       if (levaDesc = 'N') then 
       begin 
-        vDescontoProd = ((:qtde * :preco)*(:desconto/100));
+        vDescontoProd = 0;  -- ((:qtde * :preco)*(:desconto/100));  25/08/2014 Carlos
+        desconto = 0; -- 25/08/2014 Carlos
+        preco = :vlr_base;
+        if (suframa > 0) then 
+        begin 
+          if (vDesconto > 0) then -- coloca o desconto da venda na Nota 
+          begin 
+            if (vVendaTotal > 0) then 
+            begin 
+	          select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
+              into :arredondar;
+       
+              if (arredondar is null) then 
+		        arredondar = 2;    
+		
+              vDescontoProd = UDF_ROUNDDEC(((:preco*:qtde)*((:vDesconto / :vVendaTotal))), :arredondar);
+	          --desconto = (:vDesconto / :vVendaTotal)*100;
+            end  
+          end     
+        end 
       end  
       if (levaDesc = 'S') then 
       begin 
