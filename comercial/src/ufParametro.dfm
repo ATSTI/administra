@@ -1,14 +1,14 @@
 inherited fParametro: TfParametro
   Left = 211
   Top = 128
-  Width = 834
+  Width = 904
   Height = 611
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 826
+    Width = 896
     Height = 9
     inherited Label1: TLabel
       Left = 214
@@ -26,9 +26,9 @@ inherited fParametro: TfParametro
   object Parametro: TPageControl [1]
     Left = 0
     Top = 8
-    Width = 817
+    Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -430,6 +430,34 @@ inherited fParametro: TfParametro
     object TabSheet3: TTabSheet
       Caption = 'Nota Fiscal'
       ImageIndex = 2
+      object Label72: TLabel
+        Left = 16
+        Top = 360
+        Width = 716
+        Height = 13
+        Caption = 
+          'Cadastre o PARAMETRO  CFOP  com Dados = CFOP VENDA no Estado,  D' +
+          '1 = Venda OUTRO Estado, D2 = Compra no Brasil,'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label73: TLabel
+        Left = 19
+        Top = 379
+        Width = 238
+        Height = 13
+        Caption = 'D3 = CFOP Exporta'#231#227'o, D4 = Importa'#231#227'o '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object GroupBox32: TGroupBox
         Left = 9
         Top = 61
@@ -2167,6 +2195,45 @@ inherited fParametro: TfParametro
             'REPRESENTANTE'
             'REFERENCIA')
         end
+        object GroupBox44: TGroupBox
+          Left = 7
+          Top = 40
+          Width = 762
+          Height = 46
+          Caption = 'Bloqueia Venda - Cadastro sem consulta ou vencido'
+          TabOrder = 2
+          object Label67: TLabel
+            Left = 11
+            Top = 18
+            Width = 169
+            Height = 13
+            Caption = 'Informe o Prazo (dias) para bloqueio'
+          end
+          object Label71: TLabel
+            Left = 228
+            Top = 21
+            Width = 154
+            Height = 13
+            Caption = 'Zero o sistema n'#227'o far'#225' bloqueio'
+          end
+          object edtConsultaCliente: TEdit
+            Left = 189
+            Top = 16
+            Width = 33
+            Height = 21
+            TabOrder = 0
+            Text = '0'
+          end
+          object BitBtn46: TBitBtn
+            Left = 673
+            Top = 12
+            Width = 75
+            Height = 25
+            Caption = 'Gravar'
+            TabOrder = 1
+            OnClick = BitBtn46Click
+          end
+        end
       end
       object rgCadastroCliente: TRadioGroup
         Left = 5
@@ -3299,7 +3366,7 @@ inherited fParametro: TfParametro
       object pgc1: TPageControl
         Left = 0
         Top = 0
-        Width = 809
+        Width = 881
         Height = 485
         ActivePage = ts2
         Align = alClient
@@ -3863,6 +3930,15 @@ inherited fParametro: TfParametro
             Height = 13
             Caption = 'C'#243'digo do Cliente CONSUMIDOR'
           end
+          object Label74: TLabel
+            Left = 248
+            Top = 126
+            Width = 550
+            Height = 13
+            Caption = 
+              'No Plano de Contas, marque a Conta como INTERNO, a conta que apa' +
+              'recer'#225' na terla recebimento Parcial, Dinheiro'
+          end
           object edt1: TEdit
             Left = 9
             Top = 28
@@ -3990,7 +4066,7 @@ inherited fParametro: TfParametro
   end
   inherited MMJPanel1: TMMJPanel [2]
     Top = 530
-    Width = 826
+    Width = 896
     inherited btnGravar: TBitBtn
       Left = 288
     end

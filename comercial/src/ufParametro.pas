@@ -381,6 +381,14 @@ type
     GroupBox43: TGroupBox;
     cbNFCompraFinalizar: TCheckBox;
     BitBtn45: TBitBtn;
+    GroupBox44: TGroupBox;
+    edtConsultaCliente: TEdit;
+    Label67: TLabel;
+    Label71: TLabel;
+    BitBtn46: TBitBtn;
+    Label72: TLabel;
+    Label73: TLabel;
+    Label74: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -480,6 +488,7 @@ type
     procedure BitBtn44Click(Sender: TObject);
     procedure chkCadastroProdutoClick(Sender: TObject);
     procedure BitBtn45Click(Sender: TObject);
+    procedure BitBtn46Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -1063,6 +1072,10 @@ begin
         cbNFCompraFinalizar.Checked := False;
       end;
     end;
+  end;
+  if (dm.cds_param.Locate('PARAMETRO','CLIENTECONSULTA', [loCaseInsensitive])) then
+  begin
+    edtConsultaCliente.Text := dm.cds_paramD1.AsString;
   end;
 end;
 
@@ -5618,6 +5631,46 @@ begin
       end;
   end;
 
+end;
+
+procedure TfParametro.BitBtn46Click(Sender: TObject);
+begin
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CLIENTECONSULTA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Bloqueio de Vendas por Consulta no cadastro') + ', ';
+    strSql := strSql + QuotedStr('CLIENTECONSULTA') + ', ';
+    strSql := strSql + QuotedStr('S') + ', ';
+    strSql := strSql + QuotedStr(edtConsultaCliente.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD);
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.cds_parametro.Edit;
+      dm.cds_parametroD1.AsString := edtConsultaCliente.Text;
+      dm.cds_parametro.ApplyUpdates(0);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD);
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+    end;
+  end;
 end;
 
 end.
