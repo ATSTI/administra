@@ -640,11 +640,13 @@ type
     s_vendaCOMISSAO: TFloatField;
     c_vendaCOMISSAO: TFloatField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
     V_PAGACOMISSAO, V_USACONTR_CAIXA : string;
     PAGECONTROL : String;
+    CAIXA_CONTA : Integer;
     ID_DO_MOVIMENTO, ID_CCUSTO : integer;
     { Public declarations }
   end;
@@ -661,6 +663,11 @@ uses UDm;
 procedure TDM_MOV.c_movdetCalcFields(DataSet: TDataSet);
 begin
     c_MovdetValorTotal.Value := c_MovdetPRECO.Value * c_MovdetQUANTIDADE.Value;
+end;
+
+procedure TDM_MOV.DataModuleCreate(Sender: TObject);
+begin
+  CAIXA_CONTA := 0;
 end;
 
 end.
