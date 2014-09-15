@@ -67,12 +67,15 @@ type
     procedure setCodCCusto(const Value: Integer);
     function getdataVenc: TStringList;
     procedure setdataVenc(const Value: TStringList);
+    function getContaDebito: Integer;
+    procedure setContaDebito(const Value: Integer);
 
   protected
     //Atributos
     _codVenda     : Integer;
     _codRec       : Integer;
     _codOrigem    : Integer;
+    _contaDebito  : Integer;    
 
     _codCliente   : Integer;
     _codVendedor  : Integer;
@@ -105,13 +108,14 @@ type
     _formaRec     : String;
     _nDoc         : String;
     _obs          : String;
-    
+
     _datasVenc    : TStringList;
 
   public
     property CodVenda    : Integer read getCodVenda write setCodVenda;
     property CodRec      : Integer read getCodRec write setCodRec;
     property CodOrigem   : Integer read getCodOrigem write setCodOrigem;
+    property ContaDebito : Integer read getContaDebito write setContaDebito;    
 
     property CodCliente  : Integer read getCodCliente write setCodCliente;
     property CodUsuario  : Integer read getCodUsuario write setCodUsuario;
@@ -459,6 +463,8 @@ begin
         Self.DtVcto        := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
         Self.Prazo         := sqlBuscaR.FieldByName('PRAZO').AsString;
         Self.CodOrigem     := sqlBuscaR.FieldByName('CODORIGEM').AsInteger;
+        if (sqlBuscaR.FieldByName('STATUS1').AsString = 'T') then
+          Self.ContaDebito := sqlBuscaR.FieldByName('CONTROLE').AsInteger;
         Self.CodCCusto     := sqlBuscaR.FieldByName('CODCCUSTO').AsInteger;
         Self.Titulo        := Trim(IntToStr(sqlBuscaR.FieldByName('NOTAFISCAL').AsInteger) +
           '-' + sqlBuscaR.FieldByName('SERIE').AsString);
@@ -654,7 +660,7 @@ begin
           ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
           ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
           ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
-          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM        ' +
+          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM, CONTADEBITO   ' +
           ') VALUES(';
 
     strG := strG + InttoStr(Self.CodRec) + ', ';
@@ -709,7 +715,8 @@ begin
     strG := strG + '0, ';  // Outro_Credito
     strG := strG + IntToStr(Self.Caixa) + ', '; // Caixa
     strG := strG + IntToStr(1) + ', '; // Situacao
-    strG := strG + IntToStr(1) + ')'; // CodOrigem
+    strG := strG + IntToStr(1) + ', '; // CodOrigem
+    strG := strG + IntToStr(Self.ContaDebito) + ')'; //
     Rec  := executaSql(strG);
     UltParc := UltParc - VlrParc;
   end;
@@ -758,6 +765,11 @@ end;
 function TReceberCls.getCodVendedor: Integer;
 begin
   Result := _codVendedor;
+end;
+
+function TReceberCls.getContaDebito: Integer;
+begin
+  Result := _contaDebito;
 end;
 
 function TReceberCls.getdataVenc: TStringList;
@@ -936,6 +948,11 @@ end;
 procedure TReceberCls.setCodVendedor(const Value: Integer);
 begin
   _codVendedor := Value;
+end;
+
+procedure TReceberCls.setContaDebito(const Value: Integer);
+begin
+  _contaDebito := Value;
 end;
 
 procedure TReceberCls.setdataVenc(const Value: TStringList);
