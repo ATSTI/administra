@@ -2848,10 +2848,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Rel. D.R.E.'
         OnClick = RelDRE1Click
       end
-      object RelBalancete1: TMenuItem
-        Caption = 'Rel. Balancete'
-        OnClick = RelBalancete1Click
-      end
       object RelResumo1: TMenuItem
         Caption = 'Rel. Resumo'
       end
@@ -2879,7 +2875,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = Empresa1Click
       end
       object ExportarTabelas1: TMenuItem
-        Caption = 'Exportar Tabelas'
+        Caption = 'Importar Tabelas'
         OnClick = ExportarTabelas1Click
       end
       object ExportarCupom1: TMenuItem

@@ -139,7 +139,6 @@ type
     RelContasaPagar1: TMenuItem;
     RelContasaReceber1: TMenuItem;
     RelDRE1: TMenuItem;
-    RelBalancete1: TMenuItem;
     RelResumo1: TMenuItem;
     RelCaixa1: TMenuItem;
     FluxoCaixa1: TMenuItem;
