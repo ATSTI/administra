@@ -73,6 +73,8 @@ type
     cdsNFItemCODPRODUTO: TStringField;
     Label4: TLabel;
     edMargem: TEdit;
+    btnLimpa: TBitBtn;
+    Button2: TButton;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -90,6 +92,10 @@ type
     procedure cbNaoEnviadaClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnLimpaClick(Sender: TObject);
+    procedure edNotaKeyPress(Sender: TObject; var Key: Char);
+    procedure JvDBUltimGrid1DblClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure abreNF;
@@ -236,6 +242,7 @@ begin
     '  FROM  produto_fornecedor pf ' +
     ' LEFT OUTER JOIN produtos p on p.CODPRODUTO = pf.CODPRODUTO ' +
     ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger) +
+    '  AND ((p.usa is null) or (p.usa = '+ QuotedStr('S') + '))' +
     '   and pf.codprodfornec = ';
   strFaltaProd := strFaltaProd + QuotedStr(retornaCodBarra);
   if (sqlFaltaProd.Active) then
@@ -482,9 +489,11 @@ begin
   begin
     strBusca := strBusca + ' where COD_BARRA = ';
     strBusca := strBusca + QuotedStr(retornaCodBarra);
+    strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end
   else begin
     strBusca := strBusca + ' where CODPRO = ' + QuotedStr(cdsNFItemCODPRODUTO.AsString);
+    strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end;
 
   if (sqlBusca.Active) then
@@ -723,6 +732,52 @@ begin
     retornoCodBarra := trim(cdsNFItemCODPRODUTO.AsString);
   end;
   Result := retornoCodBarra;
+end;
+
+procedure TfImporta_XML.btnLimpaClick(Sender: TObject);
+begin
+  edNota.Text := '';
+  btnProcurar.Click;
+end;
+
+procedure TfImporta_XML.edNotaKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+   btnProcurar.Click;
+ end;
+end;
+
+procedure TfImporta_XML.JvDBUltimGrid1DblClick(Sender: TObject);
+begin
+  edNota.Text := IntToStr(cdsNFNOTAFISCAL.AsInteger);
+  btnProcurar.Click;
+end;
+
+procedure TfImporta_XML.Button2Click(Sender: TObject);
+var s_sql: String;
+begin
+  s_sql := 'DELETE FROM NOTAFISCAL_IMPORTA ' +
+    ' WHERE NOTAFISCAL = ' +  IntToSTr(cdsNFNOTAFISCAL.AsInteger) +
+    '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
+  sqlConn.StartTransaction(TD);
+  try
+    sqlConn.ExecuteDirect(s_sql);
+    s_sql := 'DELETE FROM NOTAFISCAL_PROD_IMPORTA ' +
+    ' WHERE NOTAFISCAL = ' +  IntToSTr(cdsNFNOTAFISCAL.AsInteger) +
+    '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
+    sqlConn.ExecuteDirect(s_sql);    
+    sqlConn.Commit(TD);
+    btnProcurar.Click;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      sqlConn.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 end.
