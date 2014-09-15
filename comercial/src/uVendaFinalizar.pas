@@ -699,18 +699,28 @@ begin
     if (sqs_tit.Active) then
       sqs_tit.Close;
 
-    //CARREGA DESCONTO CLIENTE COM SUFRAMA
-    if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'SUFRAMA';
-    dm.cds_parametro.Open;
-    if (dm.cds_parametro.IsEmpty) then
-      aliqsuf := 0
-    else
-      if (suframa) then
-        aliqsuf := StrToFloat(dm.cds_parametroD1.AsString)
+    aliqsuf := 0;
+    sqs_tit.CommandText := 'SELECT FIRST 1 CFOP  FROM MOVIMENTODETALHE' +
+                             ' WHERE CODMOVIMENTO = ' +
+                             IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
+    sqs_tit.Open;
+    if (sqs_tit.FieldByName('CFOP').asString = '6109') then
+    begin
+      //CARREGA DESCONTO CLIENTE COM SUFRAMA - ZONA FRANCA MANAUS
+      if Dm.cds_parametro.Active then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'SUFRAMA';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametro.IsEmpty) then
+        aliqsuf := 0
       else
-        aliqsuf := 0;
+        if (suframa) then
+          aliqsuf := StrToFloat(dm.cds_parametroD1.AsString)
+        else
+          aliqsuf := 0;
+    end;
+    if (sqs_tit.Active) then
+      sqs_tit.Close;
 
     if (dm.moduloUsado <> 'CITRUS') then
     begin
@@ -2817,159 +2827,166 @@ var
   IMPRESSORA:TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descrição do produto,nome
   total : double;
+  produto_cupomf: String;
   portaIMP : string;
 begin
-      if (not dm.cds_empresa.Active) then
-        dm.cds_empresa.Open;
-      {----- aqui monto o endereço-----}
-      logradouro := '  ' + dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
-      cep :=  '  ' + dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
-      ' - ' + dm.cds_empresaCEP.Value;
-      fone := '  (19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
-      ' / ' + dm.cds_empresaFONE_2.Value;
-      {------------------------DADOS DO CLIENTE--------------------------}
-      clientecupom := '  ' + IntToStr(fVendas.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
-                   Copy(fVendas.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
-
-    //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
-      Texto  := '----------------------------------------' ;
-      Texto1 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
-      scdsCr_procTITULO.AsString;
-      Texto2 := '----------------------------------------' ;
-      Texto4 := '  Produto       UN     Qtde   V.Un.  V.Total ' ;
-      Texto5 := '  ' + DateTimeToStr(Now) + ' Total.: R$     ';
-     // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
-      {-----------------------------------------------------------}
-      {-------------------Imprimi Cabeçalho-----------------------}
-      // Para gravar em arquivo
-      //OpenDialog1.Execute;
-      //AssignFile(IMPRESSORA, OpenDialog1.FileName);
-     // AssignFile(IMPRESSORA,'COM1:');
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  {----- aqui monto o endereço-----}
+  logradouro := '  ' + dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+  cep :=  '  ' + dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+  ' - ' + dm.cds_empresaCEP.Value;
+  fone := '  (19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+  ' / ' + dm.cds_empresaFONE_2.Value;
+  {------------------------DADOS DO CLIENTE--------------------------}
+  clientecupom := '  ' + IntToStr(fVendas.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
+    Copy(fVendas.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
+  //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
+  Texto  := '----------------------------------------' ;
+  Texto1 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + '  Titulo.:  ' +
+  scdsCr_procTITULO.AsString;
+  Texto2 := '----------------------------------------' ;
+  Texto4 := '  Produto       UN     Qtde   V.Un.  V.Total ' ;
+  Texto5 := '  ' + DateTimeToStr(Now) + ' Total.: R$     ';
+  // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
+  {-----------------------------------------------------------}
+  {-------------------Imprimi Cabeçalho-----------------------}
+  // Para gravar em arquivo
+  //OpenDialog1.Execute;
+  //AssignFile(IMPRESSORA, OpenDialog1.FileName);
+  // AssignFile(IMPRESSORA,'COM1:');
   //   AssignFile ( IMPRESSORA, 'C:\venda.txt' );
 
-   //   tipoimpressao := 'txt';
+  //   tipoimpressao := 'txt';
 
-     if (dm.cds_parametro.Active) then
-       dm.cds_parametro.Close;
-     dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
-     dm.cds_parametro.Open;
-     if (not dm.cds_parametro.Eof) then
-     begin
-       dlgSave1.Execute;
-       AssignFile(IMPRESSORA, dlgSave1.FileName);
-       dm.cds_parametro.Close;
-     end
-     else
-     begin
-       if (dm.cds_parametro.Active) then
-         dm.cds_parametro.Close;
-       dm.cds_parametro.Params[0].Clear;
-       dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
-       dm.cds_parametro.Open;
-       portaIMP := dm.cds_parametroDADOS.AsString;
-       dm.cds_parametro.Close;
-       AssignFile(IMPRESSORA,portaIMP);
-     end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+  dm.cds_parametro.Open;
+  try
+    if (not dm.cds_parametro.Eof) then
+    begin
+      dlgSave1.Execute;
+      AssignFile(IMPRESSORA, dlgSave1.FileName);
+      dm.cds_parametro.Close;
+    end
+    else
+    begin
+      if (dm.cds_parametro.Active) then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].Clear;
+      dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+      dm.cds_parametro.Open;
+      portaIMP := dm.cds_parametroDADOS.AsString;
+      dm.cds_parametro.Close;
+      AssignFile(IMPRESSORA,portaIMP);
+    end;
 
-     Rewrite(IMPRESSORA);
-      Writeln(Impressora, c10cpi + '  VENDA');
-      Writeln(IMPRESSORA);
-      Writeln(Impressora, c17cpi + RemoveAcento(Format('  %-36s',[dm.cds_empresaRAZAO.Value])));
-      Writeln(Impressora, c17cpi, logradouro);
-      Writeln(Impressora, c17cpi, cep);
-      Writeln(Impressora, c17cpi, fone);
-     // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
-      Writeln(Impressora, c17cpi, texto);
-      Writeln(Impressora, c17cpi, clientecupom);
-      Writeln(Impressora, c17cpi, doccli);
-      Writeln(Impressora, c17cpi, texto);
-      Writeln(Impressora, c17cpi, texto1);
-      if (dm.moduloUsado = 'AUTOMOTIVA') then
+    Rewrite(IMPRESSORA);
+    Writeln(Impressora, c10cpi + '  VENDA');
+    Writeln(IMPRESSORA);
+    Writeln(Impressora, c17cpi + RemoveAcento(Format('  %-36s',[dm.cds_empresaRAZAO.Value])));
+    Writeln(Impressora, c17cpi, logradouro);
+    Writeln(Impressora, c17cpi, cep);
+    Writeln(Impressora, c17cpi, fone);
+    // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+    Writeln(Impressora, c17cpi, texto);
+    Writeln(Impressora, c17cpi, clientecupom);
+    Writeln(Impressora, c17cpi, doccli);
+    Writeln(Impressora, c17cpi, texto);
+    Writeln(Impressora, c17cpi, texto1);
+    if (dm.moduloUsado = 'AUTOMOTIVA') then
+    begin
+      Writeln(Impressora, c17cpi, '  Placa: ' + fVendas.MaskEdit1.Text);
+      Writeln(Impressora, c17cpi, '  KM: ' + fVendas.cds_MovimentoCONTROLE.AsString);
+    end;
+    Writeln(Impressora, c17cpi, texto2);
+    Writeln(Impressora, c17cpi, texto4);
+    {-----------------------------------------------------------}
+    {-------------------Imprimi itens do boleto-----------------}
+
+    fVendas.cds_Mov_det.First;
+    while not fVendas.cds_Mov_det.Eof do
+    begin
+      fVendas.cds_Mov_det.RecordCount;
+      texto3 := '';
+      texto6 := '  ';
+      //texto6 := Format('%-4s',[fVendas.cds_Mov_detCODPRO.Value]);
+      texto3 := texto3 + Format('                %-2s',[fVendas.cds_Mov_detUN.Value]);
+      texto3 := texto3 + Format('    %6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
+      texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
+      texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
+
+      produto_cupomf := trim(fVendas.cds_Mov_detCODPRO.Value) + '-' + trim(fVendas.cds_Mov_detDESCPRODUTO.Value) + ' - ' + trim(fVendas.cds_Mov_detMARCA.Value);
+      texto6 := texto6 + '  ' + Copy(produto_cupomf, 0, 36);       //descrição do produto
+      Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+      if (length(produto_cupomf)>36) then
       begin
-        Writeln(Impressora, c17cpi, '  Placa: ' + fVendas.MaskEdit1.Text);
-        Writeln(Impressora, c17cpi, '  KM: ' + fVendas.cds_MovimentoCONTROLE.AsString);
-      end;
-      Writeln(Impressora, c17cpi, texto2);
-      Writeln(Impressora, c17cpi, texto4);
-      {-----------------------------------------------------------}
-      {-------------------Imprimi itens do boleto-----------------}
-      try
-        fVendas.cds_Mov_det.First;
-        while not fVendas.cds_Mov_det.Eof do
-        begin
-          fVendas.cds_Mov_det.RecordCount;
-          texto3 := '';
-          texto6 := '  ';
-          //texto6 := Format('%-4s',[fVendas.cds_Mov_detCODPRO.Value]);
-          texto3 := texto3 + Format('                %-2s',[fVendas.cds_Mov_detUN.Value]);
-          texto3 := texto3 + Format('    %6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
-          texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
-          texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
-          //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
-          texto6 := texto6 + '  ' + Copy(fVendas.cds_Mov_detDESCPRODUTO.Value, 0, 36);       //descrição do produto
-          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
-          Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
-          with Printer.Canvas do
-          begin
-            Font.Name := 'Courier New';
-            Font.Size := 4;
-          end;
-          fVendas.cds_Mov_det.next;
-        end;
-        texto3 := '';
-        texto6 := '';
-        {-----------------------------------------------------------}
-        {-------------------Imprimi Cabeçalho-----------------------}
-        Texto2 := '----------------------------------------' ;
-        Texto3 := '   Vencimento    Status             Valor R$' ;
-        Writeln(Impressora, c17cpi, texto2);
-        Writeln(Impressora, c17cpi, texto3);
-        {------------------------------------------------------}
-        {-------------------Imprimi Parcelas -----------------------}
-        scdsCr_proc.First;
-        while not scdsCr_proc.Eof do
-        begin
-          texto3 := '';
-          scdsCr_proc.RecordCount;
-          // imprime
-          Texto3 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
-          Texto3 := '  ' + Texto3 + ' - '  + scdsCr_procSTATUS.Value;
-          if (scdsCr_procSITUACAO.AsString = '7-') then
-             Texto3 := Texto3 + ' -  '  +
-                    Format('%6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
-          else
-             Texto3 := Texto3 + ' -  '  +
-                    Format('%6.2n',[scdsCr_procVALORREC.AsFloat]);
-          Writeln(Impressora, c17cpi, texto3);
-          with Printer.Canvas do
-          begin
-            Font.Name := 'Courier New';
-            Font.Size := 4;
-          end;
-          scdsCr_proc.next;
-        end;
-        {-----------------------------------------------------------}
-        {-------------------Imprimi final do Pedido-----------------}
-        total := fVendas.cds_Mov_detTotalPedido.Value;
-        Writeln(Impressora, c17cpi, texto);
-        Write(Impressora, c17cpi, texto5);
-        Writeln(Impressora, c17cpi + Format('%6.2n',[total]));
-        texto3 := '';
-        texto3 := '  Ass.:____________________________';
-        Writeln(IMPRESSORA);
-        Writeln(Impressora, c17cpi, texto3);
-        // Pula linhas
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-        Writeln(IMPRESSORA);
-      finally
-        CloseFile(IMPRESSORA);
+        texto6 := '    ' + Copy(produto_cupomf, 37, 72);       //descrição do produto
+        Writeln(Impressora, c17cpi, RemoveAcento(texto6));
       end;
 
+      Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
+      with Printer.Canvas do
+      begin
+        Font.Name := 'Courier New';
+        Font.Size := 4;
+      end;
+      fVendas.cds_Mov_det.next;
+    end;
+    texto3 := '';
+    texto6 := '';
+    {-----------------------------------------------------------}
+    {-------------------Imprimi Cabeçalho-----------------------}
+    Texto2 := '----------------------------------------' ;
+    Texto3 := '   Vencimento    Status             Valor R$' ;
+    Writeln(Impressora, c17cpi, texto2);
+    Writeln(Impressora, c17cpi, texto3);
+    {------------------------------------------------------}
+    {-------------------Imprimi Parcelas -----------------------}
+    scdsCr_proc.First;
+    while not scdsCr_proc.Eof do
+    begin
+      texto3 := '';
+      scdsCr_proc.RecordCount;
+      // imprime
+      Texto3 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
+      Texto3 := '  ' + Texto3 + ' - '  + scdsCr_procSTATUS.Value;
+      if (scdsCr_procSITUACAO.AsString = '7-') then
+        Texto3 := Texto3 + ' -  '  + Format('%6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
+      else
+         Texto3 := Texto3 + ' -  '  + Format('%6.2n',[scdsCr_procVALORREC.AsFloat]);
+      Writeln(Impressora, c17cpi, texto3);
+      with Printer.Canvas do
+      begin
+        Font.Name := 'Courier New';
+        Font.Size := 4;
+      end;
+      scdsCr_proc.next;
+    end;
+    {-----------------------------------------------------------}
+    {-------------------Imprimi final do Pedido-----------------}
+    total := fVendas.cds_Mov_detTotalPedido.Value;
+    Writeln(Impressora, c17cpi, texto);
+    Write(Impressora, c17cpi, texto5);
+    Writeln(Impressora, c17cpi + Format('%6.2n',[total]));
+    texto3 := '';
+    texto3 := '  Ass.:____________________________';
+    Writeln(IMPRESSORA);
+    Writeln(Impressora, c17cpi, texto3);
+    // Pula linhas
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA);
+    if ((dm.recortacupom = 'S') or (dm.recortacupom = '')) then
+      Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
+  finally
+    CloseFile(IMPRESSORA);
+  end;
 end;
 
 procedure TfVendaFinalizar.DtSrcStateChange(Sender: TObject);
