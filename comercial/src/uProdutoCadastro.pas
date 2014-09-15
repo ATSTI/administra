@@ -120,6 +120,8 @@ type
     ACBrValidador1: TACBrValidador;
     BitBtn5: TBitBtn;
     BitBtn6: TBitBtn;
+    chk_grade: TCheckBox;
+    AgruparItens1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -264,6 +266,11 @@ begin
         else
           Chk_lote.Checked := False;
 
+        if (dm.cds_produtoPRO_COD.AsString = 'GRADE') then
+          chk_grade.Checked := True
+        else
+          chk_grade.Checked := False;
+
        if (dm.cds_produtoUSA.AsString = 'N') then
          rgEmUso.Checked := False
        else
@@ -297,7 +304,13 @@ begin
         btnRateio.Enabled := False;
 
       if Dm.cds_produtoLOTES.AsString = 'S' then
-        Chk_lote.Checked := True
+        Chk_lote.Checked := True;
+
+      if (dm.cds_produtoPRO_COD.AsString = 'GRADE') then
+        chk_grade.Checked := True
+      else
+        chk_grade.Checked := False;
+
     end;
     varonde := '';
 
@@ -451,6 +464,11 @@ begin
   else
     dm.cds_produtoUSA.Clear;
 
+  if (chk_grade.Checked) then
+    dm.cds_produtoPRO_COD.AsString := 'GRADE'
+  else
+    dm.cds_produtoPRO_COD.AsString := '';
+
   case (cbTipo.ItemIndex) of
     0 : dm.cds_produtoTIPO.AsString := 'PROD';
     1 : dm.cds_produtoTIPO.AsString := 'COMPRA';
@@ -523,6 +541,11 @@ begin
       Chk_lote.Checked := True
     else
       Chk_lote.Checked := False;
+
+    if (dm.cds_produtoPRO_COD.AsString = 'GRADE') then
+      chk_grade.Checked := True
+    else
+      chk_grade.Checked := False;
   end;
 
   if (not dm.cds_familia.Active) then

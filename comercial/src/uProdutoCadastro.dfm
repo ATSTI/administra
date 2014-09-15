@@ -1,5 +1,5 @@
 inherited fProdutoCadastro: TfProdutoCadastro
-  Left = 342
+  Left = 220
   Width = 804
   Height = 609
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1627,18 +1627,21 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Caption = 'Gera Despesa'
       end
       object Label20: TLabel
-        Left = 321
-        Top = 11
+        Left = 381
+        Top = 14
         Width = 61
         Height = 16
         Caption = 'Comiss'#227'o'
       end
       object Label22: TLabel
-        Left = 401
-        Top = 11
-        Width = 131
+        Left = 450
+        Top = 14
+        Width = 71
         Height = 16
-        Caption = 'Data Ultima Altera'#231#227'o'
+        Hint = 'Data da '#218'ltima Altera'#231#227'o'
+        Caption = 'Ultima Alter.'
+        ParentShowHint = False
+        ShowHint = True
       end
       object Label34: TLabel
         Left = 541
@@ -1743,9 +1746,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
         end
       end
       object DBEdit21: TDBEdit
-        Left = 318
+        Left = 379
         Top = 32
-        Width = 80
+        Width = 66
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -1763,9 +1766,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
         OnKeyPress = FormKeyPress
       end
       object DBEdit23: TDBEdit
-        Left = 400
+        Left = 448
         Top = 32
-        Width = 134
+        Width = 89
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -1783,24 +1786,24 @@ inherited fProdutoCadastro: TfProdutoCadastro
       object GroupBox5: TGroupBox
         Left = 145
         Top = 3
-        Width = 168
+        Width = 232
         Height = 56
         Caption = 'Lotes'
         TabOrder = 1
         object Label24: TLabel
-          Left = 83
-          Top = 11
+          Left = 151
+          Top = 10
           Width = 58
           Height = 16
           Caption = 'Tam./Val.'
         end
         object Chk_lote: TCheckBox
-          Left = 4
-          Top = 27
+          Left = 7
+          Top = 28
           Width = 71
           Height = 17
           TabStop = False
-          Caption = 'Utiliza?'
+          Caption = 'Lote'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
           Font.Height = -13
@@ -1812,9 +1815,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
           OnClick = Chk_loteClick
         end
         object DBEdit24: TDBEdit
-          Left = 80
+          Left = 149
           Top = 28
-          Width = 80
+          Width = 77
           Height = 24
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -1830,6 +1833,28 @@ inherited fProdutoCadastro: TfProdutoCadastro
           TabOrder = 1
           OnExit = DBEdit19Exit
           OnKeyPress = FormKeyPress
+        end
+        object chk_grade: TCheckBox
+          Left = 73
+          Top = 29
+          Width = 71
+          Height = 17
+          Hint = 
+            'O Sistema ir'#225' na Entrada do Produto(Compra) registrar o SubGrupo' +
+            ' em cada Item'
+          TabStop = False
+          Caption = 'Grade'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlue
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ParentShowHint = False
+          PopupMenu = PopupMenu1
+          ShowHint = True
+          TabOrder = 2
+          OnClick = Chk_loteClick
         end
       end
       object DBEdit29: TDBEdit
@@ -1870,8 +1895,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [38]
-    Left = 144
-    Top = 133
+    Left = 192
+    Top = 221
     Width = 417
     Height = 273
     Hint = 'Recalcula Pre'#231'o de Custo e Estoque'
@@ -1932,6 +1957,9 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Top = 16
     inherited Procurar1: TMenuItem
       OnClick = btnProcurarClick
+    end
+    object AgruparItens1: TMenuItem
+      Caption = 'Agrupar Itens'
     end
   end
   inherited DtSrc: TDataSource
