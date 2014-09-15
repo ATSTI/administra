@@ -93,20 +93,10 @@ object fRel_comissao: TfRel_comissao
       TabOrder = 0
       OnKeyPress = Edit1KeyPress
     end
-    object Button1: TButton
-      Left = 312
-      Top = 10
-      Width = 27
-      Height = 27
-      Caption = 'Button1'
-      Enabled = False
-      TabOrder = 1
-      Visible = False
-    end
     object Edit2: TJvDBSearchComboBox
       Left = 72
       Top = 14
-      Width = 233
+      Width = 258
       Height = 21
       DataField = 'NOME_FUNCIONARIO'
       DataSource = DtSrc
@@ -114,7 +104,7 @@ object fRel_comissao: TfRel_comissao
       Enabled = False
       ParentFlat = False
       ItemHeight = 13
-      TabOrder = 2
+      TabOrder = 1
       OnChange = Edit2Change
     end
   end
@@ -135,20 +125,10 @@ object fRel_comissao: TfRel_comissao
       TabOrder = 0
       OnKeyPress = Edit3KeyPress
     end
-    object Button2: TButton
-      Left = 312
-      Top = 10
-      Width = 27
-      Height = 27
-      Caption = 'Button2'
-      Enabled = False
-      TabOrder = 1
-      Visible = False
-    end
     object Edit4: TJvDBSearchComboBox
       Left = 72
       Top = 13
-      Width = 233
+      Width = 257
       Height = 21
       DataField = 'PRODUTO'
       DataSource = DtSrc_pro
@@ -156,7 +136,7 @@ object fRel_comissao: TfRel_comissao
       Enabled = False
       ParentFlat = False
       ItemHeight = 13
-      TabOrder = 2
+      TabOrder = 1
       OnChange = Edit4Change
     end
   end

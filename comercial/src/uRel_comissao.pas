@@ -22,8 +22,6 @@ type
     GroupBox3: TGroupBox;
     Edit1: TEdit;
     Edit3: TEdit;
-    Button1: TButton;
-    Button2: TButton;
     scds_venda_proc: TSQLDataSet;
     scds_venda_procCODCLIENTE: TIntegerField;
     scds_venda_procDATAVENDA: TDateField;
