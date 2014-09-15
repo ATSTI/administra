@@ -1,5 +1,4 @@
 inherited fCategoria: TfCategoria
-  Left = 5
   Top = 32
   Width = 697
   Height = 490

@@ -153,16 +153,14 @@ inherited fFamilia: TfFamilia
     inherited Label1: TLabel
       Left = 45
       Top = -68
-      Width = 359
-      Height = 44
+      Width = 389
       Caption = 'Cadastro de Grupos'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 49
       Top = -67
-      Width = 359
-      Height = 44
+      Width = 389
       Caption = 'Cadastro de Grupos'
       Font.Name = 'Cooper Black'
     end

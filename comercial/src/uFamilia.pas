@@ -30,12 +30,12 @@ type
   private
     { Private declarations }
   public
+    origem_abriu: String;
     { Public declarations }
   end;
 
 var
   fFamilia: TfFamilia;
-  origem_abriu: String;  
 
 implementation
 
@@ -117,8 +117,14 @@ end;
 
 procedure TfFamilia.btnConfirmaClick(Sender: TObject);
 begin
-  if origem_abriu = 'planocontas' then
+  if (origem_abriu = 'planocontas') then
     exit;
+  if (origem_abriu = 'agrupamento') then
+  begin
+    origem_abriu := DM.cds_familiaDESCFAMILIA.AsString;
+    close;
+    exit;
+  end;
   if dm.cds_produto.State = dsbrowse then
     dm.cds_produto.Edit;
   if ( not DM.cds_familiaDESCFAMILIA.IsNull) then

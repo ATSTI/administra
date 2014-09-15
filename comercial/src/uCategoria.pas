@@ -36,12 +36,13 @@ type
   private
     { Private declarations }
   public
+    origem_a_cat: String;  
     { Public declarations }
   end;
 
 var
   fCategoria: TfCategoria;
-  origem_a_cat: String;  
+
 
 implementation
 
@@ -124,6 +125,7 @@ begin
     if ( not DM.cds_categoriaDESCCATEGORIA.IsNull) then
       dm.cds_produtoCATEGORIA.AsString := DM.cds_categoriaDESCCATEGORIA.AsString;
   end;
+  origem_a_cat := DM.cds_categoriaDESCCATEGORIA.AsString;
   btnSair.Click;
 end;
 
