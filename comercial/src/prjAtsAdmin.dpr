@@ -1,6 +1,7 @@
 program prjAtsAdmin;
 
 uses
+  MidasLib,
   Forms,
   UDm in 'UDm.pas' {DM: TDataModule},
   uPai in 'uPai.pas' {fPai},
@@ -367,7 +368,9 @@ uses
   unfc in 'unfc.pas' {fnfc},
   uListaVendaProc in 'uListaVendaProc.pas' {fListaVendaProc},
   uOfProc in 'uOfProc.pas' {fOfProc},
-  uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente};
+  uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente},
+  uTributosInfo in 'uTributosInfo.pas' {fTributosInfo},
+  uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa};
 
 {$R *.res}
 
