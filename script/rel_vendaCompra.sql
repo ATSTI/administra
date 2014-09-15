@@ -35,8 +35,10 @@ DECLARE VARIABLE tIcms double precision;
 DECLARE VARIABLE CPERDA SMALLINT;
 --declare variable cCusto integer;
 BEGIN
-  -- versao 2.0.0.20
+
+  -- versao 2.1.0.8 //  ############ NAO RODAR PLASTIFERRO  ############
   --ccusto = 51;
+
   qtdeEstoque = 0;
   totalPerda = 0;
   SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = 'CENTRO PERDA'
@@ -47,19 +49,49 @@ BEGIN
     into :total;
   if (total is null) THEN 
     total = 0;
-  for Select p.CodPro, p.Produto, p.CodProduto, p.estoqueAtual, p.familia
-    from produtos p 
-    where (p.tipo <> 'SERV') or (p.TIPO is null)
-    into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo
+  for Select distinct p.CodPro, p.CodPro || '-' || p.Produto, p.CodProduto, p.estoqueAtual, p.familia, 
+    case when coalesce(p.PRECOMEDIO,0) > 0 then p.PRECOMEDIO else coalesce(p.VALORUNITARIOATUAL,0) end
+    from venda v, MOVIMENTODETALHE md, produtos p 
+    where (v.CODMOVIMENTO = md.CODMOVIMENTO) 
+      and (md.CODPRODUTO = p.CODPRODUTO)
+      and (v.DATAVENDA BETWEEN :pdta1 and :pdta2)
+      --and ((p.tipo <> 'SERV') or (p.TIPO is null))
+    into :codProduto, :Produto, :codPro, :QtdeEstoque, :grupo, :vlrCustoTotal
   do begin 
     
     totalPerda = 0;
         
+     if (vlrCustoTotal is null) then 
+     begin 
+       vlrCustoTotal = 0;
+     end          
     
     --CUSTO ITEM 
     -- estoque inicial
+   
+    -- #### TRAZ CUSTO CORRETO MAS E MUITO LENTO NA MARA, POR ISSO, ESTOU PEGANDO PRECOMEDIO - 04/08/2014 
     select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, :codPRO) ev 
-     into :vlrCustoTotal;
+     into :vlrCustoTotal;   
+   
+    custoProd = 0;
+    --if (vlrCustoTotal = 0)  then 
+    --begin 
+    -- se usa materia prima , pega os custos de la
+    SELECT SUM(COALESCE(r.QTDEUSADA,0) * 
+    (select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, r.CODPRODMP) ev)) 
+      FROM MATERIA_PRIMA r, PRODUTOS p
+     WHERE r.CODPRODMP  = p.CODPRODUTO 
+       AND r.CODPRODUTO = :codPro
+      into :custoProd; 
+      
+      if (custoProd is null) THEN 
+        custoProd = 0;
+        
+      if (custoProd > 0) then
+        vlrCustoTotal = custoProd; 
+    --end  
+    
+    
     SELECT FIRST 1 ev.SALDOFIMACUM FROM ESTOQUE_VIEW_CUSTO (:pdta2,:CodPro,  :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
      into :qtdeEstoque; 
      
@@ -103,7 +135,7 @@ BEGIN
 
      if (vlrCustoTotal is null) then 
      begin 
-       select p.VALORUNITARIOATUAL from produtos p where p.CODPRODUTO = :pro 
+       select coalesce(p.VALORUNITARIOATUAL,0) from produtos p where p.CODPRODUTO = :pro 
        into :vlrCustoTotal;
      end 
 
@@ -137,7 +169,7 @@ BEGIN
     inner join MOVIMENTO mov on mov.CODMOVIMENTO = c.CODMOVIMENTO 
     where m.codProduto = :codPRo 
       and c.dataCompra BETWEEN :pdta1 and :pdta2 
-      and ((mov.codnatureza = 4) or (mov.CODNATUREZA = 1))
+      and ((mov.codnatureza = 4))
       and ((c.CODCCUSTO = :ccusto) or (:ccusto = 0)) 
      into :qtdeCompra, :vlrTotalCompra , :icmscompra
     do begin 
