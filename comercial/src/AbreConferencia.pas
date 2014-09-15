@@ -36,7 +36,7 @@ uses Principal, UnitDeclaracoes;
 procedure TFormAbreConferencia.btnOKClick(Sender: TObject);
 begin
     // Função para Cancelar um registro de venda na imp. Restaurante
-    iRetorno := Bematech_FIR_AbreConferenciaMesa( txtMesa.Text);
+    //iRetorno := Bematech_FIR_AbreConferenciaMesa( txtMesa.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
