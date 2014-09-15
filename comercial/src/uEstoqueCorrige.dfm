@@ -1,8 +1,8 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 250
   Top = 101
-  Width = 407
-  Height = 353
+  Width = 430
+  Height = 624
   Caption = 'Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -106,7 +106,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Button1: TButton
     Left = 57
-    Top = 216
+    Top = 251
     Width = 272
     Height = 41
     Hint = 'Executa o Fechamento do estoque no per'#237'odo acima'
@@ -186,7 +186,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Button3: TButton
     Left = 57
-    Top = 272
+    Top = 299
     Width = 272
     Height = 41
     Hint = 'Re-calcula todo o estoque.'
@@ -201,6 +201,36 @@ object fEstoqueCorrige: TfEstoqueCorrige
     ShowHint = True
     TabOrder = 9
     OnClick = Button3Click
+  end
+  object Memo1: TMemo
+    Left = 16
+    Top = 344
+    Width = 393
+    Height = 209
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 10
+  end
+  object chkProduto: TCheckBox
+    Left = 59
+    Top = 195
+    Width = 278
+    Height = 17
+    Caption = 'Alterar Custo e Pre'#231'o de Ultima Compra no Produto'
+    TabOrder = 11
+  end
+  object chkEstoqueMes: TCheckBox
+    Left = 59
+    Top = 216
+    Width = 278
+    Height = 17
+    Hint = 
+      'Limpa todos os Fechamentos que forem maior que o per'#237'odo informa' +
+      'do.'
+    Caption = 'Refazer Fechamento de Estoque no Per'#237'odo acima.'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 12
   end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1

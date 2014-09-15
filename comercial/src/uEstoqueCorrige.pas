@@ -40,6 +40,9 @@ type
     lblAtualizando: TLabel;
     sqlR: TSQLQuery;
     lblProduto: TLabel;
+    Memo1: TMemo;
+    chkProduto: TCheckBox;
+    chkEstoqueMes: TCheckBox;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -69,57 +72,108 @@ var
   codPro1, codPro2, progresso : integer;
   sqlStr, sqlPreco: String;
 Begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  if (chkEstoqueMes.Checked) then
+  begin
+    sqlStr := 'DELETE FROM ESTOQUEMES WHERE MESANO > ' +
+      QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date-1));
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+    dataUltimoFechamento := JvDateEdit1.Date-1;
+    MessageDlg('Período excluído com sucesso.', mtWarning, [mbOK], 0);
+    exit;
+    try
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+        DecimalSeparator := ',';
+        exit;
+      end;
+    end;
+  end;
+
   if ((dataUltimoFechamento > JvDateEdit1.Date) or (dataUltimoFechamento > JvDateEdit2.Date)) then
   begin
     MessageDlg('A  data do período atual, não pode ser menor do que a do último fechamento.', mtWarning, [mbOK], 0);
     exit;
   end;
 
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
+  if (cdsA.Active) then
+    cdsA.close;
+  cdsA.CommandText := 'SELECT CODALMOXARIFADO FROM MOVIMENTO ' +
+    'WHERE (codalmoxarifado = 0) or (codAlmoxarifado is null) ';
+  cdsA.Open;
+  if (not cdsa.isempty) then
+  begin
+    MessageDlg('Existe Centro de Resultado com Valor = 0 ou Valor Nulo, corrija isto primerio.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   progresso := 1;
   Save_Cursor := Screen.Cursor;
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
-    if (cdsA.Active) then
-      cdsA.close;
-    cdsA.CommandText := 'SELECT CODPRODUTO, CODPRO FROM PRODUTOS WHERE ((TIPO <> ' +
-        QuotedStr('SERV') + ') OR (TIPO IS NULL))';
-    cdsA.Open;
-
     if (cdsB.Active) then
     cdsB.Close;
 
-    cdsB.CommandText := 'select distinct m.CODALMOXARIFADO from movimento m ' +
-      ' where m.DATAMOVIMENTO BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date-10)) +
-      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date+10));
+    cdsB.CommandText := 'SELECT DISTINCT m.CODALMOXARIFADO, md.CODPRODUTO ' +
+      ' ,COALESCE(md.LOTE, ' + QuotedStr('0') + ') LOTE ' + 
+      '  FROM movimento m, movimentodetalhe md ' +
+      ' WHERE m.CODMOVIMENTO = md.CODMOVIMENTO ' +
+      '   AND m.DATAMOVIMENTO BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date-10)) +
+      '   AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date+10)) +
+      '   AND md.BAIXA is not null ' +
+      ' ORDER by md.CODPRODUTO, m.CODALMOXARIFADO, md.LOTE';
     cdsB.Open;
 
-    prog2.Max := cdsA.RecordCount;
-    prog2.Position := 0;
+    //prog2.Max := cdsA.RecordCount;
+    //prog2.Position := 0;
 
-    JvProgressBar1.Max := cdsB.RecordCount*cdsA.RecordCount;
+    JvProgressBar1.Max := cdsB.RecordCount;
     JvProgressBar1.Position := 0;
 
     While not cdsB.eof do  // Percorro os CCUSTOS
     begin
-      cdsA.First;
+      //cdsA.First;
       // Pego o Estoque de Cada Item
-      while not cdsA.Eof do
-      begin
-        lblProduto.Caption := 'Produto : ' + cdsA.FieldByName('CODPRO').AsString;
+      //while not cdsA.Eof do
+      //begin
+        lblProduto.Caption := 'Produto : ' + IntToStr(cdsB.FieldByName('CODPRODUTO').AsInteger);
         if (sqlQ.Active) then
           sqlQ.Close;
         sqlStr := 'select * from ESTOQUE_VIEW_CUSTO(' +
                  QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) +
-                 ', ' + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) +
-                 ', ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) +
-                 ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
-                 ')';
+                 ', ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) +
+                 ', ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger);
+        //if (cdsB.FieldByName('LOTE').AsString = '0') then
+        //begin
+        //  sqlStr := sqlStr + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
+        //end
+        //else begin
+          sqlStr := sqlStr + ', ' + QuotedStr(cdsB.FieldByName('LOTE').AsString);
+        //end;
+        sqlStr := sqlStr + ')';
         sqlQ.SQL.Clear;
         sqlQ.SQL.Add(sqlStr);
         sqlQ.Open;
 
+        memo1.lines.Clear;
+        memo1.lines.Add(sqlStr);
+
+        if (chkProduto.Checked) then
+        begin
+          if (cdsA.Active) then
+            cdsA.close;
+          cdsA.CommandText := 'select * from ESTOQUE_VIEW_CUSTO(' +
+            QuotedStr(Formatdatetime('mm/dd/yyyy', now)) +
+            ', ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) +
+            ', 0, ' + QuotedSTr('TODOS OS LOTES CADASTRADOS NO SISTEMA') + ')';
+          cdsA.Open;
+        end;
         if (sqlR.Active) then
           sqlR.Close;
         sqlR.SQL.Clear;
@@ -129,7 +183,7 @@ Begin
           QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
           ', ' +
           QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) +
-          ', ' + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) + ') ev ');
+          ', ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) + ') ev ');
 
         sqlR.Open;
 
@@ -145,7 +199,7 @@ Begin
 
           while not sqlQ.Eof do
           begin
-            sqlStr := sqlStr + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) + ', ';
+            sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) + ', ';
             sqlStr := sqlStr + QuotedStr(sqlQ.FieldByName('LOTES').AsString) + ', ';
             sqlStr := sqlStr + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ', ';
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('ENTRADA').AsFloat) + ', ';
@@ -159,15 +213,25 @@ Begin
             sqlStr := sqlStr + FloatToStr(sqlR.FieldByName('CUSTOENTRADAS').asFloat) + ', ';
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('VALORVENDA').asFloat) + ', ';
             sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) + ', ';
-            if (sqlQ.FieldByName('SALDOINIACUM').asFloat < 0.000001) then
-              sqlStr := sqlStr + '0, '
-            else
+            //if (sqlQ.FieldByName('SALDOINIACUM').asFloat < 0.000001) then
+            //  sqlStr := sqlStr + '0, '
+            //else
               sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SALDOINIACUM').asFloat) + ', ';
             sqlStr := sqlStr + '0, ';
             sqlStr := sqlStr + '0 ';
             sqlStr := sqlStr + ')';
+
             dm.sqlsisAdimin.ExecuteDirect(sqlStr);
             sqlQ.Next;
+          end;
+          if (chkProduto.Checked) then
+          begin
+            sqlStr := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+            sqlStr := sqlStr + FloatToStr(cdsA.FieldByName('PRECOCOMPRA').asFloat);
+            sqlStr := sqlStr + ', PRECOMEDIO = ';
+            sqlStr := sqlStr + FloatToStr(cdsA.FieldByName('PRECOCUSTO').asFloat);
+            sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger);
+            dm.sqlsisAdimin.ExecuteDirect(sqlStr);
           end;
           dm.sqlsisAdimin.Commit(TD);
         except
@@ -180,11 +244,11 @@ Begin
         end;
 
         DecimalSeparator := ',';
-        Prog2.Position := cdsA.RecNo;
+        //Prog2.Position := cdsA.RecNo;
         JvProgressBar1.Position := progresso;
         progresso := progresso + 1;
-        cdsA.Next;
-      end;
+        //cdsA.Next;
+      //end;
       cdsB.Next;
     end;
     lblUltimo.Caption := ' Ultimo fechamento : ' + DateToStr(JvDateEdit2.Date);
