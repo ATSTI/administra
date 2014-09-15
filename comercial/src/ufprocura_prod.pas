@@ -191,6 +191,8 @@ type
     cds_procNCM: TStringField;
     edDescontoMargem: TJvCalcEdit;
     Label15: TLabel;
+    DefinirGrupos1: TMenuItem;
+    chkComp: TCheckBox;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -232,6 +234,8 @@ type
     procedure cds_procAfterScroll(DataSet: TDataSet);
     procedure edDescontoMargemExit(Sender: TObject);
     procedure edDescontoMargemKeyPress(Sender: TObject; var Key: Char);
+    procedure EvDBFind1KeyPress(Sender: TObject; var Key: Char);
+    procedure DefinirGrupos1Click(Sender: TObject);
   private
     vlrUnitCusto: Double;
     vlrUnitVenda: Double;
@@ -289,7 +293,9 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   UDM_MOV,
   uLotes_Produtos,
   uTerminal2,
-  uOf;
+  uOf,
+  uProdutoAgrupa,
+  uFamilia;
 
 {$R *.dfm}
 
@@ -422,13 +428,11 @@ end;
 
 procedure TfProcura_prod.FormShow(Sender: TObject);
 begin
-  //if (procprod <> 'PROC_PROD_COMPLETO') then
-  //  CheckBox1.Checked := True;
-
   if (not dm.cds_Marca.Active) then
     dm.cds_Marca.Open;
   dm.cds_Marca.First;
   cbMarca.Items.Clear;
+  cbMarca.Items.Add('Sem Marca');
   while not dm.cds_Marca.Eof do
   begin
      cbMarca.Items.Add(dm.cds_MarcaDESCMARCAS.AsString);
@@ -440,6 +444,7 @@ begin
     dm.cds_familia.Open;
   dm.cds_familia.First;
   cbFamilia.Items.Clear;
+  cbFamilia.Items.Add('Sem Grupo');
   while not dm.cds_familia.Eof do
   begin
      cbFamilia.Items.Add(dm.cds_familiaDESCFAMILIA.AsString);
@@ -455,6 +460,7 @@ begin
   dm.cds_categoria.Open;
   dm.cds_categoria.First;
   cbCategoria.Items.Clear;
+  cbCategoria.Items.Add('Sem Sub-Grupo');
   while not dm.cds_categoria.Eof do
   begin
      cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
@@ -543,6 +549,11 @@ begin
 
   dm.cds_parametro.Close;
 
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    BitBtn1.Click;
+    DbGrid1.SetFocus;
+  end;
 end;
 
 procedure TfProcura_prod.btnIncluirClick(Sender: TObject);
@@ -585,10 +596,10 @@ procedure TfProcura_prod.BitBtn1Click(Sender: TObject);
 var varSql, varCondicao, varCondicaoA, varSql1, varCond2, varSql2, varCondicao1, s: string;
 i : integer;
 begin
-  if (panel2.Visible = True) then
-  begin
-    cbMarca.Text := '';
-  end;
+  //if (panel2.Visible = True) then
+  //begin
+  //  cbMarca.Text := '';
+  //end;
  cds_proc.CommandText := '';
  varCondicao := '';
  // Produtos
@@ -619,17 +630,17 @@ begin
   else
     varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
 
-  if cbFamilia.Text <> '' then
+  if ((cbFamilia.Text <> '') and (cbFamilia.ItemIndex > 0)) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSGRUPOS');
 
-  if cbCategoria.Text <> '' then
+  if ((cbCategoria.Text <> '') and (cbCategoria.ItemIndex > 0)) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbCategoria.Text)
    else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSSUBGRUPOS');
 
-  if (cbMarca.Text <> '') then
+  if ((cbMarca.Text <> '') and (cbMarca.ItemIndex > 0)) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbMarca.Text)
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODASMARCAS');
@@ -691,14 +702,15 @@ begin
     else
       varCondicaoA := 'where DESCRICAO like ' + '''' + edUso.Text + '%' + '''';
 
-  if (rbBuscaSimples.Checked = False) then
+  if ((rbBuscaSimples.Checked = False) and (chkComp.Checked = False)) then
   begin
     if edProduto.Text <> '' then
     if varCondicaoA <> '' then
-     varCondicaoA := varCondicaoA + ' and UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + ''''
+     varCondicaoA := varCondicaoA + ' and PRODUTO containing ' + '''' + edProduto.Text + ''''
    else
-     varCondicaoA := 'where UDF_COLLATEBR(cast(PRODUTO as varchar(300))) containing ' + '''' + edProduto.Text + '''';
+     varCondicaoA := 'where PRODUTO containing ' + '''' + edProduto.Text + '''';
   end;
+
   if (rbBuscaSimples.Checked) then
   begin
     if edProduto.Text <> '' then
@@ -706,6 +718,15 @@ begin
       varCondicaoA := varCondicaoA + ' and PRODUTO like ' + '''' + edProduto.Text + '%' + ''''
     else
       varCondicaoA := 'where PRODUTO like ' + '''' + edProduto.Text + '%' + '''';
+  end;
+
+  if (chkComp.Checked) then
+  begin
+    if edProduto.Text <> '' then
+    if varCondicaoA <> '' then
+      varCondicaoA := varCondicaoA + ' and PRODUTO like ' + QuotedStr(edProduto.Text)
+    else
+      varCondicaoA := 'where PRODUTO like ' + QuotedStr(edProduto.Text);
   end;
 
   if edOutros.Text <> '' then
@@ -728,14 +749,29 @@ begin
       varCondicaoA := 'where USA = ' + QuotedStr('N') ;
   end;
 
-  //if (edCodigo.Text <> '') then
-  //begin
-  //  if varCondicaoA <> '' then
-  //    varCondicaoA :=  varCondicaoA + ' and CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%')
-  //  else
-  //    varCondicaoA :=  ' WHERE CODPRO LIKE ' + QuotedStr(edCodigo.Text + '%');
-  //end;
+  if (cbMarca.ItemIndex = 0) then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' AND ((MARCA IS NULL) OR (UDF_TRIM(MARCA) = ' + QuotedStr('') + '))'
+    else
+      varCondicaoA :=  ' WHERE ((MARCA IS NULL) OR (UDF_TRIM(MARCA) = ' + QuotedStr('') + '))';
+  end;
 
+  if (cbCategoria.ItemIndex = 0) then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' AND ((SUBGRUPO IS NULL) OR (UDF_TRIM(SUBGRUPO) = ' + QuotedStr('') + '))'
+    else
+      varCondicaoA :=  ' WHERE ((SUBGRUPO IS NULL) OR (UDF_TRIM(SUBGRUPO) = ' + QuotedStr('') + '))';
+  end;
+
+  if (cbFamilia.ItemIndex = 0) then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' AND ((GRUPO IS NULL) OR (UDF_TRIM(GRUPO) = ' + QuotedStr('') + '))'
+    else
+      varCondicaoA :=  ' WHERE ((GRUPO IS NULL) OR (UDF_TRIM(GRUPO) = ' + QuotedStr('') + '))';
+  end;
 
   if Edit1.Text <> '' then
     if varCondicaoA <> '' then
@@ -817,6 +853,9 @@ begin
  begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
+   BitBtn1.Click;
+   if (procprod = 'PROC_PROD_COMPLETO') then
+     EvDBFind1.SetFocus;
  end;
 end;
 
@@ -933,14 +972,19 @@ begin
   end;
 
 
- Edit3.Text := '';
- Edit4.Text := '';
- Edit2.Text := ''; 
- BitBtn5.Enabled := false;
- BitBtn4.Enabled := true;
-  if (Panel2.Visible) then
-    EvDBFind1.SetFocus;
-
+  Edit3.Text := '';
+  Edit4.Text := '';
+  Edit2.Text := '';
+  BitBtn5.Enabled := false;
+  BitBtn4.Enabled := true;
+  if (Panel1.Visible) then
+  begin
+    edProduto.SetFocus;
+  end
+  else begin
+    if (Panel2.Visible) then
+      EvDBFind1.SetFocus;
+  end;
 end;
 
 procedure TfProcura_prod.EvDBFind1Exit(Sender: TObject);
@@ -1124,7 +1168,7 @@ end;
 procedure TfProcura_prod.cbMarcaChange(Sender: TObject);
 var sqlFam:string;
 begin
-  if DM.cds_familia.Active then
+  {if DM.cds_familia.Active then
     DM.cds_familia.Close;
   sqlFam := dm.sds_familia.CommandText;
   if (cbMarca.Text <> '') then
@@ -1143,7 +1187,7 @@ begin
      DM.cds_familia.Next;
   end;
   DM.cds_familia.CommandText := sqlFam;
-
+  }
 end;
 
 procedure TfProcura_prod.SpeedButton4Click(Sender: TObject);
@@ -1214,8 +1258,8 @@ end;
 
 procedure TfProcura_prod.cbFamiliaChange(Sender: TObject);
 begin
- if (cbFamilia.Text <> '') then
- begin
+  {if ((cbFamilia.Text <> '') and (cbFamilia.ItemIndex > 0)) then
+  begin
     if not DM.cds_familia.Active then
         DM.cds_familia.Open;
        DM.cds_familia.Locate('DESCFAMILIA', CbFamilia.Text,[loCaseInsensitive]);
@@ -1227,6 +1271,7 @@ begin
     DM.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Sem Sub-Grupo');
     while not dm.cds_categoria.Eof do
     begin
        cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
@@ -1245,6 +1290,7 @@ begin
     dm.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Sem Sub-Grupo');
     while not dm.cds_categoria.Eof do
     begin
        cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
@@ -1252,6 +1298,7 @@ begin
     end;
     dm.cds_categoria.Close;
  end;
+ }
 end;
 
 procedure TfProcura_prod.RadioButton1Click(Sender: TObject);
@@ -2305,6 +2352,62 @@ begin
     vlrUnitVenda := cds_procPRECO_COMPRA.value;
   end;
   vlrUnitCusto := cds_procPRECOMEDIO.AsFloat;
+end;
+
+procedure TfProcura_prod.EvDBFind1KeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;  
+end;
+
+procedure TfProcura_prod.DefinirGrupos1Click(Sender: TObject);
+var s_prod_grupo: String;
+TD : TTransactionDesc;
+begin
+  fProdutoAgrupa := TfProdutoAgrupa.Create(Application);
+  try
+    fProdutoAgrupa.ShowModal;
+
+    // Fazer o agrupamento dos produtos selecionados.
+    if (fProdutoAgrupa.grupoAgrupa <> '') then
+    begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      cdS_proc.DisableControls;
+      cds_proc.First;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        while not cds_proc.Eof do
+        begin
+          s_prod_grupo := 'update produtos set familia = ' +
+            QuotedStr(fProdutoAgrupa.grupoAgrupa);
+          if (fProdutoAgrupa.subAgrupa <> '') then
+          begin
+            s_prod_grupo := s_prod_grupo + ' , categoria = ' +
+              QuotedStr(fProdutoAgrupa.subAgrupa);
+          end;
+          s_prod_grupo := s_prod_grupo + ' WHERE CODPRODUTO = ' +
+            IntToStr(cds_procCODPRODUTO.AsInteger);
+          dm.sqlsisAdimin.ExecuteDirect(s_prod_grupo);
+          cds_proc.Next;
+        end;
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
+      cds_proc.EnableControls;
+    end;
+    bitbtn1.Click;
+  finally
+    fProdutoAgrupa.Free;
+  end;
 end;
 
 end.

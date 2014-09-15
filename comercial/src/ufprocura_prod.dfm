@@ -1,6 +1,6 @@
 object fProcura_prod: TfProcura_prod
-  Left = 26
-  Top = 34
+  Left = 23
+  Top = 30
   Width = 811
   Height = 562
   Caption = 'Lista de Produtos'
@@ -207,7 +207,7 @@ object fProcura_prod: TfProcura_prod
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 6
-      OnChange = cbMarcaChange
+      OnKeyPress = FormKeyPress
     end
     object cbFamilia: TComboBox
       Left = 410
@@ -223,7 +223,7 @@ object fProcura_prod: TfProcura_prod
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 7
-      OnChange = cbFamiliaChange
+      OnKeyPress = FormKeyPress
     end
     object cbCategoria: TComboBox
       Left = 606
@@ -239,6 +239,7 @@ object fProcura_prod: TfProcura_prod
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 8
+      OnKeyPress = FormKeyPress
     end
     object cbTipo: TComboBox
       Left = 665
@@ -255,6 +256,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
       TabOrder = 9
       Text = 'Compra/Venda'
+      OnKeyPress = FormKeyPress
       Items.Strings = (
         'Compra/Venda'
         'Compra'
@@ -273,12 +275,21 @@ object fProcura_prod: TfProcura_prod
       State = cbChecked
       TabOrder = 10
     end
+    object chkComp: TCheckBox
+      Left = 536
+      Top = 3
+      Width = 97
+      Height = 13
+      Caption = 'Busca Comp. (%)'
+      TabOrder = 11
+    end
   end
   object Panel2: TPanel
-    Left = 1
-    Top = 59
-    Width = 790
-    Height = 89
+    Left = 0
+    Top = 147
+    Width = 803
+    Height = 76
+    Align = alTop
     BevelOuter = bvLowered
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -363,7 +374,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 0
       OnChange = EvDBFind1Change
       OnExit = EvDBFind1Exit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = EvDBFind1KeyPress
     end
     object BitBtn4: TBitBtn
       Left = 682
@@ -402,7 +413,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 2
       DecimalPlacesAlwaysShown = False
       OnExit = Edit4Exit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = EvDBFind1KeyPress
     end
     object Edit2: TJvCalcEdit
       Left = 592
@@ -419,7 +430,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 4
       DecimalPlacesAlwaysShown = False
       OnExit = Edit2Exit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = EvDBFind1KeyPress
     end
     object Edit3: TJvCalcEdit
       Left = 400
@@ -437,7 +448,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 1
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
-      OnKeyPress = FormKeyPress
+      OnKeyPress = EvDBFind1KeyPress
     end
     object edCondicao1: TJvCalcEdit
       Left = 137
@@ -514,9 +525,10 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid1: TDBGrid
     Left = 0
-    Top = 149
-    Width = 701
-    Height = 318
+    Top = 223
+    Width = 704
+    Height = 247
+    Align = alClient
     Color = clCream
     DataSource = Dtsrc
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -610,10 +622,11 @@ object fProcura_prod: TfProcura_prod
       end>
   end
   object DBGrid2: TDBGrid
-    Left = 702
-    Top = 149
+    Left = 704
+    Top = 223
     Width = 99
-    Height = 318
+    Height = 247
+    Align = alRight
     Color = clCream
     DataSource = DataSource1
     PopupMenu = PopupMenu1
@@ -633,10 +646,10 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid3: TDBGrid
     Left = 0
-    Top = 468
-    Width = 799
+    Top = 470
+    Width = 803
     Height = 65
-    Align = alCustom
+    Align = alBottom
     Color = clCream
     DataSource = DataSource2
     PopupMenu = PopupMenu1
@@ -1424,7 +1437,7 @@ object fProcura_prod: TfProcura_prod
   end
   object Panel3: TPanel
     Left = 176
-    Top = 169
+    Top = 209
     Width = 425
     Height = 289
     Caption = 'Panel3'
@@ -1807,6 +1820,10 @@ object fProcura_prod: TfProcura_prod
       Caption = '&Fechar'
       ShortCut = 120
       OnClick = BitBtn6Click
+    end
+    object DefinirGrupos1: TMenuItem
+      Caption = 'Definir Grupos'
+      OnClick = DefinirGrupos1Click
     end
   end
   object DataSource1: TDataSource
