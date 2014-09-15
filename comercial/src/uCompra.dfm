@@ -1,11 +1,12 @@
 inherited fCompra: TfCompra
-  Left = 275
-  Top = 89
+  Left = 225
+  Top = 77
   Width = 802
   Height = 615
   Caption = 'Compra'
   Font.Height = -13
   OldCreateOrder = True
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16

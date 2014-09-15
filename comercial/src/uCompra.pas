@@ -516,9 +516,11 @@ type
     procedure GroupBox11Click(Sender: TObject);
     procedure edCFOPExit(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     sqlBuscaProd: String;
     modo :string;
+    compraUsaLote :string;
     { Private declarations }
   public
     est_compra: double;
@@ -849,7 +851,7 @@ begin
     5 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.00000';
     6 : cds_Mov_detPRECO.DisplayFormat :=  ',##0.000000';
   end;
-  
+  fLotes_Produtos := TfLotes_Produtos.Create(Application);
 end;
 
 procedure TfCompra.btnIncluirClick(Sender: TObject);
@@ -1344,6 +1346,11 @@ begin
       btnProdutoProcura.Click;
       exit;
     end;
+    compraUsaLote := 'N';
+    if (dm.scds_produto_procLOTES.AsString = 'S') then
+    begin
+      compraUsaLote := 'S';
+    end;
     if (dm.scds_produto_procRATEIO.AsString = 'S') then
     begin
       usarateio := 'SIM';
@@ -1427,8 +1434,10 @@ begin
   end
   else
   begin
-    fProcura_prod.Panel2.Visible := false;
+    fProcura_prod.Panel2.Visible := true;
+    fProcura_prod.Panel2.Align := alTop;
     fProcura_prod.Panel1.Visible := true;
+    fProcura_prod.Panel1.Align := alTop;    
     if (fProcura_prod.cds_proc.Active) then
       fProcura_prod.cds_proc.Close;
   end;
@@ -1454,11 +1463,14 @@ begin
     end
     else
     begin
-      cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
-      cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-      cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
-      cds_Mov_detPIPI.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
-      cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      if (cds_Mov_det.State in [dsInsert, dsEdit]) then
+      begin
+        cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
+        cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+        cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
+        cds_Mov_detPIPI.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
+        cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+      end;
       qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
     end;
   end;
@@ -1925,6 +1937,13 @@ begin
   begin
     cds_Mov_detCOD_COMISSAO.AsInteger := cds_MovimentoCODFORNECEDOR.AsInteger;
   end;
+  if (compraUsaLote = 'S') then
+  begin
+    if ((cds_Mov_detLOTE.AsString = '') or (cds_Mov_detLOTE.AsString = '0')) then
+    begin
+      BitBtn5.Click;
+    end;
+  end;
 end;
 
 procedure TfCompra.dbLoteChange(Sender: TObject);
@@ -2176,18 +2195,20 @@ end;
 procedure TfCompra.BitBtn5Click(Sender: TObject);
 begin
   inherited;
-  fLotes_Produtos := TfLotes_Produtos.Create(Application);
-  try
-    fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
-    fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
-    fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
-    fLotes_Produtos.TIPO := 'COMPRA';
-    fLotes_Produtos.ShowModal;
-  finally
-    //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-    //cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-    fLotes_Produtos.Free;
+  if DtSrc.DataSet.State in [dsInactive, dsBrowse] then
+  begin
+    DtSrc.DataSet.Edit;
   end;
+  if (cds_mov_det.State in [dsInactive, dsBrowse]) then
+  begin
+    cds_mov_det.Edit;
+  end;
+
+  fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
+  fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
+  fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
+  fLotes_Produtos.TIPO := 'COMPRA';
+  fLotes_Produtos.ShowModal;
 end;
 
 procedure TfCompra.btnDuplicarClick(Sender: TObject);
@@ -2347,6 +2368,12 @@ begin
   inherited;
   if (cds_Movimento.state in [dsBrowse]) then
    cds_Movimento.Edit;
+end;
+
+procedure TfCompra.FormDestroy(Sender: TObject);
+begin
+  fLotes_Produtos := nil;
+  inherited;
 end;
 
 end.
