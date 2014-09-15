@@ -242,7 +242,6 @@ begin
 
     if (versaoSistema = '1.0.0.22') then
     begin
-      executaScript('rel_vendaCompra.sql');
       executaScript('inclui_rec.sql');
       executaScript('resultadoporproduto.sql');
       mudaVersao('1.0.0.23');
@@ -250,7 +249,6 @@ begin
 
     if (versaoSistema = '1.0.0.23') then
     begin
-      executaScript('spestoque.sql');
       executaSql('CREATE TABLE arquivo_retorno( ' +
         'idArquivo int not null primary key, ' +
         'arquivo varchar(60) not null, ' +
@@ -707,7 +705,6 @@ begin
       executaScript('CorrigeEstoque.sql');
       executaScript('retornaEstoqueVenda.sql');
       executaScript('retornaEstoqueCompra.sql');
-      executaScript('rel_vendaCompra.sql');
       mudaVersao('1.0.0.69');
     end;  // Fim Atualizacao Versao 1.0.0.69
 
@@ -767,7 +764,6 @@ begin
       executaDDL('PRODUTOS', 'IMPRESSORA_1', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_2', 'varchar(10)');
       executaDDL('PRODUTOS', 'IMPRESSORA_3', 'varchar(10)');
-      executaScript('relcontasreceber.sql');
       mudaVersao('1.0.0.76');
     end;  // Fim Atualizacao Versao 1.0.0.76
 
@@ -796,7 +792,7 @@ begin
        'PRIMARY KEY (CODIVENTARIO, CODPRODUTO))');
       end;
       executaScript('inventario_lanca.sql');
-      executaScript('invent_estoque.sql');
+      //executaScript('invent_estoque.sql');
       mudaVersao('1.0.0.78');
     end;  // Fim Atualizacao Versao 1.0.0.78
 
@@ -1024,7 +1020,7 @@ begin
       executaDDL('NOTAFISCAL', 'XMLNFE', 'BLOB');
       executaScript('inclui_rec.sql');
       executaScript('inclui_pag.sql');
-      executaScript('frete_nf.sql');
+      //executaScript('frete_nf.sql');
       //executaSql('ALTER TABLE COMPRA DROP CONSTRAINT FK_COMPRA_BANCO');
       mudaVersao('1.0.0.92');
     end; // Fim Atualizacao Versao 1.0.0.92
@@ -1106,7 +1102,6 @@ begin
       executaDDL('ENDERECOCLIENTE', 'PAIS', 'varchar(60)');
       executaDDL('MOVIMENTODETALHE', 'VALOR_PIS',  'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'VALOR_COFINS',  'DOUBLE PRECISION');
-      executaScript('invent_estoque.sql');
       executaScript('sp_lote_estoquemes.sql');
       executaScript('trg_altera_codpro.sql');
       executaScript('extrato_pag.sql');
@@ -1147,7 +1142,6 @@ begin
       executaDDL('NOTAFISCAL', 'BCII', 'DOUBLE PRECISION');
       executaDDL('MOVIMENTODETALHE', 'BCII', 'DOUBLE PRECISION');
       executaDDL('OS', 'VEICULO', 'VARCHAR(200)');
-      executaScript('calcula_icms.sql');
       executaSql('ALTER TABLE FUNCIONARIO ALTER BAIRRO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER COMPLEMENTO TYPE Varchar(60);');
       executaSql('ALTER TABLE FUNCIONARIO ALTER RUA TYPE Varchar(60);');
@@ -1427,7 +1421,6 @@ begin
       executaDDL('PRODUTOS', 'OBS', 'VARCHAR(300)');
       executaDDL('PLANO', 'TIPOLANC',  'VARCHAR(10)');
       MessageDlg('Execute o Script "fk_uctabuser.sql".', mtWarning, [mbOK], 0);
-      executaScript('SP_MOV_CAIXAC.sql');
       executaScript('SP_MOV_CAIXA_ORDEMC.sql');
 
       if (cds.Active) then
@@ -1545,8 +1538,6 @@ begin
           'USUARIO INTEGER, ' +
           'PRIMARY KEY(NUM))')
       end;
-      executaScript('listaProduto.sql');
-      executaScript('LISTAPRODUTOCLI.sql');
       MessageDlg('Execute o Script "Tipo_fiscal.sql".', mtWarning, [mbOK], 0);
       mudaVersao('1.0.0.105');
     end;// Fim Atualizacao Versao 1.0.0.105
@@ -1560,7 +1551,6 @@ begin
       executaDDL('MOVIMENTODETALHE', 'CSTCOFINS', 'VARCHAR(2)');
       executaDDL('MOVIMENTODETALHE', 'PPIS', 'double precision');
       executaDDL('MOVIMENTODETALHE', 'PCOFINS', 'double precision');
-      MessageDlg('Execute o Script "trg_calcula_icms_st.sql".', mtWarning, [mbOK], 0);
       mudaVersao('1.0.0.106');
     end;// Fim Atualizacao Versao 1.0.0.106
 
@@ -1601,11 +1591,8 @@ begin
       executaDDL('VENDA', 'COMISSAO', 'double precision');
       executaDDL('VENDA', 'CAIXINHA', 'double precision');
       executaDDL('VENDA', 'RATEIO', 'double precision');
-      //executaScript('gera_nf_venda.sql');
-      executaScript('trg_calcula_icms_st_107.sql');
       executaScript('resultadoporproduto_107.sql');
       executaScript('filtroproduto_107.sql');
-      executaScript('listaProduto107.sql');
       executaDDL('FORMA_ENTRADA', 'CAIXINHA', 'double precision');
       mudaVersao('1.0.0.107');
     end;
@@ -1666,10 +1653,7 @@ begin
       executaSql('ALTER TABLE CCE ALTER DHENVIO TYPE Timestamp');
       executaSql('ALTER TABLE CCE ALTER CONDICAO TYPE Varchar(700)');
       executaDDL('VENDA', 'VALOR_ST', 'double precision');
-      executaScript('gera_nf_venda108.sql');
       executaScript('nfe_fatura108.sql');
-      executaScript('trg_calcula_icms_st_108.sql');
-      executaScript('calcula_icms108.sql');
       mudaVersao('1.0.0.108');
     end;// Fim Ataulização Versao 1.0.0.108
 
@@ -1679,11 +1663,8 @@ begin
       executaDDL('MOVIMENTOCONT', 'FORMA',  'TEXTO1');
       executaDDL('PRODUTOS', 'OBS', 'VARCHAR(300)');
       executaDDL('VENDA', 'VALOR_ST', 'double precision');
-      executaScript('sp_mov_caixac109.sql');
       executaScript('sp_mov_caixa_ordemc109.sql');
-      executaScript('gera_nf_venda109.sql');
       executaScript('nfe_fatura109.sql');
-      executaScript('trg_calcula_icms_st_109.sql');
       mudaVersao('1.0.0.109');
     end;// Fim Atualizacao Versao 1.0.0.109
 
@@ -1691,7 +1672,6 @@ begin
     begin
       executaDDL('OS', 'CFOP', 'VARCHAR(30)');
       executaScript('lista_lote110.sql');
-      executaScript('gera_nf_venda110.sql');
       mudaVersao('1.0.0.110');
     end;// Fim Atualizacao Versao 1.0.0.110
 
@@ -1702,25 +1682,20 @@ begin
       executaDDL('ESTOQUEMES', 'DATAVENCIMENTO', 'DATE');
       executaDDL('ESTOQUEMES', 'DATAFABRICACAO', 'DATE');
       executaScript('sp_lote_estoquemes111.sql');
-      executaScript('sp_mov_caixac111.sql');
       mudaVersao('1.0.0.111');
     end;// Fim Atualizacao Versao 1.0.0.111
 
     if (versaoSistema = '1.0.0.111') then
     begin
       executaDDL('MOVIMENTO', 'DESCONTO', 'DOUBLE PRECISION');
-      executaScript('gera_nf_venda112.sql');
-      executaScript('rel_vendaCompra112.sql');
-      executaScript('calcula_icms112.sql');
       mudaVersao('1.0.0.112');
     end;// Fim Atualizacao Versao 1.0.0.112
 
     if (versaoSistema = '1.0.0.112') then
     begin
       executaScript('view_venda.sql');
-      executaScript('rel_vendaCompra113.sql');
       executaScript('inclui_pag113.sql');
-      executaScript('frete_nf113.sql');
+      //executaScript('frete_nf113.sql');
       EXECUTADDL('EMPRESA', 'CHAVELIC', 'VARCHAR(50)');
       EXECUTADDL('EMPRESA', 'CHAVECONT', 'VARCHAR(50)');
       executaDDL('CLIENTES', 'SUFRAMA', 'varchar(9)');
@@ -1738,8 +1713,6 @@ begin
     if (versaoSistema = '1.0.0.113') then
     begin
       EXECUTADDL('MOVIMENTODETALHE', 'FRETE_BC', 'VARCHAR(5)');
-      executaScript('rel_vendaCompra114.sql');
-      //executaScript('relDre114.sql');
       executaScript('view_estoque.sql');
       CriaGenerator('GEN_EMAIL');
       executaSql('SET GENERATOR GEN_EMAIL TO 1200');
@@ -1817,11 +1790,6 @@ begin
       EXECUTADDL('EMPRESA', 'ECFMOD', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
-      //executaScript('estoque_view_custo119.sql');
-      //executaScript('listaProdutocli118.sql');
-      //executaScript('listaProduto118.sql');
-      //executaScript('rel_vendaCompra119.sql');
-      //executaScript('spestoque119.sql');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
       ExecutaSql('ALTER TRIGGER INSERE_ESTOQUE ACTIVE');
       ExecutaSql('ALTER TRIGGER BAIXA_ESTOQUE ACTIVE');
@@ -1923,22 +1891,14 @@ begin
       EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
       executaScript('estoque_fechado_compra.sql');
       executaScript('estoque_fechado_venda.sql');
-      executaScript('listaProduto120.sql');
-      executaScript('listaProdutocli120.sql');
       executaScript('estoque_precomedio121.sql');
-      executaScript('rel_vendaCompra121.sql');
-      executaScript('spestoque121.sql');
       executaScript('estoque_view_custo121.sql');
       mudaVersao('1.0.0.121');
     end;// Fim Atualizacao Versao 1.0.0.121
 
     if (versaoSistema = '1.0.0.121') then
     begin
-      executaScript('invent_estoque122.sql');
       executaScript('view_estoque122.sql');
-
-      //executaScript('estoque_customedio122.sql');
-      executaScript('rel_vendaCompra122.sql');
       executaScript('imprimevendadata122.sql');
       executaScript('proibe_alt_del_nf122.sql');
       EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
@@ -1961,11 +1921,7 @@ begin
       EXECUTADDL('CFOP', 'TOTTRIB', 'CHAR(1)');
       EXECUTADDL('CFOP', 'FRETEBC', 'CHAR(1)');
       EXECUTADDL('CFOP', 'IPIBC', 'CHAR(1)');
-      executaScript('estoque_customedio123.sql');
-      executaScript('listaProdutocli123.sql');
-      executaScript('listaProduto123.sql');
       executaScript('sp_contas_recebidas123.sql');
-      executaScript('materiaprima_custo123.sql');
       executaScript('spestoqueproduto123.sql');
       executaScript('cfop_produtos123.sql');
       executaScript('estoque_view_custo123.sql');
@@ -2003,15 +1959,12 @@ begin
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
 
-      executaScript('spestoque122.sql');
       // Rotina nova para incluir e executar scripts.
       insereouatualizaScript('estoque_atualiza.sql', '1.1.0.0', StrToDate('04/12/2013'));
       insereouatualizaScript('filtroproduto.sql', '1.1.0.0', StrToDate('01/11/2013'));
       insereouatualizaScript('gera_cupom.sql', '1.1.0.0', StrToDate('01/11/2013'));
       insereouatualizaScript('gera_nf_compra.sql', '1.1.0.0', StrToDate('01/11/2013'));
       insereouatualizaScript('view_estoquelote.sql', '1.1.0.0', StrToDate('04/11/2013'));
-      insereouatualizaScript('spEstoqueFiltro.sql', '1.1.0.0', StrToDate('04/12/2013'));
-      MessageDlg('Execute o script trg_calcula_icms_st.sql.', mtWarning, [mbOK], 0);
       //insereouatualizaScript('', '1.1.0.0');
       AtualizandoScript('1.1.0.0');
       try
@@ -2027,8 +1980,8 @@ begin
       executaScript('listaSpEstoqueFiltro118.sql');
       executaScript('estoque_view118.sql');
 
-      insereouatualizaScript('relContasReceber.sql', '2.0.0.7', StrToDate('16/12/2013'));
       try
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM ATUALIZA WHERE SCRIPT = ' + QuotedStr('data_invalida.sql'));
         CriaException('DATA_INVALIDA', 'Data menor que o permitido.');
       except
       end;
@@ -2052,38 +2005,91 @@ begin
 
     if (versaoSistema = '2.0.0.19') then
     begin
-      insereouatualizaScript('gera_nf_venda.sql', '2.0.0.19', StrToDate('16/02/2014'));
       AtualizandoScript('2.0.0.19');
       mudaVersao('2.0.0.20');
     end;// Fim Atualizacao Versao 2.0.0.20
 
     if (versaoSistema = '2.0.0.20') then
     begin
-      insereouatualizaScript('relContasReceber.sql', '2.0.0.20', StrToDate('16/12/2013'));
       AtualizandoScript('2.0.0.20');
       mudaVersao('2.0.0.27');
     end;// Fim Atualizacao Versao 2.0.0.27
 
     if (versaoSistema = '2.0.0.27') then
     begin
-      insereouatualizaScript('spestoque.sql', '2.0.0.27', StrToDate('01/05/2014'));
       insereouatualizaScript('sp_mov_caixa.sql', '2.0.0.27', StrToDate('01/05/2014'));
       insereouatualizaScript('mat_prima_itens.sql', '2.0.0.27', StrToDate('01/05/2014'));
       insereouatualizaScript('sp_mov_caixa_ordem.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('gera_nf_venda.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('frete_nf.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('calcula_icms.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('relContasReceber.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('rel_vendaCompra.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('spEstoqueFiltro.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('listaProdutocli.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      insereouatualizaScript('listaProduto.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      //insereouatualizaScript('.sql', '2.0.0.27', StrToDate('01/05/2014'));
-      //insereouatualizaScript('.sql', '2.0.0.27', StrToDate('01/05/2014'));
       AtualizandoScript('2.0.0.27');
       mudaVersao('2.1.0.0');
     end;// Fim Atualizacao Versao 2.1.0.0
 
+    if (versaoSistema = '2.1.0.0') then
+    begin
+      mudaVersao('2.1.0.12');
+    end;// Fim Atualizacao Versao 1.0.0.118
+
+    if (versaoSistema = '2.1.0.12') then
+    begin
+      try
+        EXECUTADDL('MDFE', 'PROTOCOLOENV', 'VARCHAR(100)');
+      except
+      end;
+      AtualizandoScript('2.1.0.12');
+      mudaVersao('2.1.0.13');
+    end;// Fim Atualizacao Versao 2.1.0.13
+
+    if (versaoSistema = '2.1.0.13') then
+    begin
+      mudaVersao('3.0.0.2');
+    end;// Fim Atualizacao Versao 1.0.0.118
+
+    if (versaoSistema = '3.0.0.1') then
+    begin
+      AtualizandoScript('3.0.0.1');
+      mudaVersao('3.0.0.2');
+    end;
+
+    if (versaoSistema = '3.0.0.2') then
+    begin
+      insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/09/2014'));
+      insereouatualizaScript('busca_cfop.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      AtualizandoScript('3.0.0.2');
+      mudaVersao('3.0.0.3');
+    end;
+
+    if (versaoSistema = '3.0.0.3') then
+    begin
+      insereouatualizaScript('invent_estoque.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('frete_nf.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('spEstoqueFiltro.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('estoque_customedio.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('sp_mov_caixac.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('view_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('view_estoquelote.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('listaProduto.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('listaProdutocli.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('relContasReceber.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('spestoquegrupo.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('materiaprima_custo.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('spestoque.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('calcula_icms.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('rel_vendaCompra.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('trg_calcula_icms_st.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      //insereouatualizaScript('', '3.0.0.3', StrToDate('01/09/2014'));
+      AtualizandoScript('3.0.0.3');
+      mudaVersao('3.0.0.4');
+    end;
+
+    {if (versaoSistema = '3.0.0.4') then
+    begin
+      try
+        //EXECUTADDL('MATERIA_PRIMA', 'CUSTO', 'VALOR');
+      except
+      end;
+      mudaVersao('3.0.0.5');
+    end;}
 
 
     try
