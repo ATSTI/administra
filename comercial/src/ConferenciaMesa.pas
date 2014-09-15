@@ -55,8 +55,8 @@ begin
         TipoAcrescimoDesconto := '%';  // Por percentual
 
     // Função para Cancelar um registro de venda na imp. Restaurante
-    iRetorno := Bematech_FIR_ConferenciaMesa( txtMesa.Text, AcrescimoDesconto,
-                TipoAcrescimoDesconto, txtValorAcreDesc.Text);
+   // iRetorno := Bematech_FIR_ConferenciaMesa( txtMesa.Text, AcrescimoDesconto,
+   //             TipoAcrescimoDesconto, txtValorAcreDesc.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();

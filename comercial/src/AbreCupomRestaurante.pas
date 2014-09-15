@@ -34,7 +34,7 @@ uses Principal, UnitDeclaracoes;
 
 procedure TFormAbreCupomRestaurante.Button1Click(Sender: TObject);
 begin
-          iRetorno := Bematech_FIR_AbreCupomRestaurante(txtMesa.Text, txtCPF.Text);
+         // iRetorno := Bematech_FIR_AbreCupomRestaurante(txtMesa.Text, txtCPF.Text);
           frmPrincipal.Analisa_iRetorno();
           frmPrincipal.Retorno_Impressora();
 end;

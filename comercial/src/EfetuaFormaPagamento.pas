@@ -44,7 +44,7 @@ Procedure TFormEfetuaFormaPagamento.Button1Click(Sender: TObject);
          end;
       if Caption = 'Efetua Forma de Pagamento Imp Antiga' then
          begin
-            iRetorno := Bematech_FI_EfetuaFormaPagamentoImpAntiga( Edit1.Text, Edit2.Text );
+            //iRetorno := Bematech_FI_EfetuaFormaPagamentoImpAntiga( Edit1.Text, Edit2.Text );
             frmPrincipal.Analisa_iRetorno();
             frmPrincipal.Retorno_Impressora();
          end;
