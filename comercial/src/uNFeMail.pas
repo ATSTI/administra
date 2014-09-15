@@ -200,6 +200,20 @@ begin
         else
           sEmail.Params[0].Text := CNPJ;
           sEmail.Open;
+        if (sEmail.IsEmpty) then
+        begin
+          sEmail.Close;
+          sEmail.CommandText := ' select f.CODFORNECEDOR CODCLIENTE, f.NOMEFORNECEDOR NOMECLIENTE,'+
+             ' cast(f.RAZAOSOCIAL as varchar (60) )as RAZAOSOCIAL, ef.E_MAIL ' +
+             ' from FORNECEDOR f ' +
+             ' inner join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = f.CODFORNECEDOR ' +
+             ' where UDF_DIGITS(f.CNPJ) = :raz and ef .TIPOEND = 0 ';
+          if ( (StrLen(PChar(CPF))) > 0) then
+            sEmail.Params[0].Text := CPF
+          else
+            sEmail.Params[0].Text := CNPJ;
+            sEmail.Open;
+        end;
         if (sTransportadora.Active) then
           sTransportadora.Close;
         sTransportadora.Open;
