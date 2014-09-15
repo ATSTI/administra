@@ -458,7 +458,7 @@ begin
   str_Sql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
   str_Sql := str_sql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
   str_sql := str_sql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
-  str_sql := str_sql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, COMISSAO, PRAZO ';
+  str_sql := str_sql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, COMISSAO, PRAZO, CONTROLE, STATUS1 ';
   str_sql := str_sql + ') VALUES (';
   str_sql := str_sql + IntToStr(osfinaliza_codvenda);
   str_sql := str_sql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
@@ -548,6 +548,8 @@ begin
 
 
   str_sql := str_sql + ',' + QuotedStr(cbPrazo.Text);
+  str_sql := str_sql + ',' + IntToStr(dm_mov.Caixa_Conta);
+  str_sql := str_sql + ',' + QuotedStr('T'); // Uso isto no REceber para Gravar o CAIXA ...  
   str_sql := str_sql + ')';
 
   strSqlMov := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger) +

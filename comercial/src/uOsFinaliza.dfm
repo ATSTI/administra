@@ -1,6 +1,6 @@
 object fOsFinaliza: TfOsFinaliza
-  Left = 198
-  Top = 151
+  Left = 128
+  Top = 140
   Width = 847
   Height = 577
   Caption = 'Finalizar'
