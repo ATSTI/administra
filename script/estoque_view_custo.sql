@@ -134,6 +134,15 @@ BEGIN
    if (precocusto is null) THEN 
      precocusto = 0;   
 
+     SELECT FIRST 1 movdet.PRECO FROM MOVIMENTODETALHE movdet, MOVIMENTO mov            
+       WHERE (mov.CODMOVIMENTO = movdet.CODMOVIMENTO) 
+         and (movdet.codProduto = :Prod1) 
+         and (movdet.baixa IS NOT NULL) 
+         and (mov.CODNATUREZA = 4) 
+         and (mov.DATAMOVIMENTO <= :dta1)
+      order by mov.DATAMOVIMENTO desc
+      INTO :precoCompra;
+
    if (precocompra is null) THEN 
      precocompra = 0;   
    
