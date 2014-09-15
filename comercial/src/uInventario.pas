@@ -159,15 +159,22 @@ uses UDm, UDMNF;
 procedure TfInventario.btnProcClick(Sender: TObject);
 var sql, sqla: string;
 begin
+  if (cbCCusto1.Text = '') then
+  begin
+    MessageDlg('Informe o Local do Estoque.', mtWarning, [mbOK], 0);
+    cbCCusto1.SetFocus;
+    exit;
+  end;
+
   sqla := '';
   sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, ' +
     ' UNIDADEMEDIDA ,CATEGORIA , FAMILIA, LOTES ' +
     ' ,(SELECT ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
   sql := sql + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
   sql := sql + ', P.CODPRODUTO, ';
-  if (cbCCusto.ItemIndex > -1) then
+  if (cbCCusto1.ItemIndex > -1) then
   begin
-    if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+    if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
       sql := sql + IntToStr(cds_ccustoCODIGO.AsInteger);
   end
   else begin
@@ -199,11 +206,11 @@ begin
   begin
     sqla := sqla + ' AND CATEGORIA = ' + QuotedStr(edSubGrupo.Text);
   end;
-  if (cbCCusto.ItemIndex > -1) then
+  {if (cbCCusto1.ItemIndex > -1) then
   begin
-    if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+    if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
       sqla := sqla + ' AND CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
-  end;
+  end;}
 
   if (cdsProd.Active) then
     cdsProd.Close;
@@ -250,7 +257,6 @@ begin
   try
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
-    dm.sqlsisAdimin.StartTransaction(TD);
     While not cdsProd.Eof do
     begin
       if (cdsInvent.Active) then
@@ -262,10 +268,59 @@ begin
             sqlEstoque.Close;
           sqlEstoque.ParamByName('pProd').AsInteger := cdsProd.Fields[1].AsInteger;
           sqlEstoque.Open;
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+            while not sqlEstoque.Eof do
+            begin
+              lote := sqlEstoqueLOTE.asString;
+              sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
+                ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
+                QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+                ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
+                QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
+                QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
+              if (cbCCusto1.ItemIndex > -1) then
+              begin
+                sql := sql + ', ' + IntToStr(CCusto) + ',';
+              end
+              else begin
+                sql := sql + ', null,';
+              end;
+              sql := sql + QuotedStr(lote);
+              DecimalSeparator := '.';
+              sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
+              DecimalSeparator := ',';
+              sql := sql + ')';
 
-          while not sqlEstoque.Eof do
-          begin
-            lote := sqlEstoqueLOTE.asString;
+              if (chkTemEstoque.Checked) then
+              begin
+                if (cdsProd.fieldByname('ESTOQUE').AsFloat = 0) then
+                begin
+                  sqlEstoque.Next;
+                end
+                else begin
+                  dm.sqlsisAdimin.ExecuteDirect(sql);
+                  sqlEstoque.Next;
+                end;
+              end
+              else begin
+                dm.sqlsisAdimin.ExecuteDirect(sql);
+                sqlEstoque.Next;
+              end;
+            end;
+            dm.sqlsisAdimin.Commit(TD);
+          except
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            end;
+          end;
+
+        end
+        else begin
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
             sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
               ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
               QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
@@ -274,12 +329,12 @@ begin
               QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
             if (cbCCusto1.ItemIndex > -1) then
             begin
-              sql := sql + ', ' + IntToStr(CCusto) + ',';
+                sql := sql + ', ' + IntToStr(CCusto) + ',';
             end
             else begin
               sql := sql + ', null,';
             end;
-            sql := sql + ', ' + QuotedStr(lote);
+            sql := sql + QuotedStr(lote);
             DecimalSeparator := '.';
             sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
             DecimalSeparator := ',';
@@ -287,53 +342,28 @@ begin
             if (chkTemEstoque.Checked) then
             begin
               if (cdsProd.fieldByname('ESTOQUE').AsFloat = 0) then
-                sqlEstoque.Next
+              begin
+                //cdsProd.Next;
+              end
               else
                 dm.sqlsisAdimin.ExecuteDirect(sql);
             end
             else begin
               dm.sqlsisAdimin.ExecuteDirect(sql);
-              sqlEstoque.Next;
             end;
-          end;
-        end
-        else begin
-          sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-            ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
-            QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
-            ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
-            QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
-            QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
-          if (cbCCusto1.ItemIndex > -1) then
-          begin
-              sql := sql + ', ' + IntToStr(CCusto) + ',';
-          end
-          else begin
-            sql := sql + ', null,';
-          end;
-          sql := sql + QuotedStr(lote);
-          DecimalSeparator := '.';
-          sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
-          DecimalSeparator := ',';
-          sql := sql + ')';
-          if (chkTemEstoque.Checked) then
-          begin
-            if (cdsProd.fieldByname('ESTOQUE').AsFloat = 0) then
+            dm.sqlsisAdimin.Commit(TD);
+          except
+            on E : Exception do
             begin
-              //cdsProd.Next;
-            end
-            else
-              dm.sqlsisAdimin.ExecuteDirect(sql);
-          end
-          else begin
-            dm.sqlsisAdimin.ExecuteDirect(sql);
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            end;
           end;
         end;
       end;
       cdsProd.Next;
     end;
     cdsProd.EnableControls;
-    dm.sqlsisAdimin.Commit(TD);
   except
     on E : Exception do
     begin
@@ -541,7 +571,7 @@ begin
   cds_ccusto.First;
   while not cds_ccusto.Eof do
   begin
-    cbCCusto.Items.Add(cds_ccustoNOME.AsString);
+    //cbCCusto.Items.Add(cds_ccustoNOME.AsString);
     cbCCusto1.Items.Add(cds_ccustoNOME.AsString);
     cds_ccusto.Next;
   end;
@@ -679,9 +709,9 @@ begin
         ', LOTE      = ' + QuotedStr(cdsInventLOTE.AsString) +
         ', DATAVENCIMENTO    = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsInventDATAVENCIMENTO.AsDateTime)) +
         ', DATAFABRICACAO    = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsInventDATAFABRICACAO.AsDateTime)) +
-        ' WHERE CODIVENTARIO = ' +
-        QuotedStr(cdsInventCODIVENTARIO.AsString) +
-        ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
+        ' WHERE CODIVENTARIO = ' + QuotedStr(cdsInventCODIVENTARIO.AsString) +
+        ' AND CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger) +
+        ' AND LOTE = ' + QuotedStr(cdsInventLOTE.AsString);
       dm.sqlsisAdimin.ExecuteDirect(sql1);
       DecimalSeparator := ',';
       dm.sqlsisAdimin.Commit(TD);

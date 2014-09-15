@@ -682,6 +682,7 @@ inherited fInventario: TfInventario
       Width = 68
       Height = 13
       Caption = 'Local Estoque'
+      Visible = False
     end
     object Label9: TLabel
       Left = 8
@@ -926,6 +927,7 @@ inherited fInventario: TfInventario
       Height = 29
       Hint = 'Incluir Item Selecionado.'
       Caption = '-->'
+      Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clNavy
       Font.Height = -11
@@ -987,6 +989,7 @@ inherited fInventario: TfInventario
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 5
+      Visible = False
       OnChange = cbCCustoChange
       OnKeyPress = FormKeyPress
     end
