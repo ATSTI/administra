@@ -30,6 +30,7 @@ RETURNS ( CODPROD                          VARCHAR( 20 )
         , CLIFOR                           VARCHAR( 60 )
         , codlote                          integer
         , ANOTACOES                        VARCHAR( 100 )
+        , GRADE                            VARCHAR( 100 )
         , DATANF DATE
         , CODNATU SMALLINT
         , COD INTEGER
@@ -45,6 +46,7 @@ DECLARE VARIABLE SALDOFIM DOUBLE PRECISION = 0;
 DECLARE VARIABLE Acumula DOUBLE PRECISION = 0;
 DECLARE VARIABLE CODPRODU INTEGER = 0;
 DECLARE VARIABLE IMPRIME CHAR(1);
+DECLARE VARIABLE DP VARCHAR(300);
 BEGIN
     saida = 0;
     acumula = 0;
@@ -52,8 +54,10 @@ BEGIN
       CCUSTO = 1;
     /* SAIDA */
     FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA, movdet.CODPRODUTO, 
-        movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, prod.PRODUTO, prod.FAMILIA, prod.CATEGORIA, mov.OBS, prod.VALORUNITARIOATUAL, 
-        prod.VALOR_PRAZO
+        movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, 
+        COALESCE(movdet.DESCPRODUTO, prod.PRODUTO) 
+        , prod.FAMILIA, prod.CATEGORIA, mov.OBS, prod.VALORUNITARIOATUAL, 
+        prod.VALOR_PRAZO, UDF_LEFT(movdet.OBS,99), prod.PRODUTO
         FROM MOVIMENTO mov
         inner join VENDA v on v.CODMOVIMENTO = mov.CODMOVIMENTO 
         inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA 
@@ -77,23 +81,28 @@ BEGIN
                 , natu.BAIXAMOVIMENTO, natu.DESCNATUREZA
                 , mov.CODMOVIMENTO, movdet.DTAFAB, 
                 movdet.DTAVCTO, mov.CODALMOXARIFADO, 
-                mov.OBS, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO
+                mov.OBS, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.DESCPRODUTO,movdet.OBS
                 order by  l.codlote, mov.DATAMOVIMENTO, mov.CODMOVIMENTO, movdet.LOTE, prod.FAMILIA, prod.CATEGORIA, prod.CODPRO, prod.PRODUTO
                 , natu.BAIXAMOVIMENTO, mov.codNatureza desc, natu.DESCNATUREZA
                 
     INTO :codlote, :Datanf, :CODMOV, :CODNATU, :TIPOMOVIMENTO, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, 
-        :CODPROD, :PRODUTO, GRUPO, SUBGRUPOPROD, :ANOTACOES, :precounit, :valorVenda
+        :CODPROD, :PRODUTO, GRUPO, SUBGRUPOPROD, :ANOTACOES, :precounit, :valorVenda, :GRADE, :DP
     DO BEGIN
       if (lotes is null) then 
         lotes = '0';
       codLote = 0;
       codProduto = cod;
+      if (produto = '') then 
+        produto = dp;
       SUSPEND;
     end    
     /* ENTRADA */
-    FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA, movdet.CODPRODUTO, 
-        movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, prod.PRODUTO, prod.FAMILIA, prod.CATEGORIA, mov.OBS
-        , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO
+    FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA,
+         movdet.CODPRODUTO, 
+        movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO,
+         COALESCE(movdet.DESCPRODUTO, prod.PRODUTO) 
+         , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(movdet.OBS,99)
+        , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.OBS, prod.PRODUTO
         FROM MOVIMENTO mov
         inner join compra v on v.CODMOVIMENTO = mov.CODMOVIMENTO 
         inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA 
@@ -116,17 +125,19 @@ BEGIN
                 , natu.BAIXAMOVIMENTO, natu.DESCNATUREZA
                 , mov.CODMOVIMENTO, movdet.DTAFAB, 
                 movdet.DTAVCTO, mov.CODALMOXARIFADO, 
-                mov.OBS, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO
+                mov.OBS, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.DESCPRODUTO,movdet.OBS
                 order by  l.codlote, mov.DATAMOVIMENTO, mov.CODMOVIMENTO, movdet.LOTE, prod.FAMILIA, prod.CATEGORIA, prod.CODPRO, prod.PRODUTO
                 , natu.BAIXAMOVIMENTO, mov.codNatureza desc, natu.DESCNATUREZA
                 
     INTO :codlote, :Datanf, :CODMOV, :CODNATU, :TIPOMOVIMENTO, :COD, :LOTES, :DTAFAB, :DTAVCTO, :CCUSTOS, 
-        :CODPROD, :PRODUTO, GRUPO, SUBGRUPOPROD, :ANOTACOES, :precounit, :valorVenda
+        :CODPROD, :PRODUTO, GRUPO, SUBGRUPOPROD, :ANOTACOES, :precounit, :valorVenda, :GRADE, :dp
     DO BEGIN
       if (lotes is null) then 
          lotes = '0';
       codLote = 0;
       codProduto = cod;
+      if (produto = '') then 
+        produto = dp;
       SUSPEND;
     end    
     
