@@ -1151,7 +1151,7 @@ procedure TfACBrMDFe.btnGerarMDFeClick(Sender: TObject);
 var
  vAux : String;
 begin
-  if (modoAbertura = 'NOVO') then
+  if ((modoAbertura = 'NOVO') and (edNumMdfe.Text = ''))  then
   begin
     if (dm.sqlBusca.Active) then
      dm.sqlBusca.Close;
@@ -1159,9 +1159,12 @@ begin
     dm.sqlBusca.sql.Add('SELECT MAX(COD_MDFE) COD FROM MDFE');
     dm.sqlBusca.Open;
     if (dm.sqlBusca.fieldByName('COD').asInteger > 0) then
-     codMDFe := dm.sqlBusca.fieldByName('COD').asInteger + 1
+    begin
+     codMDFe := dm.sqlBusca.fieldByName('COD').asInteger + 1;
+    end
     else
      codMDFe := 1;
+    edNumMdfe.Text := IntToStr(codMdfe);
   end;
   if (modoAbertura = 'EDITAR') then
   begin
@@ -1202,6 +1205,9 @@ end;
 procedure TfACBrMDFe.btnCriarEnviarClick(Sender: TObject);
 var
  vAux, vNumLote : String;
+ vProtocoloEnv: String;
+ td: TTransactionDesc;
+ strInsere: String;
 begin
  {if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
   then exit;
@@ -1220,6 +1226,8 @@ begin
  LoadXML(MemoResp, WBResposta);
 
  PageControl2.ActivePageIndex := 5;
+ vProtocoloEnv := '';
+ vProtocoloEnv := ACBrMDFe1.WebServices.Retorno.Protocolo;
  MemoDados.Lines.Add('');
  MemoDados.Lines.Add('Envio MDFe');
  MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrMDFe1.WebServices.Retorno.TpAmb));
@@ -1230,6 +1238,23 @@ begin
  MemoDados.Lines.Add('xMsg: '+ ACBrMDFe1.WebServices.Retorno.Msg);
  MemoDados.Lines.Add('Recibo: '+ ACBrMDFe1.WebServices.Retorno.Recibo);
  MemoDados.Lines.Add('Protocolo: '+ ACBrMDFe1.WebServices.Retorno.Protocolo);
+
+  if (vProtocoloEnv <> '') then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    begin
+      dm.sc.StartTransaction(TD);
+      try
+        dm.sc.ExecuteDirect('UPDATE MDFE SET PROTOCOLOENV = ' + QuotedStr(vProtocoloEnv) +
+          ' WHERE COD_MDFE = ' + IntToStr(codMdfe));
+        dm.sc.Commit(TD); {on success, commit the changes};
+      except
+        MessageDlg('Erro para gravar o Protocolo.', mtError, [mbOK], 0);
+        dm.sc.Rollback(TD); {on failure, undo the changes};
+      end;
+    end;
+  end;
 
  ACBrMDFe1.Manifestos.Clear;
 end;
@@ -1536,6 +1561,7 @@ begin
     try
       dm.sc.ExecuteDirect('DELETE FROM MDFE WHERE COD_MDFE = ' + IntToStr(codMdfe));
       dm.sc.Commit(TD); {on success, commit the changes};
+      modoAbertura := 'NOVO';
     except
       MessageDlg('Erro para gravar a MDF-e.', mtError, [mbOK], 0);
       dm.sc.Rollback(TD); {on failure, undo the changes};
