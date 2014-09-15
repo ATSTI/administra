@@ -68,8 +68,8 @@ begin
         TipoAcrescimoDesconto := '%';  // Por percentual
 
     // Fecha o cupom
-    iRetorno := Bematech_FIR_FechaCupomRestaurante( txtFormaPagto.Text,AcrescimoDesconto,
-                TipoAcrescimoDesconto, txtValorAcreDesc.Text, txtValorPagto.Text, txtMensagem.Text);
+    //iRetorno := Bematech_FIR_FechaCupomRestaurante( txtFormaPagto.Text,AcrescimoDesconto,
+    //            TipoAcrescimoDesconto, txtValorAcreDesc.Text, txtValorPagto.Text, txtMensagem.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();

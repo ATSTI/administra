@@ -44,7 +44,7 @@ Close;
        end
     else
        begin
-         iRetorno := Bematech_FIR_FechaCupomResumidoRestaurante( Edit1.Text, Edit2.Text );
+         //iRetorno := Bematech_FIR_FechaCupomResumidoRestaurante( Edit1.Text, Edit2.Text );
          frmPrincipal.Analisa_iRetorno();
          frmPrincipal.Retorno_Impressora();
 

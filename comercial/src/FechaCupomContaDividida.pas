@@ -66,9 +66,9 @@ begin
         TipoAcrescimoDesconto := '%';  // Por percentual
 
     // Fecha o cupom com conta dividida
-    iRetorno := Bematech_FIR_FechaCupomContaDividida( txtCupons.Text, AcrescimoDesconto,
-                TipoAcrescimoDesconto, txtValorAcreDesc.Text, txtFormaPagto.Text,
-                txtValorFormaPagto.Text, txtValorCupomCliente.Text, txtCPF.Text);
+    //iRetorno := Bematech_FIR_FechaCupomContaDividida( txtCupons.Text, AcrescimoDesconto,
+    //            TipoAcrescimoDesconto, txtValorAcreDesc.Text, txtFormaPagto.Text,
+    //            txtValorFormaPagto.Text, txtValorCupomCliente.Text, txtCPF.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();

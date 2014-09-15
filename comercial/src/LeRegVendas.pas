@@ -34,7 +34,7 @@ procedure TFormLeRegVendas.btnOKClick(Sender: TObject);
 begin
     //--- Leitura dos Registros de Venda Pela Serial ---//
 
-    iRetorno := Bematech_FIR_RegistroVendaSerial(txtMesa.Text);
+    //iRetorno := Bematech_FIR_RegistroVendaSerial(txtMesa.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();

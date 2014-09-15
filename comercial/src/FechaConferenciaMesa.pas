@@ -56,8 +56,8 @@ begin
         TipoAcrescimoDesconto := '%';  // Por percentual
 
     // Fecha o cupom de conferência
-    iRetorno := Bematech_FIR_FechaConferenciaMesa( AcrescimoDesconto,
-                TipoAcrescimoDesconto, txtValorAcreDesc.Text);
+    //iRetorno := Bematech_FIR_FechaConferenciaMesa( AcrescimoDesconto,
+    //            TipoAcrescimoDesconto, txtValorAcreDesc.Text);
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
