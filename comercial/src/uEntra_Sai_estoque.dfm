@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 428
-  Top = 160
+  Left = 349
+  Top = 136
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -1115,7 +1115,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     PopupMenu = PopupMenu1
     TabOrder = 9
     OnExit = dbeProdutoExit
-    OnKeyPress = FormKeyPress
+    OnKeyPress = dbeProdutoKeyPress
   end
   object btnProdutoProcura: TBitBtn
     Left = 104

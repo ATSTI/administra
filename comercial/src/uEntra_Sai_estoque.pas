@@ -433,6 +433,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure MaskEdit1Change(Sender: TObject);
     procedure DBEdit5Exit(Sender: TObject);
+    procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
   private
     loteant : string;
     { Private declarations }
@@ -647,7 +648,7 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
   dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
     if ( (Edit1.Text = '') and (Edit1.Visible = true) ) then
     begin
@@ -864,6 +865,10 @@ begin
     // aqui corrijo o codigo do movimento na tabela mov_detalhe
     if (cds_Mov_detCODMOVIMENTO.AsInteger = 1999999) then
     begin
+      if (cds_Mov_detCODPRODUTO.IsNull) then
+      begin
+        cds_mov_det.Cancel;
+      end;
       cds_Mov_det.First;
       While not cds_Mov_det.Eof do
       begin
@@ -1277,9 +1282,24 @@ begin
   fProcura_prod.cbTipo.ItemIndex := -1;
   fProcura_prod.cbTipo.Text := '';
   fProcura_prod.btnIncluir.Visible := true;
-  fProcura_prod.Panel1.Visible := false;
-  fProcura_prod.Panel2.Visible := true;
-  fProcura_prod.BitBtn1.Click;
+
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    fProcura_prod.Panel1.Visible := false;
+    fProcura_prod.Panel2.Visible := true;
+    fProcura_prod.BitBtn1.Click;
+  end
+  else
+  begin
+    fProcura_prod.Panel2.Visible := true;
+    fProcura_prod.Panel2.Align := alTop;
+    fProcura_prod.Panel1.Visible := true;
+    fProcura_prod.Panel1.Align := alTop;
+    if (fProcura_prod.cds_proc.Active) then
+      fProcura_prod.cds_proc.Close;
+  end;
+
+
   cds_Mov_detLOTE.AsString := '';
   fProcura_prod.ShowModal;
   {  if fProcura_prod.ShowModal = mrOk then
@@ -1999,6 +2019,18 @@ end;
 procedure TfEntra_Sai_estoque.DBEdit5Exit(Sender: TObject);
 begin
   btnNovo.SetFocus;
+end;
+
+procedure TfEntra_Sai_estoque.dbeProdutoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+   if (dbeProduto.Text = '') then
+     btnProdutoProcura.Click;
+ end;
 end;
 
 end.
