@@ -399,6 +399,7 @@ end;
 procedure TfFiltroEstoque.BitBtn4Click(Sender: TObject);
 begin
   RepRel.FileName := str_relatorio + 'relfiltroestoque.rep';
+  RepRel.Title := RepRel.FileName;
   repRel.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   RepRel.Report.Params.ParamByName('DTA1').Value := StrToDate(medta1.Text);
   RepRel.Report.Params.ParamByName('DTA2').Value := StrToDate(medta2.Text);
