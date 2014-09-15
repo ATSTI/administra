@@ -148,6 +148,14 @@ type
     cdsCEP: TStringField;
     ListaClienteDATACADASTRO: TDateField;
     cdsDATACADASTRO: TDateField;
+    ListaClienteCFOP: TStringField;
+    ListaClienteNUMERO: TStringField;
+    ListaClienteBAIRRO: TStringField;
+    ListaClienteDDD: TStringField;
+    cdsCFOP: TStringField;
+    cdsNUMERO: TStringField;
+    cdsBAIRRO: TStringField;
+    cdsDDD: TStringField;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -243,10 +251,13 @@ begin
    QuotedStr('(') + ' || ende.DDD2 || ' + QuotedStr(')') + ' || ende.TELEFONE2 END ) as TELEFONE2, ' +
    '       (CASE when ende.DDD3 is null then  ende.FAX ELSE ' +
    QuotedStr('(') + ' || ende.DDD3 || ' + QuotedStr(')') + ' || ende.FAX END ) as FAX, ende.CIDADE, ' +
-   'ende.UF, ende.LOGRADOURO || ' + QuotedStr(', ') + '|| ende.BAIRRO as ENDERECO, ende.TELEFONE as FONE, '+
+   'ende.UF, ende.LOGRADOURO || ' + QuotedStr(', ') + ' || ende.NUMERO || ' + QuotedStr(', ') +
+   '|| ende.BAIRRO as ENDERECO, ende.TELEFONE as FONE, '+
    'cli.CODBANCO, cli.PRAZORECEBIMENTO, cli.OBS, rep.NOME_REPRCLI, ' +
    'usu.NOMEUSUARIO, fun.NOME_FUNCIONARIO, fun.TELEFONE, fun.CELULAR, ende.TELEFONE as tel, ende.E_mail, ' +
-   'cli.CODFISCAL, ende.CD_IBGE,ende.CEP, cli.DATACADASTRO from CLIENTES cli ' +
+   'cli.CODFISCAL, ende.CD_IBGE,ende.CEP, cli.DATACADASTRO' +
+   ' ,cli.CFOP ,ende.NUMERO ,ende.BAIRRO ,ende.DDD' + 
+   ' from CLIENTES cli ' +
    'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE=cli.CODCLIENTE ' +
    'left outer join USUARIO usu on usu.CODUSUARIO = cli.CODUSUARIO ' +
    'left outer join REPR_CLIENTE rep on rep.COD_CLIENTE=cli.CODCLIENTE ' +

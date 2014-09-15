@@ -813,6 +813,26 @@ object fListaClientes: TfListaClientes
         Expanded = False
         FieldName = 'CEP'
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CFOP'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CODUSUARIO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NUMERO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DDD'
+        Visible = True
       end>
   end
   object PopupMenu1: TPopupMenu
@@ -929,12 +949,13 @@ object fListaClientes: TfListaClientes
       'OMEUSUARIO,'#13#10'          fun.NOME_FUNCIONARIO,   '#13#10'          fun.T' +
       'ELEFONE, '#13#10'          fun.CELULAR,'#13#10'          ende.TELEFONE as te' +
       'l,'#13#10'          cli.CODFISCAL,'#13#10'          ende.CD_IBGE,'#13#10'         ' +
-      ' ende.CEP ,'#13#10'          cli.DATACADASTRO'#13#10#13#10'from CLIENTES cli '#13#10'l' +
-      'eft outer join ENDERECOCLIENTE ende '#13#10'on ende.CODCLIENTE=cli.COD' +
-      'CLIENTE'#13#10'left outer join REPR_CLIENTE rep '#13#10'on rep.COD_CLIENTE=c' +
-      'li.CODCLIENTE'#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARIO=c' +
-      'li.CODUSUARIO '#13#10'left outer join FUNCIONARIO fun  '#13#10'on fun.CODUSU' +
-      'ARIO = cli.CODUSUARIO '#13#10' '#13#10
+      ' ende.CEP ,'#13#10'          cli.DATACADASTRO'#13#10'          ,cli.CFOP'#13#10'  ' +
+      '        ,ende.NUMERO '#13#10'          ,ende.BAIRRO'#13#10'          ,ende.D' +
+      'DD'#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende '#13#10'o' +
+      'n ende.CODCLIENTE=cli.CODCLIENTE'#13#10'left outer join REPR_CLIENTE r' +
+      'ep '#13#10'on rep.COD_CLIENTE=cli.CODCLIENTE'#13#10'left outer join USUARIO ' +
+      'usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join FUNCION' +
+      'ARIO fun  '#13#10'on fun.CODUSUARIO = cli.CODUSUARIO '#13#10' '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1080,6 +1101,27 @@ object fListaClientes: TfListaClientes
       FieldName = 'DATACADASTRO'
       ReadOnly = True
       Required = True
+    end
+    object ListaClienteCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+    object ListaClienteNUMERO: TStringField
+      FieldName = 'NUMERO'
+      ReadOnly = True
+      Size = 5
+    end
+    object ListaClienteBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      ReadOnly = True
+      Size = 30
+    end
+    object ListaClienteDDD: TStringField
+      FieldName = 'DDD'
+      ReadOnly = True
+      Size = 3
     end
   end
   object dsp: TDataSetProvider
@@ -1235,6 +1277,27 @@ object fListaClientes: TfListaClientes
       ReadOnly = True
       Required = True
     end
+    object cdsCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+    object cdsNUMERO: TStringField
+      FieldName = 'NUMERO'
+      ReadOnly = True
+      Size = 5
+    end
+    object cdsBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsDDD: TStringField
+      FieldName = 'DDD'
+      ReadOnly = True
+      Size = 3
+    end
   end
   object sds_parametro: TSQLDataSet
     CommandText = 'select * from PARAMETRO'
@@ -1382,11 +1445,12 @@ object fListaClientes: TfListaClientes
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'doc'
-    FileName = 'DBGridExport.doc'
+    FileName = 'DBGridExport.csv'
     Filter = 
       'MS Word (*.doc)|*.doc|MS Excel (*.xls)|*.xls|HTML (*.htm;*.html)' +
       '|*.htm;*.html|CSV (*.csv;*.txt)|*.csv;*.txt|XML files (*.xml)|*.' +
       'xml'
+    FilterIndex = 4
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 288
     Top = 464
