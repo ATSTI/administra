@@ -70,6 +70,11 @@ begin
     inner join CLIENTES cli on cli.CODCLIENTE = ende.CODCLIENTE
      where m.CODMOVIMENTO = :CODMOV and ende.TIPOEND = 0
       into :uf, :cliente, :cfop_cli, :TF;
+    if (uf is null) then 
+      uf = 'SP';  
+    
+    if (cfop_cli is null)then
+      cfop_cli = '';
     
     cfop_ = cfop;
     if (uf <> 'SP') then 
