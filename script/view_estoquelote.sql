@@ -4,6 +4,7 @@ RETURNS
 CODPRODUTO INTEGER , 
 PRODUTO VARCHAR(300),
 LOTE VARCHAR(30),
+GRADE VARCHAR(30),
 ENTRADA double precision, 
 SAIDA double precision,
 saldo double precision,
@@ -11,15 +12,15 @@ datafabricacao date,
 datavencimento date)
 AS
 begin 
-  FOR SELECT DISTINCT P.CODPRO, Md.CODPRODUTO, p.PRODUTO, COALESCE(md.LOTE,0) LOTE
+  FOR SELECT DISTINCT P.CODPRO, Md.CODPRODUTO, p.PRODUTO, COALESCE(md.LOTE,0) LOTE, UDF_LEFT(md.OBS, 29)
        FROM MOVIMENTO M, MOVIMENTODETALHE MD, PRODUTOS P 
       WHERE M.CODMOVIMENTO = md.CODMOVIMENTO 
         AND P.CODPRODUTO = md.CODPRODUTO
         AND ((MD.codproduto = :CODPRODUT) OR (:CODPRODUT = 0))
         AND ((md.LOTE = :LOTE_PESQ) OR (:LOTE_PESQ = '0'))
         AND (MD.BAIXA IS NOT NULL)
-      GROUP BY P.CODPRO, Md.CODPRODUTO, p.PRODUTO, COALESCE(md.LOTE,0)
-      INTO :codpro, :codproduto, :produto, :lote 
+      GROUP BY P.CODPRO, Md.CODPRODUTO, p.PRODUTO, COALESCE(md.LOTE,0),md.OBS
+      INTO :codpro, :codproduto, :produto, :lote , :GRADE
       DO BEGIN 
         For select SUM(m1.QUANTIDADE), m1.DTAFAB, m1.DTAVCTO FROM MOVIMENTODETALHE M1 
          WHERE M1.CODPRODUTO = :CODPRODUTO 
