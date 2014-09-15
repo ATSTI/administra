@@ -72,6 +72,10 @@ type
     procedure setValorRateio(const Value: Double);
     function getValorComissao: Double;
     procedure setValorComissao(const Value: Double);
+    function getControle: String;
+    function getStatus1: String;
+    procedure setControle(const Value: String);
+    procedure setStatus1(const Value: String);
   protected
     //Atributos
     _codVenda     : Integer;
@@ -103,6 +107,8 @@ type
     _formaRec     : String;
     _nDoc         : String;
     _obs          : String;
+    _controle     : String;
+    _status1      : String;
     _ValorCaixinha  : Double;
     _ValorRateio  : Double;
     _ValorComissao : Double;
@@ -141,6 +147,8 @@ type
     property FormaRec    : String read getFormaRec  write setFormaRec;
     property NDoc        : String read getNDoc  write setNDoc;
     property Obs         : String read getObs  write setObs;
+    property Controle    : String read getControle  write setControle;
+    property Status1     : String read getStatus1  write setStatus1;        
     property ValorCaixinha  : Double read getValorCaixinha write setValorCaixinha;
     property ValorRateio    : Double read getValorRateio write setValorRateio;
     property ValorComissao  : Double read getValorComissao write setValorComissao;
@@ -282,6 +290,11 @@ begin
   Result := _codVendedor;
 end;
 
+function TVendaCls.getControle: String;
+begin
+  Result := _controle;
+end;
+
 function TVendaCls.getDataVcto: TDateTime;
 begin
   Result := _dataVcto;
@@ -377,6 +390,11 @@ begin
   Result := _status;
 end;
 
+function TVendaCls.getStatus1: String;
+begin
+  Result := _status1;
+end;
+
 function TVendaCls.getValor: Double;
 begin
   Result := _valor;
@@ -444,7 +462,7 @@ begin
   str := str + 'NOTAFISCAL, SERIE, DESCONTO, CODCCUSTO, N_PARCELA, FORMARECEBIMENTO, ';
   str := str + 'N_DOCUMENTO, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, ';
   str := str + 'OBS, VALOR_ICMS, VALOR_FRETE, VALOR_SEGURO, OUTRAS_DESP, ';
-  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC, CAIXINHA, RATEIO, COMISSAO) VALUES (';
+  str := str + 'VALOR_IPI, PRAZO, PORCENTAGENDESC, CAIXINHA, RATEIO, COMISSAO, CONTROLE, STATUS1) VALUES (';
   str := str + IntToStr(Self.CodVenda)    + ', ' + IntToStr(Self.CodMov)       + ', ';
   str := str + IntToStr(Self.CodCliente)  + ', ';
   str := str + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVenda))          + ', ';
@@ -467,8 +485,10 @@ begin
   str := str + QuotedStr(Self.Prazo)      + ', ' + FloatToStr(Self.PercentDesc)+ ',';
   str := str + FloatToStr(Self.ValorCaixinha)     + ', ';
   str := str + FloatToStr(Self.ValorRateio)     + ',';
-  str := str + FloatToStr(Self.ValorComissao)     + ')';
-
+  str := str + FloatToStr(Self.ValorComissao)     + ',';
+  str := str + QuotedStr(Self.Controle) + ',';
+  str := str + QuotedStr(Self.Status1);
+  str := str + ')';
   DecimalSeparator := '.';
 
   if (executaSql(str)) then
@@ -515,6 +535,11 @@ end;
 procedure TVendaCls.setCodVendedor(const Value: Integer);
 begin
   _codVendedor := Value;
+end;
+
+procedure TVendaCls.setControle(const Value: String);
+begin
+  _controle := Value;
 end;
 
 procedure TVendaCls.setDataVcto(const Value: TDateTime);
@@ -610,6 +635,11 @@ end;
 procedure TVendaCls.setStatus(const Value: Integer);
 begin
   _status := Value;
+end;
+
+procedure TVendaCls.setStatus1(const Value: String);
+begin
+  _status1 := Value;
 end;
 
 procedure TVendaCls.setValor(const Value: Double);
