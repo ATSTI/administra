@@ -6,7 +6,7 @@ uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
   Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
-  XmlRpcClient, XmlRpcTypes;
+  XmlRpcClient, XmlRpcTypes, IniFiles;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -2049,12 +2049,14 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
-
+    linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
+    linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos, linhaTamanho : String;  //VARIAVEIS IMPRESSAO
     //CUPOM
     varCOD_VENDA, varCOD_MOV : integer;
     situacaoCaixa, vTipoFiscal : string;
     //CUPOM
     origemProdutoCfop: Integer;
+    CLIENTECONSULTA : Integer;
     cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;
@@ -2087,6 +2089,7 @@ type
     procedure verificaTamCampo;
     procedure EstoqueAtualiza(codMovimento: integer);
     function validaClienteParaNF(codCliente: Integer): Boolean;
+    function validaClienteParaVenda(codCliente: Integer): String;
     function cfopCalculoFiscal(cfop, tipoFiscal, UF: String;
      origemProduto, codProduto: Integer; ncm: String): String;
   end;
@@ -2116,6 +2119,7 @@ uses md5, uEstoqueAtualiza, Math;
 procedure TDM.DataModuleCreate(Sender: TObject);
 var index, I: integer;
   s, sqlT : String;
+  ImpressoraDet: TIniFile;
 begin
   sistemaLiberado := 'S';
   danfeDec := 2;
@@ -2415,6 +2419,24 @@ begin
       end;
     end;
   end;
+
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CLIENTECONSULTA';
+  cds_parametro.Open;
+  CLIENTECONSULTA := 0;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    if ((dm.cds_parametroD1.AsString <> '') and (dm.cds_parametroD1.AsString <> '0')) then
+    begin
+      Try
+        CLIENTECONSULTA := strToint(dm.cds_parametroD1.AsString);
+      Except
+        CLIENTECONSULTA := 0;
+      end;
+    end;
+  end;
+
   verificaTamCampo;
 
   if cds_parametro.Active then
@@ -2432,6 +2454,37 @@ begin
     videoH := cds_parametroD2.AsString;
   end;
 
+
+  linhaTracejada  := '------------------------';
+  linhaTituloItem := 'UN  Qtde  V.Un.  V.Total';
+  linhaDescItem   := '30';
+  linhaItemUn     := '%-2s';
+  linhaItemQtde   :='%5.2n';
+  linhaItemVlUnit := '%7.2n';
+  linhaItemVlTotal := '%12.2n';
+  linhaTotal      := '%18s';
+  qntespacos      := '6';
+  linhaTamanho    := '38';
+  recortacupom   := '';
+
+  ImpressoraDet := TIniFile.Create('dbxconnections.ini');
+  try
+    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
+    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
+    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
+    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
+    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
+    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
+    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
+    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
+    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
+    recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
+    linhaTamanho := ImpressoraDet.ReadString('IMPRESSORA', 'linhatamanho', '');
+    if (linhaTamanho = '') then
+      linhaTamanho    := '38';
+  finally
+    ImpressoraDet.Free;
+  end;
 
 end;
 
@@ -3574,6 +3627,53 @@ begin
   begin
     result := 'ESTADO_ICMS';
     exit;
+  end;
+end;
+
+function TDM.validaClienteParaVenda(codCliente: Integer): String;
+begin
+  {if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('select c.* from CLIENTES c ' +
+    ' where c.codCliente = ' + IntToStr(codCliente));
+  sqlBusca.Open;
+
+  if (sqlBusca.fieldByName('BLOQUEIO').AsString = 'S') then
+  begin
+    result := 'Cliente com cadastro "BLOQUEADO",  venda não permitida.';
+    exit
+  end;}
+
+  // Consulta de Cadastro
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CLIENTECONSULTA';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  if ((cds_parametroD1.AsString <> '0') and (cds_parametroD1.AsString <> '')) then
+  begin
+    if (cdsBusca.Active) then
+      cdsBusca.Close;
+    cdsBusca.CommandText := 'select c.DTAALTERA ' +
+      '  from clientes c ' +
+      ' where c.CODCLIENTE = ' + IntToStr(codCliente);
+    cdsBusca.Open;
+    if (not cdsBusca.IsEmpty) then
+    begin
+      if (cdsBusca.fieldByName('DTAALTERA').AsDateTime = 0) then
+      begin
+        result := 'Cadastro com Consulta desatualizada.';
+        exit;
+      end;
+      if ((now + StrToInt(cds_parametroD1.AsString)) < cdsBusca.fieldByName('DTAALTERA').AsDateTime) then
+      begin
+        result := 'Cadastro com Consulta desatualizada.';
+      end;
+    end;
+  end
+  else begin
+    result := '';
   end;
 end;
 
