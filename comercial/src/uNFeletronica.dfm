@@ -22,7 +22,7 @@ object fNFeletronica: TfNFeletronica
     Top = 0
     Width = 867
     Height = 553
-    ActivePage = CCe
+    ActivePage = NFe
     TabOrder = 0
     object NFe: TTabSheet
       Caption = 'NFe'
@@ -800,6 +800,30 @@ object fNFeletronica: TfNFeletronica
             end
           end
         end
+        object TabSheet9: TTabSheet
+          Caption = 'SVCAN'
+          ImageIndex = 8
+          object btnSVCAN: TBitBtn
+            Left = 42
+            Top = 48
+            Width = 91
+            Height = 36
+            Caption = 'Pr'#233' Visualizar'
+            Enabled = False
+            TabOrder = 0
+            OnClick = btnSVCANClick
+          end
+          object btnSvcanGera: TBitBtn
+            Left = 156
+            Top = 48
+            Width = 91
+            Height = 36
+            Caption = 'NF-e SVCAN'
+            Enabled = False
+            TabOrder = 1
+            OnClick = btnSvcanGeraClick
+          end
+        end
         object TabSheet2: TTabSheet
           Caption = 'Contige. FS'
           ImageIndex = 1
@@ -1069,18 +1093,34 @@ object fNFeletronica: TfNFeletronica
           object Label15: TLabel
             Left = 8
             Top = 32
-            Width = 211
+            Width = 208
             Height = 13
-            Caption = 'Mudar o Status da nota para CANCELADA : '
+            Caption = 'Muda o Status da nota para CANCELADA : '
+          end
+          object Label16: TLabel
+            Left = 9
+            Top = 69
+            Width = 206
+            Height = 13
+            Caption = 'Muda o Status da nota para N'#227'o Enviada : '
           end
           object btnAlteraStatus: TBitBtn
             Left = 232
             Top = 24
             Width = 113
             Height = 25
-            Caption = 'Confirma'
+            Caption = 'Status CANCELADA'
             TabOrder = 0
             OnClick = btnAlteraStatusClick
+          end
+          object btnStatusNaoEnviada: TBitBtn
+            Left = 232
+            Top = 64
+            Width = 113
+            Height = 25
+            Caption = 'Status N'#195'O ENVIADA'
+            TabOrder = 1
+            OnClick = btnStatusNaoEnviadaClick
           end
         end
       end
@@ -1321,7 +1361,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox

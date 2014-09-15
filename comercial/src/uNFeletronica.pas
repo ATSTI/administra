@@ -701,6 +701,11 @@ type
     TabSheet8: TTabSheet;
     Label15: TLabel;
     btnAlteraStatus: TBitBtn;
+    btnStatusNaoEnviada: TBitBtn;
+    Label16: TLabel;
+    TabSheet9: TTabSheet;
+    btnSVCAN: TBitBtn;
+    btnSvcanGera: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -745,6 +750,9 @@ type
     procedure chkScanClick(Sender: TObject);
     procedure btnAbaPrincipalClick(Sender: TObject);
     procedure btnAlteraStatusClick(Sender: TObject);
+    procedure btnStatusNaoEnviadaClick(Sender: TObject);
+    procedure btnSVCANClick(Sender: TObject);
+    procedure btnSvcanGeraClick(Sender: TObject);
 
   private
     tpNFe : integer;
@@ -967,9 +975,19 @@ begin
    begin
       if (cdsNFSELECIONOU.AsString = 'S') then
       begin
-        if(not cdsNFPROTOCOLOENV.IsNull) then
+        if (cdsNFSTATUS.AsString = 'E') then
+        begin
+          MessageDlg('Nota com Status ENVIADO, altere o Status na aba OUTROS para reenviar.',mtWarning,[mbOk],0);
           exit;
-
+        end;
+        if(not cdsNFPROTOCOLOENV.IsNull) then
+        begin
+          if (cdsNFPROTOCOLOENV.AsString <> '') then
+          begin
+            MessageDlg('Nota com Protocolo de Envio(já enviada, portanto), use o botão Imprimir Danfe.',mtWarning,[mbOk],0);
+            exit;
+          end
+        end;
         tipoNota := trim(cdsNFCFOP.AsString)[1];
         if (tipoNota in ['1','2','3']) then
           tpNFe := 0;
@@ -1070,6 +1088,11 @@ begin
               Ide.dhCont    := Now;
               InputQuery('Justificativa de entrada em Contingência', 'Justificativa', vAux);
               Ide.xJust     := vAux;
+            end
+            else if (tp_amb = 6) then
+            begin
+              Ide.tpEmis    := teSVCAN;
+              Ide.serie     := 1;
             end;
             if( (cdsNFIDCOMPLEMENTAR.IsNull) or (cdsNFIDCOMPLEMENTAR.AsString = '')) then
               ide.finNFe    := fnNormal
@@ -1245,31 +1268,36 @@ begin
 
    if ( (tp_amb = 2) or (tp_amb = 5)) then
    begin
-     ACBrNFe1.NotasFiscais.Assinar;
-     ACBrNFe1.NotasFiscais.Valida;
-     TD.TransactionID := 1;
-     TD.IsolationLevel := xilREADCOMMITTED;
-     DecimalSeparator := '.';
+     Try
+       ACBrNFe1.NotasFiscais.Assinar;
+       ACBrNFe1.NotasFiscais.Valida;
+       TD.TransactionID := 1;
+       TD.IsolationLevel := xilREADCOMMITTED;
+       DecimalSeparator := '.';
 
-     dm.sqlsisAdimin.StartTransaction(TD);
-     try
-       str := 'UPDATE NOTAFISCAL SET ';
-       str := str + ' XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-       //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
-       str := str + ', STATUS = ' + QuotedStr('E');
-       str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
-       dm.sqlsisAdimin.ExecuteDirect(str);
-       dm.sqlsisAdimin.Commit(TD);
+       dm.sqlsisAdimin.StartTransaction(TD);
+       try
+         str := 'UPDATE NOTAFISCAL SET ';
+         str := str + ' XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
+         //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+         str := str + ', STATUS = ' + QuotedStr('E');
+         str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+         dm.sqlsisAdimin.ExecuteDirect(str);
+         dm.sqlsisAdimin.Commit(TD);
+       except
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         end;
+       end;
      except
        on E : Exception do
        begin
          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         exit;
        end;
      end;
-
-
-
      //SALVA NFe e NOMEXML no BD
      DecimalSeparator := ',';
      ACBrNFe1.NotasFiscais.Imprimir;
@@ -1313,51 +1341,59 @@ begin
    end
    else
    begin
-     ACBrNFe1.Enviar(0);
-     AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
-     ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
-     ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
-
-     Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
-     Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
-
-     if (envemail = 'S') then
-     begin
-       if (cbTipoNota.ItemIndex = 1) then
-       begin
-         if (not sClienteE_MAIL.IsNull) then
-           EnviaEmail
-         else
-           MessageDlg('Não foi possivel Enviar o Email, pois o cliente não possui email em seu cadastro.', mtError, [mbOK], 0);
-       end;
-     end;
-    //PEGA A RESPOSTA
-     TD.TransactionID := 1;
-     TD.IsolationLevel := xilREADCOMMITTED;
-
-     dm.sqlsisAdimin.StartTransaction(TD);
      try
-       //SALVA NFe, PROTOCOLOS e NOMEXML no BD
-       str := 'UPDATE NOTAFISCAL SET ';
-       str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-       //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
-       str := str + ', STATUS = ' + QuotedStr('E');
-       if (Protocolo <> '') then
-         str := str + ', PROTOCOLOENV = ' + quotedStr(Protocolo);
-       if (Recibo <> '') then
-         str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
-       str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
-       dm.sqlsisAdimin.ExecuteDirect(str);
-       dm.sqlsisAdimin.Commit(TD);
+       ACBrNFe1.Enviar(0);
+       AcbrNfe1.Configuracoes.Geral.PathSalvar := sempresaDIVERSOS1.AsString;
+       ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
+       ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
+
+       Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+       Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
+
+       if (envemail = 'S') then
+       begin
+         if (cbTipoNota.ItemIndex = 1) then
+         begin
+           if (not sClienteE_MAIL.IsNull) then
+             EnviaEmail
+           else
+             MessageDlg('Não foi possivel Enviar o Email, pois o cliente não possui email em seu cadastro.', mtError, [mbOK], 0);
+         end;
+       end;
+      //PEGA A RESPOSTA
+       TD.TransactionID := 1;
+       TD.IsolationLevel := xilREADCOMMITTED;
+
+       dm.sqlsisAdimin.StartTransaction(TD);
+       try
+         //SALVA NFe, PROTOCOLOS e NOMEXML no BD
+         str := 'UPDATE NOTAFISCAL SET ';
+         str := str + '  XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
+         //str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+         str := str + ', STATUS = ' + QuotedStr('E');
+         if (Protocolo <> '') then
+           str := str + ', PROTOCOLOENV = ' + quotedStr(Protocolo);
+         if (Recibo <> '') then
+           str := str + ', NUMRECIBO = ' + QuotedStr(Recibo);
+         str := str + ' WHERE NUMNF = ' + IntToStr(codnf);
+         dm.sqlsisAdimin.ExecuteDirect(str);
+         dm.sqlsisAdimin.Commit(TD);
+       except
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         end;
+       end;
+
+       DecimalSeparator := ',';
      except
        on E : Exception do
        begin
          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         exit;
        end;
      end;
-
-     DecimalSeparator := ',';
    end;
 
    btnListar.Click;
@@ -1988,6 +2024,11 @@ var
     else if (tp_amb = 5) then
     begin
       Ide.tpEmis    := teFSDA;
+      Ide.serie     := 1;
+    end
+    else if (tp_amb = 6) then
+    begin
+      Ide.tpEmis    := teSVCAN;
       Ide.serie     := 1;
     end;
 
@@ -3325,6 +3366,47 @@ begin
       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
     end;
   end;
+end;
+
+procedure TfNFeletronica.btnStatusNaoEnviadaClick(Sender: TObject);
+var strNEnv: String;
+begin
+  if  MessageDlg('Confirma a alteração de Status da NF : ' + cdsNFNOTASERIE.AsString + ' ?', mtConfirmation, [mbYes, mbNo],0) = mrNo then
+    exit;
+  if (Length(cdsNFPROTOCOLOENV.AsString) > 5) then
+  begin
+    MessageDlg('Nota com protocolo de envio, utilize o botão imprimir DANFE.',mtWarning,[mbOk],0);
+    exit;
+  end;
+  strNEnv := 'UPDATE NOTAFISCAL SET STATUS = Null, PROTOCOLOENV = Null ' +
+  ' WHERE NUMNF = ' + IntToStr(cdsNFNUMNF.AsInteger);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(strNEnv);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
+end;
+
+procedure TfNFeletronica.btnSVCANClick(Sender: TObject);
+begin
+  tp_amb := 6;
+  BtnPreVisClick(Sender);
+  tp_amb := 1;
+end;
+
+procedure TfNFeletronica.btnSvcanGeraClick(Sender: TObject);
+begin
+  tp_amb := 6;
+  btnGeraNFe.Click;
+  tp_amb := 1;
 end;
 
 end.
