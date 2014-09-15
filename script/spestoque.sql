@@ -1,4 +1,3 @@
-set term ^;
 CREATE OR ALTER PROCEDURE SPESTOQUE (
     DTA1 date,
     DTA2 date,
