@@ -184,16 +184,19 @@ begin
   sqlTotalVendas.SQL.Clear;
   sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(VALORVENDA),0) TOTAL FROM VIEW_VENDA ' +
     ' WHERE DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
-    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)));
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date))+
+    '   AND COD_CAIXA = ' + IntToStr(caixaMovCaixa));
   sqlTotalVendas.Open;
   totalVendas := sqlTotalVendas.FieldByName('TOTAL').AsFloat;
 
   if (sqlTotalVendas.Active) then
     sqlTotalVendas.Close;
   sqlTotalVendas.SQL.Clear;
-  sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(DESCONTO),0) DESCONTO FROM VENDA ' +
-    ' WHERE DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
-    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)));
+  sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(v.DESCONTO),0) DESCONTO FROM VENDA v, MOVIMENTO m ' +
+    ' WHERE v.CODMOVIMENTO = m.CODMOVIMENTO ' +
+    '   AND v.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)) +
+    '   AND m.COD_VEICULO = ' + IntToStr(caixaMovCaixa)); // COD_VEICULO = CAIXA
   sqlTotalVendas.Open;
 
   edTotalVendas.Value := totalVendas - sqlTotalVendas.FieldByName('DESCONTO').AsFloat;
