@@ -497,7 +497,7 @@ begin
   cCusto := 0;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
-  sqltexto1 :='select rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ';
+  {sqltexto1 :='select rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ';
   sqltexto1 := sqltexto1 + ' rec.DATAVENCIMENTO, rec.CODCLIENTE, rec.VALORTITULO, ';
   sqltexto1 := sqltexto1 + ' rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.STATUS, rec.STATUSP,';
   sqltexto1 := sqltexto1 + ' rec.DATARECEBIMENTO, rec.VALORRECEBIDO, rec.DESCONTO, ';
@@ -506,6 +506,36 @@ begin
   sqltexto1 := sqltexto1 + ' rec.NOMECLIENTE, rec.RAZAOSOCIAL, rec.CODMOVIMENTO, ';
   sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec, rec.CODIGOBOLETO ';
   sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure
+  }
+  sqltexto1 :='SELECT rec.STATUS, rec.DATARECEBIMENTO ';
+  sqltexto1 := sqltexto1 + ',(COALESCE(rec.VALORRECEBIDO,0) + COALESCE(rec.JUROS,0)+ COALESCE(rec.FUNRURAL,0)) valorRecebido ';
+  sqltexto1 := sqltexto1 + ',(COALESCE(rec.VALORRECEBIDO,0) + COALESCE(rec.JUROS,0)+ COALESCE(rec.FUNRURAL,0)) saldo ';
+  sqltexto1 := sqltexto1 + ',(COALESCE(rec.valor_resto,0) - COALESCE(rec.VALORRECEBIDO,0) + COALESCE(rec.JUROS,0)+ COALESCE(rec.FUNRURAL,0) ' +
+     ' - COALESCE(rec.PERDA,0) - COALESCE(rec.DESCONTO,0)) VALORREC ';
+  sqltexto1 := sqltexto1 + ',COALESCE(rec.DESCONTO,0) desconto ';
+  sqltexto1 := sqltexto1 + ',UDF_PADL(CAST(UDF_TRIM(rec.VIA) AS VARCHAR(3)),0,3) || ' + QuotedStr('/') + ' || ' +
+     ' CAST(UDF_PADL(rec.PARCELAS,0,3) as varchar(3)) as VIA ';
+  sqltexto1 := sqltexto1 + ',rec.N_DOCUMENTO, rec.EMISSAO, rec.CODRECEBIMENTO ';
+  sqltexto1 := sqltexto1 + ',rec.TITULO, rec.DATAVENCIMENTO, COALESCE(rec.VALOR_RESTO,0) valor_resto ';
+  sqltexto1 := sqltexto1 + ',cli.NOMECLIENTE,rec.CODCLIENTE, rec.HISTORICO';
+  sqltexto1 := sqltexto1 + ',CASE rec.DESCONTADO WHEN ' + QuotedStr('S') + ' THEN ' +
+     QuotedStr('DESCONTADO') + ' ELSE CASE rec.STATUS WHEN ' + QuotedStr('5-') + ' THEN ' +
+     QuotedStr('PENDENTE') + ' WHEN ' + QuotedStr('7-') + ' THEN ' + QuotedStr('RECEBIDO') +
+     ' WHEN ' + QuotedStr('8-') + ' THEN ' + QuotedStr('CRED. DUVIDOSO') + ' WHEN ' +
+     QuotedStr('9-') + ' THEN ' + QuotedStr('EM COBRANCA') +
+     ' WHEN ' + QuotedStr('10') + ' THEN ' + QuotedStr('NOVO TITULO') + ' WHEN ' +
+     QuotedStr('3-') + ' THEN ' + QuotedStr('PROTESTO') + 'ELSE ' + QuotedStr('OUTROS') + ' END END AS STATUSP ';
+  sqltexto1 := sqltexto1 + ',cli.RAZAOSOCIAL , rec.CODVENDEDOR, rec.DP, rec.DUP_REC_NF, ';
+  sqltexto1 := sqltexto1 + 'COALESCE(rec.CODVENDA,0) codvenda, rec.FORMARECEBIMENTO ,rec.BL, ';
+  sqltexto1 := sqltexto1 + 'COALESCE(rec.VALOR_PRIM_VIA,0) VALORTITULO, rec.CODIGOBOLETO, v.CODMOVIMENTO, ';
+  sqltexto1 := sqltexto1 + 'COALESCE(rec.VALOR_PRIM_VIA,0) VALOR_PRIM_VIA, '; 
+  sqltexto1 := sqltexto1 + 'case when via = '+ QuotedStr('01/01') + ' then valortitulo else 0 end as valor_prim_via, ';
+  sqltexto1 := sqltexto1 + 'case when via = '+ QuotedStr('01/01') + ' then valortitulo else 0 end as saldo ';
+
+  sqltexto1 := sqltexto1 + ' FROM RECEBIMENTO rec ';
+  sqltexto1 := sqltexto1 + ' inner join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE ';
+  sqltexto1 := sqltexto1 + ' left outer join venda v on v.CODVENDA = rec.CODVENDA ';
+
   SqlCr := ' WHERE (rec.STATUS <> ' + QuotedStr('NF') + ')';;//
 
   datastr:='  /  /  ';
