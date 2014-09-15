@@ -266,7 +266,7 @@ begin
   inherited;
   fFamilia:=TfFamilia.Create(Application);
   try
-    origem_abriu := 'planocontas';
+    fFamilia.origem_abriu := 'planocontas';
     fFamilia.ShowModal;
   finally
     fFamilia.Free;
@@ -305,7 +305,7 @@ begin
   inherited;
   fCategoria:=TfCategoria.Create(Application);
   try
-    origem_a_cat := 'planocontas';
+    fCategoria.origem_a_cat := 'planocontas';
     fCategoria.ShowModal;
   finally
     fCategoria.Free;
