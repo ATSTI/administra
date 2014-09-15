@@ -827,6 +827,8 @@ begin
       FVen.ValorCaixinha        := JvCaixinha.Value;
       FVen.ValorRateio          := JvRateio.Value;
       FVen.ValorComissao        := JvComissao.Value;
+      FVen.Controle             := IntToStr(dm_mov.Caixa_Conta);
+      FVen.Status1              := 'T';
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
       //if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
@@ -1072,7 +1074,7 @@ begin
      Writeln(Impressora, c17cpi, logradouro);
      Writeln(Impressora, cep);
      Writeln(Impressora, fone);
-     Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+     //Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
      Writeln(Impressora, cliente);
      Writeln(Impressora, c17cpi, texto);
      Writeln(Impressora, c17cpi, texto1);
@@ -1101,7 +1103,7 @@ begin
       end;
       DM_MOV.c_movdet.next;
      end;
-     Texto5 := 'Total.: R$';     
+     Texto5 := 'Total.: R$';
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c17cpi, texto);
      Write(Impressora, c17cpi + Format('%40s',[texto5]));
