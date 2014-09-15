@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, FMTBcd, Provider, DBClient, DB, SqlExpr, Menus,
   XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, Mask,
-  DBCtrls, dbxpress;
+  DBCtrls, dbxpress, dxCore, dxButton;
 
 type
   TfClassificacaoFIscalProduto = class(TfPai_new)
@@ -173,6 +173,7 @@ type
     edCFOPCOPIA: TEdit;
     edUFCopia: TEdit;
     BitBtn3: TBitBtn;
+    dxButton11: TdxButton;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -187,6 +188,7 @@ type
     procedure btnExecutaCopiaClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure dxButton11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -200,7 +202,7 @@ var
 
 implementation
 
-uses UDm, sCtrlResize;
+uses UDm, sCtrlResize, uTributosInfo;
 
 {$R *.dfm}
 
@@ -558,6 +560,17 @@ begin
   gbGeraUF.Visible := False;
   MessageDlg('Cópia executada com sucesso.', mtInformation, [mbOK], 0);
 
+end;
+
+procedure TfClassificacaoFIscalProduto.dxButton11Click(Sender: TObject);
+begin
+  inherited;
+  fTributosInfo := TfTributosInfo.Create(Application);
+  try
+    fTributosInfo.ShowModal;
+  finally
+    fTributosInfo.Free;
+  end;
 end;
 
 end.

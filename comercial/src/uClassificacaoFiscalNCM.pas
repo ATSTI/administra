@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, FMTBcd, Provider, DBClient, DB, SqlExpr, Menus,
   XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, Mask,
-  DBCtrls;
+  DBCtrls, dxCore, dxButton;
 
 type
   TfClassificacaoFiscalNCM = class(TfPai_new)
@@ -162,6 +162,7 @@ type
     cdsClassFiscDADOSADC5: TStringField;
     cdsClassFiscDADOSADC6: TStringField;
     Label17: TLabel;
+    dxButton11: TdxButton;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -182,6 +183,8 @@ type
     procedure Label15Click(Sender: TObject);
     procedure Label13Click(Sender: TObject);
     procedure Label17Click(Sender: TObject);
+    procedure cdsClassFiscNewRecord(DataSet: TDataSet);
+    procedure dxButton11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -194,7 +197,7 @@ var
 
 implementation
 
-uses UDm, sCtrlResize;
+uses UDm, sCtrlResize, uTributosInfo;
 
 {$R *.dfm}
 
@@ -570,6 +573,38 @@ begin
     Memo1.Lines.Add('os dados adicionais do primeiro item da nota.');
     Memo1.Lines.Add('');
     panelAjuda.Visible := True;
+  end;
+end;
+
+procedure TfClassificacaoFiscalNCM.cdsClassFiscNewRecord(
+  DataSet: TDataSet);
+begin
+  inherited;
+  cdsClassFiscICMS_SUBST.AsFloat := 0;
+  cdsClassFiscICMS_SUBST_IC.AsFloat := 0;
+  cdsClassFiscICMS_SUBST_IND.AsFloat := 0;
+  cdsClassFiscICMS.AsFloat := 0;
+  cdsClassFiscICMS_BASE.AsFloat := 0;
+  cdsClassFiscCST.AsString := '000';
+  cdsClassFiscCSOSN.AsString := '0';
+  cdsClassFiscIPI.AsFloat := 0;
+  cdsClassFiscCSTIPI.AsString := '0';
+  cdsClassFiscCSTPIS.AsString := '0';
+  cdsClassFiscCSTCOFINS.AsString := '0';
+  cdsClassFiscPIS.AsFloat := 0;
+  cdsClassFiscCOFINS.AsFloat := 0;
+  cdsClassFiscCODFISCAL.AsString := '0';
+  cdsClassFiscORIGEM.AsInteger := 0;
+end;
+
+procedure TfClassificacaoFiscalNCM.dxButton11Click(Sender: TObject);
+begin
+  inherited;
+  fTributosInfo := TfTributosInfo.Create(Application);
+  try
+    fTributosInfo.ShowModal;
+  finally
+    fTributosInfo.Free;
   end;
 end;
 
