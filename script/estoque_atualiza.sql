@@ -83,10 +83,10 @@ BEGIN
           custoMateriaPrima = 0;
       
         if (custoMateriaPrima > 0) then 
-		begin
+	begin
           preco_custo = custoMateriaPrima;
-		  preco_compra = custoMateriaPrima;
-		end  
+          -- preco_compra = custoMateriaPrima;
+	end  
       suspend ;
       estoquelote = 0;
       preco_custo = 0;
