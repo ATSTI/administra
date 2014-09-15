@@ -1,6 +1,6 @@
 inherited fClienteCadastro: TfClienteCadastro
-  Left = 2
-  Top = 2
+  Left = 386
+  Top = 19
   VertScrollBar.Range = 0
   BorderStyle = bsSingle
   ClientHeight = 614
@@ -547,9 +547,9 @@ inherited fClienteCadastro: TfClienteCadastro
     end
     object DBRadioGroup3: TDBRadioGroup
       Left = 605
-      Top = -3
-      Width = 157
-      Height = 46
+      Top = 2
+      Width = 156
+      Height = 40
       Color = clActiveCaption
       Columns = 2
       Ctl3D = True
@@ -2352,6 +2352,59 @@ inherited fClienteCadastro: TfClienteCadastro
         ShowHint = True
         TabOrder = 42
       end
+      object GroupBox3: TGroupBox
+        Left = 440
+        Top = 423
+        Width = 285
+        Height = 56
+        Caption = 'Cadastro consultado em:'
+        TabOrder = 43
+        object lblConsultaCadastro: TLabel
+          Left = 32
+          Top = 24
+          Width = 9
+          Height = 13
+          Caption = '...'
+        end
+        object btnConsultaCadastro: TBitBtn
+          Left = 236
+          Top = 20
+          Width = 33
+          Height = 27
+          Hint = 'Altera a data de Consulta do Cadastro'#13#10'(SPC, SERASA,..)'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          OnClick = btnConsultaCadastroClick
+          Glyph.Data = {
+            36030000424D3603000000000000360000002800000010000000100000000100
+            1800000000000003000000000000000000000000000000000000C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0848284848284C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C08482843CBA003CBA00848284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C03CBA003CBA003CBA003CBA0084
+            8284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            8482843CBA003CBA003CBA003CBA003CBA00C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C08482843CBA003CBA0000F0553CBA003CBA003C
+            BA00848284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C03CBA00
+            3CBA0000F055C0C0C000F0553CBA003CBA00848284C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C000F0553CBA00C0C0C0C0C0C0C0C0C000F0553C
+            BA003CBA00848284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            00F055C0C0C0C0C0C0C0C0C0C0C0C000F0553CBA003CBA00848284C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C03CBA003CBA003CBA00848284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000F0553CBA003CBA003CBA008482
+            84C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C000F0553CBA003CBA003CBA00C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000F0553CBA003CBA
+            00848284C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C000F0553CBA00848284C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000F0
+            553CBA00C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+        end
+      end
     end
     object TabInternet: TTabSheet
       Caption = 'DADOS ADICIONAIS'
@@ -2463,7 +2516,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2763,7 +2816,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2873,7 +2926,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 14
       end
@@ -3263,7 +3316,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 19
       end
@@ -5695,7 +5748,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6332,7 +6385,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change

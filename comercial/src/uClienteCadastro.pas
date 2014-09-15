@@ -8,7 +8,7 @@ uses
   StdCtrls, Buttons, ExtCtrls, MMJPanel, DBCtrls, Mask, DBLocal, DBLocalS,
   EChkCNPJ, EChkCPF, ComCtrls, ImgList, rpcompobase, rpvclreport,
   JvExStdCtrls, JvDBCombobox, Grids, DBGrids, JvExDBGrids, JvDBGrid,
-  JvDBUltimGrid, dateUtils, JvCombobox, JvComponentBase, JvFormAutoSize;
+  JvDBUltimGrid, dateUtils, JvCombobox, JvComponentBase, JvFormAutoSize, dbxpress;
 
 type
   TfClienteCadastro = class(TfPai)
@@ -662,6 +662,9 @@ type
     cdsEnderecoCliTELEFONE: TStringField;
     cdsEnderecoCliTELEFONE1: TStringField;
     cdsEnderecoCliTELEFONE2: TStringField;
+    GroupBox3: TGroupBox;
+    lblConsultaCadastro: TLabel;
+    btnConsultaCadastro: TBitBtn;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -730,13 +733,15 @@ type
     procedure cbPaisChange(Sender: TObject);
     procedure btnProcListaPrecoClick(Sender: TObject);
     procedure DBEdit63Exit(Sender: TObject);
+    procedure btnConsultaCadastroClick(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
     procedure CalculaDesconto;
     function Verifica_Campos_Em_Branco: Boolean;
     function Verifica_Campos_Em_BrancoEndereco: Boolean;
-    function ValidarISUF: Boolean;                    
+    function ValidarISUF: Boolean;
+    procedure consultaRealizada;            
   public
 //    function CalculaCnpjCpf(Numero : String) : String;
     function cpf(num: string): boolean;
@@ -1162,6 +1167,7 @@ begin
     sqlPais.Open;
   if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
      cbPais.ItemIndex := sqlPais.RecNo-1;
+  consultaRealizada;   
   rgTipoEndereco.Enabled := True;
 end;
 
@@ -1931,6 +1937,7 @@ begin
     // Cliente do Sistema então vá para incluir
     cds_cli.Close;
   end;
+  consultaRealizada;
   DBEdit63Exit(Sender);
 end;
 
@@ -2859,6 +2866,42 @@ begin
   cdsListaVenda.Open;
 
   edtListaPreco.Text := cdsListaVendaNOMELISTA.AsString;
+end;
+
+procedure TfClienteCadastro.btnConsultaCadastroClick(Sender: TObject);
+var     TD : TTransactionDesc;
+    sql_consulta: String;
+begin
+  if  MessageDlg('Confirma a consulta do cadastro nesta data' ,
+      mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+  sql_consulta := 'UPDATE clientes SET dtaaltera = ' +
+    QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+    ', curso = ' + QuotedStr(dm.varLogado) +
+    ' WHERE codCliente = ' + IntToStr(cds_cliCODCLIENTE.AsInteger);
+  try
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(sql_consulta);
+    dm.sqlsisAdimin.Commit(TD);
+    lblConsultaCadastro.Caption := dm.varLogado + ' - ' + formatdatetime('dd/mm/yyyy', Now);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+end;
+
+procedure TfClienteCadastro.consultaRealizada;
+begin
+  if (not cds_cli.IsEmpty) then
+  begin
+    if (cds_cliCURSO.AsString <> '') then
+      lblConsultaCadastro.Caption := cds_cliCURSO.AsString + ' - ' +
+        formatdatetime('dd/mm/yyyy', cds_cliDTAALTERA.AsDateTime);
+  end;
 end;
 
 end.
