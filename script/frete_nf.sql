@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER TRIGGER FRETE_NF FOR NOTAFISCAL ACTIVE
 AFTER INSERT OR UPDATE POSITION 0
 AS 
@@ -24,11 +23,11 @@ declare variable levaDesc char(1);
 BEGIN
   if (new.IDCOMPLEMENTAR = null) then 
   begin
-  -- versao 2.0.0.20
+  -- versao 3.0.0.4
   levaDesc = 'N';
   select pmt.CONFIGURADO from parametro pmt where pmt.PARAMETRO = 'NF_DESCONTO'
     into :levaDesc;
-/*alter table MOVIMENTODETALHE add VALOR_DESCONTO double precision */
+    /*alter table MOVIMENTODETALHE add VALOR_DESCONTO double precision */
     if ((new.NATUREZA = 15) or (new.NATUREZA = 12) or (new.NATUREZA = 16)) then
     begin
         select v.CODMOVIMENTO from venda v
@@ -67,7 +66,7 @@ BEGIN
      if (new.BASE_ICMS > 0) then 
        vp = new.BASE_ICMS; 
      if (vp = 0) then 
-       vp = new.VALOR_TOTAL_NOTA;      
+       vp = new.VALOR_PRODUTO;      
    end 
      
 
