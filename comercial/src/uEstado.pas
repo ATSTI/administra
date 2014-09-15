@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, Grids, DBGrids, Mask, DBCtrls, DBClient, Provider, SqlExpr,
-  EDBFind;
+  EDBFind, dxCore, dxButton;
 
 type
   TfEstado = class(TfPai)
@@ -116,6 +116,7 @@ type
     cds_estadoCODFISCAL: TStringField;
     panelAjuda: TPanel;
     Memo1: TMemo;
+    dxButton11: TdxButton;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -137,6 +138,7 @@ type
     procedure Label16Click(Sender: TObject);
     procedure Label17Click(Sender: TObject);
     procedure Label13Click(Sender: TObject);
+    procedure dxButton11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -149,7 +151,7 @@ var
 
 implementation
 
-uses uComercial, UDm, uProcurar, sCtrlResize, uCfop;
+uses uComercial, UDm, uProcurar, sCtrlResize, uCfop, uTributosInfo;
 
 {$R *.dfm}
 
@@ -489,6 +491,17 @@ begin
 	  Memo1.Lines.Add('70. Com redução da base de cálculo e cobrança do ICMS por substituição tributária');
 	  Memo1.Lines.Add('90. Outras');
     panelAjuda.Visible := True;
+  end;
+end;
+
+procedure TfEstado.dxButton11Click(Sender: TObject);
+begin
+  inherited;
+  fTributosInfo := TfTributosInfo.Create(Application);
+  try
+    fTributosInfo.ShowModal;
+  finally
+    fTributosInfo.Free;
   end;
 end;
 
