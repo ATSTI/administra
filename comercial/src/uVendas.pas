@@ -9,7 +9,7 @@ uses
   Mask, DBLocal, DBLocalS, rpcompobase, rpvclreport, DBXpress, UCHist_Base,
   UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
   JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls;
+  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls, Printers;
 
 type
   TfVendas = class(TfPai)
@@ -599,6 +599,11 @@ type
     lblEstoque: TLabel;
     rocarProduto1: TMenuItem;
     edClienteCnpj: TEdit;
+    sdslistaLOTES: TStringField;
+    cdslistaLOTES: TStringField;
+    SaveDialog1: TSaveDialog;
+    sds_Mov_DetMARCA: TStringField;
+    cds_Mov_detMARCA: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -691,6 +696,7 @@ type
     limiteCred: Double;
     procurouProd : String;
     modo :string;
+    function RemoveAcento(Str: string): string;
     function clienteLimiteCredito(codCliente: Integer): Double;
     procedure Margem_Confere;
     procedure insereMatPrima;
@@ -1294,11 +1300,14 @@ end;
 
 procedure TfVendas.dbeProdutoExit(Sender: TObject);
 begin
+  usaLote := 'N';
   if (procurouProd = 'N') then
   begin
     if (dtSrc1.State in [dsInsert, dsEdit]) then
     begin
       PesquisaProdutos;
+      if (usalote = 'S') then
+        Bitbtn4.SetFocus;
     end;
   end
   else
@@ -1386,7 +1395,8 @@ begin
       fProcura_prod.BitBtn1.Click;
     end
     else begin
-      fProcura_prod.Panel2.Visible := false;
+      fProcura_prod.rbBuscaSimples.Checked := False;    
+      fProcura_prod.Panel2.Visible := true;
       fProcura_prod.Panel1.Visible := true;
       //fProcura_prod.CheckBox1.Checked := False;
       if (fProcura_prod.cds_proc.Active) then
@@ -1417,9 +1427,9 @@ begin
     end;
     lblEstoque.Caption := FloatToStr(fProcura_prod.cds_procESTOQUEATUAL.asfloat);
     // Usa Lote
+    usaLote := 'N';
     if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
     begin
-      usaLote := 'S';
       if (fProcura_prod.cds_proc.Active) then
         fProcura_prod.cds_proc.Close;
       if cds_Mov_det.State in [dsInsert] then
@@ -1434,6 +1444,7 @@ begin
       end;
     end
     else begin
+      usaLote := 'S';
       Bitbtn4.SetFocus;
     end;
 
@@ -1451,7 +1462,14 @@ begin
       exit;
     end;
   end;
-
+  if (usalote = 'S') then
+  begin
+    if (cds_Mov_detLOTE.AsString = '') then
+    begin
+      MessageDlg('Informe o Lote do Produto.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+  end;
   inherited;
   if (matPrima = 'SIM') then
     inseridoMatPrima := 'SIM';
@@ -1697,7 +1715,13 @@ begin
 end;
 
 procedure TfVendas.btnGravarClick(Sender: TObject);
+var msgValidacao: String;
 begin
+  if (cds_MovimentoSTATUS.AsInteger = 2) then
+  begin
+    MessageDlg('Pedido/Venda Cancelado', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (dbeCliente.Text = '') then
   begin
     MessageDlg('Informe o Cliente.', mtWarning, [mbOk], 0);
@@ -1709,7 +1733,13 @@ begin
     MessageDlg('Cliente sem Limite de crÈdito.', mtWarning, [mbOk], 0);
     exit;
   end;
-
+  msgValidacao := dm.validaClienteParaVenda(StrToInt(dbeCliente.Text));
+  if (msgValidacao <> '') then
+  begin
+    MessageDlg(msgValidacao, mtWarning, [mbOk], 0);
+    exit;
+  end;
+  
   // Se Venda ja Finalizada n„o permite alteraÁ„o sem excluir a Finalizacao
   // Isto È necessario para n„o atrapalhar o estoque
   if ((cds_MovimentoCODMOVIMENTO.AsInteger < 1999999) or (cds_MovimentoCODMOVIMENTO.AsInteger > 1999999)) then
@@ -2153,8 +2183,9 @@ end;
 procedure TfVendas.BitBtn1Click(Sender: TObject);
 var LIMITECOMPRA: String;
     Compra: Double;
- usu_n, usu_s : string;
+  usu_n, usu_s : string;
   utilcrtitulo : Tutils;
+  msgValidacao: String;
 begin
   if (clienteEstaBloqueado = 'SIM') then
   begin
@@ -2177,9 +2208,16 @@ begin
     else begin
       MessageDlg('Cliente com cadastro "BLOQUEADO",  venda n„o permitida.', mtError, [mbOK], 0);
       exit;
-    end;  
+    end;
   end;
   limiteCred := clienteLimiteCredito(cds_MovimentoCODCLIENTE.AsInteger);
+  msgValidacao := dm.validaClienteParaVenda(StrToInt(dbeCliente.Text));
+  if (msgValidacao <> '') then
+  begin
+    MessageDlg(msgValidacao, mtWarning, [mbOk], 0);
+    exit;
+  end;
+
   if (cds_Mov_detTotalPedido.Value > limiteCred) then
   begin
     MessageDlg('Limite de crÈdito para este cliente est· em: R$ ' + format('%8.2n', [limiteCred]), mtWarning, [mbOK], 0);
@@ -2244,14 +2282,236 @@ begin
 end;
 
 procedure TfVendas.BitBtn2Click(Sender: TObject);
+  const
+  cJustif = #27#97#51;
+  cEject = #12;
+  { Tamanho da fonte }
+  c10cpi = #18;
+  c12cpi = #27#77;
+  c17cpi = #15;
+  cIExpandido = #14;
+  cFExpandido = #20;
+  { FormataÁ„o da fonte }
+  cINegrito = #27#71;
+  cFNegrito = #27#72;
+  cIItalico = #27#52;
+  cFItalico = #27#53;
+
+  Centro = #27#97#49; // Centraliza a Impress„o
+  var
+    IMPRESSORA:TextFile;
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descriÁ„o do produto,nome
+    produto_cupom: String;
+    total : double;
+    portaIMP : string;
 begin
-  inherited;
-  //cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
-  VCLReport1.FileName := str_relatorio + 'orcamento.rep';
-  VCLReport1.Title    := VCLReport1.FileName;
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
-  VCLReport1.Execute;
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+  begin
+    if (not dm.cds_empresa.Active) then
+      dm.cds_empresa.Open;
+    {----- aqui monto o endereÁo-----}
+    logradouro := '  ' + dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+    cep :=  '  ' + dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+    ' - ' + dm.cds_empresaCEP.Value;
+    fone := '  (19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+    ' / ' + dm.cds_empresaFONE_2.Value;
+    {------------------------DADOS DO CLIENTE--------------------------}
+    clientecupom := '  ' + IntToStr(fVendas.cds_MovimentoCODCLIENTE.AsInteger) + '-' +
+      Copy(fVendas.cds_MovimentoNOMECLIENTE.AsString, 0, 36); //fVendas.cds_MovimentoNOMECLIENTE.AsString;
+    //  doccli := 'CPF : ' + fVendas.cds_MovimentoCNPJ.AsString;
+    Texto  := '----------------------------------------' ;
+    Texto1 := '  ' + FormatDateTime('dd/mm/yyyy', cds_MovimentoDATAMOVIMENTO.AsDateTime) + '  Pedido.:  ' +
+    IntToStr(cds_MovimentoCODPEDIDO.AsInteger);
+    Texto2 := '----------------------------------------' ;
+    Texto4 := '  Produto       UN     Qtde   V.Un.  V.Total ' ;
+    Texto5 := '  ' + DateTimeToStr(Now) + ' Total.: R$     ';
+    // Texto5 := FormatDateTime('dd/mm/yyyy', scdsCr_procEMISSAO.Value) + ' Total.: R$   ' ;
+    {-----------------------------------------------------------}
+    {-------------------Imprimi CabeÁalho-----------------------}
+    // Para gravar em arquivo
+    //OpenDialog1.Execute;
+    //AssignFile(IMPRESSORA, OpenDialog1.FileName);
+    // AssignFile(IMPRESSORA,'COM1:');
+    //   AssignFile ( IMPRESSORA, 'C:\venda.txt' );
+
+    //   tipoimpressao := 'txt';
+
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+    dm.cds_parametro.Open;
+    try
+      if (not dm.cds_parametro.Eof) then
+      begin
+        SaveDialog1.Execute;
+        AssignFile(IMPRESSORA, SaveDialog1.FileName);
+        dm.cds_parametro.Close;
+      end
+      else
+      begin
+        if (dm.cds_parametro.Active) then
+          dm.cds_parametro.Close;
+        dm.cds_parametro.Params[0].Clear;
+        dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+        dm.cds_parametro.Open;
+        portaIMP := dm.cds_parametroDADOS.AsString;
+        dm.cds_parametro.Close;
+        AssignFile(IMPRESSORA,portaIMP);
+      end;
+
+      Rewrite(IMPRESSORA);
+      Writeln(Impressora, c10cpi + '  ORCAMENTO');
+      Writeln(IMPRESSORA);
+      Writeln(Impressora, c17cpi + RemoveAcento(Format('  %-36s',[dm.cds_empresaRAZAO.Value])));
+      Writeln(Impressora, c17cpi, logradouro);
+      Writeln(Impressora, c17cpi, cep);
+      Writeln(Impressora, c17cpi, fone);
+      // Writeln(Impressora, c10cpi + Format('%-36s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
+      Writeln(Impressora, c17cpi, texto);
+      Writeln(Impressora, c17cpi, clientecupom);
+      Writeln(Impressora, c17cpi, doccli);
+      Writeln(Impressora, c17cpi, texto);
+      Writeln(Impressora, c17cpi, texto1);
+      if (dm.moduloUsado = 'AUTOMOTIVA') then
+      begin
+        Writeln(Impressora, c17cpi, '  Placa: ' + MaskEdit1.Text);
+        Writeln(Impressora, c17cpi, '  KM: ' + cds_MovimentoCONTROLE.AsString);
+      end;
+      Writeln(Impressora, c17cpi, texto2);
+      Writeln(Impressora, c17cpi, texto4);
+      {-----------------------------------------------------------}
+      {-------------------Imprimi itens do boleto-----------------}
+
+      cds_Mov_det.First;
+      while not cds_Mov_det.Eof do
+      begin
+        cds_Mov_det.RecordCount;
+        texto3 := '';
+        texto6 := '  ';
+        //texto6 := Format('%-4s',[fVendas.cds_Mov_detCODPRO.Value]);
+        texto3 := texto3 + Format('                %-2s',[fVendas.cds_Mov_detUN.Value]);
+        texto3 := texto3 + Format('    %6.2n',[fVendas.cds_Mov_detQUANTIDADE.AsFloat]);
+        texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
+        texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
+        //texto6 := texto6 + fVendas.cds_Mov_detDESCPRODUTO.Value;
+        produto_cupom := trim(cds_Mov_detCODPRO.Value) + '-' + trim(fVendas.cds_Mov_detDESCPRODUTO.Value) + ' - ' + trim(cds_Mov_detMARCA.Value);
+        try
+          StrToInt(dm.linhaTamanho);
+        except
+          MessageDlg('No arquivo dbxconnections.ini  arrumar o parametro  linhaTamanho;'+#13+#10+''+#13+#10+'ou adicionar:'+#13+#10+''+#13+#10+'linhaTamanho=38', mtWarning, [mbOK], 0);
+        end;
+        texto6 := texto6 + ' ' + Copy(produto_cupom, 0, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+        Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*1)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*1)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*2)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*2)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*3)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*3)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*4)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*4)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*5)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*5)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*6)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*6)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+        if (length(produto_cupom)>(StrToInt(dm.linhaTamanho)*7)) then
+        begin
+          texto6 := '    ' + Copy(produto_cupom, (StrToInt(dm.linhaTamanho)*7)+1, StrToInt(dm.linhaTamanho));       //descriÁ„o do produto
+          Writeln(Impressora, c17cpi, RemoveAcento(texto6));
+        end;
+
+        Writeln(Impressora, c17cpi, RemoveAcento(texto3));//NOME DO PRODUTO
+        with Printer.Canvas do
+        begin
+          Font.Name := 'Courier New';
+          Font.Size := 4;
+        end;
+        fVendas.cds_Mov_det.next;
+      end;
+      texto3 := '';
+      texto6 := '';
+      {-----------------------------------------------------------}
+      {-------------------Imprimi CabeÁalho-----------------------}
+      Texto2 := '----------------------------------------' ;
+      //Texto3 := '                                    Valor R$' ;
+      Writeln(Impressora, c17cpi, texto2);
+      Writeln(Impressora, c17cpi, texto3);
+      {------------------------------------------------------}
+      {-------------------Imprimi Parcelas -----------------------}
+      {scdsCr_proc.First;
+      while not scdsCr_proc.Eof do
+      begin
+        texto3 := '';
+        scdsCr_proc.RecordCount;
+        // imprime
+        Texto3 := '  ' + FormatDateTime('dd/mm/yyyy', scdsCr_procDATAVENCIMENTO.Value);
+        Texto3 := '  ' + Texto3 + ' - '  + scdsCr_procSTATUS.Value;
+        if (scdsCr_procSITUACAO.AsString = '7-') then
+          Texto3 := Texto3 + ' -  '  + Format('%6.2n',[scdsCr_procVALORRECEBIDO.AsFloat])
+        else
+           Texto3 := Texto3 + ' -  '  + Format('%6.2n',[scdsCr_procVALORREC.AsFloat]);
+        Writeln(Impressora, c17cpi, texto3);
+        with Printer.Canvas do
+        begin
+          Font.Name := 'Courier New';
+          Font.Size := 4;
+        end;
+        scdsCr_proc.next;
+      end;}
+      {-----------------------------------------------------------}
+      {-------------------Imprimi final do Pedido-----------------}
+      total := fVendas.cds_Mov_detTotalPedido.Value;
+      Writeln(Impressora, c17cpi, texto);
+      Write(Impressora, c17cpi, texto5);
+      Writeln(Impressora, c17cpi + Format('%6.2n',[total]));
+      texto3 := '';
+      Writeln(IMPRESSORA);
+      Writeln(Impressora, c17cpi, texto3);
+      // Pula linhas
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      Writeln(IMPRESSORA);
+      if ((dm.recortacupom = 'S') or (dm.recortacupom = '')) then
+        Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
+    finally
+      CloseFile(IMPRESSORA);
+    end;
+
+  end
+  else begin
+    //cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
+    VCLReport1.FileName := str_relatorio + 'orcamento.rep';
+    VCLReport1.Title    := VCLReport1.FileName;
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('PVMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
+    VCLReport1.Execute;
+  end;
 end;
 
 procedure TfVendas.btnProcurarClick(Sender: TObject);
@@ -2939,6 +3199,13 @@ begin
   if (cds_Mov_detPRECO.AsFloat = 0) then
   if (cds_Mov_detQUANTIDADE.AsFloat > 0) then
     cds_Mov_detPRECO.AsFloat := cds_Mov_detValorTotal.asfloat/cds_Mov_detQUANTIDADE.AsFloat;
+  if (usalote = 'S') then
+  begin
+    if (cds_Mov_detLOTE.AsString = '') then
+    begin
+      bitbtn4.Click;
+    end;
+  end;
 end;
 
 procedure TfVendas.MaskEdit1Exit(Sender: TObject);
@@ -3382,6 +3649,11 @@ begin
      cds_Mov_detQUANTIDADE.AsFloat := 1;
      cds_Mov_detPRECO.AsFloat := cdslistaPRECOLISTA.AsFloat;
      valorUnitario := cdslistaPRECOLISTA.AsFloat;
+     usaLote := 'N';
+     if (cdsListaLOTES.AsString = 'S') then
+     begin
+       usaLote := 'S';
+     end;
    end
    else
    begin
@@ -3417,6 +3689,7 @@ begin
       cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
       cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
       estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
+      lblEstoque.Caption := FloatToStr(estoque);
       if (cds_Mov_detQUANTIDADE.AsFloat < 1) then
         cds_Mov_detQUANTIDADE.AsFloat := 1;
       qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
@@ -3434,6 +3707,11 @@ begin
       cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
       cds_Mov_detALMOXARIFADO.AsString := '';//dm.scds_produto_procALMOXARIFADO.AsString;
       cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+      usaLote := 'N';
+      if (dm.scds_produto_procLOTES.AsString = 'S') then
+      begin
+        usaLote := 'S';
+      end;
    end;
 end;
 
@@ -3894,6 +4172,7 @@ begin
       cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
 
       //Usa Lote ??
+      usaLote := 'N';
       if (dm.scds_produto_procLOTES.AsString <> 'S') then
       begin
         usaLote := 'S';
@@ -3990,17 +4269,18 @@ begin
           cds_Mov_detQTDE_PCT.AsFloat := 1;
         cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
         estoque := dm.scds_produto_procESTOQUEATUAL.AsFloat;
+        lblEstoque.Caption := FloatToStr(estoque);
         if ( cds_Mov_detQUANTIDADE.AsFloat < 1) then
           cds_Mov_detQUANTIDADE.AsFloat := 1;
         qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
         if(cds_MovimentoDesconto.asFloat > 0 ) then
           cds_Mov_detQTDE_ALT.AsFloat := cds_MovimentoDesconto.asFloat;
         cds_Mov_detPRECOCUSTO.AsFloat := dm.scds_produto_procPRECOMEDIO.AsFloat;
-        if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
-           cds_Mov_detPRECO.AsFloat :=
-           dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
-        else
-          cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
+        //if dm.scds_produto_procQTDE_PCT.AsFloat > 1 then
+        //   cds_Mov_detPRECO.AsFloat :=
+        //   dm.scds_produto_procVALOR_PRAZO.AsFloat / dm.scds_produto_procQTDE_PCT.AsFloat
+        //else
+        cds_Mov_detPRECO.AsFloat := dm.scds_produto_procVALOR_PRAZO.AsFloat;
         valorUnitario := dm.scds_produto_procVALOR_PRAZO.AsFloat;
         cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
         cds_Mov_detALMOXARIFADO.AsString := '';
@@ -4171,6 +4451,19 @@ begin
   else begin
     result := 99999999;
   end;
+end;
+
+function TfVendas.RemoveAcento(Str: string): string;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+var
+   x: Integer;
+begin;
+  for x := 1 to Length(Str) do
+  if Pos(Str[x],ComAcento) <> 0 then
+    Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+  Result := Str
 end;
 
 end.

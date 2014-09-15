@@ -2699,12 +2699,13 @@ inherited fVendas: TfVendas
       ', movd.VLR_BASE, movd.VLR_BASEICMS, movd.FRETE, movd.ICMS_SUBST,' +
       ' movd.ICMS_SUBSTD, movd.VALOR_SEGURO, movd.VALOR_OUTROS, prod.NC' +
       'M, movd.II, movd.BCII, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS ' +
-      ', movd.frete_bc, movd.VALOR_PIS, movd.VALOR_COFINS'#13#10'from MOVIMEN' +
-      'TODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=mov' +
-      'd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMO' +
-      'XARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on' +
-      ' cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CO' +
-      'DDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      ', movd.frete_bc, movd.VALOR_PIS, movd.VALOR_COFINS, prod.MARCA'#13#10 +
+      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
+      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ' +
+      'ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join CO' +
+      'MISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CO' +
+      'DDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd' +
+      '.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -2718,7 +2719,7 @@ inherited fVendas: TfVendas
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 71
+    Left = 72
     Top = 287
     object sds_Mov_DetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
@@ -2960,6 +2961,12 @@ inherited fVendas: TfVendas
     object sds_Mov_DetVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
       ReadOnly = True
+    end
+    object sds_Mov_DetMARCA: TStringField
+      FieldName = 'MARCA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 30
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -3261,6 +3268,11 @@ inherited fVendas: TfVendas
     object cds_Mov_detVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
       ReadOnly = True
+    end
+    object cds_Mov_detMARCA: TStringField
+      FieldName = 'MARCA'
+      ReadOnly = True
+      Size = 30
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -5143,6 +5155,11 @@ inherited fVendas: TfVendas
       Required = True
       Size = 300
     end
+    object cdslistaLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsplista: TDataSetProvider
     DataSet = sdslista
@@ -5153,9 +5170,9 @@ inherited fVendas: TfVendas
   object sdslista: TSQLDataSet
     CommandText = 
       'select lista.UNIDADE, lista.PRECOLISTA, lista.CODIGO, lista.CODP' +
-      'RODUTO, lista.CODFORNECEDOR, prod.PRODUTO from LISTAPRECO lista,' +
-      ' produtos prod'#13#10'where lista.codProduto = prod.codProduto and  CO' +
-      'DFORNECEDOR = :forn '#13#10'and CODIGO = :cd'
+      'RODUTO, lista.CODFORNECEDOR, prod.PRODUTO'#13#10', prod.LOTES'#13#10' from L' +
+      'ISTAPRECO lista, produtos prod'#13#10'where lista.codProduto = prod.co' +
+      'dProduto '#13#10'   and  CODFORNECEDOR = :forn '#13#10'   and CODIGO = :cd'
     MaxBlobSize = -1
     Params = <
       item
@@ -5192,6 +5209,11 @@ inherited fVendas: TfVendas
       FieldName = 'PRODUTO'
       Required = True
       Size = 300
+    end
+    object sdslistaLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
     end
   end
   object SP_LIMITE: TSQLStoredProc
@@ -5385,5 +5407,9 @@ inherited fVendas: TfVendas
     SQLConnection = DM.sqlsisAdimin
     Left = 432
     Top = 120
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 664
+    Top = 536
   end
 end
