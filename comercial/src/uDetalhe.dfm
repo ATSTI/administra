@@ -1,8 +1,8 @@
 object fDetalhe: TfDetalhe
   Left = 237
   Top = 171
-  Width = 675
-  Height = 291
+  Width = 685
+  Height = 316
   Caption = 'Produto / Servi'#231'o'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -231,6 +231,27 @@ object fDetalhe: TfDetalhe
     Height = 13
     Caption = 'COFINS'
   end
+  object Label32: TLabel
+    Left = 175
+    Top = 203
+    Width = 47
+    Height = 13
+    Caption = 'Data Fab.'
+  end
+  object Label34: TLabel
+    Left = 15
+    Top = 203
+    Width = 21
+    Height = 13
+    Caption = 'Lote'
+  end
+  object Label35: TLabel
+    Left = 252
+    Top = 203
+    Width = 82
+    Height = 13
+    Caption = 'Data Vencimento'
+  end
   object DBEdit1: TDBEdit
     Left = 173
     Top = 140
@@ -413,12 +434,12 @@ object fDetalhe: TfDetalhe
     TabOrder = 18
   end
   object btnSair: TBitBtn
-    Left = 570
-    Top = 181
+    Left = 594
+    Top = 186
     Width = 68
     Height = 59
     Caption = 'F9-Sair'
-    TabOrder = 30
+    TabOrder = 35
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -522,20 +543,20 @@ object fDetalhe: TfDetalhe
     Layout = blGlyphTop
   end
   object DBNavigator1: TDBNavigator
-    Left = 310
-    Top = 203
+    Left = 338
+    Top = 207
     Width = 216
     Height = 38
     DataSource = fCompra.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 31
+    TabOrder = 36
   end
   object btnGravar: TBitBtn
-    Left = 526
-    Top = 203
+    Left = 555
+    Top = 207
     Width = 38
     Height = 38
-    TabOrder = 32
+    TabOrder = 37
     OnClick = btnGravarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -791,7 +812,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSTCOFINS'
     DataSource = ds1
-    TabOrder = 29
+    TabOrder = 30
   end
   object DBEdit29: TDBEdit
     Left = 331
@@ -800,7 +821,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_PIS'
     DataSource = ds1
-    TabOrder = 33
+    TabOrder = 29
   end
   object DBEdit30: TDBEdit
     Left = 491
@@ -809,19 +830,46 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_COFINS'
     DataSource = ds1
-    TabOrder = 34
+    TabOrder = 31
   end
   object DBCheckBox1: TDBCheckBox
     Left = 16
-    Top = 208
+    Top = 248
     Width = 153
     Height = 17
     Caption = 'Usa Frete na B.C. do ICMS'
     DataField = 'FRETE_BC'
     DataSource = ds1
-    TabOrder = 35
+    TabOrder = 38
     ValueChecked = 'True'
     ValueUnchecked = 'False'
+  end
+  object DBEdit31: TDBEdit
+    Left = 13
+    Top = 216
+    Width = 154
+    Height = 21
+    DataField = 'LOTE'
+    DataSource = ds1
+    TabOrder = 32
+  end
+  object DBEdit32: TDBEdit
+    Left = 173
+    Top = 216
+    Width = 76
+    Height = 21
+    DataField = 'DTAFAB'
+    DataSource = ds1
+    TabOrder = 33
+  end
+  object DBEdit33: TDBEdit
+    Left = 253
+    Top = 216
+    Width = 81
+    Height = 21
+    DataField = 'DTAVCTO'
+    DataSource = ds1
+    TabOrder = 34
   end
   object ds1: TDataSource
     DataSet = fVendas.cds_Mov_det
