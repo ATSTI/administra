@@ -1,4 +1,3 @@
-set term ^;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 date,
     DTA2 date,
