@@ -530,7 +530,7 @@ begin
       strR := 'SELECT CODRECEBIMENTO, CODVENDA, CODCLIENTE, EMISSAO, ' +
         ' DATAVENCIMENTO, CODVENDEDOR, CODUSUARIO,' +
         ' VALOR_RESTO, TITULO, VIA, PARCELAS, CAIXA,' +
-        ' FORMARECEBIMENTO, CODALMOXARIFADO, UDF_RTRIM(VIA) as VIA ' +
+        ' FORMARECEBIMENTO, CODALMOXARIFADO, UDF_RTRIM(VIA) as VIA, CONTADEBITO ' +
         '  FROM RECEBIMENTO ' +
         ' WHERE CODRECEBIMENTO = ' + InttoStr(CodRecR);
       sqlBuscaR.SQL.Add(strR);
@@ -555,6 +555,7 @@ begin
         Self.Via           := StrToInt(StringReplace(sqlBuscaR.FieldByName('VIA').AsString, ' ', '', [rfReplaceAll,rfIgnoreCase]))+1;
         VlrParc            := Self.Valor;
         Self.Caixa         := sqlBuscaR.FieldByName('CAIXA').AsInteger;
+        Self.ContaDebito   := sqlBuscaR.FieldByName('CONTADEBITO').AsInteger;
         CodRecR := 1;
       end;
     Finally
@@ -717,6 +718,8 @@ begin
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ', '; // CodOrigem
     strG := strG + IntToStr(Self.ContaDebito) + ')'; //
+    //if (Self.ContaDebito = 0) then
+    //  MessageDlg('epa ...', mtWarning, [mbOK], 0);
     Rec  := executaSql(strG);
     UltParc := UltParc - VlrParc;
   end;

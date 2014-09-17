@@ -1080,6 +1080,7 @@ end;
 
 procedure TfTerminal2.testaCaixaAberto;
 begin
+  dm_mov.CAIXA_CONTA := 0;
   if (sCaixa1.Active) then
     sCaixa1.Close;
   sCaixa1.Params[0].AsString := MICRO;
@@ -1092,12 +1093,12 @@ begin
   else begin
     DM.resultadoOperacao := 'TRUE';
     dm_mov.CAIXA_CONTA := sCaixa1CODCAIXA.asInteger;
+    terminalCaixa := sCaixa1CODCAIXA.AsInteger;
     caixaTerminal2 := sCaixa1CODCAIXA.AsInteger;
     caixaTerminal2DataAbertura := sCaixa1DATAABERTURA.AsDateTime;
     caixaTerminal2Id := sCaixa1IDCAIXACONTROLE.AsInteger;
   end;
   sCaixa1.Close;
-
 end;
 
 procedure TfTerminal2.JvAlterarClick(Sender: TObject);
