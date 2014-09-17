@@ -463,6 +463,7 @@ begin
     dm.cds_Marca.Open;
   dm.cds_Marca.First;
   cbMarca.Items.Clear;
+  cbMarca.Items.Add('Todos');
   while not dm.cds_Marca.Eof do
   begin
      cbMarca.Items.Add(dm.cds_MarcaDESCMARCAS.AsString);
@@ -474,6 +475,7 @@ begin
     dm.cds_familia.Open;
   dm.cds_familia.First;
   cbFamilia.Items.Clear;
+  cbFamilia.Items.Add('Todos');
   while not dm.cds_familia.Eof do
   begin
      cbFamilia.Items.Add(dm.cds_familiaDESCFAMILIA.AsString);
@@ -489,6 +491,7 @@ begin
   dm.cds_categoria.Open;
   dm.cds_categoria.First;
   cbCategoria.Items.Clear;
+  cbCategoria.Items.Add('Todos');
   while not dm.cds_categoria.Eof do
   begin
      cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
@@ -628,12 +631,12 @@ begin
   else
     varCondicao := QuotedStr('TODOSPRODUTOS');
 
-  if cbFamilia.Text <> '' then
+  if ((cbFamilia.Text <> '') and (cbFamilia.Text <> 'Todos')) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSGRUPOS');
 
-  if cbCategoria.Text <> '' then
+  if ((cbCategoria.Text <> '') and (cbCategoria.Text <> 'Todos')) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbCategoria.Text)
    else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSSUBGRUPOS');
@@ -1194,29 +1197,37 @@ end;
 
 procedure TfProcura_produtos.cbFamiliaChange(Sender: TObject);
 begin
- {if (cbFamilia.Text <> '') then
- begin
+  if (cbFamilia.Text <> '') then
+  begin
     if not DM.cds_familia.Active then
-        DM.cds_familia.Open;
-       DM.cds_familia.Locate('DESCFAMILIA', CbFamilia.Text,[loCaseInsensitive]);
+     DM.cds_familia.Open;
+    DM.cds_familia.Locate('DESCFAMILIA', CbFamilia.Text,[loCaseInsensitive]);
     if DM.cds_categoria.Active then
-      DM.cds_categoria.Close;
+     DM.cds_categoria.Close;
     DM.cds_categoria.Params[0].Clear;
-    DM.cds_categoria.Params[1].Clear;
-    DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
+    if (cbFamilia.ItemIndex > 0) then
+    begin
+     DM.cds_categoria.Params[1].Clear;
+     DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
+    end
+    else begin
+     DM.cds_categoria.Params[1].AsString := 'todos';
+     DM.cds_categoria.Params[2].Clear;
+    end;
     DM.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Todos');
     while not dm.cds_categoria.Eof do
     begin
-       cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
-       dm.cds_categoria.Next;
+     cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
+     dm.cds_categoria.Next;
     end;
     dm.cds_categoria.Close;
     dm.cds_familia.Close;
- end
- else
- begin
+  end
+  else
+  begin
     if dm.cds_categoria.Active then
       dm.cds_categoria.Close;
     dm.cds_categoria.Params[0].Clear;
@@ -1225,13 +1236,14 @@ begin
     dm.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Todos');
     while not dm.cds_categoria.Eof do
     begin
        cbCategoria.Items.Add(dm.cds_categoriaDESCCATEGORIA.AsString);
        dm.cds_categoria.Next;
     end;
     dm.cds_categoria.Close;
- end;}
+  end;
 end;
 
 procedure TfProcura_produtos.RadioButton1Click(Sender: TObject);

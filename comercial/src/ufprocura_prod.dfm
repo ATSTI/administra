@@ -223,6 +223,7 @@ object fProcura_prod: TfProcura_prod
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 7
+      OnChange = cbFamiliaChange
       OnKeyPress = FormKeyPress
     end
     object cbCategoria: TComboBox

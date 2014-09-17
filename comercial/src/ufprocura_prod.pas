@@ -444,6 +444,7 @@ begin
     dm.cds_familia.Open;
   dm.cds_familia.First;
   cbFamilia.Items.Clear;
+  cbFamilia.Items.Add('Todos');
   cbFamilia.Items.Add('Sem Grupo');
   while not dm.cds_familia.Eof do
   begin
@@ -460,6 +461,7 @@ begin
   dm.cds_categoria.Open;
   dm.cds_categoria.First;
   cbCategoria.Items.Clear;
+  cbCategoria.Items.Add('Todos');  
   cbCategoria.Items.Add('Sem Sub-Grupo');
   while not dm.cds_categoria.Eof do
   begin
@@ -630,12 +632,12 @@ begin
   else
     varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
 
-  if ((cbFamilia.Text <> '') and (cbFamilia.ItemIndex > 0)) then
+  if ((cbFamilia.Text <> '') and (cbFamilia.Text <> 'Todos') and (cbFamilia.Text <> 'Sem Grupo')) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
   else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSGRUPOS');
 
-  if ((cbCategoria.Text <> '') and (cbCategoria.ItemIndex > 0)) then
+  if ((cbCategoria.Text <> '') and (cbCategoria.Text <> 'Todos') and (cbCategoria.Text <> 'Sem Sub-Grupo')) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbCategoria.Text)
    else
     varCondicao := varCondicao + ', ' + QuotedStr('TODOSSUBGRUPOS');
@@ -757,7 +759,7 @@ begin
       varCondicaoA :=  ' WHERE ((MARCA IS NULL) OR (UDF_TRIM(MARCA) = ' + QuotedStr('') + '))';
   end;
 
-  if (cbCategoria.ItemIndex = 0) then
+  if (cbCategoria.ItemIndex = 1) then
   begin
     if varCondicaoA <> '' then
       varCondicaoA :=  varCondicaoA + ' AND ((SUBGRUPO IS NULL) OR (UDF_TRIM(SUBGRUPO) = ' + QuotedStr('') + '))'
@@ -765,7 +767,7 @@ begin
       varCondicaoA :=  ' WHERE ((SUBGRUPO IS NULL) OR (UDF_TRIM(SUBGRUPO) = ' + QuotedStr('') + '))';
   end;
 
-  if (cbFamilia.ItemIndex = 0) then
+  if (cbFamilia.ItemIndex = 1) then
   begin
     if varCondicaoA <> '' then
       varCondicaoA :=  varCondicaoA + ' AND ((GRUPO IS NULL) OR (UDF_TRIM(GRUPO) = ' + QuotedStr('') + '))'
@@ -1258,7 +1260,7 @@ end;
 
 procedure TfProcura_prod.cbFamiliaChange(Sender: TObject);
 begin
-  {if ((cbFamilia.Text <> '') and (cbFamilia.ItemIndex > 0)) then
+  if ((cbFamilia.Text <> '') and (cbFamilia.ItemIndex > 1)) then
   begin
     if not DM.cds_familia.Active then
         DM.cds_familia.Open;
@@ -1271,6 +1273,7 @@ begin
     DM.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Todos');
     cbCategoria.Items.Add('Sem Sub-Grupo');
     while not dm.cds_categoria.Eof do
     begin
@@ -1290,6 +1293,7 @@ begin
     dm.cds_categoria.Open;
     dm.cds_categoria.First;
     cbCategoria.Items.Clear;
+    cbCategoria.Items.Add('Todos');
     cbCategoria.Items.Add('Sem Sub-Grupo');
     while not dm.cds_categoria.Eof do
     begin
@@ -1298,7 +1302,7 @@ begin
     end;
     dm.cds_categoria.Close;
  end;
- }
+
 end;
 
 procedure TfProcura_prod.RadioButton1Click(Sender: TObject);

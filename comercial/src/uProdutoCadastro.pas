@@ -614,17 +614,17 @@ begin
   if DtSrc.DataSet.State in [dsInactive] then exit;
 
   familia := DBEdit14.Text;
-  if familia = '' then
+  {if familia = '' then
   begin
     MessageDlg('Pôr favor escolha uma familia ...', mtWarning, [mbOK], 0);
     DBEdit16.SetFocus;
     exit;
-  end;
+  end;}
   fCategoria := TfCategoria.Create(Application);
   try
     if (fCategoria.cds_familia.Active) then
       fCategoria.cds_familia.Close;
-    if (dm.GrupoMarca <> '') then
+    {if (dm.GrupoMarca <> '') then
     begin
       if (dbMarca.Text = '') then
       begin
@@ -637,15 +637,29 @@ begin
           'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
       end;
     end
-    else
-    fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
-      'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
+    else}
+    if (DBEdit14.Text <> '') then
+    begin
+      fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ' +
+        'where DESCFAMILIA = ' + QuotedStr(DBEdit14.Text);
+    end
+    else begin
+      fCategoria.cds_Familia.CommandText := 'select * from FAMILIAPRODUTOS ';
+    end;  
     fCategoria.cds_familia.Open;
     if DM.cds_categoria.Active then
       DM.cds_categoria.Close;
     DM.cds_categoria.Params[0].Clear;
-    DM.cds_categoria.Params[1].Clear;
-    DM.cds_categoria.Params[2].asInteger := fCategoria.cds_familiaCOD_FAMILIA.AsInteger;
+    if (fCategoria.cds_familia.RecordCount > 1) then
+    begin
+      DM.cds_categoria.Params[1].AsString := 'todos';
+      DM.cds_categoria.Params[2].Clear;
+    end
+    else
+    begin
+      DM.cds_categoria.Params[1].Clear;
+      DM.cds_categoria.Params[2].asInteger := fCategoria.cds_familiaCOD_FAMILIA.AsInteger;
+    end;
     DM.cds_categoria.Open;
     fCategoria.ComboBox1.Text := familia;
     fCategoria.ShowModal;
@@ -661,7 +675,7 @@ begin
   DM.cds_categoria.Params[1].Clear;
   DM.cds_categoria.Params[2].AsInteger := DM.cds_familiaCOD_FAMILIA.AsInteger;
   DM.cds_categoria.Open;
-    
+
 end;
 
 procedure TfProdutoCadastro.btnRateioClick(Sender: TObject);

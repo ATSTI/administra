@@ -230,6 +230,7 @@ object fProcura_produtos: TfProcura_produtos
       ParentFont = False
       PopupMenu = PopupMenu1
       TabOrder = 9
+      OnChange = cbFamiliaChange
     end
     object cbCategoria: TComboBox
       Left = 478
