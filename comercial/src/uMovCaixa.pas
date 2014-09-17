@@ -83,6 +83,12 @@ type
     Label1: TLabel;
     edTotalVendas: TJvValidateEdit;
     sqlTotalVendas: TSQLQuery;
+    Label2: TLabel;
+    edValorTotalCaixa: TJvValidateEdit;
+    Label3: TLabel;
+    edOutrasEntrada: TJvValidateEdit;
+    Label6: TLabel;
+    edNaoRecebido: TJvValidateEdit;
     procedure FormShow(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure ConsultaClick(Sender: TObject);
@@ -153,6 +159,8 @@ end;
 procedure TfMovCaixa.ConsultaClick(Sender: TObject);
 var
    totalVendas: Double;
+   totalRecebido: Double;
+   desconto_venda: Double;
    contaCaixaInterno : string;
    id_contaCX : Integer;
 begin
@@ -192,14 +200,37 @@ begin
   if (sqlTotalVendas.Active) then
     sqlTotalVendas.Close;
   sqlTotalVendas.SQL.Clear;
-  sqlTotalVendas.SQL.Add('SELECT COALESCE(SUM(v.DESCONTO),0) DESCONTO FROM VENDA v, MOVIMENTO m ' +
-    ' WHERE v.CODMOVIMENTO = m.CODMOVIMENTO ' +
-    '   AND v.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+  sqlTotalVendas.SQL.Add('SELECT SUM(v.DESCONTO) DESCONTO FROM VENDA v ' +
+    ' WHERE v.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
     '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)) +
-    '   AND m.COD_VEICULO = ' + IntToStr(caixaMovCaixa)); // COD_VEICULO = CAIXA
+    '   AND v.CONTROLE = ' + QuotedStr(IntToStr(caixaMovCaixa)) +
+    '   AND v.STATUS1 = ' + QuotedStr('T'));
   sqlTotalVendas.Open;
+  desconto_venda := sqlTotalVendas.FieldByName('DESCONTO').AsFloat;
 
-  edTotalVendas.Value := totalVendas - sqlTotalVendas.FieldByName('DESCONTO').AsFloat;
+  if (sqlTotalVendas.Active) then
+    sqlTotalVendas.Close;
+  sqlTotalVendas.SQL.Clear;
+  sqlTotalVendas.SQL.Add('SELECT SUM(r.VALORRECEBIDO) VALOR FROM RECEBIMENTO r ' +
+    ' WHERE r.DATARECEBIMENTO BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)) +
+    '   AND r.CONTADEBITO = ' + IntToStr(caixaMovCaixa));
+  sqlTotalVendas.Open;
+  totalRecebido := sqlTotalVendas.FieldByName('VALOR').AsFloat;
+
+  if (sqlTotalVendas.Active) then
+    sqlTotalVendas.Close;
+  sqlTotalVendas.SQL.Clear;
+  sqlTotalVendas.SQL.Add('SELECT SUM(r.VALORRECEBIDO) VALOR FROM RECEBIMENTO r ' +
+    ' WHERE r.DATARECEBIMENTO BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yy', eddata2.Date)) +
+    '   AND ' + QuotedStr(formatdatetime('mm/dd/yy', eddata3.Date)) +
+    '   AND r.CONTADEBITO = ' + IntToStr(caixaMovCaixa) +
+    '   AND r.CAIXA = ' + IntToStr(id_contaCX));
+  sqlTotalVendas.Open;
+  edValorTotalCaixa.Value := sqlTotalVendas.FieldByName('VALOR').AsFloat;
+  edOutrasEntrada.Value := totalRecebido - sqlTotalVendas.FieldByName('VALOR').AsFloat;
+  edNaoRecebido.Value := totalVendas - totalRecebido - desconto_venda;
+  edTotalVendas.Value := totalVendas - desconto_venda;
 end;
 
 

@@ -569,7 +569,7 @@ object fMovCaixa: TfMovCaixa
     Left = 0
     Top = 61
     Width = 742
-    Height = 451
+    Height = 411
     Align = alClient
     Color = 10930928
     DataSource = dsrcaixa
@@ -632,21 +632,42 @@ object fMovCaixa: TfMovCaixa
   end
   object Panel1: TPanel
     Left = 0
-    Top = 512
+    Top = 472
     Width = 742
-    Height = 62
+    Height = 102
     Align = alBottom
     TabOrder = 2
     object Label1: TLabel
       Left = 440
-      Top = 24
+      Top = 79
       Width = 81
       Height = 13
       Caption = 'Total de Vendas '
     end
+    object Label2: TLabel
+      Left = 440
+      Top = 5
+      Width = 53
+      Height = 13
+      Caption = 'Total Caixa'
+    end
+    object Label3: TLabel
+      Left = 440
+      Top = 30
+      Width = 76
+      Height = 13
+      Caption = 'Outras Entradas'
+    end
+    object Label6: TLabel
+      Left = 441
+      Top = 54
+      Width = 64
+      Height = 13
+      Caption = 'N'#227'o recebido'
+    end
     object edTotalVendas: TJvValidateEdit
       Left = 540
-      Top = 20
+      Top = 73
       Width = 155
       Height = 26
       Flat = False
@@ -666,6 +687,75 @@ object fMovCaixa: TfMovCaixa
       ParentFont = False
       ReadOnly = True
       TabOrder = 0
+    end
+    object edValorTotalCaixa: TJvValidateEdit
+      Left = 540
+      Top = 5
+      Width = 155
+      Height = 26
+      Flat = False
+      ParentFlat = False
+      BorderStyle = bsNone
+      Color = cl3DLight
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -21
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+    end
+    object edOutrasEntrada: TJvValidateEdit
+      Left = 540
+      Top = 28
+      Width = 155
+      Height = 26
+      Flat = False
+      ParentFlat = False
+      BorderStyle = bsNone
+      Color = cl3DLight
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -21
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object edNaoRecebido: TJvValidateEdit
+      Left = 540
+      Top = 50
+      Width = 155
+      Height = 26
+      Flat = False
+      ParentFlat = False
+      BorderStyle = bsNone
+      Color = cl3DLight
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      DecimalPlaces = 2
+      Enabled = False
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -21
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 3
     end
   end
   object sCaixa: TSQLDataSet
