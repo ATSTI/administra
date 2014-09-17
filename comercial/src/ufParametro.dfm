@@ -3939,6 +3939,15 @@ inherited fParametro: TfParametro
               'No Plano de Contas, marque a Conta como INTERNO, a conta que apa' +
               'recer'#225' na terla recebimento Parcial, Dinheiro'
           end
+          object Label75: TLabel
+            Left = 248
+            Top = 144
+            Width = 434
+            Height = 13
+            Caption = 
+              'Veja o parametro LISTARCAIXA informe em DADOS a conta PAI dos CA' +
+              'ixas , geralmente 8.'
+          end
           object edt1: TEdit
             Left = 9
             Top = 28

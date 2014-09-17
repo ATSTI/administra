@@ -389,6 +389,7 @@ type
     Label72: TLabel;
     Label73: TLabel;
     Label74: TLabel;
+    Label75: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
