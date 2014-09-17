@@ -52,7 +52,7 @@ BEGIN
 	select FIRST 1 CRT from EMPRESA , MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
 	  into :CRT;  
 
-	select FIRST 1 CODNATUREZA, CASE WHEN CODNATUREZA = 3 THEN CODCLIENTE WHEN CODNATUREZA = 4 THEN CODFORNECEDOR
+	select FIRST 1 CODNATUREZA, CASE WHEN CODNATUREZA = 3 THEN CODCLIENTE  WHEN CODNATUREZA = 7 THEN CODCLIENTE  WHEN CODNATUREZA = 4 THEN CODFORNECEDOR
 	 ELSE 0 end from MOVIMENTO where CODMOVIMENTO = new.CODMOVIMENTO
 	  into :NATUREZA, :CODCLI; 
 	  
@@ -65,7 +65,7 @@ BEGIN
 	    into :UF, :PESSOA, :IE;
 	end   
 
-	if (natureza in (2,3)) then 
+	if (natureza in (2,3, 7)) then 
 	begin 
       select first 1 ec.UF, c.CODFISCAL, c.INSCESTADUAL from Clientes c
 	   left outer join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE
@@ -85,7 +85,7 @@ BEGIN
 
 	if ( (new.cfop = '') or (new.CFOP is null) ) then
 	begin 
-	  new.cfop = '5102';
+	  new.cfop = '5101';
 	end 	
 			
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
