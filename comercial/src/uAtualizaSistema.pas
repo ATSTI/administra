@@ -1037,7 +1037,6 @@ begin
       executaScript('insere_transp_fornec.sql');
       executaScript('inventario_lanca.sql');
       executaScript('sp_mov_caixa.sql');
-      executaScript('listaSpEstoqueFiltro.sql');
       executaScript('trg_data_altera_preco.sql');
       CriaGenerator('GEN_SIMILAR');
       if (NaoExisteTabela('ESTOQUEMES')) then
@@ -2053,7 +2052,11 @@ begin
     if (versaoSistema = '3.0.0.2') then
     begin
       insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/09/2014'));
-      insereouatualizaScript('busca_cfop.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('busca_cfop.sql', '3.0.0.2', StrToDate('01/09/2014'));
+      try
+        dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION erro_proc ' + Quotedstr('teste'));
+      except
+      end;
       AtualizandoScript('3.0.0.2');
       mudaVersao('3.0.0.3');
     end;
@@ -2204,6 +2207,12 @@ begin
     dm.sqlsisAdimin.ExecuteDirect('UPDATE ATUALIZA SET VERSAO = ' +
       QuotedStr(versaoNova) + ' WHERE CODATUALIZA = 5000');
     dm.sqlsisAdimin.Commit(TD);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE ATUALIZA SET VERSAO = NULL ' +
+      ' WHERE CODATUALIZA < 5000 ' +
+      '   AND VERSAO = ' + QuotedStr(versaoNova));
+    dm.sqlsisAdimin.Commit(TD);
+
     versaoSistema := versaoNova;
     close;
   except
