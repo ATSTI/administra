@@ -301,7 +301,7 @@ begin
   S_CAIXA.Params[0].AsString := cbbCaixa.Text;
   S_CAIXA.Open;
   cCaixaControleCODCAIXA.AsInteger := S_CAIXACODIGO.AsInteger;
-  DM_MOV.ID_CCUSTO := S_CAIXACODIGO.AsInteger;
+  //DM_MOV.ID_CCUSTO := S_CAIXACODIGO.AsInteger;
   S_CAIXA.Close;
   cCaixaControle.ApplyUpdates(0);
   cCaixaControle.Close;

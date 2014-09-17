@@ -136,7 +136,7 @@ object fAbrirCaixa: TfAbrirCaixa
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 2
     end
     object cbbCaixa: TJvComboBox
       Left = 161
@@ -151,7 +151,7 @@ object fAbrirCaixa: TfAbrirCaixa
       Font.Style = []
       ItemHeight = 33
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
       Items.Strings = (
         '00 - MERCADORIA PARA REVENDA'
         '01 - MAT'#201'RIA-PRIMA'
