@@ -1,10 +1,10 @@
 object fcrproc: Tfcrproc
-  Left = 188
+  Left = 82
   Top = 105
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
   ClientHeight = 591
-  ClientWidth = 792
+  ClientWidth = 898
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,7 +14,6 @@ object fcrproc: Tfcrproc
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
-  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
@@ -23,7 +22,7 @@ object fcrproc: Tfcrproc
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 898
     Height = 60
     Align = alTop
     BevelInner = bvLowered
@@ -1081,7 +1080,7 @@ object fcrproc: Tfcrproc
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 556
-    Width = 792
+    Width = 898
     Height = 35
     Align = alBottom
     BevelInner = bvLowered
@@ -1323,7 +1322,7 @@ object fcrproc: Tfcrproc
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 221
-    Width = 792
+    Width = 898
     Height = 335
     Align = alClient
     DataSource = ds_Cr
@@ -1353,124 +1352,124 @@ object fcrproc: Tfcrproc
         Expanded = False
         FieldName = 'DUP_REC_NF'
         Title.Caption = 'Sel.'
-        Width = 18
+        Width = 21
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TITULO'
         Title.Caption = 'T'#237'tulo'
-        Width = 45
+        Width = 51
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VIA'
         Title.Caption = 'Parc.'
-        Width = 29
+        Width = 33
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EMISSAO'
         Title.Caption = 'Emiss'#227'o'
-        Width = 46
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENCIMENTO'
         Title.Caption = 'Vencto.'
-        Width = 46
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATARECEBIMENTO'
         Title.Caption = 'Data Rec.'
-        Width = 50
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.'
-        Width = 20
+        Width = 23
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 88
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_RESTO'
         Title.Caption = 'V. Receber'
-        Width = 50
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORREC'
         Title.Caption = 'Pendente'
-        Width = 50
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORRECEBIDO'
         Title.Caption = 'Recebido'
-        Width = 50
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUSP'
         Title.Caption = 'Situa'#231#227'o'
-        Width = 50
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'N_DOCUMENTO'
         Title.Caption = 'N.doc'
-        Width = 34
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'HISTORICO'
         Title.Caption = 'Hist'#243'rico'
-        Width = 41
+        Width = 47
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DP'
-        Width = 28
+        Width = 32
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BL'
-        Width = 57
+        Width = 65
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODIGOBOLETO'
         Title.Caption = 'Nosso N'#186
-        Width = 57
+        Width = 65
         Visible = True
       end>
   end
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 60
-    Width = 792
+    Width = 898
     Height = 161
     ActivePage = TabSheet1
     Align = alTop
@@ -1480,89 +1479,10 @@ object fcrproc: Tfcrproc
       object Panel6: TPanel
         Left = 0
         Top = 0
-        Width = 784
+        Width = 890
         Height = 133
         Align = alClient
         TabOrder = 0
-        object Label3: TLabel
-          Left = 6
-          Top = 5
-          Width = 42
-          Height = 13
-          Caption = 'Situa'#231#227'o'
-          PopupMenu = PopupMenu1
-        end
-        object Label4: TLabel
-          Left = 210
-          Top = 5
-          Width = 38
-          Height = 13
-          Caption = 'N'#186' Dup.'
-          PopupMenu = PopupMenu1
-        end
-        object Label5: TLabel
-          Left = 261
-          Top = 5
-          Width = 28
-          Height = 13
-          Caption = 'T'#237'tulo'
-          PopupMenu = PopupMenu1
-        end
-        object Label9: TLabel
-          Left = 168
-          Top = 48
-          Width = 33
-          Height = 13
-          Caption = 'C'#243'digo'
-          PopupMenu = PopupMenu1
-        end
-        object Label10: TLabel
-          Left = 230
-          Top = 48
-          Width = 63
-          Height = 13
-          Caption = 'Nome Cliente'
-          PopupMenu = PopupMenu1
-        end
-        object Label11: TLabel
-          Left = 360
-          Top = 5
-          Width = 76
-          Height = 13
-          Caption = 'Centro de Custo'
-          PopupMenu = PopupMenu1
-        end
-        object Label12: TLabel
-          Left = 231
-          Top = 88
-          Width = 46
-          Height = 13
-          Caption = 'Vendedor'
-          PopupMenu = PopupMenu1
-        end
-        object Label13: TLabel
-          Left = 169
-          Top = 88
-          Width = 33
-          Height = 13
-          Caption = 'C'#243'digo'
-          PopupMenu = PopupMenu1
-        end
-        object Label19: TLabel
-          Left = 7
-          Top = 49
-          Width = 29
-          Height = 13
-          Caption = 'Forma'
-          PopupMenu = PopupMenu1
-        end
-        object Label20: TLabel
-          Left = 5
-          Top = 88
-          Width = 68
-          Height = 13
-          Caption = 'Caixa / Banco'
-        end
         object Edit1: TEdit
           Left = 382
           Top = 21
@@ -1571,845 +1491,948 @@ object fcrproc: Tfcrproc
           BevelKind = bkFlat
           BorderStyle = bsNone
           PopupMenu = PopupMenu1
-          TabOrder = 0
+          TabOrder = 1
           Text = 'Edit1'
           Visible = False
         end
-        object cbStatus: TComboBox
-          Left = 5
-          Top = 19
-          Width = 159
-          Height = 24
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ItemHeight = 16
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 1
-          OnKeyPress = FormKeyPress
+        object Panel8: TPanel
+          Left = 177
+          Top = 1
+          Width = 383
+          Height = 131
+          Align = alLeft
+          TabOrder = 0
+          object Label13: TLabel
+            Left = 9
+            Top = 80
+            Width = 33
+            Height = 13
+            Caption = 'C'#243'digo'
+            PopupMenu = PopupMenu1
+          end
+          object Label12: TLabel
+            Left = 84
+            Top = 80
+            Width = 46
+            Height = 13
+            Caption = 'Vendedor'
+            PopupMenu = PopupMenu1
+          end
+          object Label9: TLabel
+            Left = 7
+            Top = 40
+            Width = 33
+            Height = 13
+            Caption = 'C'#243'digo'
+            PopupMenu = PopupMenu1
+          end
+          object Label10: TLabel
+            Left = 85
+            Top = 40
+            Width = 63
+            Height = 13
+            Caption = 'Nome Cliente'
+            PopupMenu = PopupMenu1
+          end
+          object Label5: TLabel
+            Left = 85
+            Top = 2
+            Width = 28
+            Height = 13
+            Caption = 'T'#237'tulo'
+            PopupMenu = PopupMenu1
+          end
+          object Label11: TLabel
+            Left = 194
+            Top = 2
+            Width = 76
+            Height = 13
+            Caption = 'Centro de Custo'
+            PopupMenu = PopupMenu1
+          end
+          object Label4: TLabel
+            Left = 8
+            Top = 2
+            Width = 37
+            Height = 13
+            Caption = 'N. Dup.'
+            PopupMenu = PopupMenu1
+          end
+          object BitBtn11: TBitBtn
+            Left = 345
+            Top = 89
+            Width = 32
+            Height = 32
+            PopupMenu = PopupMenu1
+            TabOrder = 6
+            TabStop = False
+            OnClick = BitBtn11Click
+            Glyph.Data = {
+              1E070000424D1E070000000000003600000028000000160000001A0000000100
+              180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
+              C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
+              C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
+              C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+              7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+              7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
+              7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
+              7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
+              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+              00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
+              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+              00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
+              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+              7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+              007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
+              00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
+              7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
+              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
+              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+              7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+              C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
+              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
+              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
+              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+              7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
+              7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
+              00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
+              0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
+              7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
+              7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
+              00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
+              00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000}
+          end
+          object BitBtn12: TBitBtn
+            Left = 313
+            Top = 89
+            Width = 32
+            Height = 32
+            Caption = '...'
+            PopupMenu = PopupMenu1
+            TabOrder = 7
+            TabStop = False
+            OnClick = BitBtn12Click
+          end
+          object edVendedor: TEdit
+            Left = 82
+            Top = 94
+            Width = 231
+            Height = 24
+            TabStop = False
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Color = 13562879
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            ReadOnly = True
+            TabOrder = 8
+          end
+          object edcodVendedor: TEdit
+            Left = 7
+            Top = 94
+            Width = 73
+            Height = 24
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 5
+            OnKeyPress = FormKeyPress
+          end
+          object edCodCliente: TEdit
+            Left = 7
+            Top = 55
+            Width = 73
+            Height = 24
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 4
+            OnExit = edCodClienteExit
+            OnKeyPress = FormKeyPress
+          end
+          object edCliente: TEdit
+            Left = 82
+            Top = 55
+            Width = 231
+            Height = 24
+            TabStop = False
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Color = 13562879
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            ReadOnly = True
+            TabOrder = 9
+            OnKeyDown = edClienteKeyDown
+          end
+          object BitBtn8: TBitBtn
+            Left = 313
+            Top = 49
+            Width = 32
+            Height = 32
+            Caption = '...'
+            PopupMenu = PopupMenu1
+            TabOrder = 10
+            TabStop = False
+            OnClick = BitBtn8Click
+          end
+          object BitBtn9: TBitBtn
+            Left = 345
+            Top = 49
+            Width = 32
+            Height = 32
+            PopupMenu = PopupMenu1
+            TabOrder = 11
+            TabStop = False
+            OnClick = BitBtn9Click
+            Glyph.Data = {
+              1E070000424D1E070000000000003600000028000000160000001A0000000100
+              180000000000E8060000C30E0000C30E00000000000000000000BFBFBFBFBFBF
+              BFBFBFBFBFBF7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+              BFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBF7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              0000BFBFBFBFBFBF0000000000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBF00000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FBFBF
+              BFBFBFBFBFBFBFBFBFBF0000FF0000007F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBF
+              BFBFBFBFBFBFBFBF00000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+              7F7F7F7F7FBFBFBFBFBFBF0000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+              7F7F7FBFBFBFBFBFBFBFBFBF00000000FF00007F00007F00007F000000000000
+              7F7F7F7F7F7F7F7F7F7F7F7FBFBFBF0000FF00007F00007F0000000000007F7F
+              7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBF00000000FF00007F00007F00007F0000
+              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+              00000000007F7F7F7F7F7FBFBFBFBFBFBFBFBFBF00000000FF0000FF00007F00
+              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+              00007F00007F000000000000BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBF0000FF
+              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+              7F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+              BF0000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+              007F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              0000BFBFBFBFBFBF0000FF0000FF00007F00007F00007F00007F00007F00007F
+              00007F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBF0000BFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F00007F0000
+              7F00007F00007F00007F00007F0000007F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00
+              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF
+              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+              7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BF0000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBF0000FF00007F00007F00007F00007F00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+              BFBFBFBFBFBF0000FF00007F00007F00007F00007F00007F00007F00007F0000
+              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF0000BFBF
+              BFBFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F00007F0000FF0000FF00
+              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF
+              0000BFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F00007F0000007F7F7F
+              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+              7FBFBFBF0000BFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F0000007F7F
+              7FBFBFBFBFBFBF0000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7F7F7F7F0000BFBFBFBFBFBF0000FF00007F00007F00007F00007F00
+              00007F7F7FBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7F0000BFBFBFBFBFBF0000FF00007F00007F00007F
+              0000007F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F0000
+              7F00007F0000000000007F7F7FBFBFBF0000BFBFBF0000FF0000FF0000FF0000
+              7F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF00
+              00FF00007F00007F00007F000000BFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBF00
+              00FF0000FF0000FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBF0000FF0000FF00007F00007FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBFBF0000FF0000FFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+              BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+              0000}
+          end
+          object edTitulo: TEdit
+            Left = 82
+            Top = 16
+            Width = 62
+            Height = 24
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 1
+            OnKeyPress = FormKeyPress
+          end
+          object dblSerie: TComboBox
+            Left = 145
+            Top = 16
+            Width = 43
+            Height = 24
+            BevelKind = bkFlat
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ItemHeight = 16
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 2
+            OnKeyPress = FormKeyPress
+          end
+          object edCodCCusto: TComboBox
+            Left = 191
+            Top = 16
+            Width = 186
+            Height = 24
+            BevelKind = bkFlat
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ItemHeight = 16
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 3
+            OnKeyPress = FormKeyPress
+          end
+          object Edit2: TEdit
+            Left = 7
+            Top = 16
+            Width = 73
+            Height = 24
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 0
+            OnKeyPress = FormKeyPress
+          end
         end
-        object BitBtn4: TBitBtn
-          Left = 165
-          Top = 11
-          Width = 32
-          Height = 32
-          PopupMenu = PopupMenu1
+        object Panel9: TPanel
+          Left = 1
+          Top = 1
+          Width = 176
+          Height = 131
+          Align = alLeft
           TabOrder = 2
-          TabStop = False
-          OnClick = BitBtn4Click
-          Glyph.Data = {
-            1E070000424D1E070000000000003600000028000000160000001A0000000100
-            180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-            C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-            C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-            C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-            7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-            7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-            7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-            7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-            7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-            00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-            007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-            00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-            00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-            7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-            007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-            00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-            7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-            007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-            00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-            7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-            C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-            7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-            007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-            0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-            7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-            7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-            00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-            0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-            7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-            7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-            00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-            00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000}
+          object Label3: TLabel
+            Left = 7
+            Top = 2
+            Width = 42
+            Height = 13
+            Caption = 'Situa'#231#227'o'
+            PopupMenu = PopupMenu1
+          end
+          object Label19: TLabel
+            Left = 7
+            Top = 41
+            Width = 29
+            Height = 13
+            Caption = 'Forma'
+            PopupMenu = PopupMenu1
+          end
+          object Label20: TLabel
+            Left = 7
+            Top = 80
+            Width = 68
+            Height = 13
+            Caption = 'Caixa / Banco'
+          end
+          object cbStatus: TComboBox
+            Left = 5
+            Top = 16
+            Width = 132
+            Height = 24
+            BevelKind = bkFlat
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ItemHeight = 16
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 0
+            OnKeyPress = FormKeyPress
+          end
+          object BitBtn4: TBitBtn
+            Left = 137
+            Top = 9
+            Width = 32
+            Height = 32
+            PopupMenu = PopupMenu1
+            TabOrder = 3
+            TabStop = False
+            OnClick = BitBtn4Click
+            Glyph.Data = {
+              1E070000424D1E070000000000003600000028000000160000001A0000000100
+              180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
+              C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
+              C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
+              C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+              7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+              7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
+              7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
+              7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
+              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+              00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
+              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+              00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
+              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+              7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+              007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
+              00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
+              7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
+              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
+              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+              7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+              C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
+              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
+              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+              0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
+              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+              7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
+              7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+              7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
+              00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
+              0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
+              0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
+              7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
+              7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
+              00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
+              00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+              0000}
+          end
+          object cbForma: TComboBox
+            Left = 5
+            Top = 55
+            Width = 164
+            Height = 24
+            BevelKind = bkFlat
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ItemHeight = 16
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 1
+            OnKeyPress = FormKeyPress
+          end
+          object cbComboCaixa: TComboBox
+            Left = 5
+            Top = 94
+            Width = 164
+            Height = 24
+            BevelKind = bkFlat
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ItemHeight = 16
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 2
+            OnKeyPress = FormKeyPress
+          end
         end
-        object du: TEdit
-          Left = 207
-          Top = 19
-          Width = 54
-          Height = 24
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
+        object Panel7: TPanel
+          Left = 560
+          Top = 1
+          Width = 241
+          Height = 131
+          Align = alLeft
           TabOrder = 3
-          OnKeyPress = FormKeyPress
-        end
-        object edTitulo: TEdit
-          Left = 260
-          Top = 19
-          Width = 52
-          Height = 24
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 4
-          OnKeyPress = FormKeyPress
-        end
-        object dblSerie: TComboBox
-          Left = 314
-          Top = 19
-          Width = 43
-          Height = 24
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ItemHeight = 16
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 5
-          OnKeyPress = FormKeyPress
-        end
-        object GroupBox3: TGroupBox
-          Left = 562
-          Top = 87
-          Width = 220
-          Height = 42
-          Caption = 'Vencimento'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 6
-          object Label8: TLabel
-            Left = 89
-            Top = 21
-            Width = 19
-            Height = 16
-            Caption = 'at'#233
+          object GroupBox1: TGroupBox
+            Left = 13
+            Top = 3
+            Width = 220
+            Height = 42
+            Caption = 'Per'#237'odo de Emiss'#227'o'
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
+            Font.Color = clBlack
+            Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ParentFont = False
-            PopupMenu = PopupMenu1
-          end
-          object meDta3: TMaskEdit
-            Left = 5
-            Top = 14
-            Width = 81
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
             ParentFont = False
             PopupMenu = PopupMenu1
             TabOrder = 0
-            Text = '  /  /  '
-            OnKeyPress = meDta1KeyPress
+            object Label6: TLabel
+              Left = 89
+              Top = 20
+              Width = 19
+              Height = 16
+              Caption = 'at'#233
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              PopupMenu = PopupMenu1
+            end
+            object meDta1: TMaskEdit
+              Left = 5
+              Top = 13
+              Width = 81
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 0
+              Text = '  /  /  '
+              OnKeyPress = meDta1KeyPress
+            end
+            object meDta2: TMaskEdit
+              Left = 110
+              Top = 13
+              Width = 75
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 1
+              Text = '  /  /  '
+              OnKeyPress = FormKeyPress
+            end
+            object BitBtn2: TBitBtn
+              Left = 186
+              Top = 7
+              Width = 32
+              Height = 32
+              PopupMenu = PopupMenu1
+              TabOrder = 2
+              TabStop = False
+              OnClick = BitBtn2Click
+              Glyph.Data = {
+                1E070000424D1E070000000000003600000028000000160000001A0000000100
+                180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
+                C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
+                C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+                7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
+                7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
+                7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
+                7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+                00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
+                007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+                00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
+                00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+                7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+                007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
+                00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
+                7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
+                007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
+                00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
+                7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
+                007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
+                0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
+                7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
+                00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
+                0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
+                7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
+                7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
+                00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
+                00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000}
+            end
           end
-          object meDta4: TMaskEdit
-            Left = 110
-            Top = 14
-            Width = 75
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
+          object GroupBox2: TGroupBox
+            Left = 13
+            Top = 45
+            Width = 220
+            Height = 42
+            Caption = 'Recebimento'
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
+            Font.Color = clBlack
+            Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            MaxLength = 8
             ParentFont = False
             PopupMenu = PopupMenu1
             TabOrder = 1
-            Text = '  /  /  '
-            OnKeyPress = FormKeyPress
+            object Label7: TLabel
+              Left = 89
+              Top = 21
+              Width = 19
+              Height = 16
+              Caption = 'at'#233
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              PopupMenu = PopupMenu1
+            end
+            object meDta5: TMaskEdit
+              Left = 5
+              Top = 14
+              Width = 81
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 0
+              Text = '  /  /  '
+              OnKeyPress = meDta1KeyPress
+            end
+            object meDta6: TMaskEdit
+              Left = 110
+              Top = 14
+              Width = 75
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 1
+              Text = '  /  /  '
+              OnKeyPress = FormKeyPress
+            end
+            object BitBtn6: TBitBtn
+              Left = 186
+              Top = 7
+              Width = 32
+              Height = 32
+              PopupMenu = PopupMenu1
+              TabOrder = 2
+              TabStop = False
+              OnClick = BitBtn6Click
+              Glyph.Data = {
+                1E070000424D1E070000000000003600000028000000160000001A0000000100
+                180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
+                C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
+                C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+                7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
+                7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
+                7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
+                7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+                00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
+                007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+                00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
+                00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+                7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+                007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
+                00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
+                7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
+                007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
+                00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
+                7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
+                007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
+                0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
+                7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
+                00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
+                0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
+                7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
+                7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
+                00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
+                00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000}
+            end
           end
-          object BitBtn7: TBitBtn
-            Left = 186
-            Top = 7
-            Width = 32
-            Height = 32
+          object GroupBox3: TGroupBox
+            Left = 13
+            Top = 87
+            Width = 220
+            Height = 42
+            Caption = 'Vencimento'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
             PopupMenu = PopupMenu1
             TabOrder = 2
-            TabStop = False
-            OnClick = BitBtn7Click
-            Glyph.Data = {
-              1E070000424D1E070000000000003600000028000000160000001A0000000100
-              180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-              C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-              C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-              7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-              7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-              7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-              00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-              00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-              7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-              007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-              00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-              7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-              7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-              00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-              0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-              7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-              7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-              00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-              00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000}
+            object Label8: TLabel
+              Left = 89
+              Top = 21
+              Width = 19
+              Height = 16
+              Caption = 'at'#233
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              PopupMenu = PopupMenu1
+            end
+            object meDta3: TMaskEdit
+              Left = 5
+              Top = 14
+              Width = 81
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 0
+              Text = '  /  /  '
+              OnKeyPress = meDta1KeyPress
+            end
+            object meDta4: TMaskEdit
+              Left = 110
+              Top = 14
+              Width = 75
+              Height = 24
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              EditMask = '!99/99/00;1;_'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              MaxLength = 8
+              ParentFont = False
+              PopupMenu = PopupMenu1
+              TabOrder = 1
+              Text = '  /  /  '
+              OnKeyPress = FormKeyPress
+            end
+            object BitBtn7: TBitBtn
+              Left = 186
+              Top = 7
+              Width = 32
+              Height = 32
+              PopupMenu = PopupMenu1
+              TabOrder = 2
+              TabStop = False
+              OnClick = BitBtn7Click
+              Glyph.Data = {
+                1E070000424D1E070000000000003600000028000000160000001A0000000100
+                180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
+                C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
+                C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
+                7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
+                7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
+                7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
+                7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
+                00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
+                007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
+                00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
+                00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
+                7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
+                007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
+                00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
+                7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
+                007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
+                00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
+                7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
+                007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
+                0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
+                0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
+                7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
+                7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
+                7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
+                00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
+                0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
+                0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
+                7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
+                7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
+                00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
+                00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+                0000}
+            end
           end
-        end
-        object GroupBox2: TGroupBox
-          Left = 562
-          Top = 45
-          Width = 220
-          Height = 42
-          Caption = 'Recebimento'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 7
-          object Label7: TLabel
-            Left = 89
-            Top = 21
-            Width = 19
-            Height = 16
-            Caption = 'at'#233
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            PopupMenu = PopupMenu1
-          end
-          object meDta5: TMaskEdit
-            Left = 5
-            Top = 14
-            Width = 81
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            TabOrder = 0
-            Text = '  /  /  '
-            OnKeyPress = meDta1KeyPress
-          end
-          object meDta6: TMaskEdit
-            Left = 110
-            Top = 14
-            Width = 75
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            TabOrder = 1
-            Text = '  /  /  '
-            OnKeyPress = FormKeyPress
-          end
-          object BitBtn6: TBitBtn
-            Left = 186
-            Top = 7
-            Width = 32
-            Height = 32
-            PopupMenu = PopupMenu1
-            TabOrder = 2
-            TabStop = False
-            OnClick = BitBtn6Click
-            Glyph.Data = {
-              1E070000424D1E070000000000003600000028000000160000001A0000000100
-              180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-              C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-              C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-              7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-              7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-              7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-              00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-              00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-              7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-              007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-              00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-              7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-              7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-              00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-              0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-              7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-              7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-              00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-              00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000}
-          end
-        end
-        object GroupBox1: TGroupBox
-          Left = 563
-          Top = 3
-          Width = 220
-          Height = 42
-          Caption = 'Per'#237'odo de Emiss'#227'o'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 8
-          object Label6: TLabel
-            Left = 89
-            Top = 20
-            Width = 19
-            Height = 16
-            Caption = 'at'#233
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            PopupMenu = PopupMenu1
-          end
-          object meDta1: TMaskEdit
-            Left = 5
-            Top = 13
-            Width = 81
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            TabOrder = 0
-            Text = '  /  /  '
-            OnKeyPress = meDta1KeyPress
-          end
-          object meDta2: TMaskEdit
-            Left = 110
-            Top = 13
-            Width = 75
-            Height = 24
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            EditMask = '!99/99/00;1;_'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            MaxLength = 8
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            TabOrder = 1
-            Text = '  /  /  '
-            OnKeyPress = FormKeyPress
-          end
-          object BitBtn2: TBitBtn
-            Left = 186
-            Top = 7
-            Width = 32
-            Height = 32
-            PopupMenu = PopupMenu1
-            TabOrder = 2
-            TabStop = False
-            OnClick = BitBtn2Click
-            Glyph.Data = {
-              1E070000424D1E070000000000003600000028000000160000001A0000000100
-              180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-              C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-              C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-              7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-              7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-              7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-              7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-              00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-              007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-              00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-              00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-              7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-              007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-              00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-              7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-              007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-              00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-              7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-              007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-              0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-              0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-              7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-              7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-              7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-              00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-              0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-              0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-              7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-              7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-              00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-              00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-              0000}
-          end
-        end
-        object edCodCliente: TEdit
-          Left = 166
-          Top = 63
-          Width = 61
-          Height = 24
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 9
-          OnExit = edCodClienteExit
-          OnKeyPress = FormKeyPress
-        end
-        object edCliente: TEdit
-          Left = 228
-          Top = 63
-          Width = 263
-          Height = 24
-          TabStop = False
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Color = 13562879
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          ReadOnly = True
-          TabOrder = 10
-          OnKeyDown = edClienteKeyDown
-        end
-        object BitBtn8: TBitBtn
-          Left = 493
-          Top = 57
-          Width = 32
-          Height = 32
-          Caption = '...'
-          PopupMenu = PopupMenu1
-          TabOrder = 11
-          TabStop = False
-          OnClick = BitBtn8Click
-        end
-        object BitBtn9: TBitBtn
-          Left = 526
-          Top = 57
-          Width = 32
-          Height = 32
-          PopupMenu = PopupMenu1
-          TabOrder = 12
-          TabStop = False
-          OnClick = BitBtn9Click
-          Glyph.Data = {
-            1E070000424D1E070000000000003600000028000000160000001A0000000100
-            180000000000E8060000C30E0000C30E00000000000000000000BFBFBFBFBFBF
-            BFBFBFBFBFBF7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-            BFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBF7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            0000BFBFBFBFBFBF0000000000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBF7F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBF00000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FBFBF
-            BFBFBFBFBFBFBFBFBFBF0000FF0000007F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBF
-            BFBFBFBFBFBFBFBF00000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-            7F7F7F7F7FBFBFBFBFBFBF0000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-            7F7F7FBFBFBFBFBFBFBFBFBF00000000FF00007F00007F00007F000000000000
-            7F7F7F7F7F7F7F7F7F7F7F7FBFBFBF0000FF00007F00007F0000000000007F7F
-            7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBF00000000FF00007F00007F00007F0000
-            7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-            00000000007F7F7F7F7F7FBFBFBFBFBFBFBFBFBF00000000FF0000FF00007F00
-            007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-            00007F00007F000000000000BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBF0000FF
-            00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-            7F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-            BF0000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-            007F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            0000BFBFBFBFBFBF0000FF0000FF00007F00007F00007F00007F00007F00007F
-            00007F00007F00007F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBF0000BFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F00007F0000
-            7F00007F00007F00007F00007F0000007F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00
-            007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF
-            00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-            7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BF0000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBF0000FF00007F00007F00007F00007F00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
-            BFBFBFBFBFBF0000FF00007F00007F00007F00007F00007F00007F00007F0000
-            7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF0000BFBF
-            BFBFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F00007F0000FF0000FF00
-            007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FBFBFBFBFBFBFBFBFBF
-            0000BFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F00007F0000007F7F7F
-            0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-            7FBFBFBF0000BFBFBFBFBFBFBFBFBF0000FF00007F00007F00007F0000007F7F
-            7FBFBFBFBFBFBF0000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7F7F7F7F0000BFBFBFBFBFBF0000FF00007F00007F00007F00007F00
-            00007F7F7FBFBFBFBFBFBFBFBFBF0000FF0000FF00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7F0000BFBFBFBFBFBF0000FF00007F00007F00007F
-            0000007F7F7FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF0000FF00007F0000
-            7F00007F0000000000007F7F7FBFBFBF0000BFBFBF0000FF0000FF0000FF0000
-            7F00007F000000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000FF00
-            00FF00007F00007F00007F000000BFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBF00
-            00FF0000FF0000FFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBF0000FF0000FF00007F00007FBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBFBF0000FF0000FFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
-            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
-            0000}
-        end
-        object edCodCCusto: TComboBox
-          Left = 358
-          Top = 19
-          Width = 203
-          Height = 24
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ItemHeight = 16
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 13
-          OnKeyPress = FormKeyPress
-        end
-        object edVendedor: TEdit
-          Left = 228
-          Top = 103
-          Width = 263
-          Height = 24
-          TabStop = False
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Color = 13562879
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          ReadOnly = True
-          TabOrder = 14
-        end
-        object edcodVendedor: TEdit
-          Left = 166
-          Top = 103
-          Width = 61
-          Height = 24
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 15
-          OnKeyPress = FormKeyPress
-        end
-        object BitBtn12: TBitBtn
-          Left = 493
-          Top = 98
-          Width = 32
-          Height = 32
-          Caption = '...'
-          PopupMenu = PopupMenu1
-          TabOrder = 16
-          TabStop = False
-          OnClick = BitBtn12Click
-        end
-        object BitBtn11: TBitBtn
-          Left = 526
-          Top = 98
-          Width = 32
-          Height = 32
-          PopupMenu = PopupMenu1
-          TabOrder = 17
-          TabStop = False
-          OnClick = BitBtn11Click
-          Glyph.Data = {
-            1E070000424D1E070000000000003600000028000000160000001A0000000100
-            180000000000E806000000000000000000000000000000000000C0C0C0C0C0C0
-            C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C07F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C00000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C07F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C000000000FF00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0
-            C0C0C0C0C0C0C0C0C0C00000FF0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0
-            C0C0C0C0C0C0C0C000000000FF00007F00007F00007F0000007F7F7F7F7F7F7F
-            7F7F7F7F7FC0C0C0C0C0C00000FF00007F0000000000007F7F7F7F7F7F7F7F7F
-            7F7F7FC0C0C0C0C0C0C0C0C000000000FF00007F00007F00007F000000000000
-            7F7F7F7F7F7F7F7F7F7F7F7FC0C0C00000FF00007F00007F0000000000007F7F
-            7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C000000000FF00007F00007F00007F0000
-            7F0000000000007F7F7F7F7F7F7F7F7F0000FF00007F00007F00007F00007F00
-            00000000007F7F7F7F7F7FC0C0C0C0C0C0C0C0C000000000FF0000FF00007F00
-            007F00007F00007F0000000000007F7F7F0000FF00007F00007F00007F00007F
-            00007F00007F000000000000C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C00000FF
-            00007F00007F00007F00007F00007F00000000000000007F00007F00007F0000
-            7F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C00000FF0000FF00007F00007F00007F00007F00007F00007F00007F00007F00
-            007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C00000FF0000FF00007F00007F00007F00007F00007F00007F
-            00007F00007F00007F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C00000C0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F0000
-            7F00007F00007F00007F00007F0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F00
-            007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF
-            00007F00007F00007F00007F00007F00007F0000007F7F7F7F7F7F7F7F7F7F7F
-            7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C00000FF00007F00007F00007F00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-            C0C0C0C0C0C00000FF00007F00007F00007F00007F00007F00007F00007F0000
-            7F00007F0000007F7F7F7F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000FF0000FF00
-            007F00007F00007F0000000000007F7F7F7F7F7F7F7F7FC0C0C0C0C0C0C0C0C0
-            0000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F00007F0000007F7F7F
-            0000FF0000FF00007F00007F00007F0000000000007F7F7F7F7F7F7F7F7F7F7F
-            7FC0C0C00000C0C0C0C0C0C0C0C0C00000FF00007F00007F00007F0000007F7F
-            7FC0C0C0C0C0C00000FF0000FF00007F00007F00007F0000000000007F7F7F7F
-            7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F00007F00
-            00007F7F7FC0C0C0C0C0C0C0C0C00000FF0000FF00007F00007F00007F000000
-            0000007F7F7F7F7F7F7F7F7F0000C0C0C0C0C0C00000FF00007F00007F00007F
-            0000007F7F7FC0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF0000FF00007F0000
-            7F00007F0000000000007F7F7FC0C0C00000C0C0C00000FF0000FF0000FF0000
-            7F00007F000000C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C00000FF00
-            00FF00007F00007F00007F000000C0C0C0C0C0C00000C0C0C0C0C0C0C0C0C000
-            00FF0000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C00000FF0000FF00007F00007FC0C0C0C0C0C0C0C0C00000C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C00000FF0000FFC0C0C0C0C0C0C0C0C0C0C0C00000C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-            0000}
-        end
-        object cbForma: TComboBox
-          Left = 5
-          Top = 63
-          Width = 158
-          Height = 24
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ItemHeight = 16
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 18
-          OnKeyPress = FormKeyPress
-        end
-        object cbComboCaixa: TComboBox
-          Left = 5
-          Top = 103
-          Width = 158
-          Height = 24
-          BevelKind = bkFlat
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ItemHeight = 16
-          ParentFont = False
-          PopupMenu = PopupMenu1
-          TabOrder = 19
-          OnKeyPress = FormKeyPress
         end
       end
     end
@@ -2438,6 +2461,13 @@ object fcrproc: Tfcrproc
         Caption = 'Valor'
         PopupMenu = PopupMenu1
       end
+      object Label22: TLabel
+        Left = 418
+        Top = 8
+        Width = 15
+        Height = 13
+        Caption = 'DP'
+      end
       object cbReceitas: TJvComboBox
         Left = 16
         Top = 22
@@ -2448,7 +2478,7 @@ object fcrproc: Tfcrproc
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 0
       end
@@ -2494,6 +2524,13 @@ object fcrproc: Tfcrproc
         Height = 17
         Caption = 'Conciliado'
         TabOrder = 3
+      end
+      object du: TEdit
+        Left = 416
+        Top = 22
+        Width = 75
+        Height = 21
+        TabOrder = 4
       end
     end
   end
@@ -3410,21 +3447,7 @@ object fcrproc: Tfcrproc
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fcrproc\'
     StoredProps.Strings = (
-      'cbForma.ItemIndex'
-      'cbComboCaixa.ItemIndex'
-      'cbReceitas.ItemIndex'
-      'cbStatus.ItemIndex'
-      'edCodCCusto.Text'
-      'edCodCliente.Text'
-      'edcodVendedor.Text'
-      'edTitulo.Text'
-      'edVendedor.Text'
-      'meDta1.Text'
-      'meDta2.Text'
-      'meDta3.Text'
-      'meDta4.Text'
-      'meDta5.Text'
-      'meDta6.Text')
+      'cbReceitas.ItemIndex')
     StoredValues = <>
     Left = 731
     Top = 30

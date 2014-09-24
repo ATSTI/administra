@@ -201,49 +201,54 @@ type
     Label1: TLabel;
     edValor: TEdit;
     Panel6: TPanel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
+    Edit1: TEdit;
+    rbConsolida: TCheckBox;
+    Panel8: TPanel;
+    BitBtn11: TBitBtn;
+    BitBtn12: TBitBtn;
+    edVendedor: TEdit;
+    edcodVendedor: TEdit;
+    Label13: TLabel;
+    Label12: TLabel;
+    edCodCliente: TEdit;
     Label9: TLabel;
     Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label19: TLabel;
-    Label20: TLabel;
-    Edit1: TEdit;
-    cbStatus: TComboBox;
-    BitBtn4: TBitBtn;
-    du: TEdit;
+    edCliente: TEdit;
+    BitBtn8: TBitBtn;
+    BitBtn9: TBitBtn;
+    Label5: TLabel;
     edTitulo: TEdit;
     dblSerie: TComboBox;
-    GroupBox3: TGroupBox;
-    Label8: TLabel;
-    meDta3: TMaskEdit;
-    meDta4: TMaskEdit;
-    BitBtn7: TBitBtn;
-    GroupBox2: TGroupBox;
-    Label7: TLabel;
-    meDta5: TMaskEdit;
-    meDta6: TMaskEdit;
-    BitBtn6: TBitBtn;
+    Label11: TLabel;
+    edCodCCusto: TComboBox;
+    Label4: TLabel;
+    Edit2: TEdit;
+    Panel9: TPanel;
+    Label3: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    cbStatus: TComboBox;
+    BitBtn4: TBitBtn;
+    cbForma: TComboBox;
+    cbComboCaixa: TComboBox;
+    Panel7: TPanel;
     GroupBox1: TGroupBox;
     Label6: TLabel;
     meDta1: TMaskEdit;
     meDta2: TMaskEdit;
     BitBtn2: TBitBtn;
-    edCodCliente: TEdit;
-    edCliente: TEdit;
-    BitBtn8: TBitBtn;
-    BitBtn9: TBitBtn;
-    edCodCCusto: TComboBox;
-    edVendedor: TEdit;
-    edcodVendedor: TEdit;
-    BitBtn12: TBitBtn;
-    BitBtn11: TBitBtn;
-    cbForma: TComboBox;
-    cbComboCaixa: TComboBox;
-    rbConsolida: TCheckBox;
+    GroupBox2: TGroupBox;
+    Label7: TLabel;
+    meDta5: TMaskEdit;
+    meDta6: TMaskEdit;
+    BitBtn6: TBitBtn;
+    GroupBox3: TGroupBox;
+    Label8: TLabel;
+    meDta3: TMaskEdit;
+    meDta4: TMaskEdit;
+    BitBtn7: TBitBtn;
+    du: TEdit;
+    Label22: TLabel;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -293,7 +298,7 @@ var
   fcrproc: Tfcrproc;
   SqlCr, sqlTexto1, DataStr, sqlGrupoCR, impCR: String;
   nrec: array of integer;
-  
+
 implementation
 
 uses uComercial, UDm, uListaClientes, uProcurar, ucrTitulo, uDuplicata,
@@ -374,12 +379,12 @@ begin
     dm.cds_serie.Next;
    end;
   {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
-  if Dm.cds_parametro.Active then
+  {if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'SERIEPADRAO';
   dm.cds_parametro.Open;
   dblSerie.Text := dm.cds_parametroDADOS.AsString;
-  dm.cds_parametro.Close;
+  dm.cds_parametro.Close;}
 
   // Listo as Contas Caixa
   if dm.cds_parametro.Active then
@@ -861,31 +866,37 @@ begin
   //------------------------------------------------------------------------------
   //Título
   //------------------------------------------------------------------------------
-  if edTitulo.Text<>'' then
+  if (edit2.Text <> '') then
   begin
     {------VerificANDo o tipo de uso do sistema ---------}
-    if Dm.cds_parametro.Active then
+    {if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'USOSISTEMA';
     dm.cds_parametro.Open;
     if (dm.cds_parametroDADOS.AsString = 'LOTEAMENTO') THEN
-    begin
-      if SqlCr='' then
-        SqlCr := SqlCr + ' WHERE N_DOCUMENTO = '
-      else
-        SqlCr := SqlCr + ' AND rec.N_DOCUMENTO = ';
-        SqlCr := SqlCr + '''' + edTitulo.Text + '''';
-    end
+    begin}
+    if (SqlCr = '') then
+      SqlCr := SqlCr + ' WHERE N_DOCUMENTO = '
     else
+      SqlCr := SqlCr + ' AND rec.N_DOCUMENTO = ';
+    SqlCr := SqlCr + '''' + edit2.Text + '''';
+  end;
+  if (edTitulo.Text <> '') then
+  begin
+    if (dblSerie.Text <> '') then
     begin
-      if SqlCr='' then
+      if (SqlCr = '') then
         SqlCr := SqlCr + ' WHERE rec.TITULO = '
       else
         SqlCr := SqlCr + ' AND rec.TITULO = ';
-        if dblSerie.Text <> '' then
-          SqlCr := SqlCr + '''' + edTitulo.Text + '-' + dblSerie.Text + ''''
-        else
-          SqlCr := SqlCr + '''' + edTitulo.Text + '''';
+      SqlCr := SqlCr + '''' + edTitulo.Text + '-' + dblSerie.Text + '''';
+    end
+    else begin
+      if (SqlCr = '') then
+        SqlCr := SqlCr + ' WHERE rec.TITULO LIKE '
+      else
+        SqlCr := SqlCr + ' AND rec.TITULO LIKE ';
+      SqlCr := SqlCr + QuotedStr(edTitulo.Text + '%');
     end;
   end;
   //==============================================================================
