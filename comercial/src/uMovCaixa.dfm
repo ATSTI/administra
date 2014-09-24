@@ -647,9 +647,9 @@ object fMovCaixa: TfMovCaixa
     object Label2: TLabel
       Left = 440
       Top = 5
-      Width = 53
+      Width = 122
       Height = 13
-      Caption = 'Total Caixa'
+      Caption = 'Total Caixa(Sem abertura)'
     end
     object Label3: TLabel
       Left = 440
@@ -689,9 +689,9 @@ object fMovCaixa: TfMovCaixa
       TabOrder = 0
     end
     object edValorTotalCaixa: TJvValidateEdit
-      Left = 540
+      Left = 576
       Top = 5
-      Width = 155
+      Width = 119
       Height = 26
       Flat = False
       ParentFlat = False
