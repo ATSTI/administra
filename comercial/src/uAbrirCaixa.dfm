@@ -139,9 +139,9 @@ object fAbrirCaixa: TfAbrirCaixa
       TabOrder = 2
     end
     object cbbCaixa: TJvComboBox
-      Left = 161
+      Left = 160
       Top = 56
-      Width = 212
+      Width = 214
       Height = 39
       Style = csOwnerDrawFixed
       Font.Charset = DEFAULT_CHARSET

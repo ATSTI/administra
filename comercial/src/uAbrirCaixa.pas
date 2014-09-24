@@ -153,6 +153,7 @@ type
     procedure btnAbrirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
   private
+    caixaAbriu : Integer;
     { Private declarations }
     procedure AbrirCaixa;
   public
@@ -301,7 +302,7 @@ begin
   S_CAIXA.Params[0].AsString := cbbCaixa.Text;
   S_CAIXA.Open;
   cCaixaControleCODCAIXA.AsInteger := S_CAIXACODIGO.AsInteger;
-  //DM_MOV.ID_CCUSTO := S_CAIXACODIGO.AsInteger;
+  caixaAbriu := S_CAIXACODIGO.AsInteger;
   S_CAIXA.Close;
   cCaixaControle.ApplyUpdates(0);
   cCaixaControle.Close;
@@ -311,8 +312,6 @@ begin
   sCaixa1.Params[0].AsString := MICRO;
   sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
   sCaixa1.Open;
-
-  //CODIGODEORIGEM := sCaixa1IDCAIXACONTROLE.AsInteger;
 
   //DATAFECHAMENTO := eddata2.Date;
   AbrirCaixa;
@@ -370,7 +369,7 @@ begin
     var_sqla := var_sqla + ',''' + 'CONTABIL'; //TIPOORIGEM
     var_sqla := var_sqla + ''',''' + formatdatetime('mm/dd/yyyy', eddata2.Date); //DATA
     var_sqla := var_sqla + ''',' + IntToStr(var_usuario);  //CODUSUARIO
-    var_sqla := var_sqla + ',' + QuotedStr(IntToStr(DM_MOV.ID_CCUSTO)); //CODCUSTO
+    var_sqla := var_sqla + ',' + QuotedStr(IntToStr(caixaAbriu)); //CODCUSTO
     var_sqla := var_sqla + ',' + QuotedStr(var_cxInterno); //CONTA CAIXA
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := '.';
