@@ -1139,8 +1139,6 @@ begin
    //aqui adiciono uma nova venda ou atualizo caso já exista
    total := 0;
    numTitulo := 0;
-   TD.TransactionID := 1;
-   TD.IsolationLevel := xilREADCOMMITTED;
   // Verifico se a venda já foi SALVA
   if (cds_venda.Active) then
     cds_venda.Close;
@@ -1432,6 +1430,7 @@ end;
 
 procedure TfTerminal_Delivery.BitBtn4Click(Sender: TObject);
 var sqltexto: String;
+    semCSTCupom: String;
 begin
   inherited;
 
@@ -1442,25 +1441,13 @@ begin
     exit;
   end;
 
-  if (cds_MovimentoCODNATUREZA.AsInteger <> 7) then
+  {if (cds_MovimentoCODNATUREZA.AsInteger <> 7) then
   begin
     if (cds_Movimento.State in [dsBrowse]) then
       cds_movimento.Edit;
     cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
     cds_Movimento.ApplyUpdates(0);
-  end;
-
-  if (Panel2.Visible = True) then
-    if (ComboBox1.Text = 'À PRAZO') then
-      vendaaprazo
-    else
-      vendaavista;
-
-  if (Panel3.Visible = True) then
-    if (ComboBox3.Text = 'À PRAZO') then
-      vendaaprazo
-    else
-      vendaavista;
+  end;}
 
    //busca ICMS e Sub.Tributaria
    if (vCFOP = '') then
@@ -1486,15 +1473,34 @@ begin
   cds_Mov_det.Open;
 
   // verificando sem tem produto sem CST
+  semCSTCupom := 'NAO';
   while not cds_mov_det.Eof do
   begin
-    if ((cds_Mov_detCST.IsNull) or (Trim(cds_Mov_detCST.AsString) = '')) then
+    if ((cds_Mov_detCST.IsNull) or (Trim(cds_Mov_detCST.AsString) = '') or (length(Trim(cds_Mov_detCST.AsString)) < 3)) then
     begin
       MessageDlg('O Produto : ' + cds_Mov_detDESCPRODUTO.AsString + ', esta sem CST.', mtError, [mbOk], 0);
+      semCSTCupom := 'SIM';
       exit;
     end;
     cds_mov_det.Next;
   end;
+
+  if (semCSTCupom = 'SIM') then
+  begin
+    exit;
+  end;
+
+  if (Panel2.Visible = True) then
+    if (ComboBox1.Text = 'À PRAZO') then
+      vendaaprazo
+    else
+      vendaavista;
+
+  if (Panel3.Visible = True) then
+    if (ComboBox3.Text = 'À PRAZO') then
+      vendaaprazo
+    else
+      vendaavista;
 
   if (ComboBox1.Text = 'À VISTA') then
     imprimecupom;
@@ -2172,8 +2178,8 @@ begin
      cds_MovimentoCODMOVIMENTO.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
    end;
 
-  if (RadioGroup1.ItemIndex = 2) then
-      cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
+  //if (RadioGroup1.ItemIndex = 2) then
+  //    cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
 
   cds_Movimento.ApplyUpdates(0);
   cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
@@ -2357,8 +2363,9 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     cupom_codMov := cds_MovimentoCODMOVIMENTO.AsInteger ;
-    sqlAlteraMov := 'update MOVIMENTO set status = 9 ' + 
-      ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+    sqlAlteraMov := 'update MOVIMENTO set status = 9 ' +
+      ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger)+
+      '   and CODNATUREZA = 7';
     dm.sqlsisAdimin.ExecuteDirect(sqlAlteraMov);
     dm.sqlsisAdimin.Commit(TD);
     cds_Movimento.Close;
