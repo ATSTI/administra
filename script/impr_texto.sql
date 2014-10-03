@@ -1,6 +1,7 @@
 set term ^ ;
 CREATE or ALTER PROCEDURE  IMPR_TEXTO( PVENDA                           INTEGER )
-RETURNS ( CLI                              VARCHAR( 80 )
+RETURNS ( 
+          CLI                              VARCHAR( 80 )
         , RAZAO                            VARCHAR( 60 )
         , ENDERECO                         VARCHAR( 60 )
         , BAIRRO                           VARCHAR( 60 )
@@ -39,7 +40,8 @@ RETURNS ( CLI                              VARCHAR( 80 )
         , PRAZO                            VARCHAR( 40 )
         , NFE                              VARCHAR( 10 )
         , CODPRODUTO                       INTEGER
-        , NUMERO                           VARCHAR( 5 ) )
+        , NUMERO                           VARCHAR( 5 )
+        , CODVENDEDOR                      INTEGER )
 AS
 declare variable codmovdet integer;
 declare variable j integer = 0;
@@ -54,6 +56,7 @@ BEGIN
     , ENDE.UF, ENDE.CEP, ENDE.DDD, ENDE.TELEFONE , ENDE.DDD1, ENDE.TELEFONE1 , ENDE.DDD2, ENDE.TELEFONE2, ENDE.DDD3, ENDE.FAX, VEN.EMISSAO, VEN.DATAVENCIMENTO, VEN.VALOR_RESTO, ven.VALORRECEBIDO
     , VEN.TITULO , CLI.CNPJ, vd.CODMOVIMENTO, ven.parcelas
     , COALESCE(vd.VALOR_FRETE,0) VALOR_FRETE, vd.DESCONTO as DESCVENDA, vd.SERIE, vd.NOTAFISCAL, vd.PRAZO, vd.obs ,m.NFE
+    , vd.CODVENDEDOR
     FROM RECEBIMENTO VEN 
     INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = VEN.CODCLIENTE
     inner join VENDA vd on vd.CODVENDA = ven.CODVENDA 
@@ -64,10 +67,10 @@ BEGIN
     GROUP BY Vd.CODCLIENTE, CLI.NOMECLIENTE , CLI.RAZAOSOCIAL, ENDE.LOGRADOURO,ENDE.NUMERO , ENDE.BAIRRO, ENDE.CIDADE
     , ENDE.UF, ENDE.CEP, ENDE.DDD, ENDE.TELEFONE, ENDE.DDD1, ENDE.TELEFONE1 , ENDE.DDD2, ENDE.TELEFONE2, ENDE.DDD3, ENDE.FAX, VEN.EMISSAO, VEN.DATAVENCIMENTO, VEN.VALOR_RESTO, ven.VALORRECEBIDO
     , VEN.TITULO , CLI.CNPJ, vd.CODMOVIMENTO, ven.parcelas
-    , vd.VALOR_FRETE, vd.DESCONTO  , vd.SERIE, vd.NOTAFISCAL, vd.PRAZO, vd.obs ,m.NFE
+    , vd.VALOR_FRETE, vd.DESCONTO  , vd.SERIE, vd.NOTAFISCAL, vd.PRAZO, vd.obs ,m.NFE, vd.CODVENDEDOR
     into :CLI, :RAZAO, :ENDERECO ,:NUMERO, :BAIRRO, :CIDADE 
     , :UF, :CEP, :DDD, :FONE, :DDD1, :FONE1, :DDD2, :FONE2, :DDD3 , :FAX ,:EMISSAO, :DTAVENCIMENTO, :VALOR, :VR, 
-    :TITULO, :CNPJ, :CODMOV, :PARC, :VALOR_FRETE, :DESCVENDA, :SERIE, :NOTAFISCAL, :PRAZO, :OBS , :NFE
+    :TITULO, :CNPJ, :CODMOV, :PARC, :VALOR_FRETE, :DESCVENDA, :SERIE, :NOTAFISCAL, :PRAZO, :OBS , :NFE, :CODVENDEDOR
     DO BEGIN
         total = 0;
         J = 0;
@@ -78,12 +81,12 @@ BEGIN
          TOTAL = 0;
           
           for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, MOVd.VLR_BASE, (movd.QUANTIDADE * MOVd.VLR_BASE) AS TOT 
-          , prod.codproduto
+          , prod.codproduto, m.CONTROLE
           FROM MOVIMENTO M, MOVIMENTODETALHE movd, PRODUTOS prod
          where m.CODMOVIMENTO = movd.CODMOVIMENTO 
            and prod.CODPRODUTO = movd.CODPRODUTO  
            and movd.CODMOVIMENTO = :CODMOV
-          INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL ,:CODPRODUTO
+          INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL ,:CODPRODUTO, :CONTROLE
           DO BEGIN
             PRE_TOT = PRE_TOT + TOTAL;
             NPROD = NPROD + 1;
