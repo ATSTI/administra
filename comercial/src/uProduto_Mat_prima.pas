@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   FMTBcd, Grids, DBGrids, DBClient, Provider, SqlExpr, Mask, DBCtrls,
-  rpcompobase, rpvclreport;
+  rpcompobase, rpvclreport, JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfProduto_Mat_prima = class(TfPai)
@@ -21,26 +21,14 @@ type
     cdsMtCODPRODUTO: TIntegerField;
     cdsMtCODPRODMP: TIntegerField;
     cdsMtQTDEUSADA: TFloatField;
-    DBGrid1: TDBGrid;
     sdsMtPRODUTO: TStringField;
     cdsMtPRODUTO: TStringField;
     sdsMtCODPRO: TStringField;
     cdsMtCODPRO: TStringField;
-    DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    BitBtn1: TBitBtn;
     sdsMtTIPOUSO: TStringField;
     cdsMtTIPOUSO: TStringField;
     sdsMtUSAPRECO: TStringField;
     cdsMtUSAPRECO: TStringField;
-    DBComboBox1: TDBComboBox;
-    DBComboBox2: TDBComboBox;
-    Label6: TLabel;
-    Label7: TLabel;
     sqlprod: TSQLQuery;
     DBText2: TDBText;
     scds_produto_proc: TSQLDataSet;
@@ -55,6 +43,18 @@ type
     edtProdutoCopia: TEdit;
     edtProdutoCopiaNome: TEdit;
     BitBtn3: TBitBtn;
+    Panel2: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    BitBtn1: TBitBtn;
+    DBComboBox1: TDBComboBox;
+    DBComboBox2: TDBComboBox;
     sdsMtCopia: TSQLDataSet;
     IntegerField1: TIntegerField;
     IntegerField2: TIntegerField;
@@ -74,6 +74,7 @@ type
     cdsMtCopiaCODPRO: TStringField;
     cdsMtCopiaTIPOUSO: TStringField;
     cdsMtCopiaUSAPRECO: TStringField;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -86,6 +87,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure edtProdutoCopiaExit(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure JvDBUltimGrid1TitleClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -172,7 +174,9 @@ begin
       fProcura_prod1.cds_proc.Close;
     fProcura_prod1.cds_proc.CommandText := str + ' WHERE ((TIPO = ' +
       QuotedStr('COMPRA') + ') OR (TIPO IS NULL) OR (TIPO = ' +
-      QuotedStr('PROD') +')) ';
+      QuotedStr('PROD') +')) ' +
+      ' AND (USA is null) ' +
+      ' ORDER BY PRODUTO ';
     fProcura_prod1.btnIncluir.Visible := true;
     fProcura_prod1.Panel1.Visible := false;
     fProcura_prod1.Panel2.Visible := true;
@@ -342,6 +346,11 @@ procedure TfProduto_Mat_prima.BitBtn2Click(Sender: TObject);
 begin
   inherited;
   Panel1.Visible := True;
+end;
+
+procedure TfProduto_Mat_prima.JvDBUltimGrid1TitleClick(Column: TColumn);
+begin
+  cdsMt.IndexFieldNames:=Column.FieldName;
 end;
 
 end.
