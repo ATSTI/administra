@@ -36,7 +36,7 @@ BEGIN
     ccustoEstoque = 1;
   
     
-  for SELECT DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO , coalesce(MD.LOTE,'0')
+  for SELECT DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO , '0'
      , coalesce(p.LOTES, 'N')
      FROM MOVIMENTO M       
     INNER JOIN MOVIMENTODETALHE MD ON M.CODMOVIMENTO = MD.CODMOVIMENTO 
@@ -52,13 +52,13 @@ BEGIN
       else 
         ccusto = 1;
     
-      if (usa_lote = 'S') then
+      /*if (usa_lote = 'S') then
       begin 
         
         select coalesce(ev.SALDOFIMACUM,0)
          from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :ccusto, :lote) ev 
          into :ESTOQUELOTE;
-      end
+      end*/
       
       
 
