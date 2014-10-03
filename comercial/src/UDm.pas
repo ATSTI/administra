@@ -2121,6 +2121,8 @@ var index, I: integer;
   s, sqlT : String;
   ImpressoraDet: TIniFile;
 begin
+  sqlsisAdimin.SQLHourGlass := False;
+  Sql.SQLHourGlass := False;
   sistemaLiberado := 'S';
   danfeDec := 2;
   MICRO := NomeComputador;
@@ -2132,7 +2134,7 @@ begin
   SQl.LoadParamsFromIniFile('dbxconnections.ini');
   SQl.LibraryName := 'dbexpUIBfire15.dll';
   SQl.VendorLib := 'FBCLIENT.DLL';
-  Sql.Connected := True;
+  //Sql.Connected := True;
   sqlsisAdimin.Connected := False;
   sqlsisAdimin.LoadParamsFromIniFile('dbxconnections.ini');
   sqlsisAdimin.LibraryName := 'dbexpUIBfire15.dll';

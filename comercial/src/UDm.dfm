@@ -2,12 +2,13 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 1
-  Height = 700
-  Width = 1022
+  Height = 875
+  Width = 1360
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
+    KeepConnection = False
     LibraryName = 'dbexpUIBfire15.dll'
     LoginPrompt = False
     Params.Strings = (
@@ -6184,8 +6185,8 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 848
-    Top = 328
+    Left = 1216
+    Top = 264
     object sdsCODUSUARIO: TSmallintField
       FieldName = 'CODUSUARIO'
       Required = True
@@ -9858,7 +9859,7 @@ object DM: TDM
         ParamType = ptInput
       end>
     SQLConnection = sqlsisAdimin
-    Left = 838
+    Left = 1110
     Top = 282
     object scds_produto_procASHCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
