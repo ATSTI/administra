@@ -103,7 +103,7 @@ begin
            INTO :codLista; 
        end   
        
-      for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, p.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
+      for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, r.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
         p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
         p.LOTES, r.MARGEMMAX, r.PRECOVENDA VALOR_PRAZO, 'DESCRICAO USO' as DESCRICAO, 
         '1' as CODIGO, p.USA, p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
