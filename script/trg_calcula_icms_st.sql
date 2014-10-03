@@ -42,7 +42,7 @@ AS
  Declare variable UF_EMPRESA char(2); 
  DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
 BEGIN
-  -- versao 3.0.0.0
+  -- versao 3.0.0.10
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
   begin 
   
@@ -52,11 +52,11 @@ BEGIN
 	select FIRST 1 CRT from EMPRESA , MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
 	  into :CRT;  
 
-	select FIRST 1 CODNATUREZA, CASE WHEN CODNATUREZA = 3 THEN CODCLIENTE  WHEN CODNATUREZA = 7 THEN CODCLIENTE  WHEN CODNATUREZA = 4 THEN CODFORNECEDOR
+	select FIRST 1 CODNATUREZA, CASE WHEN CODNATUREZA in (2,3, 7, 12,15,16) THEN CODCLIENTE  WHEN CODNATUREZA in (1,4, 20, 21) THEN CODFORNECEDOR
 	 ELSE 0 end from MOVIMENTO where CODMOVIMENTO = new.CODMOVIMENTO
 	  into :NATUREZA, :CODCLI; 
 	  
-	if (natureza in (1,4)) then 
+	if (natureza in (1,4,20,21)) then 
 	begin 
       select first 1 ef.UF, f.CODFISCAL, f.INSCESTADUAL from FORNECEDOR f
 	   left outer join ENDERECOFORNECEDOR ef on ef.CODFORNECEDOR = f.CODFORNECEDOR
@@ -65,7 +65,7 @@ BEGIN
 	    into :UF, :PESSOA, :IE;
 	end   
 
-	if (natureza in (2,3, 7)) then 
+	if (natureza in (2,3, 7,12,15,16)) then 
 	begin 
       select first 1 ec.UF, c.CODFISCAL, c.INSCESTADUAL from Clientes c
 	   left outer join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE
