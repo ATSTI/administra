@@ -294,6 +294,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       ParentColor = False
       ParentFont = False
       TabOrder = 0
+      OnClick = rgEmUsoClick
       LinkedControls = <>
       AutoSize = False
       HotTrackFont.Charset = ANSI_CHARSET

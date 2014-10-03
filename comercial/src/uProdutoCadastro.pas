@@ -1082,6 +1082,7 @@ procedure TfProdutoCadastro.BitBtn6Click(Sender: TObject);
 begin
   fNCM := TfNCM.Create(Application);
   try
+    fNCM.vrNCM := DM.cds_produtoNCM.AsString;
     fNCM.ShowModal;
     if (DM.cds_produto.State in [dsBrowse]) then
       DM.cds_produto.Edit;
