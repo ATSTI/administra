@@ -1,6 +1,6 @@
 object fImporta_XML: TfImporta_XML
-  Left = 184
-  Top = 114
+  Left = 167
+  Top = 115
   Width = 930
   Height = 648
   Caption = 'Importar XML - NFe'
@@ -31,8 +31,8 @@ object fImporta_XML: TfImporta_XML
     Caption = 'Itens'
   end
   object lblNF: TLabel
-    Left = 200
-    Top = 192
+    Left = 259
+    Top = 200
     Width = 3
     Height = 13
     Caption = '.'
@@ -147,7 +147,7 @@ object fImporta_XML: TfImporta_XML
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    OnCellClick = JvDBGrid1CellClick
+    OnDblClick = JvDBGrid1DblClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'

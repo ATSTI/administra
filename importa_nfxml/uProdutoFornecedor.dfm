@@ -1,6 +1,6 @@
 object fProdutoFornec: TfProdutoFornec
-  Left = 192
-  Top = 107
+  Left = 174
+  Top = 108
   Width = 715
   Height = 530
   Caption = 'Produto por Fornececedor'

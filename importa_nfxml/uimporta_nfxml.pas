@@ -84,7 +84,6 @@ type
       Shift: TShiftState);
     procedure btnVerificaFornecClick(Sender: TObject);
     procedure btnExisteProdutoFornecClick(Sender: TObject);
-    procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnCadastrarProdutoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnImportaNFClick(Sender: TObject);
@@ -96,6 +95,7 @@ type
     procedure edNotaKeyPress(Sender: TObject; var Key: Char);
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure abreNF;
@@ -222,6 +222,10 @@ begin
     ' WHERE NOT EXISTS (SELECT f.CODFORNECEDOR FROM FORNECEDOR f ' +
     ' WHERE UDF_DIGITS(f.CNPJ) = UDF_DIGITS(r.CNPJ_EMITENTE)) ' +
     '   AND r.STATUS = 0 ';
+  if (edNota.Text <> '') then
+  begin
+    strFaltaFornec := strFaltaFornec + ' AND r.NOTAFISCAL = ' + edNota.Text;
+  end;
   if (sqlFaltandoFornecedor.Active) then
     sqlFaltandoFornecedor.Close;
   sqlFaltandoFornecedor.SQL.Clear;
@@ -366,20 +370,6 @@ begin
     btnProcurar.Font.Color := clWindowText;
     btnImportaNF.Font.Color := clRed;
   end;
-end;
-
-procedure TfImporta_XML.JvDBGrid1CellClick(Column: TColumn);
-begin
-  fProdutoFornec.codFornec := IntToStr(cdsNFCodCliente_ats.asInteger);
-  fProdutoFornec.nomeFornec := cdsNFRAZAOSOCIAL_ATS.AsString;
-  fProdutoFornec.codProdFornec := cdsNFItemCODPRODUTO.AsString;
-  fProdutoFornec.prodDescricaoFornec := cdsNFItemPRODUTO.AsString;
-  fProdutoFornec.codProduto := IntToStr(cdsNFItemCODPRODUTO_ATS.AsInteger);
-  fProdutoFornec.prodDescricao := cdsNFItemPRODUTO.AsString;
-  if (chkCodBarra.Checked) then
-    fProdutoFornec.codProduto := cdsNFItemCOD_BARRA.AsString;
-  fProdutoFornec.showModal;
-  btnExisteProdutoFornec.Click;
 end;
 
 procedure TfImporta_XML.btnCadastrarProdutoClick(Sender: TObject);
@@ -778,6 +768,25 @@ begin
       sqlConn.Rollback(TD); //on failure, undo the changes}
     end;
   end;
+end;
+
+procedure TfImporta_XML.JvDBGrid1DblClick(Sender: TObject);
+begin
+  if (cdsNFCodCliente_ats.asInteger = 0) then
+  begin
+    MessageDlg('Fornecedor não Informado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  fProdutoFornec.codFornec := IntToStr(cdsNFCodCliente_ats.asInteger);
+  fProdutoFornec.nomeFornec := cdsNFRAZAOSOCIAL_ATS.AsString;
+  fProdutoFornec.codProdFornec := cdsNFItemCODPRODUTO.AsString;
+  fProdutoFornec.prodDescricaoFornec := cdsNFItemPRODUTO.AsString;
+  fProdutoFornec.codProduto := IntToStr(cdsNFItemCODPRODUTO_ATS.AsInteger);
+  fProdutoFornec.prodDescricao := cdsNFItemPRODUTO.AsString;
+  if (chkCodBarra.Checked) then
+    fProdutoFornec.codProduto := cdsNFItemCOD_BARRA.AsString;
+  fProdutoFornec.showModal;
+  btnExisteProdutoFornec.Click;
 end;
 
 end.

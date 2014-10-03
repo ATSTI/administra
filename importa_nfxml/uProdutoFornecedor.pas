@@ -79,19 +79,22 @@ end;
 
 procedure TfProdutoFornec.edCodProdutoExit(Sender: TObject);
 begin
-  if (sqlBusca.Active) then
-      sqlBusca.Close;
-  sqlBusca.SQL.Clear;
-  sqlBusca.SQL.Add('SELECT CODPRODUTO, PRODUTO FROM PRODUTOS WHERE CODPRO = ' +
-    QuotedStr(edCodProduto.Text));
-  sqlBusca.Open;
-  if (sqlBusca.IsEmpty) then
+  if (edCodProduto.Text <> '0') then
   begin
-    MessageDlg('Produto não encontrado.', mtWarning, [mbOK], 0);
-    exit;
-  end;
-  codProduto := IntToStr(sqlBusca.Fields[0].asInteger);
-  edProduto.Text := sqlBusca.Fields[1].AsString;
+    if (sqlBusca.Active) then
+        sqlBusca.Close;
+    sqlBusca.SQL.Clear;
+    sqlBusca.SQL.Add('SELECT CODPRODUTO, PRODUTO FROM PRODUTOS WHERE CODPRO = ' +
+      QuotedStr(edCodProduto.Text));
+    sqlBusca.Open;
+    if (sqlBusca.IsEmpty) then
+    begin
+      MessageDlg('Produto não encontrado.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    codProduto := IntToStr(sqlBusca.Fields[0].asInteger);
+    edProduto.Text := sqlBusca.Fields[1].AsString;
+  end;  
 end;
 
 procedure TfProdutoFornec.BitBtn1Click(Sender: TObject);
@@ -106,13 +109,24 @@ procedure TfProdutoFornec.btnInsereClick(Sender: TObject);
 var strInsere: String;
 TD: TTransactionDesc;
 begin
+  if ((edCodProduto.Text = '0') or (edCodProduto.Text = '')) then
+  begin
+    MessageDlg('Informe o código do seu Produto que é igual ao produto da nota.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if ((edCodFornec.Text = '0') or (edCodFornec.Text = '')) then
+  begin
+    MessageDlg('Fornecedor não informado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   strInsere := 'INSERT INTO PRODUTO_FORNECEDOR (' +
     'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
     codProduto +
     ', ' + edCodFornec.Text +
-    ', ' + edCodProdutoFornec.Text +  ')';
+    ', ' + QuotedStr(edCodProdutoFornec.Text) +  ')';
   fImporta_XML.sqlConn.StartTransaction(TD);
   try
     fImporta_XML.sqlConn.ExecuteDirect(strInsere);

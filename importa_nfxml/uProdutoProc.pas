@@ -26,6 +26,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn2Click(Sender: TObject);
+    procedure JvDBUltimGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -47,16 +48,14 @@ uses uimporta_nfxml;
 procedure TfProdutoProc.BitBtn1Click(Sender: TObject);
 var strB: String;
 begin
-  strB := '';
+  strB := ' WHERE USA is null ';
   if (edCod.Text <> '') then
-    strB := ' WHERE CODPRO LIKE ' + QuotedStr('%' + edCod.Text + '%');
+    strB := strB + ' AND CODPRO LIKE ' + QuotedStr(edCod.Text + '%');
   if (edDesc.Text <> '') then
   begin
-    if (strB = '') then
-      strB := ' WHERE PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%')
-    else
-      strB := ' AND PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%');
+    strB := strB + ' AND UPPER(PRODUTO) LIKE UPPER(' + QuotedStr('%' + edDesc.Text + '%')+ ')';
   end;
+
   if (cdsBuscaProd.Active) then
     cdsBuscaProd.Close;
   cdsBuscaProd.CommandText := 'SELECT CODPRODUTO, CODPRO, PRODUTO FROM PRODUTOS ' + strB;
@@ -72,6 +71,11 @@ begin
 end;
 
 procedure TfProdutoProc.BitBtn2Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfProdutoProc.JvDBUltimGrid1DblClick(Sender: TObject);
 begin
   Close;
 end;

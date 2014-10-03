@@ -1,6 +1,6 @@
 object fProdutoProc: TfProdutoProc
-  Left = 192
-  Top = 107
+  Left = 174
+  Top = 108
   Width = 621
   Height = 552
   Caption = 'Produto'
@@ -25,9 +25,11 @@ object fProdutoProc: TfProdutoProc
   object Label2: TLabel
     Left = 134
     Top = 10
-    Width = 48
+    Width = 328
     Height = 13
-    Caption = 'Descri'#231#227'o'
+    Caption = 
+      'Descri'#231#227'o (Acrescente % para busca no meio do nome.(ex.:   %nome' +
+      ')'
   end
   object BitBtn1: TBitBtn
     Left = 479
@@ -47,7 +49,7 @@ object fProdutoProc: TfProdutoProc
   end
   object edDesc: TEdit
     Left = 130
-    Top = 25
+    Top = 24
     Width = 347
     Height = 21
     TabOrder = 2
@@ -65,6 +67,7 @@ object fProdutoProc: TfProdutoProc
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = JvDBUltimGrid1DblClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
