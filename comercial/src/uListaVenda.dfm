@@ -16,55 +16,63 @@ inherited fListaVenda: TfListaVenda
       Width = 37
       Height = 13
       Caption = 'Produto'
+      Transparent = True
     end
     object Label13: TLabel [1]
-      Left = 8
-      Top = 49
+      Left = 58
+      Top = 51
       Width = 67
       Height = 13
       Caption = 'Pre'#231'o Compra'
+      Transparent = True
     end
     object Label14: TLabel [2]
-      Left = 99
+      Left = 151
       Top = 51
       Width = 83
       Height = 13
       Caption = 'Margem p/Venda'
+      Transparent = True
     end
     object Label12: TLabel [3]
-      Left = 200
+      Left = 245
       Top = 51
       Width = 62
       Height = 13
       Caption = 'Pre'#231'o Venda'
+      Transparent = True
     end
     object Label8: TLabel [4]
-      Left = 336
+      Left = 339
       Top = 51
       Width = 72
       Height = 13
       Caption = 'Desconto Max.'
+      Transparent = True
     end
     object Label9: TLabel [5]
-      Left = 416
-      Top = 51
+      Left = 433
+      Top = 52
       Width = 69
       Height = 13
       Caption = 'Desconto Min.'
+      Transparent = True
     end
     object Label10: TLabel [6]
-      Left = 508
+      Left = 526
       Top = 51
       Width = 64
       Height = 13
       Caption = 'Margem Max.'
+      Transparent = True
     end
     object Label11: TLabel [7]
-      Left = 584
+      Left = 620
       Top = 51
       Width = 61
       Height = 13
       Caption = 'Margem Min.'
+      Transparent = True
     end
     inherited btnGravar: TBitBtn
       Left = 467
@@ -111,34 +119,37 @@ inherited fListaVenda: TfListaVenda
       Width = 154
       Height = 17
       Caption = 'Permite Altera'#231#227'o na Venda'
+      Color = clWhite
       DataField = 'ALTPRECO'
       DataSource = dtsrcDet
+      ParentColor = False
       TabOrder = 14
       ValueChecked = 'True'
       ValueUnchecked = 'False'
+      Visible = False
     end
     object DBEdit7: TDBEdit
-      Left = 8
+      Left = 55
       Top = 65
-      Width = 80
+      Width = 90
       Height = 21
       DataField = 'PRECOCOMPRA'
       DataSource = dtsrcDet
       TabOrder = 1
     end
     object DBEdit8: TDBEdit
-      Left = 95
+      Left = 148
       Top = 65
-      Width = 89
+      Width = 90
       Height = 21
       DataSource = dtsrcDet
       ReadOnly = True
       TabOrder = 2
     end
     object DBEdit6: TDBEdit
-      Left = 196
+      Left = 242
       Top = 65
-      Width = 114
+      Width = 90
       Height = 21
       DataField = 'PRECOVENDA'
       DataSource = dtsrcDet
@@ -147,34 +158,34 @@ inherited fListaVenda: TfListaVenda
     object DBEdit2: TDBEdit
       Left = 336
       Top = 65
-      Width = 75
+      Width = 90
       Height = 21
       DataField = 'DESCONTOMAX'
       DataSource = dtsrcDet
       TabOrder = 4
     end
     object DBEdit3: TDBEdit
-      Left = 416
+      Left = 430
       Top = 65
-      Width = 75
+      Width = 90
       Height = 21
       DataField = 'DESCONTOMIN'
       DataSource = dtsrcDet
       TabOrder = 5
     end
     object DBEdit4: TDBEdit
-      Left = 506
+      Left = 523
       Top = 65
-      Width = 70
+      Width = 90
       Height = 21
       DataField = 'MARGEMMAX'
       DataSource = dtsrcDet
       TabOrder = 6
     end
     object DBEdit5: TDBEdit
-      Left = 582
+      Left = 617
       Top = 65
-      Width = 70
+      Width = 90
       Height = 21
       DataField = 'MARGEMMIN'
       DataSource = dtsrcDet
@@ -186,11 +197,14 @@ inherited fListaVenda: TfListaVenda
       Width = 97
       Height = 17
       Caption = 'Usa Desconto'
+      Color = clWhite
       DataField = 'DESCONTO'
       DataSource = dtsrcDet
+      ParentColor = False
       TabOrder = 15
       ValueChecked = 'True'
       ValueUnchecked = 'False'
+      Visible = False
       OnClick = chkDescontoClick
     end
     object chkMargem: TDBCheckBox
@@ -199,11 +213,14 @@ inherited fListaVenda: TfListaVenda
       Width = 97
       Height = 17
       Caption = 'Usa Margem'
+      Color = clWhite
       DataField = 'MARGEM'
       DataSource = dtsrcDet
+      ParentColor = False
       TabOrder = 16
       ValueChecked = 'True'
       ValueUnchecked = 'False'
+      Visible = False
       OnClick = chkMargemClick
     end
     object btnImprimir: TBitBtn
@@ -538,42 +555,42 @@ inherited fListaVenda: TfListaVenda
     Align = alTop
     TabOrder = 3
     object Label15: TLabel
-      Left = 8
-      Top = 2
+      Left = 10
+      Top = 3
       Width = 33
       Height = 13
       Caption = 'C'#243'digo'
     end
     object Label3: TLabel
       Left = 58
-      Top = 4
+      Top = 3
       Width = 53
       Height = 13
       Caption = 'Nome Lista'
     end
     object Label4: TLabel
       Left = 255
-      Top = 4
+      Top = 3
       Width = 53
       Height = 13
       Caption = 'Data Inicial'
     end
     object Label5: TLabel
-      Left = 345
-      Top = 4
+      Left = 343
+      Top = 3
       Width = 48
       Height = 13
       Caption = 'Data Final'
     end
     object Label6: TLabel
       Left = 434
-      Top = 4
+      Top = 3
       Width = 41
       Height = 13
       Caption = 'Validade'
     end
     object Label16: TLabel
-      Left = 585
+      Left = 586
       Top = 1
       Width = 38
       Height = 13
