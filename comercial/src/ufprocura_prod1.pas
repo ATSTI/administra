@@ -12,6 +12,8 @@ uses
 type
   TfProcura_prod1 = class(TfProcura_prod)
     JvLabel1: TJvLabel;
+    btnSair: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure BitBtn3Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn1Click(Sender: TObject);
@@ -21,6 +23,9 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1DblClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -115,6 +120,24 @@ begin
  // inherited;
  if (key = #13) then
    BitBtn6.Click;
+end;
+
+procedure TfProcura_prod1.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  Close;
+end;
+
+procedure TfProcura_prod1.btnIncluirClick(Sender: TObject);
+begin
+  //inherited;
+  Close;
+end;
+
+procedure TfProcura_prod1.btnSairClick(Sender: TObject);
+begin
+  //inherited;
+  Close;
 end;
 
 end.
