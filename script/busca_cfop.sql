@@ -11,7 +11,7 @@ AS
 BEGIN
   -- versao 3.0.0.0
   log = ' Inicio natureza ' || :natureza;
-  if (:NATUREZA = 4) then 
+  if (:NATUREZA in (4,20,21)) then 
   begin 
     log = log || 'Natureza 4';
     -- COMPRA por produto 
@@ -71,7 +71,7 @@ BEGIN
       end          
     end       
   end 
-  if (:NATUREZA = 3) then 
+  if (:NATUREZA in (3,7,12,15,16)) then 
   begin 
     log = log || ' Natureza = 3 ';
     -- VENDA por produto 
