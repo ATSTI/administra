@@ -52,6 +52,7 @@ uses UDm, uClassificacaoFiscalNCM;
 
 procedure TfNCM.FormCreate(Sender: TObject);
 begin
+  vrNCM := '';
   if not cdsNCM.Active then
     cdsNCM.Open;
 end;
@@ -67,6 +68,11 @@ procedure TfNCM.FormShow(Sender: TObject);
 begin
   dbedit1.Enabled := True;
   dbedit2.Enabled := True;
+  if (vrNCM <> '') then
+  begin
+    dbEdit1.Text := vrNCM;
+    btnProcNCM.Click;
+  end;
 end;
 
 procedure TfNCM.btnProcNCMClick(Sender: TObject);
