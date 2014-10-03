@@ -628,9 +628,18 @@ begin
 {  ***** Comentei pois nao e usado mais - Carlos 09/08/2006 ****}
 
   if (edCodigo.Text <> '') then
-    varCondicao := QuotedStr(edCodigo.Text)
-  else
+  begin
+    if (chkComp.Checked = False) then
+    begin
+      varCondicao := QuotedStr(edCodigo.Text);
+    end
+    else begin
+      varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
+    end;
+  end
+  else begin
     varCondicao := QuotedStr('TODOSPRODUTOS');  // Carrega todos e abaixo coloquei para fazer a busca pelo codigo.
+  end;
 
   if ((cbFamilia.Text <> '') and (cbFamilia.Text <> 'Todos') and (cbFamilia.Text <> 'Sem Grupo')) then
     varCondicao := varCondicao + ', ' + QuotedStr(cbFamilia.Text)
@@ -773,6 +782,14 @@ begin
       varCondicaoA :=  varCondicaoA + ' AND ((GRUPO IS NULL) OR (UDF_TRIM(GRUPO) = ' + QuotedStr('') + '))'
     else
       varCondicaoA :=  ' WHERE ((GRUPO IS NULL) OR (UDF_TRIM(GRUPO) = ' + QuotedStr('') + '))';
+  end;
+
+  if ((chkComp.Checked) and (edcodigo.Text <> '')) then
+  begin
+    if varCondicaoA <> '' then
+      varCondicaoA :=  varCondicaoA + ' AND (CODPRO LIKE ' + QuotedStr(edCodigo.Text) + ')'
+    else
+      varCondicaoA :=  ' WHERE (CODPRO LIKE ' + QuotedStr(edCodigo.Text) + ')';
   end;
 
   if Edit1.Text <> '' then
