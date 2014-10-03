@@ -2053,7 +2053,7 @@ begin
     begin
       insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/09/2014'));
       insereouatualizaScript('busca_cfop.sql', '3.0.0.2', StrToDate('01/09/2014'));
-      insereouatualizaScript('spestoque.sql', '3.0.0.3', StrToDate('01/09/2014'));      
+      insereouatualizaScript('spestoque.sql', '3.0.0.2', StrToDate('01/09/2014'));      
       try
         dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION erro_proc ' + Quotedstr('teste'));
       except
