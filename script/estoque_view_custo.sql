@@ -138,9 +138,9 @@ BEGIN
        WHERE (mov.CODMOVIMENTO = movdet.CODMOVIMENTO) 
          and (movdet.codProduto = :Prod1) 
          and (movdet.baixa IS NOT NULL) 
-         and (mov.CODNATUREZA = 4) 
+         and (mov.CODNATUREZA in (1,4)) 
          and (mov.DATAMOVIMENTO <= :dta1)
-      order by mov.DATAMOVIMENTO desc
+      order by mov.DATAMOVIMENTO desc , mov.CODMOVIMENTO desc
       INTO :precoCompra;
 
    if (precocompra is null) THEN 
@@ -155,9 +155,9 @@ BEGIN
        WHERE (mov.CODMOVIMENTO = movdet.CODMOVIMENTO) 
          and (movdet.codProduto = :Prod1) 
          and (movdet.baixa IS NOT NULL) 
-         and (mov.CODNATUREZA = 4) 
+         and (mov.CODNATUREZA in (1,4)) 
          and (mov.DATAMOVIMENTO <= :dta1)
-      order by mov.DATAMOVIMENTO desc
+      order by mov.DATAMOVIMENTO desc, mov.CODMOVIMENTO desc 
       INTO :precoCusto;
       if (precoCusto is null) then 
         precoCusto = 0;
