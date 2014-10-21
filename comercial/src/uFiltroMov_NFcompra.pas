@@ -500,7 +500,7 @@ end;
 
 procedure TfFiltroMov_NFcompra.FormCreate(Sender: TObject);
 begin
-//  sCtrlResize.CtrlResize(TForm(fFiltroMov_NFcompra));
+  //sCtrlResize.CtrlResize(TForm(fFiltroMov_NFcompra));
 end;
 
 procedure TfFiltroMov_NFcompra.BitBtn5Click(Sender: TObject);

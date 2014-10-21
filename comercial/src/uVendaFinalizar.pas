@@ -1772,11 +1772,34 @@ end;
 procedure TfVendaFinalizar.FormCreate(Sender: TObject);
 var utilcrtitulo : Tutils;
   i, j : integer;
+  nI: Integer;
 begin
 //  inherited;
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
+
+  if ((dm.videoFUNDO <> clWhite) and (dm.videoFONTE <> clBlack)) then
+  begin
+    For nI := 0 to ComponentCount-1 do
+    begin
+      if (Components[nI] is TEdit) then
+      begin
+        (Components[nI] as TEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBEdit) then
+      begin
+        (Components[nI] as TDBEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TDBEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBGrid) then
+      begin
+        (Components[nI] as TDBGrid).Color := dm.videoFUNDO;
+        (Components[nI] as TDBGrid).Font.Color := dm.videoFONTE;
+      end;
+    end;
+  end;
 
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
@@ -3035,6 +3058,7 @@ var
 begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
+
   sqlBuscaNota.SQL.Clear;
   sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
     QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));

@@ -9,10 +9,9 @@ object fFiltroMov_NFcompra: TfFiltroMov_NFcompra
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
+  OldCreateOrder = True
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
-  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -452,8 +451,8 @@ object fFiltroMov_NFcompra: TfFiltroMov_NFcompra
     object Label10: TJvLabel
       Left = 144
       Top = 2
-      Width = 429
-      Height = 37
+      Width = 499
+      Height = 40
       Caption = 'Pesquisa Compras/ Or'#231'amentos'
       ShadowColor = clNavy
       ShadowSize = 4

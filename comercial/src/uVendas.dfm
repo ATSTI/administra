@@ -190,7 +190,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     inherited btnExcluir: TBitBtn [1]
-      Left = 81
+      Left = 83
       Top = 2
       Width = 77
       Height = 55
@@ -2066,6 +2066,7 @@ inherited fVendas: TfVendas
         Top = 114
         Width = 625
         Height = 223
+        Color = clWhite
         DataSource = DtSrc1
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2363,7 +2364,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2417,7 +2418,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end

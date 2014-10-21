@@ -5,16 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, JvExDBGrids, JvDBGrid,
-  JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr;
+  JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr,
+  ExtCtrls;
 
 type
   TfImporta_XML = class(TForm)
-    JvDBUltimGrid1: TJvDBUltimGrid;
-    JvDBGrid1: TJvDBGrid;
-    Label1: TLabel;
-    Label2: TLabel;
-    btnImportaNF: TBitBtn;
-    btnFechar: TBitBtn;
     sqlConn: TSQLConnection;
     sdsNF: TSQLDataSet;
     sdsNFItem: TSQLDataSet;
@@ -35,12 +30,9 @@ type
     cdsNFCODCLIENTE_ATS: TIntegerField;
     cdsNFRAZAOSOCIAL_ATS: TStringField;
     cdsNFSTATUS: TSmallintField;
-    btnProcurar: TBitBtn;
     sqlFaltandoFornecedor: TSQLQuery;
     lblNF: TLabel;
     sqlFaltaProd: TSQLQuery;
-    btnVerificaFornec: TBitBtn;
-    btnExisteProdutoFornec: TBitBtn;
     cdsNFItemNOTAFISCAL: TIntegerField;
     cdsNFItemSERIE: TStringField;
     cdsNFItemCNPJ_EMITENTE: TStringField;
@@ -59,22 +51,32 @@ type
     cdsNFItemPIS: TStringField;
     cdsNFItemCOFINS: TStringField;
     cdsNFItemIPI: TStringField;
-    btnCadastrarProduto: TBitBtn;
     sqlBusca: TSQLQuery;
     sqlGenProd: TSQLQuery;
+    sqlVeSeExisteCompra: TSQLQuery;
+    cdsNFItemCOD_BARRA: TStringField;
+    cdsNFItemCODPRODUTO: TStringField;
+    Panel1: TPanel;
+    Label4: TLabel;
+    btnImportaNF: TBitBtn;
+    btnFechar: TBitBtn;
+    btnProcurar: TBitBtn;
+    btnVerificaFornec: TBitBtn;
+    btnExisteProdutoFornec: TBitBtn;
+    btnCadastrarProduto: TBitBtn;
+    chkCodBarra: TCheckBox;
+    edMargem: TEdit;
+    GroupBox1: TGroupBox;
+    JvDBGrid1: TJvDBGrid;
+    Panel2: TPanel;
+    btnImportarXml: TBitBtn;
+    cbNaoEnviada: TCheckBox;
     Label3: TLabel;
     edNota: TEdit;
-    cbNaoEnviada: TCheckBox;
-    btnImportarXml: TBitBtn;
-    sqlVeSeExisteCompra: TSQLQuery;
-    Button1: TButton;
-    cdsNFItemCOD_BARRA: TStringField;
-    chkCodBarra: TCheckBox;
-    cdsNFItemCODPRODUTO: TStringField;
-    Label4: TLabel;
-    edMargem: TEdit;
     btnLimpa: TBitBtn;
+    Button1: TButton;
     Button2: TButton;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);

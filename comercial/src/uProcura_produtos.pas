@@ -393,9 +393,33 @@ end;
 
 procedure TfProcura_produtos.FormCreate(Sender: TObject);
 var contaEstoqueLocal: String ;
+  nI: Integer;
 begin
   sCtrlResize.CtrlResize(TForm(fProcura_produtos));
-  fPesquisa := TfPesquisa.Create(Application);
+
+  if ((dm.videoFUNDO <> clWhite) and (dm.videoFONTE <> clBlack)) then
+  begin
+    For nI := 0 to ComponentCount-1 do
+    begin
+      if (Components[nI] is TEdit) then
+      begin
+        (Components[nI] as TEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBEdit) then
+      begin
+        (Components[nI] as TDBEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TDBEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBGrid) then
+      begin
+        (Components[nI] as TDBGrid).Color := dm.videoFUNDO;
+        (Components[nI] as TDBGrid).Font.Color := dm.videoFONTE;
+      end;
+    end;
+  end;
+
+  fPesquisa := TfPesquisa.Create(Application);
 
   //Vejo quais são as contas de Receitas para listar no lookupcombobox.
   if dm.cds_parametro.Active then

@@ -57,6 +57,7 @@ declare variable precoVenda double PRECISION;
   declare variable pdv char(1);
   declare variable CodLista INTEGER;
   declare variable CodListaCli INTEGER;
+  declare variable PrecoCustoFixo char(1);
 begin
   -- versao 2.0.0.20
     CCusto = 0;
@@ -64,6 +65,10 @@ begin
         
     SELECT CAST(D1 AS INTEGER) FROM PARAMETRO WHERE PARAMETRO = 'CENTROCUSTO'
     INTO :CCusto;
+    
+    PrecoCustoFixo = 'N';
+    SELECT CASE WHEN D1 = 'PRECOCUSTOFIXO' THEN 'S' ELSE 'N' END FROM PARAMETRO WHERE PARAMETRO = 'PRECOESTOQUE'
+    INTO PrecoCustoFixo;    
 
     SELECT CONFIGURADO FROM PARAMETRO WHERE PARAMETRO = 'PDV'
     INTO :PDV;
@@ -162,6 +167,12 @@ begin
            estoqueAtual = 0;
 
          estoqueAtual = estoqueAtual - pedido;
+         
+         if (PrecoCustoFixo = 'S') then 
+         begin
+           preco_compraUltimo = preco_compraMedio;
+         end         
+         
          suspend;
          CCustoV = CCusto;
          preco_compraMedio = 0;

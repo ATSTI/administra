@@ -2049,6 +2049,8 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    mascaraProduto : String;
+    prdPrecoCustoFixo: String;
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos, linhaTamanho : String;  //VARIAVEIS IMPRESSAO
     //CUPOM
@@ -2060,6 +2062,7 @@ type
     cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;
+    videoFUNDO, videoFonte: TColor;
     EstoquecodMOV: Integer;
     v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
@@ -2159,6 +2162,16 @@ begin
     relPersonalizado := copy(relPersonalizado,18,length(relPersonalizado));
   finally
     dbxconec.Free;
+  end;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'PRODUTOMASCARA';
+  cds_parametro.Open;
+  mascaraProduto := ''; //'99.999.999.9999-99;0';
+  if (not cds_parametro.IsEmpty) then
+  begin
+    mascaraProduto := cds_parametroDADOS.AsString;
   end;
 
   if cds_parametro.Active then
@@ -2300,6 +2313,15 @@ begin
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
     BlVendaCadImcomp := cds_parametroCONFIGURADO.AsString;
+
+  prdPrecoCustoFixo := 'N';
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'PRECOESTOQUE'; // Bloqueia alteracao Movimento qdo venda Finalizada
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+    if (cds_parametroD1.AsString = 'PRECOCUSTOFIXO') then
+      prdPrecoCustoFixo := 'S';
 
   blVendaFin := 'N';
   if cds_parametro.Active then
@@ -2445,6 +2467,8 @@ begin
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'VIDEO';
   cds_parametro.Open;
+  videoFUNDO := clWhite;
+  videoFonte := clBlack;
   if (cds_parametro.IsEmpty) then
   begin
     videoW := '800';
@@ -2454,6 +2478,10 @@ begin
   begin
     videoW := cds_parametroD1.AsString;
     videoH := cds_parametroD2.AsString;
+    if (cds_parametroD3.AsString = 'PRETO') then
+      videoFUNDO := clNone;
+    if (cds_parametroD4.AsString = 'BRANCO') then
+      videoFONTE := clWhite;
   end;
 
 

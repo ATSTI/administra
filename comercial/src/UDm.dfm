@@ -1625,6 +1625,8 @@ object DM: TDM
     object cds_produtoVALORMINIMO: TFloatField
       FieldName = 'VALORMINIMO'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cds_produtoVALORCOMISSAO: TFloatField
       FieldName = 'VALORCOMISSAO'
