@@ -1,8 +1,8 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 0
-  Top = 100
-  Width = 714
-  Height = 452
+  Left = -1
+  Top = 82
+  Width = 967
+  Height = 525
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    706
-    406)
+    959
+    479)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 537
-    Height = 335
+    Width = 790
+    Height = 408
     Align = alClient
     Center = True
     Picture.Data = {
@@ -590,7 +590,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 706
+    Width = 959
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -1883,8 +1883,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 382
-    Width = 706
+    Top = 455
+    Width = 959
     Height = 24
     Color = clActiveCaption
     Panels = <
@@ -1917,8 +1917,8 @@ object fAtsAdmin: TfAtsAdmin
     OnClick = Button1Click
   end
   object btnBoleto: TButton
-    Left = 541
-    Top = 374
+    Left = 794
+    Top = 447
     Width = 145
     Height = 25
     Action = acBoletoAts
@@ -1967,7 +1967,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 335
+    Height = 408
     Align = alLeft
     Pages = <
       item
@@ -2288,295 +2288,196 @@ object fAtsAdmin: TfAtsAdmin
     Top = 64
     object Cadastros1: TMenuItem
       Caption = 'Cadastros    '
-      object Clientes: TMenuItem
-        Caption = '&Clientes'
-        OnClick = ClientesClick
-      end
-      object mCadColaborador: TMenuItem
-        Caption = 'Colaboradores'
-        OnClick = mCadColaboradorClick
-      end
-      object Fornecedores: TMenuItem
-        Caption = '&Fornecedores'
-        OnClick = FornecedoresClick
-      end
-      object produtos: TMenuItem
-        Caption = '&Produtos'
-        OnClick = produtosClick
-      end
-      object transportadoras: TMenuItem
-        Caption = '&Transportadoras'
-        OnClick = transportadorasClick
-      end
-      object N20: TMenuItem
-        Caption = '-'
-      end
-      object Cadastros2: TMenuItem
-        Caption = 'Cadastros'
+      object Clientes2: TMenuItem
+        Caption = 'Clientes'
+        object Clientes: TMenuItem
+          Caption = '&Clientes '
+          OnClick = ClientesClick
+        end
+        object ClienteBloqueio1: TMenuItem
+          Action = acClienteBloqueio
+          Caption = 'Bloquear Clientes'
+        end
         object Prazos1: TMenuItem
           Action = acPrazo
         end
-        object Banco1: TMenuItem
-          Action = acBanco
+        object MesasComandas1: TMenuItem
+          Caption = 'Mesas / Comandas'
+          OnClick = MesasComandas1Click
         end
-        object NaturezaOperao1: TMenuItem
-          Caption = 'Natureza Opera'#231#227'o'
-          OnClick = NaturezaOperao1Click
+      end
+      object Produtos1: TMenuItem
+        Caption = 'Produtos'
+        object produtos: TMenuItem
+          Caption = '&Produtos'
+          OnClick = produtosClick
+        end
+        object usoprod: TMenuItem
+          Caption = '&Uso do Produto'
+          OnClick = usoprodClick
         end
         object UnidadeMedida1: TMenuItem
           Caption = 'Unidade Medida'
           OnClick = UnidadeMedida1Click
         end
-        object CidadesIBGE1: TMenuItem
-          Caption = 'Cidades IBGE'
-          OnClick = CidadesIBGE1Click
+        object Lotes1: TMenuItem
+          Caption = 'Lotes'
+          OnClick = Lotes1Click
         end
-        object Departamentos1: TMenuItem
-          Caption = 'Departamentos'
+        object ListadePreo1: TMenuItem
+          Caption = 'Listas de Pre'#231'os'
+          OnClick = ListadePreo1Click
         end
-        object ipoDocumentos1: TMenuItem
-          Caption = 'Tipo Documentos'
-          OnClick = ipoDocumentos1Click
+        object ListadeVendas1: TMenuItem
+          Caption = 'Listas de Vendas'
+          Visible = False
+          OnClick = ListadeVendas1Click
         end
-        object Similares1: TMenuItem
-          Caption = 'Similares'
-          OnClick = Similares1Click
+      end
+      object Empresa2: TMenuItem
+        Caption = 'Empresa'
+        object Agenda: TMenuItem
+          Caption = '&Agenda'
+          OnClick = AgendaClick
         end
-        object ipoAtendimento1: TMenuItem
-          Caption = 'Tipo Atendimento'
-          OnClick = ipoAtendimento1Click
+        object Empresa1: TMenuItem
+          Caption = 'Cadastro Empresa'
+          OnClick = Empresa1Click
         end
-        object Setor1: TMenuItem
-          Caption = 'Setor'
+        object mCadColaborador: TMenuItem
+          Caption = 'Colaboradores'
+          OnClick = mCadColaboradorClick
         end
+        object comissao: TMenuItem
+          Caption = 'C&omiss'#227'o'
+          OnClick = comissaoClick
+        end
+      end
+      object ConfiguraoFiscal1: TMenuItem
+        Caption = 'Configura'#231#227'o Fiscal'
+        object CFOPEstados1: TMenuItem
+          Caption = 'CFOP-Cadastrar'
+          OnClick = CFOPEstados1Click
+        end
+        object CFOPNCM1: TMenuItem
+          Caption = 'CFOP-Cadastrar por NCM'
+          OnClick = CFOPNCM1Click
+        end
+        object CFOP1: TMenuItem
+          Caption = 'CFOP-Consulta Descri'#231#227'o'
+          OnClick = CFOP1Click
+        end
+        object NaturezaOperao1: TMenuItem
+          Caption = 'Natureza Opera'#231#227'o'
+          OnClick = NaturezaOperao1Click
+        end
+        object SriaNotaFiscal1: TMenuItem
+          Caption = '&S'#233'rie Nota Fiscal'
+          OnClick = SriaNotaFiscal1Click
+        end
+      end
+      object Fornecedores1: TMenuItem
+        Caption = 'Fornecedores'
+        object Banco1: TMenuItem
+          Action = acBanco
+          Caption = 'Bancos'
+        end
+        object Fornecedores: TMenuItem
+          Caption = '&Fornecedores'
+          OnClick = FornecedoresClick
+        end
+        object transportadoras: TMenuItem
+          Caption = '&Transportadoras'
+          OnClick = transportadorasClick
+        end
+      end
+      object Outros1: TMenuItem
+        Caption = 'Outros'
         object CadastrarSemanas1: TMenuItem
           Caption = 'Cadastrar Semanas'
           OnClick = CadastrarSemanas1Click
         end
-      end
-      object N6: TMenuItem
-        Caption = '-'
-      end
-      object CFOP1: TMenuItem
-        Caption = 'CFOP'
-        OnClick = CFOP1Click
-      end
-      object CFOPNCM1: TMenuItem
-        Caption = 'CFOP NCM'
-        OnClick = CFOPNCM1Click
-      end
-      object CFOPEstados1: TMenuItem
-        Caption = 'CFOP-Estados'
-        OnClick = CFOPEstados1Click
-      end
-      object SriaNotaFiscal1: TMenuItem
-        Caption = '&S'#233'rie Nota Fiscal'
-        OnClick = SriaNotaFiscal1Click
-      end
-      object N7: TMenuItem
-        Caption = '-'
-      end
-      object mPlanoContas: TMenuItem
-        Caption = 'Plano de Contas'
-        OnClick = mPlanoContasClick
-      end
-      object N8: TMenuItem
-        Caption = '-'
-      end
-      object ClienteBloqueio1: TMenuItem
-        Action = acClienteBloqueio
-      end
-      object comissao: TMenuItem
-        Caption = 'C&omiss'#227'o'
-        OnClick = comissaoClick
-      end
-      object ListadePreo1: TMenuItem
-        Caption = 'Lista de Pre'#231'o'
-        OnClick = ListadePreo1Click
-      end
-      object ListadeVendas1: TMenuItem
-        Caption = 'Lista de Vendas'
-        Visible = False
-        OnClick = ListadeVendas1Click
-      end
-      object N9: TMenuItem
-        Caption = '-'
-      end
-      object Agenda: TMenuItem
-        Caption = '&Agenda'
-        OnClick = AgendaClick
-      end
-      object Lotes1: TMenuItem
-        Caption = 'Lotes'
-        OnClick = Lotes1Click
-      end
-      object Maquinas1: TMenuItem
-        Caption = 'Maquinas'
-        OnClick = Maquinas1Click
-      end
-      object MesasComandas1: TMenuItem
-        Caption = 'Mesas / Comandas'
-        OnClick = MesasComandas1Click
-      end
-      object usoprod: TMenuItem
-        Caption = '&Uso do Produto'
-        OnClick = usoprodClick
+        object CidadesIBGE1: TMenuItem
+          Caption = 'Cidades IBGE'
+          OnClick = CidadesIBGE1Click
+        end
+        object mPlanoContas: TMenuItem
+          Caption = 'Plano de Contas'
+          OnClick = mPlanoContasClick
+        end
       end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '
       object Compra1: TMenuItem
         Caption = 'Compras'
-        object SolicitacaoCompras1: TMenuItem
-          Caption = 'Solicitacao Compras'
-          OnClick = SolicitacaoCompras1Click
-        end
-        object CotacaoCompras1: TMenuItem
-          Caption = 'Cotacao Compras'
-          OnClick = CotacaoCompras1Click
-        end
-        object Cotao1: TMenuItem
-          Caption = 'Negocia'#231#245'es Compras'
-          OnClick = Cotao1Click
-        end
-        object CotaoPedido1: TMenuItem
-          Caption = 'Cota'#231#227'o - Pedido'
-          OnClick = CotaoPedido1Click
-        end
         object compras: TMenuItem
           Caption = '&Compras'
           OnClick = acComprasExecute
         end
         object mnDevCompra: TMenuItem
-          Caption = 'Devolucao Compra'
+          Caption = 'Compras - Devolu'#231#227'o'
           OnClick = mnDevCompraClick
         end
       end
-      object venda: TMenuItem
-        Caption = '&Vendas'
-        OnClick = acVendasExecute
-      end
-      object DevolucaoVendas1: TMenuItem
-        Caption = 'Vendas - Devolucao'
-        OnClick = DevolucaoVendas1Click
-      end
-      object Terminal: TMenuItem
-        Caption = '&Terminal'
-        OnClick = acTerminalExecute
-      end
-      object N11: TMenuItem
-        Caption = '-'
-      end
-      object AdmCaixaBanco1: TMenuItem
-        Caption = 'Adm. Caixa / Banco'
-        OnClick = AdmCaixaBanco1Click
-      end
-      object ConciliaoBancaria1: TMenuItem
-        Caption = 'Concilia'#231#227'o Bancaria'
-        OnClick = ConciliaoBancaria1Click
-      end
-      object LanamentoPassivo1: TMenuItem
-        Caption = 'Lan'#231'amento Passivo'
-        OnClick = LanamentoPassivo1Click
-      end
-      object LanarDespesaUsurio1: TMenuItem
-        Action = acPagarUsuario
-      end
-      object MovimentaoFinanceira1: TMenuItem
-        Caption = '&Movimenta'#231#227'o Financeira'
-        OnClick = MovimentaoFinanceira1Click
-      end
-      object tulosDescontados1: TMenuItem
-        Caption = 'T'#237'tulos Descontados'
-        OnClick = tulosDescontados1Click
-      end
-      object VerMovimentaodecheques1: TMenuItem
-        Caption = 'Ver Movimenta'#231#227'o de cheques'
-        OnClick = VerMovimentaodecheques1Click
-      end
-      object N12: TMenuItem
-        Caption = '-'
-      end
-      object ArquivoRetorno: TMenuItem
-        Action = acArquivoRetorno
-      end
-      object N10: TMenuItem
-        Caption = '-'
-      end
-      object ListadeCompras1: TMenuItem
-        Caption = 'Lista de Compras'
-        OnClick = ListadeCompras1Click
-      end
-      object Romaneio1: TMenuItem
-        Caption = 'Romaneio'
-        OnClick = Romaneio1Click
-      end
-      object N13: TMenuItem
-        Caption = '-'
-      end
-      object Agenda1: TMenuItem
-        Action = acAgenda
-      end
-      object GerarMensalidades1: TMenuItem
-        Caption = 'Gerar Mensalidades'
-        OnClick = GerarMensalidades1Click
-      end
-      object Maquinas2: TMenuItem
-        Caption = 'M'#225'quinas'
-        object LanarOS1: TMenuItem
-          Caption = 'Lan'#231'ar O.S.'
-          OnClick = LanarOS1Click
+      object Vendas2: TMenuItem
+        Caption = 'Vendas'
+        object venda: TMenuItem
+          Caption = '&Vendas'
+          OnClick = acVendasExecute
         end
-        object ListaOS1: TMenuItem
-          Caption = 'Lista O.S.'
-          OnClick = ListaOS1Click
+        object DevolucaoVendas1: TMenuItem
+          Caption = 'Vendas - Devolucao'
+          OnClick = DevolucaoVendas1Click
+        end
+        object Terminal: TMenuItem
+          Caption = '&Vendas - Terminal'
+          OnClick = acTerminalExecute
         end
       end
-      object N14: TMenuItem
-        Caption = '-'
-      end
-      object Correio1: TMenuItem
-        Caption = 'Arquivos'
-        OnClick = Correio1Click
-      end
-      object CadastroDepartamento1: TMenuItem
-        Caption = 'Cadastro Departamento'
-        OnClick = CadastroDepartamento1Click
-      end
-      object CadastroSetor1: TMenuItem
-        Caption = 'Cadastro Setor'
-        OnClick = CadastroSetor1Click
-      end
-      object CadastroTipoDoc1: TMenuItem
-        Caption = 'Cadastro Tipo Documento'
-        OnClick = CadastroTipoDoc1Click
-      end
-      object Diversos1: TMenuItem
-        Caption = 'Diversos'
-        object ApontamentodeHoras1: TMenuItem
-          Caption = 'Apontamento de Horas'
-          OnClick = ApontamentodeHoras1Click
+      object Financeiro1: TMenuItem
+        Caption = 'Financeiro'
+        object ArquivoRetorno: TMenuItem
+          Action = acArquivoRetorno
         end
-        object CallCenter1: TMenuItem
-          Caption = 'Call Center'
-          OnClick = CallCenter1Click
+        object AdmCaixaBanco1: TMenuItem
+          Caption = 'Adm. Caixa / Banco'
+          OnClick = AdmCaixaBanco1Click
         end
-        object ExportaoparaContMatic1: TMenuItem
-          Caption = 'Exporta'#231#227'o para Cont Matic/Sira'
-          OnClick = ExportaoparaContMatic1Click
+        object LanamentoPassivo1: TMenuItem
+          Caption = 'Lan'#231'amento Passivo'
+          OnClick = LanamentoPassivo1Click
         end
-        object FechamentodeContas1: TMenuItem
-          Caption = 'Fechamento de Contas'
-          OnClick = FechamentodeContas1Click
+        object tulosDescontados1: TMenuItem
+          Caption = 'T'#237'tulos Descontados'
+          OnClick = tulosDescontados1Click
         end
-        object OrdemdeAssitnciaTcnica1: TMenuItem
-          Caption = 'Ordem de Assit'#234'ncia T'#233'cnica'
-          OnClick = OrdemdeAssitnciaTcnica1Click
+        object VerMovimentaodecheques1: TMenuItem
+          Caption = 'Ver Movimenta'#231#227'o de cheques'
+          OnClick = VerMovimentaodecheques1Click
+        end
+        object MovimentaoFinanceira1: TMenuItem
+          Caption = '&Movimenta'#231#227'o Financeira'
+          OnClick = MovimentaoFinanceira1Click
+        end
+        object ConciliaoBancaria1: TMenuItem
+          Caption = 'Concilia'#231#227'o Bancaria'
+          OnClick = ConciliaoBancaria1Click
         end
       end
-      object Fechamento1: TMenuItem
-        Caption = 'Fechamento'
-        OnClick = Fechamento1Click
+      object Outros2: TMenuItem
+        Caption = 'Outros'
+        object Agenda1: TMenuItem
+          Action = acAgenda
+        end
+        object Romaneio1: TMenuItem
+          Caption = 'Romaneio'
+          OnClick = Romaneio1Click
+        end
+        object GerarMensalidades1: TMenuItem
+          Caption = 'Gerar Mensalidades'
+          OnClick = GerarMensalidades1Click
+        end
       end
     end
     object NotaFiscal1: TMenuItem
@@ -2588,10 +2489,6 @@ object fAtsAdmin: TfAtsAdmin
       object NotaFiscalEletrnica1: TMenuItem
         Caption = 'Nota Fiscal Eletr'#244'nica'
         OnClick = NotaFiscalEletrnica1Click
-      end
-      object NotaFiscalPaulista1: TMenuItem
-        Caption = 'Nota Fiscal Paulista'
-        OnClick = NotaFiscalPaulista1Click
       end
       object ExportaNotaFiscal1: TMenuItem
         Caption = 'Exporta Nota Fiscal'
@@ -2618,25 +2515,6 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = SpedFiscalICMS1Click
       end
     end
-    object N2: TMenuItem
-      Caption = 'Usuarios     '
-      object Usuarios1: TMenuItem
-        Caption = 'Cadastrar Usuarios'
-      end
-      object Historico1: TMenuItem
-        Caption = 'Historico'
-      end
-      object rocarSenha1: TMenuItem
-        Caption = 'Trocar Senha'
-      end
-      object RocarUsuarioLogOff1: TMenuItem
-        Caption = 'Trocar Usuario/LogOff'
-      end
-      object Auditoria1: TMenuItem
-        Caption = 'Auditoria'
-        OnClick = Auditoria1Click
-      end
-    end
     object ContEstoque1: TMenuItem
       Caption = 'Materiais     '
       object VerEstoque1: TMenuItem
@@ -2650,17 +2528,17 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Entrada de Materiais'
         OnClick = EntradadeEstoque1Click
       end
+      object SaidadeEstoque1: TMenuItem
+        Caption = 'Saida de Materiais'
+        OnClick = SaidadeEstoque1Click
+      end
       object MovimentaodeEstoque1: TMenuItem
         Caption = 'Movimenta'#231#227'o de Materiais'
         OnClick = MovimentaodeEstoque1Click
       end
       object RecebimentoMateriais1: TMenuItem
-        Caption = 'Recebimento Materiais'
+        Caption = 'Recebimento de Materiais'
         OnClick = RecebimentoMateriais1Click
-      end
-      object SaidadeEstoque1: TMenuItem
-        Caption = 'Saida de Materiais'
-        OnClick = SaidadeEstoque1Click
       end
       object N16: TMenuItem
         Caption = '-'
@@ -2681,10 +2559,6 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Inventario'
         OnClick = Inventario1Click
       end
-      object ListaEstoque1: TMenuItem
-        Caption = 'Lista Estoque'
-        OnClick = ListaEstoque1Click
-      end
       object ProdutosSemMovimentao1: TMenuItem
         Caption = 'Produtos Sem Movimenta'#231#227'o'
         OnClick = ProdutosSemMovimentao1Click
@@ -2700,11 +2574,8 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Ordem de Produ'#231#227'o - Apontar'
         OnClick = ApontarProduo1Click
       end
-      object N5: TMenuItem
-        Caption = '-'
-      end
       object ExluirOrdemProduo1: TMenuItem
-        Caption = 'Ordem de Produ'#231#227'o - Exluir'
+        Caption = 'Ordem de Produ'#231#227'o - Excluir'
         OnClick = ExluirOrdemProduo1Click
       end
       object N4: TMenuItem
@@ -2730,150 +2601,131 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Mapeamento de Estoque'
         OnClick = MapeamentodeEstoque1Click
       end
-      object RelatrioListadeProdutos2: TMenuItem
-        Caption = 'Relat'#243'rio Lista de Produtos'
-        OnClick = RelatrioListadeProdutos2Click
-      end
-      object RelatrioListadeProdporLote2: TMenuItem
-        Caption = 'Relat'#243'rio Lista de Prod. por Lote'
-        OnClick = RelatrioListadeProdporLote2Click
-      end
     end
     object Relatrios1: TMenuItem
       Caption = '&Relat'#243'rios     '
-      object RelatrioListadeProdutos1: TMenuItem
-        Caption = 'Relat'#243'rio Lista de Produtos'
-        OnClick = RelatrioListadeProdutos1Click
+      object RelCompras1: TMenuItem
+        Caption = 'Rel Compras'
+        object RelatriodeCompras1: TMenuItem
+          Caption = 'Compras'
+          OnClick = RelatriodeCompras1Click
+        end
+        object RelatrioNotasCompras1: TMenuItem
+          Caption = 'Notas Compras'
+          OnClick = RelatrioNotasCompras1Click
+        end
+        object RelatriodeComprasVendaICMS1: TMenuItem
+          Caption = 'Compras Venda/ICMS'
+          OnClick = RelatriodeComprasVendaICMS1Click
+        end
+        object RelatriodeFornecedores1: TMenuItem
+          Caption = 'Fornecedores'
+          OnClick = RelatriodeFornecedores1Click
+        end
       end
-      object RelatrioListadeProdporLote1: TMenuItem
-        Caption = 'Relat'#243'rio Lista de Prod. por Lote'
-        OnClick = RelatrioListadeProdporLote1Click
-      end
-      object N17: TMenuItem
-        Caption = '-'
-      end
-      object RelatriodeClientes1: TMenuItem
-        Caption = 'Relat'#243'rio de Clientes'
-        OnClick = RelatriodeClientes1Click
-      end
-      object RelatriodeVendasporProduto1: TMenuItem
-        Caption = 'Relat'#243'rio de Vendas'
+      object RelVendas1: TMenuItem
+        Caption = 'Rel Vendas'
         object RelatriodeVendas1: TMenuItem
-          Caption = 'Relat'#243'rio de Vendas'
+          Caption = 'Vendas'
           OnClick = RelatriodeVendas1Click
         end
         object RelNotaFistalLote1: TMenuItem
-          Caption = 'Rel. Nota Fistal - Lote'
+          Caption = 'Nota Fistal - Lote'
           OnClick = RelNotaFistalLote1Click
         end
+        object RelatriodeVendasprEstado1: TMenuItem
+          Caption = 'Vendas p'#244'r Estado'
+          OnClick = RelatriodeVendasprEstado1Click
+        end
+        object RelatrioVendasprSrieSubGrupoetc1: TMenuItem
+          Caption = 'Vendas p'#244'r (S'#233'rie, SubGrupo)'
+          OnClick = RelatrioVendasprSrieSubGrupoetc1Click
+        end
+        object RelatorioTitulos1: TMenuItem
+          Caption = 'Vendas /Titulos Descontados'
+          OnClick = RelatorioTitulos1Click
+        end
+        object RelatriodePrFaturamento1: TMenuItem
+          Caption = 'Pr'#233' Faturamento'
+          OnClick = RelatriodePrFaturamento1Click
+        end
+        object RelatriodeClientes1: TMenuItem
+          Caption = 'Clientes'
+          OnClick = RelatriodeClientes1Click
+        end
+        object RelatrioDeComisso1: TMenuItem
+          Caption = 'Comiss'#227'o'
+          OnClick = RelatrioDeComisso1Click
+        end
+        object AniversrioClientes1: TMenuItem
+          Caption = 'Anivers'#225'rio Clientes'
+          OnClick = AniversrioClientes1Click
+        end
       end
-      object RelatrioVendasprSrieSubGrupoetc1: TMenuItem
-        Caption = 'Relat'#243'rio Vendas p'#244'r (S'#233'rie, SubGrupo)'
-        OnClick = RelatrioVendasprSrieSubGrupoetc1Click
+      object RelMateriais1: TMenuItem
+        Caption = 'Rel Materiais'
+        object ListaEstoque1: TMenuItem
+          Caption = 'Lista Estoque'
+          OnClick = ListaEstoque1Click
+        end
+        object RelatrioListadeProdutos1: TMenuItem
+          Caption = 'Lista de Produtos'
+          OnClick = RelatrioListadeProdutos1Click
+        end
+        object RelatrioListadeProdporLote1: TMenuItem
+          Caption = 'Lista de Prod. por Lote'
+          OnClick = RelatrioListadeProdporLote1Click
+        end
       end
-      object RelatriodeVendasprEstado1: TMenuItem
-        Caption = 'Relat'#243'rio de Vendas p'#244'r Estado'
-        OnClick = RelatriodeVendasprEstado1Click
-      end
-      object RelatriodePrFaturamento1: TMenuItem
-        Caption = 'Relat'#243'rio de Pr'#233' Faturamento'
-        OnClick = RelatriodePrFaturamento1Click
-      end
-      object RelatrioDeComisso1: TMenuItem
-        Caption = 'Relat'#243'rio De Comiss'#227'o'
-        OnClick = RelatrioDeComisso1Click
-      end
-      object RelatorioTitulos1: TMenuItem
-        Caption = 'Relatorio Vendas /Titulos Descontados'
-        OnClick = RelatorioTitulos1Click
-      end
-      object GrficodeVendas1: TMenuItem
-        Caption = 'Gr'#225'fico de Vendas'
-        OnClick = GrficodeVendas1Click
-      end
-      object N18: TMenuItem
-        Caption = '-'
-      end
-      object RelatriodeFornecedores1: TMenuItem
-        Caption = 'Relat'#243'rio de Fornecedores'
-        OnClick = RelatriodeFornecedores1Click
-      end
-      object RelatrioNotasCompras1: TMenuItem
-        Caption = 'Relat'#243'rio Notas Compras'
-        OnClick = RelatrioNotasCompras1Click
-      end
-      object RelatriodeCompras1: TMenuItem
-        Caption = 'Relat'#243'rio de Compras'
-        OnClick = RelatriodeCompras1Click
-      end
-      object PaineldeControleCompra1: TMenuItem
-        Caption = 'Painel de Controle Compra'
-        OnClick = PaineldeControleCompra1Click
-      end
-      object RelatriodeComprasVendaICMS1: TMenuItem
-        Caption = 'Relat'#243'rio de Compras Venda :ICMS'
-        OnClick = RelatriodeComprasVendaICMS1Click
-      end
-      object N19: TMenuItem
-        Caption = '-'
-      end
-      object RelProgramaodeRecebimento1: TMenuItem
-        Caption = 'Rel. Programa'#231#227'o de Recebimento'
-        OnClick = RelProgramaodeRecebimento1Click
-      end
-      object RelatrioGuiaConehcimento1: TMenuItem
-        Caption = 'Relat'#243'rio Guia Conhecimento'
-        OnClick = RelatrioGuiaConehcimento1Click
-      end
-      object RelatriodeDivergncias1: TMenuItem
-        Caption = 'Relat'#243'rio de Diverg'#234'ncias'
-        OnClick = RelatriodeDivergncias1Click
-      end
-      object AniversrioClientes1: TMenuItem
-        Caption = 'Anivers'#225'rio Clientes'
-        OnClick = AniversrioClientes1Click
+      object RelFinanceiros1: TMenuItem
+        Caption = 'Rel Financeiros'
+        object RelContasaPagar1: TMenuItem
+          Caption = 'Contas Desp./Compras'
+          OnClick = RelContasaPagar1Click
+        end
+        object RelContasaReceber1: TMenuItem
+          Caption = 'Contas Rec./Vendas'
+          OnClick = RelContasaReceber1Click
+        end
+        object RelCaixa1: TMenuItem
+          Caption = 'Caixa'
+          OnClick = RelCaixa1Click
+        end
+        object RelDRE1: TMenuItem
+          Caption = 'D.R.E.'
+          OnClick = RelDRE1Click
+        end
+        object FluxoCaixa1: TMenuItem
+          Caption = 'Fluxo Caixa'
+          OnClick = FluxoCaixa1Click
+        end
+        object RelLucroPresumido1: TMenuItem
+          Caption = 'Lucro Presumido'
+          OnClick = RelLucroPresumido1Click
+        end
       end
     end
-    object RelastriosFinanceiros1: TMenuItem
-      Caption = 'Rel. Financeiros      '
-      object RelContasaPagar1: TMenuItem
-        Caption = 'Rel. Contas Desp./Compras'
-        OnClick = RelContasaPagar1Click
+    object N2: TMenuItem
+      Caption = 'Usuarios     '
+      object Usuarios1: TMenuItem
+        Caption = 'Cadastrar Usuarios'
       end
-      object RelContasaReceber1: TMenuItem
-        Caption = 'Rel. Contas Rec./Vendas'
-        OnClick = RelContasaReceber1Click
+      object Historico1: TMenuItem
+        Caption = 'Historico'
       end
-      object RelDRE1: TMenuItem
-        Caption = 'Rel. D.R.E.'
-        OnClick = RelDRE1Click
+      object rocarSenha1: TMenuItem
+        Caption = 'Trocar Senha'
       end
-      object RelResumo1: TMenuItem
-        Caption = 'Rel. Resumo'
+      object RocarUsuarioLogOff1: TMenuItem
+        Caption = 'Trocar Usuario/LogOff'
       end
-      object RelCaixa1: TMenuItem
-        Caption = 'Rel. Caixa'
-        OnClick = RelCaixa1Click
-      end
-      object FluxoCaixa1: TMenuItem
-        Caption = 'Fluxo Caixa'
-        OnClick = FluxoCaixa1Click
-      end
-      object RelLucroPresumido1: TMenuItem
-        Caption = 'Rel. Lucro Presumido'
-        OnClick = RelLucroPresumido1Click
+      object Auditoria1: TMenuItem
+        Caption = 'Auditoria'
+        OnClick = Auditoria1Click
       end
     end
     object Ajuda1: TMenuItem
       Caption = '&Sistema  '
-      object Ajuda2: TMenuItem
-        Caption = 'Ajuda ?'
-        Enabled = False
-      end
-      object Empresa1: TMenuItem
-        Caption = 'Empresa'
-        OnClick = Empresa1Click
-      end
       object ExportarTabelas1: TMenuItem
         Caption = 'Importar Tabelas'
         OnClick = ExportarTabelas1Click
@@ -2889,10 +2741,6 @@ object fAtsAdmin: TfAtsAdmin
       object SobreoSistema1: TMenuItem
         Caption = 'Sobre o Sistema'
         OnClick = SobreoSistema1Click
-      end
-      object mSuporte: TMenuItem
-        Caption = 'Suporte'
-        OnClick = mSuporteClick
       end
     end
   end
