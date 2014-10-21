@@ -475,43 +475,43 @@ begin
     dmnf.cds_nf1UFCLI.AsString := listaFornecedoresUF.AsString;
     dmnf.cds_nf1UF.AsString := listaFornecedoresUF.AsString;
     dmnf.cds_nf1TELEFONE.AsString := listaFornecedoresTELEFONE.AsString;
-  // Calcula o peso
-  if (dmnf.sqs_tit.Active) then
-    dmnf.sqs_tit.Close;
+    // Calcula o peso
+    if (dmnf.sqs_tit.Active) then
+      dmnf.sqs_tit.Close;
 
-   dmnf.sqs_tit.CommandText := 'SELECT SUM(m.QUANTIDADE * prod.PESO_QTDE) FROM MOVIMENTODETALHE m' +
+    dmnf.sqs_tit.CommandText := 'SELECT SUM(m.QUANTIDADE * prod.PESO_QTDE) FROM MOVIMENTODETALHE m' +
                            ' inner join produtos prod on prod.codproduto = m.codproduto ' +
                            ' WHERE m.CODMOVIMENTO = ' +
                            IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.asInteger);
-  dmnf.sqs_tit.Open;
-  dmnf.cds_nf1PESOBRUTO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
-  dmnf.cds_nf1PESOLIQUIDO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
+    dmnf.sqs_tit.Open;
+    dmnf.cds_nf1PESOBRUTO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
+    dmnf.cds_nf1PESOLIQUIDO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
 
-  dmnf.sqs_tit.Close;
+    dmnf.sqs_tit.Close;
 
     prazo := listaFornecedoresPRAZOPAGAMENTO.AsFloat;
     if (listaFornecedoresCODTRANSP.AsInteger > 0 ) then
     begin
-        if (proc_transp.Active) then
-          proc_transp.Close;
-        proc_transp.Params[0].AsInteger := listaFornecedoresCODTRANSP.AsInteger;
-        proc_transp.Open;
-        dmnf.cds_nf1CODTRANSP.AsInteger := proc_transpCODTRANSP.AsInteger;
-        dmnf.cds_nf1NOMETRANSP.AsString := proc_transpNOMETRANSP.AsString;
-        dmnf.cds_nf1UF_TRANSP.AsString := proc_transpUF_TRANSP.AsString;
-        dmnf.cds_nf1FRETE.AsString := proc_transpFRETE.AsString;
-        dmnf.cds_nf1UF_VEICULO_TRANSP.AsString := proc_transpUF_VEICULO_TRANSP.AsString;
-        dmnf.cds_nf1CNPJ_CPF.AsString := proc_transpCNPJ_CPF.AsString;
-        dmnf.cds_nf1END_TRANSP.AsString := proc_transpEND_TRANSP.AsString;
-        dmnf.cds_nf1CIDADE_TRANSP.AsString := proc_transpCIDADE_TRANSP.AsString;
-        dmnf.cds_nf1UF_TRANSP.AsString := proc_transpUF_TRANSP.AsString;
-        dmnf.cds_nf1INSCRICAOESTADUAL.AsString := proc_transpINSCRICAOESTADUAL.AsString;
-        dmnf.cds_nf1PLACATRANSP.AsString := proc_transpPLACATRANSP.AsString;
-        dmnf.cds_nf1CORPONF1.AsString  := proc_transpCORPONF1.AsString;
-        dmnf.cds_nf1CORPONF2.AsString  := proc_transpCORPONF2.AsString;
-        dmnf.cds_nf1CORPONF3.AsString  := proc_transpCORPONF3.AsString;
-        dmnf.cds_nf1CORPONF4.AsString  := proc_transpCORPONF4.AsString;
+      if (proc_transp.Active) then
         proc_transp.Close;
+      proc_transp.Params[0].AsInteger := listaFornecedoresCODTRANSP.AsInteger;
+      proc_transp.Open;
+      dmnf.cds_nf1CODTRANSP.AsInteger := proc_transpCODTRANSP.AsInteger;
+      dmnf.cds_nf1NOMETRANSP.AsString := proc_transpNOMETRANSP.AsString;
+      dmnf.cds_nf1UF_TRANSP.AsString := proc_transpUF_TRANSP.AsString;
+      dmnf.cds_nf1FRETE.AsString := proc_transpFRETE.AsString;
+      dmnf.cds_nf1UF_VEICULO_TRANSP.AsString := proc_transpUF_VEICULO_TRANSP.AsString;
+      dmnf.cds_nf1CNPJ_CPF.AsString := proc_transpCNPJ_CPF.AsString;
+      dmnf.cds_nf1END_TRANSP.AsString := proc_transpEND_TRANSP.AsString;
+      dmnf.cds_nf1CIDADE_TRANSP.AsString := proc_transpCIDADE_TRANSP.AsString;
+      dmnf.cds_nf1UF_TRANSP.AsString := proc_transpUF_TRANSP.AsString;
+      dmnf.cds_nf1INSCRICAOESTADUAL.AsString := proc_transpINSCRICAOESTADUAL.AsString;
+      dmnf.cds_nf1PLACATRANSP.AsString := proc_transpPLACATRANSP.AsString;
+      dmnf.cds_nf1CORPONF1.AsString  := proc_transpCORPONF1.AsString;
+      dmnf.cds_nf1CORPONF2.AsString  := proc_transpCORPONF2.AsString;
+      dmnf.cds_nf1CORPONF3.AsString  := proc_transpCORPONF3.AsString;
+      dmnf.cds_nf1CORPONF4.AsString  := proc_transpCORPONF4.AsString;
+      proc_transp.Close;
     end;
     listaFornecedores.Close;
     btnGravar.click;
@@ -673,6 +673,7 @@ begin
      dmnf.cds_nf1.Open;
   dmnf.cds_nf1.Append;
   dmnf.cds_nf1NOTASERIE.AsString := IntToStr(dmnf.cds_compraNOTAFISCAL.AsInteger);
+  dmnf.cds_nf1SERIE.AsString := dmnf.cds_compraSERIE.AsString;
 end;
 
 procedure TfNotaFc.incluiCompra;
@@ -695,25 +696,36 @@ begin
   DMNF.cds_compraVALOR_PAGAR.AsFloat := 0;
   DMNF.cds_compraAPAGAR.AsFloat := 0;
   DMNF.cds_compraN_PARCELA.AsInteger := 1;
-  DMNF.cds_compraBANCO.AsInteger := 0;
+  DMNF.cds_compraBANCO.AsInteger := 1;
   DMNF.cds_compraDATAcompra.AsDateTime := now;
   DMNF.cds_compraDATAVENCIMENTO.AsDateTime := now;
   DMNF.cds_compraSTATUS.AsInteger:=0;
 
-  dbeSerie.Text := '';
-  if (not Dm.parametro.Active) then
-    dm.parametro.Open;
-  if (dbeSerie.Text = '') then
-  begin
-    dm.parametro.Locate('PARAMETRO', 'SERIEPADRAO', [loCaseInsensitive]);
-    dbeSerie.Text := dm.parametroDADOS.AsString;
-  end;
-  DMNF.cds_compraSERIE.AsString := dbeSerie.Text;
   { 006 ------Pesquisando na tab Parametro o Vendedor padrão ---- 09-05-2005 -----}
   dbeUsuario.Text := IntToStr(cod_vendedor_padrao);
   //dbEdit68.Text := nome_vendedor_padrao;
   { ---- ********************************************************************* ----}
 //   buscaserieNF;
+  dbeSerie.Text := '';
+
+  if (dbeSerie.Text = '') then
+  begin
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'SERIENFE';
+    dm.cds_parametro.Open;
+    dbeSerie.Text := dm.cds_parametroD1.AsString;
+  end;
+
+  DMNF.cds_compraSERIE.AsString := dbeSerie.Text;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+  dmnf.scds_serienfe.Open;
+
+  dbeSerie.Text := dm.cds_parametroD1.AsString;
+  dmnf.cds_compraNOTAFISCAL.AsInteger := dmnf.scds_serienfeNOTASERIE.AsInteger + 1;
 
 end;
 
@@ -1206,6 +1218,13 @@ begin
   if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
     gravanotafiscal;
 
+  dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+  dmnf.scds_serie_proc.Open;
+  dmnf.scds_serie_proc.Edit;
+  dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;
+  dmnf.scds_serie_proc.ApplyUpdates(0);
+  dmnf.scds_serie_proc.Close;
+
   if (movEstoque = 'S') then
   begin
     Try
@@ -1348,16 +1367,10 @@ begin
 //if (geraTitulo = 'S') then
 //  alteraVlrVenda;
 
-  {dmnf.cds_compraVALOR.AsFloat := dmnf.cds_compraVALOR.AsFloat +
-    dmnf.cds_compraVALOR_FRETE.AsFloat +
-    dmnf.cds_compraVALOR_SEGURO.AsFloat +
-    dmnf.cds_compraOUTRAS_DESP.AsFloat +
-    dmnf.cds_compraVALOR_IPI.AsFloat;
-  dmnf.cds_compraAPAGAR.AsFloat := dmnf.cds_compraVALOR.AsFloat -
-    dmnf.cds_compraENTRADA.AsFloat + dmnf.cds_compraMULTA_JUROS.AsFloat -
-    dmnf.cds_compraDESCONTO.AsFloat;}
-
-  dmnf.cds_compra.ApplyUpdates(0);
+  if DMNF.DtSrc_Compra.DataSet.State in [dsBrowse] then
+    DMNF.DtSrc_Compra.DataSet.Append;
+  DMNF.DtSrc_Compra.DataSet.post;
+  DMNF.cds_Compra.ApplyUpdates(-1);
 
   if not dmnf.scds_serie_proc.Active then
   begin
