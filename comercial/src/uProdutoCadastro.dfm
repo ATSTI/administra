@@ -1896,8 +1896,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [38]
-    Left = 192
-    Top = 221
+    Left = 232
+    Top = 149
     Width = 417
     Height = 273
     Hint = 'Recalcula Pre'#231'o de Custo e Estoque'
