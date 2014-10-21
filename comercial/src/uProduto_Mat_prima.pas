@@ -89,6 +89,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure JvDBUltimGrid1TitleClick(Column: TColumn);
   private
+    MTordenarPor : String;
     { Private declarations }
   public
     { Public declarations }
@@ -113,6 +114,7 @@ begin
     cdsMt.Close;
   cdsMt.Params[0].AsInteger := dm.cds_produtoCODPRODUTO.AsInteger;
   cdsMt.Open;
+  MTordenarPor := 'CODMAT';  
 end;
 
 procedure TfProduto_Mat_prima.btnGravarClick(Sender: TObject);
@@ -279,12 +281,44 @@ begin
 end;
 
 procedure TfProduto_Mat_prima.btnImprimirClick(Sender: TObject);
+var mdMT: String;
 begin
   inherited;
+  mdMT := 'N';
+  if (MTordenarPor = '') then
+  begin
+    MTordenarPor := 'CODMAT';
+    mdMT := 'S';
+  end;
+  if (MTordenarPor = 'CODPRO') then
+  begin
+    MTordenarPor := 'CODPRODMAT';
+    mdMT := 'S';
+  end;
+
+  if (MTordenarPor = 'PRODUTO') then
+  begin
+    MTordenarPor := 'MATPRIMA';
+    mdMT := 'S';
+  end;
+
+  if (MTordenarPor = 'QTDEUSADA') then
+  begin
+    MTordenarPor := 'QTDE';
+    mdMT := 'S';
+  end;
+
+  if (mdMT = 'N') then
+  begin
+    MTordenarPor := 'CODMAT';
+  end;
+
   VCLReport1.Filename := str_relatorio + 'materiaprima_custo.rep';
   VCLReport1.Title := VCLReport1.Filename;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('CODPROD').Value := cdsMtCODPRODUTO.AsInteger;
+  VCLReport1.Report.DataInfo.Items[0].SQL := 'SELECT * FROM MATERIAPRIMA_CUSTO' +
+    ' WHERE CODPROD = ' + IntToStr(cdsMtCODPRODUTO.AsInteger) +
+    ' ORDER BY ' + MTordenarPor;
   VCLReport1.Execute;
 end;
 
@@ -350,7 +384,8 @@ end;
 
 procedure TfProduto_Mat_prima.JvDBUltimGrid1TitleClick(Column: TColumn);
 begin
-  cdsMt.IndexFieldNames:=Column.FieldName;
+  cdsMt.IndexFieldNames := Column.FieldName;
+  MTordenarPor :=  Column.FieldName;
 end;
 
 end.
