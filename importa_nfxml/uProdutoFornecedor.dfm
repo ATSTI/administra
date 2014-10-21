@@ -11,7 +11,7 @@ object fProdutoFornec: TfProdutoFornec
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -43,6 +43,7 @@ object fProdutoFornec: TfProdutoFornec
     Height = 21
     TabOrder = 0
     OnExit = edCodProdutoExit
+    OnKeyPress = edCodProdutoKeyPress
   end
   object edCodProdutoFornec: TEdit
     Left = 24
@@ -95,7 +96,7 @@ object fProdutoFornec: TfProdutoFornec
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    OnCellClick = JvDBUltimGrid1CellClick
+    OnDblClick = JvDBUltimGrid1DblClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'

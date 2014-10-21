@@ -38,9 +38,10 @@ type
     procedure edCodProdutoExit(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnInsereClick(Sender: TObject);
-    procedure JvDBUltimGrid1CellClick(Column: TColumn);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure JvDBUltimGrid1DblClick(Sender: TObject);
+    procedure edCodProdutoKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -143,15 +144,6 @@ begin
   cdsProdutoFornec.Open;
 end;
 
-procedure TfProdutoFornec.JvDBUltimGrid1CellClick(Column: TColumn);
-begin
-  edCodProduto.Text := cdsProdutoFornecCODPRO.AsString;
-  codProduto := IntToStr(cdsProdutoFornecCP.asInteger);
-  edProduto.Text := cdsProdutoFornecPRODUTO.AsString;
-  edCodProdutoFornec.Text := cdsProdutoFornecCODPRODFORNEC.AsString;
-  edProdutoFornec.Text := cdsProdutoFornecPRODUTO.AsString;
-end;
-
 procedure TfProdutoFornec.BitBtn2Click(Sender: TObject);
 var strExclui: String;
 TD: TTransactionDesc;
@@ -193,6 +185,26 @@ begin
   codProduto := IntToStr(sqlBusca.Fields[0].asInteger);
   edCodProduto.Text := codProduto;
   edProduto.Text := sqlBusca.Fields[1].AsString;
+end;
+
+procedure TfProdutoFornec.JvDBUltimGrid1DblClick(Sender: TObject);
+begin
+  edCodProduto.Text := cdsProdutoFornecCODPRO.AsString;
+  codProduto := IntToStr(cdsProdutoFornecCP.asInteger);
+  edProduto.Text := cdsProdutoFornecPRODUTO.AsString;
+  edCodProdutoFornec.Text := cdsProdutoFornecCODPRODFORNEC.AsString;
+  edProdutoFornec.Text := cdsProdutoFornecPRODUTO.AsString;
+
+end;
+
+procedure TfProdutoFornec.edCodProdutoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;   
 end;
 
 end.
