@@ -3,7 +3,7 @@ object DMNF: TDMNF
   Left = 2
   Top = 2
   Height = 450
-  Width = 638
+  Width = 953
   object sCliente: TSQLDataSet
     CommandText = 
       'select CODCLIENTE, NOMECLIENTE from CLIENTES '#13#10'order by NOMECLIE' +
@@ -3267,6 +3267,7 @@ object DMNF: TDMNF
         ParamType = ptInput
       end>
     ProviderName = 'dsp_compra'
+    OnReconcileError = cds_compraReconcileError
     Left = 590
     Top = 94
     object cds_compraCODCOMPRA: TIntegerField

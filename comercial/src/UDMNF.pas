@@ -1452,6 +1452,9 @@ type
       var Action: TDataAction);
     procedure cds_nf1NewRecord(DataSet: TDataSet);
     procedure DtSrc_NF1StateChange(Sender: TObject);
+    procedure cds_compraReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
 
   public
@@ -2108,6 +2111,13 @@ begin
   Finally
     FEstoque.Free;
   end; }
+end;
+
+procedure TDMNF.cds_compraReconcileError(DataSet: TCustomClientDataSet;
+  E: EReconcileError; UpdateKind: TUpdateKind;
+  var Action: TReconcileAction);
+begin
+  MessageDlg('Mensagem: '+E.Message,mtInformation,[mbok],0);
 end;
 
 end.
