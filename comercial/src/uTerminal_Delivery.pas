@@ -1650,7 +1650,7 @@ begin
     // '%' para percentual ou '$' para valor
     sTipoDesconto := '%';
     texto1 := cds_Mov_detCODPRO.AsString;
-    texto2 := cds_Mov_detDESCPRODUTO.AsString;
+    texto2 := Trim(copy(cds_Mov_detDESCPRODUTO.AsString, 0,200));
     texto3 := FloatToStr(cds_Mov_detICMS.AsFloat); //'II'; // Aliquota
     //texto4 := FloatToStr(buscaTributacaoICMS_SUBST.AsFloat); //'FF'; // Aliquota
     I := StrToInt(texto3);
