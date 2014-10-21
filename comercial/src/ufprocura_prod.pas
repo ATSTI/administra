@@ -383,10 +383,34 @@ begin
 end;
 
 procedure TfProcura_prod.FormCreate(Sender: TObject);
+var nI: Integer;
 begin
   varCondicaoEstoque := '';
   //if (DM.videoW <> '1920') then
   sCtrlResize.CtrlResize(TForm(fProcura_prod));
+
+  if ((dm.videoFUNDO <> clWhite) and (dm.videoFONTE <> clBlack)) then
+  begin
+    For nI := 0 to ComponentCount-1 do
+    begin
+      if (Components[nI] is TEdit) then
+      begin
+        (Components[nI] as TEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBEdit) then
+      begin
+        (Components[nI] as TDBEdit).Color := dm.videoFUNDO;
+        (Components[nI] as TDBEdit).Font.Color := dm.videoFONTE;
+      end;
+      if (Components[nI] is TDBGrid) then
+      begin
+        (Components[nI] as TDBGrid).Color := dm.videoFUNDO;
+        (Components[nI] as TDBGrid).Font.Color := dm.videoFONTE;
+      end;
+    end;
+  end;
+
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'LISTAPRODUTOCONDICAO';

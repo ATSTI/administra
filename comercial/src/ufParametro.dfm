@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabPDV
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -140,18 +140,44 @@ inherited fParametro: TfParametro
         Caption = 'Configura'#231#227'o do Video (VIDEO)'
         TabOrder = 1
         object Label4: TLabel
-          Left = 144
-          Top = 23
+          Left = 384
+          Top = 7
           Width = 223
           Height = 13
           Caption = 'Resolu'#231#227'o do Video para o sistema (800x600) :'
         end
         object Label5: TLabel
           Left = 512
-          Top = 22
+          Top = 29
           Width = 7
           Height = 13
           Caption = 'X'
+        end
+        object Label77: TLabel
+          Left = 8
+          Top = 16
+          Width = 317
+          Height = 13
+          Caption = 'Trocar fundo GRID e EDIT: , nas telas VENDAS, Proc. PRODUTO'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label78: TLabel
+          Left = 8
+          Top = 32
+          Width = 230
+          Height = 13
+          Caption = 'Parametro VIDEO: D3 = PRETO, D4 = BRANCO'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
         end
         object BitBtn3: TBitBtn
           Left = 678
@@ -164,7 +190,7 @@ inherited fParametro: TfParametro
         end
         object Edit1: TEdit
           Left = 384
-          Top = 18
+          Top = 25
           Width = 121
           Height = 21
           BevelKind = bkFlat
@@ -173,7 +199,7 @@ inherited fParametro: TfParametro
         end
         object Edit2: TEdit
           Left = 526
-          Top = 19
+          Top = 26
           Width = 121
           Height = 21
           BevelKind = bkFlat
@@ -451,6 +477,22 @@ inherited fParametro: TfParametro
         Width = 238
         Height = 13
         Caption = 'D3 = CFOP Exporta'#231#227'o, D4 = Importa'#231#227'o '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label79: TLabel
+        Left = 16
+        Top = 424
+        Width = 896
+        Height = 13
+        Caption = 
+          'Mascara do Produto na DANFE / SPED - Crie o Parametro PRODUTOMAS' +
+          'CARA e informe no campo DADOS a mascar'#225' desejada, ex. : 99.999.9' +
+          '99.9999-99;0'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -2376,6 +2418,21 @@ inherited fParametro: TfParametro
           Width = 59
           Height = 13
           Caption = 'APLICACAO'
+        end
+        object Label76: TLabel
+          Left = 8
+          Top = 64
+          Width = 745
+          Height = 16
+          Caption = 
+            'PRECO CUSTO - Para o sistema n'#227'o altera-lo coloque no parametro ' +
+            'PRECOESTOQUE no campo D1 = PRECOCUSTOFIXO'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
         end
         object BitBtn44: TBitBtn
           Left = 681
