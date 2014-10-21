@@ -11,7 +11,7 @@ uses
   ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe,
   ACBrNFeDANFeQRClass, xmldom, XMLIntf, msxmldom, XMLDoc, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, DBCtrls, JvFormPlacement, JvExControls, JvLabel
-  ,DBLocal, DBLocalS, DBXpress, ACBrBase, ACBrValidador;
+  ,DBLocal, DBLocalS, DBXpress, ACBrBase, ACBrValidador, MaskUtils;
 
 type
   TfNFeletronica = class(TForm)
@@ -2362,7 +2362,11 @@ begin
       sCFOP.Open;
 
       Prod.nItem    := contador;
-      Prod.cProd    := cdsItensNFCODPRO.AsString;
+      if (dm.mascaraProduto <> '') then
+        Prod.cProd    := FormatMaskText(dm.mascaraProduto, cdsItensNFCODPRO.AsString)
+      else
+        Prod.cProd    := cdsItensNFCODPRO.AsString;
+
       Prod.xProd    := LeftStr(cdsItensNFDESCPRODUTO.AsString, 99);
       Prod.CFOP     := cdsItensNFCFOP.AsString;
       Prod.uCom     := sProdutosUNIDADEMEDIDA.AsString;
