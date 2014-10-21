@@ -2085,14 +2085,24 @@ begin
       mudaVersao('3.0.0.4');
     end;
 
-    {if (versaoSistema = '3.0.0.4') then
+    if (versaoSistema = '3.0.0.4') then
     begin
+      insereouatualizaScript('estoque_view_custo.sql', '3.0.0.4', StrToDate('01/10/2014'));
+      AtualizandoScript('3.0.0.4');
+      mudaVersao('3.0.0.13');
+    end;
+
+    if (versaoSistema = '3.0.0.13') then
+    begin
+      insereouatualizaScript('listaProduto.sql', '3.0.0.13', StrToDate('01/10/2014'));
+      insereouatualizaScript('listaProdutocli.sql', '3.0.0.13', StrToDate('01/10/2014'));
+      AtualizandoScript('3.0.0.13');
       try
-        //EXECUTADDL('MATERIA_PRIMA', 'CUSTO', 'VALOR');
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER MOV_ESTOQUE inactive');
       except
       end;
-      mudaVersao('3.0.0.5');
-    end;}
+      mudaVersao('3.0.0.14');
+    end;
 
 
     try
