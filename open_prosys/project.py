@@ -1,1 +1,0 @@
-/opt/prosys_o7/openerp/addons/project/project.py
