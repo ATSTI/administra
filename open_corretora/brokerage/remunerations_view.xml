@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!--
+        INHERIT
+        finance.contract -> view_contract_form
+        -->
+        <record model="ir.ui.view" id="contract_rem_update">
+            <field name="name">finance.contract.rem.update</field>
+            <field name="model">finance.contract</field>
+            <field name="inherit_id" ref="view_contract_form" />
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='versement_ids']" position="replace">
+                    <field name="versement_ids" nolabel="1" context="{'default_contract_id': active_id}" domain="[('contract_id', '=', active_id)]" colspan="4">
+                        <tree editable="top" create="false">
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="libre"/>
+                            <field name="description" string="Descrição"/>
+                            <field name="contract_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <xpath expr="//group[@string='Partners']" position="before">
+                    <group colspan="2" string="Financeiro" class="inside_block">
+                        <field name="frais_libres"/>
+                        <field name="rem_id" class="oe_no_button" options='{"no_open": True}'/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--
+        NEW OBJECT
+        finance.rem
+        Compensation rules
+        -->
+        <record id="view_rem_tree" model="ir.ui.view">
+            <field name="name">rem.tree</field>
+            <field name="model">finance.rem</field>
+            <field name="arch" type="xml">
+                <tree string="Regras de remuneração">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_rem_form" model="ir.ui.view">
+            <field name="name">rem.form</field>
+            <field name="model">finance.rem</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Regras remuneração">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nome da regra"/>
+                        </h1>
+                        <field name="description" nolabel="1" placeholder="Descrição regra"/>
+                        <notebook>
+                            <page string="Linhas cálculo">
+                                <group colspan="4" col="4">
+                                    <field name="line_ids" nolabel="1" context="{'default_rem_id':active_id, 'default_name':name and name  + ' - ' or ''}"/>
+                                </group>
+                            </page>
+                            <page string="Contratos">
+                                <field name="contract_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_rem" model="ir.actions.act_window">
+            <field name="name">Regras remuneração</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">finance.rem</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- NEW MODEL
+        finance.rem.line
+        Compensation computing lines
+        -->
+
+        <record id="view_rem_line_tree" model="ir.ui.view">
+            <field name="name">rem.line.tree</field>
+            <field name="model">finance.rem.line</field>
+            <field name="arch" type="xml">
+                <tree string="Linhas cálculo">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_rem_line_form" model="ir.ui.view">
+            <field name="name">rem.line.form</field>
+            <field name="model">finance.rem.line</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Linhas de Cálculo">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Nome do cálculo"/>
+                        </h1>
+                        <group colspan="4">
+                            <field name="rem_id"/>
+                            <field name="facture" string="Imprimir uma fatura para o fornecedor"/>
+                        </group>
+                        <newline/>
+
+                        <field name="description" nolabel="1" placeholder="Descrição da linha de cálculo" colspan="4" class="description"/>
+                        <group colspan="4" col="4">
+                            <group colspan="2" string="Cálculo" class="calcul inside_block">
+                                <field name="type"/>
+                                <field name="based_on" on_change="onchange_based_on(based_on)"/>
+                                <field name="rem_base"/>
+                                <field name="calcul"/>
+                                <field name="age" attrs="{'invisible':[('calcul','!=','age')]}" nolabel="1" colspan="4">
+                                    <tree editable="top">
+                                        <field name="age"/>
+                                        <field name="pourcent"/>
+                                        <field name="line_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <field name="pourcent" attrs="{'invisible':[('calcul','!=','pourcent')]}"/>
+                                <field name="montant_fixe" attrs="{'invisible':[('calcul','!=','fixe')]}"/>
+                            </group>
+                            <group string="Datas" colspan="2" class="date inside_block">
+                                <field name="depart" attrs="{'invisible':[('based_on','=','frais_vers')]}"/>
+                                <field name="delai" attrs="{'invisible':[('depart','=','effet')]}"/>
+                                <field name="date_limit"/>
+                                <field name="date_rem"/>
+                                <field name="duree" attrs="{'invisible':[('rem_base','!=','mensuel')]}"/>
+                                <field name="duree_an" string="Número de períodos" attrs="{'invisible':[('rem_base','!=','annuel')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_rem_line" model="ir.actions.act_window">
+            <field name="name">Linhas cálculo remuneração</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">finance.rem.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- <menuitem id="menu_rems" parent="menu_contract" sequence="90" name="Remuneração"/>
+        <menuitem id="menu_rem" parent="menu_rems" action="action_rem" sequence="5"/>
+        <menuitem id="menu_rem_line" parent="menu_rems" action="action_rem_line" sequence="10"/> -->
+
+    </data>
+</openerp>

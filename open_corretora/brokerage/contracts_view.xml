@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_contract_tree" model="ir.ui.view">
+            <field name="name">contract.tree</field>
+            <field name="model">finance.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Contrats"  colors="blue:state=='draft';red:state=='waiting';black:state=='open';gray:state in ('rachat', 'resilie') and res_date != False;green:state=='rachat' and res_date == False">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="contract_id"/>
+                    <field name="number"/>
+                    <field name="date_effet"/>
+                    <field name="state" invisible="1"/>
+                    <field name="res_date" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_contract_tree2" model="ir.ui.view">
+            <field name="name">contract.tree</field>
+            <field name="model">finance.contract</field>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <tree string="Contrats" colors="blue:state=='draft';red:state=='waiting';black:state=='open';gray:state in ('rachat', 'resilie') and res_date != False;green:state=='rachat' and res_date == False">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="contract_id"/>
+                    <field name="number"/>
+                    <field name="date_effet"/>
+                    <field name="state"/>
+                    <field name="res_date" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_contract_form" model="ir.ui.view">
+            <field name="name">contract.form</field>
+            <field name="model">finance.contract</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Contrats">
+                    <field name="adherent_req" invisible="1"/>
+                    <field name="fond_req" invisible="1"/>
+                    <field name="birthdate_req" invisible="1"/>
+                    <field name="secu_req" invisible="1"/>
+                    <field name="bene_req" invisible="1"/>
+                    <field name="allow_vers" invisible="1"/>
+                    <header>
+                        <button name="set_draft" type="object" string="Draft" states="open,waiting,rachat,resilie,cancelled"/>
+                        <button name="set_open" type="object" string="Em andamento" states="draft,waiting,rachat_c"/>
+                        <button name="set_rachat" type="object" string="Comprado" states="open,waiting"/>
+                        <button name="set2_rachat_c" type="object" string="Compra concluída" states="rachat_c"/>
+                        <button name="set_resilie" type="object" string="Finalizado" states="open,waiting"/>
+                        <button name="set_waiting" type="object" string="Pendente" states="draft,open"/>
+                        <button name="set_cancelled" type="object" string="Cancel" states="draft,open"/>
+                        <field name="state" widget="statusbar" readonly="1"/>
+                    </header>
+                    <sheet attrs="{'invisible':[('state', 'not in', ('rachat','resilie','rachat_c'))]}">
+                        <group colspan="4" col="4">
+                            <separator
+                                    attrs="{'invisible':[('state', '!=', 'resilie')]}"
+                                    string="Ce contrat a été résilié. Voici les informations entrées sur la résiliation :"
+                                    colspan="4"
+                                    />
+                            <separator
+                                    attrs="{'invisible':[('state', '!=', 'rachat')]}"
+                                    string="Ce contrat a été racheté. Voici les informations entrées sur le rachat :"
+                                    colspan="4"
+                                    />
+                            <separator
+                                    attrs="{'invisible':[('state', '!=', 'rachat_c')]}"
+                                    string="Ce contrat est en cours de rachat. Voici les informations entrées :"
+                                    colspan="4"
+                                    />
+                            <label
+                                    string="Note: le contrat est considéré en attente de rachat tant que la date de rachat n'est pas entrée"
+                                    attrs="{'invisible':[('state', '!=', 'rachat_c')]}"
+                                    colspan="4"
+                                    />
+                            <label string=" " colspan="4"/>
+                            <newline/>
+                            <field
+                                    name="res_dated"
+                                    string="Date de la demande"
+                                    />
+                            <field name="res_date" string="Date de résiliation ou rachat" attrs="{'invisible':[('state', '=', 'rachat_c')]}"/>
+                            <newline/>
+                            <field name="res_reason" string="Motif"/>
+                            <field name="res_memo" string="Mémo"/>
+                        </group>
+                    </sheet>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Contrato" readonly="1"/>
+                        </h1>
+                        <group colspan="4" col="6" class="form_header">
+                            <h3 colspan="6">
+                                <field name="saleman_id" attrs="{'readonly':[('state','!=','draft')]}" string="Commercial" placeholder="Comercial name" class="internal_contact" colspan="6"/>
+                            </h3>
+                           <field name="number" attrs="{'readonly':[('state','!=','draft')]}"  placeholder="Contract number" class="key"/>
+                            <field
+                                    name="contract_id"
+                                   on_change="onchange_contract(partner_id, contract_id)"
+                                   attrs="{'readonly':[('state','!=','draft')]}" class="contract"
+                            />
+                            <field
+                                    name="risk_id"
+                                    attrs="{'invisible':[('contract_id','=',False)],'readonly':[('state','!=','draft')]}"
+                                    domain="[('model_id','=',contract_id)]"
+                                    context="{'default_model_id': contract_id}"
+                                    string="Option"
+                                    class="option"
+                            />
+                        </group>
+                        <group colspan="4" col="4">
+                            <group colspan="2">
+                                <group string="Customer" class="inside_block customer" colspan="2">
+                                    <h3 colspan="2">
+                                        <field
+                                                name="partner_id"
+                                                domain="[('customer', '=', True)]"
+                                                on_change="onchange_name(partner_id, contract_id)"
+                                                attrs="{'readonly':[('state','!=','draft')]}"
+                                                context="{'form_view_ref':'magelanes.view_client_form'}"
+                                        />
+                                    </h3>
+                                    <newline/>
+                                    <field name="birthdate"  attrs="{'invisible':['|',('partner_id','=',False),('birthdate_req','=',False)],'readonly':[('state','!=','draft')]}"/>
+                                    <field name="numero_secu"  attrs="{'invisible':['|',('partner_id','=',False),('secu_req','=',False)],'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                                <group string="Subscribers" attrs="{'invisible':[('bene_req', '=', False)]}" colspan="2" class="inside_block subscribers">
+                                    <field name="clause" attrs="{'readonly':[('state','!=','draft')]}" colspan="4" nolabel="1"/>
+                                </group>
+                            </group>
+                            <group colspan="2">
+                                <group string="Dates" colspan="4" class="inside_block date">
+                                    <field name="date_souscription" string="Date de souscription" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="date_effet" string="Effect date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="duree" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                                <group string="Versements" colspan="4" class="inside_block payment">
+                                    <field name="prim" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="frequency" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Informações internas">
+                                <group colspan="4" col="4">
+                                    <group colspan="2" string="Partners" class="inside_block">
+                                        <field
+                                                name="company_id"
+                                                readonly="1"
+                                                attrs="{'invisible':[('contract_id','=',False)],'readonly':[('state','!=','draft')]}"
+                                                context="{'form_view_ref':'view_compagnie_form'}"
+                                        />
+                                        <field
+                                                name="supplier_id"
+                                                readonly="1"
+                                                attrs="{'invisible':[('contract_id','=',False)],'readonly':[('state','!=','draft')]}"
+                                                context="{'form_view_ref':'magelanes.view_supplier_form'}"
+                                        />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Definições">
+                                <group colspan="4" col="4">
+                                    <separator string="Fundo de Investimento" attrs="{'invisible':[('fond_req','=',False)]}" colspan="4"/>
+                                    <button type="object" name="add_fond" string="Adicionar fundo Invest." attrs="{'invisible':[('fond_req','=',False)]}"/>
+                                    <newline/>
+                                    <field name="fond_ids"
+                                           attrs="{'invisible':[('fond_req','=',False)],'readonly':[('state','not in',('draft','open','waiting'))]}"
+                                           nolabel="1"
+                                           colspan="4"
+                                    >
+                                        <tree create="false">
+                                            <field name="contract_id" invisible="1"/>
+                                            <field name="fond_id"/>
+                                            <field name="isin"/>
+                                            <field name="pourcentage"/>
+                                            <field name="sequence" invisible="1"/>
+                                        </tree>
+                                        <form string="Fundos" version="7.0">
+                                            <field name="contract_id" invisible="1"/>
+                                            <h1>
+                                                <field name="fond_id"/>
+                                            </h1>
+                                            <field name="pourcentage"/>
+                                        </form>
+                                    </field>
+                                    <separator string="Adhérents" attrs="{'invisible':[('adherent_req', '=', False)]}" colspan="4"/>
+                                    <button
+                                                name="add_adherent"
+                                                type="object"
+                                                string="Ajouter un adhérent"
+                                                attrs="{'invisible':[('adherent_req', '=', False)]}"
+                                            />
+                                    <newline/>
+                                    <field name="adherent_ids"
+                                           attrs="{'invisible':[('adherent_req', '=', False)]}"
+                                           context="{'default_contract_id':active_id}"
+                                           nolabel="1"
+                                           colspan="4"
+                                           required="1"
+                                    >
+                                        <tree create="false">
+                                            <field name="contact_id" invisible="1"/>
+                                            <field name="civilite"/>
+                                            <field name="name"/>
+                                            <field name="firstname"/>
+                                            <field name="birthdate"/>
+                                            <field name="numero_secu"/>
+                                            <field name="sequence" invisible="1"/>
+                                        </tree>
+                                        <form version="7.0" string="Dependente">
+                                            <field name="contract_id" invisible="1"/>
+                                            <sheet>
+                                                <group colspan="4" col="4">
+                                                    <group colspan="4" col="8">
+                                                        <field name="civilite" colspan="1" nolabel="1" style="padding-top:15px;"/>
+                                                        <group colspan="7" col="4">
+                                                            <h1>
+                                                                <field name="name" default_focus="1" placeholder="Nome" colspan="1" style="width:350px; float:left;"/>
+                                                                <field name="firstname" placeholder="Prénom" colspan="1" style="width:auto; float:left; margin-right:15px;" invisible="1"/>
+                                                            </h1>
+                                                        </group>
+                                                    </group>
+                                                    <field name="birthdate"/>
+                                                    <field name="numero_secu" on_change="onchange_secu(numero_secu)"/>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Versements" attrs="{'invisible':[('allow_vers', '=', False)]}">
+                                <group colspan="4" col="4" string="Pagamentos">
+
+                                    <button
+                                            name="add_versement"
+                                            type="object"
+                                            string="Adicionar contribuição"
+                                            states="open,waiting"
+                                        />
+                                    <field name="versement_ids" nolabel="1" context="{'default_contract_id': active_id}" domain="[('contract_id', '=', active_id)]" colspan="4">
+                                            <tree editable="top" create="false">
+                                                <field name="date"/>
+                                                <field name="amount"/>
+                                                <field name="description" string="Memorando" class="description"/>
+                                                <field name="contract_id" invisible="1"/>
+                                            </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Projeção de remuneração">
+                                <label
+                                        string="Preencha a regra de cálculo para o contrato correspondente"
+                                        attrs="{'invisible':[('rem_id', '!=', False)]}"
+                                />
+                                <field name="projection" colspan="4" nolabel="1" attrs="{'invisible':[('rem_id', '=', False)]}">
+                                    <tree create="false" edit="false" delete="false">
+                                        <field name="date"/>
+                                        <field name="montant"/>
+                                        <field name="montant_c"/>
+                                        <field name="montant_r"/>
+                                        <field name="total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_contract" model="ir.actions.act_window">
+            <field name="name">Contratos em andamento</field>
+            <field name="res_model">finance.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','open')]</field>
+        </record>
+
+        <record id="action_contract1" model="ir.actions.act_window">
+            <field name="name">Contratos Encerrados</field>
+            <field name="res_model">finance.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',('resilie','rachat'))]</field>
+        </record>
+
+        <record id="action_contract2" model="ir.actions.act_window">
+            <field name="name">Todos Contratos</field>
+            <field name="res_model">finance.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_contract_tree2"/>
+        </record>
+
+        <record id="action_contract3" model="ir.actions.act_window">
+            <field name="name">Contratos Pendentes</field>
+            <field name="res_model">finance.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'draft')]</field>
+        </record>
+
+        <!-- <menuitem id="menu_contract"  sequence="15" name="Contratos"/>
+        <menuitem id="menu_contract1" parent="menu_contract" name="Contratos" sequence="10"/>
+        <menuitem id="menu_contract1_form" parent="menu_contract1" action="action_contract" sequence="0"/>
+        <menuitem id="menu_contract4_form" parent="menu_contract1" action="action_contract3" sequence="5"/>
+        <menuitem id="menu_contract2_form" parent="menu_contract1" action="action_contract1" sequence="10"/>
+        <menuitem id="menu_contract3_form" parent="menu_contract1" action="action_contract2" sequence="20"/> -->
+
+        <record id="view_contract_model_tree" model="ir.ui.view">
+            <field name="name">contract.model.tree</field>
+            <field name="model">finance.contract.model</field>
+            <field name="arch" type="xml">
+                <tree string="Products">
+                    <field name="name"/>
+                    <field name="type_id"/>
+                    <field name="supplier_id"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_contract_model_form" model="ir.ui.view">
+            <field name="name">contract.model.form</field>
+            <field name="model">finance.contract.model</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Produto">
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group colspan="4" col="6" class="form_header">
+                            <field name="type_id" on_change="onchange_type_id(type_id)" class="category"/>
+                            <field name="supplier_id" domain="[('supplier','=',True)]" context="{'form_view_ref':'view_supplier_form','default_supplier':True}" class="supplier"/>
+                            <field name="company_id" domain="[('company','=',True)]" context="{'form_view_ref':'view_compagnie_form','default_company':True}" class="company"/>
+                            <newline/>
+                        </group>
+                        <group colspan="4" col="4">
+                            <group colspan="1" col="2">
+                                <field name="multiple_vers" on_change = "onchange_vers(multiple_vers, type_id)"/>
+                            </group>
+                            <group colspan="3" col="2">
+                                <label
+                                        style="font-weight: bold; color: #999999;"
+                                        string="Este valor difere do tipo de contrato"
+                                        attrs = "{'invisible': [('show_vers_message', '=', False)]}"
+                                        />
+                                <field name="show_vers_message" invisible="1"/>
+                            </group>
+                            <newline/>
+                            <field name="description" colspan="2" nolabel="1" class="description" placeholder="Descrição do produto"/>
+                            <field name="sale_des" colspan="2" nolabel="1" class="sale" placeholder="Instruções"/>
+                            <group colspan="4" col="4" string="Opções" class="option">
+                                <field name="risk_ids"  nolabel="1" colspan="4" context="{'default_model_id':active_id}">
+                                    <form version="7.0" string="Opções">
+                                        <sheet>
+                                            <h1>
+                                                <field name="name" placeholder="Nome..."/>
+                                            </h1>
+                                            <group colspan="4">
+                                                <field name="model_id" invisible="1"/>
+                                                <newline/>
+                                                <field name="description" colspan="4" nolabel="1" class="description"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_contract_model" model="ir.actions.act_window">
+            <field name="name">Produits</field>
+            <field name="res_model">finance.contract.model</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- <menuitem id="menu_config" parent="menu_contract" name="Configuração" sequence="100"/>
+        <menuitem id="menu_contract_form" parent="menu_config" action="action_contract_model" sequence="0"/> -->
+
+        <record id="view_contract_type_tree" model="ir.ui.view">
+            <field name="name">contract.type.tree</field>
+            <field name="model">finance.contract.type</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de produto">
+                    <field name="name"/>
+                    <field name="birthdate_req" string="Data nacimento"/>
+                    <field name="secu_req" string="CPF/CNPJ"/>
+                    <field name="bene_req" string="Beneficiários"/>
+                    <field name="adherent_req" string="Dependentes"/>
+                    <field name="fond_req" string="Fundos"/>
+                    <field name="multiple_vers"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_contract_type_form" model="ir.ui.view">
+            <field name="name">contract.type.form</field>
+            <field name="model">finance.contract.type</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Tipo de produto">
+                    <sheet>
+                        <h1>
+                            <field name="name" required="1" placeholder="Nome..."/>
+                        </h1>
+                        <group colspan="4" col="4" string="Restrições">
+                            <field name="birthdate_req" string="Exibir data nascimento"/>
+                            <field name="secu_req" string="Exibir CPF/CNPJ"/>
+                            <field name="bene_req" string="Visualizar Beneficiários"/>
+                            <field name="adherent_req" string="Entrada Dependentes"/>
+                            <field name="fond_req" string="Utilizar fundos"/>
+                            <field name="multiple_vers"/>
+                        </group>
+                        <group colspan="4" string = "Modelos de contratos associados">
+                            <field name="contract_ids" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_contract_type" model="ir.actions.act_window">
+            <field name="name">Types de produits</field>
+            <field name="res_model">finance.contract.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- <menuitem id="menu_contract_type_form" parent="menu_config" action="action_contract_type" sequence="10"/> -->
+
+        <record id="view_contract_risk_tree" model="ir.ui.view">
+            <field name="name">contract.risk.tree</field>
+            <field name="model">finance.contract.risk</field>
+            <field name="arch" type="xml">
+                <tree string="Opções">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_contract_risk_form" model="ir.ui.view">
+            <field name="name">contract.risk.form</field>
+            <field name="model">finance.contract.risk</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Opções">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Descrição..."/>
+                        </h1>
+                        <group colspan="4">
+                            <field name="model_id" string="Produto"/>
+                            <newline/>
+                            <field name="description" colspan="4" nolabel="1" class="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_contract_risk" model="ir.actions.act_window">
+            <field name="name">Options</field>
+            <field name="res_model">finance.contract.risk</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- <menuitem id="menu_contract_risk_form" parent="menu_config" action="action_contract_risk" sequence="20"/> -->
+
+
+        <record id="view_fond_tree" model="ir.ui.view">
+            <field name="name">fond.tree</field>
+            <field name="model">finance.fond</field>
+            <field name="arch" type="xml">
+                <tree string="Fundos financeiros">
+                    <field name="name"/>
+                    <field name="isin"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_fond_form" model="ir.ui.view">
+            <field name="name">fond.form</field>
+            <field name="model">finance.fond</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Fundos financeiros">
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group colspan="4">
+                            <field name="isin"/>
+                            <field name="description" colspan="4" nolabel="1" class="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_fond" model="ir.actions.act_window">
+            <field name="name">Fonds financiers</field>
+            <field name="res_model">finance.fond</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- <menuitem id="menu_fond_form" parent="menu_config" action="action_fond" sequence="30"/> -->
+
+
+    </data>
+</openerp>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_confirm_sale_order" model="ir.ui.view">
+			<field name="name">Confirm Order</field>
+			<field name="model">sale.confirm.order</field>
+			<field name="arch" type="xml">
+				<form string="Confirm Quotes" version="7.0">
+					<separator colspan="4" string="Do you really want to confirm the quote(s)" />
+					<label string="Please note that you can only confirm : &#10; &#10;
+* sale Orders are in draft &#10;" colspan="4"/>
+					<group>
+					</group>
+					<footer>
+						<button name="confirm_orders" string ="confirm orders" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_confirm_sale_orders" model="ir.actions.act_window">
+			<field name="name">Confirm Sales Orders</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">sale.confirm.order</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_confirm_sale_order" />
+			<field name="target">new</field>
+			<field name="multi">True</field>
+		</record>
+
+		<record model="ir.values" id="confirm_sale_order">
+			<field name="model_id" ref="sale.model_sale_order" />
+			<field name="name">Confirm order</field>
+			<field name="key2">client_action_multi</field>
+			<field name="value" eval="'ir.actions.act_window,' + str(ref('action_confirm_sale_orders'))"/>
+			<field name="key">action</field>
+			<field name="model">sale.order</field>
+		</record>
+	</data>
+</openerp>

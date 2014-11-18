@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+            Formulaire d'enregistrement des données lors du rachat ou résiliation
+        -->
+
+
+        <record id="view_contract_rachat_form" model="ir.ui.view">
+            <field name="name">rachat.wizard.form</field>
+            <field name="model">finance.contract.rachat</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Rachat">
+                    <field name="act_res" invisible="1"/>
+                    <field name="act_rachat" invisible="1"/>
+                    <field name="contract_id" invisible="1"/>
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <separator string = "Ce contrat a été racheté. Voici les informations entrées sur le rachat :" colspan="4"/>
+                            <field name="date_dem" string="Date de demande de rachat"/>
+                            <field name="date" string="Date de rachat"/>
+                            <newline/>
+                            <field name="motif" string="Motif"/>
+                            <field name="memo" string="Mémo"/>
+                        </group>
+                        <footer>
+                            <button name="set_rachat" type="object" string="Valider"/>
+                            <button special="cancel" string="Annuler"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_contract_res_form" model="ir.ui.view">
+            <field name="name">rachat.wizard.form</field>
+            <field name="model">finance.contract.rachat</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Resiliation">
+                    <field name="act_res" invisible="1"/>
+                    <field name="act_rachat" invisible="1"/>
+                    <field name="contract_id" invisible="1"/>
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <separator string="Ce contrat a été résilié. Voici les informations entrées sur la résiliation :" colspan="4"/>
+                            <field name="date_dem" string="Date de demande de résiliation"/>
+                            <field name="date" string="Date de résiliation"/>
+                            <newline/>
+                            <newline/>
+                            <field name="motif" string="Raison de la résiliation"/>
+                            <field name="memo" string="Mémo"/>
+                        </group>
+                        <footer>
+                            <button name="set_rachat" type="object" string="Valider"/>
+                            <button special="cancel" string="Annuler"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_create_family_rel_form2" model="ir.ui.view">
+            <field name="name">magellanes.create.family.rel.form1</field>
+            <field name="model">create.family.rel</field>
+            <field name="arch" type="xml">
+                <form string="Parentescos" version="7.0">
+                    <field name="name" invisible="1"/>
+                    <sheet style="min-height:50px;">
+                        <group colspan="4">
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Relacionamento" nolabel="1"/>
+                            </h1>
+                        </group>
+                        <group colspan="4">
+                            <h1>
+                                <field name="miror_rel" placeholder="Relacionamento" nolabel="1"/>
+                            </h1>
+                            <label string="La relation correspondante est celle héritée par la personne ciblée par la relation."
+                                   colspan="4"/>
+                            <label string="Exemple : En créant une relation permettant de définir qui est 'Parent', la personne choisie hérite 'Enfant'."
+                                   colspan="4"/>
+                        </group>
+                        <footer>
+                            <button name="save_rel" type="object" string="Criar um relacionamento"/>
+                            <button special="cancel" string="Cancelar"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_family_rel" model="ir.actions.act_window">
+            <field name="name">Criar relacionamento</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="priority" eval="1"/>
+            <field name="res_model">create.family.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

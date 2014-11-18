@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_commissionement_report_tree" model="ir.ui.view">
+        <field name="name">commission.report.tree</field>
+        <field name="model">finance.projection</field>
+        <field name="arch" type="xml">
+            <tree string="Projection de rémunération" create="false">
+                <field name="date"/>
+                <field name="montant"/>
+                <field name="montant_c"/>
+                <field name="montant_r"/>
+                <field name="total"/>
+           </tree>
+        </field>
+    </record>
+    <record id="view_commissionement_report_graph" model="ir.ui.view">
+         <field name="name">commission.report.graph</field>
+         <field name="model">finance.projection</field>
+         <field name="arch" type="xml">
+             <graph string="Projection de rémunérations" type="line">
+                <field name="date"/>
+                <field name="total" operator="+"/>
+             </graph>
+         </field>
+    </record>
+    <record id="action_commissionement_report_all" model="ir.actions.act_window">
+        <field name="name">Projection de rémunérations</field>
+        <field name="res_model">finance.projection</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="context">{'group_by':[], 'group_by_no_leaf':0}</field>
+    </record>
+    <!-- <menuitem action="action_commissionement_report_all" id="menu_action_commissionement_report_all"
+        parent="menu_rems"
+        sequence="2"/> -->
+</data>
+</openerp>

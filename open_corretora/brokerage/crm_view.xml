@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Phonecalls Form View -->
+    <record model="ir.ui.view" id="crm_case_phone_form_view_inherit">
+        <field name="name">CRM - Phone Call Form</field>
+        <field name="model">crm.phonecall</field>
+        <field name="inherit_id" ref="crm.crm_case_phone_form_view" />
+        <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                <form string="Phone Call" version="7.0">
+                    <header>
+                        <button name="case_close" string="Call Done" type="object" class="done"
+                                states="open,pending"/>
+                        <button name="case_reset" string="Reset to Todo" type="object"
+                                states="cancel" class="reset"/>
+                        <button name="case_cancel" string="Cancel Call" type="object"
+                                states="draft,open,pending" class="cancel"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="open,done"/>
+                    </header>
+                    <sheet string="Phone Call">
+                        <div class="oe_right">
+                            <button string="Convert to Opportunity" help="Convert to Opportunity"
+                                type="object"
+                                class="opportunity top_action"
+                                name="action_button_convert2opportunity"
+                                attrs="{'invisible':[ '|', ('opportunity_id','!=',False), ('state', 'not in', ('open', 'done'))]}"/>
+                            <button string="Schedule Other Call"
+                                    help="Schedule Other Call"
+                                    name="%(crm.phonecall_to_phonecall_act)d"
+                                    type="action"
+                                    class="rotate top_action"/>
+                            <button string="Schedule a Meeting" name="action_make_meeting" type="object"
+                                    help="Schedule a Meeting"
+                                    class="calendar_add top_action"/>
+                        </div>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1><field name="name" required="1"/></h1>
+                        </div>
+                        <group colspan="4" col="6" class="form_header">
+                            <field name="partner_id" on_change="onchange_partner_id(partner_id)" class="customer" colspan="1"/>
+                            <field name="partner_phone" class="phone" colspan="1"/>
+                            <field name="partner_mobile" class="mobile" colspan="1"/>
+                            <field name="user_id" class="internal_contact" colspan="1"/>
+                            <field name="categ_id" widget="selection"
+                            domain="[('object_id.model', '=', 'crm.phonecall')]" class="category" colspan="1"/>
+                        </group>
+                        <group class="inside_block" colspan="4" col="4" style="margin-bottom: 25px;">
+                            <field name="description" placeholder="Résumé de l'appel" colspan="4" nolabel="1" class="description"/>
+                        </group>
+                        <group colspan="4" col="4">
+                            <group colspan="2" string="Données sur l'appel" class="inside_block phonecall">
+                                <field name="date"/>
+                                <field name="duration" widget="float_time"/>
+                            </group>
+                            <field name="email_from" invisible="1"/> <!--not needed because of the chatter, thus invisible, but must be in the view as it's returned by onchange_partner_id()-->
+
+                            <group colspan="2" string="Autres informations" class="inside_block info">
+                                <field name="priority" class="priority"/>
+                                <field name="opportunity_id" on_change="on_change_opportunity(opportunity_id)"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </xpath>
+        </field>
+    </record>
+
+    </data>
+</openerp>

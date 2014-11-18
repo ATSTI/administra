@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_contract_add_fond_form" model="ir.ui.view">
+            <field name="name">add.fond.wizard.form</field>
+            <field name="model">finance.add.fond</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Fond">
+                    <field name="contract_id" invisible="1"/>
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="fond_id"/>
+                            <newline/>
+                            <field name="value" invisible="1"/>
+                            <field name="pourcentage"/>
+                        </group>
+                        <footer>
+                            <button name="set_fond" type="object" string="Enregistrer"/>
+                            <button name="set_other" type="object" string="Enregistrer et nouveau"/>
+                            <button special="cancel" string="Annuler"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

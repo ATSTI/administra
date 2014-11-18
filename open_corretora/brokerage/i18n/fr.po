@@ -1,0 +1,257 @@
+# French translation for openobject-addons
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# This file is distributed under the same license as the openobject-addons package.
+# Stephane MOUESCA <stephane@llpie.net>, 2014.
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: Stephane MOUESCA <stephane@llpoie.net>\n"
+"POT-Creation-Date: 2014-03-20 19:37+0000\n"
+"PO-Revision-Date: 2013-07-13 22:42+0000\n"
+"Last-Translator: Stephane MOUESCA <stephane@llpie.net>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: magelanes
+#: view:mail.message:0
+#: view:board_magellanes_form:0
+#: view:board_gwladys_form:0
+msgid "Unread and to threat messages"
+msgstr "Messages non lus ou à traiter"
+
+#. module: magelanes
+#: view:mail.message:0
+#: model:ir.actions.act_window,name:mmy_open_tasks_action
+#: view:board_magellanes_form:0
+#: view:board_gwladys_form:0
+msgid "Waiting for test"
+msgstr "A tester"
+
+#. module: magelanes
+#: view:mail.message:0
+#: view:project.task:0
+msgid "Functionality"
+msgstr "Fonctionnalité"
+
+#. module: magelanes
+#: view:mail.message:0
+msgid "Implementation the"
+msgstr "Mise en oeuvre le"
+
+#. module: magelanes
+#: view:mail.message:0
+msgid "Test OK"
+msgstr "Test effectué, conforme aux besoins"
+
+#. module: magelanes
+#: view:mail.message:0
+msgid "Send a message"
+msgstr "Envoyer un message"
+
+#. module: magelanes
+#: view:project.task:0
+msgid "Tasks opened"
+msgstr "En cours"
+
+#. module: magelanes
+#: model:ir.actions.act_window,id:m_ended_tasks_action
+#: view:board_magellanes_form:0
+#: view:board_gwladys_form:0
+msgid "Incoming functionalities"
+msgstr "Fonctionnalités et modifications en cours"
+
+#. module: magelanes
+#: view:crm.meeting:0
+#: view:board_magellanes_form:0
+#: view:board_gwladys_form:0
+msgid "Scheduled meetings"
+msgstr "Rendez-vous planifies"
+
+#. module: magelanes
+#: view:crm.meeting:0
+#: model:ir.actions.act_window,id:incoming_meetings
+msgid "Subject"
+msgstr "Sujet"
+
+#. module: magelanes
+#: view:project.task:0
+msgid "Scheduled date"
+msgstr "Date planifiée"
+
+#. module: magelanes
+#: view:project.task:0
+msgid "Scheduled time (hours)"
+msgstr "Temps prévu (heures)"
+
+#. module: magelanes
+#: view:project.task:0
+#: view:crm.phonecall:0
+msgid "Done"
+msgstr "Effectué"
+
+#. module: magelanes
+#: view:project.task:0
+#: view:crm.phonecall:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: magelanes
+#: model:ir.actions.act_window,name:My tasks
+#: view:board_magellanes_form:0
+#: view:board_gwladys_form:0
+msgid "My tasks"
+msgstr "Mes tâches"
+
+#. module: magelanes
+#: view:crm.phonecall:0
+msgid "Phone calls"
+msgstr "Appels téléphoniques"
+
+#. module: magelanes
+#: view:crm.phonecall:0
+msgid "Create meeting"
+msgstr "Créer un rendez-vous"
+
+#. module: magelanes
+#: view:crm.phonecall:0
+msgid "Convert to Opportunity"
+msgstr "Convertir en opportunité"
+
+#. module: magelanes
+#: view:crm.phonecall:0
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: magelanes
+#: view:crm.phonecall:0
+msgid "Todo"
+msgstr "A faire"
+
+#. module: magelanes
+#: model:ir.actions.act_window,id:phonecall_action
+#: model:ir.ui.view,id:board_gwladys_form:0
+msgid "Scheduled calls"
+msgstr "Appels planifiés"
+
+#. module: magelanes
+#: model:ir.actions.act_window,id:open_mboard
+#: view:board_gwladys_form:0
+#: view:board_magellanes_form:0
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#. module: magelanes
+#: field:finance.rem.line,rem_id:0
+#: model:ir.ui.menu,name:magelanes.menu_rems
+msgid "Compensation"
+msgstr "Rémunération"
+
+#. module: magelanes
+#: field:finance.rem.line,pourcent:0
+msgid "Pourcent"
+msgstr "Pourcentage"
+
+#. module: magelanes
+#: field:finance.rem.line,montant_fixe:0
+msgid "Fixed amount"
+msgstr "Montant fixe"
+
+#. module: magelanes
+#: selection:finance.rem.line,depart:0
+msgid "Subscription date"
+msgstr "Date de souscription"
+
+#. module: magelanes
+#: selection:finance.rem.line,depart:0
+msgid "Number of months after the effective date"
+msgstr "Nombre de mois après la date d'effet"
+
+#. module: magelanes
+#: field:finance.rem.line,depart:0
+msgid "Date of application"
+msgstr "Date d'application"
+
+#. module: magelanes
+#: field:finance.rem.line,delai:0
+msgid "Months from effective date"
+msgstr "Delai en mois depuis la date d'effet"
+
+#. module: magelanes
+#: field:finance.rem.line,date_limit:0
+msgid "Limit day for end month pay"
+msgstr "Jour limite pour paiement fin de mois"
+
+#. module: magelanes
+#: field:finance.rem.line,date_rem:0
+msgid "Pay day"
+msgstr "Jour de paiement"
+
+#. module: magelanes
+#: field:finance.rem.line,duree:0
+msgid "Duration in month (0 = unlimited)y"
+msgstr "Durée en mois (0 pour illimité)"
+
+#. module: magelanes
+#: field:finance.rem.line,duree_an:0
+msgid "Duration in years"
+msgstr "Durée en années"
+
+#. module: magelanes
+#: field:finance.rem.line,age:0
+msgid "Pourcents based in age"
+msgstr "Pourcentages basés sur l'âge"
+
+#. module: magelanes
+#: field:finance.rem,name:0
+msgid "Rule name"
+msgstr "Nom de la règle"
+
+#. module: magelanes
+#: field:finance.rem,line_ids:0
+#: view:finance.rem:0
+msgid "Computing lines"
+msgstr "Lignes de calcul"
+
+#. module: magelanes
+#: view:finance.rem:0
+msgid "Compensation rule name"
+msgstr "Nom de la règle de calcul"
+
+#. module: magelanes
+#: view:finance.rem:0
+msgid "Contracts"
+msgstr "Contrats"
+
+#. module: magelanes
+#: view:finance.rem:0
+msgid "Rule description"
+msgstr "Description de la règle de calcul"
+
+#. module: magelanes
+#: model:ir.ui.menu,name:magelanes.menu_rem
+#: view:finance.rem:0
+msgid "Compensation rules"
+msgstr "Règles de calcul"
+
+#. module: magelanes
+#: view:finance.rem.line:0
+msgid "Print an invoice for the provider"
+msgstr "Imprimer une facture pour le fournisseur"
+
+#. module: magelanes
+#: view:finance.rem.line:0
+msgid "Number of periods"
+msgstr "Nombre de périodes"
+
+#. module: magelanes
+#: model:ir.ui.menu,name:magelanes.menu_rem_line
+msgid "Compensation computing lines"
+msgstr "Lignes de calcul"
+
+
+#. module: magelanes
+#: field:ir.ui.menu,icon_file:0
+msgid "Icon file name"
+msgstr "Nom du fichier de l'icone"

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_messages_tree" model="ir.ui.view">
+            <field name="name">mmessages.tree</field>
+            <field name="model">mail.message</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Unread and to threat messages">
+                    <field name="subject"/>
+                    <field name="date"/>
+                    <field name="author_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mopen_messages_action" model="ir.actions.act_window">
+            <field name="name">Messages</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("to_read", "=", True)]</field>
+            <field name="view_id" ref="view_messages_tree"/>
+        </record>
+
+        <record id="view_mtask_tree" model="ir.ui.view">
+            <field name="name">mproject.task.tree</field>
+            <field name="model">project.task</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Waiting for test">
+                    <field name="name" string="Functionality"/>
+                    <field name="date_end" string="Implementation the" invisible="1"/>
+                    <button name="do_close" states="open" icon="STOCK_OK" string="Test OK" type="object"/>
+                    <button name="message_on_task" states="open" icon="STOCK_NEW" string="Envoyer un message" type="object"/>
+                    <field name="state" invisible="1"/>
+                    <field name="project_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mtaska_tree" model="ir.ui.view">
+            <field name="name">mproject.task.tree</field>
+            <field name="model">project.task</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Tasks opened">
+                    <field name="name" string="Functionality"/>
+                    <field name="date_end" invisible="1"/>
+                    <field name="project_id" invisible="1"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="mmy_open_tasks_action" model="ir.actions.act_window">
+            <field name="name">Waiting for test</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('stage_id','=',13),('project_id','!=', False)]</field>
+            <field name="view_id" ref="view_mtask_tree"/>
+        </record>
+
+        <record id="m_ended_tasks_action" model="ir.actions.act_window">
+            <field name="name">Opened tasks and functionalities</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('stage_id','=',12),('project_id','!=', False)]]</field>
+            <field name="view_id" ref="view_mtaska_tree"/>
+        </record>
+
+        <record id="view_incoming_meetings_tree" model="ir.ui.view">
+            <field name="name">incoming_meetings.tree</field>
+            <field name="model">crm.meeting</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Incoming meetings" colors="red:state=='draft'">
+                    <field name="name" string="Subject"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="state" invisible="1"/>
+                    <field name="duration"/>
+                    <field name="message_unread" invisible="1"/>
+                </tree>
+
+            </field>
+        </record>
+        <record id="incoming_meetings" model="ir.actions.act_window">
+            <field name="name">Reuniões agendadas</field>
+            <field name="res_model">crm.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_incoming_meetings_tree"/>
+            <field name="domain">[('date','&gt;',time.strftime('%Y-%m-%d'))]</field>
+        </record>
+
+        <record id="view_mtaskb_tree" model="ir.ui.view">
+            <field name="name">mproject.taskb.tree</field>
+            <field name="model">project.task</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree colors="red:date_deadline and (date_deadline&lt;current_date);blue:date_deadline and (date_deadline==current_date);" string="Mes tâches">
+                    <field name="name"/>
+                    <field name="date_start" string="Scheduled date"/>
+                    <field name="date_deadline"/>
+                    <field name="planned_hours" string="Scheduled time (hours)"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="mmy_open_tasksb_action" model="ir.actions.act_window">
+            <field name="name">Minhas atividades</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','not in',('cancel','done', 'cancelled')),('user_id','=',uid)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_mtaskb_tree"/>
+        </record>
+
+        <record id="view_phonecall_tree" model="ir.ui.view">
+            <field name="name">phonecall.tree</field>
+            <field name="model">crm.phonecall</field>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+                <tree colors="red:date and (date &lt; current_date)" string="Phone calls">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <button string="Create meeting" states="open,pending" name="action_make_meeting" icon="gtk-redo" type="object"/>
+                    <button string="Convert to Opportunity" type="object" name="action_button_convert2opportunity" states="open,pending" icon="gtk-index" attrs="{'invisible':[('opportunity_id','!=',False)]}"/>
+                    <field name="partner_phone"/>
+                    <field name="user_id"/>
+                    <field name="categ_id" invisible="1"/>
+                    <field name="create_date" invisible="1"/>
+                    <field name="opportunity_id" invisible="1"/>
+                    <field name="state"/>
+                    <button name="case_open" string="Confirm" type="object" states="draft,pending" icon="gtk-go-forward"/>
+                    <button name="case_close" string="Done" type="object" states="open,pending" icon="gtk-jump-to"/>
+                    <button name="case_cancel" string="Cancel" type="object" states="draft,open,pending" icon="gtk-cancel"/>
+                    <button name="case_reset" string="Todo" type="object" states="cancel" icon="gtk-convert"/>
+                </tree>
+            </field>
+        </record>
+        <record id="phonecall_action" model="ir.actions.act_window">
+            <field name="name">Chamadas programadas</field>
+            <field name="res_model">crm.phonecall</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','!=','done')]</field>
+            <field name="context">{'default_state':'open'}</field>
+            <field name="view_id" ref="view_phonecall_tree"/>
+        </record>
+
+        <record id="board_magellanes_form" model="ir.ui.view">
+            <field name="name">board.project.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Dashboard" version="7.0">
+                    <board style="1-2">
+                        <column>
+                            <action name="%(mmy_open_tasks_action)d" string="Waiting for test"/>
+                            <action name="%(m_ended_tasks_action)d" string="Incoming functionalities"/>
+                        </column>
+                        <column>
+                            <action name="%(mmy_open_tasksb_action)d" string="My tasks"/>
+                            <action name="%(incoming_meetings)d" string="Scheduled meetings"/>
+                            <action name="%(mopen_messages_action)d" string="Unread and to threat messages"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_mboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_magellanes_form"/>
+        </record>
+
+
+        <record id="board_gwladys_form" model="ir.ui.view">
+            <field name="name">board.gwladys.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Dashboard" version="7.0">
+                    <board style="1-2">
+                        <column>
+                            <action name="%(mmy_open_tasksb_action)d" string="Minhas atividades"/>
+                        </column>
+                        <column>
+                            <action name="%(phonecall_action)d" string="Ligaçoes programadas"/>
+                            <action name="%(incoming_meetings)d" string="Reuniões agendadas"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_gwladysboard" model="ir.actions.act_window">
+            <field name="name">Painel</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="board_gwladys_form"/>
+            <field name="class">classe</field>
+        </record>
+
+        <menuitem id="menu_gwladys_dashboard"
+                  sequence="0"
+                  action="open_gwladysboard"/>
+
+    </data>
+</openerp>

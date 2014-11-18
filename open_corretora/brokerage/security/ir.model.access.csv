@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_magellanes_work,magellanes.work,model_magellanes_work,,1,1,1,1
+access_magellanes_work_type,magellanes.work.type,model_magellanes_work_type,,1,1,1,1
+access_magellanes_adress,magellanes.adress,model_magellanes_adress,,1,1,1,1
+access_magellanes_family_rel,magellanes.family.rel,model_magellanes_family_rel,,1,1,1,1
+access_magellanes_partner_family_rel,magellanes.partner.family.rel,model_magellanes_partner_family_rel,,1,1,1,1
+access_finance_fond,finance.fond,model_finance_fond,,1,1,1,1
+access_finance_contract_type,finance.contract.type,model_finance_contract_type,,1,1,1,1
+access_finance_contract_risk,finance.contract.risk,model_finance_contract_risk,,1,1,1,1
+access_finance_contract_model,finance.contract.model,model_finance_contract_model,,1,1,1,1
+access_finance_contract_vers,finance.contract.vers,model_finance_contract_vers,,1,1,1,1
+access_finance_contract,finance.contract,model_finance_contract,,1,1,1,1
+access_magellanes_task,project.task,project.model_project_task,,1,0,0,0
+access_magellanes_task_work,project.task.work,project.model_project_task_work,,1,0,0,0

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_contract_add_adherent_form" model="ir.ui.view">
+            <field name="name">add.adherent.wizard.form</field>
+            <field name="model">finance.add.adherent</field>
+            <field name="arch" type="xml">
+                <form version="7.0" string="Adherent">
+                    <field name="contract_id" invisible="1"/>
+                    <sheet>
+                        <group colspan="4" col="4">
+
+                            <label string="Le contact est utilisé uniquement pour remplir les champs ci-dessous, si l'adhérent existe dans la base." colspan="4"/>
+                            <field name="contact_id" on_change="onchange_contact_id(contact_id)"/>
+                            <newline/>
+                            <group colspan="4" col="8">
+                                <field name="civilite" colspan="1" nolabel="1" style="padding-top:15px;"/>
+                                <group colspan="7" col="4">
+                                    <h1>
+                                        <field name="name" default_focus="1" placeholder="Nom" colspan="1" style="width:350px; float:left;"/>
+                                        <field name="firstname" placeholder="Prénom" colspan="1" style="width:auto; float:left; margin-right:15px;"/>
+                                    </h1>
+                                </group>
+                            </group>
+                            <field name="birthdate"/>
+                            <field name="numero_secu" on_change="onchange_secu(numero_secu)"/>
+                        </group>
+                        <footer>
+                            <button name="set_adherent" type="object" string="Ajouter l'adhérent"/>
+                            <button special="cancel" string="Annuler"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
