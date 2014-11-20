@@ -2051,9 +2051,8 @@ begin
 
     if (versaoSistema = '3.0.0.2') then
     begin
-      insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/09/2014'));
       insereouatualizaScript('busca_cfop.sql', '3.0.0.2', StrToDate('01/09/2014'));
-      insereouatualizaScript('spestoque.sql', '3.0.0.2', StrToDate('01/09/2014'));      
+      insereouatualizaScript('spestoque.sql', '3.0.0.2', StrToDate('01/09/2014'));
       try
         dm.sqlsisAdimin.ExecuteDirect('CREATE EXCEPTION erro_proc ' + Quotedstr('teste'));
       except
@@ -2062,16 +2061,14 @@ begin
       mudaVersao('3.0.0.3');
     end;
 
+
     if (versaoSistema = '3.0.0.3') then
     begin
       insereouatualizaScript('invent_estoque.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('frete_nf.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('gera_nf_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
-      insereouatualizaScript('spEstoqueFiltro.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_customedio.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('sp_mov_caixac.sql', '3.0.0.3', StrToDate('01/09/2014'));
-      insereouatualizaScript('view_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
-      insereouatualizaScript('view_estoquelote.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('listaProduto.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('listaProdutocli.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('relContasReceber.sql', '3.0.0.3', StrToDate('01/09/2014'));
@@ -2087,8 +2084,16 @@ begin
 
     if (versaoSistema = '3.0.0.4') then
     begin
-      insereouatualizaScript('estoque_view_custo.sql', '3.0.0.4', StrToDate('01/10/2014'));
+      insereouatualizaScript('view_venda.sql', '3.0.0.4', StrToDate('01/09/2014'));
+      insereouatualizaScript('view_estoquelote.sql', '3.0.0.4', StrToDate('01/09/2014'));
       AtualizandoScript('3.0.0.4');
+      mudaVersao('3.0.0.5');
+    end;
+
+    if (versaoSistema = '3.0.0.5') then
+    begin
+      insereouatualizaScript('estoque_view_custo.sql', '3.0.0.5', StrToDate('01/10/2014'));
+      AtualizandoScript('3.0.0.5');
       mudaVersao('3.0.0.13');
     end;
 
@@ -2096,6 +2101,7 @@ begin
     begin
       insereouatualizaScript('listaProduto.sql', '3.0.0.13', StrToDate('01/10/2014'));
       insereouatualizaScript('listaProdutocli.sql', '3.0.0.13', StrToDate('01/10/2014'));
+      insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.13', StrToDate('01/11/2014'));
       AtualizandoScript('3.0.0.13');
       try
         dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER MOV_ESTOQUE inactive');
@@ -2104,6 +2110,22 @@ begin
       mudaVersao('3.0.0.14');
     end;
 
+    if (versaoSistema = '3.0.0.14') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('estoque_view_custo.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('frete_nf.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('retornaEstoqueVenda.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('retornaEstoqueCompra.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('busca_cfop.sql', '3.0.0.14', StrToDate('01/11/2014'));
+      insereouatualizaScript('spEstoqueFiltro.sql', '3.0.0.14', StrToDate('01/09/2014'));
+      AtualizandoScript('3.0.0.14');
+      mudaVersao('3.0.0.17');
+    end;
+
+    // ALTER TRIGGER RETORNAESTOQUECOMPRA inactive  - 31/10/2014
+    // ALTER TRIGGER RETORNA_ESTOQUEVENDA inactive
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
