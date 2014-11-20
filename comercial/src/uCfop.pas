@@ -95,7 +95,7 @@ begin
     dm.cds_cfop.Filtered := False;
   TotalTributosNF;
   IpiBaseCalculo;
-  FreteBaseCalculo;    
+  FreteBaseCalculo;
 end;
 
 procedure TfCfop.BitBtn1Click(Sender: TObject);

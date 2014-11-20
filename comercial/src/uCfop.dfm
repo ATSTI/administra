@@ -65,7 +65,6 @@ inherited fCfop: TfCfop
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    OnKeyPress = FormKeyPress
   end
   object BitBtn12: TBitBtn [5]
     Left = 141
