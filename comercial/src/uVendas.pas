@@ -695,7 +695,6 @@ type
     { Private declarations }
     limiteCred: Double;
     procurouProd : String;
-    modo :string;
     function RemoveAcento(Str: string): string;
     function clienteLimiteCredito(codCliente: Integer): Double;
     procedure Margem_Confere;
@@ -703,6 +702,7 @@ type
     procedure PesquisaProdutos;
     procedure ProcuraClienteCnpj;
   public
+    modoTVenda :string;
     codFiscalClienteVenda: String;
     ufClienteVenda: String;
     clienteEstaBloqueado: String;
@@ -1030,7 +1030,7 @@ begin
   desconto := 0;
   DecimalSeparator := ',';  
   //usaprecolistavenda := '';
-  modo := 'INSERIR';
+  modoTVenda := 'INSERIR';
   if cds_Movimento.Active then
     cds_Movimento.Close;
 
@@ -1477,7 +1477,7 @@ end;
 procedure TfVendas.btnNovoClick(Sender: TObject);
 begin
   procurouProd := 'N';
-  if (modo = 'FINALIZADO') then
+  if (modoTVenda = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
     begin
@@ -1541,7 +1541,7 @@ end;
 
 procedure TfVendas.BitBtn8Click(Sender: TObject);
 begin
-  if (modo = 'FINALIZADO') then
+  if (modoTVenda = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
     begin
@@ -1670,7 +1670,7 @@ var     usu_n, usu_s : string;
 begin
   usu_n := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   usu_s := fAtsAdmin.UserControlComercial.CurrentUser.Password;
-  if (modo = 'FINALIZADO') then
+  if (modoTVenda = 'FINALIZADO') then
   begin
     if (dm.blVendaFin = 'S') then
     begin
@@ -1804,7 +1804,7 @@ begin
    begin
      if (cds_Movimento.State in [dsEdit]) then
      begin
-       if (modo = 'FINALIZADO') then
+       if (modoTVenda = 'FINALIZADO') then
        begin
          if (dm.blVendaFin = 'S') then
          begin
@@ -2547,6 +2547,7 @@ begin
   end;
 
   fFiltroMovimento.Edit3.Text := '3';
+  fFiltroMovimento.Edit4.Text := 'VENDAS';  
 
   if (not cds_ccusto.Active) then
       cds_ccusto.Open;
@@ -2601,9 +2602,9 @@ begin
   cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_det.Open;
 
-    modo := 'EDITAR';
+    modoTVenda := 'EDITAR';
     if ( not cds_Mov_detBAIXA.IsNull ) then
-      modo := 'FINALIZADO';
+      modoTVenda := 'FINALIZADO';
 
      if (sds_proc.Active) then
         sds_proc.Close;
