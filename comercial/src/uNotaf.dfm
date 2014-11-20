@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
-  Left = 256
-  Top = 165
+  Left = 322
+  Top = 173
   Width = 801
   Height = 614
   BorderIcons = [biSystemMenu, biMaximize]
@@ -366,7 +366,6 @@ object fNotaf: TfNotaf
           DataField = 'UFCLI'
           DataSource = DMNF.DtSrc_NF
           TabOrder = 0
-          OnChange = DBEdit7Change
           OnKeyPress = FormKeyPress
         end
       end

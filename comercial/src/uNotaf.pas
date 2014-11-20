@@ -457,7 +457,6 @@ type
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
-    procedure DBEdit7Change(Sender: TObject);
     procedure ChkCompClick(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
@@ -1090,7 +1089,6 @@ begin
     dmnf.cds_nfNOTAMAE.AsInteger := 0;
     btnRemessa.Enabled := False;
   end;
-  carregaDadosAdicionais();
 end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
@@ -1361,21 +1359,32 @@ begin
     sqlValida.Close;
 
   sqlValida.SQL.Clear;
-  sqlValida.SQL.Add('SELECT a.CODESTADO FROM ESTADO_ICMS a WHERE a.CFOP = ' +
-    QuotedStr(dmnf.cds_nfCFOP.AsString) + ' AND a.UF = ' + QuotedStr(DBEdit7.Text));
+  sqlValida.SQL.Add('SELECT a.CODESTADO FROM ESTADO_ICMS a ' +
+    ' WHERE TRIM(a.CFOP) = ' + QuotedStr(dmnf.cds_nfCFOP.AsString) +
+    '   AND TRIM(a.UF) = ' + QuotedStr(DBEdit7.Text));
   sqlValida.Open;
 
   if (sqlValida.IsEmpty) then
   begin
-    MessageDlg('Não existe cadastro deste CFOP para este UF.', mtWarning, [mbOK], 0);
-    exit;
+    if (sqlValida.Active) then
+      sqlValida.Close;
+
+    sqlValida.SQL.Clear;
+    sqlValida.SQL.Add('SELECT a.CFOP FROM CLASSIFICACAOFISCALNCM a ' +
+      ' WHERE TRIM(a.CFOP) = ' + QuotedStr(dmnf.cds_nfCFOP.AsString) +
+      '   AND TRIM(a.UF) = ' + QuotedStr(DBEdit7.Text));
+    sqlValida.Open;
+    if (sqlValida.IsEmpty) then
+    begin
+      MessageDlg('Não existe cadastro deste CFOP para este UF.', mtWarning, [mbOK], 0);
+      exit;
+    end;
   end;
   if (calcman.Checked = True) then
     inativaCalc;
 
-  //GRAVAR COM TRANSAÇÃO
+  //GRAVAR COM TRANSAÇÃO -- colocar a transacao em cada coisa 07/11/2014
   try
-    dm.sqlsisAdimin.StartTransaction(TD);
     if (dmnf.cds_Mov_detCODPRO.AsString <> '') then
       if (dmnf.cds_Mov_det.State in [dsInsert]) then
          dmnf.cds_Mov_det.Post;
@@ -1394,14 +1403,24 @@ begin
     end;
     //Salvo Nota Fiscal
     if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
+    begin
+     carregaDadosAdicionais();
      gravanotafiscal;
+    end;
     if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
     begin
-     nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
-     dm.sqlsisAdimin.ExecuteDirect(nfe);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        nfe := 'update movimento set nfe = ' + QuotedStr(dmnf.cds_nfNOTASERIE.AsString + '-' + dmnf.cds_nfSERIE.AsString) + ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString;
+        dm.sqlsisAdimin.ExecuteDirect(nfe);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
     end;
-
-    dm.sqlsisAdimin.Commit(TD);
 
     // o bloco abaixo estava no grava Venda -- 04/06/2014
     gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
@@ -1450,41 +1469,60 @@ begin
 end;
 
 procedure TfNotaf.gravamov_detalhe;
+var  TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   if (dmnf.cds_Mov_det.State in [dsEdit, dsInsert]) then
     dmnf.cds_mov_det.Post;
   //********************************************************************************
   // aqui corrijo o codigo do movimento na tabela mov_detalhe
-    dmnf.cds_Mov_det.First;
-    While not dmnf.cds_Mov_det.Eof do
+  dmnf.cds_Mov_det.First;
+  While not dmnf.cds_Mov_det.Eof do
+  begin
+    if (dmnf.cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
     begin
-      if (dmnf.cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
-      begin
-        dmnf.cds_Mov_det.Edit;
-        if dmnf.cds_Mov_detCODPRODUTO.IsNull then
-           dmnf.cds_Mov_detCODPRODUTO.AsInteger := 1;
-        dmnf.cds_Mov_detCODMOVIMENTO.AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
-        IF (dmnf.cds_Mov_detQTDE_ALT.IsNull) then
-           dmnf.cds_Mov_detQTDE_ALT.AsFloat := 0;
-        if dm.c_6_genid.Active then
-          dm.c_6_genid.Close;
-        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-        dm.c_6_genid.Open;
-        codmovdet := dm.c_6_genid.Fields[0].AsInteger;
-        dmnf.cds_Mov_detCODDETALHE.AsInteger := codmovdet;
-        if (cbEstoque.Checked = False) then
-          dmnf.cds_Mov_detBAIXA.AsString := '2';
-        dmnf.cds_Mov_det.post;
-      end;
-      dmnf.cds_Mov_det.Next;
+      dmnf.cds_Mov_det.Edit;
+      if dmnf.cds_Mov_detCODPRODUTO.IsNull then
+         dmnf.cds_Mov_detCODPRODUTO.AsInteger := 1;
+      dmnf.cds_Mov_detCODMOVIMENTO.AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
+      IF (dmnf.cds_Mov_detQTDE_ALT.IsNull) then
+         dmnf.cds_Mov_detQTDE_ALT.AsFloat := 0;
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      codmovdet := dm.c_6_genid.Fields[0].AsInteger;
+      dmnf.cds_Mov_detCODDETALHE.AsInteger := codmovdet;
+      if (cbEstoque.Checked = False) then
+        dmnf.cds_Mov_detBAIXA.AsString := '2';
+      dmnf.cds_Mov_det.post;
     end;
+    dmnf.cds_Mov_det.Next;
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
     dmnf.cds_Mov_det.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      // excluo o movimento gravado
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
 end;
 
 procedure TfNotaf.gravamovimento;
+var  TD: TTransactionDesc;
 begin
-   if dmnf.cds_Movimento.State in [dsInsert] then
-   begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if dmnf.cds_Movimento.State in [dsInsert] then
+  begin
      if dm.c_6_genid.Active then
        dm.c_6_genid.Close;
      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -1520,11 +1558,24 @@ begin
 
    end;
   //*******************************************************************************
-   dmnf.cds_Movimento.ApplyUpdates(0);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dmnf.cds_Movimento.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 procedure TfNotaf.gravavenda;
+var  TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
   if (DBEdit33.Text = '') then
   begin
     MessageDlg('Informe o n. da Nota Fiscal', mtError, [mbOK], 0);
@@ -1569,7 +1620,20 @@ begin
   if (parametroNF <> 'S') then
     alteraVlrVenda;
 
-  dmnf.cds_venda.ApplyUpdates(0);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dmnf.cds_venda.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      // deu erro excluo o movimento gravado
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
+
 end;
 
 procedure TfNotaf.btnImpNFClick(Sender: TObject);
@@ -1696,9 +1760,13 @@ end;
 
 procedure TfNotaf.gravanotafiscal;
 var  pesoremessa, entrega: Double;
+   TD: TTransactionDesc;
 begin
- // Gravo a NF
- if (RadioGroup1.ItemIndex = 1) then
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  // Gravo a NF
+  if (RadioGroup1.ItemIndex = 1) then
   if (cbCFOP.text = '') then
   begin
     MessageDlg('Informe o CFOP!',mtWarning, [mbOK], 0);
@@ -1723,13 +1791,13 @@ begin
   if (parametroNF <> 'S') then
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then
-   dmnf.cds_nfSTATUS.AsString := 'S';
-   if ((dmnf.cds_nfCFOP.AsString = '6922') or (dmnf.cds_nfCFOP.AsString = '5922')) then
-     dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
-   if (not calcman.Checked) then
-     dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
-   dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
- if ((dmnf.cds_nfCFOP.AsString = '5116') or (dmnf.cds_nfCFOP.AsString = '5116')) then
+    dmnf.cds_nfSTATUS.AsString := 'S';
+  if ((dmnf.cds_nfCFOP.AsString = '6922') or (dmnf.cds_nfCFOP.AsString = '5922')) then
+    dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
+  if (not calcman.Checked) then
+    dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
+  dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
+  if ((dmnf.cds_nfCFOP.AsString = '5116') or (dmnf.cds_nfCFOP.AsString = '5116')) then
   begin
     if (cdsNotaMae.Active) then
       cdsNotaMae.Close;
@@ -1741,7 +1809,17 @@ begin
       pesoremessa := BcdToDouble(cdsNotaMaePESOREMESSA.AsBCD);
       entrega := BcdToDouble(dmnf.cds_nfPESOLIQUIDO.AsBCD);
       cdsNotaMaePESOREMESSA.AsBCD := DoubleToBcd(pesoremessa - entrega);
-      cdsNotaMae.ApplyUpdates(0);
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        cdsNotaMae.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
     end;
   end;
   if (not calcman.Checked) then
@@ -1777,7 +1855,26 @@ begin
       DMNF.cds_nfCODTRANSP.AsInteger  := dmnf.listaTranspCODTRANSP.AsInteger;
     end;
   end;
-  dmnf.cds_nf.ApplyUpdates(0);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dmnf.cds_nf.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+
+      // excluo o movimento e venda gravado
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = '+
+        IntToStr(dmnf.cds_vendaCODVENDA.AsInteger));
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
+
 
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nfUF.AsString);
@@ -2217,7 +2314,7 @@ end;
 
 Procedure TfNotaf.carregaDadosAdicionais;
 Begin
-  if (DMNF.DtSrc_NF.State in [dsEdit]) then
+  if (DMNF.DtSrc_NF.State in [dsEdit, dsInsert]) then
   begin
     if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
     begin
@@ -2233,27 +2330,22 @@ Begin
         listaCliente1.Open;
           sCFOP.Params[2].asString :=  listaCliente1CODFISCAL.AsString;
         sCFOP.Open;
-        If ((sCfopDADOSADC1.AsString = '') or (not sCFOPDADOSADC1.IsNull) )then
+        If ((DMNF.cds_nfCORPONF1.AsString = '') and (not sCFOPDADOSADC1.IsNull) )then
           DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
-        If ((sCFOPDADOSADC2.AsString = '') or (not sCFOPDADOSADC2.IsNull) )then
+        If ((DMNF.cds_nfCORPONF2.AsString = '') and (not sCFOPDADOSADC2.IsNull) )then
           DMNF.cds_nfCORPONF2.AsString := sCFOPDADOSADC2.AsString;
-        If ((sCFOPDADOSADC3.AsString = '') or (not sCFOPDADOSADC3.IsNull) )then
+        If ((DMNF.cds_nfCORPONF3.AsString = '') and (not sCFOPDADOSADC3.IsNull) )then
           DMNF.cds_nfCORPONF3.AsString := sCFOPDADOSADC3.AsString;
-        If ((sCFOPDADOSADC4.AsString = '') or (not sCFOPDADOSADC4.IsNull) )then
+        If ((DMNF.cds_nfCORPONF4.AsString = '') and (not sCFOPDADOSADC4.IsNull) )then
           DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
-        If ((sCFOPDADOSADC5.AsString = '') or (not sCFOPDADOSADC5.IsNull) )then
+        If ((DMNF.cds_nfCORPONF5.AsString = '') and (not sCFOPDADOSADC5.IsNull) )then
           DMNF.cds_nfCORPONF5.AsString := sCFOPDADOSADC5.AsString;
-        If ((sCFOPDADOSADC6.AsString = '') or (not sCFOPDADOSADC6.IsNull) )then
+        If ((DMNF.cds_nfCORPONF6.AsString = '') and (not sCFOPDADOSADC6.IsNull) )then
           DMNF.cds_nfCORPONF6.AsString := sCFOPDADOSADC6.AsString;
       end;
     end;
   end;
 End;
-
-procedure TfNotaf.DBEdit7Change(Sender: TObject);
-begin
-  carregaDadosAdicionais;
-end;
 
 procedure TfNotaf.ChkCompClick(Sender: TObject);
 begin
