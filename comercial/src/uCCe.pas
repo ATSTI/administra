@@ -10,14 +10,6 @@ uses
 
 type
   TfCCe = class(TForm)
-    GroupBox1: TGroupBox;
-    Label1: TLabel;
-    JvDateEdit1: TJvDateEdit;
-    JvDateEdit2: TJvDateEdit;
-    btnListar: TBitBtn;
-    rbCli: TRadioButton;
-    rbFor: TRadioButton;
-    JvDBGrid1: TJvDBGrid;
     sdsNF: TSQLDataSet;
     dspNF: TDataSetProvider;
     cdsNF: TClientDataSet;
@@ -72,6 +64,17 @@ type
     cdsNFPROTOCOLOENV: TStringField;
     cdsNFNOMEXML: TStringField;
     cdsNFCNPJ: TStringField;
+    Panel1: TPanel;
+    JvDBGrid1: TJvDBGrid;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    JvDateEdit1: TJvDateEdit;
+    JvDateEdit2: TJvDateEdit;
+    btnListar: TBitBtn;
+    rbCli: TRadioButton;
+    rbFor: TRadioButton;
+    JvDBGrid2: TJvDBGrid;
+    btnExcluir: TBitBtn;
     procedure btnListarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure rbCliClick(Sender: TObject);
@@ -81,6 +84,9 @@ type
     procedure DtsrcCCeStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnCCeClick(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -127,12 +133,21 @@ begin
    cdsNF.CommandText := '';
    cdsNF.CommandText := cce;
    cdsNF.Params.ParamByName('dta1').AsDateTime := StrToDateTime(JvDateEdit1.Text);
-   cdsNF.Params.ParamByName('dta2').AsDateTime := StrToDateTime(JvDateEdit2.Text);   
+   cdsNF.Params.ParamByName('dta2').AsDateTime := StrToDateTime(JvDateEdit2.Text);
    cdsNF.Open;
    if (not cdsNF.Eof) then
      btnIncluirCCe.Enabled := True
    else
      btnIncluirCCe.Enabled := False;
+  if (cdsCCe.Active) then
+    cdsCCe.Close;
+
+  if (not cdsNF.IsEmpty) then
+  begin
+    cdsCCe.CommandText := 'SELECT * FROM CCE' +
+      ' WHERE CHAVE = ' + QuotedStr(Copy(cdsNFNOMEXML.AsString, 1 , 44));
+    cdsCCe.Open;
+  end;
 end;
 
 procedure TfCCe.btnSairClick(Sender: TObject);
@@ -151,13 +166,24 @@ begin
 end;
 
 procedure TfCCe.btnIncluirCCeClick(Sender: TObject);
+var seqCCe: Integer;
 begin
-  if (not cdsCCe.Active) then
-   cdsCCe.Open;
+  if ((not cdsCCe.Active) and (not cdsNF.IsEmpty)) then
+  begin
+    cdsCCe.CommandText := 'SELECT * FROM CCE' +
+      ' WHERE CHAVE = ' + QuotedStr(Copy(cdsNFNOMEXML.AsString, 1 , 44));
+    cdsCCe.Open;
+  end;
+  if (cdsCCe.IsEmpty) then
+    seqCCe := 1
+  else begin
+    seqCce := cdsCCe.RecordCount + 1;
+  end;
   cdsCCe.Append;
-  cdsCCeCHAVE.AsString := cdsNFNOMEXML.AsString;
+  cdsCCeCHAVE.AsString := Copy(cdsNFNOMEXML.AsString, 1 , 44);
   cdsCCeORGAO.AsString := Copy(cdsNFNOMEXML.AsString, 1, 2);
   cdsCCeCNPJ.AsString  := cdsNFCNPJ.AsString;
+  cdsCCeSEQUENCIA.AsInteger := seqCCe;
 end;
 
 procedure TfCCe.btnGravarClick(Sender: TObject);
@@ -183,13 +209,51 @@ end;
 procedure TfCCe.FormCreate(Sender: TObject);
 begin
   JvDateEdit1.Text := DateToStr(Now);
-  JvDateEdit2.Text := DateToStr(Now);  
+  JvDateEdit2.Text := DateToStr(Now);
 end;
 
 procedure TfCCe.btnCCeClick(Sender: TObject);
 begin
   fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
   fNFeletronica.ShowModal;
+end;
+
+procedure TfCCe.JvDBGrid1DblClick(Sender: TObject);
+begin
+  if (not cdsNF.IsEmpty) then
+  begin
+    cdsCCe.Close;
+    cdsCCe.CommandText := 'SELECT * FROM CCE' +
+      ' WHERE CHAVE = ' + QuotedStr(Copy(cdsNFNOMEXML.AsString, 1 , 44));
+    cdsCCe.Open;
+  end;
+end;
+
+procedure TfCCe.btnExcluirClick(Sender: TObject);
+begin
+  if  MessageDlg('Confirma a exclusão Carta de Correção selecionada ?',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    
+  if (cdsCCePROTOCOLO.IsNull) then
+  begin
+    cdsCCe.Delete;
+    cdsCCe.ApplyUpdates(0);
+    MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
+  end
+  else begin
+    MessageDlg('Não é possível excluir uma carta de correção já GERADA.', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfCCe.JvDBGrid1CellClick(Column: TColumn);
+begin
+  if (not cdsNF.IsEmpty) then
+  begin
+    cdsCCe.Close;
+    cdsCCe.CommandText := 'SELECT * FROM CCE' +
+      ' WHERE CHAVE = ' + QuotedStr(Copy(cdsNFNOMEXML.AsString, 1 , 44));
+    cdsCCe.Open;
+  end;
 end;
 
 end.
