@@ -272,7 +272,7 @@ begin
     cds_Familia.Close;
   end;
 
-  if (dm.cds_parametro.Active) then
+  {if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'RegFiltroEstoque';
   dm.cds_parametro.Open;
@@ -286,7 +286,7 @@ begin
   begin
     meDta1.Text := dm.cds_parametroD1.AsString;
     meDta2.Text := dm.cds_parametroD2.AsString;
-  end;
+  end;}
   bitbtn7.SetFocus;
    if (Edit3.Text = '') then exit;
    if dm.scds_produto_proc.Active then
@@ -653,7 +653,7 @@ procedure TfFiltroEstoque.FormClose(Sender: TObject;
   var str_sql: string;
 begin
   //inherited;
-  str_sql := 'UPDATE PARAMETRO SET D1 = ';
+  {str_sql := 'UPDATE PARAMETRO SET D1 = ';
   str_sql := str_sql + '''' + meDta1.Text + ''', D2 = ';
   str_sql := str_sql + '''' + meDta2.Text + '''';
   str_sql := str_sql + ' where PARAMETRO = ' + '''RegFiltroEstoque''';
@@ -661,7 +661,7 @@ begin
     dm.sqlsisAdimin.ExecuteDirect(str_sql);
   except
     exit;
-  end;
+  end;}
 end;
 
 procedure TfFiltroEstoque.meDta1KeyPress(Sender: TObject; var Key: Char);
