@@ -402,6 +402,7 @@ type
     cds_Mov_detNCM: TStringField;
     sds_Mov_DetCST: TStringField;
     cds_Mov_detCST: TStringField;
+    Label7: TLabel;
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
@@ -473,6 +474,8 @@ type
     { Private declarations }
      procedure alteraStatusMovimento;
   public
+     retornoImpressora: Integer;
+     cupom_numcupom: String;
      cupom_codMov :  Integer;
      prazoparapgto : Integer;
      function buscaProdLista(codBarra, ProdLista:String): Integer;
@@ -600,6 +603,7 @@ procedure TfTerminal_Delivery.btnIncluirClick(Sender: TObject);
   //FMov: TMovimento;
 begin
   Edit5.Text := '';
+  cupom_numcupom := '';
   if (Panel2.Visible = True) then
   begin
     Edit1.Text := '';
@@ -1441,22 +1445,14 @@ begin
     exit;
   end;
 
-  {if (cds_MovimentoCODNATUREZA.AsInteger <> 7) then
-  begin
-    if (cds_Movimento.State in [dsBrowse]) then
-      cds_movimento.Edit;
-    cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
-    cds_Movimento.ApplyUpdates(0);
-  end;}
-
    //busca ICMS e Sub.Tributaria
    if (vCFOP = '') then
    begin
      MessageDlg('Não foi informado o CFOP Padrão em Parametros.', mtWarning, [mbOK], 0);
    end;
    sqltexto := 'UPDATE MOVIMENTODETALHE SET CFOP = ' + QuotedStr(vCFOP);
-   sqltexto := sqltexto + ' WHERE CFOP IS NULL ';
-   sqltexto := sqltexto + ' AND CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+   sqltexto := sqltexto + ' WHERE CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+   sqltexto := sqltexto + '   AND CFOP IS NULL';
    dm.sqlsisAdimin.StartTransaction(TD);
    dm.sqlsisAdimin.ExecuteDirect(sqltexto);
    Try
@@ -1613,11 +1609,19 @@ begin
   Else
   Begin
     iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
+    retornoImpressora := 1;
+    if (iRetorno <> 1) then
+    begin
+      frmPrincipal.Analisa_iRetorno();
+      retornoImpressora := 0;
+      exit;
+    end;
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
   End;
 
   DecimalSeparator := '.';
+  cupom_codMov := cds_Mov_detCODMOVIMENTO.AsInteger ;
   cds_Mov_det.First;
   while not cds_Mov_det.Eof do
   begin
@@ -1687,13 +1691,19 @@ begin
     // Testar metodo com mais de uma forma de Pagamento...
     iRetorno := Bematech_FI_VendeItemDepartamento(texto1, texto2,
                 sAliquota, texto5, texto4, sAcrescimo, sDesconto,'01', texto7);
+    retornoImpressora := 1;
+    if (iRetorno <> 1) then
+    begin
+      frmPrincipal.Analisa_iRetorno();
+      retornoImpressora := 0;
+      exit;
+    end;
 
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
     cds_Mov_det.Next
   end;
   DecimalSeparator := ',';
-  alteraStatusMovimento;
 
   if (cbporcento.Checked = True) then
   begin
@@ -1718,6 +1728,16 @@ begin
       free;
     end;
   end;
+
+  if (RetornoImpressora = 1) then
+  begin
+    alteraStatusMovimento;
+    label7.Caption := 'Retorno 1';
+  end
+  else begin
+    label7.Caption := 'Retorno '+ IntToStr(iRetorno);
+  end;
+
   if (buscaTributacao.Active) then
     buscaTributacao.Close;
 end;
@@ -2363,7 +2383,10 @@ begin
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     cupom_codMov := cds_MovimentoCODMOVIMENTO.AsInteger ;
+    if (cupom_numcupom = '') then
+      cupom_numcupom := IntToStr(cupom_codMov);
     sqlAlteraMov := 'update MOVIMENTO set status = 9 ' +
+      ' NFE = ' + QuotedStr(cupom_numcupom) + 
       ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger)+
       '   and CODNATUREZA = 7';
     dm.sqlsisAdimin.ExecuteDirect(sqlAlteraMov);

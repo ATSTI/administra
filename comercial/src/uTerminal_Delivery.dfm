@@ -945,6 +945,19 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Font.Style = []
           ParentFont = False
         end
+        object Label7: TLabel
+          Left = 8
+          Top = 95
+          Width = 9
+          Height = 14
+          Caption = '...'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ParentFont = False
+        end
         object DBEdit5: TDBEdit
           Left = 3
           Top = 21
