@@ -1339,6 +1339,7 @@ begin
                Frec.Free;
              end;
              ShowMessage('Venda Excluida com Sucesso');
+             fvendas.modoTVenda := 'Excluido';
            except
              on E : Exception do
              begin
@@ -2116,7 +2117,7 @@ begin
       cdsVALOR_FRETE.Value + cdsVALOR_SEGURO.Value + cdsVALOR_IPI.Value + cdsOUTRAS_DESP.Value +
       cdsMULTA_JUROS.Value + cdsVALOR_ST.Value));
       vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      edAPagar.Value := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat; 
+      edAPagar.Value := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat;
       sqs_tit.Close;
       cds.post;
     end;
@@ -2237,12 +2238,13 @@ begin
         edVlrFrete.Value := 0;
       end;
     end; // Fim MERGULHO
-    cbPrazo.Text := cdsPRAZO.AsString;    
+    cbPrazo.Text := cdsPRAZO.AsString;
   end;
   dm.scds_venda_proc.Close;
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cdsCODVENDA.AsInteger;
   scdsCr_proc.Open;
+  dm.totalpago := cdsVALOR.AsFloat;
 end;
 
 procedure TfVendaFinalizar.dbeUsuarioExit(Sender: TObject);
