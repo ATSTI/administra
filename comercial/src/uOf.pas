@@ -224,6 +224,7 @@ type
   private
     codMovJaBaixado: Integer;
     dataMovJaBaixado: TDateTime;
+    serieOFParam : String;
     procedure baixamatprimas(tipomat: string; codof: integer);
     procedure lancaapont(codof: integer);
     procedure excluilancamentos(codof: integer);
@@ -372,6 +373,20 @@ begin
     OfDesc.Enabled := False;
     btnProdutoProcura.Enabled := False;
   end;
+  serieOFParam := 'XXXX';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIEOP';
+  dm.cds_parametro.Open;
+
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageBox(0, 'Cadastre o Parâmetro para à Serie de Ordem de Produção.', 'Série não cadastrada', MB_ICONWARNING or MB_OK);
+    Exit;
+  end
+  else begin
+    serieOFParam := dm.cds_parametroD1.AsString;
+  end;
 end;
 
 procedure TfOf.btnIncluirClick(Sender: TObject);
@@ -381,26 +396,16 @@ begin
   if (OFTipo = 'OP') then
   begin
     //----------------------------------------------------
-    if (dm.cds_parametro.Active) then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].asString := 'SERIEOP';
-    dm.cds_parametro.Open;
-
-    if (dm.cds_parametro.IsEmpty) then
-    begin
-      MessageBox(0, 'Cadastre o Parâmetro para à Serie de Ordem de Produção.', 'Série não cadastrada', MB_ICONWARNING or MB_OK);
-      Exit;
-    end;
 
     OfData.Date := Now;
     OfProd.Text := '';
     OFDesc.Text := '';
     inherited;
-    OFID_Ind.Text := dm.cds_parametroD1.AsString;
+    OFID_Ind.Text := serieOFParam;
 
     if (sqlId.Active) then
       sqlId.Close;
-    sqlId.Params[0].AsString := dm.cds_parametroD1.AsString;
+    sqlId.Params[0].AsString := serieOFParam;
     sqlId.Open;
     OFID.Text := IntToStr(sqlId.Fields[0].AsInteger + 1);
     sqlInd.Close;
@@ -445,14 +450,10 @@ procedure TfOf.baixamatprimas(tipomat: string; codof: integer);
     FVen: TVendaCls;
     Save_Cursor:TCursor;
 begin
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'SERIEOP';
-  dm.cds_parametro.Open;
   if (cdsDetalhe.Active) then
     cdsDetalhe.Close;
   cdsDetalhe.Params[0].AsInteger := codof;
-  cdsDetalhe.Params[1].AsString := dm.cds_parametroD1.AsString;
+  cdsDetalhe.Params[1].AsString := serieOFParam;
   cdsDetalhe.Params[2].AsString := tipomat;
   cdsDetalhe.Open;
   {** se não estiver vazio procuro pela matéria prima}
@@ -600,15 +601,11 @@ begin
     inherited;
     codMovJaBaixado := 0;
     dataMovJaBaixado := now;
-    if (dm.cds_parametro.Active) then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].asString := 'SERIEOP';
-    dm.cds_parametro.Open;
 
     if (cdsOf.Active) then
       cdsOf.Close;
     cdsOf.Params[0].AsInteger := StrToInt(OfId.Text);
-    cdsOf.Params[1].AsString := dm.cds_parametroD1.AsString;
+    cdsOf.Params[1].AsString := serieOFParam;
     cdsOf.Open;
     if (not cdsOf.IsEmpty) then
     begin
@@ -756,7 +753,8 @@ begin
   if dm.cdsBusca.Active then
     dm.cdsBusca.Close;
   dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-  + QuotedStr('OP' + IntToStr(codof));
+  + QuotedStr('OP' + IntToStr(codof)) +
+  ' AND (DATAMOVIMENTO > (CURRENT_DATE - 90))';
   dm.cdsBusca.Open;
   if not dm.cdsBusca.IsEmpty then
   begin
@@ -796,7 +794,8 @@ begin
   if dm.cdsBusca.Active then
     dm.cdsBusca.Close;
   dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-    + QuotedStr('AP' + IntToStr(codof));
+    + QuotedStr('AP' + IntToStr(codof)) +
+    ' AND (DATAMOVIMENTO > (CURRENT_DATE - 90))';;
   dm.cdsBusca.Open;
 
   if not dm.cdsBusca.IsEmpty then
@@ -820,7 +819,8 @@ begin
           intToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID) +
           ' EM : ' + QuotedStr(formatdatetime('dd/mm/yyyy', today))) +
           ', OFSTATUS = ' + QuotedStr('E') +
-          ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) + ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
+          ' WHERE OFID = ' + IntToStr(cdsOfOFID.asinteger) +
+          ' AND OFID_IND = ' + QuotedStr(cdsOfOFID_IND.asstring);
         dm.sqlsisAdimin.ExecuteDirect(sqlUpOf);
       end;
       dm.sqlsisAdimin.Commit(TD);

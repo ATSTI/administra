@@ -78,22 +78,27 @@ inherited fOf: TfOf
     TabOrder = 6
     inherited btnGravar: TBitBtn
       Left = 316
+      TabOrder = 0
     end
     inherited btnIncluir: TBitBtn
       Left = 316
+      TabOrder = 2
     end
     inherited btnCancelar: TBitBtn
       Left = 427
     end
     inherited btnExcluir: TBitBtn
       Left = 426
+      TabOrder = 3
     end
     inherited btnProcurar: TBitBtn
       Left = 96
+      TabOrder = 1
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
       Left = 536
+      TabOrder = 4
     end
     object btnImprimir: TBitBtn
       Left = 206
