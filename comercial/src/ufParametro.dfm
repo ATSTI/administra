@@ -4099,7 +4099,7 @@ inherited fParametro: TfParametro
       Caption = 'Cupom'
       ImageIndex = 11
       object rgPesqProdCupom: TRadioGroup
-        Left = 130
+        Left = 10
         Top = 16
         Width = 293
         Height = 49
@@ -4113,10 +4113,12 @@ inherited fParametro: TfParametro
       end
       object GroupBox37: TGroupBox
         Left = 8
-        Top = 16
-        Width = 113
+        Top = 80
+        Width = 481
         Height = 49
-        Caption = 'Usa Cupom Fiscal'
+        Caption = 
+          'Usa Cupom Fiscal (Parametro  USACUPOM - Habilita no Vendas FINAL' +
+          'IZAR o bot'#227'o CUPOM'
         TabOrder = 1
         object cbCupom: TCheckBox
           Left = 8
