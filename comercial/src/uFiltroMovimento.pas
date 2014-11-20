@@ -142,7 +142,6 @@ type
     procedure Edit3Exit(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn1Click(Sender: TObject);
-    procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
@@ -272,12 +271,6 @@ begin
   Edit2.Text:='';
 end;
 
-procedure TfFiltroMovimento.BitBtn4Click(Sender: TObject);
-begin
-  Edit3.Text:='';
-  Edit4.Text:='';
-end;
-
 procedure TfFiltroMovimento.BitBtn6Click(Sender: TObject);
 begin
   ComboBox1.Text:='';
@@ -297,7 +290,7 @@ end;
 
 procedure TfFiltroMovimento.BitBtn3Click(Sender: TObject);
 begin
-  fProcurar := TfProcurar.create(self,scds_NaturezaProcura);
+  {fProcurar := TfProcurar.create(self,scds_NaturezaProcura);
   Try
      fProcurar.BtnProcurar.Click;
      fProcurar.EvDBFind1.DataField := 'DESCNATUREZA';
@@ -309,7 +302,7 @@ begin
   Finally
   scds_NaturezaProcura.Close;
   fProcurar.Free;
-  end;
+  end;}
 end;
 
 procedure TfFiltroMovimento.BitBtn2Click(Sender: TObject);
@@ -698,6 +691,12 @@ begin
   begin
     edit3.Text := '12';
     edit4.Text := 'NOTA FISCAL';
+  end;
+
+  if (DM.tipoVenda = 'CUPOM') then
+  begin
+    edit3.Text := '7';
+    edit4.Text := 'CUPOM FISCAL';
   end;
 
   btnProcurar.Click;
