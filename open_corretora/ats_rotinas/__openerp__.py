@@ -29,20 +29,21 @@
 ##############################################################################
 
 {
-    'name': 'sale order multi confirm',
+    'name': 'Rotinas automatizadas ATS',
     'version': '1.0.0',
     'category': '',
     'description': """
-Confirm multiple quotes in one operation
+      Envio de emails
     """,
-    'author': 'Agaplan',
-    'website': 'http://www.agaplan.eu',
-    'depends': ['sale'],
+    'author': 'ATS Soluçẽos',
+    'website': 'http://www.atsti.com.br',
+    'depends': ['project'],
     'init': [],
     'data': [
         'ats_aniversario.xml',
         'ats_primparc.xml',
         'ats_vistoria.xml',
+        'ats_primparc_cliente.xml',
         ],
     'demo': [],
     'test': [],

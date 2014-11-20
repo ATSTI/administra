@@ -22,6 +22,7 @@ import logging
 
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from dateutil import parser
 import time
 from openerp import pooler
 from openerp.osv import fields, osv
@@ -29,7 +30,7 @@ from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare
 import openerp.addons.decimal_precision as dp
 from openerp import netsvc
-import pdb
+#import pdb
 
 class ats_rotinas(osv.osv):
     _name = "ats.rotinas"
@@ -101,7 +102,7 @@ class ats_rotinas(osv.osv):
                 if b_mnth == c_mnth:
                     b_dt = int(birth_dt.strftime('%d'))
                     if b_dt == c_dt:
-                        pdb.set_trace()
+                        #pdb.set_trace()
                         print("Aniversario -  %s" % (partner.name))
                         tem_aniversario = 'S'
                         aniversariantes.append('Titular :'+partner.name +', '+str(datetime.strptime(partner.birthdate_n,'%Y-%m-%d')) + '\n')
@@ -134,7 +135,6 @@ class ats_rotinas(osv.osv):
                 if b_mnth == c_mnth:
                     b_dt = int(birth_dt.strftime('%d'))
                     if b_dt == c_dt:
-                        pdb.set_trace()
                         tem_aniversario = 'S'
                         if partner.sexo == 'M':
                             context['tipo']=u'Parabéns pelo aniversário do %s' % (familiar) + ' comemorado hoje.'
@@ -171,7 +171,6 @@ class ats_rotinas(osv.osv):
         task_obj = self.pool.get('project.task')
 
         def fill_remind(key, domain):
-            #pdb.set_trace()
             base_domain = [
                 ('state', '!=', 'done'),
                 ('stage_id.state', '!=', 'done'),
@@ -201,10 +200,9 @@ class ats_rotinas(osv.osv):
     def cron_primparc_cliente(self, cr, uid, context=None):
         if context is None:
             context = {}
-        remind = {}
-        pdb.set_trace()
+        #remind = {}
+        #pdb.set_trace()
         task_obj = self.pool.get('project.task')
-        context['base_url'] = self.pool.get('ir.config_parameter').get_param(cr, uid, 'web.base.url')
         base_domain = [
             ('state', '!=', 'done'),
             ('stage_id.state', '!=', 'done'),
@@ -212,18 +210,56 @@ class ats_rotinas(osv.osv):
             ('date_primparc','=',time.strftime('%Y-%m-%d'))
         ]
 
+        context['base_url'] = self.pool.get('ir.config_parameter').get_param(cr, uid, 'web.base.url')
         def fill_remind(key, domain):
-            pdb.set_trace()
+            #pdb.set_trace()
             base_domain.extend(domain)
 
         task_ids = task_obj.search(cr, uid, base_domain, context=context, order='date_primparc asc')
         tasks = task_obj.browse(cr, uid, task_ids, context=context)
         for tarefa in tasks:
-            remind_user = remind.setdefault(tarefa.user_id.id, {})
-            remind_partner = remind_user.setdefault(tarefa.partner_id,[]).append(tarefa)
+            #remind_user = remind.setdefault(tarefa.user_id.id, {})
+            #remind_partner = remind_user.setdefault(tarefa.partner_id,[]).append(tarefa)
             context['email_to'] = tarefa.partner_id.email
-            context['partnername'] = tarefa.partner_id.name
-            context['subject']=u'Aniversariante sem email'
+            context['partnername'] = tarefa.partner_id.firstname
+            user_id = tarefa.user_id.id
+            seguro = ''
+            if tarefa.project_id.produto_auto:
+                seguro=u'seguro Auto'
+                context['subject']=u'vencimento do pagamento do seu seguro Auto' 
+            if tarefa.project_id.produto_resid:
+                seguro=u'seguro Residencial'
+                context['subject']=u'vencimento do pagamento do seu seguro Residencial' 
+            if tarefa.project_id.produto_vida:
+                seguro=u'seguro de Vida'
+                context['subject']=u'vencimento do pagamento do seu seguro de Vida' 
+            if tarefa.project_id.produto_previ:
+                seguro=u'Previdência'
+                context['subject']=u'vencimento do pagamento da sua Previdência' 
+            if tarefa.project_id.produto_saude:
+                seguro=u'Saúde'
+                context['subject']=u'vencimento do pagamento do seu seguro Saúde' 
+            if tarefa.project_id.produto_dsop:
+                seguro=u'DSOP'
+            if tarefa.project_id.produto_empresa:
+                seguro=u'seguro Empresa'
+                context['subject']=u'vencimento do pagamento do seu seguro Empresarial' 
+
+            #if tarefa.project_id.produto_educacional:
+            #    seguro=u'seguro Educacional'
+            #    context['subject']=u'vencimento do pagamento do seu seguro Educacional' 
+
+            tipo_pagamento = ''
+            if tarefa.tipo_primparc == 'boleto':
+                tipo_pagamento = u' por meio de boleto'
+
+            if tarefa.tipo_primparc == 'debito':
+                tipo_pagamento = u' para débito em sua conta corrente'
+
+            context['seguro']= '%s%s' %(seguro, tipo_pagamento)
+            my_date = parser.parse(tarefa.date_primparc)
+            data_pp = my_date.strftime('%d-%m-%Y')
+            context['data_primparc']= data_pp
 
             # Primeira parcela vencendo hoje
             #fill_remind("novo",(('date_primparc', '!=', False), ('date_primparc','=',time.strftime('%Y-%m-%d'))))
