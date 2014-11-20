@@ -1184,18 +1184,14 @@ begin
   if (calcman.Checked = True) then
   begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+    dm.sqlsisAdimin.StartTransaction(TD);
     try
+      dm.sqlsisAdimin.ExecuteDirect(cm);
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
       begin
-        TD.TransactionID := 1;
-        TD.IsolationLevel := xilREADCOMMITTED;
-        dm.sqlsisAdimin.StartTransaction(TD);
-        dm.sqlsisAdimin.ExecuteDirect(cm);
-        dm.sqlsisAdimin.Commit(TD);
-      end;
-      Except
-      begin
-        MessageDlg('Erro ao executar calculo Manual.', mtWarning, [mbOK], 0);
-        exit;
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
     end;
   end;
@@ -1251,7 +1247,10 @@ begin
 end;
 
 procedure TfNotaFc.gravamov_detalhe;
+var  TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   if (dmnf.cds_Mov_det.State in [dsEdit, dsInsert]) then
     dmnf.cds_mov_det.Post;
   //********************************************************************************
@@ -1283,13 +1282,29 @@ begin
       end;
       dmnf.cds_Mov_det.Next;
     end;
+    
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
     dmnf.cds_Mov_det.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      // excluo o movimento gravado
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
 end;
 
 procedure TfNotaFc.gravamovimento;
+var  TD: TTransactionDesc;
 begin
-   if dmnf.cds_Movimento.State in [dsInsert] then
-   begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if dmnf.cds_Movimento.State in [dsInsert] then
+  begin
        if dm.c_6_genid.Active then
          dm.c_6_genid.Close;
        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -1309,13 +1324,25 @@ begin
       DMNF.cds_MovimentoDESCNATUREZA.AsString := 'NOTA FISCAL COMPRA';
      //*******************************************************************************
    end;
-   dmnf.cds_Movimento.ApplyUpdates(0);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dmnf.cds_Movimento.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
 end;
 
 procedure TfNotaFc.gravavenda;
-//var  strSql, strTit,tipoMov: String;
-//     diferenca : double;
+var  TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   if (DBEdit33.Text = '0') then
   begin
     MessageDlg('Informe o n. da Nota Fiscal', mtError, [mbOK], 0);
@@ -1333,28 +1360,6 @@ begin
     dmnf.cds_compraNOTAFISCAL.AsInteger := StrToInt(dmnf.cds_nf1NOTASERIE.asString);
     dmnf.cds_compraBANCO.AsInteger := 0;
 
- {   if (dmnf.sqs_tit.Active) then
-      dmnf.sqs_tit.Close;
-
-   if (dmnf.sqs_tit.Active) then
-      dmnf.sqs_tit.Close;
-   dmnf.sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) - ((QTDE_ALT/100)*(QUANTIDADE * PRECO))) FROM MOVIMENTODETALHE' +
-                           ' WHERE CODMOVIMENTO = ' +
-                           IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.asInteger);
-  dmnf.sqs_tit.Open;
-  if (geraTitulo = 'S') then
-  begin
-    dmnf.cds_compraVALOR.AsCurrency := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
-    dmnf.cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
-  end
-  else begin
-    dmnf.cds_compraVALOR.AsCurrency       := 0;
-    dmnf.cds_compraVALOR_PAGAR.AsCurrency := 0;
-  end;
-
-  vrr := FloatToCurr(dmnf.sqs_tit.Fields[0].AsFloat);
-  dmnf.sqs_tit.Close;}
-
   if (codVendaFin = 0) then
   begin
     if dm.c_6_genid.Active then
@@ -1364,13 +1369,25 @@ begin
     dmnf.cds_compraCODCOMPRA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-//if (geraTitulo = 'S') then
-//  alteraVlrVenda;
+
 
   if DMNF.DtSrc_Compra.DataSet.State in [dsBrowse] then
     DMNF.DtSrc_Compra.DataSet.Append;
   DMNF.DtSrc_Compra.DataSet.post;
-  DMNF.cds_Compra.ApplyUpdates(-1);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    DMNF.cds_Compra.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      // deu erro excluo o movimento gravado
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
 
   if not dmnf.scds_serie_proc.Active then
   begin
@@ -1489,7 +1506,10 @@ end;
 
 procedure TfNotaFc.gravanotafiscal;
 var nfnum : integer;
+   TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
  nfnum := 0;
  // Gravo a NF
   if (cbCFOP.text = '') then
@@ -1516,9 +1536,27 @@ begin
   end;
   if (nfnum = 0) then
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
-//  if (parametroNF <> 'S') then
-//    alteraVlrVenda;
-  dmnf.cds_nf1.ApplyUpdates(0);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dmnf.cds_nf1.ApplyUpdates(0);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+
+      // excluo o movimento e venda gravado
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODCOMPRA = '+
+        IntToStr(dmnf.cds_compraCODCOMPRA.AsInteger));
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '+
+        IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+  end;
+
+
   // Calcula ICMS - IPI
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nf1UF.AsString);
