@@ -1511,6 +1511,7 @@ begin
     cdsMesa.Open;
   end;
   BitBtn7.Enabled := False;
+  jvPago.Value := 0;
 end;
 
 procedure TfTerminal_Delivery.DtSrcStateChange(Sender: TObject);
@@ -2386,7 +2387,7 @@ begin
     if (cupom_numcupom = '') then
       cupom_numcupom := IntToStr(cupom_codMov);
     sqlAlteraMov := 'update MOVIMENTO set status = 9 ' +
-      ' NFE = ' + QuotedStr(cupom_numcupom) + 
+      ' ,NFE = ' + QuotedStr(cupom_numcupom) + 
       ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger)+
       '   and CODNATUREZA = 7';
     dm.sqlsisAdimin.ExecuteDirect(sqlAlteraMov);
