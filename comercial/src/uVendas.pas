@@ -1024,6 +1024,7 @@ end;
 
 procedure TfVendas.btnIncluirClick(Sender: TObject);
 begin
+  dm.totalpago := 0; 
   clienteEstaBloqueado := 'NAO';
   edClienteCnpj.Text := '';
   procurouProd := 'N';
