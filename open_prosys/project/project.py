@@ -30,7 +30,7 @@ from openerp.tools.translate import _
 
 from openerp.addons.base_status.base_stage import base_stage
 from openerp.addons.resource.faces import task as Task
-import pdb
+#import pdb
 
 _TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
@@ -549,6 +549,8 @@ def Project():
 
     def write(self, cr, uid, ids, vals, context=None):
         # if alias_model has been changed, update alias_model_id accordingly
+        if vals.get('user_id'):
+            vals.update(manager_id=vals.get('user_id'))
         if vals.get('alias_model'):
             model_ids = self.pool.get('ir.model').search(cr, uid, [('model', '=', vals.get('alias_model', 'project.task'))])
             vals.update(alias_model_id=model_ids[0])
@@ -1212,12 +1214,19 @@ class task(base_stage, osv.osv):
 class project_work(osv.osv):
 
     def onchange_hours_out(self, cr, uid, ids, hours_out=0.0, hours_in=0.0, datex=None, datex_out=None):
-        #pdb.set_trace(),
         dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
         dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
         diferencaDias =((dataSai-dataEnt).days*24),
         return {'value':{'hours': ((hours_out - hours_in)+diferencaDias[0])}}
          
+    def onchange_hours_in(self, cr, uid, ids, hours_out=0.0, hours_in=0.0, datex=None, datex_out=None):
+        diferencaDias = 0.0
+        if hours_out != 0.0:
+            dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
+            dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
+            diferencaDias =((dataSai-dataEnt).days*24),
+            return {'value':{'hours': ((hours_out - hours_in)+diferencaDias[0])}}
+        return {'value':{'hours':0.0}}
 
     def edit(self, cr, uid, ids, context=None):
         obj_name = some_fn_dynamic_get_obj_name_from_ids(ids)
@@ -1275,7 +1284,10 @@ class project_work(osv.osv):
 
     def write(self, cr, uid, ids, vals, context=None):
         if not self._ja_apontado(cr, uid, ids, forced_user_id=uid,context=context):
-            raise osv.except_osv(_('Error!'), _('Periodo ja apontado.'))
+            raise osv.except_osv(_('Erro no apontamento !'), _('Periodo ja apontado.'))
+
+        if not self._tem_gerente(cr, uid, ids, context=context):
+            raise osv.except_osv(_('Erro no cadastro do PROJETO !'), _('Gerente não cadastrado.'))
 
         if 'hours' in vals and (not vals['hours']):
             vals['hours'] = 0.00
@@ -1285,7 +1297,6 @@ class project_work(osv.osv):
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
     def _ja_apontado(self, cr, uid, ids, forced_user_id=False, context=None):
-        #pdb.set_trace()
         for sheet in self.browse(cr, uid, ids, context=context):
             new_user_id = forced_user_id or sheet.user_id and sheet.user_id.id
             if new_user_id:
@@ -1293,8 +1304,8 @@ class project_work(osv.osv):
                 cr.execute('SELECT id \
                     FROM project_task_work \
                     WHERE (date = %s) \
-                      AND ((%s BETWEEN hours_in and hours_out) \
-                       OR (%s BETWEEN hours_in and hours_out) \
+                      AND ((%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
+                       OR (%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
                        OR ((hours_in > %s) AND (hours_out < %s))) \
                       AND (user_id=%s) \
                       AND (id <> %s)',(sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, new_user_id, sheet.id))
@@ -1303,7 +1314,15 @@ class project_work(osv.osv):
                     return False     
         return True
 
-    _constraints = [(_ja_apontado, 'Período já apontado.',['date','hours_in','hours_out']),]
+    def _tem_gerente(self, cr, uid, ids, context=None):
+        for work in self.browse(cr, uid, ids):
+            if work.task_id.project_id.manager_id.id:
+                return True
+        return False
+
+    _constraints = [(_ja_apontado, 'Período já apontado.',['date','hours_in','hours_out']),
+       (_tem_gerente, ' GERENTE não informado no PROJETO.', ['project_id']),
+    ]
 
     def unlink(self, cr, uid, ids, *args, **kwargs):
         for work in self.browse(cr, uid, ids):
