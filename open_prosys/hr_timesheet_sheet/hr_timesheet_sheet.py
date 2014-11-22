@@ -29,6 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 from openerp import netsvc
+#import pdb
 
 class hr_timesheet_sheet(osv.osv):
     _name = "hr_timesheet_sheet.sheet"
@@ -84,8 +85,8 @@ class hr_timesheet_sheet(osv.osv):
             new_user_id = self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).user_id.id or False
             if not new_user_id:
                 raise osv.except_osv(_('Error!'), _('In order to create a timesheet for this employee, you must assign it to a user.'))
-            if not self._sheet_date(cr, uid, ids, forced_user_id=new_user_id, context=context):
-                raise osv.except_osv(_('Error!'), _('You cannot have 2 timesheets that overlap!\nYou should use the menu \'My Timesheet\' to avoid this problem.'))
+            #if not self._sheet_date(cr, uid, ids, forced_user_id=new_user_id, context=context):
+            #    raise osv.except_osv(_('Error!'), _('You cannot have 2 timesheets that overlap!\nYou should use the menu \'My Timesheet\' to avoid this problem.'))
             if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).product_id:
                 raise osv.except_osv(_('Error!'), _('In order to create a timesheet for this employee, you must link the employee to a product.'))
             if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).journal_id:
@@ -165,7 +166,8 @@ class hr_timesheet_sheet(osv.osv):
         'total_difference': fields.function(_total, method=True, string='Difference', multi="_total"),
         'period_ids': fields.one2many('hr_timesheet_sheet.sheet.day', 'sheet_id', 'Period', readonly=True),
         'account_ids': fields.one2many('hr_timesheet_sheet.sheet.account', 'sheet_id', 'Analytic accounts', readonly=True),
-        'manager_id': fields.related('timesheet_ids', 'manager_id', type="many2one",relation="res.users", store=True, string="Gerente", required=False, readonly=True),
+        #'manager_id': fields.related('timesheet_ids', 'manager_id', type="many2one",relation="res.users", store=True, string="Gerente", required=False),
+        'manager_id': fields.many2one('res.users', 'user_id', 'Gerente', required=True),
         'company_id': fields.many2one('res.company', 'Company'),
         'department_id':fields.many2one('hr.department','Department'),
     }
@@ -196,30 +198,39 @@ class hr_timesheet_sheet(osv.osv):
         emp_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id','=',uid)], context=context)
         return emp_ids and emp_ids[0] or False
 
+    #def _default_manager(self, cr, uid, vals, context=None):
+    #    pdb.set_trace()
+    #    emp_ids=self.pool.get('hr.analytic.timesheet').search(cr,uid,[('id','=',vals.get('timesheet_ids'))],context=context).manager_id.id
+    #    return emp_ids and emp_ids[0] or False
+
     _defaults = {
         'date_from' : _default_date_from,
         'date_to' : _default_date_to,
         'state': 'new',
         'employee_id': _default_employee,
+    #    'manager_id': _default_manager,
         'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'hr_timesheet_sheet.sheet', context=c)
     }
 
     def _sheet_date(self, cr, uid, ids, forced_user_id=False, context=None):
+        #pdb.set_trace()
         for sheet in self.browse(cr, uid, ids, context=context):
             new_user_id = forced_user_id or sheet.user_id and sheet.user_id.id
+            new_manager_id = sheet.manager_id and sheet.manager_id.id
             if new_user_id:
                 cr.execute('SELECT id \
                     FROM hr_timesheet_sheet_sheet \
                     WHERE (date_from <= %s and %s <= date_to) \
                         AND user_id=%s \
-                        AND id <> %s',(sheet.date_to, sheet.date_from, new_user_id, sheet.id))
+                        AND manager_id=%s \
+                        AND id <> %s',(sheet.date_to, sheet.date_from,new_user_id, new_manager_id, sheet.id))
                 if cr.fetchall():
                     return False
         return True
 
 
     _constraints = [
-        (_sheet_date, 'You cannot have 2 timesheets that overlap!\nPlease use the menu \'My Current Timesheet\' to avoid this problem.', ['date_from','date_to']),
+        (_sheet_date, 'You cannot have 2 timesheets that overlap!\nPlease use the menu \'My Current Timesheet\' to avoid this problem.',['date_from','date_to','manager_id']),
     ]
 
     def action_set_to_draft(self, cr, uid, ids, *args):
@@ -303,10 +314,12 @@ class hr_timesheet_line(osv.osv):
     def _sheet(self, cursor, user, ids, name, args, context=None):
         sheet_obj = self.pool.get('hr_timesheet_sheet.sheet')
         res = {}.fromkeys(ids, False)
+        #pdb.set_trace()
         for ts_line in self.browse(cursor, user, ids, context=context):
             sheet_ids = sheet_obj.search(cursor, user,
                 [('date_to', '>=', ts_line.date), ('date_from', '<=', ts_line.date),
-                 ('employee_id.user_id', '=', ts_line.user_id.id)],
+                 ('employee_id.user_id', '=', ts_line.user_id.id),
+                 ('manager_id', '=', ts_line.manager_id.id)],
                 context=context)
             if sheet_ids:
             # [0] because only one sheet possible for an employee between 2 dates
@@ -315,6 +328,7 @@ class hr_timesheet_line(osv.osv):
 
     def _get_hr_timesheet_sheet(self, cr, uid, ids, context=None):
         ts_line_ids = []
+        #pdb.set_trace()
         for ts in self.browse(cr, uid, ids, context=context):
             cr.execute("""
                     SELECT l.id
@@ -324,9 +338,11 @@ class hr_timesheet_line(osv.osv):
                     WHERE %(date_to)s >= al.date
                         AND %(date_from)s <= al.date
                         AND %(user_id)s = al.user_id
+                        AND %(manager_id)s = l.manager_id
                     GROUP BY l.id""", {'date_from': ts.date_from,
                                         'date_to': ts.date_to,
-                                        'user_id': ts.employee_id.user_id.id,})
+                                        'user_id': ts.employee_id.user_id.id,
+                                        'manager_id': ts.manager_id.id,})
             ts_line_ids.extend([row[0] for row in cr.fetchall()])
         return ts_line_ids
 
@@ -465,7 +481,7 @@ class hr_attendance(osv.osv):
         return att_tz_date_str
 
     def _get_current_sheet(self, cr, uid, employee_id, date=False, context=None):
-
+        #pdb.set_trace()
         sheet_obj = self.pool['hr_timesheet_sheet.sheet']
         if not date:
             date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
@@ -476,7 +492,8 @@ class hr_attendance(osv.osv):
         sheet_ids = sheet_obj.search(cr, uid,
             [('date_from', '<=', att_tz_date_str),
              ('date_to', '>=', att_tz_date_str),
-             ('employee_id', '=', employee_id)],
+             ('employee_id', '=', employee_id),
+             ('manager_id', '=', manager_id)],
             limit=1, context=context)
         return sheet_ids and sheet_ids[0] or False
 
