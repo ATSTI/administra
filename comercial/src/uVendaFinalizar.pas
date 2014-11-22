@@ -981,6 +981,7 @@ begin
         dbedit5.SetFocus;
         exit;
       end;
+      dm.totalpago := cdsENTRADA.AsFloat;
     end;
 
     if (dbeSerie.Text = '') then
@@ -1173,6 +1174,7 @@ begin
     cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
     cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
     edAPagar.Value := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
+
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
      da notafiscal }
     if (cds.State in [dsInsert, dsEdit]) then
