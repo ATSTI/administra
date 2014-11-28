@@ -29,7 +29,6 @@ from openerp.osv import fields, osv
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 from openerp import netsvc
-#import pdb
 
 class hr_timesheet_sheet(osv.osv):
     _name = "hr_timesheet_sheet.sheet"
@@ -166,8 +165,7 @@ class hr_timesheet_sheet(osv.osv):
         'total_difference': fields.function(_total, method=True, string='Difference', multi="_total"),
         'period_ids': fields.one2many('hr_timesheet_sheet.sheet.day', 'sheet_id', 'Period', readonly=True),
         'account_ids': fields.one2many('hr_timesheet_sheet.sheet.account', 'sheet_id', 'Analytic accounts', readonly=True),
-        #'manager_id': fields.related('timesheet_ids', 'manager_id', type="many2one",relation="res.users", store=True, string="Gerente", required=False),
-        'manager_id': fields.many2one('res.users', 'user_id', 'Gerente', required=True),
+        'manager_id': fields.many2one('hr.employee', 'user_id', 'Gerente', required=True, domain=[('job_id.id','=', 1)]),
         'company_id': fields.many2one('res.company', 'Company'),
         'department_id':fields.many2one('hr.department','Department'),
     }

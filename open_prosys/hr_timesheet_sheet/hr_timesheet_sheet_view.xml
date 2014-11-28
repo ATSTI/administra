@@ -179,7 +179,7 @@
                 <search string="Search Timesheet">
                     <field name="date_from"/>
                     <filter name="new" string="In Draft" domain="[('state','in',('draft', 'new'))]" help="Unvalidated Timesheets"/>
-                    <filter name="to_approve" string="To Approve" domain="[('state','=','confirm'),('manager_id','=',uid)]" help="Confirmed Timesheets"/>
+                    <filter name="to_approve" string="To Approve" domain="[('state','=','confirm'),'|',('manager_id','=',uid),('manager_id.name','=','Interno')]" help="Confirmed Timesheets"/>
                     <filter name="to_manager" string="Gerente" domain="[('manager_id','=',uid)]"/>
                     <field name="employee_id"/>
                     <field name="department_id"/>
@@ -333,7 +333,7 @@
                     <field name="employee_id"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
-                    <field name="manager_id" domain="[('manager_id','=',uid)]" />
+                    <field name="manager_id" string="Gerente" />
                     <field name="department_id" invisible="1"/>
                     <field name="total_attendance" widget="float_time" groups="base.group_hr_attendance"/>
                     <field name="total_timesheet" widget="float_time"/>
