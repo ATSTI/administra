@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="ats_crm_case_claims_form_view">
+            <field name="name">CRM-Claims Form ATS</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
+            <field name="arch" type="xml">
+				<xpath expr="/form/sheet/group/notebook/page/group" position="replace">
+			    </xpath>
+                <field name="name" position='before'>
+                    <field name="partner_id" string="Partner"
+                        on_change="onchange_partner_id(partner_id)"/>
+                    <separator colspan="2" string="Dados Cliente"/>
+                    <field name="partner_phone" readonly="1" class="oe_tag" string="Fone"/>
+                    <field name="email_from"  readonly="1" class="oe_tag" string="Email"/>
+                    <field name="legal_name" readonly="1"  class="oe_tag" string="Razao Social"/>
+                    <field name="title" class="oe_tag" readonly="1"/>
+                    <field name="motivo_ausencia" class="oe_tag" readonly="1"/>
+                    <field name="fornece_fone" class="oe_tag" readonly="1"/>
+                    <field name="fornece_email" class="oe_tag" readonly="1"/>
+                    <separator colspan="2" string="Chamada :"/>
+				</field>	
+            </field>
+        </record>
+
+     </data>
+</openerp>

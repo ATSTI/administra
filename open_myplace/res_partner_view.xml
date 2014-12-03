@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="view_client_search_form" model="ir.ui.view">
+            <field name="name">myplace.client.search.form</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="0"/>
+            <field name="arch" type="xml">
+               <search string="Cliente">
+                    <field name="name" string="Nome"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Nome" name="group_name" icon="terp-folder-violet" domain="[]"  context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- Liste des clients -->
+
+        <record id="view_clients_tree" model="ir.ui.view">
+            <field name="name">client.tree</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Clientes"  colors="blue:is_company==True">
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                </tree>
+            </field>
+        </record>
+
+	 <record id="view_client_form" model="ir.ui.view">
+	     <field name="name">l10n_br_base.partner.form</field>
+	     <field name="model">res.partner</field>
+             <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
+	     <field name="arch" type="xml">
+                <label for="legal_name" position="replace">
+                    <label for="legal_name" string="Cliente" />
+                </label>
+                <label for="name" position="replace">
+                    <label for="name" string="Empresa/Cliente" />
+                </label>
+                <field name="title" position="replace">
+                    <field name="title" string="Ramo Atividade" />
+                </field>
+                <field name="fax" position="attributes">
+                    <attribute name="string">Fone Redirec.</attribute>
+                </field>
+                <xpath expr="/form/sheet/group" position="after">
+                     <group string="Outros Dados">
+                         <group>
+                             <field name="fornece_fone" />
+                             <field name="fornece_email" />
+                             <field name="birthdate_n" />
+                         </group>
+                         <group>
+                             <field name="ramal_softphone1" />
+                             <field name="ramal_softphone2" />
+                         </group>
+                     </group>
+                     <group>
+                         <field name="motivo_ausencia" />
+                     </group>
+                 </xpath>
+             </field>
+         </record>
+
+        <record model="ir.ui.view" id="view_clients_kanban">
+            <field name="name">myplace.res.partner.kanban</field>
+            <field name="model">res.partner</field>
+	     <field name="inherit_id" ref="base.res_partner_kanban_view" />
+            <field name="arch" type="xml">
+                <kanban>
+                </kanban>
+            </field>
+        </record>
+
+         <record id="action_client_form" model="ir.actions.act_window">
+            <field name="name">Clientes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="priority" eval="1"/>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[("customer","=",1), ("active","=",1)]</field>
+            <field name="context">{'default_customer': True, 'default_is_prospect': False}</field>
+        </record>
+
+        <record id="action_client_kanban_view" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_clients_kanban"/>
+            <field name="act_window_id" ref="action_client_form"/>
+        </record>
+
+        <record id="action_client_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_clients_tree"/>
+            <field name="act_window_id" ref="action_client_form"/>
+        </record>
+        <record id="action_client_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_client_form"/>
+            <field name="act_window_id" ref="action_client_form"/>
+        </record>
+
+
+        <record id="action_prospect_form" model="ir.actions.act_window">
+            <field name="name">Prospectos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="priority" eval="1"/>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("is_prospect","=",1), ("active","=",1)]</field>
+            <field name="context">{'default_is_prospect': True, 'default_customer': False}</field>
+        </record>
+
+        <record id="action_prospect_tree_view" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_clients_tree"/>
+            <field name="act_window_id" ref="action_prospect_form"/>
+        </record>
+        <record id="action_prospect_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_client_form"/>
+            <field name="act_window_id" ref="action_prospect_form"/>
+        </record>
+
+        <record id="view_niver_search_form" model="ir.ui.view">
+            <field name="name">aniversario.search.form</field>
+            <field name="model">partner_aniversario</field>
+            <field name="priority" eval="0"/>
+            <field name="arch" type="xml">
+               <search string="Aniversarios">
+                    <field name="partner" string="Cliente"/>
+                    <field name="mes_nasc"/>
+                    <field name="dia_nasc"/>
+                    <group string="Group By...">
+                        <filter string="Mes" name="group_mes" icon="terp-folder-violet" domain="[]" context="{'group_by':'mes_nasc'}"/>
+                        <filter string="Dia" name="group_dia" icon="terp-personal" domain="[]" context="{'group_by':'dia_nasc'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="partner_aniversario_tree_view">
+            <field name="name">partner_aniversario.tree</field>
+            <field name="model">partner_aniversario</field>			
+            <field name="arch" type="xml">
+                <tree string="Aniversariantes" version="7.0">	
+                    <field name="partner"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="niver"/>
+                    <field name="dia_nasc"/>
+                    <field name="mes_nasc"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="partner_aniversario_form_view">
+            <field name="name">partner_aniversario.form</field>
+            <field name="model">partner_aniversario</field>			
+            <field name="arch" type="xml">
+                <tree string="Aniversariante" version="7.0">	
+                    <field name="partner"/>
+                    <field name="partner_id"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="niver"/>
+                    <field name="dia_nasc"/>
+                    <field name="mes_nasc"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="action_partner_aniversariante">
+             <field name="name">Lista Aniversariantes</field>
+             <field name="res_model">partner_aniversario</field>
+         </record>
+
+         <menuitem name="Aniversariante" parent="base.menu_sales" id="niver_menu" action="action_partner_aniversariante" sequence="4"/>
+    </data>
+</openerp>
