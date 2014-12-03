@@ -243,7 +243,7 @@ begin
   lblMsg.Visible := True;
   lblMsg.Caption := 'Aguarde, enviando email ...';
   enviarEmailNfe;
-  lblMsg.Caption := '..';
+  lblMsg.Caption := 'Enviado';
 end;
 
 procedure TfNFeMail.sbtnCCClick(Sender: TObject);
