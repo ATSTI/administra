@@ -1082,6 +1082,10 @@ begin
   begin
     edtConsultaCliente.Text := dm.cds_paramD1.AsString;
   end;
+  if (dm.cds_param.Locate('PARAMETRO','EMAILAUTOMATICO', [loCaseInsensitive])) then
+  begin
+    rgNfe.ItemIndex := 1;
+  end;
 end;
 
 
@@ -4651,11 +4655,11 @@ procedure TfParametro.rgNfeClick(Sender: TObject);
 begin
   inherited;
   strSql := '';
-  if (rgBloqueio.ItemIndex = 1) then  // Mensagem Personalizada de Bloqueio
+  if (rgNfe.ItemIndex = 1) then  // Mensagem Personalizada de Bloqueio
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
-     s_parametro.Params[0].AsString := 'EMAILAUTOMÁTICO';
+     s_parametro.Params[0].AsString := 'EMAILAUTOMATICO';
      s_parametro.Open;
      if (s_parametro.Eof) then
      begin
