@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="ats_account_analytic_account_form_">
+            <field name="name">ats_account_contract</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//separator[@name="toinvoice"]' position='replace'>
+			    </xpath>
+                <xpath expr='//table' position='replace'>
+                    <field name="fix_price_invoices" class="oe_inline" invisible="1"/>
+                    <field name="invoice_on_timesheets" on_change="onchange_invoice_on_timesheets(invoice_on_timesheets)" invisible="1"/>
+					<table invisible="1"/>
+			    </xpath>
+                <xpath expr='//group[@name="invoice_on_timesheets"]' position='replace'>
+			    </xpath>
+                <field name="template_id" position="attributes">
+                    <attribute name="string">Unidade</attribute>
+                </field>
+				<xpath expr='//group[@name="contract"]' position='replace'>
+					<label for="date_start" string="Data Contrato"/>
+					<field name="date_start"/>
+					<label for="date" string="End Date"/>
+				    <field name="date"/>
+					<div>
+					    <label for="quantity_max" string="Dia Vencimento"/>
+                        <field name="quantity_max" string="Dia Vencimento"/>
+					</div>	
+                </xpath>
+				<field name="quantity_max" position="replace">
+					<field name="quantity_max" string="Dia Vencimento"/>
+				</field>
+            </field>
+		</record>
+
+        <record id="ats_view_account_analytic_account_tree_c2c_3" model="ir.ui.view">
+            <field name="name">ats_account.list.contract</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="account.view_account_analytic_account_list"/>
+            <field name="arch" type="xml">
+                <field name="remaining_hours" position="replace">
+                    <field name="remaining_hours" invisible="1"/>
+                    <field name="quantity_max" string="Dia Vencimento"/>
+                </field>
+            </field>
+        </record>
+
+     </data>
+</openerp>
