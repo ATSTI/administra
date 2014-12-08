@@ -29,10 +29,11 @@
    """,
     'author': 'ATS Soluções',
     'website': '',
-    'depends': ['l10n_br_base','crm_claim'],
+    'depends': ['l10n_br_base','crm_claim','account_analytic_analysis'],
     'data': [
         'res_partner_view.xml',
         'crm_claim_view.xml',
+        'account_analytic_analysis_view.xml',
     ],
     'installable': True,
     'application': True,

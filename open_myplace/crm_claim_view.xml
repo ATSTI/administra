@@ -10,16 +10,17 @@
 				<xpath expr="/form/sheet/group/notebook/page/group" position="replace">
 			    </xpath>
                 <field name="name" position='before'>
-                    <field name="partner_id" string="Partner"
+                    <field name="partner_id" string="Nome Fantasia"
                         on_change="onchange_partner_id(partner_id)"/>
                     <separator colspan="2" string="Dados Cliente"/>
                     <field name="partner_phone" readonly="1" class="oe_tag" string="Fone"/>
                     <field name="email_from"  readonly="1" class="oe_tag" string="Email"/>
-                    <field name="legal_name" readonly="1"  class="oe_tag" string="Razao Social"/>
+                    <field name="razao_empresa" readonly="1"  class="oe_tag" string="Razao Empresa"/>
                     <field name="title" class="oe_tag" readonly="1"/>
                     <field name="motivo_ausencia" class="oe_tag" readonly="1"/>
                     <field name="fornece_fone" class="oe_tag" readonly="1"/>
                     <field name="fornece_email" class="oe_tag" readonly="1"/>
+                    <field name="legal_name" readonly="1"  class="oe_tag" string="Resp. Contrato"/>
                     <separator colspan="2" string="Chamada :"/>
 				</field>	
             </field>

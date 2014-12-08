@@ -15,6 +15,7 @@ class res_partner(osv.Model):
         'fornece_email': fields.boolean('Fornec. Email ?', help="Pode fornecer email do cliente caso solicitado."),
         'birthdate_n': fields.date('Date de nascimento'),
         'motivo_ausencia': fields.char(u"Motivo ausencia", size=256),
+        'razao_empresa': fields.char(u"Razao-Empresa", size=256),
         'ramal_softphone1': fields.char(u"Ramal Softphone 1", size=60),
         'ramal_softphone2': fields.char(u"Ramal Softphone 2", size=60),
     }

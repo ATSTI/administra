@@ -1,2 +1,3 @@
 import res_partner
 import crm_claim
+import account_analytic_analysis

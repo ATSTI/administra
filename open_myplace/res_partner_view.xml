@@ -30,17 +30,20 @@
             </field>
         </record>
 
-	 <record id="view_client_form" model="ir.ui.view">
-	     <field name="name">l10n_br_base.partner.form</field>
-	     <field name="model">res.partner</field>
-             <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
-	     <field name="arch" type="xml">
-                <label for="legal_name" position="replace">
+	    <record id="view_client_form" model="ir.ui.view">
+	        <field name="name">l10n_br_base.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
+	        <field name="arch" type="xml">
+				<field name="parent_id" position="before">
+					<div>
+                        <label for="razao_empresa" string="Razão Empresa" />
+					    <field name="razao_empresa" nolabel="1"/>
+					</div>	
+				</field>	
+				<xpath expr="/form/sheet/div/group/div" position="replace">
                     <label for="legal_name" string="Cliente" />
-                </label>
-                <label for="name" position="replace">
-                    <label for="name" string="Empresa/Cliente" />
-                </label>
+				</xpath>
                 <field name="title" position="replace">
                     <field name="title" string="Ramo Atividade" />
                 </field>
