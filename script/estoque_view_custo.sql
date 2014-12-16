@@ -36,7 +36,7 @@ DECLARE VARIABLE SOMA_ENT double precision;
 DECLARE VARIABLE ultimoDiaMes date;
 DECLARE VARIABLE MesEstoque date;
 BEGIN
-  -- versao 123
+  -- versao 3.0
   PROD = 0;
   INI  = 0;
   SOMA_ENTRADA = 0;
@@ -59,6 +59,8 @@ BEGIN
     
   mesEstoque = dta1;  
   prod = 0;   
+--lotes = '1';
+--suspend;
   for select first 1 em.SALDOESTOQUE, em.PRECOCUSTO, em.PRECOVENDA
       , em.CENTROCUSTO, em.LOTE, em.PRECOCOMPRA, em.PRECOCUSTO, em.PRECOVENDA, em.MESANO
      from ESTOQUEMES em 
@@ -75,6 +77,8 @@ BEGIN
        prod = 1;
        if (MesEstoque = dta1) then 
          ini = 1;
+--lotes = '2';
+--suspend;         
      end  
    --suspend;   
    if (soma_entrada is null) then 
@@ -109,6 +113,8 @@ BEGIN
          saldoiniacum = 0;       
        SOMA_ENTRADA = SOMA_ENTRADA + SOMA_ENT;
        SOMA_SAIDA = SOMA_SAIDA + SOMA_SAI;
+--lotes = '3' || soma_entrada;
+--suspend;
      end
    end
    ENTRADA = SOMA_ENTRADA;

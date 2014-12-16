@@ -101,7 +101,7 @@ BEGIN
          movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO,
          COALESCE(movdet.DESCPRODUTO, prod.PRODUTO) 
-         , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(movdet.OBS,99)
+         , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
         , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.OBS, prod.PRODUTO
         FROM MOVIMENTO mov
         inner join compra v on v.CODMOVIMENTO = mov.CODMOVIMENTO 

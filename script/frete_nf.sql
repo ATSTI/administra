@@ -5,6 +5,7 @@ declare variable codm INTEGER;
 declare variable coddet INTEGER;
 declare variable det1 INTEGER;
 declare variable det INTEGER;
+declare variable x INTEGER;
 declare variable FRETE double precision;
 declare variable DESCONTO double precision;
 declare variable OUTRAS double precision;
@@ -20,8 +21,15 @@ declare variable SEGURO_TOTAL double precision;
 declare variable valtot double precision;
 declare variable vp double precision;
 declare variable levaDesc char(1);
+declare variable log_sis varchar(30);
 BEGIN
-  if (new.IDCOMPLEMENTAR = null) then 
+  log_sis =  new.IDCOMPLEMENTAR;
+  if (log_sis is null) then 
+  begin
+    log_sis = 'NAO COMPLEMENTAR'; 
+  end 
+  --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 'IDCOMPLEMENTA ' || :log_sis);
+  if (log_sis = 'NAO COMPLEMENTAR') then 
   begin
   -- versao 3.0.0.4
   levaDesc = 'N';
@@ -40,6 +48,9 @@ BEGIN
         where c.CODCOMPRA = new.CODVENDA
         into :codm;
     end
+   
+   if (levaDesc is null) then 
+     levaDesc = 'N';
    
    vp = new.VALOR_PRODUTO; 
    
@@ -82,7 +93,7 @@ BEGIN
    DESCONTO_TOTAL = new.VALOR_DESCONTO;
    OUTRAS_TOTAL = new.OUTRAS_DESP;
    SEGURO_TOTAL = new.VALOR_SEGURO;
-
+   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 'FRETE ' || :FRETE_TOTAL || ' VP ' || :vp);
    
    select count(md.CODDETALHE) from MOVIMENTODETALHE md
    where md.CODMOVIMENTO = :codm
@@ -103,6 +114,7 @@ BEGIN
 	   if ( det = det1) then
 	   update MOVIMENTODETALHE set FRETE = :Frete_TOTAL, valor_desconto = :DESCONTO_TOTAL, valor_seguro = :SEGURO_TOTAL, 
 	     valor_outros = :OUTRAS_TOTAL where CODDETALHE = :coddet;
+	   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 'FRETE ' || :FRETE_TOTAL || ' VALTOT ' || :valtot);   
 	 end    
 	 if (levaDesc = 'S') then 
 	 begin 
