@@ -402,7 +402,7 @@ begin
         cdsFORMARECEBIMENTO.AsString := (statusCrTitulo.pegaForma(ComboBox1.Text));
       if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
         cdsCAIXA.Value := dm.cds_7_contas.Fields[0].asInteger;
-      cds.ApplyUpdates(0);
+      cds.ApplyUpdates(-1);
       exit;
     end;
     if (cds.Active) then
@@ -594,9 +594,7 @@ procedure TfCrAltera.cdsReconcileError(DataSet: TCustomClientDataSet;
   E: EReconcileError; UpdateKind: TUpdateKind;
   var Action: TReconcileAction);
 begin
-  inherited;
-  MessageDlg('Não é possível gravar o registro. Erro : ' + E.Message , mtWarning,
-        [mbOk], 0);
+  MessageDlg('Mensagem: '+E.Message,mtInformation,[mbok],0);
 end;
 
 procedure TfCrAltera.cdsNewRecord(DataSet: TDataSet);
