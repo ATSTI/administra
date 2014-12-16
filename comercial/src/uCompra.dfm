@@ -1,6 +1,6 @@
 inherited fCompra: TfCompra
   Left = 225
-  Top = 77
+  Top = 83
   Width = 802
   Height = 615
   Caption = 'Compra'
@@ -2488,6 +2488,10 @@ inherited fCompra: TfCompra
     object sds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
     end
+    object sds_MovimentoENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      Size = 60
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -2648,6 +2652,12 @@ inherited fCompra: TfCompra
     end
     object cds_MovimentoCODPEDIDO: TIntegerField
       FieldName = 'CODPEDIDO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object cds_MovimentoENTREGA: TStringField
+      FieldName = 'ENTREGA'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
     end
   end
   object DtSrc1: TDataSource

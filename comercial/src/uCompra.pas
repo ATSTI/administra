@@ -461,6 +461,8 @@ type
     cds_Mov_detVALOR_COFINS: TFloatField;
     sds_Mov_DetPAGOU: TStringField;
     cds_Mov_detPAGOU: TStringField;
+    sds_MovimentoENTREGA: TStringField;
+    cds_MovimentoENTREGA: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1489,26 +1491,27 @@ begin
   else
     usarateio := 'NAO';
 
-  if fProcura_prod.cds_procLOTES.AsString = 'S' then
+  // vou comentar isto , pois, não precisa aqui 15/12/2014
+  {if fProcura_prod.cds_procLOTES.AsString = 'S' then
   begin
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'LOTEUNITARIO';
     dm.cds_parametro.Open;
-    if( (DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '') and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
+    if ((DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '')) then  //15/12/14 - and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
     begin
-      {fLotes_Produtos := TfLotes_Produtos.Create(Application);
-      try
+      //fLotes_Produtos := TfLotes_Produtos.Create(Application);
+      //try
         fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
         fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
         fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
         fLotes_Produtos.TIPO := 'COMPRA';
         fLotes_Produtos.ShowModal;
-      finally
+      //finally
         //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         //cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        fLotes_Produtos.Free;
-      end;}
+      //  fLotes_Produtos.Free;
+      //end;
     end
     else if ( (DbEdit1.Text = '')  and (dm.cds_parametroCONFIGURADO.AsString <> 'S') )then
     begin
@@ -1534,12 +1537,13 @@ begin
         //cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
         //cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
         //fLotes.cdslotes.ApplyUpdates(0);
+        fLotes.cdslotes.CommandText := sql1; // 15/12/2014 esta antes da linha 1546
       end;
     end;
-     { fLotes.btnProdutoProcura.Enabled := False;
-      fLotes.ShowModal;}
-  end;
-  fLotes.cdslotes.CommandText := sql1;
+      //fLotes.btnProdutoProcura.Enabled := False;
+      //fLotes.ShowModal;
+  end;  }
+
   if (fProcura_prod.cds_proc.Active) then
     fProcura_prod.cds_proc.Close;
   if cds_Mov_det.State in [dsInsert] then
@@ -1553,6 +1557,7 @@ procedure TfCompra.btnNovoClick(Sender: TObject);
 
 begin
   inherited;
+  compraUsaLote := 'N';
   DecimalSeparator := ',';
   if (J = 10) then
   begin
@@ -2175,18 +2180,18 @@ begin
     begin
       if( (DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '') ) then
       begin
-        fLotes_Produtos := TfLotes_Produtos.Create(Application);
-        try
+        //fLotes_Produtos := TfLotes_Produtos.Create(Application);
+        //try
           fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
           fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
           fLotes_Produtos.JvDBDatePickerEdit2.DataSource := fCompra.DtSrc1;
           fLotes_Produtos.TIPO := 'COMPRA';
           fLotes_Produtos.ShowModal;
-        finally
+        //finally
           //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
           //cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          fLotes_Produtos.Free;
-        end;
+        //  fLotes_Produtos.Free;
+        //end;
       end;
     end;
     dm.scds_produto_proc.Close;

@@ -1196,10 +1196,12 @@ begin
     cds_compraNOMEFORNECEDOR.AsString := fCompra.cds_MovimentoNOMEFORNECEDOR.AsString;
     cds_compraCODCOMPRADOR.AsInteger := fCompra.cds_MovimentoCODVENDEDOR.AsInteger;
     cds_compraNOMEUSUARIO.AsString := fCompra.cds_MovimentoNOMEUSUARIO.AsString;
+    cds_compraCHAVENF.AsString     := fCompra.cds_MovimentoENTREGA.AsString;
+    cds_compraMODELO.AsString      := '55';
     cds_compraCODUSUARIO.AsInteger := usulog;
     cds_compraDATASISTEMA.AsDateTime := Now;
     cds_compraDATACOMPRA.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-    cbPrazo.Text := fCompra.cds_MovimentoPRAZO_PAGAMENTO.AsString;    
+    cbPrazo.Text := fCompra.cds_MovimentoPRAZO_PAGAMENTO.AsString;
     cds_compraDESCONTO.AsFloat := 0;
     cds_compraMULTA_JUROS.AsFloat := 0;
     cds_compraENTRADA.AsFloat := 0;
