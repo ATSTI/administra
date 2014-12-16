@@ -42,7 +42,8 @@ AS
  Declare variable UF_EMPRESA char(2); 
  DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
 BEGIN
-  -- versao 3.0.0.10
+  -- versao 3.0.0.16
+  new.SUITE = ''; 
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
   begin 
   
@@ -85,7 +86,9 @@ BEGIN
 
 	if ( (new.cfop = '') or (new.CFOP is null) ) then
 	begin 
-	  new.cfop = '5101';
+	  SELECT TRIM(DADOS) FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
+	    INTO :CFOP_MOV;
+	  new.cfop = :CFOP_MOV;
 	end 	
 			
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
@@ -148,6 +151,7 @@ BEGIN
 		---------------------------------------------------------------------------------
 		if ( (not CST_P is null) or (not CSOSN is null ) )then
 		begin
+		   new.SUITE = 'Trib. Produto';
 			new.cst = :CST_P;
 			new.CSOSN = :CSOSN;
 			new.CSTPIS = :CSTPIS;
@@ -274,7 +278,7 @@ BEGIN
 		---------------------------------------------------------------------------------
 		---------------------------INICIO DO CALCULO POR NCM ----------------------------
 		---------------------------------------------------------------------------------
-		else
+		if (new.SUITE = '') then 
 		begin
             select COALESCE(cfn.ICMS_SUBST, 0), COALESCE(cfn.ICMS_SUBST_IC, 0), COALESCE(cfn.ICMS_SUBST_IND, 0), COALESCE(cfn.ICMS, 0), COALESCE(cfn.ICMS_BASE, 1)
             , cfn.CST, COALESCE(cfn.IPI, 0), cfn.CSOSN, COALESCE(cfn.PIS, 0), COALESCE(cfn.COFINS, 0), cfn.CSTCOFINS, cfn.CSTPIS, cfn.CSTIPI, p.ORIGEM, 
@@ -287,6 +291,7 @@ BEGIN
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin
+              new.SUITE = 'Trib. NCM';
                 new.cst = :CST_P;
                 new.CSOSN = :CSOSN;
                 new.CSTPIS = :CSTPIS;
@@ -411,7 +416,7 @@ BEGIN
 		---------------------------------------------------------------------------------
 		------------------------INICIO DO CALCULO POR ESTADO ICMS------------------------
 		---------------------------------------------------------------------------------
-            else
+            if (new.SUITE = '') then 
             begin
                 --CALCULO PELA ESTADO_ICMS
                 select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
@@ -425,7 +430,9 @@ BEGIN
                 where p.CODPRODUTO = new.CODPRODUTO 
                 and n.NCM = p.NCM
                 into :aliqimp, :aliqnac, :origem;
-            
+                
+                new.SUITE = 'Trib. CFOP-UF';
+                
                 if (:CICMS IS NULL) then -- Vou Buscar so pelo CFOP e UF
                 begin 
                     select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
