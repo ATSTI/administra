@@ -151,6 +151,8 @@ begin
   end;
   fCompra.cds_Mov_detDTAFAB.AsDateTime := Now;
   fCompra.cds_Mov_detDTAVCTO.AsDateTime := Now;
+  if (TIPO = 'COMPRA') then
+    fCompra.DBEdit10.SetFocus;
 end;
 
 procedure TfLotes_Produtos.DBEdit1KeyPress(Sender: TObject; var Key: Char);
