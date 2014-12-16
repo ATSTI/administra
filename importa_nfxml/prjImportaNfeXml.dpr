@@ -1,6 +1,7 @@
 program prjImportaNfeXml;
 
 uses
+  MidasLib,
   Forms,
   uimporta_nfxml in 'uimporta_nfxml.pas' {fImporta_XML},
   uProdutoFornecedor in 'uProdutoFornecedor.pas' {fProdutoFornec},
@@ -14,6 +15,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'ATS - Importação de XML';
   Application.CreateForm(TfImporta_XML, fImporta_XML);
   Application.CreateForm(TfProdutoFornec, fProdutoFornec);
   Application.CreateForm(TfProdutoProc, fProdutoProc);

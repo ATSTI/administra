@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr,
-  ExtCtrls;
+  ExtCtrls, ACBrNFe, ComCtrls;
 
 type
   TfImporta_XML = class(TForm)
@@ -76,7 +76,17 @@ type
     btnLimpa: TBitBtn;
     Button1: TButton;
     Button2: TButton;
+    Panel3: TPanel;
     JvDBUltimGrid1: TJvDBUltimGrid;
+    ACBrNFe1: TACBrNFe;
+    Label1: TLabel;
+    Edit1: TEdit;
+    OpenDialog1: TOpenDialog;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    memExcluido: TMemo;
+    TabSheet2: TTabSheet;
+    memLista: TMemo;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -99,6 +109,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
   private
+    diretorioXml: String; 
     TD: TTransactionDesc;
     procedure abreNF;
     procedure abreNFItem;
@@ -108,8 +119,14 @@ type
     procedure procuraCadastroProduto;
     procedure insereMovimento;
     procedure Deletefiles(APath, AFileSpec: string);
+    procedure importaXML;
+    procedure importaItensXml(nota: Integer);
+    procedure listaArquivos;
+    procedure listaArquivosImportados;    
+    procedure limpaArquivos;    
     function completaCodBarra(S: string; Ch: Char; Len: Integer): string;
     function retornaCodBarra(): String;
+    function eDiretorio(attr, val: Integer):Boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -120,7 +137,7 @@ var
 
 implementation
 
-uses uProdutoFornecedor, uMovimento, UDm;
+uses uProdutoFornecedor, uMovimento, UDm, pcnNFe;
 
 {$R *.dfm}
 
@@ -378,6 +395,12 @@ procedure TfImporta_XML.btnCadastrarProdutoClick(Sender: TObject);
 var strInsereItem, strInsereItemF: String;
   varCodProduto : Integer;
 begin
+  if (edNota.Text = '') then
+  begin
+    MessageDlg('Digite o número da nota desejada, ou dê dois cliques nela.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   //btnExisteProdutoFornec.Click;
   if (cdsNF.Active) then
   begin
@@ -386,7 +409,7 @@ begin
     begin
       if (cdsNFRAZAOSOCIAL_ATS.AsString = '') then
       begin
-        MessageDlg('Existe Cliente que não consta no sistema, faça' +
+        MessageDlg('Este Cliente não consta no sistema, faça' +
           ' o cadastro primeiro.', mtWarning, [mbOK], 0);
         exit;
       end;
@@ -548,7 +571,7 @@ begin
         fMov.CodCCusto   := 51;
         fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
         fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
-
+        fMov.Entrega     := cdsNFNATUREZAOPERACAO.AsString;
         dm.sqlsisAdimin.StartTransaction(TDm);
         try
 
@@ -606,6 +629,12 @@ begin
     exit;
   end;
 
+  if (edNota.Text = '') then
+  begin
+    MessageDlg('Digite o número da nota desejada, ou dê dois cliques nela.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   insereMovimento;
 
   if (DirectoryExists('c:\home\xml\importados')) then
@@ -625,14 +654,19 @@ end;
 
 procedure TfImporta_XML.btnImportarXmlClick(Sender: TObject);
 begin
-  //WinExec( PCHAR(' ARQUIVO.BAT') , SW_SHOW);
-  //ShellExecute(0, nil, 'cmd.exe', '/C find "320" in.txt > out.txt', nil, SW_HIDE);
-  WinExec('exe_impor.bat', SW_NORMAL);
+  //WinExec('exe_impor.bat', SW_NORMAL);
+  listaArquivos();
+  if (not cdsNF.Active) then
+    abreNF;
+  importaXML;
+  abreNF;
   btnImportarXml.Font.Color := clWindowText;
   btnVerificaFornec.Font.Color := clWindowText;
   btnExisteProdutoFornec.Font.Color := clWindowText;
   btnImportaNF.Font.Color := clWindowText;
   btnProcurar.Font.Color := clRed;
+  listaArquivosImportados();
+  limpaArquivos();
 end;
 
 procedure TfImporta_XML.cbNaoEnviadaClick(Sender: TObject);
@@ -791,4 +825,164 @@ begin
   btnExisteProdutoFornec.Click;
 end;
 
+procedure TfImporta_XML.importaXML;
+var i, n: integer;
+notaJaFoi : String;
+begin
+  //Aqui faz loop ate a variável ficar vazia
+  For i := 0 to memLista.Lines.Count - 1 do
+  begin
+    diretorioXML := edit1.Text + '\' + memLista.Lines[i];
+    ACBrNFe1.NotasFiscais.LoadFromFile(diretorioXml);
+    for n:=0 to ACBrNFe1.NotasFiscais.Count-1 do
+    begin
+      with ACBrNFe1.NotasFiscais.Items[n].NFe do
+      begin
+        notaJaFoi := 'N';
+        if (not cdsNF.IsEmpty) then
+        begin
+          if (cdsNF.Locate('NOTAFISCAL;SERIE;CNPJ_EMITENTE', VarArrayOf([Ide.nNF,IntToStr(Ide.serie),Emit.CNPJCPF]), [loCaseInsensitive])) then
+          notaJaFoi := 'S';
+        end;
+        if (notaJaFoi = 'N') then
+        begin
+          cdsNF.Append;
+          cdsNFEMISSAO.AsDateTime         := Ide.dEmi;
+          cdsNFNOTAFISCAL.AsInteger       := Ide.nNF;
+          cdsNFNATUREZAOPERACAO.AsString  := procNFe.chNFe;
+          cdsNFCNPJ_EMITENTE.AsString     := Emit.CNPJCPF;
+          cdsNFNOME_EMITENTE.AsString     := emit.xFant;
+          cdsNFSERIE.AsString             := IntToStr(Ide.serie);
+          cdsNFCNPJ_DESTINATARIO.AsString := Dest.CNPJCPF;
+          cdsNFSTATUS.AsInteger           := 0;
+          cdsNF.ApplyUpdates(-1);
+          // Importando os itens
+          importaItensXml(n);
+        end;
+      end; //end count
+      Application.ProcessMessages;
+      Sleep(500);
+    end; //end carregar NF
+  end;
+end;
+
+procedure TfImporta_XML.listaArquivos;
+var
+  F: TSearchRec;
+  Ret: Integer;
+  TempNome: string;
+begin
+  PageControl1.ActivePageIndex := 0;
+  memLista.Lines.Clear;
+  memlista.Font.Color := clWindowText;  
+  Ret := FindFirst(edit1.Text + '\*.*', faAnyFile, F);
+  try
+    while Ret = 0 do
+    begin
+      if ((f.Name <> '.') and (f.Name <> '..')) then
+      begin
+        if (eDiretorio(f.Attr, faDirectory) = False) then
+          memLista.Lines.Add(F.Name);
+      end;
+      Ret := FindNext(F);
+    end;
+  finally
+  begin
+    FindClose(F);
+  end;
+  end;
+end;
+
+procedure TfImporta_XML.importaItensXml(nota: Integer);
+var j, x: Integer;
+  itemJaFoi : String;
+begin
+  abreNFItem;
+  j := nota;
+  //for j:=0 to ACBrNFe1.NotasFiscais.Count-1 do
+  begin
+    for x:=0 to ACBrNFe1.NotasFiscais.Items[nota].NFe.Det.Count-1 do
+    begin
+      itemJaFoi := 'N';
+      if (not cdsNFItem.IsEmpty) then
+      begin
+        if (cdsNFItem.Locate('NOTAFISCAL;SERIE;CNPJ_EMITENTE;NUM_ITEM',
+          VarArrayOf([
+            ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.nNF,
+            IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.serie),
+            ACBrNFe1.NotasFiscais.Items[j].NFe.Emit.CNPJCPF,
+            ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.nItem
+          ]),[loCaseInsensitive])) then
+          itemJaFoi := 'S';
+      end;
+      if (itemJaFoi = 'N') then
+      begin
+        cdsNFItem.Append;
+        cdsNFItemNOTAFISCAL.AsInteger   := ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.nNF;
+        cdsNFItemSERIE.AsString         := IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.serie);
+        cdsNFItemCNPJ_EMITENTE.AsString := ACBrNFe1.NotasFiscais.Items[j].NFe.Emit.CNPJCPF;
+        cdsNFItemNUM_ITEM.AsInteger     := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.nItem;
+        cdsNFItemCODPRODUTO.AsString    := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cProd;
+        cdsNFItemPRODUTO.AsString       := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd;
+        cdsNFItemCOD_BARRA.AsString     := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cEAN;
+        cdsNFItemUN.AsString            := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.uCom;
+        cdsNFItemNCM.AsString           := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.NCM;
+        cdsNFItemQTDE.AsFloat           := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.qCom;
+        cdsNFItemVLR_UNIT.AsFloat       := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vUnCom;
+        cdsNFItemVLR_TOTAL.AsFloat      := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd;
+        cdsNFItem.ApplyUpdates(-1);
+      end;
+    end;
+  end;
+end;
+
+function TfImporta_XML.eDiretorio(attr, val: Integer): Boolean;
+begin
+  Result := attr and val = val;
+end;
+
+
+procedure TfImporta_XML.limpaArquivos;
+var h: integer;
+  dirDestino, origem: pAnsiChar;
+begin
+  For h := 0 to memLista.Lines.Count - 1 do
+  begin
+    origem := PChar(edit1.Text + '\' + memLista.Lines[h]);
+    dirDestino := PChar(Edit1.Text + '\bkp\' + memLista.Lines[h]);
+    if (not DirectoryExists(Edit1.Text + '\bkp')) then
+      CreateDir(Edit1.Text + '\bkp');
+    CopyFile(origem, dirDestino, false);
+    DeleteFile(origem);
+  end;
+end;
+
+procedure TfImporta_XML.listaArquivosImportados;
+var
+  F: TSearchRec;
+  Ret: Integer;
+  TempNome: string;
+begin
+  PageControl1.ActivePageIndex := 1;
+  memExcluido.Lines.Clear;
+  memExcluido.Font.Color := clBlue;
+  Ret := FindFirst(edit1.Text + '\*.*', faAnyFile, F);
+  try
+    while Ret = 0 do
+    begin
+      if ((f.Name <> '.') and (f.Name <> '..')) then
+      begin
+        if (eDiretorio(f.Attr, faDirectory) = False) then
+          memExcluido.Lines.Add('IMPORTADO - ' + F.Name);
+      end;
+      Ret := FindNext(F);
+    end;
+  finally
+  begin
+    FindClose(F);
+  end;
+  end;
+end;
+
 end.
+

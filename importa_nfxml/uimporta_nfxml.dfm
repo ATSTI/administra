@@ -1,8 +1,8 @@
 object fImporta_XML: TfImporta_XML
-  Left = 167
+  Left = 106
   Top = 115
-  Width = 1122
-  Height = 684
+  Width = 1183
+  Height = 683
   Caption = 'Importar XML - NFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -30,10 +30,10 @@ object fImporta_XML: TfImporta_XML
     ParentFont = False
   end
   object Panel1: TPanel
-    Left = 961
+    Left = 1022
     Top = 57
     Width = 153
-    Height = 600
+    Height = 599
     Align = alRight
     TabOrder = 0
     object Label4: TLabel
@@ -135,16 +135,16 @@ object fImporta_XML: TfImporta_XML
   object GroupBox1: TGroupBox
     Left = 0
     Top = 57
-    Width = 961
-    Height = 600
+    Width = 1022
+    Height = 599
     Align = alClient
     Caption = 'Notas Fiscais'
     TabOrder = 1
     object JvDBGrid1: TJvDBGrid
       Left = 2
-      Top = 176
-      Width = 957
-      Height = 422
+      Top = 224
+      Width = 1018
+      Height = 373
       Align = alClient
       DataSource = dsNFItem
       TabOrder = 0
@@ -161,102 +161,153 @@ object fImporta_XML: TfImporta_XML
       RowsHeight = 17
       TitleRowHeight = 17
     end
-    object JvDBUltimGrid1: TJvDBUltimGrid
+    object Panel3: TPanel
       Left = 2
       Top = 15
-      Width = 957
-      Height = 161
+      Width = 1018
+      Height = 209
       Align = alTop
-      DataSource = dsNF
-      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 1
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      TitleFont.Style = []
-      OnCellClick = JvDBUltimGrid1CellClick
-      OnDblClick = JvDBUltimGrid1DblClick
-      OnKeyDown = JvDBUltimGrid1KeyDown
-      OnKeyUp = JvDBUltimGrid1KeyUp
-      SelectColumnsDialogStrings.Caption = 'Select columns'
-      SelectColumnsDialogStrings.OK = '&OK'
-      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-      EditControls = <>
-      RowsHeight = 17
-      TitleRowHeight = 17
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'STATUS'
-          Title.Caption = 'Sit.'
-          Width = 20
-          Visible = True
+      object JvDBUltimGrid1: TJvDBUltimGrid
+        Left = 449
+        Top = 1
+        Width = 568
+        Height = 207
+        Align = alClient
+        DataSource = dsNF
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        OnCellClick = JvDBUltimGrid1CellClick
+        OnDblClick = JvDBUltimGrid1DblClick
+        OnKeyDown = JvDBUltimGrid1KeyDown
+        OnKeyUp = JvDBUltimGrid1KeyUp
+        SelectColumnsDialogStrings.Caption = 'Select columns'
+        SelectColumnsDialogStrings.OK = '&OK'
+        SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+        EditControls = <>
+        RowsHeight = 17
+        TitleRowHeight = 17
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'STATUS'
+            Title.Caption = 'Sit.'
+            Width = 20
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NOTAFISCAL'
+            Title.Caption = 'NF'
+            Width = 50
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'SERIE'
+            Title.Caption = 'S'#233'rie'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'EMISSAO'
+            Title.Caption = 'Emiss'#227'o'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CNPJ_EMITENTE'
+            Title.Caption = 'CNPJ'
+            Width = 101
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'NOME_EMITENTE'
+            Title.Caption = 'Emitente'
+            Width = 95
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CODCLIENTE_ATS'
+            Title.Caption = 'C'#243'd. Forn.'
+            Width = 60
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'RAZAOSOCIAL_ATS'
+            Title.Caption = 'Cadastro Fornecedor'
+            Visible = True
+          end>
+      end
+      object PageControl1: TPageControl
+        Left = 1
+        Top = 1
+        Width = 448
+        Height = 207
+        ActivePage = TabSheet2
+        Align = alLeft
+        TabOrder = 1
+        object TabSheet2: TTabSheet
+          Caption = 'Importando Arquivos'
+          ImageIndex = 1
+          object memLista: TMemo
+            Left = 0
+            Top = 0
+            Width = 440
+            Height = 179
+            Align = alClient
+            Lines.Strings = (
+              'Arquivos XML')
+            TabOrder = 0
+          end
         end
-        item
-          Expanded = False
-          FieldName = 'NOTAFISCAL'
-          Title.Caption = 'NF'
-          Width = 50
-          Visible = True
+        object TabSheet1: TTabSheet
+          Caption = 'Arquivos Importados'
+          object memExcluido: TMemo
+            Left = 0
+            Top = 0
+            Width = 440
+            Height = 179
+            Align = alClient
+            Lines.Strings = (
+              'Arquivos XML')
+            TabOrder = 0
+          end
         end
-        item
-          Expanded = False
-          FieldName = 'SERIE'
-          Title.Caption = 'S'#233'rie'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'EMISSAO'
-          Title.Caption = 'Emiss'#227'o'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CNPJ_EMITENTE'
-          Title.Caption = 'CNPJ'
-          Width = 120
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'NOME_EMITENTE'
-          Title.Caption = 'Emitente'
-          Width = 150
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CODCLIENTE_ATS'
-          Title.Caption = 'C'#243'd. Forn.'
-          Width = 60
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'RAZAOSOCIAL_ATS'
-          Title.Caption = 'Cadastro Fornecedor'
-          Visible = True
-        end>
+      end
     end
   end
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 1114
+    Width = 1175
     Height = 57
     Align = alTop
     TabOrder = 2
     object Label3: TLabel
-      Left = 355
-      Top = 10
+      Left = 506
+      Top = 9
       Width = 23
       Height = 13
       Caption = 'Nota'
     end
+    object Label1: TLabel
+      Left = 8
+      Top = 9
+      Width = 52
+      Height = 13
+      Caption = 'Pasta XML'
+    end
     object btnImportarXml: TBitBtn
-      Left = 982
+      Left = 1042
       Top = 9
       Width = 109
       Height = 41
@@ -274,8 +325,8 @@ object fImporta_XML: TfImporta_XML
       OnClick = btnImportarXmlClick
     end
     object cbNaoEnviada: TCheckBox
-      Left = 544
-      Top = 12
+      Left = 655
+      Top = 26
       Width = 97
       Height = 17
       Caption = 'N'#227'o Enviadas'
@@ -285,16 +336,16 @@ object fImporta_XML: TfImporta_XML
       OnClick = cbNaoEnviadaClick
     end
     object edNota: TEdit
-      Left = 384
-      Top = 10
+      Left = 504
+      Top = 24
       Width = 121
       Height = 21
       TabOrder = 2
       OnKeyPress = edNotaKeyPress
     end
     object btnLimpa: TBitBtn
-      Left = 505
-      Top = 8
+      Left = 625
+      Top = 20
       Width = 25
       Height = 25
       Hint = 'Limpa o campo Nota Fiscal'
@@ -356,7 +407,7 @@ object fImporta_XML: TfImporta_XML
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 128
+      Left = 352
       Top = 10
       Width = 109
       Height = 41
@@ -370,7 +421,7 @@ object fImporta_XML: TfImporta_XML
       OnClick = Button1Click
     end
     object Button2: TButton
-      Left = 8
+      Left = 240
       Top = 10
       Width = 109
       Height = 41
@@ -380,6 +431,14 @@ object fImporta_XML: TfImporta_XML
       ShowHint = True
       TabOrder = 5
       OnClick = Button2Click
+    end
+    object Edit1: TEdit
+      Left = 6
+      Top = 24
+      Width = 171
+      Height = 21
+      TabOrder = 6
+      Text = 'C:\home\xml'
     end
   end
   object sqlConn: TSQLConnection
@@ -627,5 +686,21 @@ object fImporta_XML: TfImporta_XML
     SQLConnection = sqlConn
     Left = 448
     Top = 200
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.PathSalvar = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
+    Configuracoes.Geral.ExibirErroSchema = True
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.IntervaloTentativas = 0
+    Configuracoes.WebServices.AjustaAguardaConsultaRet = False
+    Left = 736
+    Top = 16
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = '*.xml'
+    Left = 176
+    Top = 21
   end
 end
