@@ -1389,26 +1389,29 @@ begin
 
     if fProcura_prod.cds_procLOTES.AsString = 'S' then
     begin
+      { 15/12/14  nao sei pq disto
       if Dm.cds_parametro.Active then
          dm.cds_parametro.Close;
       dm.cds_parametro.Params[0].AsString := 'LOTEUNITARIO';
       dm.cds_parametro.Open;
       if( (fCompra.cds_Mov_detLOTE.AsString = '') and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
       begin
-        fLotes_Produtos := TfLotes_Produtos.Create(Application);
-        try
+      }
+        //fLotes_Produtos := TfLotes_Produtos.Create(Application);
+        //try
           fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
           fLotes_Produtos.ShowModal;
-        finally
+        //finally
           fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
           fCompra.cds_Mov_detDTAVCTO.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-          fLotes_Produtos.Free;
-        end;
+        //  fLotes_Produtos.Free;
+        //end;
+      { 15/12/14  nao sei pq disto  II
       end
       else
       begin
         fCompra.cds_Mov_detLOTE.AsString := fCompra.cds_MovimentoCONTROLE.AsString;
-      end;
+      end; }
       var_F := 'compra';
     end;
     //---------------------------------
