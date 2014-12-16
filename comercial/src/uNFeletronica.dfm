@@ -769,6 +769,19 @@ object fNFeletronica: TfNFeletronica
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 0
+            object lblMsgNfe: TLabel
+              Left = 8
+              Top = 80
+              Width = 9
+              Height = 16
+              Caption = '..'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
             object btnGeraNFe: TBitBtn
               Left = 118
               Top = 32
@@ -1361,7 +1374,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox

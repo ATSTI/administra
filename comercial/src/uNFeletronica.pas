@@ -706,6 +706,7 @@ type
     TabSheet9: TTabSheet;
     btnSVCAN: TBitBtn;
     btnSvcanGera: TBitBtn;
+    lblMsgNfe: TLabel;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -952,7 +953,7 @@ begin
       exit;
     end;
   end;
-
+  lblMsgNfe.Caption := 'Gerando o arquivo da Nota';
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
    if (not cds_ccusto.Active) then
@@ -1195,7 +1196,7 @@ begin
                 exporta.UFembarq := edUfEmbarque.Text;
                 exporta.xLocEmbarq := edLocalEmbarque.Text;
               end;
-            end;  
+            end;
             //VALOR TORAL
 
             if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
@@ -1261,6 +1262,8 @@ begin
      end;
    end;
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
+
+   lblMsgNfe.Caption := 'Enviando arquivo para a Receita Federal';   
    //Gera Envio da Nota
    ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
@@ -1352,6 +1355,7 @@ begin
 
        if (envemail = 'S') then
        begin
+         lblMsgNfe.Caption := 'Enviando o email para o Cliente';
          if (cbTipoNota.ItemIndex = 1) then
          begin
            if (not sClienteE_MAIL.IsNull) then
@@ -3222,7 +3226,7 @@ begin
   CC:=TstringList.Create;
   //ABRE A NOTA
   IDNFE  := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-  numnf  := StrToInt(cdsNFNOTASERIE.AsString);
+  numnf  := ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.cNF; //StrToInt(cdsNFNOTASERIE.AsString);
   RAZAO  := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.xNome;
   CNPJ   := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.CNPJCPF;
   TRANSP := ACBrNFe1.NotasFiscais.Items[0].NFe.Transp.Transporta.xNome;
@@ -3262,6 +3266,7 @@ begin
                                                  , True  //Aguarda Envio do Email(não usa thread)
                                                  , sEmpresaRAZAO.AsString ); // Nome do Rementente
         ShowMessage('Email enviado com sucesso!');
+        lblMsgNfe.Caption := '';
       except
          on E: Exception do
           begin
