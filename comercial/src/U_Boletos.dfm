@@ -140,7 +140,10 @@ object F_Boletos: TF_Boletos
     end
   end
   object ACBrBoleto1: TACBrBoleto
+    Banco.TamanhoMaximoNossoNum = 10
+    Banco.TipoCobranca = cobNenhum
     Cedente.TipoInscricao = pOutras
+    NumeroArquivo = 0
     ACBrBoletoFC = ACBrBoletoFCFortes1
     Left = 192
     Top = 16

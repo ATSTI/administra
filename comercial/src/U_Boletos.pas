@@ -454,6 +454,7 @@ begin
       While not ds_cr.Eof do
       begin
            Titulo:= ACBrBoleto1.CriarTituloNaLista;
+           Titulo.Carteira  := s_bancoCARTEIRA.AsString;
            Titulo.NossoNumero := '';
            with Titulo do
            begin
@@ -508,7 +509,7 @@ begin
                     TItulo.DataProtesto := ds_crDATAVENCIMENTO.AsDateTime;
                   end;
                    // TItulo.DataProtesto :=
-
+                  //titulo.Instrucao1
                     if (s_bancoMORAJUROS.AsString = '1-Diario') then
                        Titulo.ValorMoraJuros := 1;
                     if (s_bancoMORAJUROS.AsString = '2-Mensal') then
@@ -522,6 +523,8 @@ begin
                       Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
 
                     Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
+                    titulo.TipoDiasProtesto := diUteis;
+                    //titulo.Instrucao2
 
                   end;
                 end;
@@ -590,7 +593,6 @@ begin
                     //Titulo.Carteira := '1';
               end;
 
-              Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
               Titulo.Sacado.NomeSacado := RemoveAcento(s_clienteNOMECLIENTE.AsString); // NomeSacado;
