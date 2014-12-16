@@ -393,6 +393,11 @@ object fProcura_produtos: TfProcura_produtos
       item
         Expanded = False
         FieldName = 'ESTOQUEATUAL'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
         Title.Caption = 'Estoque'
         Visible = True
       end
