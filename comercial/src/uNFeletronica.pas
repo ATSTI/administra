@@ -3226,10 +3226,23 @@ begin
   CC:=TstringList.Create;
   //ABRE A NOTA
   IDNFE  := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
-  numnf  := ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.cNF; //StrToInt(cdsNFNOTASERIE.AsString);
+  numnf  := ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.nNF; //StrToInt(cdsNFNOTASERIE.AsString);
   RAZAO  := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.xNome;
   CNPJ   := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.CNPJCPF;
   TRANSP := ACBrNFe1.NotasFiscais.Items[0].NFe.Transp.Transporta.xNome;
+
+  {cdsNF.DisableControls;
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+    if (cdsNFSELECIONOU.AsString = 'S') then
+    begin
+      if (numnf <> cdsNFNUMNF.AsInteger) then
+        numNF := cdsNFNUMNF.AsInteger;
+    end;
+    cdsNF.Next;
+  end;
+  cdsNF.EnableControls;}
 
   Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
   Texto := TStringList.Create;
