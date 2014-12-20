@@ -172,7 +172,14 @@ end;
 procedure TfImporta_XML.abreNFItem;
 var strNFItem: String;
 begin
-  strNFItem := 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA r '+
+  // strNFItem := 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA r '+
+  strNFItem := 'SELECT r.NOTAFISCAL, r.SERIE, r.CNPJ_EMITENTE, ' +
+    ' r.NUM_ITEM,  UDF_DIGITS(r.CODPRODUTO) CODPRODUTO, r.CODPRODUTO_ATS, ' +
+    ' r.CODPRO_ATS, r.PRODUTO, r.PRODUTO_ATS, r.NCM,' +
+    ' r.CFOP, r.UN, r.QTDE, r.VLR_UNIT, r.VLR_TOTAL,' +
+    ' r.ICMS, r.PIS, r.COFINS, r.IPI, r.COD_BARRA ' +
+    ' FROM NOTAFISCAL_PROD_IMPORTA r ' +
+
     ' WHERE r.NOTAFISCAL = ' + IntToSTr(cdsNFNOTAFISCAL.AsInteger) +
     '   AND r.SERIE  = ' + QuotedStr(cdsNFSERIE.AsString) +
     '   AND r.CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
@@ -752,6 +759,8 @@ begin
     end
     else begin
       retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
+      if (Length(retornoCodBarra)>15) then
+        retornoCodBarra := copy(retornoCodBarra,1,15);
     end;
   end
   else begin
