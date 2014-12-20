@@ -370,7 +370,8 @@ uses
   uOfProc in 'uOfProc.pas' {fOfProc},
   uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente},
   uTributosInfo in 'uTributosInfo.pas' {fTributosInfo},
-  uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa};
+  uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa},
+  uNFCe in 'uNFCe.pas' {fNFCe};
 
 {$R *.res}
 
