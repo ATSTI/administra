@@ -9,7 +9,7 @@ uses
   IdMessageClient, IdSMTP, FMTBcd, DB, Grids, DBGrids, JvExDBGrids,
   JvDBGrid, JvDBUltimGrid, Provider, DBClient, SqlExpr,IdSSLOpenSSL, dateutils,
   JvExStdCtrls, JvRichEdit, RXCtrls, ComCtrls,dbxpress, DBCtrls, ExtCtrls,
-  IdExplicitTLSClientServerBase, IdSMTPBase, IdIOHandler, IdAttachmentFile;
+  ACBrBase, ACBrMail;
 
 type
   TForm1 = class(TForm)
@@ -89,6 +89,10 @@ type
     SQLDataSet1ENVIADO: TStringField;
     cdsEnviaENVIADO: TStringField;
     btnEnviado: TBitBtn;
+    ACBrMail1: TACBrMail;
+    Edit1: TEdit;
+    Label2: TLabel;
+    chkTipo: TCheckBox;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -106,7 +110,9 @@ type
     procedure btnEnviadoClick(Sender: TObject);
   private
     { Private declarations }
-        TD: TTransactionDesc;
+    anexoArquivo: String;
+    TD: TTransactionDesc;
+    procedure enviarEmailAcbr;
   public
     { Public declarations }
   end;
@@ -123,7 +129,6 @@ uses UDm;
 procedure TForm1.BitBtn1Click(Sender: TObject);
 var email,responsavel, str:string;
    Anexo : Integer;
-   IdSSL: TIdSSLIOHandlerSocketOpenSSL;
 begin
   FlatGauge1.Progress := 0;
   if (cbbSerie.Text = '') then
@@ -140,9 +145,7 @@ begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
 
-  FlatGauge1.MaxValue := cdsEnvia.RecordCount + 60;
-
-  FlatGauge1.Progress := 20;
+  FlatGauge1.MaxValue := cdsEnvia.RecordCount;
 
   if (cdsEnvia.RecordCount > 0) then
   begin
@@ -150,65 +153,20 @@ begin
     cdsEnvia.First;
     while not cdsEnvia.Eof do
     begin
-     // cria a parte HTML
-      //Html := TIdText.Create(IdMessage1.MessageParts);
-       //Coloca o Logotipo da Empresa
-             {                       Html.Body.Text := '<html><body>' + '<img src="cid:imagem.jpg" >' + '</p>';
-                                    Html.Body.Text := Html.Body.Text + '<font color="#000080"><b><u>REMESSA DE ARQUIVO DE FATURA</u></b><br>';
-                                    Html.Body.Text := Html.Body.Text + 'Data Fechamento da Fatura = ' + StrDataFechamento + '<br>';
-                                    Html.Body.Text := Html.Body.Text + 'Número da Fatura = ' + StrCodigoFatura + '<br>';
-                                    Html.Body.Text := Html.Body.Text + 'Valor da Fatura = R$'+ StrValorFatura + '<br>';
-                                    Html.Body.Text := Html.Body.Text + '</body></html>';
-                                    Html.ContentType := 'text/html';                 //
-              }
-
-      //Html.Body.Text := edText.Lines.GetText;
-      //Html.ContentType := 'text/html';
-      //IdMessage1.Body.Add(edText.Lines.GetText);
-
-                                            //
-                                   { Anexo := TIdAttachment.Create(idmessage1.MessageParts, 'c:\imagem.jpg');
-                                    Anexo.ContentType := 'image/jpg';
-                                     Anexo.Headers.Add('Content-ID: <imagem.jpg>');
-
-
-      TIdAttachment.Create(IdMessage1.MessageParts,imagem.jpg);}
-
-
-
-      // dados da mensagem
-      // e-mail do remetente
+      enviarEmailAcbr;
+      { carlos 19/12/2014
       IdMessage1.From.Address := dm.cds_empresaE_MAIL.AsString; //'atsti@bol.com.br' ; //
       // e-mail do destinatário
       IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
       // Assunto
-
       IdMessage1.Subject := edtAssunto.Text;
-
-
-      // Cabeçalho da mensagem
-     // IdMessage1.Body.Add('<TR>');
-     // IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG style="DISPLAY: block" border=0 alt="Gerenciador Comercial Nota Fiscal Eletronica"');
-     // IdMessage1.Body.Add('src="http://www.atsti.com.br/publicidade/images/index_01.jpg"');
-     // IdMessage1.Body.Add('width=670></A></TD>');
-     // IdMessage1.Body.Add('</TR>');
-     // IdMessage1.Body.Add('<TR>');
-     //IdMessage1.Body.Add('<TD><A href="http://www.atsti.com.br/publicidade/" target=_blank><IMG src="http://www.atsti.com.br/publicidade/images/index_02.jpg" alt="Gerenciador Comercial Nota Fiscal Eletronica"');
-     // IdMessage1.Body.Add('width=670 border=0 style="DISPLAY: block"></A></TD>');
-     // IdMessage1.Body.Add('</TR>');
-      //IdMessage1.Body.Add('dedede');//linha em branco espaço
-      //IdMessage1.Body.Add('ggsgsg');//linha em branco espaço
-      // Corpo da mensagem
       IdMessage1.Body.Add(edText.Text);
-
       IdMessage1.ContentType := 'text/html';
-
       //TIdAttachmentFile.Create(IdMessage1.MessageParts, TFileName('C:\home\avisos\gerenciador.jpg'));
       for Anexo := 0 to lbxAnexos.Items.Count-1 do
       begin
         TIdAttachmentFile.Create(idmessage1.MessageParts, TFileName(lbxAnexos.Items.Strings[Anexo]));
       end;
-
       //fim da mensagem
       //Configuração do IdSMTP SMTP
       IdSMTP1.Host := dm.cds_empresaSMTP.AsString;//  'smtps.bol.com.br';
@@ -218,7 +176,6 @@ begin
       IdSMTP1.Username := dm.cds_empresaE_MAIL.AsString;// 'atsti@bol.com.br' ;
       // Password Senha do usuário
       IdSMTP1.Password := dm.cds_empresaSENHA.AsString;// 'a2t00s7' ;
-
       if (dm.cds_empresaPORTA.AsInteger <> 25) then
       begin
         // configurações adicionais servidor SMTP com autenticação
@@ -245,10 +202,8 @@ begin
         end;
         idSMTP1.AuthType := IdSMTP.atDefault;
       end;
-
       IdSMTP1.Connect;
       try
-
         //IdSMTP1.SendCmd('STARTTLS', 220);
         FlatGauge1.Progress := FlatGauge1.Progress + 20;
         IdSMTP1.Authenticate; //Faz a autenticação
@@ -265,6 +220,17 @@ begin
         IdMessage1.Clear;
       end;
       FlatGauge1.Progress :=  FlatGauge1.Progress + cdsEnvia.recNo;
+      carlos }
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
+        QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
+        ', ENVIADO = ' + QuotedStr('S') +
+        ', ASSUNTO = ' + QuotedStr(edtAssunto.Text) +
+        ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
+        ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
+
+      sleep(2000);
+      FlatGauge1.Progress := cdsEnvia.RecNo;
+      Application.ProcessMessages;
       cdsEnvia.Next;
     end;
   end;
@@ -292,6 +258,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  anexoArquivo := '';
   if (sqlGrupo.Active) then
     sqlGrupo.Close;
   sqlGrupo.Open;
@@ -316,9 +283,12 @@ end;
 
 procedure TForm1.BitBtn2Click(Sender: TObject);
 begin
-if dlgOpenAnexos.Execute then
-     lbxAnexos.Items.Add(dlgOpenAnexos.FileName);
-
+  if dlgOpenAnexos.Execute then
+  begin
+    lbxAnexos.Items.Add(dlgOpenAnexos.FileName);
+    anexoArquivo := dlgOpenAnexos.FileName;
+    Edit1.Text := ExtractFileName(dlgOpenAnexos.FileName);
+  end;
 end;
 
 procedure TForm1.btnAdiconarClick(Sender: TObject);
@@ -390,7 +360,9 @@ end;
 
 procedure TForm1.BitBtn3Click(Sender: TObject);
 begin
- lbxAnexos.Clear;
+  lbxAnexos.Clear;
+  anexoArquivo := '';
+  Edit1.Text := '';
 end;
 
 procedure TForm1.rgSi(Sender: TObject);
@@ -537,6 +509,56 @@ begin
       exit;
     end;
   end;
+end;
+
+procedure TForm1.enviarEmailAcbr;
+begin
+  ACBrMail1.From := dm.cds_empresaE_MAIL.AsString; // 'seu_email';
+  ACBrMail1.FromName := dm.cds_empresaEMPRESA.AsString; // 'seu_nome_opcional';
+  ACBrMail1.Host := dm.cds_empresaSMTP.AsString; // 'smtp.gmail.com'; // troque pelo seu servidor smtp
+  ACBrMail1.Username := dm.cds_empresaE_MAIL.AsString;// 'seu_usuario';
+  ACBrMail1.Password := dm.cds_empresaSENHA.AsString; // 'sua_senha';
+  ACBrMail1.Port := IntToStr(dm.cds_empresaPORTA.AsInteger); // '465'; // troque pela porta do seu servidor smtp
+  ACBrMail1.AddAddress(cdsEnviaEMAIL.AsString,'');
+  //ACBrMail1.AddCC('um_email'); // opcional
+  //ACBrMail1.AddReplyTo('um_email'); // opcional
+  //ACBrMail1.AddBCC('um_email'); // opcional
+  ACBrMail1.Subject := edtAssunto.Text; //'Teste de Envio'; // assunto
+  ACBrMail1.IsHTML := True; // define que a mensagem é html
+  // mensagem principal do e-mail. pode ser html ou texto puro
+  if (chkTipo.Checked) then
+  begin
+    ACBrMail1.SetTLS := True;
+    //ACBrMail1.SetSSL := True;
+  end;
+  ACBrMail1.Body.Text :=
+  '<html>'+#13+#10+
+  '<head>'+#13+#10+#13+#10+
+  '  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">'+#13+#10+
+  '</head>'+#13+#10+
+  '<body text="#000000" bgcolor="#FFFFFF">'+#13+#10+
+  '<img style="margin:1px 1px 1px 0px;"' +
+  '<IMG SRC="cid:' + edit1.Text + '">'+
+  '</body>'+#13+#10+
+  '</html>'+#13+#10;
+
+  //  '<img>imagem1<img>'+#13+#10+
+
+     {     text.Body.Add('<img>imagem1<img>');
+          text.Body.Add('<img style="margin:1px 1px 1px 0px;"');
+          text.Body.Add('<IMG SRC="cid:alemanha.jpg">');
+          text.Body.Add('</BODY><HTML>');
+          //anexa as imagens que vai no email
+          text := TIdText.Create(email.MessageParts);
+          text.ContentType := 'text/plain';
+          anexo := TIdAttachmentFile.Create(email.MessageParts,'D:\imagens\alemanha.jpg');
+          anexo.ExtraHeaders.Values['content-ID'] := 'alemanha.jpg';
+
+      exemplo q eu usei }
+
+  //ACBrMail1.AltBody.Text := 'Texto puro alternativo.';
+  ACBrMail1.AddAttachment(anexoArquivo,edit1.Text);
+  ACBrMail1.Send
 end;
 
 end.

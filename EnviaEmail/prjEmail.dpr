@@ -5,7 +5,8 @@ uses
   uEmail in 'uEmail.pas' {Form1},
   UDm in '..\comercial\src\UDm.pas' {DM: TDataModule},
   uDmApp in '..\comercial\src\udmapp.pas' {dmApp: TDataModule},
-  md5 in '..\comercial\src\md5.pas';
+  md5 in '..\comercial\src\md5.pas',
+  uEstoqueAtualiza in '..\comercial\src\uEstoqueAtualiza.pas';
 
 {$R *.res}
 

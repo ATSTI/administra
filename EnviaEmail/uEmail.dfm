@@ -111,6 +111,13 @@ object Form1: TForm1
       ColorBorder = 8623776
       Progress = 0
     end
+    object Label2: TLabel
+      Left = 14
+      Top = 44
+      Width = 45
+      Height = 13
+      Caption = 'Arquivo  :'
+    end
     object BitBtn1: TBitBtn
       Left = 468
       Top = 13
@@ -269,6 +276,22 @@ object Form1: TForm1
       TabOrder = 3
       OnClick = btnEnviadoClick
     end
+    object Edit1: TEdit
+      Left = 66
+      Top = 43
+      Width = 175
+      Height = 21
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object chkTipo: TCheckBox
+      Left = 248
+      Top = 44
+      Width = 97
+      Height = 17
+      Caption = 'Conex'#227'o Segura'
+      TabOrder = 5
+    end
   end
   object Panel2: TPanel
     Left = 0
@@ -328,6 +351,7 @@ object Form1: TForm1
           Height = 258
           Align = alClient
           AutoSize = False
+          ReadOnly = True
           TabOrder = 0
         end
       end
@@ -613,7 +637,10 @@ object Form1: TForm1
     end
   end
   object IdSMTP1: TIdSMTP
-    SASLMechanisms = <>
+    MaxLineAction = maException
+    ReadTimeout = 0
+    Port = 25
+    AuthenticationType = atNone
     Left = 696
     Top = 38
   end
@@ -623,12 +650,8 @@ object Form1: TForm1
     CCList = <>
     ContentType = 'text/html'
     Encoding = meMIME
-    FromList = <
-      item
-      end>
     Recipients = <>
     ReplyTo = <>
-    ConvertPreamble = True
     Left = 727
     Top = 39
   end
@@ -802,5 +825,14 @@ object Form1: TForm1
   object dlgOpenAnexos: TOpenDialog
     Left = 752
     Top = 121
+  end
+  object ACBrMail1: TACBrMail
+    Host = '127.0.0.1'
+    Port = '25'
+    SetSSL = False
+    SetTLS = False
+    Attempts = 3
+    Left = 416
+    Top = 257
   end
 end
