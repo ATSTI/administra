@@ -108,6 +108,9 @@ type
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure cdsNFItemReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
     diretorioXml: String; 
     TD: TTransactionDesc;
@@ -904,7 +907,7 @@ end;
 
 procedure TfImporta_XML.importaItensXml(nota: Integer);
 var j, x: Integer;
-  itemJaFoi : String;
+  itemJaFoi, stql : String;
 begin
   abreNFItem;
   j := nota;
@@ -926,7 +929,7 @@ begin
       end;
       if (itemJaFoi = 'N') then
       begin
-        cdsNFItem.Append;
+        {cdsNFItem.Append;
         cdsNFItemNOTAFISCAL.AsInteger   := ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.nNF;
         cdsNFItemSERIE.AsString         := IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.serie);
         cdsNFItemCNPJ_EMITENTE.AsString := ACBrNFe1.NotasFiscais.Items[j].NFe.Emit.CNPJCPF;
@@ -936,13 +939,62 @@ begin
         cdsNFItemCOD_BARRA.AsString     := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cEAN;
         cdsNFItemUN.AsString            := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.uCom;
         cdsNFItemNCM.AsString           := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.NCM;
-        cdsNFItemQTDE.AsFloat           := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.qCom;
-        cdsNFItemVLR_UNIT.AsFloat       := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vUnCom;
-        cdsNFItemVLR_TOTAL.AsFloat      := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd;
-        cdsNFItem.ApplyUpdates(-1);
+        //cdsNFItemQTDE.AsFloat           := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.qCom;
+        //cdsNFItemVLR_UNIT.AsFloat       := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vUnCom;
+        //cdsNFItemVLR_TOTAL.AsFloat      := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd;
+        cdsNFItem.ApplyUpdates(-1);}
+
+        sqlConn.StartTransaction(TD);
+        try
+
+          stql := 'INSERT INTO NOTAFISCAL_PROD_IMPORTA (NOTAFISCAL, ' +
+            ' SERIE, CNPJ_EMITENTE, NUM_ITEM, ' +
+            ' CODPRODUTO, PRODUTO, NCM, UN, QTDE, VLR_UNIT,' +
+            ' VLR_TOTAL, COD_BARRA' +
+            ' ) VALUES (';
+          stql := stql +  IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.nNF);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.serie));
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Emit.CNPJCPF);
+          stql := stql + ',';
+          stql := stql +  IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.nItem);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cProd);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.NCM);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.uCom);
+          stql := stql + ',';
+          DecimalSeparator := '.';
+          stql := stql +  FloatToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.qCom);
+          stql := stql + ',';
+          stql := stql +  FloatToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vUnCom);
+          stql := stql + ',';
+          stql := stql +  FloatToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd);
+          stql := stql + ',';
+          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cEAN);
+          stql := stql + ')';
+          //stql := stql +  QuotedStr();
+          //stql := stql + ',';
+          dm.sqlsisAdimin.ExecuteDirect(stql);
+          DecimalSeparator := ',';
+          sqlConn.Commit(TD);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+            sqlConn.Rollback(TD); //on failure, undo the changes}
+          end;
+        end;
       end;
     end;
   end;
+
+
+
 end;
 
 function TfImporta_XML.eDiretorio(attr, val: Integer): Boolean;
@@ -991,6 +1043,13 @@ begin
     FindClose(F);
   end;
   end;
+end;
+
+procedure TfImporta_XML.cdsNFItemReconcileError(
+  DataSet: TCustomClientDataSet; E: EReconcileError;
+  UpdateKind: TUpdateKind; var Action: TReconcileAction);
+begin
+  MessageDlg('Mensagem: '+E.Message,mtInformation,[mbok],0);
 end;
 
 end.

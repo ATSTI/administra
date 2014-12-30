@@ -562,6 +562,7 @@ object fImporta_XML: TfImporta_XML
     Aggregates = <>
     Params = <>
     ProviderName = 'dspNfItem'
+    OnReconcileError = cdsNFItemReconcileError
     Left = 400
     Top = 552
     object cdsNFItemNOTAFISCAL: TIntegerField
