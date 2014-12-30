@@ -3425,7 +3425,7 @@ inherited fParametro: TfParametro
         Top = 0
         Width = 881
         Height = 485
-        ActivePage = ts2
+        ActivePage = ts1
         Align = alClient
         TabOrder = 0
         object ts1: TTabSheet
