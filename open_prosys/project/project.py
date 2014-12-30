@@ -30,7 +30,7 @@ from openerp.tools.translate import _
 
 from openerp.addons.base_status.base_stage import base_stage
 from openerp.addons.resource.faces import task as Task
-#import pdb
+import pdb
 
 _TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
@@ -1213,19 +1213,27 @@ class task(base_stage, osv.osv):
 
 class project_work(osv.osv):
 
+    def _calcula_hora(self, hours_out=0.0, hours_in=0.0, hours_i=None, hours_o=None):
+        dataEnt = date(*time.strptime(hours_i,'%Y-%m-%d')[:3])
+        dataSai = date(*time.strptime(hours_o,'%Y-%m-%d')[:3])
+        diferencaDias =((dataSai-dataEnt).days*24)
+        totalhora = ((hours_out - hours_in)+diferencaDias)
+        return totalhora
+
     def onchange_hours_out(self, cr, uid, ids, hours_out=0.0, hours_in=0.0, datex=None, datex_out=None):
-        dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
-        dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
-        diferencaDias =((dataSai-dataEnt).days*24),
-        return {'value':{'hours': ((hours_out - hours_in)+diferencaDias[0])}}
+        #dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
+        #dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
+        #diferencaDias =((dataSai-dataEnt).days*24),
+        #hora = 0.00
+        #hora = self._calcula_hora(datex, datex_out)
+        return {'value':{'hours': self._calcula_hora(hours_out, hours_in, datex, datex_out)}}
          
     def onchange_hours_in(self, cr, uid, ids, hours_out=0.0, hours_in=0.0, datex=None, datex_out=None):
-        diferencaDias = 0.0
         if hours_out != 0.0:
-            dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
-            dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
-            diferencaDias =((dataSai-dataEnt).days*24),
-            return {'value':{'hours': ((hours_out - hours_in)+diferencaDias[0])}}
+            # dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
+            #dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
+            #diferencaDias =((dataSai-dataEnt).days*24),
+            return {'value':{'hours': self._calcula_hora(hours_out, hours_in, datex, datex_out)}}
         return {'value':{'hours':0.0}}
 
     def edit(self, cr, uid, ids, context=None):
@@ -1278,6 +1286,8 @@ class project_work(osv.osv):
     def create(self, cr, uid, vals, *args, **kwargs):
         if 'hours' in vals and (not vals['hours']):
             vals['hours'] = 0.00
+        if vals['hours_out'] > 0.00:
+            vals['hours'] = self._calcula_hora(vals['hours_out'], vals['hours_in'], vals['date'], vals['date_out'])
         if 'task_id' in vals:
             cr.execute('update project_task set remaining_hours=remaining_hours - %s where id=%s', (vals.get('hours',0.0), vals['task_id']))
         return super(project_work,self).create(cr, uid, vals, *args, **kwargs)
@@ -1291,8 +1301,11 @@ class project_work(osv.osv):
 
         if 'hours' in vals and (not vals['hours']):
             vals['hours'] = 0.00
+
         if 'hours' in vals:
             for work in self.browse(cr, uid, ids, context=context):
+                if vals['hours_out'] > 0.00:
+                    vals['hours'] = self._calcula_hora(vals['hours_out'], work.hours_in, work.date, work.date_out)
                 cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (vals.get('hours',0.0), work.hours, work.task_id.id))
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
