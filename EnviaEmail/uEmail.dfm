@@ -118,6 +118,13 @@ object Form1: TForm1
       Height = 13
       Caption = 'Arquivo  :'
     end
+    object Label3: TLabel
+      Left = 328
+      Top = 48
+      Width = 89
+      Height = 13
+      Caption = 'Tempo Envio(seg.)'
+    end
     object BitBtn1: TBitBtn
       Left = 468
       Top = 13
@@ -279,18 +286,31 @@ object Form1: TForm1
     object Edit1: TEdit
       Left = 66
       Top = 43
-      Width = 175
+      Width = 143
       Height = 21
       ReadOnly = True
       TabOrder = 4
     end
     object chkTipo: TCheckBox
-      Left = 248
+      Left = 216
       Top = 44
       Width = 97
       Height = 17
       Caption = 'Conex'#227'o Segura'
       TabOrder = 5
+    end
+    object Edit2: TEdit
+      Left = 432
+      Top = 48
+      Width = 33
+      Height = 21
+      Hint = 
+        'Alguns servidores de email, permitem determinado n'#250'mero de envio' +
+        ' por hora, ent'#227'o '#233' s'#243' aumentar este valor.'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 6
+      Text = '2'
     end
   end
   object Panel2: TPanel
@@ -616,9 +636,9 @@ object Form1: TForm1
         'Teste')
     end
     object rgSituacao: TRadioGroup
-      Left = 873
+      Left = 856
       Top = 37
-      Width = 112
+      Width = 129
       Height = 33
       Caption = 'Enviado'
       Columns = 2

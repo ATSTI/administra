@@ -93,6 +93,8 @@ type
     Edit1: TEdit;
     Label2: TLabel;
     chkTipo: TCheckBox;
+    Label3: TLabel;
+    Edit2: TEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -228,7 +230,7 @@ begin
         ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
         ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
 
-      sleep(2000);
+      sleep(StrToInt(edit2.Text)*1000);
       FlatGauge1.Progress := cdsEnvia.RecNo;
       Application.ProcessMessages;
       cdsEnvia.Next;
@@ -347,8 +349,8 @@ end;
 
 procedure TForm1.pgc1Change(Sender: TObject);
 begin
-    if not(ds1.Active) then
-     ds1.open;
+  if not(ds1.Active) then
+    ds1.open;
 end;
 
 
@@ -397,9 +399,13 @@ begin
   cdsEnvia.CommandText := 'Select * from EMAIL_ENVIAR where (GRUPO = '+
   QuotedStr(cbBSerie.Text) + ') AND (ENVIADO = ' +  QuotedStr(str) +
   ') order by  ASSUNTO';
+  if (ds1.Active) then
+    ds1.Close;
+  ds1.CommandText := cdsEnvia.CommandText;
 
   cdsEnvia.Open;
-
+  ds1.Open;
+  //Application.ProcessMessages;
 end;
 
 procedure TForm1.rg1Click(Sender: TObject);
