@@ -116,9 +116,12 @@ begin
   //ListaCliente.Close;
   edCodigo.Text     := '';
   edNome.Text       := '';
+  edRazao.Text      := '';
+  edIERG.Text       := '';  
   edCidade.Text     := '';
   codVen.Text       := '';
   nomeVen.Text      := '';
+  edCNPJCPF.Text    := '';  
   cbtemail.Checked  := true;
   cbttipo.Checked   := true;
   CBox1.Checked     := true;
