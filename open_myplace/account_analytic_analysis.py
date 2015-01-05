@@ -69,15 +69,14 @@ class account_analytic_account(osv.osv):
                     workflow.trg_validate(uid, 'account.invoice', id.id, 'invoice_open', cr)
                     boleto_nome = id.number + str(id.id) + '.pdf'
                     # gerar o PDF da BOLETO
-                    PRECISO GERAR O PDF AQUI, dai ele ficara salvo no BOLETO_CREATE
+                    # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    #PRECISO GERAR O PDF AQUI, dai ele ficara salvo no BOLETO_CREATE
+                    # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                    #
                     # OPS JA TENHO ELAS NO BOLETO_CREATE
                     boletos = boleto_obj.search(cr,uid,[('pdf_name', '=', boleto_nome)],context=context)
                     for blt in boletos_obj.browse(cr, uid, boletos, context=context):
                         boleto_file = blt.pdf_stream
-
-
-        parei aqui, 
-
                     #attachment_obj.create(cr, uid, {
                     #    'name': fname_invoice,
                     #    'datas': base64.encodestring(xml_data),
