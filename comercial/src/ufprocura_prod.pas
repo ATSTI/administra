@@ -1373,6 +1373,7 @@ begin
     fCompra.cds_Mov_detQUANTIDADE.AsFloat   := StrToFloat(Edit3.Text);
     fCompra.cds_Mov_detPRECO.AsFloat        := vlr;
     fCompra.cds_Mov_detUN.AsString          := cds_procUNIDADEMEDIDA.AsString;
+    fCompra.cds_Mov_detORIGEM.AsString      := cds_procORIGEM.AsString;
     valorUnitario                           := cds_procPRECO_VENDA.AsFloat;
     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fCompra.cds_Mov_detQTDE_ALT.AsFloat     := 0;
