@@ -463,6 +463,9 @@ type
     cds_Mov_detPAGOU: TStringField;
     sds_MovimentoENTREGA: TStringField;
     cds_MovimentoENTREGA: TStringField;
+    DBEdit19: TDBEdit;
+    sds_Mov_DetORIGEM: TStringField;
+    cds_Mov_detORIGEM: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1376,6 +1379,7 @@ begin
     cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
     cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
     cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
+    cds_mov_detORIGEM.AsString := dm.scds_produto_procORIGEM.AsString;
     //cds_Mov_detQTDE_ALT.AsFloat := dm.scds_produto_procPESO_QTDE.AsFloat;
     qtde := dm.scds_produto_procPESO_QTDE.AsFloat;
     cds_Mov_detUN.AsString := dm.scds_produto_procUNIDADEMEDIDA.AsString;
@@ -1472,6 +1476,7 @@ begin
         cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
         cds_Mov_detPIPI.AsFloat := fProcura_prod.cds_procIPI.AsFloat;
         cds_Mov_detDESCPRODUTO.asString := fProcura_prod.cds_procPRODUTO.AsString;
+        cds_mov_detORIGEM.AsString := fProcura_prod.cds_procORIGEM.AsString;
       end;
       qtde := fProcura_prod.cds_procPESO_QTDE.AsFloat;
     end;

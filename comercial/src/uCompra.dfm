@@ -1499,11 +1499,11 @@ inherited fCompra: TfCompra
       OnClick = Label3Click
     end
     object Label5: TLabel
-      Left = 111
+      Left = 113
       Top = 18
-      Width = 20
+      Width = 46
       Height = 16
-      Caption = 'Un.'
+      Caption = 'Un.  Ori.'
     end
     object Label6: TLabel
       Left = 208
@@ -1555,7 +1555,7 @@ inherited fCompra: TfCompra
       Caption = 'Desc. %'
     end
     object Label22: TLabel
-      Left = 153
+      Left = 165
       Top = 18
       Width = 36
       Height = 16
@@ -1657,7 +1657,7 @@ inherited fCompra: TfCompra
     object DBEdit8: TDBEdit
       Left = 111
       Top = 34
-      Width = 35
+      Width = 28
       Height = 24
       TabStop = False
       Color = clInfoBk
@@ -1918,14 +1918,14 @@ inherited fCompra: TfCompra
       Height = 28
       Caption = 'Lotes'
       PopupMenu = PopupMenu1
-      TabOrder = 14
+      TabOrder = 15
       TabStop = False
       OnClick = BitBtn5Click
     end
     object DBEdit18: TDBEdit
-      Left = 150
+      Left = 163
       Top = 34
-      Width = 55
+      Width = 44
       Height = 24
       DataField = 'CFOP'
       DataSource = DtSrc1
@@ -1936,8 +1936,30 @@ inherited fCompra: TfCompra
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 15
+      TabOrder = 16
       OnExit = DBEdit9Exit
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit19: TDBEdit
+      Left = 140
+      Top = 34
+      Width = 20
+      Height = 24
+      Hint = 'Origem do Produto'
+      TabStop = False
+      Color = clHighlightText
+      DataField = 'ORIGEM'
+      DataSource = DtSrc1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 14
       OnKeyPress = FormKeyPress
     end
   end
@@ -2913,6 +2935,11 @@ inherited fCompra: TfCompra
       FixedChar = True
       Size = 1
     end
+    object cds_Mov_detORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      FixedChar = True
+      Size = 2
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2944,11 +2971,12 @@ inherited fCompra: TfCompra
       'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
       'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
       'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS, frete_bc, mov' +
-      'd.VALOR_PIS, movd.VALOR_COFINS, movd.PAGOU '#13#10'from MOVIMENTODETAL' +
-      'HE movd'#13#10'inner join PRODUTOS prod on prod.CODPRODUTO = movd.CODP' +
-      'RODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFA' +
-      'DO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE = :CODDETALHE o' +
-      'r movd.CODMOVIMENTO = :pCODMOV order by movd.CODDETALHE'
+      'd.VALOR_PIS, movd.VALOR_COFINS, movd.PAGOU , '#13#10'movd.ORIGEM '#13#10'fro' +
+      'm MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CODPRO' +
+      'DUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on cc' +
+      'us.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE' +
+      ' = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by movd.COD' +
+      'DETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -3177,6 +3205,12 @@ inherited fCompra: TfCompra
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 1
+    end
+    object sds_Mov_DetORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 2
     end
   end
   object s_8: TSQLDataSet
