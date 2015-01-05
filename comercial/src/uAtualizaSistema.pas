@@ -2124,6 +2124,25 @@ begin
       mudaVersao('3.0.0.17');
     end;
 
+    if (versaoSistema = '3.0.0.17') then
+    begin
+      try
+        EXECUTADDL('MOVIMENTODETALHE', 'ORIGEM', 'INTEGER');
+      except
+      end;
+      mudaVersao('3.0.0.21');
+    end;
+
+    if (versaoSistema = '3.0.0.21') then
+    begin
+      insereouatualizaScript('data_invalida_venda.sql', '3.0.0.18', StrToDate('15/12/2014'));
+      insereouatualizaScript('data_invalida_compra.sql', '3.0.0.18', StrToDate('15/12/2014'));
+      insereouatualizaScript('gera_nf.sql', '3.0.0.18', StrToDate('15/12/2014'));
+      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.18', StrToDate('15/12/2014'));
+      insereouatualizaScript('origem_produto.sql', '3.0.0.18', StrToDate('01/01/2015'));
+      mudaVersao('3.0.0.22');
+    end;
+
     // ALTER TRIGGER RETORNAESTOQUECOMPRA inactive  - 31/10/2014
     // ALTER TRIGGER RETORNA_ESTOQUEVENDA inactive
 
