@@ -1089,6 +1089,7 @@ begin
     dmnf.cds_nfNOTAMAE.AsInteger := 0;
     btnRemessa.Enabled := False;
   end;
+  carregaDadosAdicionais();
 end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
@@ -2330,18 +2331,20 @@ Begin
         listaCliente1.Open;
           sCFOP.Params[2].asString :=  listaCliente1CODFISCAL.AsString;
         sCFOP.Open;
-        If ((DMNF.cds_nfCORPONF1.AsString = '') and (not sCFOPDADOSADC1.IsNull) )then
+        If ((sCFOPDADOSADC1.AsString <> '') and (not sCFOPDADOSADC1.IsNull) )then
+        begin
           DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
-        If ((DMNF.cds_nfCORPONF2.AsString = '') and (not sCFOPDADOSADC2.IsNull) )then
+        //If ((sCFOPDADOSADC2.AsString <> '') and (not sCFOPDADOSADC2.IsNull) )then
           DMNF.cds_nfCORPONF2.AsString := sCFOPDADOSADC2.AsString;
-        If ((DMNF.cds_nfCORPONF3.AsString = '') and (not sCFOPDADOSADC3.IsNull) )then
+        //If ((sCFOPDADOSADC3.AsString <> '') and (not sCFOPDADOSADC3.IsNull) )then
           DMNF.cds_nfCORPONF3.AsString := sCFOPDADOSADC3.AsString;
-        If ((DMNF.cds_nfCORPONF4.AsString = '') and (not sCFOPDADOSADC4.IsNull) )then
+        //If ((sCFOPDADOSADC4.AsString <> '') and (not sCFOPDADOSADC4.IsNull) )then
           DMNF.cds_nfCORPONF4.AsString := sCFOPDADOSADC4.AsString;
-        If ((DMNF.cds_nfCORPONF5.AsString = '') and (not sCFOPDADOSADC5.IsNull) )then
+        //If ((sCFOPDADOSADC5.AsString <> '') and (not sCFOPDADOSADC5.IsNull) )then
           DMNF.cds_nfCORPONF5.AsString := sCFOPDADOSADC5.AsString;
-        If ((DMNF.cds_nfCORPONF6.AsString = '') and (not sCFOPDADOSADC6.IsNull) )then
+        //If ((sCFOPDADOSADC6.AsString <> '') and (not sCFOPDADOSADC6.IsNull) )then
           DMNF.cds_nfCORPONF6.AsString := sCFOPDADOSADC6.AsString;
+        end;  
       end;
     end;
   end;

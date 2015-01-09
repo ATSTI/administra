@@ -86,7 +86,6 @@ object fNotaf: TfNotaf
           ItemHeight = 13
           TabOrder = 0
           OnChange = cbCFOPChange
-          OnExit = cbCFOPChange
           OnKeyPress = FormKeyPress
         end
         object btnRemessa: TButton
