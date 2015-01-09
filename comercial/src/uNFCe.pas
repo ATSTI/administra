@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrNFe, StdCtrls, FMTBcd, DBClient, Provider, DB, SqlExpr,
-  ExtCtrls;
+  ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils;
 
 type
   TfNFCe = class(TForm)
@@ -279,6 +279,7 @@ type
     cdsItensNFNCM: TStringField;
     sdsItensNFORIGEM: TIntegerField;
     cdsItensNFORIGEM: TIntegerField;
+    ACBrValidador1: TACBrValidador;
     procedure Button1Click(Sender: TObject);
   private
     function RemoveChar(Const Texto:String):String;
@@ -294,7 +295,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, pcnConversao, pcnNFe;
 
 {$R *.dfm}
 
@@ -337,10 +338,13 @@ begin
 
   ACBrNFe1.NotasFiscais.Clear;
 
+  // carlos 23/12/14
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
-  ACBrNFe1.Configuracoes.Geral.VersaoDF :=  TpcnVersaoDF(cbVersaoDF.ItemIndex);
-  //GerarNFCe(vAux);
+  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve310;
 
+  GerarNFCe(vAux);
+
+  { carlos 06/01/2015
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);
 
   MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS);
@@ -359,7 +363,7 @@ begin
   MemoDados.Lines.Add('Recibo: '+ ACBrNFe1.WebServices.Retorno.Recibo);
   MemoDados.Lines.Add('Protocolo: '+ ACBrNFe1.WebServices.Retorno.Protocolo);
 // MemoDados.Lines.Add('cStat: '+ ACBrNFe1.WebServices.Retorno.NFeRetorno;
-
+   }
 
    { ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].tpAmb
  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].verAplic
@@ -375,6 +379,7 @@ end;
 
 procedure TfNFCe.GerarNFCe(NumNFe: String);
 var contaItens: Integer;
+   //ipVista, ipPrazo: TpcnIndicadorPagamento;
 begin
 
   if (sEmpresa.Active) then
@@ -386,7 +391,7 @@ begin
   begin
     Ide.cNF       := StrToInt(NumNFe); //Caso não seja preenchido será gerado um número aleatório pelo componente
     Ide.natOp     := 'VENDA';
-{    if (chkAvista.Checked) then
+    if (chkAvista.Checked) then
       Ide.indPag    := ipVista
     else
       Ide.indPag    := ipPrazo;
@@ -408,7 +413,7 @@ begin
       0: Ide.tpAmb := taHomologacao;  //Lembre-se de trocar esta variável quando for para ambiente de produção
     end;
 
-    Ide.cUF       := NotaUtil.UFtoCUF(sEmpresaUF.AsString);
+    Ide.cUF       := 35; // SP
     Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
     Ide.finNFe    := fnNormal;
     Ide.tpImp     := tiNFCe;
@@ -466,7 +471,7 @@ begin
     end;
 
     pegaItens;
- }
+ 
 //Adicionando Serviços
 {      with Det.Add do
        begin
@@ -584,6 +589,7 @@ end;
 
 procedure TfNFCe.pegaItens;
 var contaItens :integer;
+  desc, BC, BCST: variant;
 begin
   with ACBrNFe1.NotasFiscais.Add.NFe do
   begin
@@ -596,8 +602,6 @@ begin
       begin
         Prod.nItem    := contaItens; // Número sequencial, para cada item deve ser incrementado
 
-{ carlos
-        Prod.nItem    := contaItens;
         if (dm.mascaraProduto <> '') then
           Prod.cProd    := FormatMaskText(dm.mascaraProduto, cdsItensNFCODPRO.AsString)
         else
@@ -635,11 +639,14 @@ begin
         begin
           // lei da transparencia nos impostos
           vTotTrib := cdsItensNFVLRTOT_TRIB.AsFloat;
+
+          // ***********************  ICMS ********************************
           with ICMS do
           begin
             if (cdsItensNFORIGEM.IsNull) then
+            begin
               MessageDlg('Origem do Produto(CADASTRO PRODUTO) não informado.', mtError, [mbOK], 0);
-              exit;
+              //exit;
             end;
 
             if( sEmpresaCRT.AsInteger = 0) then
@@ -740,119 +747,106 @@ begin
             if (not cdsItensNFICMS_SUBSTD.IsNull) then
               vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
 
-            parei aqui ...
-            if (not sdsCfopProd.IsEmpty) then
+            if (cdsItensNFCFOP.AsString <> '') then
             begin
-            if (sdsCfopProdICMS_SUBST.IsNull) then
-              pMVAST := 0
+              if (cdsItensNFICMS_SUBST.IsNull) then
+                pMVAST := 0
+              else
+                pMVAST := cdsItensNFICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+              if (cdsItensNFICMS_SUBSTD.IsNull) then
+                pRedBCST := 0
+              else
+                pRedBCST := cdsItensNFICMS_SUBSTD.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+              if (cdsItensNFICMS_SUBSTD.IsNull) then
+                pICMSST := 0
+              else
+                pICMSST :=  cdsItensNFICMS_SUBSTD.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            end
+            else begin
+              if (cdsItensNFICMS_SUBST.IsNull) then
+                pMVAST := 0
+              else
+                pMVAST := cdsItensNFICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+              if (cdsItensNFICMS_SUBSTD.IsNull) then
+                pRedBCST := 0
+              else
+                pRedBCST := cdsItensNFICMS_SUBSTD.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+              if (cdsItensNFICMS_SUBST.IsNull) then
+                pICMSST := 0
+              else
+                pICMSST := cdsItensNFICMS_SUBST.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            end;
+
+            //if (sCFOPREDUCAO.IsNull) then
+            pRedBC := 0;
+            //else
+            //  pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
+            if (cdsItensNFICMS_SUBST.isnull) then
+              vICMSST := 0
             else
-              pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            if (sdsCfopProdICMS_SUBST_IC.IsNull) then
-              pRedBCST := 0
-            else
-              pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            if (sdsCfopProdICMS_SUBST_IND.IsNull) then
-              pICMSST := 0
-            else
-              pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          end
-          else begin
-            if (sCFOPICMS_SUBSTRIB.IsNull) then
-              pMVAST := 0
-            else
-              pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            if (sCFOPICMS_SUBSTRIB_IC.IsNull) then
-              pRedBCST := 0
-            else
-              pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            if (sCFOPICMS_SUBSTRIB_IND.IsNull) then
-              pICMSST := 0
-            else
-              pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+              vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
+          end;
+          //ICMS.orig    := oeNacional;
+          //ICMS.modBC   := dbiValorOperacao;
+          //ICMS.modBCST := dbisMargemValorAgregado;
+
+          // ***********************  FIM ICMS ********************************
+
+          // ***********************  PIS ********************************
+          with PIS do
+          begin
+            CST      := pis99;
+            PIS.vBC  := 0;
+            PIS.pPIS := 0;
+            PIS.vPIS := 0;
+
+            PIS.qBCProd   := 0;
+            PIS.vAliqProd := 0;
+            PIS.vPIS      := 0;
+          end;
+          // ***********************  FIM PIS ********************************
+          with PISST do
+          begin
+            vBc       := 0;
+            pPis      := 0;
+            qBCProd   := 0;
+            vAliqProd := 0;
+            vPIS      := 0;
           end;
 
-          if (sCFOPREDUCAO.IsNull) then
-            pRedBC := 0
-          else
-            pRedBC :=   sCFOPREDUCAO.AsVariant;                          //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO
-          if (cdsItensNFICMS_SUBST.isnull) then
-            vICMSST := 0
-          else
-            vICMSST :=  cdsItensNFICMS_SUBST.AsVariant;                  //VALOR DO ICMS DA SUBST. TRIBUTÁRIA
+          with COFINS do
+          begin
+            CST            := cof99;
+            COFINS.vBC     := 0;
+            COFINS.pCOFINS := 0;
+            COFINS.vCOFINS := 0;
+            COFINS.qBCProd   := 0;
+            COFINS.vAliqProd := 0;
+          end;
+
+          with COFINSST do
+          begin
+            vBC       := 0;
+            pCOFINS   := 0;
+            qBCProd   := 0;
+            vAliqProd := 0;
+            vCOFINS   := 0;
+          end;
+
+          //Grupo para serviços
+          {with ISSQN do
+          begin
+            vBC       := 0;
+            vAliq     := 0;
+            vISSQN    := 0;
+            cMunFG    := 0;
+            cListServ := 1402; // Preencha este campo usando a tabela disponível
+                            // em http://www.planalto.gov.br/Ccivil_03/LEIS/LCP/Lcp116.htm
+          {end;}
         end;
-
-
-            CST          := cst00;
-               ICMS.orig    := oeNacional;
-               ICMS.modBC   := dbiValorOperacao;
-               ICMS.vBC     := 100;
-               ICMS.pICMS   := 18;
-               ICMS.vICMS   := 18;
-               ICMS.modBCST := dbisMargemValorAgregado;
-               ICMS.pMVAST  := 0;
-               ICMS.pRedBCST:= 0;
-               ICMS.vBCST   := 0;
-               ICMS.pICMSST := 0;
-               ICMS.vICMSST := 0;
-               ICMS.pRedBC  := 0;
-             end;
-  carlos }
-
-{            with PIS do
-             begin
-               CST      := pis99;
-               PIS.vBC  := 0;
-               PIS.pPIS := 0;
-               PIS.vPIS := 0;
-
-               PIS.qBCProd   := 0;
-               PIS.vAliqProd := 0;
-               PIS.vPIS      := 0;
-             end;
-
-            with PISST do
-             begin
-               vBc       := 0;
-               pPis      := 0;
-               qBCProd   := 0;
-               vAliqProd := 0;
-               vPIS      := 0;
-             end;
-
-            with COFINS do
-             begin
-               CST            := cof99;
-               COFINS.vBC     := 0;
-               COFINS.pCOFINS := 0;
-               COFINS.vCOFINS := 0;
-
-               COFINS.qBCProd   := 0;
-               COFINS.vAliqProd := 0;
-             end;
-
-            with COFINSST do
-             begin
-               vBC       := 0;
-               pCOFINS   := 0;
-               qBCProd   := 0;
-               vAliqProd := 0;
-               vCOFINS   := 0;
-             end;
-}
-//Grupo para serviços
-{            with ISSQN do
-             begin
-               vBC       := 0;
-               vAliq     := 0;
-               vISSQN    := 0;
-               cMunFG    := 0;
-               cListServ := 1402; // Preencha este campo usando a tabela disponível
-                               // em http://www.planalto.gov.br/Ccivil_03/LEIS/LCP/Lcp116.htm
-      {       end;}
-          end;
-       end ;
-     end;  
-
+      end ;
+    end;
+  end;  
 end;
 
 function TfNFCe.RemoveChar(const Texto: String): String;

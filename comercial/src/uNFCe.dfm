@@ -58,6 +58,8 @@ object fNFCe: TfNFCe
     Width = 97
     Height = 17
     Caption = 'A Vista'
+    Checked = True
+    State = cbChecked
     TabOrder = 3
   end
   object rgTipoEmissao: TRadioGroup
@@ -66,6 +68,7 @@ object fNFCe: TfNFCe
     Width = 105
     Height = 105
     Caption = 'Tipo Emiss'#227'o'
+    ItemIndex = 0
     Items.Strings = (
       'Normal'
       'Contigencia'
@@ -79,6 +82,7 @@ object fNFCe: TfNFCe
     Height = 49
     Caption = 'Ambiente'
     Columns = 2
+    ItemIndex = 1
     Items.Strings = (
       'Produ'#231#227'o'
       'Homologa'#231#227'o')
@@ -90,6 +94,7 @@ object fNFCe: TfNFCe
     Width = 209
     Height = 57
     Caption = 'Regime'
+    ItemIndex = 0
     Items.Strings = (
       'Simples Nacional'
       'Simples Excesso Receita'
@@ -1342,5 +1347,10 @@ object fNFCe: TfNFCe
     Options = [poAllowCommandText]
     Left = 480
     Top = 411
+  end
+  object ACBrValidador1: TACBrValidador
+    IgnorarChar = './-'
+    Left = 208
+    Top = 8
   end
 end
