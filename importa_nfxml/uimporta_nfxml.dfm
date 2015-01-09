@@ -1,7 +1,7 @@
 object fImporta_XML: TfImporta_XML
-  Left = 106
-  Top = 115
-  Width = 1183
+  Left = 7
+  Top = 88
+  Width = 1036
   Height = 683
   Caption = 'Importar XML - NFe'
   Color = clBtnFace
@@ -30,7 +30,7 @@ object fImporta_XML: TfImporta_XML
     ParentFont = False
   end
   object Panel1: TPanel
-    Left = 1022
+    Left = 875
     Top = 57
     Width = 153
     Height = 599
@@ -135,7 +135,7 @@ object fImporta_XML: TfImporta_XML
   object GroupBox1: TGroupBox
     Left = 0
     Top = 57
-    Width = 1022
+    Width = 875
     Height = 599
     Align = alClient
     Caption = 'Notas Fiscais'
@@ -143,7 +143,7 @@ object fImporta_XML: TfImporta_XML
     object JvDBGrid1: TJvDBGrid
       Left = 2
       Top = 224
-      Width = 1018
+      Width = 871
       Height = 373
       Align = alClient
       DataSource = dsNFItem
@@ -164,14 +164,14 @@ object fImporta_XML: TfImporta_XML
     object Panel3: TPanel
       Left = 2
       Top = 15
-      Width = 1018
+      Width = 871
       Height = 209
       Align = alTop
       TabOrder = 1
       object JvDBUltimGrid1: TJvDBUltimGrid
         Left = 449
         Top = 1
-        Width = 568
+        Width = 421
         Height = 207
         Align = alClient
         DataSource = dsNF
@@ -288,7 +288,7 @@ object fImporta_XML: TfImporta_XML
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 1175
+    Width = 1028
     Height = 57
     Align = alTop
     TabOrder = 2
@@ -307,7 +307,7 @@ object fImporta_XML: TfImporta_XML
       Caption = 'Pasta XML'
     end
     object btnImportarXml: TBitBtn
-      Left = 1042
+      Left = 895
       Top = 9
       Width = 109
       Height = 41

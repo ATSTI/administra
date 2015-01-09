@@ -864,6 +864,8 @@ begin
           cdsNFNATUREZAOPERACAO.AsString  := procNFe.chNFe;
           cdsNFCNPJ_EMITENTE.AsString     := Emit.CNPJCPF;
           cdsNFNOME_EMITENTE.AsString     := emit.xFant;
+          if (emit.xFant = '') then
+            cdsNFNOME_EMITENTE.AsString     := emit.xNome;
           cdsNFSERIE.AsString             := IntToStr(Ide.serie);
           cdsNFCNPJ_DESTINATARIO.AsString := Dest.CNPJCPF;
           cdsNFSTATUS.AsInteger           := 0;
@@ -944,7 +946,7 @@ begin
         //cdsNFItemVLR_TOTAL.AsFloat      := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd;
         cdsNFItem.ApplyUpdates(-1);}
 
-        sqlConn.StartTransaction(TD);
+        dm.sqlsisAdimin.StartTransaction(TD);
         try
 
           stql := 'INSERT INTO NOTAFISCAL_PROD_IMPORTA (NOTAFISCAL, ' +
@@ -981,12 +983,12 @@ begin
           //stql := stql + ',';
           dm.sqlsisAdimin.ExecuteDirect(stql);
           DecimalSeparator := ',';
-          sqlConn.Commit(TD);
+          dm.sqlsisAdimin.Commit(TD);
         except
           on E : Exception do
           begin
             ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-            sqlConn.Rollback(TD); //on failure, undo the changes}
+            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
           end;
         end;
       end;
