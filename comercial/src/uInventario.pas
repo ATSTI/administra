@@ -9,7 +9,7 @@ uses
   Provider, SqlExpr, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, rpcompobase, rpvclreport, dbxpress, ComCtrls,
   JvExComCtrls, JvProgressBar, umovimento, uVendaCls, uCompraCls, DateUtils,
-  JvExStdCtrls, JvCheckBox, JvHtControls;
+  JvExStdCtrls, JvCheckBox, JvHtControls, dxCore, dxButton;
 
 type
   TfInventario = class(TfPai_new)
@@ -115,6 +115,9 @@ type
     cdsInventCUSTO: TFloatField;
     ckCusto: TJvCheckBox;
     cbListaVenda: TJvHTComboBox;
+    sqMesAno: TSQLQuery;
+    dxButton11: TdxButton;
+    Memo1: TMemo;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -136,6 +139,7 @@ type
     procedure cbCCusto1Change(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ckCustoClick(Sender: TObject);
+    procedure dxButton11Click(Sender: TObject);
   private
     { Private declarations }
     CCusto: Integer;
@@ -230,6 +234,7 @@ begin
       begin
         cdsInvent.Append;
         cdsInventCODIVENTARIO.AsString := edLista.text;
+        //cdsInvent.ApplyUpdates(0);
       end;
     end;
   end
@@ -242,6 +247,7 @@ begin
       begin
         cdsInvent.Append;
         cdsInventCODIVENTARIO.AsString := edLista.text;
+        // cdsInvent.ApplyUpdates(0);
         btnGravar.Enabled := True;
       end;
     end
@@ -264,10 +270,19 @@ begin
         lote := '';
         if (cdsProdLOTES.AsString = 'S') then
         begin
+          {if (sqMesAno.Active) then
+            sqMesAno.Close;
+          sqMesAno.ParamByName('pProd').AsInteger := cdsProd.Fields[1].AsInteger;
+          sqMesAno.Open;}
           if (sqlEstoque.Active) then
             sqlEstoque.Close;
           sqlEstoque.ParamByName('pProd').AsInteger := cdsProd.Fields[1].AsInteger;
           sqlEstoque.Open;
+          if (sqlEstoque.IsEmpty) then
+          begin
+            MessageDlg('Se usa Lotes, é obrigatorio fazer a EstoqueMes para poder gerar o inventário.'+#13+#10+'', mtWarning, [mbOK], 0);
+            exit;
+          end;
           dm.sqlsisAdimin.StartTransaction(TD);
           try
             while not sqlEstoque.Eof do
@@ -739,7 +754,7 @@ end;
 
 procedure TfInventario.executaLista;
 var
-  sql_sp, movSaida, movEntrada: string;
+  sql_sp, movSaida, movEntrada, sqlStr: string;
   TDA: TTransactionDesc;
   FMov: TMovimento;
   FVen: TVendaCls;
@@ -808,6 +823,7 @@ begin
           FMov.MovDetalhe.DtaFab        := cdsInventDATAFABRICACAO.AsDateTime;
           FMov.MovDetalhe.Baixa         := '1';
           FMov.MovDetalhe.inserirMovDet;
+
         end;
 
         if (cdsInventESTOQUE_ATUAL.AsFloat < cdsInventQTDE_INVENTARIO.AsFloat) then
@@ -839,6 +855,14 @@ begin
           FMov.MovDetalhe.Baixa         := '0';
           FMov.MovDetalhe.inserirMovDet;
         end;
+
+        DecimalSeparator := '.';
+        sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ';
+        sqlStr := sqlStr + FloatToStr(cdsInventQTDE_INVENTARIO.AsFloat);
+        sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(cdsInventCODPRODUTO.AsInteger);
+        DecimalSeparator := ',';
+        dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+
         cdsInvent.Next;
       end; // Fim While
 
@@ -1035,6 +1059,15 @@ begin
   else begin
     cbListaVenda.Visible := False;
   end;
+end;
+
+procedure TfInventario.dxButton11Click(Sender: TObject);
+begin
+  inherited;
+  if (memo1.Visible) then
+    Memo1.Visible := False
+  else
+    Memo1.Visible := True;
 end;
 
 end.
