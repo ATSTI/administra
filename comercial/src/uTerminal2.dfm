@@ -1792,7 +1792,7 @@ object fTerminal2: TfTerminal2
       Top = 1
       Width = 471
       Height = 550
-      ActivePage = TabComanda
+      ActivePage = TabVenda
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0
@@ -2652,6 +2652,21 @@ object fTerminal2: TfTerminal2
             Transparent = True
             OnClick = JvSpeedButton3Click
           end
+          object JvLabel8: TJvLabel
+            Left = 230
+            Top = 6
+            Width = 50
+            Height = 15
+            Caption = 'Vendedor'
+            ShadowSize = 2
+            Transparent = True
+            HintColor = clBlack
+            HotTrackFont.Charset = DEFAULT_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -13
+            HotTrackFont.Name = 'Cooper Blk BT'
+            HotTrackFont.Style = []
+          end
           object DBEdit1: TDBEdit
             Left = 5
             Top = 25
@@ -2683,7 +2698,7 @@ object fTerminal2: TfTerminal2
           object DBEdit3: TDBEdit
             Left = 158
             Top = 25
-            Width = 280
+            Width = 67
             Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -2721,6 +2736,38 @@ object fTerminal2: TfTerminal2
             Enabled = False
             PopupMenu = PopupMenu1
             TabOrder = 4
+          end
+          object DBEdit6: TDBEdit
+            Left = 230
+            Top = 25
+            Width = 51
+            Height = 25
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Color = clScrollBar
+            DataField = 'CODVENDEDOR'
+            DataSource = DM_MOV.d_movimento
+            PopupMenu = PopupMenu1
+            TabOrder = 5
+            OnExit = DBEdit6Exit
+          end
+          object edVendedor: TEdit
+            Left = 285
+            Top = 25
+            Width = 151
+            Height = 22
+            BevelInner = bvLowered
+            Color = clMenuBar
+            Ctl3D = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentCtl3D = False
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 6
           end
         end
         object btnProduto: TBitBtn

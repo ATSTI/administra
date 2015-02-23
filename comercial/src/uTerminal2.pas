@@ -463,6 +463,9 @@ type
     JvLabel7: TJvLabel;
     JvSpeedButton3: TJvSpeedButton;
     lblEstoque: TLabel;
+    JvLabel8: TJvLabel;
+    DBEdit6: TDBEdit;
+    edVendedor: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -510,6 +513,7 @@ type
     procedure FazerTroca1Click(Sender: TObject);
     procedure RelatriosFechamentos1Click(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
+    procedure DBEdit6Exit(Sender: TObject);
   private
     terminalCaixa: Integer;
     gradeVenda: String;
@@ -4663,6 +4667,28 @@ begin
     fProcurar_nf.Free;
   end;
 
+end;
+
+procedure TfTerminal2.DBEdit6Exit(Sender: TObject);
+begin
+  if (DM_MOV.c_movimento.State in [dsInsert,dsEdit]) then
+  begin
+    if (dm.scds_usuario_proc.Active) then
+      dm.scds_usuario_proc.Close;
+    dm.scds_usuario_proc.Params[0].Clear;
+    dm.scds_usuario_proc.Params[1].AsInteger :=StrToInt(DBEdit6.Text);
+    dm.scds_usuario_proc.Params[2].AsString  := 'AMBOS';
+    dm.scds_usuario_proc.Params[3].AsString  := 'VEND';
+    dm.scds_usuario_proc.Open;
+    if dm.scds_usuario_proc.IsEmpty then begin
+      MessageDlg('Código não cadastrado.', mtWarning, [mbOk], 0);
+      exit;
+    end;
+    DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := dm.scds_usuario_procCODUSUARIO.AsInteger;
+    DM_MOV.c_movimentoNOMEUSUARIO.AsString   := dm.scds_usuario_procNOMEUSUARIO.AsString;
+    edVendedor.Text                          := dm.scds_usuario_procNOMEUSUARIO.AsString;
+    dm.scds_usuario_proc.Close;
+  end;
 end;
 
 end.
