@@ -158,7 +158,7 @@ type
     function inserirVenda(CodVendaI: Integer): Integer;
     function verVenda(Controle: String; Campo: String; Tipo: String; codNat: Integer): Integer;
     function excluirVenda(codVendaE: Integer): Boolean;
-    function cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime): Boolean;
+    function cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime; motivo: String): Boolean;
     function alterarVenda(codVendaA: Integer): Boolean;
     constructor Create;
     Destructor Destroy; Override;
@@ -179,7 +179,7 @@ begin
   Result := False;
 end;
 
-function TVendaCls.cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime): Boolean;
+function TVendaCls.cancelarVenda(codVendaC: Integer; codMovC: Integer; dataV: TDateTime; motivo: String): Boolean;
 Var fEst: TEstoque;
 begin
   Try
@@ -187,7 +187,9 @@ begin
   // COLOCAR AQUI ROTINA PRA VER SE O TITULO PODE SE CANCELADO
 
   // Cancelar Venda
-  if (executaSql('UPDATE MOVIMENTO SET CODNATUREZA = 14, STATUS = 2 ' +
+  if (executaSql('UPDATE MOVIMENTO SET CODNATUREZA = 14, STATUS = 2' +
+    ' ,HIST_MOV = ' + QuotedStr(motivo) +
+    ' ,VAL_PROP = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Today))+
     ' WHERE CODMOVIMENTO = ' + IntToStr(codMovC))) then
   begin
     Try
