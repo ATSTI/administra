@@ -74,6 +74,14 @@ inherited fListaVenda: TfListaVenda
       Caption = 'Margem Min.'
       Transparent = True
     end
+    object Label18: TLabel [8]
+      Left = 607
+      Top = 7
+      Width = 85
+      Height = 13
+      Caption = 'C'#243'd. Prod. Cliente'
+      Transparent = True
+    end
     inherited btnGravar: TBitBtn
       Left = 467
       Top = 104
@@ -107,7 +115,7 @@ inherited fListaVenda: TfListaVenda
     object DBEdit1: TDBEdit
       Left = 55
       Top = 4
-      Width = 638
+      Width = 544
       Height = 21
       DataField = 'PRODUTO'
       DataSource = dtsrcDet
@@ -115,15 +123,13 @@ inherited fListaVenda: TfListaVenda
     end
     object chkPermite: TDBCheckBox
       Left = 157
-      Top = 27
+      Top = 32
       Width = 154
       Height = 17
       Caption = 'Permite Altera'#231#227'o na Venda'
-      Color = clWhite
       DataField = 'ALTPRECO'
       DataSource = dtsrcDet
-      ParentColor = False
-      TabOrder = 14
+      TabOrder = 15
       ValueChecked = 'True'
       ValueUnchecked = 'False'
       Visible = False
@@ -193,15 +199,13 @@ inherited fListaVenda: TfListaVenda
     end
     object chkDesconto: TDBCheckBox
       Left = 349
-      Top = 28
+      Top = 32
       Width = 97
       Height = 17
       Caption = 'Usa Desconto'
-      Color = clWhite
       DataField = 'DESCONTO'
       DataSource = dtsrcDet
-      ParentColor = False
-      TabOrder = 15
+      TabOrder = 16
       ValueChecked = 'True'
       ValueUnchecked = 'False'
       Visible = False
@@ -209,15 +213,15 @@ inherited fListaVenda: TfListaVenda
     end
     object chkMargem: TDBCheckBox
       Left = 509
-      Top = 28
+      Top = 31
       Width = 97
       Height = 17
       Caption = 'Usa Margem'
-      Color = clWhite
+      Color = clBtnFace
       DataField = 'MARGEM'
       DataSource = dtsrcDet
       ParentColor = False
-      TabOrder = 16
+      TabOrder = 17
       ValueChecked = 'True'
       ValueUnchecked = 'False'
       Visible = False
@@ -232,7 +236,7 @@ inherited fListaVenda: TfListaVenda
       Caption = '&Imprimir'
       ParentBiDiMode = False
       PopupMenu = PopupMenu1
-      TabOrder = 17
+      TabOrder = 18
       OnClick = btnImprimirClick
       Glyph.Data = {
         76020000424D7602000000000000760000002800000020000000200000000100
@@ -269,7 +273,7 @@ inherited fListaVenda: TfListaVenda
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 18
+      TabOrder = 19
       OnClick = btnAumentoClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -386,7 +390,7 @@ inherited fListaVenda: TfListaVenda
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 19
+      TabOrder = 20
       OnClick = btnCopiarCustoClick
       Glyph.Data = {
         76020000424D7602000000000000760000002800000020000000200000000100
@@ -409,6 +413,15 @@ inherited fListaVenda: TfListaVenda
         808888888888888888888800080FCF80088888888888888888888808880FF008
         8888888888888888888888888800088888888888888888888888888888088888
         8888888888888888888888888888888888888888888888888888}
+    end
+    object DBEdit10: TDBEdit
+      Left = 696
+      Top = 5
+      Width = 90
+      Height = 21
+      DataField = 'COD_CLIENTE'
+      DataSource = dtsrcDet
+      TabOrder = 14
     end
   end
   inherited MMJPanel2: TMMJPanel
@@ -465,7 +478,7 @@ inherited fListaVenda: TfListaVenda
             Expanded = False
             FieldName = 'PRODUTO'
             Title.Caption = 'Produto'
-            Width = 450
+            Width = 350
             Visible = True
           end
           item
@@ -480,6 +493,12 @@ inherited fListaVenda: TfListaVenda
             FieldName = 'PRECOVENDA'
             Title.Caption = 'Pre'#231'o Venda'
             Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'COD_CLIENTE'
+            Title.Caption = 'C'#243'd. Cliente'
             Visible = True
           end>
       end
@@ -569,29 +588,29 @@ inherited fListaVenda: TfListaVenda
       Caption = 'Nome Lista'
     end
     object Label4: TLabel
-      Left = 255
+      Left = 318
       Top = 3
       Width = 53
       Height = 13
       Caption = 'Data Inicial'
     end
     object Label5: TLabel
-      Left = 343
+      Left = 407
       Top = 3
       Width = 48
       Height = 13
       Caption = 'Data Final'
     end
     object Label6: TLabel
-      Left = 434
+      Left = 498
       Top = 3
       Width = 41
       Height = 13
       Caption = 'Validade'
     end
     object Label16: TLabel
-      Left = 586
-      Top = 1
+      Left = 594
+      Top = 3
       Width = 38
       Height = 13
       Caption = 'Margem'
@@ -617,7 +636,7 @@ inherited fListaVenda: TfListaVenda
       TabOrder = 1
     end
     object dbDataInicial: TJvDBDatePickerEdit
-      Left = 252
+      Left = 316
       Top = 18
       Width = 83
       Height = 21
@@ -627,7 +646,7 @@ inherited fListaVenda: TfListaVenda
       TabOrder = 2
     end
     object dbDataFinal: TJvDBDatePickerEdit
-      Left = 341
+      Left = 405
       Top = 18
       Width = 83
       Height = 21
@@ -637,7 +656,7 @@ inherited fListaVenda: TfListaVenda
       TabOrder = 3
     end
     object dbValidade: TJvDBDatePickerEdit
-      Left = 432
+      Left = 498
       Top = 18
       Width = 86
       Height = 21
@@ -649,17 +668,17 @@ inherited fListaVenda: TfListaVenda
     end
     object btnTodosProd: TButton
       Left = 637
-      Top = 14
-      Width = 153
+      Top = 16
+      Width = 136
       Height = 25
       Caption = 'Adicionar Todos Produtos'
       TabOrder = 5
       OnClick = btnTodosProdClick
     end
     object edMargem: TEdit
-      Left = 584
-      Top = 16
-      Width = 49
+      Left = 592
+      Top = 18
+      Width = 41
       Height = 21
       TabOrder = 6
       Text = '0'
@@ -671,24 +690,22 @@ inherited fListaVenda: TfListaVenda
   end
   object cdsLista_det: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'CODLISTA'
-        ParamType = ptInput
-      end>
+    Params = <>
     ProviderName = 'dspLista_det'
     BeforePost = cdsLista_detBeforePost
     OnNewRecord = cdsLista_detNewRecord
     Left = 109
     Top = 278
+    object cdsLista_detCOD_P: TStringField
+      FieldName = 'COD_P'
+      ReadOnly = True
+    end
     object cdsLista_detCODLISTADET: TIntegerField
       FieldName = 'CODLISTADET'
       Required = True
     end
     object cdsLista_detCODLISTA: TIntegerField
       FieldName = 'CODLISTA'
-      Required = True
     end
     object cdsLista_detCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
@@ -725,13 +742,9 @@ inherited fListaVenda: TfListaVenda
     end
     object cdsLista_detPRECOCOMPRA: TFloatField
       FieldName = 'PRECOCOMPRA'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
     end
     object cdsLista_detPRECOVENDA: TFloatField
       FieldName = 'PRECOVENDA'
-      DisplayFormat = ',##0.00'
-      EditFormat = ',##0.00'
     end
     object cdsLista_detPRODUTO: TStringField
       FieldName = 'PRODUTO'
@@ -741,9 +754,10 @@ inherited fListaVenda: TfListaVenda
       FieldName = 'CODPRO'
       Size = 15
     end
-    object cdsLista_detCOD_P: TStringField
-      FieldName = 'COD_P'
-      ReadOnly = True
+    object cdsLista_detCOD_CLIENTE: TStringField
+      FieldName = 'COD_CLIENTE'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
     end
   end
   object dspLista_det: TDataSetProvider
@@ -754,9 +768,9 @@ inherited fListaVenda: TfListaVenda
   end
   object sdsLista_det: TSQLDataSet
     CommandText = 
-      'SELECT UDF_STRZERO(UDF_DIGITS(p.CODPRO),12) AS COD_P,  l.*, p.CO' +
-      'DPRO'#13#10'FROM LISTAPRECO_VENDADET  l, PRODUTOS P'#13#10'where  l.codprodu' +
-      'to = p.codproduto '#13#10'order by COD_P'
+      'SELECT UDF_STRZERO(UDF_DIGITS(p.CODPRO),12) AS COD_P,  lvd.*, p.' +
+      'CODPRO '#13#10'FROM LISTAPRECO_VENDADET  lvd, PRODUTOS P '#13#10'where  lvd.' +
+      'codproduto = p.codproduto '#13#10'order by 1'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -819,6 +833,10 @@ inherited fListaVenda: TfListaVenda
     object sdsLista_detCODPRO: TStringField
       FieldName = 'CODPRO'
       Size = 15
+    end
+    object sdsLista_detCOD_CLIENTE: TStringField
+      FieldName = 'COD_CLIENTE'
+      Size = 30
     end
   end
   object dtsrcDet: TDataSource

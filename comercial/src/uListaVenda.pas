@@ -51,20 +51,6 @@ type
     sdsLista_detPRECOCOMPRA: TFloatField;
     sdsLista_detPRECOVENDA: TFloatField;
     sdsLista_detPRODUTO: TStringField;
-    cdsLista_detCODLISTADET: TIntegerField;
-    cdsLista_detCODLISTA: TIntegerField;
-    cdsLista_detCODPRODUTO: TIntegerField;
-    cdsLista_detALTPRECO: TStringField;
-    cdsLista_detDESCONTO: TStringField;
-    cdsLista_detDESCONTOMAX: TFloatField;
-    cdsLista_detDESCONTOMIN: TFloatField;
-    cdsLista_detMARGEM: TStringField;
-    cdsLista_detMARGEMMAX: TFloatField;
-    cdsLista_detMARGEMMIN: TFloatField;
-    cdsLista_detESTOQUE: TFloatField;
-    cdsLista_detPRECOCOMPRA: TFloatField;
-    cdsLista_detPRECOVENDA: TFloatField;
-    cdsLista_detPRODUTO: TStringField;
     GroupBox1: TGroupBox;
     dbgDetalhe: TDBGrid;
     Label7: TLabel;
@@ -99,19 +85,37 @@ type
     dbValidade: TJvDBDatePickerEdit;
     btnTodosProd: TButton;
     sdsLista_detCODPRO: TStringField;
-    cdsLista_detCODPRO: TStringField;
     edMargem: TEdit;
     Label16: TLabel;
     btnImprimir: TBitBtn;
     VCLReport1: TVCLReport;
     btnAumento: TBitBtn;
     sdsLista_detCOD_P: TStringField;
-    cdsLista_detCOD_P: TStringField;
     btnCopiarCusto: TBitBtn;
     cbListaCopia: TComboBox;
     Label17: TLabel;
     BitBtn1: TBitBtn;
     pnCopia: TPanel;
+    sdsLista_detCOD_CLIENTE: TStringField;
+    cdsLista_detCOD_P: TStringField;
+    cdsLista_detCODLISTADET: TIntegerField;
+    cdsLista_detCODLISTA: TIntegerField;
+    cdsLista_detCODPRODUTO: TIntegerField;
+    cdsLista_detALTPRECO: TStringField;
+    cdsLista_detDESCONTO: TStringField;
+    cdsLista_detDESCONTOMAX: TFloatField;
+    cdsLista_detDESCONTOMIN: TFloatField;
+    cdsLista_detMARGEM: TStringField;
+    cdsLista_detMARGEMMAX: TFloatField;
+    cdsLista_detMARGEMMIN: TFloatField;
+    cdsLista_detESTOQUE: TFloatField;
+    cdsLista_detPRECOCOMPRA: TFloatField;
+    cdsLista_detPRECOVENDA: TFloatField;
+    cdsLista_detPRODUTO: TStringField;
+    cdsLista_detCODPRO: TStringField;
+    cdsLista_detCOD_CLIENTE: TStringField;
+    Label18: TLabel;
+    DBEdit10: TDBEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -240,6 +244,7 @@ begin
       ' PRECOVENDA = ' + floatToStr(cdsLista_detPRECOVENDA.AsFloat) +
       ' ,PRECOCOMPRA = ' + floatToStr(cdsLista_detPRECOCOMPRA.AsFloat) +
       ' ,PRODUTO     = ' + QuotedStr(cdsLista_detPRODUTO.AsString) +
+      ' ,COD_CLIENTE = ' + QuotedStr(cdsLista_detCOD_CLIENTE.AsString) + 
       ' WHERE CODLISTADET = ' + IntToStr(cdsLista_detCODLISTADET.AsInteger));
     cdsLista_det.Next;
   end;
