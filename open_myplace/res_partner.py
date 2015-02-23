@@ -14,10 +14,11 @@ class res_partner(osv.Model):
         'fornece_fone': fields.boolean('Fornec. Telefone ?', help="Pode fornecer telefone do cliente caso solicitado." ),
         'fornece_email': fields.boolean('Fornec. Email ?', help="Pode fornecer email do cliente caso solicitado."),
         'birthdate_n': fields.date('Date de nascimento'),
-        'motivo_ausencia': fields.char(u"Motivo ausencia", size=256),
+        'motivo_ausencia': fields.char(u"Justificativa", size=256),
+        'transfer_recado': fields.char(u"Tranferencia/Recado", size=256),
         'razao_empresa': fields.char(u"Razao-Empresa", size=256),
-        'ramal_softphone1': fields.char(u"Ramal Softphone 1", size=60),
-        'ramal_softphone2': fields.char(u"Ramal Softphone 2", size=60),
+        'ramal_softphone1': fields.char(u"Fone Redirec.", size=60),
+        'ramal_softphone2': fields.char(u"Email Redirec.", size=60),
     }
 
     _defaults = {

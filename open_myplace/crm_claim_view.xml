@@ -11,16 +11,22 @@
 			    </xpath>
                 <field name="name" position='before'>
                     <field name="partner_id" string="Nome Fantasia"
-                        on_change="onchange_partner_id(partner_id)"/>
-                    <separator colspan="2" string="Dados Cliente"/>
+                        on_change="onchange_partner_id(partner_id)" domain="[('customer','=',True), ('parent_id','=',False)]"/>
+                    <field name="recado" />
+                    <field name="transferencia" />
+					<field name="transfer_recado" class="oe_tag" readonly="1" />
+					<!-- <separator colspan="2" string="Dados Cliente"/> -->
                     <field name="partner_phone" readonly="1" class="oe_tag" string="Fone"/>
                     <field name="email_from"  readonly="1" class="oe_tag" string="Email"/>
                     <field name="razao_empresa" readonly="1"  class="oe_tag" string="Razao Empresa"/>
                     <field name="title" class="oe_tag" readonly="1"/>
                     <field name="motivo_ausencia" class="oe_tag" readonly="1"/>
                     <field name="fornece_fone" class="oe_tag" readonly="1"/>
+                    <field name="ramal_softphone1" class="oe_tag" readonly="1"/>
                     <field name="fornece_email" class="oe_tag" readonly="1"/>
+                    <field name="ramal_softphone2" class="oe_tag" readonly="1"/>
                     <field name="legal_name" readonly="1"  class="oe_tag" string="Resp. Contrato"/>
+                    <field name="contatos" class="oe_tag" readonly="1"/>
                     <separator colspan="2" string="Chamada :"/>
 				</field>	
             </field>

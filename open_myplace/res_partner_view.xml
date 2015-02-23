@@ -48,7 +48,7 @@
                     <field name="title" string="Ramo Atividade" />
                 </field>
                 <field name="fax" position="attributes">
-                    <attribute name="string">Fone Redirec.</attribute>
+					<attribute name="string">Linha Interna</attribute>
                 </field>
                 <xpath expr="/form/sheet/group" position="after">
                      <group string="Outros Dados">
@@ -64,6 +64,7 @@
                      </group>
                      <group>
                          <field name="motivo_ausencia" />
+                         <field name="transfer_recado" />
                      </group>
                  </xpath>
              </field>
