@@ -112,7 +112,7 @@ type
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
   private
-    diretorioXml: String; 
+    diretorioXml: String;
     TD: TTransactionDesc;
     procedure abreNF;
     procedure abreNFItem;
@@ -129,7 +129,9 @@ type
     procedure limpaArquivos;    
     function completaCodBarra(S: string; Ch: Char; Len: Integer): string;
     function retornaCodBarra(): String;
+    function retornaCodPro(): String;    
     function eDiretorio(attr, val: Integer):Boolean;
+    function tirazeros(numero: string):string;
     { Private declarations }
   public
     { Public declarations }
@@ -205,7 +207,7 @@ begin
     ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
     '   AND SERIE = ' + QuotedStr(cdsNFSERIE.AsString) +
     '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
-  dm.sqlsisAdimin.ExecuteDirect(strAlteraStatus);
+  sqlConn.ExecuteDirect(strAlteraStatus);
 end;
 
 procedure TfImporta_XML.btnProcurarClick(Sender: TObject);
@@ -223,7 +225,7 @@ begin
     btnImportaNF.Font.Color := clWindowText;
   finally
     Screen.Cursor := Save_Cursor;
-  end;  
+  end;
 end;
 
 procedure TfImporta_XML.JvDBUltimGrid1CellClick(Column: TColumn);
@@ -277,7 +279,7 @@ begin
     ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger) +
     '  AND ((p.usa is null) or (p.usa = '+ QuotedStr('S') + '))' +
     '   and pf.codprodfornec = ';
-  strFaltaProd := strFaltaProd + QuotedStr(retornaCodBarra);
+  strFaltaProd := strFaltaProd + QuotedStr(retornaCodPro);
   if (sqlFaltaProd.Active) then
     sqlFaltaProd.Close;
   sqlFaltaProd.SQL.Clear;
@@ -300,7 +302,7 @@ begin
       sqlFaltandoFornecedor.SQL.Clear;
       sqlFaltandoFornecedor.SQL.Add(strInsereFornec);
       sqlFaltandoFornecedor.Open;
-      if (not sqlFaltandoFornecedor.IsEmpty) then
+      if (sqlFaltandoFornecedor.RecordCount > 0) then
       begin
         strInsereFornec := 'UPDATE NOTAFISCAL_IMPORTA SET ' +
           ' CODCLIENTE_ATS = ' +  IntToStr(sqlFaltandoFornecedor.fieldByName('CODFORNECEDOR').AsInteger) +
@@ -444,8 +446,8 @@ begin
               ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
               ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
               ' ,' + QuotedStr('PROD');
-              strInsereItem := strInsereItem + ', ' + QuotedStr(retornaCodBarra) + ' ,1' +
-              ' ,current_date ' +
+              strInsereItem := strInsereItem + ', ' + QuotedStr(retornaCodPro) + ' ,1';
+              strInsereItem := strInsereItem + ' ,current_date ' +
               ' ,0' +
               ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) +
               ', ' + edMargem.Text +
@@ -456,8 +458,7 @@ begin
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
               IntToStr(varCodProduto) +
               ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
-              strInsereItemF := strInsereItemF + ', ' + QuotedStr(retornaCodBarra) + ')';
-
+              strInsereItemF := strInsereItemF + ', ' + QuotedStr(retornaCodPro) + ')';
             sqlConn.StartTransaction(TD);
             try
               sqlConn.ExecuteDirect(strInsereItem);
@@ -517,7 +518,7 @@ begin
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end
   else begin
-    strBusca := strBusca + ' where CODPRO = ' + QuotedStr(cdsNFItemCODPRODUTO.AsString);
+    strBusca := strBusca + ' where CODPRO = ' + QuotedStr(retornaCodPro);
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end;
 
@@ -532,8 +533,26 @@ procedure TfImporta_XML.FormShow(Sender: TObject);
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-  if (dm.codBarra = 'S') then
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'XML_CODBARRA'; // Forma de Busca Produto
+  dm.cds_parametro.Open;
+
+  if (dm.cds_parametroDADOS.AsString = 'CODBARRA') then
     chkCodBarra.Checked := True;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'XML_IMPORTA';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    Edit1.Text := 'C:\home\xml';
+  end
+  else begin
+    Edit1.Text := dm.cds_parametroDADOS.AsString;
+  end;
 end;
 
 procedure TfImporta_XML.insereMovimento;
@@ -582,7 +601,7 @@ begin
         fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
         fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
         fMov.Entrega     := cdsNFNATUREZAOPERACAO.AsString;
-        dm.sqlsisAdimin.StartTransaction(TDm);
+        sqlConn.StartTransaction(TDm);
         try
 
           codMov := fMov.inserirMovimento(0);
@@ -610,12 +629,12 @@ begin
             cdsNFItem.Next;
           end;
           mudaStatusNF;
-          dm.sqlsisAdimin.Commit(TDm);
+          sqlConn.Commit(TDm);
         except
           on E : Exception do
           begin
             ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-            dm.sqlsisAdimin.Rollback(TDm); //on failure, undo the changes}
+            sqlConn.Rollback(TDm); //on failure, undo the changes}
           end;
         end;
         cdsNF.Next;
@@ -751,8 +770,8 @@ function TfImporta_XML.retornaCodBarra: String;
 var retornoCodBarra:String;
 begin
   retornoCodBarra := '';
-  if (chkCodBarra.Checked) then
-  begin
+  //if (chkCodBarra.Checked) then
+  //begin
     if (trim(cdsNFItemCOD_BARRA.AsString) = '') then
     begin
       if (Length(cdsNFItemCODPRODUTO.AsString)<12) then
@@ -765,10 +784,10 @@ begin
       if (Length(retornoCodBarra)>15) then
         retornoCodBarra := copy(retornoCodBarra,1,15);
     end;
-  end
-  else begin
-    retornoCodBarra := trim(cdsNFItemCODPRODUTO.AsString);
-  end;
+  //end
+  //else begin
+  //  retornoCodBarra := trim(cdsNFItemCODPRODUTO.AsString);
+  //end;
   Result := retornoCodBarra;
 end;
 
@@ -827,12 +846,12 @@ begin
   end;
   fProdutoFornec.codFornec := IntToStr(cdsNFCodCliente_ats.asInteger);
   fProdutoFornec.nomeFornec := cdsNFRAZAOSOCIAL_ATS.AsString;
-  fProdutoFornec.codProdFornec := cdsNFItemCODPRODUTO.AsString;
+  fProdutoFornec.codProdFornec := retornaCodPro;
   fProdutoFornec.prodDescricaoFornec := cdsNFItemPRODUTO.AsString;
-  fProdutoFornec.codProduto := IntToStr(cdsNFItemCODPRODUTO_ATS.AsInteger);
+  fProdutoFornec.codProduto := cdsNFItemCODPRO_ATS.AsString;
   fProdutoFornec.prodDescricao := cdsNFItemPRODUTO.AsString;
-  if (chkCodBarra.Checked) then
-    fProdutoFornec.codProduto := cdsNFItemCOD_BARRA.AsString;
+  //if (chkCodBarra.Checked) then
+  //  fProdutoFornec.codProduto := retorno;
   fProdutoFornec.showModal;
   btnExisteProdutoFornec.Click;
 end;
@@ -946,7 +965,7 @@ begin
         //cdsNFItemVLR_TOTAL.AsFloat      := ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd;
         cdsNFItem.ApplyUpdates(-1);}
 
-        dm.sqlsisAdimin.StartTransaction(TD);
+        sqlConn.StartTransaction(TD);
         try
 
           stql := 'INSERT INTO NOTAFISCAL_PROD_IMPORTA (NOTAFISCAL, ' +
@@ -981,14 +1000,14 @@ begin
           stql := stql + ')';
           //stql := stql +  QuotedStr();
           //stql := stql + ',';
-          dm.sqlsisAdimin.ExecuteDirect(stql);
+          sqlConn.ExecuteDirect(stql);
           DecimalSeparator := ',';
-          dm.sqlsisAdimin.Commit(TD);
+          sqlConn.Commit(TD);
         except
           on E : Exception do
           begin
             ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            sqlConn.Rollback(TD); //on failure, undo the changes}
           end;
         end;
       end;
@@ -1052,6 +1071,35 @@ procedure TfImporta_XML.cdsNFItemReconcileError(
   UpdateKind: TUpdateKind; var Action: TReconcileAction);
 begin
   MessageDlg('Mensagem: '+E.Message,mtInformation,[mbok],0);
+end;
+
+function TfImporta_XML.retornaCodPro: String;
+var retornoCodPro:String;
+  codProd : String;
+  i:integer;
+begin
+  retornoCodPro := '';
+  //removendo zeros a esquerda
+  CodProd := tirazeros(trim(cdsNFItemCODPRODUTO.AsString));
+
+  if (codProd <> '0') then
+    retornoCodPro := codProd
+  else
+  begin
+    if (Length(cdsNFItemCODPRODUTO.AsString)>15) then
+      retornoCodPro := copy(retornoCodPro,1,15);
+  end;
+  if (Length(retornoCodPro)>15) then
+    retornoCodPro := copy(retornoCodPro,1,15);
+  Result := retornoCodPro;
+end;
+
+function TfImporta_XML.tirazeros(numero: string): string;
+var i : integer;
+begin
+  while Copy(Numero,1,1) = '0' do
+    delete(numero,1,1);
+  result := numero;
 end;
 
 end.

@@ -145,17 +145,27 @@ begin
 end;
 
 procedure TfProdutoFornec.BitBtn2Click(Sender: TObject);
-var strExclui: String;
+var strExclui, excluiCodPro: String;
 TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   strExclui := 'DELETE FROM PRODUTO_FORNECEDOR ' +
     ' WHERE CODFORNECEDOR = ' + edCodFornec.Text +
-    '   AND CODPRODFORNEC = ' + edCodProdutoFornec.Text;
+    '   AND CODPRODFORNEC = ' + QuotedStr(edCodProdutoFornec.Text);
+
+  excluiCodPro := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
+    ' CODPRODUTO_ATS = null'   +
+    ' ,CODPRO_ATS = null' +
+    ' WHERE NOTAFISCAL = ' + IntToStr(fImporta_XML.cdsNFNOTAFISCAL.asInteger) +
+    '   AND SERIE = ' + QuotedStr(trim(fImporta_XML.cdsNFSERIE.AsString)) +
+    '   AND CNPJ_EMITENTE = ' + QuotedStr(fImporta_XML.cdsNFCNPJ_EMITENTE.AsString) +
+    '   AND NUM_ITEM = ' + IntToStr(fImporta_XML.cdsNFItemNUM_ITEM.AsInteger);
+
   fImporta_XML.sqlConn.StartTransaction(TD);
   try
     fImporta_XML.sqlConn.ExecuteDirect(strExclui);
+    fImporta_XML.sqlConn.ExecuteDirect(excluiCodPro);    
     fImporta_XML.sqlConn.Commit(TD);
     MessageDlg('Excluido com sucesso.', mtInformation, [mbOK], 0);
   except

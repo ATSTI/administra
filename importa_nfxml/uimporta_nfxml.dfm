@@ -120,7 +120,10 @@ object fImporta_XML: TfImporta_XML
       Top = 285
       Width = 97
       Height = 17
+      Hint = 'Configure no parametro: XML_CODBARRA, em DADOS coloque CODBARRA.'
       Caption = 'C'#243'd. de Barras'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 6
     end
     object edMargem: TEdit
@@ -160,6 +163,92 @@ object fImporta_XML: TfImporta_XML
       EditControls = <>
       RowsHeight = 17
       TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'NUM_ITEM'
+          Width = 40
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CODPRODUTO_ATS'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CODPRO_ATS'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NCM'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRODUTO'
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UN'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QTDE'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLR_UNIT'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VLR_TOTAL'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ICMS'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PIS'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COFINS'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'IPI'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COD_BARRA'
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CODPRODUTO'
+          Width = 80
+          Visible = True
+        end>
     end
     object Panel3: TPanel
       Left = 2
@@ -217,13 +306,14 @@ object fImporta_XML: TfImporta_XML
             Expanded = False
             FieldName = 'EMISSAO'
             Title.Caption = 'Emiss'#227'o'
+            Width = 55
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CNPJ_EMITENTE'
             Title.Caption = 'CNPJ'
-            Width = 101
+            Width = 80
             Visible = True
           end
           item
@@ -437,6 +527,9 @@ object fImporta_XML: TfImporta_XML
       Top = 24
       Width = 171
       Height = 21
+      Hint = 'Parametro: XML_IMPORTA , dados  : o diretorio.'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 6
       Text = 'C:\home\xml'
     end
@@ -616,12 +709,18 @@ object fImporta_XML: TfImporta_XML
     end
     object cdsNFItemQTDE: TFloatField
       FieldName = 'QTDE'
+      DisplayFormat = ',##0'
+      EditFormat = ',##0'
     end
     object cdsNFItemVLR_UNIT: TFloatField
       FieldName = 'VLR_UNIT'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsNFItemVLR_TOTAL: TFloatField
       FieldName = 'VLR_TOTAL'
+      DisplayFormat = ',##0.00'
+      EditFormat = ',##0.00'
     end
     object cdsNFItemICMS: TStringField
       FieldName = 'ICMS'
