@@ -1285,7 +1285,6 @@ begin
     dm.cds_parametroPARAMETRO.AsString := 'REL. VENDAS';
     dm.cds_parametroDADOS.AsString := 'PADRÃO';
     dm.cds_parametro.ApplyUpdates(0);
-
   end;
 
   if dm.cds_parametroDADOS.AsString = 'CUPOM' then

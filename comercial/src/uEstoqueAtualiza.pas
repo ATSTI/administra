@@ -86,14 +86,25 @@ begin
       begin
         if (codProd <> dm.cdsBusca.FieldByName('CODPRODUTO').AsInteger) then
         begin
-          strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
-          strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
-          strAtualiza := strAtualiza + ' , PRECOMEDIO = ';
-          strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_CUSTO').asfloat);
-          strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
-          strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
-          strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
-          IntToStr(dm.cdsBusca.FieldByName('CODPRODUTO').asInteger);
+          if (dm.prdPrecoCustoFixo = 'S') then
+          begin
+            strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+            strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+            strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
+            strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
+            strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
+            IntToStr(dm.cdsBusca.FieldByName('CODPRODUTO').asInteger);
+          end
+          else begin
+            strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+            strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+            strAtualiza := strAtualiza + ' , PRECOMEDIO = ';
+            strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_CUSTO').asfloat);
+            strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
+            strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
+            strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
+            IntToStr(dm.cdsBusca.FieldByName('CODPRODUTO').asInteger);
+          end;
           dm.SQl.ExecuteDirect(strAtualiza);
           // atualiza lote
           {if (dm.cdsBusca.FieldByName('LOTES').asString = 'S') then

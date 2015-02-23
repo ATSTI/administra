@@ -149,13 +149,13 @@ Begin
                  QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) +
                  ', ' + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) +
                  ', ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger);
-        //if (cdsB.FieldByName('LOTE').AsString = '0') then
-        //begin
-        //  sqlStr := sqlStr + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
-        //end
-        //else begin
+        if (cdsB.FieldByName('LOTE').AsString = '0') then
+        begin
+          sqlStr := sqlStr + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
+        end
+        else begin
           sqlStr := sqlStr + ', ' + QuotedStr(cdsB.FieldByName('LOTE').AsString);
-        //end;
+        end;
         sqlStr := sqlStr + ')';
         sqlQ.SQL.Clear;
         sqlQ.SQL.Add(sqlStr);
@@ -200,7 +200,7 @@ Begin
           while not sqlQ.Eof do
           begin
             sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODPRODUTO').asinteger) + ', ';
-            sqlStr := sqlStr + QuotedStr(sqlQ.FieldByName('LOTES').AsString) + ', ';
+            sqlStr := sqlStr + QuotedStr(cdsB.FieldByName('LOTE').AsString) + ', ';
             sqlStr := sqlStr + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ', ';
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('ENTRADA').AsFloat) + ', ';
             sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeCompra) + ', ';
@@ -222,6 +222,7 @@ Begin
             sqlStr := sqlStr + ')';
 
             dm.sqlsisAdimin.ExecuteDirect(sqlStr);
+
             sqlQ.Next;
           end;
           if (chkProduto.Checked) then
@@ -595,30 +596,37 @@ procedure TfEstoqueCorrige.Button3Click(Sender: TObject);
 var str: String;
   Save_Cursor:TCursor;
 begin
-  if  MessageDlg('Confirma a atualização do estoque ? ',
+  if MessageDlg('Confirma a atualização do estoque ? ',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-  dm.EstoqueAtualiza(0);    
+  dm.EstoqueAtualiza(0);
   Save_Cursor := Screen.Cursor;
   Try
     lblAtualizando.Visible := True;
     lblAtualizando.Caption := 'Atualizando ....';
     Screen.Cursor := crHourGlass;
 
-    if (cdsB.Active) then
-      cdsB.Close;
-    //str := 'SELECT count(CODMOVIMENTO) CODMOV from MOVIMENTO ';
-    //cdsB.CommandText := str;
-    //cdsB.Open;
-    //cdsB.Close;
-    str := 'SELECT FIRST 500 CODMOVIMENTO from MOVIMENTO ORDER BY CODMOVIMENTO DESC ';
-    cdsB.CommandText := str;
-    cdsB.Open;
-    prog2.Max := cdsB.RecordCount;
-    while not cdsb.Eof do
+    str := 'SELECT DISTINCT CODPRODUTO from MOVIMENTODETALHE ';
+    if (cdsA.Active) then
+      cdsA.Close;
+    cdsA.CommandText := str;
+    cdsA.Open;
+    prog2.Max := cdsA.RecordCount;
+    while not cdsA.Eof do
     begin
-      sleep(350);
-      prog2.Position := cdsB.RecNo;
-      cdsB.Next;
+      if (not cdsA.IsEmpty) then
+      begin
+        if (cdsB.Active) then
+          cdsB.Close;
+        str := 'SELECT FIRST 1 CODMOVIMENTO from MOVIMENTODETALHE ' +
+          ' WHERE CODPRODUTO = ' + IntToStr(cdsA.fieldByName('CODPRODUTO').AsInteger) +
+          ' ORDER BY CODMOVIMENTO DESC ';
+        cdsB.CommandText := str;
+        cdsB.Open;
+       // dm.EstoqueAtualiza(cdsB.fieldByName('CODMOVIMENTO').AsInteger);
+       // rodar a rotina pra atualiza o estoque
+      end;
+      prog2.Position := cdsA.RecNo;
+      cdsA.Next;
     end;
   finally
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
