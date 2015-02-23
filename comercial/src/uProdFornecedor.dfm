@@ -23,7 +23,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Transparent = True
     end
     object Label6: TLabel [1]
-      Left = 189
+      Left = 267
       Top = 61
       Width = 37
       Height = 13
@@ -31,7 +31,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Transparent = True
     end
     object Label4: TLabel [2]
-      Left = 507
+      Left = 585
       Top = 61
       Width = 17
       Height = 13
@@ -39,11 +39,19 @@ inherited fProdFornecedor: TfProdFornecedor
       Transparent = True
     end
     object Label5: TLabel [3]
-      Left = 542
+      Left = 620
       Top = 61
       Width = 63
       Height = 13
       Caption = 'Valor Unit'#225'rio'
+      Transparent = True
+    end
+    object Label8: TLabel [4]
+      Left = 163
+      Top = 62
+      Width = 57
+      Height = 13
+      Caption = 'C'#243'd. Cliente'
       Transparent = True
     end
     inherited btnGravar: TBitBtn
@@ -175,9 +183,9 @@ inherited fProdFornecedor: TfProdFornecedor
     object DBEdit1: TDBEdit
       Left = 26
       Top = 77
-      Width = 121
+      Width = 89
       Height = 24
-      DataField = 'CODIGO'
+      DataField = 'PRO_COD'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -190,7 +198,7 @@ inherited fProdFornecedor: TfProdFornecedor
       OnKeyPress = FormKeyPress
     end
     object BitBtn1: TBitBtn
-      Left = 147
+      Left = 115
       Top = 77
       Width = 38
       Height = 25
@@ -198,7 +206,7 @@ inherited fProdFornecedor: TfProdFornecedor
       OnClick = BitBtn1Click
     end
     object DBEdit4: TDBEdit
-      Left = 188
+      Left = 266
       Top = 77
       Width = 315
       Height = 24
@@ -214,7 +222,7 @@ inherited fProdFornecedor: TfProdFornecedor
       TabOrder = 1
     end
     object DBEdit2: TDBEdit
-      Left = 506
+      Left = 584
       Top = 77
       Width = 33
       Height = 24
@@ -229,7 +237,7 @@ inherited fProdFornecedor: TfProdFornecedor
       TabOrder = 2
     end
     object DBEdit3: TDBEdit
-      Left = 541
+      Left = 619
       Top = 77
       Width = 86
       Height = 24
@@ -243,6 +251,23 @@ inherited fProdFornecedor: TfProdFornecedor
       ParentFont = False
       TabOrder = 3
       OnExit = DBEdit3Exit
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit5: TDBEdit
+      Left = 159
+      Top = 77
+      Width = 101
+      Height = 24
+      DataField = 'CODIGO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 12
+      OnExit = DBEdit1Exit
       OnKeyPress = FormKeyPress
     end
   end
@@ -369,9 +394,10 @@ inherited fProdFornecedor: TfProdFornecedor
     CommandText = 
       'select LISTA.CODLISTAPRECO, LISTA.UNIDADE, LISTA.CODPRODUTO, LIS' +
       'TA.CODFORNECEDOR, PROD.PRODUTO, LISTA.CODIGO, LISTA.PRECOLISTA, ' +
-      'LISTA.TIPOOPERACAO '#13#10', LISTA.DESCR'#13#10'from LISTAPRECO LISTA, PRODU' +
-      'TOS PROD'#13#10'where PROD.CODPRODUTO = LISTA.CODPRODUTO AND lista.cod' +
-      'FORNECEDOR = :forn and LISTA.tipooperacao = :tipo'
+      'LISTA.TIPOOPERACAO '#13#10', LISTA.DESCR, LISTA.PRO_COD '#13#10'from LISTAPR' +
+      'ECO LISTA, PRODUTOS PROD'#13#10'where PROD.CODPRODUTO = LISTA.CODPRODU' +
+      'TO AND lista.codFORNECEDOR = :forn and LISTA.tipooperacao = :tip' +
+      'o'
     MaxBlobSize = -1
     Params = <
       item
@@ -427,6 +453,10 @@ inherited fProdFornecedor: TfProdFornecedor
     object sdsDESCR: TStringField
       FieldName = 'DESCR'
       Size = 300
+    end
+    object sdsPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
     end
   end
   object dsp: TDataSetProvider
@@ -485,6 +515,10 @@ inherited fProdFornecedor: TfProdFornecedor
     object cdsDESCR: TStringField
       FieldName = 'DESCR'
       Size = 300
+    end
+    object cdsPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
     end
   end
   object cdsP: TClientDataSet

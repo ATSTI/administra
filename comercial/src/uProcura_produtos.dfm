@@ -348,10 +348,11 @@ object fProcura_produtos: TfProcura_produtos
     OnKeyDown = JvDBGrid1KeyDown
     OnKeyUp = JvDBGrid1KeyUp
     OnTitleClick = JvDBGrid1TitleClick
+    IniStorage = JvFormStorage1
     MultiSelect = True
     TitleButtons = True
     BevelKind = bkFlat
-    SortedField = 'Filename'
+    SortedField = 'colunas.txt'
     TitleArrow = True
     MinColumnWidth = 100
     AutoSizeColumns = True
@@ -404,6 +405,11 @@ object fProcura_produtos: TfProcura_produtos
       item
         Expanded = False
         FieldName = 'PRECO_VENDA'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = []
         Title.Caption = 'R$ Venda'
         Visible = True
       end
@@ -2790,5 +2796,23 @@ object fProcura_produtos: TfProcura_produtos
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 288
     Top = 464
+  end
+  object JvFormStorage1: TJvFormStorage
+    AppStorage = JvAppXMLFileStorage1
+    AppStoragePath = 'fProcura_produtos\'
+    StoredValues = <>
+    Left = 656
+    Top = 432
+  end
+  object JvAppXMLFileStorage1: TJvAppXMLFileStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.InvalidCharReplacement = '_'
+    FileName = 'Lista_Prod.xml'
+    Location = flUserFolder
+    RootNodeName = 'Configuration'
+    SubStorages = <>
+    Left = 656
+    Top = 400
   end
 end

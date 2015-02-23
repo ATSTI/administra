@@ -9,7 +9,10 @@ uses
   rpcompobase, rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox,
   JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits,
   JvBaseDlg, JvProgressDialog, JvExDBGrids, JvDBGrid,
-  JvComponent, JvDBGridExport, JvCsvData, Math;
+  JvComponent, JvDBGridExport, JvCsvData, Math,
+  JvComponentBase, JvAppStorage,
+  JvFormPlacement,
+  JvAppXMLStorage;
 
 type
   TfProcura_produtos = class(TForm)
@@ -222,6 +225,8 @@ type
     cbAplicacao: TComboBox;
     sds_procCODPROD_ORDER: TStringField;
     cds_procCODPROD_ORDER: TStringField;
+    JvFormStorage1: TJvFormStorage;
+    JvAppXMLFileStorage1: TJvAppXMLFileStorage;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);

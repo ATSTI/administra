@@ -141,6 +141,10 @@ type
     JvDBUltimGrid1: TJvDBUltimGrid;
     sdsDESCR: TStringField;
     cdsDESCR: TStringField;
+    Label8: TLabel;
+    DBEdit5: TDBEdit;
+    sdsPRO_COD: TStringField;
+    cdsPRO_COD: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -239,6 +243,7 @@ begin
 end;
 
 procedure TfProdFornecedor.DBEdit1Exit(Sender: TObject);
+var sql: String;
 begin
   inherited;
  if dbedit1.Text='' then exit;
@@ -246,6 +251,18 @@ begin
   begin
     if dm.scds_produto_proc.Active then
       dm.scds_produto_proc.Close;
+    sql := ' select CODPRODUTO' +
+      ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO' +
+      ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+      ', TIPO, ESTOQUEATUAL, LOCALIZACAO, LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+      ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM ' +
+      ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' +
+      QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+      QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', ';
+    sql := sql + IntToStr(codFornecedor) + ')';
+
+    dm.scds_produto_proc.CommandText := sql;
+
     dm.scds_produto_proc.Params[0].AsInteger := 0;
     dm.scds_produto_proc.Params[1].AsString := dbedit1.Text;
     dm.scds_produto_proc.Open;

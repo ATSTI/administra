@@ -4,6 +4,7 @@ inherited fProcuraCheque: TfProcuraCheque
   Width = 792
   Height = 569
   BorderIcons = [biSystemMenu, biMaximize]
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -861,7 +862,7 @@ inherited fProcuraCheque: TfProcuraCheque
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 500
+    Top = 507
     Width = 784
     Height = 35
     Align = alBottom
@@ -1177,6 +1178,7 @@ inherited fProcuraCheque: TfProcuraCheque
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'FiltroCheque.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 272
