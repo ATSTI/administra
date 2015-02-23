@@ -1472,11 +1472,15 @@ begin
         ' DESCRICAO_SERV varchar(500), ' +
         ' PRIMARY KEY (CODIGO))');
       end;
-      executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');
-      executaSql('update RDB$RELATION_FIELDS set ' +
-        ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
-        ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
-        ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
+      try
+        executaSql('CREATE DOMAIN TEXTO500 AS VARCHAR(500)');
+        executaSql('update RDB$RELATION_FIELDS set ' +
+          ' RDB$FIELD_SOURCE = ' + QuotedStr('TEXTO500') +
+          ' where (RDB$FIELD_NAME = ' + QuotedStr('OBS')  +
+          ') and (RDB$RELATION_NAME = ' + QuotedStr('VENDA') + ')');
+      except
+      end;
+
       executaDDL('CCE', 'PROTOCOLO', 'VARCHAR(20)');
       executaDDL('CCE', 'SELECIONOU', 'TEXTO1');
       EXECUTADDL('CLIENTES', 'CORTESIA', 'CHAR(1)');
@@ -2058,6 +2062,7 @@ begin
 
     if (versaoSistema = '3.0.0.2') then
     begin
+      EXECUTADDL('LISTAPRECO_VENDADET', 'PRODUTO', 'VARCHAR(300)');
       insereouatualizaScript('busca_cfop.sql', '3.0.0.2', StrToDate('01/09/2014'));
       insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/11/2014'));
       try
@@ -2154,13 +2159,61 @@ begin
       insereouatualizaScript('origem_produto.sql', '3.0.0.21', StrToDate('01/01/2015'));
       insereouatualizaScript('rel_vendaCompra.sql', '3.0.0.21', StrToDate('01/09/2014'));
       insereouatualizaScript('invent_estoque.sql', '3.0.0.21', StrToDate('01/09/2014'));
-
       insereouatualizaScript('estoque_view_custo.sql', '3.0.0.21', StrToDate('01/11/2014'));
+      AtualizandoScript('3.0.0.22');
       mudaVersao('3.0.0.22');
     end;
 
     // ALTER TRIGGER RETORNAESTOQUECOMPRA inactive  - 31/10/2014
     // ALTER TRIGGER RETORNA_ESTOQUEVENDA inactive
+
+    if (versaoSistema = '3.0.0.22') then
+    begin
+      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.22', StrToDate('10/01/2015'));
+      AtualizandoScript('3.0.0.22');
+      mudaVersao('3.0.0.22');
+    end;
+
+    if (versaoSistema = '3.0.0.22') then
+    begin
+      try
+        EXECUTADDL('MOVIMENTODETALHE', 'NCM', 'VARCHAR(8)');
+      except
+      end;
+      mudaVersao('3.0.0.23');
+    end;
+
+    if (versaoSistema = '3.0.0.23') then
+    begin
+      insereouatualizaScript('ncm_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));
+      AtualizandoScript('3.0.0.23');
+      mudaVersao('3.0.0.24');
+    end;
+
+    if (versaoSistema = '3.0.0.24') then
+    begin
+      try
+        EXECUTADDL('MOVIMENTO', 'HIST_MOV', 'VARCHAR(150)');
+      except
+      end;
+      mudaVersao('3.0.0.25');
+    end;
+
+    if (versaoSistema = '3.0.0.28') then
+    begin
+      insereouatualizaScript('lanca_ent_saida.sql', '3.0.0.28', StrToDate('01/02/2015'));
+      AtualizandoScript('3.0.0.28');
+      mudaVersao('3.0.0.29');
+    end;
+
+    if (versaoSistema = '3.0.0.29') then
+    begin
+      try
+        EXECUTADDL('LISTAPRECO_VENDADET', 'COD_CLIENTE', 'VARCHAR(30)');
+      except
+      end;
+      mudaVersao('3.0.0.30');
+    end;
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

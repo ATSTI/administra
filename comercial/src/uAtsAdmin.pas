@@ -453,6 +453,7 @@ procedure TfAtsAdmin.FormCreate(Sender: TObject);
 var
  vSaudacao : string;
 begin
+  //dm.diretorioUser := GetEnvironmentVariable('APPDATA'); 
   DM.MODULOUSERCONTROL := 'atsadmin';
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fAtsAdmin));
