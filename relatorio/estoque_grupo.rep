@@ -12,11 +12,10 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'SPESTOQUE'
-      DatabaseAlias = 'SISADMIN'
+      DatabaseAlias = 'SGE'
       SQL = 
         'SELECT * FROM SPESTOQUE(:PDTA1, :PDTA2, :PROD1, :PROD2, :GRUPOA,' +
-        ' :SUBGRUPOA) '#13#10#13#10'WHERE ((SALDOFIM > 0) OR (saldoini > 0) or (sai' +
-        'da > 0) or (entrada > 0))'
+        ' :SUBGRUPOA)'
     end>
   DatabaseInfo = <
     item
@@ -40,23 +39,12 @@ object TRpReport
       ReportField = 'REPORT'
       ReportGroupsTable = 'REPMAN_GROUPS'
       ADOConnectionString = ''
-    end
-    item
-      Alias = 'SISADMIN'
-      LoadParams = True
-      LoadDriverParams = True
-      LoginPrompt = False
-      ReportTable = 'REPMAN_REPORTS'
-      ReportSearchField = 'REPORT_NAME'
-      ReportField = 'REPORT'
-      ReportGroupsTable = 'REPMAN_GROUPS'
-      ADOConnectionString = ''
     end>
   Params = <
     item
       Name = 'PDTA1'
       AllowNulls = False
-      Value = 41730d
+      Value = 41426d
       ParamType = rpParamDate
       Datasets.Strings = (
         'SPESTOQUE'
@@ -70,7 +58,7 @@ object TRpReport
     item
       Name = 'PDTA2'
       AllowNulls = False
-      Value = 41759d
+      Value = 41455d
       ParamType = rpParamDate
       Datasets.Strings = (
         'SPESTOQUE'
@@ -146,9 +134,6 @@ object TRpReport
         Section = TRpSection5
       end
       item
-        Section = TRpSection7
-      end
-      item
         Section = TRpSection1
       end
       item
@@ -162,9 +147,6 @@ object TRpReport
       end
       item
         Section = TRpSection2
-      end
-      item
-        Section = TRpSection8
       end
       item
         Section = TRpSection6
@@ -204,6 +186,15 @@ object TRpReport
       end
       item
         Component = TRpExpression14
+      end
+      item
+        Component = TRpExpression20
+      end
+      item
+        Component = TRpExpression21
+      end
+      item
+        Component = TRpExpression22
       end
       item
         Component = TRpShape9
@@ -289,7 +280,7 @@ object TRpReport
   end
   object TRpSection3: TRpSection
     Width = 10772
-    Height = 345
+    Height = 375
     SubReport = TRpSubReport0
     GroupName = 'SUB'
     ChangeBool = False
@@ -353,6 +344,15 @@ object TRpReport
         Component = TRpExpression17
       end
       item
+        Component = TRpExpression23
+      end
+      item
+        Component = TRpExpression24
+      end
+      item
+        Component = TRpExpression25
+      end
+      item
         Component = TRpShape5
       end
       item
@@ -381,13 +381,12 @@ object TRpReport
     Stream = {0000000000000000}
   end
   object TRpExpression0: TRpExpression
-    Width = 1275
-    Height = 315
+    Width = 922
+    Height = 346
     PosX = 0
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
-    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -405,9 +404,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression1: TRpExpression
-    Width = 2835
-    Height = 285
-    PosX = 1335
+    Width = 2160
+    Height = 225
+    PosX = 1035
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -530,7 +529,7 @@ object TRpReport
     Width = 922
     Height = 346
     PosX = 230
-    PosY = 749
+    PosY = 691
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -542,8 +541,8 @@ object TRpReport
   object TRpLabel2: TRpLabel
     Width = 1037
     Height = 346
-    PosX = 4935
-    PosY = 748
+    PosX = 3885
+    PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -556,8 +555,8 @@ object TRpReport
   object TRpLabel3: TRpLabel
     Width = 1037
     Height = 346
-    PosX = 6210
-    PosY = 750
+    PosX = 5445
+    PosY = 692
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -568,10 +567,10 @@ object TRpReport
     WideText = 'Entrada'
   end
   object TRpLabel4: TRpLabel
-    Width = 810
-    Height = 360
-    PosX = 7425
-    PosY = 748
+    Width = 1037
+    Height = 346
+    PosX = 7080
+    PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -582,10 +581,10 @@ object TRpReport
     WideText = 'Saida'
   end
   object TRpShape1: TRpShape
-    Width = 10725
-    Height = 405
+    Width = 10694
+    Height = 461
     PosX = 0
-    PosY = 696
+    PosY = 1
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -595,7 +594,7 @@ object TRpReport
   object TRpExpression6: TRpExpression
     Width = 10349
     Height = 461
-    PosX = 180
+    PosX = 230
     PosY = 0
     Type1Font = poHelvetica
     Alignment = 4
@@ -622,7 +621,7 @@ object TRpReport
     Width = 10725
     Height = 405
     PosX = 0
-    PosY = 60
+    PosY = 645
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -633,7 +632,7 @@ object TRpReport
     Width = 1037
     Height = 346
     PosX = 8632
-    PosY = 748
+    PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -647,7 +646,7 @@ object TRpReport
     Width = 1037
     Height = 346
     PosX = 9660
-    PosY = 748
+    PosY = 690
     Type1Font = poHelvetica
     Alignment = 2
     PrintCondition = ''
@@ -658,8 +657,8 @@ object TRpReport
     WideText = 'Valor. (R$)'
   end
   object TRpShape2: TRpShape
-    Width = 10725
-    Height = 345
+    Width = 10694
+    Height = 346
     PosX = 0
     PosY = 0
     BrushStyle = 1
@@ -697,7 +696,7 @@ object TRpReport
     Width = 1920
     Height = 405
     PosX = 1155
-    PosY = 748
+    PosY = 690
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -709,8 +708,8 @@ object TRpReport
   object TRpLabel7: TRpLabel
     Width = 345
     Height = 300
-    PosX = 4290
-    PosY = 761
+    PosX = 3255
+    PosY = 690
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -722,7 +721,7 @@ object TRpReport
   object TRpExpression14: TRpExpression
     Width = 405
     Height = 225
-    PosX = 4230
+    PosX = 3244
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -772,6 +771,15 @@ object TRpReport
       end
       item
         Component = TRpExpression19
+      end
+      item
+        Component = TRpExpression26
+      end
+      item
+        Component = TRpExpression27
+      end
+      item
+        Component = TRpExpression28
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -830,11 +838,23 @@ object TRpReport
     LFontName = 'Helvetica'
     WideText = 'Total ->'
   end
+  object TRpShape3: TRpShape
+    Width = 10635
+    Height = 75
+    PosX = 60
+    PosY = 60
+    BrushStyle = 1
+    Shape = rpsHorzLine
+    PenWidth = 0
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+  end
   object TRpExpression11: TRpExpression
     Width = 794
     Height = 285
-    PosX = 6495
-    PosY = 120
+    PosX = 5213
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -860,8 +880,8 @@ object TRpReport
   object TRpExpression13: TRpExpression
     Width = 794
     Height = 285
-    PosX = 7605
-    PosY = 120
+    PosX = 7024
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -938,10 +958,10 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpExpression5: TRpExpression
-    Width = 870
-    Height = 315
-    PosX = 8640
-    PosY = 0
+    Width = 794
+    Height = 346
+    PosX = 8803
+    PosY = 5
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -963,10 +983,10 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression17: TRpExpression
-    Width = 885
+    Width = 794
     Height = 285
-    PosX = 8625
-    PosY = 120
+    PosX = 8799
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1017,10 +1037,10 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression16: TRpExpression
-    Width = 1134
+    Width = 794
     Height = 285
-    PosX = 4867
-    PosY = 120
+    PosX = 3705
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1044,10 +1064,10 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression19: TRpExpression
-    Width = 1095
-    Height = 345
-    PosX = 4935
-    PosY = 120
+    Width = 794
+    Height = 346
+    PosX = 3299
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1071,9 +1091,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 1134
-    Height = 285
-    PosX = 4877
+    Width = 794
+    Height = 240
+    PosX = 3711
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -1096,9 +1116,9 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression3: TRpExpression
-    Width = 1134
-    Height = 315
-    PosX = 6092
+    Width = 794
+    Height = 346
+    PosX = 5400
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -1120,10 +1140,35 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
+  object TRpExpression21: TRpExpression
+    Width = 794
+    Height = 346
+    PosX = 6212
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.ENTRADA*SPESTOQUE.VLRENTRADA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
   object TRpExpression4: TRpExpression
-    Width = 1134
-    Height = 315
-    PosX = 7310
+    Width = 794
+    Height = 346
+    PosX = 7020
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 8
@@ -1145,11 +1190,61 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
+  object TRpExpression22: TRpExpression
+    Width = 794
+    Height = 346
+    PosX = 7890
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.SAIDA*SPESTOQUE.VLRSAIDA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression20: TRpExpression
+    Width = 794
+    Height = 240
+    PosX = 4519
+    PosY = 0
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.SALDOINI*SPESTOQUE.VLRSALDOINI'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
   object TRpExpression9: TRpExpression
-    Width = 1134
-    Height = 345
-    PosX = 6097
-    PosY = 60
+    Width = 794
+    Height = 285
+    PosX = 5445
+    PosY = 120
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1173,10 +1268,10 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression10: TRpExpression
-    Width = 1095
-    Height = 345
-    PosX = 7367
-    PosY = 60
+    Width = 794
+    Height = 285
+    PosX = 7137
+    PosY = 113
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 2
@@ -1202,7 +1297,7 @@ object TRpReport
   object TRpShape5: TRpShape
     Width = 75
     Height = 405
-    PosX = 4762
+    PosX = 3660
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1213,7 +1308,7 @@ object TRpReport
   object TRpShape10: TRpShape
     Width = 75
     Height = 405
-    PosX = 6096
+    PosX = 5400
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1224,7 +1319,7 @@ object TRpReport
   object TRpShape11: TRpShape
     Width = 75
     Height = 405
-    PosX = 7314
+    PosX = 7082
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1235,7 +1330,7 @@ object TRpReport
   object TRpShape8: TRpShape
     Width = 75
     Height = 405
-    PosX = 8532
+    PosX = 8764
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1246,7 +1341,7 @@ object TRpReport
   object TRpShape12: TRpShape
     Width = 75
     Height = 405
-    PosX = 8532
+    PosX = 8764
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1257,8 +1352,8 @@ object TRpReport
   object TRpShape13: TRpShape
     Width = 75
     Height = 405
-    PosX = 8532
-    PosY = 696
+    PosX = 8764
+    PosY = 638
     Shape = rpsVertLine
     PenWidth = 0
     PrintCondition = ''
@@ -1268,7 +1363,7 @@ object TRpReport
   object TRpShape7: TRpShape
     Width = 75
     Height = 405
-    PosX = 7314
+    PosX = 7082
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1279,8 +1374,8 @@ object TRpReport
   object TRpShape14: TRpShape
     Width = 75
     Height = 405
-    PosX = 7314
-    PosY = 696
+    PosX = 7082
+    PosY = 638
     Shape = rpsVertLine
     PenWidth = 0
     PrintCondition = ''
@@ -1290,7 +1385,7 @@ object TRpReport
   object TRpShape6: TRpShape
     Width = 75
     Height = 405
-    PosX = 6096
+    PosX = 5400
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1301,8 +1396,8 @@ object TRpReport
   object TRpShape15: TRpShape
     Width = 75
     Height = 405
-    PosX = 6092
-    PosY = 690
+    PosX = 5400
+    PosY = 638
     Shape = rpsVertLine
     PenWidth = 0
     PrintCondition = ''
@@ -1312,7 +1407,7 @@ object TRpReport
   object TRpShape9: TRpShape
     Width = 75
     Height = 405
-    PosX = 4755
+    PosX = 3660
     PosY = 0
     Shape = rpsVertLine
     PenWidth = 0
@@ -1323,92 +1418,25 @@ object TRpReport
   object TRpShape16: TRpShape
     Width = 75
     Height = 405
-    PosX = 4762
-    PosY = 696
+    PosX = 3660
+    PosY = 638
     Shape = rpsVertLine
     PenWidth = 0
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
   end
-  object TRpSection7: TRpSection
-    Width = 10772
-    Height = 435
-    SubReport = TRpSubReport0
-    GroupName = 'RESULTADO'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgheader
-    Components = <
-      item
-        Component = TRpExpression20
-      end
-      item
-        Component = TRpExpression21
-      end
-      item
-        Component = TRpShape17
-      end
-      item
-        Component = TRpShape18
-      end
-      item
-        Component = TRpShape19
-      end
-      item
-        Component = TRpShape20
-      end>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'SPESTOQUE.CCUSTO'
-    BeginPageExpression = 'SPESTOQUE.CCUSTO'
-    ChangeExpression = 'SPESTOQUE.CCUSTO'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
-  object TRpSection8: TRpSection
-    Width = 10772
-    Height = 0
-    SubReport = TRpSubReport0
-    GroupName = 'RESULTADO'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgfooter
-    Components = <>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'SPESTOQUE.CCUSTO'
-    BeginPageExpression = ''
-    ChangeExpression = 'SPESTOQUE.CCUSTO'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
-  object TRpExpression20: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 465
-    PosY = 58
+  object TRpExpression23: TRpExpression
+    Width = 794
+    Height = 240
+    PosX = 4519
+    PosY = 113
     Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGroup
+    GroupName = 'GRUPO'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1419,18 +1447,23 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.CCUSTO'
-    DisplayFormat = ''
+    Expression = 'SPESTOQUE.SALDOINI*SPESTOQUE.VLRSALDOINI'
+    DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression21: TRpExpression
-    Width = 5190
-    Height = 300
-    PosX = 2055
-    PosY = 73
+  object TRpExpression26: TRpExpression
+    Width = 870
+    Height = 225
+    PosX = 4230
+    PosY = 120
     Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    GroupName = ' '
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1441,70 +1474,118 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'SPESTOQUE.CRESULTADO'
-    DisplayFormat = ''
+    Expression = 'SPESTOQUE.SALDOINI*SPESTOQUE.VLRSALDOINI'
+    DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpShape3: TRpShape
-    Width = 10635
-    Height = 75
-    PosX = 60
-    PosY = 60
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
+  object TRpExpression24: TRpExpression
+    Width = 794
+    Height = 285
+    PosX = 6270
+    PosY = 113
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGroup
+    GroupName = 'GRUPO'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.ENTRADA*SPESTOQUE.VLRENTRADA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
-  object TRpShape18: TRpShape
-    Width = 10635
-    Height = 75
-    PosX = 60
-    PosY = 350
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
+  object TRpExpression27: TRpExpression
+    Width = 915
+    Height = 285
+    PosX = 6034
+    PosY = 120
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    GroupName = ' '
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.ENTRADA*SPESTOQUE.VLRENTRADA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
-  object TRpShape17: TRpShape
-    Width = 10635
-    Height = 75
-    PosX = 60
-    PosY = 353
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
+  object TRpExpression25: TRpExpression
+    Width = 794
+    Height = 285
+    PosX = 7949
+    PosY = 113
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGroup
+    GroupName = 'GRUPO'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.SAIDA*SPESTOQUE.VLRSAIDA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
-  object TRpShape19: TRpShape
-    Width = 10635
-    Height = 75
-    PosX = 60
-    PosY = 43
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
+  object TRpExpression28: TRpExpression
+    Width = 915
+    Height = 345
+    PosX = 7830
+    PosY = 120
+    Type1Font = poHelvetica
+    FontSize = 8
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    GroupName = ' '
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-  end
-  object TRpShape20: TRpShape
-    Width = 10635
-    Height = 75
-    PosX = 60
-    PosY = 62
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'SPESTOQUE.SAIDA*SPESTOQUE.VLRSAIDA'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
   end
 end
