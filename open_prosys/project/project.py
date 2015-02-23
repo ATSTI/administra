@@ -1317,11 +1317,12 @@ class project_work(osv.osv):
                 cr.execute('SELECT id \
                     FROM project_task_work \
                     WHERE (date = %s) \
+                      AND (date_out = %s) \
                       AND ((%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
                        OR (%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
                        OR ((hours_in > %s) AND (hours_out < %s))) \
                       AND (user_id=%s) \
-                      AND (id <> %s)',(sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, new_user_id, sheet.id))
+                      AND (id <> %s)',(sheet.date, sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, new_user_id, sheet.id))
                 encontrado_apont = cr.fetchall()
                 if encontrado_apont:
                     return False     
