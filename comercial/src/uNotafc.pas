@@ -319,7 +319,7 @@ type
     procedure gravanotafiscal;
     procedure calculaicms(Estado: String);
     procedure somavalores;
-    procedure carregaDadosAdicionais;
+    procedure carregaDadosAdicionais(motivo:String);
     { Public declarations }
   end;
 
@@ -914,7 +914,7 @@ begin
     dmnf.cds_nf1DESCNATUREZA.AsString := DMNF.listaCFOPCFNOME.AsString;
     DMNF.listaCFOP.Close;
   end;
-  carregaDadosAdicionais;
+  carregaDadosAdicionais('Trocou');
   carregaNaturezaOperacao;
 end;
 
@@ -2034,10 +2034,10 @@ begin
     fNFeletronica.ShowModal;
 end;
 
-Procedure TfNotaFc.carregaDadosAdicionais;
+Procedure TfNotaFc.carregaDadosAdicionais(motivo:String);
 Begin
   //lblFatura.Caption := sCfopNAOENVFATURA.AsString;
-  if (dmnf.cds_nf1.State in [dsEdit]) then
+  if ((dmnf.cds_nf1.State in [dsInsert]) and (motivo = 'Trocou')) then
   begin
     if( (not DMNF.cds_nf1CFOP.IsNull)  or (dmnf.cds_nf1CFOP.AsString <> '') )then
     begin

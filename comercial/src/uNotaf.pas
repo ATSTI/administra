@@ -464,7 +464,7 @@ type
   private
     cod_natNotaf: Integer;
     { Private declarations }
-    procedure carregaDadosAdicionais;
+    procedure carregaDadosAdicionais(motivo:String);
     procedure incluiSAida;
     procedure incluiMovimento;
     procedure incluiVenda;
@@ -1089,7 +1089,7 @@ begin
     dmnf.cds_nfNOTAMAE.AsInteger := 0;
     btnRemessa.Enabled := False;
   end;
-  carregaDadosAdicionais();
+  carregaDadosAdicionais('Trocou');
 end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
@@ -1403,9 +1403,9 @@ begin
      gravavenda;
     end;
     //Salvo Nota Fiscal
-    if (DMNF.DtSrc_NF.State in [dsInsert, dsEdit]) then
+    if (DMNF.DtSrc_NF.State in [dsEdit, dsInsert]) then
     begin
-     carregaDadosAdicionais();
+     carregaDadosAdicionais('Inserindo');
      gravanotafiscal;
     end;
     if (dmnf.cds_MovimentoCONTROLE.AsString <> '') then
@@ -1485,7 +1485,11 @@ begin
     begin
       dmnf.cds_Mov_det.Edit;
       if dmnf.cds_Mov_detCODPRODUTO.IsNull then
-         dmnf.cds_Mov_detCODPRODUTO.AsInteger := 1;
+      begin
+        dmnf.cds_Mov_det.Cancel;
+        exit;
+        //dmnf.cds_Mov_detCODPRODUTO.AsInteger := 1;
+      end;
       dmnf.cds_Mov_detCODMOVIMENTO.AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
       IF (dmnf.cds_Mov_detQTDE_ALT.IsNull) then
          dmnf.cds_Mov_detQTDE_ALT.AsFloat := 0;
@@ -2313,9 +2317,9 @@ begin
   end;
 end;
 
-Procedure TfNotaf.carregaDadosAdicionais;
+Procedure TfNotaf.carregaDadosAdicionais(motivo:String);
 Begin
-  if (DMNF.DtSrc_NF.State in [dsEdit, dsInsert]) then
+  if ((DMNF.DtSrc_NF.State in [dsInsert]) or (motivo = 'Trocou')) then
   begin
     if( (not DMNF.cds_nfCFOP.IsNull)  or (DMNF.cds_nfCFOP.AsString <> '') )then
     begin
@@ -2331,7 +2335,7 @@ Begin
         listaCliente1.Open;
           sCFOP.Params[2].asString :=  listaCliente1CODFISCAL.AsString;
         sCFOP.Open;
-        If ((sCFOPDADOSADC1.AsString <> '') and (not sCFOPDADOSADC1.IsNull) )then
+        If ((sCFOPDADOSADC1.AsString <> '') or (not sCFOPDADOSADC1.IsNull) )then
         begin
           DMNF.cds_nfCORPONF1.AsString := sCFOPDADOSADC1.AsString;
         //If ((sCFOPDADOSADC2.AsString <> '') and (not sCFOPDADOSADC2.IsNull) )then
