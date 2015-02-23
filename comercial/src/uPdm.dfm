@@ -78,7 +78,7 @@ object fPdm: TfPdm
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 695
+    Width = 703
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -127,7 +127,7 @@ object fPdm: TfPdm
     object JvLabel1: TJvLabel
       Left = 2
       Top = 2
-      Width = 691
+      Width = 699
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -144,8 +144,8 @@ object fPdm: TfPdm
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 420
-    Width = 695
+    Top = 431
+    Width = 703
     Height = 46
     Align = alBottom
     BevelInner = bvLowered
@@ -869,6 +869,7 @@ object fPdm: TfPdm
   object cds_Mov_det: TClientDataSet
     Aggregates = <>
     AggregatesActive = True
+    PacketRecords = 50
     Params = <
       item
         DataType = ftInteger

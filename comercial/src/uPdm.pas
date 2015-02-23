@@ -180,9 +180,9 @@ procedure TfPdm.FormShow(Sender: TObject);
 begin
    sCtrlResize.CtrlResize(TForm(fPdm));
 
-  fPdm.cds_Mov_det.Params[0].Clear;
-  cds_movimento.Open;
-  cds_mov_det.Open;
+  //fPdm.cds_Mov_det.Params[0].Clear;
+  //cds_movimento.Open;
+  //cds_mov_det.Open;
   if (not cds_Mov_detDESCRICAO.IsNull) then
     DBGrid1.Columns[1].FieldName := 'DESCRICAO';
 
