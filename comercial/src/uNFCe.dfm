@@ -11,6 +11,7 @@ object fNFCe: TfNFCe
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -147,8 +148,8 @@ object fNFCe: TfNFCe
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 263
-    Top = 467
+    Left = 256
+    Top = 464
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -316,50 +317,26 @@ object fNFCe: TfNFCe
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
       'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
-      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10'from NOTAFISC' +
-      'AL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13 +
-      #10'inner join enderecocliente endecli on endecli.CODCLIENTE = cl.C' +
-      'ODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10 +
-      'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and ((n' +
-      'f.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesdenotaf' +
-      #39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZA = :natn' +
-      'f  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by' +
-      ' nf.DTAEMISSAO DESC'
+      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10', cl.NOMECLIE' +
+      'NTE, cl.RAZAOSOCIAL, cl.CNPJ, cl.INSCESTADUAL'#13#10', endecli.LOGRADO' +
+      'URO, endecli.NUMERO, endecli.COMPLEMENTO, endecli.BAIRRO, endecl' +
+      'i.CIDADE, endecli.UF, endecli.TELEFONE, endecli.DDD, endecli.CEP' +
+      ', endecli.E_MAIL , endecli.CD_IBGE '#13#10'from NOTAFISCAL nf '#13#10'inner ' +
+      'join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join en' +
+      'derecocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'lef' +
+      't outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.CODV' +
+      'ENDA = :pCODVENDA)'#13#10'          and (nf.NATUREZA = 30)'#13#10'          ' +
+      'and (endecli.TIPOEND = 0) '#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftDate
-        Name = 'dta1'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'dta2'
-        ParamType = ptInput
-      end
-      item
         DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftSmallint
-        Name = 'natnf'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
-        Name = 'ENV'
+        Name = 'pCODVENDA'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 448
-    Top = 376
+    Top = 378
     object sdsNFCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
@@ -608,6 +585,84 @@ object fNFCe: TfNFCe
       ReadOnly = True
       Size = 60
     end
+    object sdsNFNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object sdsNFRAZAOSOCIAL_1: TStringField
+      FieldName = 'RAZAOSOCIAL_1'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object sdsNFCNPJ_1: TStringField
+      FieldName = 'CNPJ_1'
+      ReadOnly = True
+      Size = 18
+    end
+    object sdsNFINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      ReadOnly = True
+      Size = 24
+    end
+    object sdsNFLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      ReadOnly = True
+      Size = 50
+    end
+    object sdsNFNUMERO_1: TStringField
+      FieldName = 'NUMERO_1'
+      ReadOnly = True
+      Size = 5
+    end
+    object sdsNFCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      ReadOnly = True
+      Size = 30
+    end
+    object sdsNFBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      ReadOnly = True
+      Size = 30
+    end
+    object sdsNFCIDADE: TStringField
+      FieldName = 'CIDADE'
+      ReadOnly = True
+      Size = 40
+    end
+    object sdsNFUF: TStringField
+      FieldName = 'UF'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsNFTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ReadOnly = True
+      Size = 12
+    end
+    object sdsNFDDD: TStringField
+      FieldName = 'DDD'
+      ReadOnly = True
+      Size = 3
+    end
+    object sdsNFCEP: TStringField
+      FieldName = 'CEP'
+      ReadOnly = True
+      Size = 10
+    end
+    object sdsNFE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 100
+    end
+    object sdsNFCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      ReadOnly = True
+      Size = 10
+    end
   end
   object sdsItensNF: TSQLDataSet
     CommandText = 
@@ -835,33 +890,8 @@ object fNFCe: TfNFCe
     Aggregates = <>
     Params = <
       item
-        DataType = ftDate
-        Name = 'dta1'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'dta2'
-        ParamType = ptInput
-      end
-      item
         DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'pvendacusto'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftSmallint
-        Name = 'natnf'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftString
-        Name = 'ENV'
+        Name = 'pCODVENDA'
         ParamType = ptInput
       end>
     ProviderName = 'dspNF'
@@ -1153,6 +1183,84 @@ object fNFCe: TfNFCe
       ReadOnly = True
       Size = 60
     end
+    object cdsNFNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object cdsNFRAZAOSOCIAL_1: TStringField
+      FieldName = 'RAZAOSOCIAL_1'
+      ReadOnly = True
+      Required = True
+      Size = 60
+    end
+    object cdsNFCNPJ_1: TStringField
+      FieldName = 'CNPJ_1'
+      ReadOnly = True
+      Size = 18
+    end
+    object cdsNFINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      ReadOnly = True
+      Size = 24
+    end
+    object cdsNFLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      ReadOnly = True
+      Size = 50
+    end
+    object cdsNFNUMERO_1: TStringField
+      FieldName = 'NUMERO_1'
+      ReadOnly = True
+      Size = 5
+    end
+    object cdsNFCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsNFBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsNFCIDADE: TStringField
+      FieldName = 'CIDADE'
+      ReadOnly = True
+      Size = 40
+    end
+    object cdsNFUF: TStringField
+      FieldName = 'UF'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNFTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ReadOnly = True
+      Size = 12
+    end
+    object cdsNFDDD: TStringField
+      FieldName = 'DDD'
+      ReadOnly = True
+      Size = 3
+    end
+    object cdsNFCEP: TStringField
+      FieldName = 'CEP'
+      ReadOnly = True
+      Size = 10
+    end
+    object cdsNFE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      ReadOnly = True
+      Size = 100
+    end
+    object cdsNFCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      ReadOnly = True
+      Size = 10
+    end
   end
   object cdsItensNF: TClientDataSet
     Aggregates = <>
@@ -1352,5 +1460,12 @@ object fNFCe: TfNFCe
     IgnorarChar = './-'
     Left = 208
     Top = 8
+  end
+  object sqlBuscaNota: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 480
+    Top = 208
   end
 end

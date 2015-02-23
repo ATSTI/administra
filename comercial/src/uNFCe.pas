@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrNFe, StdCtrls, FMTBcd, DBClient, Provider, DB, SqlExpr,
-  ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils;
+  ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils, DBXpress;
 
 type
   TfNFCe = class(TForm)
@@ -280,13 +280,50 @@ type
     sdsItensNFORIGEM: TIntegerField;
     cdsItensNFORIGEM: TIntegerField;
     ACBrValidador1: TACBrValidador;
+    sqlBuscaNota: TSQLQuery;
+    sdsNFNOMECLIENTE: TStringField;
+    sdsNFRAZAOSOCIAL_1: TStringField;
+    sdsNFCNPJ_1: TStringField;
+    sdsNFINSCESTADUAL: TStringField;
+    sdsNFLOGRADOURO: TStringField;
+    sdsNFNUMERO_1: TStringField;
+    sdsNFCOMPLEMENTO: TStringField;
+    sdsNFBAIRRO: TStringField;
+    sdsNFCIDADE: TStringField;
+    sdsNFUF: TStringField;
+    sdsNFTELEFONE: TStringField;
+    sdsNFDDD: TStringField;
+    sdsNFCEP: TStringField;
+    sdsNFE_MAIL: TStringField;
+    cdsNFNOMECLIENTE: TStringField;
+    cdsNFRAZAOSOCIAL_1: TStringField;
+    cdsNFCNPJ_1: TStringField;
+    cdsNFINSCESTADUAL: TStringField;
+    cdsNFLOGRADOURO: TStringField;
+    cdsNFNUMERO_1: TStringField;
+    cdsNFCOMPLEMENTO: TStringField;
+    cdsNFBAIRRO: TStringField;
+    cdsNFCIDADE: TStringField;
+    cdsNFUF: TStringField;
+    cdsNFTELEFONE: TStringField;
+    cdsNFDDD: TStringField;
+    cdsNFCEP: TStringField;
+    cdsNFE_MAIL: TStringField;
+    sdsNFCD_IBGE: TStringField;
+    cdsNFCD_IBGE: TStringField;
     procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     function RemoveChar(Const Texto:String):String;
     procedure GerarNFCe(NumNFe: String);
     procedure pegaItens;
     { Private declarations }
   public
+    NFCe_codNF: Integer;
+    NFCe_codMov: Integer;
+    NFCe_codCliente: Integer;    
+    NFCe_dataVenda: TDateTime;
+    NFCe_dataVencimento: TDateTime;
     { Public declarations }
   end;
 
@@ -295,7 +332,7 @@ var
 
 implementation
 
-uses UDm, pcnConversao, pcnNFe;
+uses UDm, pcnConversao, pcnNFe, UDMNF;
 
 {$R *.dfm}
 
@@ -387,6 +424,12 @@ begin
   sEmpresa.Params[0].AsInteger := 51; //Buscar de parametro
   sEmpresa.Open;
 
+  if (sEmpresa.IsEmpty) then
+  begin
+    MessageDlg('Veja no cadastro da Empresa, se é o Centro de Custo 51, que está configurado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   with ACBrNFe1.NotasFiscais.Add.NFe do
   begin
     Ide.cNF       := StrToInt(NumNFe); //Caso não seja preenchido será gerado um número aleatório pelo componente
@@ -452,20 +495,20 @@ begin
 
     if (edtCliente.Text <> 'Consumidor') then
     begin
-      Dest.CNPJCPF           := '05481336000137';
-      //      Dest.IE                := '687138770110'; //NFC-e não aceita IE
-      Dest.ISUF              := '';
-      Dest.xNome             := 'D.J. COM. E LOCAÇÃO DE SOFTWARES LTDA - ME';
+      Dest.CNPJCPF           := cdsNFCNPJ.AsString;
+      //Dest.IE                := '687138770110'; //NFC-e não aceita IE
+      Dest.ISUF              := cdsNFUF.AsString;
+      Dest.xNome             := cdsNFRAZAOSOCIAL_1.AsString;
 
-      Dest.EnderDest.Fone    := '1533243333';
-      Dest.EnderDest.CEP     := 18270170;
-      Dest.EnderDest.xLgr    := 'Rua Coronel Aureliano de Camargo';
-      Dest.EnderDest.nro     := '973';
-      Dest.EnderDest.xCpl    := '';
-      Dest.EnderDest.xBairro := 'Centro';
-      Dest.EnderDest.cMun    := 3554003;
-      Dest.EnderDest.xMun    := 'Tatuí';
-      Dest.EnderDest.UF      := 'SP';
+      Dest.EnderDest.Fone    := removeChar(cdsNFDDD.AsString + cdsNFTELEFONE.AsString);
+      Dest.EnderDest.CEP     := StrToInt(removeChar(cdsNFCEP.AsString));
+      Dest.EnderDest.xLgr    := cdsNFLOGRADOURO.AsString;
+      Dest.EnderDest.nro     := cdsNFNUMERO_1.AsString;
+      Dest.EnderDest.xCpl    := cdsNFCOMPLEMENTO.AsString;
+      Dest.EnderDest.xBairro := cdsNFBAIRRO.AsString;
+      Dest.EnderDest.cMun    := StrToInt(RemoveChar(cdsNFCD_IBGE.AsString));
+      Dest.EnderDest.xMun    := cdsNFCIDADE.AsString;
+      Dest.EnderDest.UF      := cdsNFUF.AsString;
       Dest.EnderDest.cPais   := 1058;
       Dest.EnderDest.xPais   := 'BRASIL';
     end;
@@ -603,7 +646,7 @@ begin
         Prod.nItem    := contaItens; // Número sequencial, para cada item deve ser incrementado
 
         if (dm.mascaraProduto <> '') then
-          Prod.cProd    := FormatMaskText(dm.mascaraProduto, cdsItensNFCODPRO.AsString)
+          Prod.cProd    := FormatMaskText(dm.mascaraProduto+';0;_', cdsItensNFCODPRO.AsString)
         else
           Prod.cProd    := cdsItensNFCODPRO.AsString;
         //Prod.cEAN     := '7896523206646';
@@ -863,6 +906,94 @@ begin
     end;
   end;
   result := S;
+end;
+
+procedure TfNFCe.FormShow(Sender: TObject);
+var str_sql:string;
+  NFCe_serieNF: String;
+  NFCe_numNf: integer;
+  TD: TTransactionDesc;
+begin
+  // abri a nota fiscal
+  if (sqlBuscaNota.Active) then
+    sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select v.CODVENDA' +
+    '  from MOVIMENTO m, VENDA v ' +
+    ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
+    '   and (m.CODNATUREZA = 30) ' +
+    '   and (m.CONTROLE = ' + QuotedStr(IntToStr(NFCe_codMov)) + ')');
+  sqlBuscaNota.Open;
+  if (sqlBuscaNota.IsEmpty) then
+  begin
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'SERIENFCe';
+    dm.cds_parametro.Open;
+
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      MessageDlg('Cadastre: '+#13+#10+''+#13+#10+'Natureza Operação : 30 para Nota Fiscal Consumidor;'+#13+#10+''+#13+#10+'Série                         : para ser usada na NFCe;'+#13+#10+''+#13+#10+'Parametro                : SERIENFCe com a série criada no campo D1;', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
+    if (dmnf.scds_serienfe.Active) then
+      dmnf.scds_serienfe.Close;
+    dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+    dmnf.scds_serienfe.Open;
+
+    if (not dmnf.scds_serienfe.IsEmpty) then
+    begin
+      NFCe_serieNF := dmnf.scds_serienfeSERIE.AsString;
+      NFCe_numNf   := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
+    end
+    else begin
+      MessageDlg('Cadastre: '+#13+#10+''+#13+#10+'Natureza Operação : 30 para Nota Fiscal Consumidor;'+#13+#10+''+#13+#10+'Série                         : para ser usada na NFCe;'+#13+#10+''+#13+#10+'Parametro                : SERIENFCe com a série criada no campo D1;', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+      str_sql := str_sql + IntToStr(NFCe_codCliente);
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', NFCe_dataVenda));
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', NFCe_dataVencimento));
+      str_sql := str_sql + ', ' + QuotedStr(NFCe_serieNF);
+      str_sql := str_sql + ', ' + QuotedStr(inttostr(NFCe_numNf));
+      str_sql := str_sql + ', ' + IntToStr(NFCe_codMov);
+      str_sql := str_sql + ', ' + '30)';
+
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        Exit;
+      end;
+    end;
+    sqlBuscaNota.Close;
+    sqlBuscaNota.SQL.Clear;
+    sqlBuscaNota.SQL.Add('select v.CODVENDA from MOVIMENTO m, VENDA v ' +
+      ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
+      '   and (m.CODNATUREZA = 30) ' +
+      '   and (m.CONTROLE = ' + QuotedStr(IntToStr(NFCe_codMov)) + ')');
+    sqlBuscaNota.Open;
+  end;
+  if (cdsNF.Active) then
+    cdsNF.Close;
+  cdsNF.Params.ParamByName('pCODVENDA').AsInteger := sqlBuscaNota.fieldByName('CODVENDA').AsInteger;
+  cdsNF.Open;
+  if (cdsItensNF.Active) then
+    cdsItensNF.Close;
+  cdsItensNF.Params.ParamByName('id').AsInteger := sqlBuscaNota.fieldByName('CODVENDA').AsInteger;
+  cdsItensNF.Open;
+  edNFCe.Text := cdsNFNOTASERIE.AsString;
+  edtCliente.Text := cdsNFNOMECLIENTE.AsString;
 end;
 
 end.
