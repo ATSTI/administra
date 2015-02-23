@@ -8,7 +8,7 @@ uses
   JvProgressBar, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, FMTBcd,
   DBClient, Provider, DB, SqlExpr, uUtils, ACBrEFDBlocos, ACBrSpedFiscal,
-  Buttons;
+  MaskUtils, Buttons;
 
 type
   TfNfeIcms = class(TForm)
@@ -1018,6 +1018,8 @@ type
     chkInventario: TCheckBox;
     edContaContabil: TEdit;
     Label12: TLabel;
+    sdsCompraDetCODPRO: TStringField;
+    cdsCompraDetCODPRO: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1135,7 +1137,15 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao107;
+      COD_VER          := vlVersao109;
+      if (data_ini.Date < StrToDate('01/01/2016')) then
+      begin
+        COD_VER          := vlVersao108;
+      end;
+      if (data_ini.Date < StrToDate('01/01/2015')) then
+      begin
+        COD_VER          := vlVersao107;
+      end;
       if (data_ini.Date < StrToDate('01/01/2014')) then
       begin
         COD_VER        := vlVersao106;
@@ -1283,7 +1293,7 @@ begin
              cdsEmpS.Next;
            end;
          end; //Fim 150 - Cliente
-         
+
 
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
@@ -1452,7 +1462,11 @@ begin
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
-               COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
+               if (dm.mascaraProduto <> '') then
+                  COD_ITEM := FormatMaskText(dm.mascaraProduto+';0;_', cdsProdutoCODPRO.AsString)
+               else
+                  COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger); // Nao usa mascara fica como era
+
                DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
                COD_BARRA    := '';
                UNID_INV     := Trim(cdsProdutoUN.AsString);
@@ -1500,7 +1514,12 @@ begin
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
-               COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
+               if (dm.mascaraProduto <> '') then
+                  COD_ITEM := FormatMaskText(dm.mascaraProduto+';0;_', cdsProdutoCODPRO.AsString)
+               else
+                  COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger); // Nao usa mascara fica como era
+
+               //COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
                DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
                COD_BARRA    := '';
                UNID_INV     := Trim(cdsProdutoUN.AsString);
@@ -1615,10 +1634,10 @@ begin
   begin
     with RegistroC001New do
     begin
-      IND_MOV := imComDados;
       // INICIO BLOCO COMPRAS  ######################
       if (not cdsCompra.IsEmpty) then
       begin
+        IND_MOV := imComDados;
         While not cdsCompra.Eof do
         begin
           progressBar1.Step := progresso;
@@ -1681,7 +1700,12 @@ begin
               with RegistroC170New do   //Inicio Adicionar os Itens:
               begin
                 NUM_ITEM         := FormatFloat('000', IItens);
-                COD_ITEM         := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger);
+                //COD_ITEM         := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger);
+                if (dm.mascaraProduto <> '') then
+                  COD_ITEM := FormatMaskText(dm.mascaraProduto+';0;_', cdsCompraDetCODPRO.AsString)
+                else
+                  COD_ITEM     := FormatFloat('000000', cdsCompraDetCODPRODUTO.AsInteger); // Nao usa mascara fica como era
+
                 DESCR_COMPL      := cdsCompraDetDESCPRODUTO.AsString;
                 QTD              := cdsCompraDetQUANTIDADE.AsFloat;
                 UNID             := Trim(cdsCompraDetUN.AsString);
@@ -1772,100 +1796,101 @@ begin
 
             end;
 
-
-          codParticip := cdsCompraCODFORNECEDOR.AsInteger;
-          cdsCompra.Next;
-        end; // FIM DO WHILE DE COMPRAS
+            codParticip := cdsCompraCODFORNECEDOR.AsInteger;
+            cdsCompra.Next;
+          end; // FIM DO WHILE DE COMPRAS
         end;
+      end;
+      // FIM BLOCO COMPRAS ######################
 
-        // FIM BLOCO COMPRAS ######################
 
+      abrirTabelasVenda;
+      // BLOCO VENDAS ###########################
 
-        abrirTabelasVenda;
-        // BLOCO VENDAS ###########################
-        if (not cdsNFVenda.IsEmpty) then
+      if (not cdsNFVenda.IsEmpty) then
+      begin
+        IND_MOV := imComDados;
+        While not cdsNFVenda.Eof do
         begin
-          While not cdsNFVenda.Eof do
+          progressBar1.Step := progresso;
+          progresso := progresso + 1;
+          //Inserir Notas...
+          //for INotas := 1 to NNotas do
+          //begin
+          //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
+          // Fiscal de Produtor (código 04) e NF-e (código 55)
+          with RegistroC100New do
           begin
-            progressBar1.Step := progresso;
-            progresso := progresso + 1;
-            //Inserir Notas...
-            //for INotas := 1 to NNotas do
-            //begin
-            //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
-            // Fiscal de Produtor (código 04) e NF-e (código 55)
-            with RegistroC100New do
+            IND_OPER      := tpSaidaPrestacao; // 1-Saida
+            IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
+            COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
+            if (Length(cdsNFVendaMODELO.AsString) = 1) then
+              COD_MOD       := trim('0' + cdsNFVendaMODELO.AsString)
+            else
+              COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+            COD_SIT       := sdRegular;
+            if (Length(cdsNFVendaSERIE.AsString) = 1) then
+              SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+            else if (Length(cdsNFVendaSERIE.AsString) = 2) then
+              SER           := trim('0' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+            else
+              SER           := trim(cdsNFVendaSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
+            NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+            CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
+            DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
+            DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
+            VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
+            IND_PGTO      := tpPrazo;
+            VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
+            VL_ABAT_NT    := 0;
+            VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+            if (cdsNFVendaFRETE.AsString = '0') then
             begin
-              IND_OPER      := tpSaidaPrestacao; // 1-Saida
-              IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
-              COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
-              if (Length(cdsNFVendaMODELO.AsString) = 1) then
-                COD_MOD       := trim('0' + cdsNFVendaMODELO.AsString)
-              else
-                COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
-              COD_SIT       := sdRegular;
-              if (Length(cdsNFVendaSERIE.AsString) = 1) then
-                SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
-              else if (Length(cdsNFVendaSERIE.AsString) = 2) then
-                SER           := trim('0' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
-              else
-                SER           := trim(cdsNFVendaSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
-              NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
-              CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
-              DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
-              DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
-              VL_DOC        := cdsNFVendaVALOR_TOTAL_NOTA.AsFloat;
-              IND_PGTO      := tpPrazo;
-              VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
-              VL_ABAT_NT    := 0;
-              VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
-              if (cdsNFVendaFRETE.AsString = '0') then
-              begin
-                IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
-              end
-              else if (cdsNFVendaFRETE.AsString = '1') then
-              begin
-                IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
-              end
-              else if (cdsNFVendaFRETE.AsString = '2') then
-              begin
-                IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
-              end
-              else if (cdsNFVendaFRETE.AsString = '3') then
-              begin
-                IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
-              end
-              else
-              begin
-                IND_FRT := tfNenhum;                 // Preencher vazio
-              end;
-              VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
-              VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
-              VL_OUT_DA     := 0;
-              VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
-              VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
-              VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
-              VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
-              VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
-              VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
-              VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
-              VL_PIS_ST     := 0;
-              VL_COFINS_ST  := 0;
+              IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
+            end
+            else if (cdsNFVendaFRETE.AsString = '1') then
+            begin
+              IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
+            end
+            else if (cdsNFVendaFRETE.AsString = '2') then
+            begin
+              IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
+            end
+            else if (cdsNFVendaFRETE.AsString = '3') then
+            begin
+              IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
+            end
+            else
+            begin
+              IND_FRT := tfNenhum;                 // Preencher vazio
+            end;
+            VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
+            VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
+            VL_OUT_DA     := 0;
+            VL_BC_ICMS    := cdsNFVendaBASE_ICMS.AsFloat;
+            VL_ICMS       := cdsNFVendaVALOR_ICMS.AsFloat;
+            VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
+            VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
+            VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+            VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
+            VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
+            VL_PIS_ST     := 0;
+            VL_COFINS_ST  := 0;
 
-              if (cdsItens.Active) then
-                cdsItens.Close;
-              cdsItens.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-              cdsItens.Open;
-              // INICIO BLOCO DET VENDAS  ######################
-              IItens := 1;
-              if (COD_MOD <> '55') then
+            if (cdsItens.Active) then
+              cdsItens.Close;
+            cdsItens.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+            cdsItens.Open;
+            // INICIO BLOCO DET VENDAS  ######################
+            IItens := 1;
+            if (COD_MOD <> '55') then
+            begin
+              { Para NF de SAIDA nao precisa registro C170
+              While not cdsItens.Eof do
               begin
-                { Para NF de SAIDA nao precisa registro C170
-                While not cdsItens.Eof do
+                //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
+                with RegistroC170New do   //Inicio Adicionar os Itens:
                 begin
-                  //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
-                  with RegistroC170New do   //Inicio Adicionar os Itens:
-                  begin
                     NUM_ITEM         := FormatFloat('000', IItens);
                     COD_ITEM         := FormatFloat('000000', cdsItensCODPRODUTO.AsInteger);
                     DESCR_COMPL      := cdsItensDESCPRODUTO.AsString;
@@ -1917,128 +1942,126 @@ begin
                   cdsItens.Next;
                 end;
                  }
-              end;
             end;
+          end;
 
-            // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-            if (cdsVC190.Active) then
-              cdsVC190.Close;
-            cdsVC190.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-            //cdsVC190.Params[1].AsInteger := codMovMaxV;
-            //cdsVC190.Params[2].AsDate    := data_ini.Date;
-            //cdsVC190.Params[3].AsDate    := data_fim.Date;
-            cdsVC190.Open;
-            while not cdsVC190.eof do
+          // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
+          if (cdsVC190.Active) then
+            cdsVC190.Close;
+          cdsVC190.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+          //cdsVC190.Params[1].AsInteger := codMovMaxV;
+          //cdsVC190.Params[2].AsDate    := data_ini.Date;
+          //cdsVC190.Params[3].AsDate    := data_fim.Date;
+          cdsVC190.Open;
+          while not cdsVC190.eof do
+          begin
+            with RegistroC190New do
             begin
-              with RegistroC190New do
-              begin
-                CST_ICMS      := cdsVC190CST.AsString;
-                CFOP          := cdsVC190CFOP.AsString;
-                ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
-                VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
-                VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
-                VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
-                VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
-                VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
-                VL_RED_BC     := 0;
-                VL_IPI        := cdsVC190VLR_IPI.AsFloat;
-                COD_OBS       := '';
-              end;
-              cdsVC190.next;
+              CST_ICMS      := cdsVC190CST.AsString;
+              CFOP          := cdsVC190CFOP.AsString;
+              ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
+              VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
+              VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
+              VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
+              VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
+              VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
+              VL_RED_BC     := 0;
+              VL_IPI        := cdsVC190VLR_IPI.AsFloat;
+              COD_OBS       := '';
             end;
-            codParticip := cdsNFVendaCODCLIENTE.AsInteger;
-            cdsNFVenda.Next;
-          end; // FIM DO WHILE DE VENDAS
-          // FIM BLOCO VENDAS #######################
-        end;
-
+            cdsVC190.next;
+          end;
+          codParticip := cdsNFVendaCODCLIENTE.AsInteger;
+          cdsNFVenda.Next;
+        end; // FIM DO WHILE DE VENDAS
+        // FIM BLOCO VENDAS #######################
       end;
-
-
-      if (sqlEnergia.Active) then
-        sqlEnergia.Close;
-      sqlEnergia.Params[0].AsInteger := codFornEnergia;
-      sqlEnergia.Params[1].AsInteger := codMovMin;
-      sqlEnergia.Params[2].AsInteger := codMovMax;
-      sqlEnergia.Params[3].AsDate    := data_ini.Date;
-      sqlEnergia.Params[4].AsDate    := data_fim.Date;
-      sqlEnergia.Open;
-      While not sqlEnergia.Eof do
-      begin
-        with RegistroC500New do
-        begin
-          IND_OPER := tpEntradaAquisicao; // Entrada
-          IND_EMIT := edTerceiros; // Terceiros
-          COD_PART := FormatFloat('100000', codFornEnergia);
-          COD_MOD  := '06';
-          COD_SIT  := sdRegular;
-          SER      := sqlEnergiaSERIE.AsString;
-          COD_CONS := '01';
-          NUM_DOC  := '0';
-          if (sqlEnergiaNOTAFISCAL.AsInteger > 0) then
-            NUM_DOC  := IntToStr(sqlEnergiaNOTAFISCAL.AsInteger);
-          DT_DOC   := sqlEnergiaDATACOMPRA.AsDateTime;
-          DT_E_S   := sqlEnergiaDATACOMPRA.AsDateTime;
-          VL_DOC   := sqlEnergiaVALOR.AsFloat;
-          VL_DESC  := 0;
-          VL_FORN  := sqlEnergiaVALOR.AsFloat;
-          VL_SERV_NT := 0;
-          VL_BC_ICMS := sqlEnergiaVALOR.AsFloat;
-          VL_TERC    := 0;
-          VL_DA      := 0;
-          VL_ICMS    := sqlEnergiaVALOR_ICMS.AsFloat;
-          VL_ICMS_ST := 0;
-          VL_PIS     := 0;
-          VL_COFINS  := 0;
-          TP_LIGACAO := tlNenhum;
-          if (tipoLigacao = 'Monofasico') then
-            TP_LIGACAO := tlMonofasico;
-          if (tipoLigacao = 'Bifasico') then
-            TP_LIGACAO := tlBifasico;
-          if(tipoLigacao = 'Trifasico') then
-            TP_LIGACAO := tlTrifasico;            // 3 - Trifásico
-        end;
-        sqlEnergia.Next;
-      end;
-
-      if (cdsEnergiaDet.Active) then
-        cdsEnergiaDet.Close;
-      cdsEnergiaDet.Params[4].AsInteger := codFornEnergia;
-      cdsEnergiaDet.Params[0].AsInteger := codMovMin;
-      cdsEnergiaDet.Params[1].AsInteger := codMovMax;
-      cdsEnergiaDet.Params[2].AsDate    := data_ini.Date;
-      cdsEnergiaDet.Params[3].AsDate    := data_fim.Date;
-      cdsEnergiaDet.Open;
-      While not cdsEnergiaDet.Eof do
-      begin
-        with RegistroC590New do
-        begin
-          CST_ICMS := cdsEnergiaDetCST.AsString;
-          CFOP     := cdsEnergiaDetCFOP.AsString;
-          ALIQ_ICMS := cdsEnergiaDetICMS.AsFloat;
-          VL_OPR    := cdsEnergiaDetVLR_BASEICMS.AsFloat;
-          VL_BC_ICMS_ST := cdsEnergiaDetICMS_BASE_ST.AsFloat;
-          VL_ICMS_ST := cdsEnergiaDetICMS_ST.AsFloat;
-          VL_RED_BC  := 0;
-        end;
-        cdsEnergiaDet.Next;
-      end;
-
 
     end;
 
-    if cbConcomitante.Checked then
+
+    if (sqlEnergia.Active) then
+      sqlEnergia.Close;
+    sqlEnergia.Params[0].AsInteger := codFornEnergia;
+    sqlEnergia.Params[1].AsInteger := codMovMin;
+    sqlEnergia.Params[2].AsInteger := codMovMax;
+    sqlEnergia.Params[3].AsDate    := data_ini.Date;
+    sqlEnergia.Params[4].AsDate    := data_fim.Date;
+    sqlEnergia.Open;
+    While not sqlEnergia.Eof do
     begin
-      ACBrSPEDFiscal1.WriteBloco_C(True);  // True, fecha o Bloco
-      LoadToMemo;
+      with RegistroC500New do
+      begin
+        IND_OPER := tpEntradaAquisicao; // Entrada
+        IND_EMIT := edTerceiros; // Terceiros
+        COD_PART := FormatFloat('100000', codFornEnergia);
+        COD_MOD  := '06';
+        COD_SIT  := sdRegular;
+        SER      := sqlEnergiaSERIE.AsString;
+        COD_CONS := '01';
+        NUM_DOC  := '0';
+        if (sqlEnergiaNOTAFISCAL.AsInteger > 0) then
+          NUM_DOC  := IntToStr(sqlEnergiaNOTAFISCAL.AsInteger);
+        DT_DOC   := sqlEnergiaDATACOMPRA.AsDateTime;
+        DT_E_S   := sqlEnergiaDATACOMPRA.AsDateTime;
+        VL_DOC   := sqlEnergiaVALOR.AsFloat;
+        VL_DESC  := 0;
+        VL_FORN  := sqlEnergiaVALOR.AsFloat;
+        VL_SERV_NT := 0;
+        VL_BC_ICMS := sqlEnergiaVALOR.AsFloat;
+        VL_TERC    := 0;
+        VL_DA      := 0;
+        VL_ICMS    := sqlEnergiaVALOR_ICMS.AsFloat;
+        VL_ICMS_ST := 0;
+        VL_PIS     := 0;
+        VL_COFINS  := 0;
+        TP_LIGACAO := tlNenhum;
+        if (tipoLigacao = 'Monofasico') then
+          TP_LIGACAO := tlMonofasico;
+        if (tipoLigacao = 'Bifasico') then
+          TP_LIGACAO := tlBifasico;
+        if(tipoLigacao = 'Trifasico') then
+          TP_LIGACAO := tlTrifasico;            // 3 - Trifásico
+      end;
+      sqlEnergia.Next;
     end;
+
+    if (cdsEnergiaDet.Active) then
+      cdsEnergiaDet.Close;
+    cdsEnergiaDet.Params[4].AsInteger := codFornEnergia;
+    cdsEnergiaDet.Params[0].AsInteger := codMovMin;
+    cdsEnergiaDet.Params[1].AsInteger := codMovMax;
+    cdsEnergiaDet.Params[2].AsDate    := data_ini.Date;
+    cdsEnergiaDet.Params[3].AsDate    := data_fim.Date;
+    cdsEnergiaDet.Open;
+    While not cdsEnergiaDet.Eof do
+    begin
+      with RegistroC590New do
+      begin
+        CST_ICMS := cdsEnergiaDetCST.AsString;
+        CFOP     := cdsEnergiaDetCFOP.AsString;
+        ALIQ_ICMS := cdsEnergiaDetICMS.AsFloat;
+        VL_OPR    := cdsEnergiaDetVLR_BASEICMS.AsFloat;
+        VL_BC_ICMS_ST := cdsEnergiaDetICMS_BASE_ST.AsFloat;
+        VL_ICMS_ST := cdsEnergiaDetICMS_ST.AsFloat;
+        VL_RED_BC  := 0;
+      end;
+      cdsEnergiaDet.Next;
+    end;
+
+  end;
+
+  if cbConcomitante.Checked then
+  begin
+    ACBrSPEDFiscal1.WriteBloco_C(True);  // True, fecha o Bloco
+    LoadToMemo;
   end;
   ProgressBar1.Visible := False ;
 end;
 
 procedure TfNfeIcms.blocoD;
 begin
-  
+
 end;
 
 procedure TfNfeIcms.blocoF;
@@ -2481,7 +2504,7 @@ begin
       s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
       s := s + '   AND EV.CENTROCUSTO = 51 ';
       s := s + ') ESTOQUE ';
-      s := s + ', p.UNIDADEMEDIDA ';
+      s := s + ', p.UNIDADEMEDIDA, p.CODPRO ';
       s := s + ' from produtos p ';
       s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
       s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
@@ -2495,7 +2518,12 @@ begin
         if (sqlInventario.FieldByName('ESTOQUE').AsFloat > 0) then
         with RegistroH010New do
         begin
-          COD_ITEM := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger);
+          //COD_ITEM := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger);
+          if (dm.mascaraProduto <> '') then
+            COD_ITEM := FormatMaskText(dm.mascaraProduto+';0;_', sqlInventario.FieldByName('CODPRO').AsString)
+          else
+            COD_ITEM     := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger); // Nao usa mascara fica como era
+
           UNID     := sqlInventario.FieldByName('UNIDADEMEDIDA').AsString;
           if (sqlInventario.FieldByName('ESTOQUE').IsNull) then
             QTD := 0

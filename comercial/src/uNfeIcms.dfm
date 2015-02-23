@@ -285,6 +285,10 @@ object fNfeIcms: TfNfeIcms
         Top = 14
         Width = 97
         Height = 18
+        Hint = 
+          'Em Materiais execute o Fechamento de Estoque no per'#237'odo desejado' +
+          '.'#13#10'Para ver o estoque: Relatorios -> Rel. Materiais -> Lista Est' +
+          'oque -> Valor Estoque'
         Caption = 'INVENT'#193'RIO'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
@@ -292,6 +296,8 @@ object fNfeIcms: TfNfeIcms
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 1
       end
       object edContaContabil: TEdit
@@ -299,6 +305,9 @@ object fNfeIcms: TfNfeIcms
         Top = 79
         Width = 148
         Height = 21
+        Hint = 'C'#243'digo da Conta Cont'#225'bil do Plano de Contas do Contador'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 2
       end
     end
@@ -667,7 +676,8 @@ object fNfeIcms: TfNfeIcms
       ' EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'      AND S.' +
       'SERIE = NF.SERIE'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1 AND :DTA' +
       '2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO BETWEEN ' +
-      ':CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NULL '
+      ':CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'     ' +
+      ' AND NF.STATUS IS NOT NULL '
     MaxBlobSize = -1
     Params = <
       item
@@ -3473,11 +3483,12 @@ object fNfeIcms: TfNfeIcms
       'J, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CID' +
       'ADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, e' +
       'f.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST' +
-      ', r.coddetalhe'#13#10'    FROM COMPRA C,  MOVIMENTODETALHE r, FORNECED' +
-      'OR f, ENDERECOFORNECEDOR ef'#13#10'   WHERE C.CODMOVIMENTO = r.CODMOVI' +
-      'MENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AND ef.C' +
-      'ODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0      '#13#10' ' +
-      '    AND C.CODMOVIMENTO =  :CODINI '#13#10'  ORDER BY C.DATACOMPRA'
+      ', r.coddetalhe, p.CODPRO'#13#10'    FROM COMPRA C,  MOVIMENTODETALHE r' +
+      ', FORNECEDOR f, ENDERECOFORNECEDOR ef, PRODUTOS p'#13#10'   WHERE C.CO' +
+      'DMOVIMENTO = r.CODMOVIMENTO'#13#10'     AND f.CODFORNECEDOR = c.CODFOR' +
+      'NECEDOR'#13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND r' +
+      '.CODPRODUTO = p.CODPRODUTO '#13#10'     AND ef.TIPOEND = 0      '#13#10'    ' +
+      ' AND C.CODMOVIMENTO =  :CODINI '#13#10'  ORDER BY C.DATACOMPRA'
     MaxBlobSize = -1
     Params = <
       item
@@ -3693,6 +3704,10 @@ object fNfeIcms: TfNfeIcms
     object IntegerField4: TIntegerField
       FieldName = 'CODDETALHE'
       Required = True
+    end
+    object sdsCompraDetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
     end
   end
   object dspCompraDet: TDataSetProvider
@@ -3916,6 +3931,10 @@ object fNfeIcms: TfNfeIcms
     object cdsCompraDetCODDETALHE: TIntegerField
       FieldName = 'CODDETALHE'
       Required = True
+    end
+    object cdsCompraDetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
     end
   end
   object sdsTotal: TSQLDataSet
