@@ -52,10 +52,10 @@ BEGIN
     
   if (customedio is null) then 
     customedio = custoinicial;  
-  
-  
+     
   if (customedio is null) then 
     customedio = 0;
+    
   if ((saldoinicial + qtdeentradas) > 0) then   
     customedio = ((saldoinicial * custoinicial) + (qtdeentradas * custoentradas))/(saldoinicial + qtdeEntradas);  
 
@@ -64,6 +64,9 @@ BEGIN
     select coalesce(p.VALORUNITARIOATUAL, COALESCE(p.PRECOMEDIO,0)) from produtos p where p.CODPRODUTO = :codproduto
     into :customedio;
   end 
-
+  
+  if (custoentradas is null) then 
+    custoentradas = customedio;
+    
   suspend; 
 END

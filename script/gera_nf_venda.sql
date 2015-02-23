@@ -4,9 +4,10 @@ Create or ALTER PROCEDURE GERA_NF_VENDA (
     DTVCTO date,
     SERIE char(8),
     NUMERO varchar(7),
-    CODMOV integer )
+    CODMOV integer,
+    CODNATUREZA smallint)
 AS
-declare variable codRec integer;
+  declare variable codRec integer;
   declare variable codNF integer;
   declare variable codVen integer;
   declare variable rcodVen integer;
@@ -71,7 +72,6 @@ declare variable codRec integer;
   declare variable CEP Varchar(15);
   declare variable BAIRRO Varchar(40);
   declare variable PRAZO Varchar(40);
-  declare variable CODNATUREZA smallint;
   declare variable CFOP_CLI char(4);  
   declare variable TPFRETE char(1);
   declare variable TF char(1);
@@ -122,25 +122,14 @@ begin
   if (levaDesc is null) then 
     levaDesc = 'N';  
 
-  Select first 1 mov.CODNATUREZA
+  Select first 1 mov.CODMOVIMENTO
     from movimento mov 
-   where mov.CONTROLE = :codMov and mov.CODNATUREZA = 15
-    into :CODNATUREZA;
-  if(CODNATUREZA is null) then
+   where mov.CONTROLE = TRIM(CAST(:codMov as VARCHAR(10))) and mov.CODNATUREZA = :codNatureza
+    into :CodMovNovo;
+  if(CodMovNovo is null) then
   begin    
-    vFreteT = 0;
-    vIcmsT = 0;
-    vIpiT = 0;
-    vSeguroT = 0;
-    vOutrosT = 0; 
     ncm_dadosadicionais = null;
     corponf1 = null;
-
-    tBaseIcms = 0;
-    total = 0;
-    valorIcms = 0;
-    icms = 0;
-    totalIcms = 0;
  
     -- CFOP Padrao
     SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
@@ -194,7 +183,7 @@ begin
       insert into movimento (codmovimento, codcliente, codAlmoxarifado, codUsuario
       , codVendedor, dataMovimento, status, codNatureza, controle, codtransp) 
       values (:codMovNovo, :Cliente, :codCCusto, :codUser 
-        , :codVendedor, :dtEmissao, 0, 15, :codMov, :CODTRANSPORTADORA);  
+        , :codVendedor, :dtEmissao, 0, :codNatureza, :codMov, :CODTRANSPORTADORA);  
     end 
     
     pesoTotal = 0;
@@ -281,12 +270,12 @@ begin
       totalIcms = totalIcms + :valoricms;
     
     
-    vIcmsT = 0; 
-    if (vFreteT is null) then
-      vFreteT = 0;
-    -- Buscando a numeracao da duplicata
-    preco = total;
-    total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT; 
+      vIcmsT = 0; 
+      if (vFreteT is null) then
+        vFreteT = 0;
+      -- Buscando a numeracao da duplicata
+      preco = total;
+      total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT; 
     end
      
     select GEN_ID(GENVENDA, 1) from RDB$DATABASE
@@ -309,7 +298,7 @@ begin
       indpag = 0;
     else
       indpag = 1;
-    end  
+    --end  
     
     SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
       UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
@@ -317,12 +306,12 @@ begin
       into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
   
       
-     if (UDF_TRIM(corponf1) = '') then 
-       CORPONF1 = null;           
+    if (UDF_TRIM(corponf1) = '') then 
+      CORPONF1 = null;           
       
-     if (corponf1 is null) then 
-     begin  
-       SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
+    if (corponf1 is null) then 
+    begin  
+      SELECT FIRST 1 UDF_LEFT(ei.DADOSADC1,200), UDF_LEFT(ei.DADOSADC2,200), UDF_LEFT(ei.DADOSADC3,200), 
         UDF_LEFT(ei.DADOSADC4,200), UDF_LEFT(ei.DADOSADC5,75), UDF_LEFT(ei.DADOSADC6,75) 
         FROM CLASSIFICACAOFISCALNCM ei 
        where ei.CFOP = :cfop 
@@ -330,7 +319,7 @@ begin
          and ei.CODFISCAL = :TF
          and ei.NCM = :ncm_dadosadicionais       
         into :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6;
-     end
+    end
      
      
     if(:CODTRANSPORTADORA is null) then
@@ -360,13 +349,6 @@ begin
       TFRETE = 0;
     if( TPFRETE = '2') then
       TFRETE = 1;
-    /*if( TPFRETE = '2') then
-      TFRETE = 2;
-    if( TPFRETE = '3') then
-      TFRETE = 3;   
-    if (TFRETE > 0) then
-      TFRETE = TFRETE -1;	  */
-
 
     if(:cfop = '') then
         cfop = :cfop_;
@@ -379,7 +361,7 @@ begin
       , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP , CIDADE_TRANSP, UF_VEICULO_TRANSP
       , UF_TRANSP, FRETE, INSCRICAOESTADUAL, CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5
       , CORPONF6, PESOBRUTO, PESOLIQUIDO, SERIE, UF, VALOR_DESCONTO, II, BCII, INDPAG)
-    VALUES (:numero, :codNF, 15, :codVen, :Cliente, :cfop
+    VALUES (:numero, :codNF, :codNatureza, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
@@ -416,7 +398,7 @@ begin
     select valor_total_nota from notafiscal where numnf = :codnf
     into :total;
 
-     EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
+    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
            :vOutrosT, :total, 'N', 0, 0);
-  
+  end
 end

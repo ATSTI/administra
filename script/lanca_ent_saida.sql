@@ -25,6 +25,7 @@ BEGIN
         DESCONTO, VALOR, ENTRADA, CODUSUARIO, CODCCUSTO, NOTAFISCAL) 
         VALUES (:CODMOV, :CODCLIFORN, 
         :DATAVCTO, :DATAVCTO, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :nSerieSai);
+        update SERIES set ULTIMO_NUMERO = :nSerieSai where SERIE = :Serie;
      end
   END
   /* LANCA SAIDA NA TAB SAIDA */
@@ -40,6 +41,7 @@ BEGIN
         VALUES 
         (:CODIGO, :CODMOV, :CODCLIFORN, 
         :DATA, :DATA, 0, 0, 0, :CODUSUARIO, :CODCCUSTO, :SERIE, 1, :CODUSUARIO, :nSerieSai, :nSerieEnt);
+        --update SERIES set ULTIMO_NUMERO = :nSerieSai + 1 where SERIE = :Serie;
      end
   END
 END
