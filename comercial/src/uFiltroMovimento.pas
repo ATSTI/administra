@@ -135,6 +135,8 @@ type
     AlterarDataEntrega1: TMenuItem;
     btnFecharPainel: TBitBtn;
     btnDataEntregaLimpa: TBitBtn;
+    sds_cnsHIST_MOV: TStringField;
+    cds_cnsHIST_MOV: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -415,8 +417,8 @@ begin
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL,' +
-      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO, mov.DATA_ENTREGA  ' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
+      ' , cli.BLOQUEIO, mov.DATA_ENTREGA, MOV.HIST_MOV  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -429,8 +431,8 @@ begin
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
-      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO , mov.DATA_ENTREGA ' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
+      ' , cli.BLOQUEIO , mov.DATA_ENTREGA, MOV.HIST_MOV ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -447,7 +449,7 @@ begin
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO) APAGAR, ven.DATAVENDA  ' +
-      ' , cli.BLOQUEIO, mov.DATA_ENTREGA  ' +
+      ' , cli.BLOQUEIO, mov.DATA_ENTREGA , MOV.HIST_MOV  ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
@@ -465,17 +467,20 @@ begin
   //------------------------------------------------------------------------------
   //Verifica se a data de emissão foi preenchido
   //------------------------------------------------------------------------------
-  if (medta1.Text<>datastr) then
-  if (medta2.Text<>datastr) then
+  if (RadioGroup1.ItemIndex <> 3) then
   begin
-    if (rbData.Checked) then
-      sqlTexto := ' where mov.DATAMOVIMENTO between '
-    else
-      sqlTexto := ' where ven.DATAVENDA between ';
-    sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', medta1.Date) + '''' +
-      ' and ' +
-      '''' + formatdatetime('mm/dd/yy', medta2.Date) + '''';
-  end;
+    if (medta1.Text<>datastr) then
+    if (medta2.Text<>datastr) then
+    begin
+      if (rbData.Checked) then
+        sqlTexto := ' where mov.DATAMOVIMENTO between '
+      else
+        sqlTexto := ' where ven.DATAVENDA between ';
+      sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', medta1.Date) + '''' +
+        ' and ' +
+        '''' + formatdatetime('mm/dd/yy', medta2.Date) + '''';
+    end;
+  end;  
   //==============================================================================
   //------------------------------------------------------------------------------
   //Status
@@ -499,11 +504,24 @@ begin
   end;
   if (RadioGroup1.ItemIndex = 3) then
   begin
-    if sqlTexto='' then
+    if (sqlTexto = '') then
       sqlTexto := sqlTexto + ' where mov.CODNATUREZA = '
     else
       sqlTexto := sqlTexto + ' and mov.CODNATUREZA = ';
-      sqlTexto := sqlTexto + '14';
+    sqlTexto := sqlTexto + '14';
+
+    if (medta1.Text<>datastr) then
+    if (medta2.Text<>datastr) then
+    begin
+      sqlTexto := sqlTexto + ' AND ((mov.DATAMOVIMENTO between ';
+      sqlTexto := sqlTexto + QuotedStr(formatdatetime('mm/dd/yy', medta1.Date)) +
+        ' and ' + QuotedStr(formatdatetime('mm/dd/yy', medta2.Date)) + ')';
+
+      sqlTexto := sqlTexto + ' OR (mov.VAL_PROP between ';
+      sqlTexto := sqlTexto + QuotedStr(formatdatetime('mm/dd/yy', medta1.Date)) +
+        ' and ' + QuotedStr(formatdatetime('mm/dd/yy', medta2.Date)) + '))';
+    end;
+
   end;
 
   //==============================================================================
@@ -625,7 +643,7 @@ begin
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
       'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO, mov.DATA_ENTREGA  ';
+      'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO, mov.DATA_ENTREGA , MOV.HIST_MOV  ';
 
   ordenar := '';
 

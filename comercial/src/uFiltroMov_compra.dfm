@@ -1474,6 +1474,7 @@ object fFiltroMov_compra: TfFiltroMov_compra
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'FiltroCompra.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 328

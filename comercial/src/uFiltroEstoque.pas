@@ -8,7 +8,8 @@ uses
   ExtCtrls, Provider, DB, DBClient, rpcompobase, Menus,
   SqlExpr, XPMenu, rpvclreport, DBCtrls, JvExMask, JvToolEdit, JvMaskEdit,
   JvCheckedMaskEdit, JvDatePickerEdit, JvExDBGrids, JvDBGrid, JvExStdCtrls,
-  JvCombobox;
+  JvCombobox, JvFormPlacement, JvComponentBase, JvAppStorage,
+  JvAppXMLStorage;
 
 type
   TfFiltroEstoque = class(TForm)
@@ -119,6 +120,8 @@ type
     Edit6: TEdit;
     Label12: TLabel;
     edNota: TEdit;
+    JvAppXMLFileStorage1: TJvAppXMLFileStorage;
+    JvFormStorage1: TJvFormStorage;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -607,24 +610,24 @@ begin
   fPdm:= TfPdm.Create(Application);
   try
     if fPdm.cds_Movimento.Active then
-       fPdm.cds_movimento.Close;
+      fPdm.cds_movimento.Close;
     fPdm.cds_movimento.Params[0].AsInteger := cds_estoqueCODMOV.AsInteger;
     fPdm.cds_movimento.Open;
     if fPdm.cds_Mov_det.Active then
-       fPdm.cds_Mov_det.Close;
-     fPdm.cds_Mov_det.Params[0].Clear;
-     fPdm.cds_Mov_det.Params[1].AsInteger := fPdm.cds_MovimentoCODMOVIMENTO.AsInteger;
-     fPdm.cds_Mov_det.Open;
+      fPdm.cds_Mov_det.Close;
+    //fPdm.cds_Mov_det.Params[0].Clear;
+    fPdm.cds_Mov_det.Params.ParamByName('pCODMOV').AsInteger := fPdm.cds_MovimentoCODMOVIMENTO.AsInteger;
+    fPdm.cds_Mov_det.Open;
     if fPdm.cds_MovimentoCODFORNECEDOR.IsNull then
     begin
-       fPdm.dbeCliente.DataField := 'CODCLIENTE';
-       fPdm.DBEdit4.DataField := 'NOMECLIENTE';
+      fPdm.dbeCliente.DataField := 'CODCLIENTE';
+      fPdm.DBEdit4.DataField := 'NOMECLIENTE';
     end;
     var_1 := 1;
     fPdm.ShowModal;
-   finally
+  finally
     fPdm.Free;
-   end;
+  end;
 end;
 
 procedure TfFiltroEstoque.btnSairClick(Sender: TObject);

@@ -11,6 +11,7 @@ object fFiltroEstoque: TfFiltroEstoque
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -1235,5 +1236,33 @@ object fFiltroEstoque: TfFiltroEstoque
     Title = 'Untitled'
     Left = 400
     Top = 328
+  end
+  object JvAppXMLFileStorage1: TJvAppXMLFileStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.InvalidCharReplacement = '_'
+    FileName = 'FiltroEstoque.xml'
+    Location = flUserFolder
+    RootNodeName = 'Configuration'
+    SubStorages = <>
+    Left = 536
+    Top = 94
+  end
+  object JvFormStorage1: TJvFormStorage
+    AppStorage = JvAppXMLFileStorage1
+    AppStoragePath = 'fFiltroEstoque\'
+    StoredProps.Strings = (
+      'Edit3.Text'
+      'Edit4.Text'
+      'meDta1.Date'
+      'meDta2.Date'
+      'cbGrupo.ItemIndex'
+      'cbPRODUTO.ItemIndex'
+      'edNota.Text'
+      'ComboBox2.ItemIndex'
+      'cbAplicacao.ItemIndex')
+    StoredValues = <>
+    Left = 568
+    Top = 94
   end
 end

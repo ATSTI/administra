@@ -824,6 +824,7 @@ object fFiltroMovimento: TfFiltroMovimento
       BorderStyle = bsNone
       BevelKind = bkFlat
       TabOrder = 6
+      OnKeyPress = FormKeyPress
     end
     object meDta2: TJvDateEdit
       Left = 664
@@ -833,6 +834,7 @@ object fFiltroMovimento: TfFiltroMovimento
       BorderStyle = bsNone
       BevelKind = bkFlat
       TabOrder = 7
+      OnKeyPress = FormKeyPress
     end
     object rbData: TJvCheckBox
       Left = 584
@@ -1355,84 +1357,91 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'Cod. Pedido'
-        Width = 43
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 43
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NFE'
         Title.Caption = 'NFe'
-        Width = 55
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SERIE'
         Title.Caption = 'S'#233'rie'
-        Width = 28
+        Width = 25
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 43
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENDA'
         Title.Caption = 'Data Venda'
-        Width = 60
+        Width = 53
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ENTREGA'
         Title.Caption = 'Entrega'
-        Width = 59
+        Width = 52
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.Cli.'
-        Width = 40
+        Width = 36
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 213
+        Width = 191
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Valor R$'
-        Width = 52
+        Width = 47
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'HIST_MOV'
+        Title.Caption = 'Historico'
+        Width = 78
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 43
+        Width = 39
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 85
+        Width = 75
         Visible = True
       end>
   end
@@ -1852,6 +1861,11 @@ object fFiltroMovimento: TfFiltroMovimento
       FieldName = 'DATA_ENTREGA'
       ReadOnly = True
     end
+    object cds_cnsHIST_MOV: TStringField
+      FieldName = 'HIST_MOV'
+      ReadOnly = True
+      Size = 150
+    end
   end
   object dsp_cns: TDataSetProvider
     DataSet = sds_cns
@@ -1866,18 +1880,18 @@ object fFiltroMovimento: TfFiltroMovimento
       'M(movd.QUANTIDADE * movd.PRECO)  as PRECO,'#13#10'cli.NOMECLIENTE, nat' +
       '.DESCNATUREZA,  forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
       'ven.VALOR, '#13#10'ven.APAGAR, ven.datavenda, mov.NFE, cli.BLOQUEIO, m' +
-      'ov.DATA_ENTREGA '#13#10'from MOVIMENTO mov '#13#10'left outer join CLIENTES ' +
-      'cli on cli.CODCLIENTE = mov.CODCLIENTE '#13#10'inner join NATUREZAOPER' +
-      'ACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA '#13#10'left outer joi' +
-      'n FORNECEDOR forn on forn.CODFORNECEDOR = mov.CODFORNECEDOR '#13#10'le' +
-      'ft outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO '#13 +
-      #10'left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mo' +
-      'v.CODMOVIMENTO '#13#10'group by '#13#10'       mov.CODCLIENTE, mov.CODMOVIME' +
-      'NTO, mov.CODPEDIDO,'#13#10'      mov.CODNATUREZA, mov.DATAMOVIMENTO, m' +
-      'ov.STATUS,'#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DESCNATUREZA, mov' +
-      '.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
-      'ven.VALOR, ven.APAGAR, ven.datavenda, mov.NFE, cli.BLOQUEIO, mov' +
-      '.DATA_ENTREGA '
+      'ov.DATA_ENTREGA , MOV.HIST_MOV '#13#10'from MOVIMENTO mov '#13#10'left outer' +
+      ' join CLIENTES cli on cli.CODCLIENTE = mov.CODCLIENTE '#13#10'inner jo' +
+      'in NATUREZAOPERACAO nat on'#13#10' nat.CODNATUREZA = mov.CODNATUREZA '#13 +
+      #10'left outer join FORNECEDOR forn on forn.CODFORNECEDOR = mov.COD' +
+      'FORNECEDOR '#13#10'left outer join VENDA ven on ven.CODMOVIMENTO = mov' +
+      '.CODMOVIMENTO '#13#10'left outer join MOVIMENTODETALHE movd on movd.CO' +
+      'DMOVIMENTO = mov.CODMOVIMENTO '#13#10'group by '#13#10'       mov.CODCLIENTE' +
+      ', mov.CODMOVIMENTO, mov.CODPEDIDO,'#13#10'      mov.CODNATUREZA, mov.D' +
+      'ATAMOVIMENTO, mov.STATUS,'#13#10'      cli.NOMECLIENTE, '#13#10'      nat.DE' +
+      'SCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISC' +
+      'AL, ven.SERIE, ven.VALOR, ven.APAGAR, ven.datavenda, mov.NFE, cl' +
+      'i.BLOQUEIO, mov.DATA_ENTREGA , MOV.HIST_MOV '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1959,6 +1973,11 @@ object fFiltroMovimento: TfFiltroMovimento
     object sds_cnsDATA_ENTREGA: TDateField
       FieldName = 'DATA_ENTREGA'
       ReadOnly = True
+    end
+    object sds_cnsHIST_MOV: TStringField
+      FieldName = 'HIST_MOV'
+      ReadOnly = True
+      Size = 150
     end
   end
   object PopupMenu1: TPopupMenu
@@ -2056,6 +2075,7 @@ object fFiltroMovimento: TfFiltroMovimento
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'FiltroVenda.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 408
