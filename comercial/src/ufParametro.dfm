@@ -458,7 +458,7 @@ inherited fParametro: TfParametro
       ImageIndex = 2
       object Label72: TLabel
         Left = 16
-        Top = 360
+        Top = 377
         Width = 716
         Height = 13
         Caption = 
@@ -472,8 +472,8 @@ inherited fParametro: TfParametro
         ParentFont = False
       end
       object Label73: TLabel
-        Left = 19
-        Top = 379
+        Left = 15
+        Top = 392
         Width = 238
         Height = 13
         Caption = 'D3 = CFOP Exporta'#231#227'o, D4 = Importa'#231#227'o '
@@ -784,6 +784,27 @@ inherited fParametro: TfParametro
           'Sim')
         TabOrder = 8
         OnClick = rgNfeClick
+      end
+      object rgTipoNF: TRadioGroup
+        Left = 8
+        Top = 336
+        Width = 305
+        Height = 36
+        Caption = 'Nota Fiscal Eletronica  ou   Nota Fiscal Consumidor Eletronica'
+        Columns = 2
+        Items.Strings = (
+          'NFe'
+          'NFCe')
+        TabOrder = 9
+      end
+      object BitBtn47: TBitBtn
+        Left = 315
+        Top = 346
+        Width = 77
+        Height = 25
+        Caption = 'Gravar'
+        TabOrder = 10
+        OnClick = BitBtn47Click
       end
     end
     object TabSheet2: TTabSheet
@@ -3111,18 +3132,25 @@ inherited fParametro: TfParametro
         Caption = 'Lista de Pre'#231'o'
         TabOrder = 10
         object Label65: TLabel
-          Left = 251
+          Left = 323
           Top = 15
           Width = 105
           Height = 13
           Caption = 'Lista de Pre'#231'o Padrao'
         end
         object Label66: TLabel
-          Left = 251
+          Left = 323
           Top = 27
           Width = 114
           Height = 13
           Caption = 'informe o c'#243'digo da lista'
+        end
+        object Label80: TLabel
+          Left = 16
+          Top = 24
+          Width = 169
+          Height = 13
+          Caption = 'S=ListaPre'#231'o ou C=Lista por Cliente'
         end
         object LISTAPRECOGrava: TBitBtn
           Left = 690
@@ -3133,22 +3161,15 @@ inherited fParametro: TfParametro
           TabOrder = 2
           OnClick = LISTAPRECOGravaClick
         end
-        object RadioGroup5: TJvRadioGroup
-          Left = 4
-          Top = 14
-          Width = 189
-          Height = 33
-          Caption = 'Usa Lista de Pre'#231'o por Cliente'
-          Columns = 2
-          ItemIndex = 0
-          Items.Strings = (
-            'N'#227'o'
-            'Sim')
-          TabOrder = 1
-          CaptionVisible = True
-        end
         object edCodigoListaPadrao: TEdit
-          Left = 372
+          Left = 452
+          Top = 19
+          Width = 69
+          Height = 21
+          TabOrder = 1
+        end
+        object Edit24: TEdit
+          Left = 196
           Top = 19
           Width = 69
           Height = 21

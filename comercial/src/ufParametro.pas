@@ -360,7 +360,6 @@ type
     rgNfe: TRadioGroup;
     gbOP: TGroupBox;
     LISTAPRECOGrava: TBitBtn;
-    RadioGroup5: TJvRadioGroup;
     lblSerie: TLabel;
     btnGravarOP: TBitBtn;
     edtOP: TEdit;
@@ -394,6 +393,10 @@ type
     Label77: TLabel;
     Label78: TLabel;
     Label79: TLabel;
+    rgTipoNF: TRadioGroup;
+    BitBtn47: TBitBtn;
+    Edit24: TEdit;
+    Label80: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -494,6 +497,7 @@ type
     procedure chkCadastroProdutoClick(Sender: TObject);
     procedure BitBtn45Click(Sender: TObject);
     procedure BitBtn46Click(Sender: TObject);
+    procedure BitBtn47Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -740,10 +744,7 @@ begin
 
   if (dm.cds_param.Locate('PARAMETRO','LISTAPRECO', [loCaseInsensitive])) then
   begin
-    if (dm.cds_paramCONFIGURADO.AsString = 'S') then
-    begin
-      RadioGroup5.ItemIndex := 1;
-    end;
+    edit24.Text := dm.cds_paramCONFIGURADO.AsString;
     if (dm.cds_paramD4.AsString <> '') then
       edCodigoListaPadrao.Text := dm.cds_paramD4.AsString;
   end;
@@ -1086,6 +1087,14 @@ begin
   begin
     rgNfe.ItemIndex := 1;
   end;
+  if (dm.cds_param.Locate('PARAMETRO','TIPO_NF', [loCaseInsensitive])) then
+  begin
+    if (dm.cds_parametroDADOS.AsString = 'NFe') then
+      rgTipoNf.ItemIndex := 0;
+    if (dm.cds_parametroDADOS.AsString = 'NFCe') then
+      rgTipoNf.ItemIndex := 1;
+  end;
+
 end;
 
 
@@ -5202,10 +5211,7 @@ begin
     strSql := strSql + ') VALUES (';
     strSql := strSql + QuotedStr('Utiliza Lista de Preço por cliente') + ', ';
     strSql := strSql + QuotedStr('LISTAPRECO') + ', ';
-    if (RadioGroup5.ItemIndex = 1) then
-      strSql := strSql + QuotedStr('S');
-    if (RadioGroup5.ItemIndex = 0) then
-      strSql := strSql + QuotedStr('N');
+    strSql := strSql + QuotedStr(edit24.Text);
     if (edCodigoListaPadrao.Text <> '') then
       strSql := strSql + ', ' + edCodigoListaPadrao.Text
     else
@@ -5224,10 +5230,7 @@ begin
   end
   else begin
     strSql := 'UPDATE PARAMETRO SET CONFIGURADO = ';
-    if (RadioGroup5.ItemIndex = 1) then
-      strSql := strSql + QuotedStr('S');
-    if (RadioGroup5.ItemIndex = 0) then
-      strSql := strSql + QuotedStr('N');
+    strSql := strSql + QuotedStr(edit24.Text);
     if (edCodigoListaPadrao.Text <> '') then
       strSql := strSql + ', D4 = ' + edCodigoListaPadrao.Text;
     strSql := strSql + ' where PARAMETRO = ' + QuotedStr('LISTAPRECO');
@@ -5679,6 +5682,60 @@ begin
       dm.sqlsisAdimin.Rollback(TD);
       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
     end;
+  end;
+end;
+
+procedure TfParametro.BitBtn47Click(Sender: TObject);
+begin
+  strSql := '';
+  MessageDlg('Cadastre, também: '+#13+#10+''+#13+#10+'Natureza Operação : 30 para Nota Fiscal Consumidor;'+#13+#10+''+#13+#10+'Série                         : para ser usada na NFCe;'+#13+#10+''+#13+#10+'Parametro                : SERIENFCe com a série criada no campo D1;', mtWarning, [mbOK], 0);
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'TIPO_NF';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('NFe ou NFCe') + ', ';
+    strSql := strSql + QuotedStr('TIPO_NF') + ', ';
+    if (rgTipoNF.ItemIndex = 0) then
+    begin
+      strSql := strSql + QuotedStr('S');
+      strSql := strSql + ',' + QuotedStr('NFe');
+    end;
+    if (rgTipoNF.ItemIndex = 1) then
+    begin
+      strSql := strSql + QuotedStr('S');
+      strSql := strSql + ',' + QuotedStr('NFCe');
+    end;
+
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (rgDataNF.ItemIndex = 0) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'NFe';
+    end;
+
+    if (rgDataNF.ItemIndex = 1) then
+    begin
+      dm.cds_parametroDADOS.AsString := 'NFCe';
+    end;
+
+    dm.cds_parametro.ApplyUpdates(0);
   end;
 end;
 
