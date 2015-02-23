@@ -415,6 +415,7 @@ begin
   Application.CreateForm(TfCombo, fCombo);
   Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
   Application.CreateForm(TfNFeletronica, fNFeletronica);
+  Application.CreateForm(TfNFCe, fNFCe);  
   Application.CreateForm(TfNFeMail, fNFeMail);
   Application.CreateForm(TfBalancete, fBalancete);
   //Application.CreateForm(TForm_1, Form_1);
