@@ -1611,7 +1611,7 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       try
         str_sql := 'EXECUTE PROCEDURE GERA_CUPOM(';
-        str_sql := str_sql  + IntToStr(DM_MOV.ID_DO_MOVIMENTO) + ')';
+        str_sql := str_sql + IntToStr(DM_MOV.ID_DO_MOVIMENTO) + ')';
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
         dm.sqlsisAdimin.Commit(TD);
       except

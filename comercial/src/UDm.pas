@@ -2049,6 +2049,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    diretorioUser: String;
     mascaraProduto : String;
     prdPrecoCustoFixo: String;
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
