@@ -772,7 +772,10 @@ object fRelatorioCaixa: TfRelatorioCaixa
     AppStoragePath = 'fRelatorioCaixa\'
     StoredProps.Strings = (
       'MaskEdit1.Date'
-      'MaskEdit2.Date')
+      'MaskEdit2.Date'
+      'ComboBox1.ItemIndex'
+      'ComboBox2.ItemIndex'
+      'edCodCCusto.ItemIndex')
     StoredValues = <>
     Left = 360
     Top = 8
