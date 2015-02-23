@@ -3447,7 +3447,20 @@ object fcrproc: Tfcrproc
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fcrproc\'
     StoredProps.Strings = (
-      'cbReceitas.ItemIndex')
+      'cbComboCaixa.ItemIndex'
+      'cbForma.ItemIndex'
+      'cbStatus.ItemIndex'
+      'edCliente.Text'
+      'edCodCliente.Text'
+      'edcodVendedor.Text'
+      'edTitulo.Text'
+      'meDta1.Text'
+      'meDta2.Text'
+      'meDta3.Text'
+      'meDta4.Text'
+      'meDta5.Text'
+      'meDta6.Text'
+      'edVendedor.Text')
     StoredValues = <>
     Left = 731
     Top = 30
@@ -3457,6 +3470,7 @@ object fcrproc: Tfcrproc
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'ReceberFiltro.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 731

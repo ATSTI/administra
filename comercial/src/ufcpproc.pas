@@ -956,7 +956,8 @@ begin
       dm.scds_forn_proc.Close;
    dm.scds_forn_proc.Params[0].Clear;
    dm.scds_forn_proc.Params[1].Clear;
-   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;   
+   dm.scds_forn_proc.Params.ParamByName('pStatus').AsInteger := 1;
+   dm.scds_forn_proc.Params.ParamByName('pSegmento').AsInteger := 1;   
    dm.scds_forn_proc.Params[2].AsInteger := StrToInt(edCodCliente.Text);
    dm.scds_forn_proc.Open;
      edCliente.Text := dm.scds_forn_procNOMEFORNECEDOR.asString;

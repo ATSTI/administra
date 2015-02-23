@@ -7,7 +7,9 @@ uses
   Dialogs, FMTBcd, DBCtrls, StdCtrls, Grids, DBGrids, Buttons, ExtCtrls,
   Menus, DB, DBClient, Provider, SqlExpr, XPMenu, MMJPanel, EDBFind,
   rpcompobase, rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox,
-  JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits, DBXPress;
+  JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits, DBXPress,
+  JvExDBGrids, JvDBGrid,
+  JvFormPlacement, JvComponentBase, JvAppStorage, JvAppXMLStorage;
 
 type
   TfProcura_prod = class(TForm)
@@ -193,6 +195,9 @@ type
     Label15: TLabel;
     DefinirGrupos1: TMenuItem;
     chkComp: TCheckBox;
+    JvDBGrid1: TJvDBGrid;
+    jvXmStorage: TJvAppXMLFileStorage;
+    jvStorageF: TJvFormStorage;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -516,7 +521,7 @@ begin
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
   if (Panel1.Visible = True) then
-    DBGrid1.SetFocus;
+    JvDBGrid1.SetFocus;
   if (Panel2.Visible = True) then
     EvDBFind1.SetFocus;
   if (Panel1.Visible = True) then
@@ -578,7 +583,7 @@ begin
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
     BitBtn1.Click;
-    DbGrid1.SetFocus;
+    JvDbGrid1.SetFocus;
   end;
 end;
 

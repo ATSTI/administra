@@ -463,7 +463,7 @@ end;
 procedure Tfcrproc.FormShow(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fcrproc));
-  cbStatus.ItemIndex := 2;
+  //cbStatus.ItemIndex := 2;
   cbStatus.SetFocus;
   if (edCodCliente.Text <> '') then
   begin

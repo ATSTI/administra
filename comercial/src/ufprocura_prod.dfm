@@ -1,6 +1,6 @@
 object fProcura_prod: TfProcura_prod
-  Left = 23
-  Top = 30
+  Left = 263
+  Top = 35
   Width = 811
   Height = 562
   Caption = 'Lista de Produtos'
@@ -527,9 +527,9 @@ object fProcura_prod: TfProcura_prod
   object DBGrid1: TDBGrid
     Left = 0
     Top = 223
-    Width = 704
+    Width = 521
     Height = 247
-    Align = alClient
+    Align = alCustom
     Color = clCream
     DataSource = Dtsrc
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -540,6 +540,7 @@ object fProcura_prod: TfProcura_prod
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    Visible = False
     OnCellClick = DBGrid1CellClick
     OnDblClick = DBGrid1DblClick
     OnKeyDown = DBGrid1KeyDown
@@ -596,6 +597,13 @@ object fProcura_prod: TfProcura_prod
       end
       item
         Expanded = False
+        FieldName = 'SUBGRUPO'
+        Title.Caption = 'SubGrupo'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
         FieldName = 'PRECO_VENDA'
         Title.Caption = 'V. Venda(R$)'
         Visible = True
@@ -611,13 +619,6 @@ object fProcura_prod: TfProcura_prod
         Expanded = False
         FieldName = 'MARCA'
         Title.Caption = 'Marca'
-        Width = 120
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SUBGRUPO'
-        Title.Caption = 'SubGrupo'
         Width = 120
         Visible = True
       end>
@@ -1513,6 +1514,155 @@ object fProcura_prod: TfProcura_prod
       OnClick = BitBtn8Click
     end
   end
+  object JvDBGrid1: TJvDBGrid
+    Left = 0
+    Top = 223
+    Width = 704
+    Height = 247
+    Align = alClient
+    DataSource = Dtsrc
+    PopupMenu = PopupMenu1
+    TabOrder = 7
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyUp = DBGrid1KeyUp
+    OnTitleClick = DBGrid1TitleClick
+    IniStorage = jvStorageF
+    TitleButtons = True
+    TitleArrow = True
+    SelectColumnsDialogStrings.Caption = 'Select columns'
+    SelectColumnsDialogStrings.OK = '&OK'
+    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+    EditControls = <>
+    RowsHeight = 17
+    TitleRowHeight = 17
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODPRO'
+        Title.Caption = 'C'#243'digo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRODUTO'
+        Title.Caption = 'Descri'#231#227'o do Produto'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PEDIDO'
+        Title.Caption = 'Pedido'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ESTOQUEATUAL'
+        Title.Caption = 'Estoque'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'QTDE_PCT'
+        Title.Caption = 'Qtde Pct.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_VENDA'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Title.Caption = 'Pre'#231'o'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UNIDADEMEDIDA'
+        Title.Caption = 'UN'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'SUBGRUPO'
+        Title.Caption = 'Sub-Grupo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GRUPO'
+        Title.Caption = 'Grupo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MARCA'
+        Title.Caption = 'Marca'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'LOCALIZACAO'
+        Title.Caption = 'Localiza'#231#227'o'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECO_COMPRA'
+        Title.Caption = 'Compra'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPO'
+        Title.Caption = 'Tipo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'COD_BARRA'
+        Title.Caption = 'C'#243'd. Barra'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PESO_QTDE'
+        Title.Caption = 'Qtde/Peso'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOMEDIO'
+        Title.Caption = 'Custo M'#233'dio'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'OBS'
+        Title.Caption = 'Obs.'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ORIGEM'
+        Title.Caption = 'Origem'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NCM'
+        Visible = True
+      end>
+  end
   object sds_proc: TSQLDataSet
     CommandText = 
       'select distinct pro.CODPRODUTO, '#13#10'          pro.COD_BARRA,  '#13#10'  ' +
@@ -2119,5 +2269,23 @@ object fProcura_prod: TfProcura_prod
     DataSet = cdsLista
     Left = 120
     Top = 328
+  end
+  object jvXmStorage: TJvAppXMLFileStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.InvalidCharReplacement = '_'
+    FileName = 'pvenda.xml'
+    Location = flUserFolder
+    RootNodeName = 'Configuration'
+    SubStorages = <>
+    Left = 656
+    Top = 400
+  end
+  object jvStorageF: TJvFormStorage
+    AppStorage = jvXmStorage
+    AppStoragePath = 'fProcura_prod\'
+    StoredValues = <>
+    Left = 656
+    Top = 432
   end
 end

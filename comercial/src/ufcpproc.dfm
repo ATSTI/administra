@@ -3194,6 +3194,7 @@ object fCpProc: TfCpProc
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'cpFiltro.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 600
