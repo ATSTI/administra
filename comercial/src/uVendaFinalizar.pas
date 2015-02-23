@@ -507,6 +507,10 @@ type
     ImprimirCupom1: TMenuItem;
     btnCupom: TBitBtn;
     edAPagar: TJvCalcEdit;
+    pnlMotivoCancelamento: TGroupBox;
+    edtMotivoCancelamento: TEdit;
+    BitBtn9: TBitBtn;
+    BitBtn10: TBitBtn;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -568,6 +572,8 @@ type
     procedure ImprimirCupom1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnCupomClick(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -612,7 +618,7 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento, U_Boletos, uCarne, uReceberCls, uTerminal_Delivery;
+  uMovimento, U_Boletos, uCarne, uReceberCls, uTerminal_Delivery, uNFCe;
 
 {$R *.dfm}
 
@@ -1428,6 +1434,17 @@ begin
     dm.EstoqueAtualiza(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger);
 
   nfe := 'S';
+  if (Dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'TIPO_NF';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroDADOS.AsString = 'NFCe') then
+    begin
+      nfe := 'NFCe';
+    end;
+  end;
 
   if (nfe = 'S' ) then
   begin
@@ -1476,6 +1493,14 @@ begin
       end;
     end;
     notaFiscal;
+  end;
+  if (nfe = 'NFCe' ) then
+  begin
+    fNFCe.NFCe_codMov     := cdsCODMOVIMENTO.AsInteger;
+    fNFCe.NFCe_codCliente := cdsCODCLIENTE.AsInteger;
+    fNFCe.NFCe_dataVenda  := cdsDATAVENDA.AsDateTime;
+    fNFCe.NFCe_dataVencimento := cdsDATAVENCIMENTO.AsDateTime;
+    fNFCe.ShowModal;
   end;
 end;
 
@@ -2598,88 +2623,15 @@ begin
 end;
 
 procedure TfVendaFinalizar.BitBtn2Click(Sender: TObject);
-var FVen: TVendaCls;
+var utilvf : Tutils;
 begin
-  if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
-                  [mbYes,mbNo],0) = mrYes then
+  utilvf := Tutils.Create;
+  if (utilvf.verificapermissao = True) then
   begin
-    Try
-      FVen := TVendaCls.Create;
-     try
-       dm.sqlsisAdimin.StartTransaction(TD);
-       FVen.cancelarVenda(cdsCODVENDA.AsInteger, cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime);
-
-       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
-       begin
-         dm.sqlBusca.SQL.Clear;
-         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
-           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
-           '   AND CODNATUREZA = 2'+
-           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
-         dm.sqlBusca.Open;
-         if (not dm.sqlBusca.IsEmpty) then
-         begin
-           //dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
-           //dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
-           dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
-             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
-           dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
-             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
-         end;
-       end;
-       dm.sqlBusca.Close;
-
-       dm.sqlsisAdimin.Commit(TD);
-
-       MessageDlg('Venda cancelada com sucesso.', mtInformation, [mbOK], 0);
-     except
-       on E : Exception do
-       begin
-         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
-         dm.sqlsisAdimin.Rollback(TD);
-       end;
-     end;
-    Finally
-      FVen.Free;
-    end;
-  end;
-    { if (fVendas.cds_Movimento.State in [dsBrowse]) then
-       fVendas.cds_Movimento.Edit;
-     fVendas.cds_MovimentoCODNATUREZA.AsInteger := 14;
-     fVendas.cds_Movimento.ApplyUpdates(0);
-     if (cds.State in [dsBrowse]) then
-        cds.Edit;
-     cdsSTATUS.AsInteger := 14;
-
-     try
-       dm.sqlsisAdimin.StartTransaction(TD);
-       dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
-       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
-       begin
-         if (dm.sqlBusca.Active) then
-           dm.sqlBusca.Close;
-         dm.sqlBusca.SQL.Clear;
-         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
-           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
-           '   AND CODNATUREZA = 2'+
-           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
-         dm.sqlBusca.Open;
-         if (not dm.sqlBusca.IsEmpty) then
-         begin
-           dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
-           dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
-         end;
-       end;
-      cds.ApplyUpdates(0);
-       dm.sqlsisAdimin.Commit(TD);
-     except
-       on E : Exception do
-       begin
-         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
-         dm.sqlsisAdimin.Rollback(TD);
-       end;
-     end;  }
-
+    if MessageDlg('Atenção, confirmando essa operação o sistema vai alterar o status para'+#13+#10+' "CANCELADO", não será excluido do sistema.',mtConfirmation,
+                  [mbYes,mbNo],0) = mrYes then
+      pnlMotivoCancelamento.visible := True;
+  end;    
 end;
 
 procedure TfVendaFinalizar.cbNomeColhedorChange(Sender: TObject);
@@ -3147,7 +3099,8 @@ begin
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(serieNF);
           str_sql := str_sql + ', ' + QuotedStr(numNf);
-          str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
+          str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger);
+          str_sql := str_sql + ', ' + '15)';
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
         if (DM.tipoVenda = 'DEVOLUCAO') then
@@ -3719,6 +3672,104 @@ begin
   finally
     fTerminal_Delivery.Free;
   end;
+end;
+
+procedure TfVendaFinalizar.BitBtn9Click(Sender: TObject);
+var FVen: TVendaCls;
+ txtCancelar: String;
+begin
+  if (edtMotivoCancelamento.Text = '') then
+  begin
+    MessageDlg('Informe o Motivo do Cancelamento.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  begin
+    Try
+      FVen := TVendaCls.Create;
+     try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       txtCancelar := Copy(edtMotivoCancelamento.text,0, 160) + ' por : ' + DM.varLogado;
+       txtCancelar := txtCancelar + ' em: ' +FormatDateTime('dd/mm/yyyy',Now);
+       FVen.cancelarVenda(cdsCODVENDA.AsInteger, cdsCODMOVIMENTO.AsInteger,
+          cdsDATAVENDA.AsDateTime, txtCancelar);
+       pnlMotivoCancelamento.visible := False;
+       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+       begin
+         dm.sqlBusca.SQL.Clear;
+         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+           '   AND CODNATUREZA = 2'+
+           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+         dm.sqlBusca.Open;
+         if (not dm.sqlBusca.IsEmpty) then
+         begin
+           //dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+           //dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+           dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
+             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+           dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
+             IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
+         end;
+       end;
+       dm.sqlBusca.Close;
+
+       dm.sqlsisAdimin.Commit(TD);
+
+       MessageDlg('Venda cancelada com sucesso.', mtInformation, [mbOK], 0);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+         dm.sqlsisAdimin.Rollback(TD);
+       end;
+     end;
+    Finally
+      FVen.Free;
+    end;
+  end;
+    { if (fVendas.cds_Movimento.State in [dsBrowse]) then
+       fVendas.cds_Movimento.Edit;
+     fVendas.cds_MovimentoCODNATUREZA.AsInteger := 14;
+     fVendas.cds_Movimento.ApplyUpdates(0);
+     if (cds.State in [dsBrowse]) then
+        cds.Edit;
+     cdsSTATUS.AsInteger := 14;
+
+     try
+       dm.sqlsisAdimin.StartTransaction(TD);
+       dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+       if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
+       begin
+         if (dm.sqlBusca.Active) then
+           dm.sqlBusca.Close;
+         dm.sqlBusca.SQL.Clear;
+         dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
+           ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
+           '   AND CODNATUREZA = 2'+
+           '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
+         dm.sqlBusca.Open;
+         if (not dm.sqlBusca.IsEmpty) then
+         begin
+           dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+           dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+         end;
+       end;
+      cds.ApplyUpdates(0);
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       on E : Exception do
+       begin
+         ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+         dm.sqlsisAdimin.Rollback(TD);
+       end;
+     end;  }
+
+end;
+
+procedure TfVendaFinalizar.BitBtn10Click(Sender: TObject);
+begin
+  inherited;
+  pnlMotivoCancelamento.visible := False;
 end;
 
 end.
