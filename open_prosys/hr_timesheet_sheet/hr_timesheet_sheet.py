@@ -67,6 +67,9 @@ class hr_timesheet_sheet(osv.osv):
         raise osv.except_osv(_('Error!'), _('You cannot duplicate a timesheet.'))
 
     def create(self, cr, uid, vals, context=None):
+        #if 'manager_id' in vals:
+        #    mg_id = self.pool.get('hr.employee').browse(cr, uid, vals['manager_id'], context=context).user_id
+        #    vals['manager_id'] = mg_id.id
         if 'employee_id' in vals:
             if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).user_id:
                 raise osv.except_osv(_('Error!'), _('In order to create a timesheet for this employee, you must assign it to a user.'))
@@ -165,7 +168,7 @@ class hr_timesheet_sheet(osv.osv):
         'total_difference': fields.function(_total, method=True, string='Difference', multi="_total"),
         'period_ids': fields.one2many('hr_timesheet_sheet.sheet.day', 'sheet_id', 'Period', readonly=True),
         'account_ids': fields.one2many('hr_timesheet_sheet.sheet.account', 'sheet_id', 'Analytic accounts', readonly=True),
-        'manager_id': fields.many2one('hr.employee', 'user_id', 'Gerente', required=True, domain=[('job_id.id','=', 1)]),
+        'manager_id': fields.many2one('res.users', 'user_id', 'Gerente', required=True, domain=[('title.name','=', 'GERENTE')]),
         'company_id': fields.many2one('res.company', 'Company'),
         'department_id':fields.many2one('hr.department','Department'),
     }
@@ -211,7 +214,6 @@ class hr_timesheet_sheet(osv.osv):
     }
 
     def _sheet_date(self, cr, uid, ids, forced_user_id=False, context=None):
-        #pdb.set_trace()
         for sheet in self.browse(cr, uid, ids, context=context):
             new_user_id = forced_user_id or sheet.user_id and sheet.user_id.id
             new_manager_id = sheet.manager_id and sheet.manager_id.id
@@ -312,7 +314,6 @@ class hr_timesheet_line(osv.osv):
     def _sheet(self, cursor, user, ids, name, args, context=None):
         sheet_obj = self.pool.get('hr_timesheet_sheet.sheet')
         res = {}.fromkeys(ids, False)
-        #pdb.set_trace()
         for ts_line in self.browse(cursor, user, ids, context=context):
             sheet_ids = sheet_obj.search(cursor, user,
                 [('date_to', '>=', ts_line.date), ('date_from', '<=', ts_line.date),
@@ -326,7 +327,6 @@ class hr_timesheet_line(osv.osv):
 
     def _get_hr_timesheet_sheet(self, cr, uid, ids, context=None):
         ts_line_ids = []
-        #pdb.set_trace()
         for ts in self.browse(cr, uid, ids, context=context):
             cr.execute("""
                     SELECT l.id
@@ -479,7 +479,6 @@ class hr_attendance(osv.osv):
         return att_tz_date_str
 
     def _get_current_sheet(self, cr, uid, employee_id, date=False, context=None):
-        #pdb.set_trace()
         sheet_obj = self.pool['hr_timesheet_sheet.sheet']
         if not date:
             date = time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
