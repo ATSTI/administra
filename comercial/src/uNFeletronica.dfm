@@ -4199,6 +4199,7 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Geral.PathSchemas = 'c:\home\sisadmin\schemas'
     Configuracoes.Geral.ExibirErroSchema = True
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.VersaoDF = ve310
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 10000
     Configuracoes.WebServices.IntervaloTentativas = 10000
@@ -4557,6 +4558,7 @@ object fNFeletronica: TfNFeletronica
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     StorageOptions.InvalidCharReplacement = '_'
     FileName = 'nfe.xml'
+    Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
     Left = 552

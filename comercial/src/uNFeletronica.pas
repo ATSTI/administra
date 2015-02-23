@@ -991,9 +991,13 @@ begin
         end;
         tipoNota := trim(cdsNFCFOP.AsString)[1];
         if (tipoNota in ['1','2','3']) then
+        begin
           tpNFe := 0;
+        end;
         if (tipoNota in ['5','6','7']) then
+        begin
           tpNFe := 1;
+        end;
 
          { isto estava fora do IF}
          if (cbTipoNota.ItemIndex = 1) then
@@ -1110,13 +1114,20 @@ begin
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
             if (tpNFe = 0) then
-            begin
-              Ide.tpNF := tnEntrada;
-            end;
+              Ide.tpNF   := tnEntrada;
+
             if (tpNFe = 1) then
-            begin
-              Ide.tpNF    := tnSaida;
-            end;
+              Ide.tpNF   := tnSaida;
+
+            if (tipoNota in ['1','5']) then
+              ide.idDest := doInterna;
+
+            if (tipoNota in ['2','6']) then
+              ide.idDest := doInterestadual;
+
+            if (tipoNota in ['3', '7']) then
+              ide.idDest := doExterior;
+
             //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
             Ide.verProc   := '1.0.0.0';
 
@@ -1946,7 +1957,6 @@ var
     if (tipoNota in ['5','6','7']) then
       tpNFe := 1;
 
-
    { Isto estava fora do IF }
    if (cbTipoNota.ItemIndex = 1) then
    begin
@@ -2050,13 +2060,20 @@ var
     InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
     // Tipo de movimentação 0 entrada 1 saida
     if (tpNFe = 0) then
-    begin
-      Ide.tpNF := tnEntrada;
-    end;
+      Ide.tpNF   := tnEntrada;
+
     if (tpNFe = 1) then
-    begin
-      Ide.tpNF    := tnSaida;
-    end;
+      Ide.tpNF   := tnSaida;
+
+    if (tipoNota in ['1','5']) then
+      ide.idDest := doInterna;
+
+    if (tipoNota in ['2','6']) then
+      ide.idDest := doInterestadual;
+
+    if (tipoNota in ['3', '7']) then
+      ide.idDest := doExterior;
+
     //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
     Ide.verProc   := '1.0.0.0';
 
@@ -2251,7 +2268,35 @@ begin
         Dest.EnderDest.cPais   := StrToInt(sFornecCODPAIS.asString);
       Dest.EnderDest.xPais   := sFornecPAIS.AsString;
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
-      Dest.IE                := RemoveChar(sFornecINSCESTADUAL.AsString);
+
+      IERG := StrLen(PChar(RemoveChar(sFornecINSCESTADUAL.AsString)));
+      if (IERG = 0) then
+      begin
+        Dest.indIEDest := inNaoContribuinte;
+      end
+      else begin
+        if (sFornecINSCESTADUAL.AsString = 'ISENTO') then
+        begin
+          Dest.indIEDest := inIsento;
+        end
+        else begin
+          Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
+          if ((sFornecUF.AsString = 'SP') or (sFornecUF.AsString = 'MG')) then
+          begin
+            if (IERG > 11) then
+            begin
+              Dest.IE := RemoveChar(sFornecINSCESTADUAL.AsString);
+            end;
+          end
+          else begin
+            if (sFornecUF.AsString <> 'EX') then
+            begin
+              if (IERG >= 5) then
+                Dest.IE := RemoveChar(sFornecINSCESTADUAL.AsString);
+            end;
+          end;
+        end;
+      end;
     end
     //CLIENTE
     else
@@ -2294,17 +2339,32 @@ begin
       Dest.EnderDest.cPais   := StrToInt(sClienteCODPAIS.AsString);
       Dest.EnderDest.xPais   := sClientePAIS.AsString;
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
-      IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
-      if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+      if (sClienteINSCESTADUAL.AsString = 'ISENTO') then
       begin
-        if (IERG > 11) then
-          Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+        Dest.indIEDest := inIsento;
       end
       else begin
-        if (sClienteUF.AsString <> 'EX') then
+        IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
+        if (IERG = 0) then
         begin
-          if (IERG >= 5) then
-            Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+          Dest.indIEDest := inNaoContribuinte;
+        end
+        else begin
+          Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
+          if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
+          begin
+            if (IERG > 11) then
+            begin
+              Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+            end;
+          end
+          else begin
+            if (sClienteUF.AsString <> 'EX') then
+            begin
+              if (IERG >= 5) then
+                Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+            end;
+          end;
         end;
       end;
     end;
@@ -2367,7 +2427,7 @@ begin
 
       Prod.nItem    := contador;
       if (dm.mascaraProduto <> '') then
-        Prod.cProd    := FormatMaskText(dm.mascaraProduto, cdsItensNFCODPRO.AsString)
+        Prod.cProd    := FormatMaskText(dm.mascaraProduto+';0;_', cdsItensNFCODPRO.AsString)
       else
         Prod.cProd    := cdsItensNFCODPRO.AsString;
 
