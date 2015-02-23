@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 349
-  Top = 136
+  Left = 350
+  Top = 137
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -1500,7 +1500,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     DataField = 'LOTE'
     DataSource = DtSrc1
     TabOrder = 16
-    OnKeyPress = FormKeyPress
+    OnKeyPress = DBEdit3KeyPress
   end
   object dbEdit4: TJvDBDatePickerEdit
     Left = 381
@@ -3238,8 +3238,8 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
         ParamType = ptInput
       end>
     DBConnection = DM.sqlsisAdimin
-    Left = 200
-    Top = 217
+    Left = 16
+    Top = 145
     object scds_serie_procCODSERIE: TStringField
       FieldName = 'CODSERIE'
       FixedChar = True

@@ -434,6 +434,7 @@ type
     procedure MaskEdit1Change(Sender: TObject);
     procedure DBEdit5Exit(Sender: TObject);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure DBEdit3KeyPress(Sender: TObject; var Key: Char);
   private
     loteant : string;
     { Private declarations }
@@ -496,13 +497,14 @@ begin
   if (Combobox2.Visible) then
     ComboBox2.Text := ccpadrao;
 
-  if Dm.cds_parametro.Active then
+   // comentei 13/02/2015  , nao esta buscando o novo numero qdo nao usa o parametro    
+  {if Dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
   dm.cds_parametro.Open;
 
   if not (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-  begin
+  begin     }
     if (Edit1.Visible) then
     begin
       if (Edit1.Text = '') then
@@ -526,7 +528,7 @@ begin
         Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
       end;
     end;
-  end;
+  //  end;
 end;
 
 procedure TfEntra_Sai_estoque.FormClose(Sender: TObject;
@@ -1163,6 +1165,11 @@ begin
     begin
       DtSrc1.DataSet.Append;
       dbeProduto.SetFocus;
+    end;
+    if (dm.codBarra = 'S') then
+    begin
+      cds_Mov_detLOTE.AsString := '';
+      dbEdit3.SetFocus;
     end;
   except
     MessageDlg('Erro ao gravar !', mtError, [mbOK], 0);
@@ -2023,14 +2030,55 @@ end;
 
 procedure TfEntra_Sai_estoque.dbeProdutoKeyPress(Sender: TObject;
   var Key: Char);
+  var str_sql: string;
 begin
- if (key = #13) then
- begin
-   key:= #0;
-   SelectNext((Sender as TwinControl),True,True);
-   if (dbeProduto.Text = '') then
-     btnProdutoProcura.Click;
- end;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    if (dbeProduto.Text = '') then
+      btnProdutoProcura.Click
+  end;
+end;
+
+procedure TfEntra_Sai_estoque.DBEdit3KeyPress(Sender: TObject;
+  var Key: Char);
+  var str_sql:string;
+begin
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    if (dm.codBarra = 'S') then
+    begin
+      str_sql := 'SELECT r.SALDO,r.CODPRO,r.CODPRODUTO, r.PRODUTO, r.GRADE, p.VALORUNITARIOATUAL VP' +
+        ', p.UNIDADEMEDIDA UN ' +
+        ' FROM VIEW_ESTOQUELOTE(' +
+        '0, ' + QuotedStr(dbEdit3.Text) + ') r, PRODUTOS p WHERE p.CODPRODUTO = r.CODPRODUTO ';
+
+      if (dm.sqlBusca.Active) then
+        dm.sqlBusca.Close;
+      dm.sqlBusca.SQL.Clear;
+      dm.sqlBusca.SQL.Add(str_sql);
+      dm.sqlBusca.Open;
+
+      if (dm.sqlBusca.IsEmpty) then
+      begin
+        dm.sqlBusca.Close;
+      end
+      else begin
+        if(dm.sqlBusca.FieldByName('SALDO').asFloat > 0) then
+        begin
+          dbeProduto.Text := dm.sqlBusca.FieldByName('CODPRO').AsString;
+          cds_Mov_detQUANTIDADE.AsFloat   := 1;
+          cds_Mov_detPRECO.AsFloat        := dm.sqlBusca.FieldByName('VP').asFloat;
+          cds_Mov_detCODPRODUTO.AsInteger := dm.sqlBusca.FieldByName('CODPRODUTO').asInteger;
+          cds_Mov_detPRODUTO.Value        := dm.sqlBusca.FieldByName('PRODUTO').AsString;
+          cds_Mov_detUN.AsString          := dm.sqlBusca.FieldByName('UN').AsString;
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.
