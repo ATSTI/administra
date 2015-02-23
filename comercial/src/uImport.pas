@@ -417,22 +417,18 @@ begin
   Try
     Fcli := TCliente.Create;
 
-    Try
-      TD.TransactionID  := 1;
-      TD.IsolationLevel := xilREADCOMMITTED;
-
-      while not JvCsvDataSet2.Eof do
+    while not JvCsvDataSet2.Eof do
+    begin
+      if (trim(JvCsvDataSet2CNPJ.AsString) <> '') then
       begin
-        if (trim(JvCsvDataSet2CNPJ.AsString) <> '') then
+        if (c_cliente.Active) then
+          c_cliente.Close;
+        c_cliente.Params[0].AsString := Trim(JvCsvDataSet2CNPJ.AsString);
+        c_cliente.Open;
+        if (c_cliente.IsEmpty) then
         begin
-          if (c_cliente.Active) then
-            c_cliente.Close;
-          c_cliente.Params[0].AsString := Trim(JvCsvDataSet2CNPJ.AsString);
-          c_cliente.Open;
-          if (c_cliente.IsEmpty) then
-          begin
-
-            dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.StartTransaction(TD);
+          Try
             Fcli := TCliente.Create;
             Fcli.CodCli      := 0;
             Fcli.NomeCliente := Trim(JvCsvDataSet2NOMECLIENTE.AsString);
@@ -457,7 +453,7 @@ begin
             FCli.Endereco.Pais          := 'Brasil';
             if (Trim(JvCsvDataSet2ENDERECO.AsString) <> '') then
             begin
-              FCli.Endereco.Logradouro := Trim(JvCsvDataSet2ENDERECO.AsString);
+              FCli.Endereco.Logradouro := Trim(copy(JvCsvDataSet2ENDERECO.AsString,0,48));
             end
             else
               FCli.Endereco.Logradouro := 'SEM ENDERECO';
@@ -481,24 +477,24 @@ begin
 
             dm.sqlsisAdimin.Commit(TD);
             contaImportado := contaImportado + 1;
+          except
+             on E : Exception do
+             begin
+               ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
           end;
-        end
-        else begin
-          MessageDlg(JvCsvDataSet2NOMECLIENTE.AsString + ', cliente sem CNPJ/CPF não é feito importação.', mtWarning, [mbOK], 0);
-          naoImportado := naoImportado + 1;
         end;
-        FlatGauge2.Progress := FlatGauge2.Progress + 1;
-        JvCsvDataSet2.Next;
+      end
+      else begin
+        MessageDlg(JvCsvDataSet2NOMECLIENTE.AsString + ', cliente sem CNPJ/CPF não é feito importação.', mtWarning, [mbOK], 0);
+        naoImportado := naoImportado + 1;
       end;
-      label1.Caption := 'Importado : ' + IntToStr(contaImportado);
-      label2.Caption := 'Não Importado : ' + IntToStr(naoImportado);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-      end;
+      FlatGauge2.Progress := FlatGauge2.Progress + 1;
+      JvCsvDataSet2.Next;
     end;
+    label1.Caption := 'Importado : ' + IntToStr(contaImportado);
+    label2.Caption := 'Não Importado : ' + IntToStr(naoImportado);
   Finally
     FCli.Free;
   end;
