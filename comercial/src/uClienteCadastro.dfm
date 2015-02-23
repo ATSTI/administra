@@ -901,6 +901,10 @@ inherited fClienteCadastro: TfClienteCadastro
         Top = 62
         Width = 187
         Height = 24
+        Hint = 
+          'Op'#231#245'es para o campo'#13#10'1: Contribuinte (Possui IE, PREENCHER);'#13#10'2:' +
+          ' ISENTO (Colocar a palavra ISENTO);'#13#10'9: N'#227'o Contribuinte (Campo ' +
+          'em Branco);'
         BevelKind = bkFlat
         BorderStyle = bsNone
         DataField = 'INSCESTADUAL'
@@ -912,7 +916,9 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        ParentShowHint = False
         PopupMenu = PopupMenu1
+        ShowHint = True
         TabOrder = 5
         OnKeyPress = FormKeyPress
       end
