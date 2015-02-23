@@ -16,9 +16,9 @@ uses
 begin
   Application.Initialize;
   Application.Title := 'ATS - Importação de XML';
+  Application.CreateForm(TDM, DM);
   Application.CreateForm(TfImporta_XML, fImporta_XML);
   Application.CreateForm(TfProdutoFornec, fProdutoFornec);
   Application.CreateForm(TfProdutoProc, fProdutoProc);
-  Application.CreateForm(TDM, DM);
   Application.Run;
 end.
