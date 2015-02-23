@@ -336,7 +336,8 @@ begin
       str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
       str_sql := str_sql + ', ' + QuotedStr(serieNF);
       str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
-      str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
+      str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger);
+      str_sql := str_sql + ', ' + '15)';
 
       dm.sqlsisAdimin.StartTransaction(TD);
       try
@@ -622,8 +623,9 @@ begin
   if (DM_MOV.PAGECONTROL = 'PDV') then
   begin
     DM_MOV.c_vendaCODMOVIMENTO.AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
-    DM_MOV.c_vendaCODCLIENTE.AsInteger := DM_MOV.c_movimentoCODCLIENTE.AsInteger;
-    DM_MOV.c_vendaNOMECLIENTE.AsString := DM_MOV.c_movimentoNOMECLIENTE.AsString;
+    DM_MOV.c_vendaCODCLIENTE.AsInteger   := DM_MOV.c_movimentoCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString   := DM_MOV.c_movimentoNOMECLIENTE.AsString;
+    DM_MOV.c_vendaCODVENDEDOR.AsInteger  := DM_MOV.c_movimentoCODVENDEDOR.AsInteger;
   end;
 
   if (DM_MOV.PAGECONTROL = 'COMANDA') then
