@@ -604,6 +604,8 @@ type
     SaveDialog1: TSaveDialog;
     sds_Mov_DetMARCA: TStringField;
     cds_Mov_detMARCA: TStringField;
+    sdslistaPRO_COD: TStringField;
+    cdslistaPRO_COD: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -979,10 +981,12 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'LISTAPRECO';
   dm.cds_parametro.Open;
+  usaprecolistavenda := 'N';
   if (not dm.cds_parametro.IsEmpty) then
   begin
-    if dm.cds_parametroCONFIGURADO.AsString = 'S' then
-       usaprecolistavenda := 'S';
+    // 'S' = usa a tabela ListaPreco
+    // 'C' = usa a tabela ListaPreco_Venda
+    usaprecolistavenda := dm.cds_parametroCONFIGURADO.AsString;
   end;
 
   //Populo combobox Transportadora
@@ -1693,9 +1697,11 @@ begin
           existevenda;
           if (vendaexiste = 'SIM') then
           begin
-            fVendaFinalizar.cds.Delete;
-            fVendaFinalizar.cds.ApplyUpdates(0);
-            fVendaFinalizar.cds.Close;
+            //fVendaFinalizar.cds.Delete;
+            //fVendaFinalizar.cds.ApplyUpdates(0);
+            //fVendaFinalizar.cds.Close;
+            MessageDlg('Pedido finalizado, exclua a Finalização primeiro.', mtWarning, [mbOK], 0);
+            exit;
           end;
           cds_Movimento.Edit;
           cds_MovimentoSTATUS.AsInteger := 2;
@@ -1719,9 +1725,11 @@ begin
       existevenda;
       if (vendaexiste = 'SIM') then
       begin
-        fVendaFinalizar.cds.Delete;
-        fVendaFinalizar.cds.ApplyUpdates(0);
-        fVendaFinalizar.cds.Close;
+        //fVendaFinalizar.cds.Delete;
+        //fVendaFinalizar.cds.ApplyUpdates(0);
+        //fVendaFinalizar.cds.Close;
+        MessageDlg('Pedido finalizado, exclua a Finalização primeiro.', mtWarning, [mbOK], 0);
+        exit;
       end;
         DtSrc.DataSet.Delete;
         (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
@@ -3659,17 +3667,43 @@ begin
 end;
 
 procedure TfVendas.precolista;
+var vsql_lista: string;
 begin
-   if (cdslista.Active) then
-     cdslista.Close;
-   cdslista.Params[0].AsString := cds_MovimentoCODCLIENTE.AsString;
-   cdslista.Params[1].AsString := CODIGOPRODUTO;
-   cdslista.Open;
+  if (usaprecolistavenda = 'S') then  // ListaPreco
+  begin
+    if (cdslista.Active) then
+      cdslista.Close;
+    cdslista.Params[0].AsString := cds_MovimentoCODCLIENTE.AsString;
+    cdslista.Params[1].AsString := CODIGOPRODUTO;
+    cdslista.Open;
+  end;
+  if (usaprecolistavenda = 'C') then // ListaPreco_Venda
+  begin
+    if (cdslista.Active) then
+      cdslista.Close;
+    vsql_lista := 'select p.UNIDADEMEDIDA as UNIDADE, lvd.PRECOVENDA as PRECOLISTA ' +
+      ' ,p.CODPRO as CODIGO, lvd.CODPRODUTO, lv.CODCLIENTE as CODFORNECEDOR ' +
+      ' ,COALESCE(lvd.COD_CLIENTE || ' + QuotedStr('-') + ', ' + QuotedStr('') +
+      ') || lvd.PRODUTO as PRODUTO , p.LOTES  ' +
+      ' ,p.CODPRO as PRO_COD ' +
+      '  from LISTAPRECO_VENDA lv, CLIENTES c, LISTAPRECO_VENDADET lvd, PRODUTOS p ' +
+      ' where (lv.CODLISTA = lvd.CODLISTA) ' +
+      '   and (c.NUMERO = lv.CODLISTA) ' +
+      '   and (p.CODPRODUTO = lvd.CODPRODUTO) ' +
+      '   and (c.CODCLIENTE = ' + IntToStr(cds_MovimentoCODCLIENTE.AsInteger) + ')' +
+      '   and ((lvd.COD_CLIENTE = ' + QuotedStr(CODIGOPRODUTO) + ')' +
+      '    or (p.CODPRO = ' + QuotedStr(CODIGOPRODUTO) + '))';
+    cdsLista.CommandText := vsql_lista;
+    //cdslista.Params[0].AsString := cds_MovimentoCODCLIENTE.AsString;
+    //cdslista.Params[1].AsString := CODIGOPRODUTO;
+    cdslista.Open;
+  end;
+
    if (not cdslista.IsEmpty) then
    begin
      cds_Mov_detCODPRODUTO.AsInteger := cdslistaCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := cdslistaPRODUTO.Value;
-     cds_Mov_detCODPRO.AsString := cdslistaCODIGO.AsString;
+     cds_Mov_detCODPRO.AsString := cdslistaPRO_COD.AsString;
      cds_Mov_detUN.AsString := cdslistaUNIDADE.AsString;
      cds_Mov_detQUANTIDADE.AsFloat := 1;
      cds_Mov_detPRECO.AsFloat := cdslistaPRECOLISTA.AsFloat;
@@ -4109,7 +4143,7 @@ procedure TfVendas.PesquisaProdutos;
 var sql: String;
 begin
   cds_mov_detCFOP.asString := edCfop.text;
-  if (usaprecolistavenda = 'S') then
+  if (usaprecolistavenda <> 'N') then
   begin
     varonde := 'Lista';
     CODIGOPRODUTO := dbeProduto.Text;

@@ -5161,9 +5161,14 @@ inherited fVendas: TfVendas
       FixedChar = True
       Size = 1
     end
+    object cdslistaPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
+    end
   end
   object dsplista: TDataSetProvider
     DataSet = sdslista
+    Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
     Left = 288
     Top = 316
@@ -5171,9 +5176,10 @@ inherited fVendas: TfVendas
   object sdslista: TSQLDataSet
     CommandText = 
       'select lista.UNIDADE, lista.PRECOLISTA, lista.CODIGO, lista.CODP' +
-      'RODUTO, lista.CODFORNECEDOR, prod.PRODUTO'#13#10', prod.LOTES'#13#10' from L' +
-      'ISTAPRECO lista, produtos prod'#13#10'where lista.codProduto = prod.co' +
-      'dProduto '#13#10'   and  CODFORNECEDOR = :forn '#13#10'   and CODIGO = :cd'
+      'RODUTO, lista.CODFORNECEDOR, prod.PRODUTO'#13#10', prod.LOTES, lista.P' +
+      'RO_COD'#13#10' from LISTAPRECO lista, produtos prod'#13#10'where lista.codPr' +
+      'oduto = prod.codProduto '#13#10'   and  CODFORNECEDOR = :forn '#13#10'   and' +
+      ' CODIGO = :cd'
     MaxBlobSize = -1
     Params = <
       item
@@ -5215,6 +5221,10 @@ inherited fVendas: TfVendas
       FieldName = 'LOTES'
       FixedChar = True
       Size = 1
+    end
+    object sdslistaPRO_COD: TStringField
+      FieldName = 'PRO_COD'
+      Size = 15
     end
   end
   object SP_LIMITE: TSQLStoredProc
