@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3954,6 +3954,15 @@ inherited fParametro: TfParametro
               'N'#227'o')
             TabOrder = 26
             OnClick = rg1Click
+          end
+          object chkPDV_VENDEDOR: TCheckBox
+            Left = 12
+            Top = 404
+            Width = 294
+            Height = 17
+            Caption = 'Obrigat'#243'rio informar vendedor no terminal'
+            TabOrder = 27
+            OnClick = chkPDV_VENDEDORClick
           end
         end
         object ts2: TTabSheet

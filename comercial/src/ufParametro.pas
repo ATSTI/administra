@@ -397,6 +397,7 @@ type
     BitBtn47: TBitBtn;
     Edit24: TEdit;
     Label80: TLabel;
+    chkPDV_VENDEDOR: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -498,6 +499,7 @@ type
     procedure BitBtn45Click(Sender: TObject);
     procedure BitBtn46Click(Sender: TObject);
     procedure BitBtn47Click(Sender: TObject);
+    procedure chkPDV_VENDEDORClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -1095,6 +1097,16 @@ begin
       rgTipoNf.ItemIndex := 1;
   end;
 
+
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PDV_VENDEDOR';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      chkPDV_VENDEDOR.Checked := True;
+  end;
 end;
 
 
@@ -5737,6 +5749,64 @@ begin
 
     dm.cds_parametro.ApplyUpdates(0);
   end;
+end;
+
+procedure TfParametro.chkPDV_VENDEDORClick(Sender: TObject);
+begin
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PDV_VENDEDOR';
+  dm.cds_parametro.Open;
+
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    if (chkPDV_VENDEDOR.Checked) then
+    begin
+      strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+      strSql := strSql + ') VALUES (';
+      strSql := strSql + QuotedStr('Obrigatorio informar o vendedor no PDV ') + ', ';
+      strSql := strSql + QuotedStr('PDV_VENDEDOR') + ', ';
+      strSql := strSql + QuotedStr('S') + ')';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD);
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+    end;
+  end
+  else
+  begin
+    if (chkPDV_VENDEDOR.Checked) then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.cds_parametro.Edit;
+        dm.cds_parametroCONFIGURADO.AsString := 'S';
+        dm.cds_parametro.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+    end
+    else begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.cds_parametro.Edit;
+        dm.cds_parametroCONFIGURADO.AsString := 'N';
+        dm.cds_parametro.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+    end;
+  end;
+
 end;
 
 end.
