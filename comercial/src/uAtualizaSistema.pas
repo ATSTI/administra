@@ -2156,7 +2156,6 @@ begin
       insereouatualizaScript('data_invalida_compra.sql', '3.0.0.21', StrToDate('15/12/2014'));
       insereouatualizaScript('gera_nf.sql', '3.0.0.21', StrToDate('15/12/2014'));
       insereouatualizaScript('gera_nf_venda.sql', '3.0.0.21', StrToDate('15/12/2014'));
-      insereouatualizaScript('origem_produto.sql', '3.0.0.21', StrToDate('01/01/2015'));
       insereouatualizaScript('rel_vendaCompra.sql', '3.0.0.21', StrToDate('01/09/2014'));
       insereouatualizaScript('invent_estoque.sql', '3.0.0.21', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_view_custo.sql', '3.0.0.21', StrToDate('01/11/2014'));
@@ -2186,6 +2185,7 @@ begin
     if (versaoSistema = '3.0.0.23') then
     begin
       insereouatualizaScript('ncm_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));
+      insereouatualizaScript('origem_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));      
       AtualizandoScript('3.0.0.23');
       mudaVersao('3.0.0.24');
     end;
@@ -2212,6 +2212,7 @@ begin
         EXECUTADDL('LISTAPRECO_VENDADET', 'COD_CLIENTE', 'VARCHAR(30)');
       except
       end;
+      insereouatualizaScript('insere_transp_fornec.sql', '3.0.0.29', StrToDate('01/02/2015'));
       mudaVersao('3.0.0.30');
     end;
 
