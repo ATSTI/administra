@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="attribute_tree_view" model="ir.ui.view">
+            <field name="name">product.attribute.tree.type</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.attribute_tree_view"></field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="add_to_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="variants_tree_view" model="ir.ui.view">
+            <field name="name">product.attribute.value.tree.codigo</field>
+            <field name="model">product.attribute.value</field>
+			<field name="inherit_id" ref="product.variants_tree_view"></field>
+			<field name="arch" type="xml">
+                <tree>
+                    <field name="cod_prod"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
