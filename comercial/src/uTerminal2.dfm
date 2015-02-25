@@ -2653,7 +2653,7 @@ object fTerminal2: TfTerminal2
             OnClick = JvSpeedButton3Click
           end
           object JvLabel8: TJvLabel
-            Left = 230
+            Left = 222
             Top = 6
             Width = 50
             Height = 15
@@ -2666,6 +2666,21 @@ object fTerminal2: TfTerminal2
             HotTrackFont.Height = -13
             HotTrackFont.Name = 'Cooper Blk BT'
             HotTrackFont.Style = []
+          end
+          object JvSpeedButton1: TJvSpeedButton
+            Left = 264
+            Top = 25
+            Width = 32
+            Height = 25
+            Caption = '...'
+            Color = clBlue
+            HotTrackFont.Charset = ANSI_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -19
+            HotTrackFont.Name = 'Cooper Black'
+            HotTrackFont.Style = []
+            Transparent = True
+            OnClick = JvSpeedButton1Click
           end
           object DBEdit1: TDBEdit
             Left = 5
@@ -2698,7 +2713,7 @@ object fTerminal2: TfTerminal2
           object DBEdit3: TDBEdit
             Left = 158
             Top = 25
-            Width = 67
+            Width = 59
             Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -2738,9 +2753,9 @@ object fTerminal2: TfTerminal2
             TabOrder = 4
           end
           object DBEdit6: TDBEdit
-            Left = 230
+            Left = 219
             Top = 25
-            Width = 51
+            Width = 45
             Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -2752,9 +2767,9 @@ object fTerminal2: TfTerminal2
             OnExit = DBEdit6Exit
           end
           object edVendedor: TEdit
-            Left = 285
+            Left = 297
             Top = 25
-            Width = 151
+            Width = 140
             Height = 22
             BevelInner = bvLowered
             Color = clMenuBar

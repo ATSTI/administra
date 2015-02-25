@@ -466,6 +466,7 @@ type
     JvLabel8: TJvLabel;
     DBEdit6: TDBEdit;
     edVendedor: TEdit;
+    JvSpeedButton1: TJvSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -514,6 +515,7 @@ type
     procedure RelatriosFechamentos1Click(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure DBEdit6Exit(Sender: TObject);
+    procedure JvSpeedButton1Click(Sender: TObject);
   private
     terminalCaixa: Integer;
     gradeVenda: String;
@@ -545,6 +547,7 @@ type
     retorno : String;
     tipo_busca: String;
     codLote: String;
+    PVD_VENDEDOR: String;
     procedure criarMesas;
     procedure abreDelivery;
     procedure abreComanda(busca: String);
@@ -583,7 +586,8 @@ implementation
 uses UDm, UDM_MOV, uFiltroMovimento, U_AlteraPedido, U_RelTerminal,
   uOsFinaliza, U_Entrada, U_MudaMesa, u_mesas, U_AUTORIZACAO,
   ufprocura_prod, U_AbreComanda, uProcurar_nf, UDMNF, uFiscalCls,
-  uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa, uTroca;
+  uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa, uTroca,
+  uProcurar;
 
 {$R *.dfm}
 
@@ -611,6 +615,18 @@ begin
       larguraMesa := StrToInt(dm.cds_parametroD2.AsString);
     if (dm.cds_parametroD3.AsString <> '') then
       alturaMesa := StrToInt(dm.cds_parametroD3.AsString);
+  end;
+
+  PVD_VENDEDOR := 'NAO';
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PDV_VENDEDOR';
+  dm.cds_parametro.Open;
+
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      PVD_VENDEDOR := 'SIM';
   end;
 
   ClientHeight := StrToInt(dm.videoH);
@@ -2574,6 +2590,16 @@ end;
 procedure TfTerminal2.JvFinalizarClick(Sender: TObject);
 var i: integer;
 begin
+  if (PVD_VENDEDOR = 'SIM') then
+  begin
+    if (dbEdit6.Text = '') then
+    begin
+      MessageDlg('Informe o Vendedor.', mtWarning, [mbOK], 0);
+      dbEdit6.SetFocus;
+      exit;
+    end;
+  end;
+
   if (DM_MOV.c_movdet.IsEmpty) then
   begin
     ShowMessage('Selecione um Pedido');
@@ -2709,18 +2735,28 @@ end;
 procedure TfTerminal2.JvBitBtn4Click(Sender: TObject);
 var porc_com : Double;
 begin
+  if (PVD_VENDEDOR = 'SIM') then
+  begin
+    if (dbEdit6.Text = '') then
+    begin
+      MessageDlg('Informe o Vendedor.', mtWarning, [mbOK], 0);
+      dbEdit6.SetFocus;
+      exit;
+    end;
+  end;
+
   var_FINALIZOU := 'NAO';
- DM_MOV.ID_DO_MOVIMENTO := 0;
- if (jvPageControl1.ActivePage = TabVenda) then
- begin
+  DM_MOV.ID_DO_MOVIMENTO := 0;
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
     if (not DM_MOV.c_movimento.Active) then
       exit;
     DM_MOV.PAGECONTROL := 'PDV';
     DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
- end;
+  end;
 
- if (jvPageControl1.ActivePage = TabComanda) then
- begin
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
     if (not DM_MOV.c_comanda.Active) then
       exit;
     DM_MOV.PAGECONTROL := 'COMANDA';
@@ -2729,10 +2765,10 @@ begin
       DM_MOV.c_movimento.Close;
     DM_MOV.c_movimento.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
     DM_MOV.c_movimento.Open;
- end;
+  end;
 
- if (jvPageControl1.ActivePage = TabDelivery) then
- begin
+  if (jvPageControl1.ActivePage = TabDelivery) then
+  begin
     if (not DM_MOV.c_Delivery.Active) then
       exit;
     DM_MOV.PAGECONTROL := 'DELIVERY';
@@ -3058,6 +3094,7 @@ begin
   gradeVenda := '';
   if (key = #13) then
   begin
+
     if (DM.USACONTROLECAIXA = 'SIM') then
     begin
        testacaixaaberto;
@@ -3325,7 +3362,6 @@ end;
 procedure TfTerminal2.incluiPedido;
 var id_movimento: integer;
 begin
-
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -3352,8 +3388,11 @@ begin
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', caixaTerminal2DataAbertura)) +
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy HH:MM', now)) +
     ', ' + IntToStr(20) +
-    ', ' + IntToStr(1) +
-    ', ' + IntToStr(1) + ', ';
+    ', ' + IntToStr(1);
+  if (PVD_VENDEDOR = 'SIM') then
+     str_sql := str_sql + ', null ,'
+  else
+     str_sql := str_sql + ', ' + IntToStr(1) + ', ';
   str_sql := str_sql + IntToStr(DM_MOV.ID_CCUSTO);
   str_sql := str_sql +  ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
   str_sql := str_sql + IntToStr(terminalCaixa) + ', ';
@@ -4688,6 +4727,29 @@ begin
     DM_MOV.c_movimentoNOMEUSUARIO.AsString   := dm.scds_usuario_procNOMEUSUARIO.AsString;
     edVendedor.Text                          := dm.scds_usuario_procNOMEUSUARIO.AsString;
     dm.scds_usuario_proc.Close;
+  end;
+end;
+
+procedure TfTerminal2.JvSpeedButton1Click(Sender: TObject);
+begin
+  fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+  try
+    if fProcurar.ShowModal=mrOk then
+    begin
+      dbEdit6.Text    := IntToStr(dm.scds_usuario_ProcCODusuario.AsInteger);
+      edVendedor.Text :=  dm.scds_usuario_procNOMEUSUARIO.AsString;
+      if (DM_MOV.c_movimento.State in [dsBrowse]) then
+        DM_MOV.c_movimento.Edit;
+      DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := dm.scds_usuario_procCODUSUARIO.AsInteger;
+      DM_MOV.c_movimentoNOMEUSUARIO.AsString   :=  dm.scds_usuario_procNOMEUSUARIO.AsString;
+      EdtCodBarra1.SetFocus;
+    end;
+  finally
+    dm.scds_usuario_proc.Close;
+    fProcurar.Free;
   end;
 end;
 
