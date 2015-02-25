@@ -12,7 +12,7 @@ object fNFeletronica: TfNFeletronica
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -1058,6 +1058,15 @@ object fNFeletronica: TfNFeletronica
             TabOrder = 4
             OnClick = btnInutilizarClick
           end
+          object BitBtn4: TBitBtn
+            Left = 208
+            Top = 55
+            Width = 91
+            Height = 34
+            Caption = 'Cons. por Recibo'
+            TabOrder = 5
+            OnClick = BitBtn4Click
+          end
         end
         object TabSheet7: TTabSheet
           Caption = 'Exporta'#231#227'o'
@@ -1135,6 +1144,65 @@ object fNFeletronica: TfNFeletronica
             TabOrder = 1
             OnClick = btnStatusNaoEnviadaClick
           end
+        end
+      end
+      object GroupBox11: TGroupBox
+        Left = 90
+        Top = 156
+        Width = 761
+        Height = 321
+        Caption = 'Consultar nota pelo Recibo'
+        Color = clGradientActiveCaption
+        Ctl3D = False
+        ParentColor = False
+        ParentCtl3D = False
+        TabOrder = 4
+        Visible = False
+        object Label17: TLabel
+          Left = 24
+          Top = 24
+          Width = 34
+          Height = 13
+          Caption = 'Recibo'
+        end
+        object edRecibo: TEdit
+          Left = 74
+          Top = 24
+          Width = 121
+          Height = 19
+          TabOrder = 0
+        end
+        object memoDados: TMemo
+          Left = 24
+          Top = 48
+          Width = 361
+          Height = 265
+          TabOrder = 1
+        end
+        object BitBtn5: TBitBtn
+          Left = 232
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Consultar'
+          TabOrder = 2
+          OnClick = BitBtn5Click
+        end
+        object BitBtn6: TBitBtn
+          Left = 312
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Fechar'
+          TabOrder = 3
+          OnClick = BitBtn6Click
+        end
+        object memoRespWS: TMemo
+          Left = 392
+          Top = 16
+          Width = 353
+          Height = 297
+          TabOrder = 4
         end
       end
     end
@@ -1374,7 +1442,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -4245,8 +4313,8 @@ object fNFeletronica: TfNFeletronica
     TamanhoFonte_ANTT = 10
     TributosFonte = 'IBPT'
     TributosPercentual = ptValorProdutos
-    Left = 457
-    Top = 317
+    Left = 313
+    Top = 341
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -4484,8 +4552,8 @@ object fNFeletronica: TfNFeletronica
     end
   end
   object XMLDocument1: TXMLDocument
-    Left = 489
-    Top = 317
+    Left = 321
+    Top = 373
     DOMVendorDesc = 'MSXML'
   end
   object sdsNFC: TSQLDataSet
@@ -4550,7 +4618,7 @@ object fNFeletronica: TfNFeletronica
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fNFeletronica\'
     StoredValues = <>
-    Left = 584
+    Left = 672
     Top = 313
   end
   object JvAppXMLFileStorage1: TJvAppXMLFileStorage
@@ -4561,7 +4629,7 @@ object fNFeletronica: TfNFeletronica
     Location = flUserFolder
     RootNodeName = 'Configuration'
     SubStorages = <>
-    Left = 552
+    Left = 696
     Top = 313
   end
   object sEmail: TSQLDataSet

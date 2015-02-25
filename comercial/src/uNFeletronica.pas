@@ -707,6 +707,14 @@ type
     btnSVCAN: TBitBtn;
     btnSvcanGera: TBitBtn;
     lblMsgNfe: TLabel;
+    BitBtn4: TBitBtn;
+    GroupBox11: TGroupBox;
+    Label17: TLabel;
+    edRecibo: TEdit;
+    memoDados: TMemo;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
+    memoRespWS: TMemo;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -754,6 +762,8 @@ type
     procedure btnStatusNaoEnviadaClick(Sender: TObject);
     procedure btnSVCANClick(Sender: TObject);
     procedure btnSvcanGeraClick(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
 
   private
     tpNFe : integer;
@@ -1210,6 +1220,7 @@ begin
             end;
             //VALOR TORAL
 
+            //ACBrNFe1.NotasFiscais.Items[0].NFe.Ide.cNF :=cdsNFNUMNF.AsInteger;
             if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
             begin
               if (cdsNFBASE_ICMS.IsNull) then
@@ -1466,7 +1477,7 @@ end;
 
 procedure TfNFeletronica.BitBtn4Click(Sender: TObject);
 begin
-  cdsNF.DisableControls;
+  {cdsNF.DisableControls;
   cdsNF.First;
   while not cdsNF.Eof do
   begin
@@ -1476,7 +1487,14 @@ begin
      cdsNF.Next;
   end;
   cdsNF.First;
-  cdsNF.EnableControls;
+  cdsNF.EnableControls;}
+  if (GroupBox11.Visible = False) then
+  begin
+    GroupBox11.Visible := true;
+  end
+  else begin
+    GroupBox11.Visible := False;
+  end;
 end;
 
 procedure TfNFeletronica.FormCreate(Sender: TObject);
@@ -3489,6 +3507,53 @@ begin
   tp_amb := 6;
   btnGeraNFe.Click;
   tp_amb := 1;
+end;
+
+procedure TfNFeletronica.BitBtn6Click(Sender: TObject);
+begin
+  GroupBox11.Visible := False;
+end;
+
+procedure TfNFeletronica.BitBtn5Click(Sender: TObject);
+var
+  aux, nota_rec: String;
+begin
+  if (edRecibo.Text = '') then
+  begin
+    if not(InputQuery('Consultar Recibo Lote', 'Número do Recibo', aux)) then
+      exit;
+  end else
+  begin
+    aux := edRecibo.Text;
+  end;
+  ACBrNFe1.WebServices.Recibo.Recibo := aux;
+
+  ACBrNFe1.WebServices.Recibo.Executar;
+
+  MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Recibo.RetWS);
+  memoRespWS.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.Recibo.RetornoWS);
+  //LoadXML(MemoResp, WBResposta);
+  nota_rec := edit1.Text + ACBrNFe1.WebServices.Recibo.NFeRetorno.ProtNFe.Items[0].chNFe + '_rec.xml';
+  MemoResp.Lines.SaveToFile(nota_rec);
+
+  //pgRespostas.ActivePageIndex := 1;
+
+  MemoDados.Lines.Add('');
+  MemoDados.Lines.Add('Consultar Recibo');
+  MemoDados.Lines.Add('tpAmb: '    +TpAmbToStr(ACBrNFe1.WebServices.Recibo.tpAmb));
+  MemoDados.Lines.Add('versao: ' +ACBrNFe1.WebServices.Recibo.versao);
+  MemoDados.Lines.Add('verAplic: ' +ACBrNFe1.WebServices.Recibo.verAplic);
+  MemoDados.Lines.Add('cStat: '    +IntToStr(ACBrNFe1.WebServices.Recibo.cStat));
+  MemoDados.Lines.Add('xMotivo: '  +ACBrNFe1.WebServices.Recibo.xMotivo);
+  MemoDados.Lines.Add('cUF: '    +IntToStr(ACBrNFe1.WebServices.Recibo.cUF));
+  MemoDados.Lines.Add('xMsg: ' +ACBrNFe1.WebServices.Recibo.xMsg);
+  MemoDados.Lines.Add('cMsg: '    +IntToStr(ACBrNFe1.WebServices.Recibo.cMsg));
+  MemoDados.Lines.Add('Recibo: ' +ACBrNFe1.WebServices.Recibo.Recibo);
+  MemoDados.Lines.Add('Chave: ' +ACBrNFe1.WebServices.Recibo.NFeRetorno.ProtNFe.Items[0].chNFe);
+  MemoDados.Lines.Add('');
+  MemoDados.Lines.Add('');
+  MemoDados.Lines.Add(' ** Retorno gravado no arquivo : ' + nota_rec + ' **');
+
 end;
 
 end.
