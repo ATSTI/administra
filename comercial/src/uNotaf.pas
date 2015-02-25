@@ -553,8 +553,11 @@ begin
   dmnf.listaTransp.First;
   while not dmnf.listaTransp.Eof do
   begin
-     cbTransportadora.Items.Add(dmnf.listaTranspFANTASIA.AsString);
-     dmnf.listaTransp.Next;
+    if (dmnf.listaTranspFANTASIA.AsString <> '') then
+       cbTransportadora.Items.Add(dmnf.listaTranspFANTASIA.AsString)
+    else
+      cbTransportadora.Items.Add(dmnf.listaTranspNOMETRANSP.AsString);
+    dmnf.listaTransp.Next;
   end;
   dmnf.listaTransp.Close;
 end;
@@ -1284,7 +1287,8 @@ begin
   if (cbTransportadora.Text <> '') then
   begin
      DMNF.listaTransp.Open;
-     DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive]);
+     if (not DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive])) then
+       DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
      DMNF.cds_nfPLACATRANSP.AsString := DMNF.listaTranspPLACATRANSP.AsString;
      DMNF.cds_nfUF_VEICULO_TRANSP.AsString := DMNF.listaTranspUF_VEICULO_TRANSP.AsString;
      DMNF.cds_nfCNPJ_CPF.AsString := DMNF.listaTranspCNPJ_CPF.AsString;
