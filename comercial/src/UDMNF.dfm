@@ -1,9 +1,9 @@
 object DMNF: TDMNF
   OldCreateOrder = False
-  Left = 2
+  Left = 3
   Top = 2
-  Height = 450
-  Width = 953
+  Height = 628
+  Width = 1030
   object sCliente: TSQLDataSet
     CommandText = 
       'select CODCLIENTE, NOMECLIENTE from CLIENTES '#13#10'order by NOMECLIE' +
