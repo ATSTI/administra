@@ -87,6 +87,7 @@ type
     memExcluido: TMemo;
     TabSheet2: TTabSheet;
     memLista: TMemo;
+    Label2: TLabel;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -179,7 +180,7 @@ var strNFItem: String;
 begin
   // strNFItem := 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA r '+
   strNFItem := 'SELECT r.NOTAFISCAL, r.SERIE, r.CNPJ_EMITENTE, ' +
-    ' r.NUM_ITEM,  UDF_DIGITS(r.CODPRODUTO) CODPRODUTO, r.CODPRODUTO_ATS, ' +
+    ' r.NUM_ITEM,  r.CODPRODUTO, r.CODPRODUTO_ATS, ' +
     ' r.CODPRO_ATS, r.PRODUTO, r.PRODUTO_ATS, r.NCM,' +
     ' r.CFOP, r.UN, r.QTDE, r.VLR_UNIT, r.VLR_TOTAL,' +
     ' r.ICMS, r.PIS, r.COFINS, r.IPI, r.COD_BARRA ' +
@@ -601,11 +602,11 @@ begin
         fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
         fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
         fMov.Entrega     := cdsNFNATUREZAOPERACAO.AsString;
-        sqlConn.StartTransaction(TDm);
+        dm.sqlsisAdimin.StartTransaction(TDm);
         try
 
           codMov := fMov.inserirMovimento(0);
-          abreNFItem;
+
           While not cdsNFItem.Eof do
           begin
             //prog2.Position := cdsB.RecNo;
@@ -629,12 +630,12 @@ begin
             cdsNFItem.Next;
           end;
           mudaStatusNF;
-          sqlConn.Commit(TDm);
+          dm.sqlsisAdimin.Commit(TDm);
         except
           on E : Exception do
           begin
             ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-            sqlConn.Rollback(TDm); //on failure, undo the changes}
+            dm.sqlsisAdimin.Rollback(TDm); //on failure, undo the changes}
           end;
         end;
         cdsNF.Next;
@@ -861,6 +862,7 @@ var i, n: integer;
 notaJaFoi : String;
 begin
   //Aqui faz loop ate a variável ficar vazia
+  ACBrNFe1.Configuracoes.Geral.RetirarAcentos := True;
   For i := 0 to memLista.Lines.Count - 1 do
   begin
     diretorioXML := edit1.Text + '\' + memLista.Lines[i];
@@ -880,11 +882,11 @@ begin
           cdsNF.Append;
           cdsNFEMISSAO.AsDateTime         := Ide.dEmi;
           cdsNFNOTAFISCAL.AsInteger       := Ide.nNF;
-          cdsNFNATUREZAOPERACAO.AsString  := procNFe.chNFe;
+          cdsNFNATUREZAOPERACAO.AsString  := Utf8ToAnsi(procNFe.chNFe);
           cdsNFCNPJ_EMITENTE.AsString     := Emit.CNPJCPF;
-          cdsNFNOME_EMITENTE.AsString     := emit.xFant;
+          cdsNFNOME_EMITENTE.AsString     := Utf8ToAnsi(emit.xFant);
           if (emit.xFant = '') then
-            cdsNFNOME_EMITENTE.AsString     := emit.xNome;
+            cdsNFNOME_EMITENTE.AsString     := Utf8ToAnsi(emit.xNome);
           cdsNFSERIE.AsString             := IntToStr(Ide.serie);
           cdsNFCNPJ_DESTINATARIO.AsString := Dest.CNPJCPF;
           cdsNFSTATUS.AsInteger           := 0;
@@ -983,11 +985,11 @@ begin
           stql := stql + ',';
           stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cProd);
           stql := stql + ',';
-          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd);
+          stql := stql +  QuotedStr(Utf8ToAnsi(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd));
           stql := stql + ',';
           stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.NCM);
           stql := stql + ',';
-          stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.uCom);
+          stql := stql +  QuotedStr(Utf8ToAnsi(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.uCom));
           stql := stql + ',';
           DecimalSeparator := '.';
           stql := stql +  FloatToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.qCom);

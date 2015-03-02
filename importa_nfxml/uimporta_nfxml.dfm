@@ -1,5 +1,5 @@
 object fImporta_XML: TfImporta_XML
-  Left = 7
+  Left = 8
   Top = 88
   Width = 1036
   Height = 683
@@ -42,6 +42,19 @@ object fImporta_XML: TfImporta_XML
       Width = 72
       Height = 13
       Caption = 'Margem Venda'
+    end
+    object Label2: TLabel
+      Left = 64
+      Top = 582
+      Width = 28
+      Height = 13
+      Caption = 'V. 1.0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
     end
     object btnImportaNF: TBitBtn
       Left = 20
