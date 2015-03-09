@@ -3,10 +3,8 @@ unit RLBoleto;
 interface
 
 uses
-   Windows, classes, SysUtils, Graphics, {NMSMTP,} extctrls, BoletoLayout, rplabelitem //, RLReport, BoletoLayout
-  {$IFDEF VER180}
-     , Variants, MaskUtils, contnrs
-  {$ELSE}
+   Windows, classes, SysUtils, Graphics, {NMSMTP,} extctrls, RLReport,
+   BoletoLayout, Controls, Forms
   {$IFDEF VER150}
      , Variants, MaskUtils, contnrs
   {$ELSE}
@@ -20,6 +18,8 @@ uses
       {$ENDIF}
    {$ENDIF}
   {$ENDIF}
+  {$IFDEF VER185} //Delphi 2007    
+    ,Contnrs, MaskUtils
   {$ENDIF}
    ;
 
@@ -61,6 +61,8 @@ type
       property Estado : TEstado read fEstado write fEstado;
       property CEP : TCEP read fCEP write fCEP;
       property EMail : string read fEMail write fEMail;
+
+
    end;
 
    {Informações sobre o banco}
@@ -90,6 +92,10 @@ type
       fDigitoConta,   {Dígito verificador do número da conta}
       fConvenio, {Banco do Brasil, usado nas carteiras 16, 17, 18}
       fNomeCliente : string; {Nome do cliente titular da conta}
+      //manoel1
+      fCodigoCliente : integer ; {Código do Cliente}
+
+
       constructor Create;
       destructor  Destroy; override;
       procedure Assign(AContaBancaria: TRLContaBancaria); reintroduce;
@@ -101,6 +107,7 @@ type
       property DigitoConta : string read fDigitoConta write fDigitoConta;
       property Convenio: String Read fConvenio write fConvenio;
       property NomeCliente : string read fNomeCliente write fNomeCliente;
+      property CodigoCliente : integer read fCodigoCliente write fCodigoCliente;
    end;
 
    TTipoInscricao = (tiPessoaFisica, tiPessoaJuridica, tiOutro);
@@ -112,6 +119,7 @@ type
       fNumeroCPFCGC ,
       fNome         ,
       fSacadorAvaLista: string;
+      fCodigo       : integer;
       fEndereco     : TrlEndereco;
       fContaBancaria: TRLContaBancaria;
    public
@@ -122,6 +130,7 @@ type
       property TipoInscricao: TTipoInscricao read fTipoInscricao write fTipoInscricao;
       property NumeroCPFCGC : string read fNumeroCPFCGC write fNumeroCPFCGC;
       property Nome         : string read fNome write fNome;
+      property Codigo       : integer read fCodigo write fCodigo;
       property SacadorAvalista: string read fSacadorAvaLista write fSacadorAvaLista;
       property Endereco     : TrlEndereco read fEndereco write fEndereco;
       property ContaBancaria: TRLContaBancaria read fContaBancaria write fContaBancaria;
@@ -303,13 +312,13 @@ type
       fValorMoraJuros, {Valor dos juros / multa cobrados do sacado}
       fValorIOF, {Valor do Imposto sobre Operações Financeiras}
       fValorOutrasDespesas, {Valor de outras despesas cobradas pelo banco: protesto de títulos, por exemplo}
-      fValorOutrosCreditos : Currency; {Valor de outros créditos que o banco repassará ao cedente}
+      fValorOutrosCreditos, {Valor de outros créditos que o banco repassará ao cedente}
+      fValorRecebido: Currency; {Valor total recebido informado pelo banco}
       fReferencia: ShortString;
       fInstrucoes : TStringList; {Instruções incluídas no título}
       fEmissaoBoleto: TEmissaoBoleto; {Indica quem emite o boleto: banco ou cliente}
       fLayoutNN: TLayoutNN; {Tipo do visual do nosso numero, usado praticamente só pelo banco do brasil}
-      {** Comentado pôr edson}
-      //fImagemEmpresa: TRLImage; {Imagem da empresa no boleto}
+      fImagemEmpresa: TRLImage; {Imagem da empresa no boleto}
       nQtdeBoletos : Integer;
       Agrupamento: array of TLayoutBoleto;
       fVersao: ShortString;
@@ -333,15 +342,13 @@ type
       property DigitoNossoNumero : string read CalcularDigitoNossoNumero;
       property ImagemBoleto : TImage read GetImagemBoleto;
       property ImagemFichaCompensacao : TImage read GetImagemFichaCompensacao;
-    public
-       Retorna_Codigo_Baixa : String;
    published
       property PrintDialog: Boolean read fPrintDialog write fPrintDialog;
       property TipoOcorrencia : TTipoOcorrencia read fTipoOcorrencia write fTipoOcorrencia;
       property OcorrenciaOriginal : string read fOcorrenciaOriginal write fOcorrenciaOriginal;
       property DescricaoOcorrenciaOriginal : string read fDescricaoOcorrenciaOriginal write fDescricaoOcorrenciaOriginal;
       property MotivoRejeicaoComando : string read fMotivoRejeicaoComando write fMotivoRejeicaoComando;
-      property DescricaoMotivoRejeicaoComando : string read fDescricaoMotivoRejeicaoComando write fMotivoRejeicaoComando;
+      property DescricaoMotivoRejeicaoComando : string read fDescricaoMotivoRejeicaoComando write fDescricaoMotivoRejeicaoComando;
       property LocalPagamento : string read fLocalPagamento write fLocalPagamento;
       property Cedente : TrlCedente read fCedente write fCedente;
       property Sacado : TrlPessoa read fSacado write fSacado;
@@ -370,11 +377,11 @@ type
       property ValorIOF : Currency read fValorIOF write fValorIOF;
       property ValorOutrasDespesas : Currency read fValorOutrasDespesas write fValorOutrasDespesas;
       property ValorOutrosCreditos : Currency read fValorOutrosCreditos write fValorOutrosCreditos;
+      property ValorRecebido: Currency read fValorRecebido write fValorRecebido;
       property Instrucoes : TStringList read fInstrucoes write SetInstrucoes;
       property EmissaoBoleto : TEmissaoBoleto read fEmissaoBoleto write fEmissaoBoleto;
       property LayoutNN: TLayoutNN read fLayoutNN write fLayoutNN;
-      {** comentado ´^or edson}
-      //property ImagemEmpresa : TRLImage read fImagemEmpresa write fImagemEmpresa;
+      property ImagemEmpresa : TRLImage read fImagemEmpresa write fImagemEmpresa;
       property Versao: ShortString read fVersao write fVersao;
    end;
 
@@ -408,7 +415,7 @@ type
    TRLBRemessa = class(TComponent)
    private
       fNomeArquivo : string; {Nome do arquivo remessa ou retorno}
-      fNumeroArquivo : integer; {Número seqüencial do arquivo remessa ou retorno}
+      fNumeroArquivo : Integer; {Número seqüencial do arquivo remessa ou retorno}
       fDataArquivo : TDateTime; {Data da geração do arquivo remessa ou retorno}
       fLayoutArquivo: TLayoutArquivo; {Layout do arquivo remessa / retorno}
       fTipoMovimento: TTipoMovimento; {Tipo de movimento desejado: remessa, retorno, etc...}
@@ -443,12 +450,9 @@ function CalcularFatorVencimento(DataDesejada : TDateTime) : string;
 function DaysBetween(DataMaior, DataMenor: TDateTime): integer;
 {$ENDIF}
 
-var DVTITULO : string;
-
 implementation
 
-uses RLCob001, RLCob104, RLCob237, RLCob275, RLCob341, RLCob399, RLCob409,
-  Controls, Forms, uRel_CR, UDm, ucrEscolas, uRel_CR1;
+uses RLCob748 ;
 
 Procedure Register;
 begin
@@ -700,9 +704,7 @@ begin
    p5 := Copy(p4,1,5);
    p6 := Copy(p4,6,5);
    Campo1 := p5+'.'+p6;
-   {** Acrescentado pôr Edson}
-   if titulo = '902598' then
-     fRel_CR.cds_crDV.AsString :=  p3;
+
    {
       Campo 2 - composto pelas posiçoes 6 a 15 do campo livre
       e DV (modulo10) deste campo
@@ -738,18 +740,6 @@ begin
    Campo5 := Copy(Codigo,6,14);
 
    Result := Campo1 + ' ' + Campo2 + ' ' + Campo3 + ' ' + Campo4 + ' ' + Campo5;
-{
-   A linha digitável é baseada na informações do código de barras.
-   As informações que fazem parte do código de barras são:
-   Posição         Conteúdo
-   1 a 3           Número do banco
-   4               Código da Moeda - 9 para Real
-   5               Digito verificador do Código de Barras
-   6 a 19          Valor (12 inteiros e 2 decimais)
-   20 a 44         Campo Livre definido por cada banco
-}
-//   result := '';
-//   result := '001' + ' ' + Campo2 + ' ' + Campo3 + ' ' + Campo4 + ' ' + Campo5;
 end;
 
 function TrlCobCodBar.GetImagem : TImage;
@@ -844,13 +834,15 @@ end;
 
 function TRLBanco.GetDigito : string;
 begin
-   if Codigo = '' then
-      Result := ''
-   else
-      Result := Modulo11(Codigo,9);
+  if Codigo = '' then
+    Result := ''
+  else if Codigo = '748' then
+    Result := 'X'
+  else
+    Result := Modulo11(Codigo,9);
 end;
 
-function TRLBanco.GetNome : string;
+function TRLBanco.GetNome : String;
 var
    ACodigoBanco: string;
    AClasseBanco: TPersistentClass;
@@ -907,6 +899,7 @@ begin
    DigitoConta := AContaBancaria.DigitoConta;
    Convenio    := AContaBancaria.Convenio;
    NomeCliente := AContaBancaria.NomeCliente;
+   CodigoCliente := AContaBancaria.CodigoCliente;
 end;
 
 {TrlPessoa}
@@ -930,6 +923,7 @@ begin
    TipoInscricao := APessoa.TipoInscricao;
    NumeroCPFCGC := APessoa.NumeroCPFCGC;
    Nome := APessoa.Nome;
+   Codigo := APessoa.Codigo;
    Endereco.Assign(APessoa.Endereco);
    ContaBancaria.Assign(APessoa.ContaBancaria)
 end;
@@ -956,7 +950,7 @@ begin
    fEmissaoBoleto := ebClienteEmite;
    fPrintDialog := True;
    nQtdeBoletos := -1;
-   fVersao := '1.1.1';
+   fVersao := '1.1.4';
 end;
 
 destructor TRLBTitulo.Destroy;
@@ -976,12 +970,15 @@ procedure TRLBTitulo.Assign(ATitulo: TRLBTitulo);
 begin
   PrintDialog := ATitulo.PrintDialog;
   OcorrenciaOriginal := ATitulo.OcorrenciaOriginal;
+  DescricaoOcorrenciaOriginal := ATitulo.DescricaoOcorrenciaOriginal;
   TipoOcorrencia := ATitulo.TipoOcorrencia;
   MotivoRejeicaoComando := ATitulo.MotivoRejeicaoComando;
+  DescricaoMotivoRejeicaoComando := ATitulo.DescricaoMotivoRejeicaoComando;
   Cedente.Assign(ATitulo.Cedente);
   Sacado.Assign(ATitulo.Sacado);
   LocalPagamento := ATitulo.LocalPagamento;
   SeuNumero := ATitulo.SeuNumero;
+  LayoutNN  := ATitulo.LayoutNN;
   NossoNumero := ATitulo.NossoNumero;
   NumeroDocumento := ATitulo.NumeroDocumento;
   Carteira := ATitulo.Carteira;
@@ -1006,10 +1003,11 @@ begin
   ValorIOF := ATitulo.ValorIOF;
   ValorOutrasDespesas := ATitulo.ValorOutrasDespesas;
   ValorOutrosCreditos := ATitulo.ValorOutrosCreditos;
+  ValorRecebido := ATitulo.ValorRecebido;
   Instrucoes.Assign(ATitulo.Instrucoes);
   EmissaoBoleto := ATitulo.EmissaoBoleto;
-  {** Comentado Pôr Edson ATS}
-  //ImagemEmpresa := ATitulo.ImagemEmpresa;
+  ImagemEmpresa := ATitulo.ImagemEmpresa;
+
 end;
 
 function TRLBTitulo.CalcularDigitoNossoNumero : string;
@@ -1056,6 +1054,7 @@ var
 begin
    Result := TrlCobCodBar.Create;
    GetCampoLivreCodigoBarra := nil;
+
    {
     A primeira parte do código de barras é composta por:
     Código do banco (3 posições)
@@ -1063,15 +1062,19 @@ begin
     Dígito do código de barras (1 posição) - Será calculado e incluído pelo componente
     Fator de vencimento (4 posições) - Obrigatório a partir de 03/07/2000
     Valor do documento (10 posições) - Sem vírgula decimal e com ZEROS à esquerda
+
     A segunda parte do código de barras é um campo livre, que varia de acordo
     com o banco
    }
+
    {Primeira parte do código de barras}
    ACodigoBanco := Formatar(Cedente.ContaBancaria.Banco.Codigo,3,false,'0');
    ACodigoMoeda := '9';
    AFatorVencimento := Formatar(CalcularFatorVencimento(DataVencimento),4,false,'0');
    AValorDocumento := FormatCurr('0000000000',ValorDocumento*100); {Formata o valor com 10 dígitos, incluindo as casas decimais, mas não mostra o ponto decimal}
+
    {Segunda parte do código de barras - Campo livre - Varia de acordo com o banco}
+
    AClasseBanco := GetClass('TRLBanco'+ACodigoBanco);
    if AClasseBanco <> nil then
    begin
@@ -1090,11 +1093,13 @@ begin
    end
    else
       Raise Exception.CreateFmt('Os boletos para o banco %s não estão disponíveis',[ACodigoBanco]);
+
    {Calcula o dígito e completa o código de barras}
    ACodigoBarras := ACodigoBanco + ACodigoMoeda + AFatorVencimento + AValorDocumento + ACampoLivre;
    ADigitoCodigoBarras := Modulo11(ACodigoBarras,9);
    if ADigitoCodigoBarras = '0' then
       ADigitoCodigoBarras := '1';
+
    Result.Codigo := Copy(ACodigoBarras,1,4) + ADigitoCodigoBarras + Copy(ACodigoBarras,5,length(ACodigoBarras)-4);
 end;
 
@@ -1109,8 +1114,6 @@ var
   AClasseBanco: TPersistentClass;
   ABanco: TPersistent;
   GetFormatoBoleto: procedure(ATitulo: TRLBTitulo; var AAgenciaCodigoCedente, ANossoNumero, ACarteira, AEspecieDocumento: string) of object;
-  {** Edson}
-  acompo, acompo1 : TRpLabel;
 begin
   AInstrucoes := TStringList.Create;
   GetFormatoBoleto := nil;
@@ -1158,19 +1161,112 @@ begin
 
   AInstrucoes.AddStrings(Instrucoes);
 
-  if tipo_empresa <> '0' then
+  with ABoleto do
   begin
-    fRel_CR.cds_crCODIGO_DE_BARRAS.AsString := CodigoBarra.LinhaDigitavel;
-    fRel_CR.cds_crIMAGE_COD_BARRAS.Assign(CodigoBarra.Imagem.Picture);
-    fRel_CR.cds_crBL.AsInteger := 1;
-    numero :=  NossoNumero;
-  end
-  else
-  begin
-    fRel_CR1.cds_crCODIGO_DE_BARRAS.AsString := CodigoBarra.LinhaDigitavel;
-    fRel_CR1.cds_crIMAGE_COD_BARRAS.Assign(CodigoBarra.Imagem.Picture);
-    fRel_CR1.cds_crBL.AsInteger := 1;
+    LayoutBoleto.PrintDialog := PrintDialog;
+    LayoutBoleto.Caption := 'Cobrança - ' + Cedente.ContaBancaria.Banco.Nome + ' - Sacado: ' + Sacado.Nome;
+    {Primeira via do boleto}
+
+      RLImage3.Picture.LoadFromFile('logo_boleto.jpg');
+ //   ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,ABoleto.imgBanco1.Picture.Bitmap);
+    if Cedente.ContaBancaria.Banco.Codigo = '033' then //Santander Banespa
+ //   txtNumeroBanco1.Caption := Cedente.ContaBancaria.Banco.Codigo
+    else
+ //   txtNumeroBanco1.Caption := Cedente.ContaBancaria.Banco.Codigo + '-' + Cedente.ContaBancaria.Banco.Digito;
+  //  txtLocalPagamento1.Caption := AnsiUpperCase(LocalPagamento);
+ ////   txtDataVencimento1.Caption := FormatDateTime('dd/mm/yyyy',DataVencimento);
+    txtNomeCedente1.Caption := AnsiUpperCase(Cedente.Nome);
+    txtDescricao.Caption := Cedente.Endereco.Rua;
+ ////   txtCodigoCedente1.Caption := AAgenciaCodigoCedente;
+ ////   txtNumeroDocumento1.Caption := NumeroDocumento;
+  //  txtDescricao.Caption := Referencia;
+ ////   txtDataProcessamento1.Caption := FormatDateTime('dd/mm/yyyy',Now);
+////    txtNossoNumero1.Caption := ANossoNumero;
+ ////   txtEspecie1.Caption := 'R$';
+ ////   txtValorDocumento1.Caption := FormatCurr('#,##0.00',ValorDocumento);
+ ////   txtNomeSacado1.Caption := AnsiUpperCase(Sacado.Nome);
+    {Segunda via do boleto}
+    ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,imgBanco2.Picture.Bitmap);
+    txtNumeroBanco2.Caption := Cedente.ContaBancaria.Banco.Codigo + '-' + Cedente.ContaBancaria.Banco.Digito;//txtNumeroBanco1.Caption;
+    txtLocalPagamento2.Caption := AnsiUpperCase(LocalPagamento);
+    txtDataVencimento2.Caption := FormatDateTime('dd/mm/yyyy',DataVencimento);
+    txtReferencia2.Caption := Referencia;
+    txtNomeCedente2.Caption := AnsiUpperCase(Cedente.Nome);
+    txtCodigoCedente2.Caption := AAgenciaCodigoCedente;
+    txtDataDocumento2.Caption := FormatDateTime('dd/mm/yyyy',DataDocumento);
+    txtNumeroDocumento2.Caption := NumeroDocumento;
+    txtEspecieDoc2.Caption := AEspecieDocumento;
+    if AceiteDocumento = adSim then
+      txtAceite2.Caption := 'S'
+    else
+    txtAceite2.Caption := 'N';
+    txtDataProcessamento2.Caption := FormatDateTime('dd/mm/yyyy',Now);
+    txtNossoNumero2.Caption := ANossoNumero;
+    txtUsoBanco2.Caption := '';
+    txtCarteira2.Caption := ACarteira;
+    txtEspecie2.Caption := 'R$';
+    txtQuantidade2.Caption := '';
+    txtValorMoeda2.Caption := '';
+    txtValorDocumento2.Caption := FormatCurr('#,##0.00',ValorDocumento);
+    txtInstrucoes2.Lines.Clear;
+    txtInstrucoes2.Lines.AddStrings(AInstrucoes);
+    txtDesconto2.Caption := '';
+    txtMoraMulta2.Caption := '';
+    txtValorCobrado2.Caption := '';
+    txtNomeSacado2.Caption := AnsiUpperCase(Sacado.Nome);
+    cod.Caption := IntToStr(Sacado.Codigo);
+    case Sacado.TipoInscricao of
+      tiPessoaFisica  : txtCpfCnpjSacado2.Caption := 'CPF: ' + FormatarComMascara('!000\.000\.000\-00;0; ',Sacado.NumeroCPFCGC);
+      tiPessoaJuridica: txtCpfCnpjSacado2.Caption := 'CNPJ: ' + FormatarComMascara('!00\.000\.000\/0000\-00;0; ',Sacado.NumeroCPFCGC);
+      tiOutro         : txtCpfCnpjSacado2.Caption := Sacado.NumeroCPFCGC;
+    end;
+    txtEnderecoSacado2.Caption := AnsiUpperCase(Sacado.Endereco.Rua + ', ' + Sacado.Endereco.Numero + '   ' + Sacado.Endereco.Complemento);
+    txtCidadeSacado2.Caption := AnsiUpperCase(FormatarComMascara('00000-000;0; ',Sacado.Endereco.CEP) + '    ' + Sacado.Endereco.Bairro + '    ' + Sacado.Endereco.Cidade + '    ' + Sacado.Endereco.Estado);
+    txtSacadorAvalista2.Caption := AnsiUpperCase(Sacado.SacadorAvaLista);
+    txtCodigoBaixa2.Caption := ANossoNumero;
+    {Terceira via do boleto}
+    ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,imgBanco3.Picture.Bitmap);
+    txtNumeroBanco3.Caption := txtNumeroBanco2.Caption;
+    txtLocalPagamento3.Caption := AnsiUpperCase(LocalPagamento);
+    txtDataVencimento3.Caption := FormatDateTime('dd/mm/yyyy',DataVencimento);
+    txtReferencia3.Caption := Referencia;
+    txtNomeCedente3.Caption := AnsiUpperCase(Cedente.Nome);
+    txtCodigoCedente3.Caption := AAgenciaCodigoCedente;
+    txtDataDocumento3.Caption := FormatDateTime('dd/mm/yyyy',DataDocumento);
+    txtNumeroDocumento3.Caption := NumeroDocumento;
+    txtEspecieDoc3.Caption := AEspecieDocumento;
+    if AceiteDocumento = adSim then
+      txtAceite3.Caption := 'S'
+    else
+      txtAceite3.Caption := 'N';
+    txtDataProcessamento3.Caption := FormatDateTime('dd/mm/yyyy',Now);
+    txtNossoNumero3.Caption := ANossoNumero;
+    txtUsoBanco3.Caption := '';
+    txtCarteira3.Caption := ACarteira;
+    txtEspecie3.Caption := 'R$';
+    txtQuantidade3.Caption := '';
+    txtValorMoeda3.Caption := '';
+    txtValorDocumento3.Caption := FormatCurr('#,##0.00',ValorDocumento);
+    txtInstrucoes3.Lines.Clear;
+    txtInstrucoes3.Lines.AddStrings(AInstrucoes);
+    txtDesconto3.Caption := '';
+    txtMoraMulta3.Caption := '';
+    txtValorCobrado3.Caption := '';
+    txtNomeSacado3.Caption := AnsiUpperCase(Sacado.Nome);
+    cod2.Caption := IntToStr(Sacado.Codigo);
+    case Sacado.TipoInscricao of
+      tiPessoaFisica  : txtCpfCnpjSacado3.Caption := 'CPF: ' + FormatarComMascara('!000\.000\.000\-00;0; ',Sacado.NumeroCPFCGC);
+      tiPessoaJuridica: txtCpfCnpjSacado3.Caption := 'CNPJ: ' + FormatarComMascara('!00\.000\.000\/0000\-00;0; ',Sacado.NumeroCPFCGC);
+      tiOutro         : txtCpfCnpjSacado3.Caption := Sacado.NumeroCPFCGC;
+    end;
+    txtEnderecoSacado3.Caption := AnsiUpperCase(Sacado.Endereco.Rua + ', ' + Sacado.Endereco.Numero + '   ' + Sacado.Endereco.Complemento);
+    txtCidadeSacado3.Caption := AnsiUpperCase(FormatarComMascara('00000-000;0; ',Sacado.Endereco.CEP) + '    ' + Sacado.Endereco.Bairro + '    ' + Sacado.Endereco.Cidade + '    ' + Sacado.Endereco.Estado);
+    txtSacadorAvalista3.Caption := AnsiUpperCase(Sacado.SacadorAvaLista);
+    txtCodigoBaixa3.Caption := ANossoNumero;
+    txtLinhaDigitavel.Caption := CodigoBarra.LinhaDigitavel;
+    imgCodigoBarra.Picture.Assign(CodigoBarra.Imagem.Picture);
   end;
+
   AInstrucoes.Free;
 end;
 
@@ -1236,15 +1332,13 @@ var
   ABoleto : TLayoutBoleto;
   nI: Integer;
 begin
- {** Adicionado pôr edson}
-  PrepararBoleto(ABoleto);
- {** Comentado pôr edson}
-  {if nQtdeBoletos = -1 then
+  if nQtdeBoletos = -1 then
   begin
     ABoleto := TLayoutBoleto.Create(nil);
     try
       PrepararBoleto(ABoleto);
-        ABoleto.LayoutBoleto.PreviewModal;
+      ABoleto.RLBand1.Visible := Tag = 0;
+      ABoleto.LayoutBoleto.PreviewModal;
       ABoleto.Free;
      except
       ABoleto.Free;
@@ -1253,25 +1347,39 @@ begin
   end
   else
   begin
+    Agrupamento[0].RLBand1.Visible := Tag = 0; //quebra galho, impressao de boleto PRO 05/05/2005
     Agrupamento[0].LayoutBoleto.PreviewModal;
     for nI := 0 to nQtdeBoletos do
       Agrupamento[nI].Free;
     nQtdeBoletos := -1;
     SetLength(Agrupamento, 0);
-  end; }
-
+  end;
 end;
 
 procedure TRLBTitulo.Preparar;
+var
+  nI: Integer;
 begin
-  Inc(nQtdeBoletos);
+  try
+    Inc(nQtdeBoletos);
+    SetLength(Agrupamento, nQtdeBoletos+1);
+    Agrupamento[nQtdeBoletos] := TLayoutBoleto.Create(nil);
+    PrepararBoleto(Agrupamento[nQtdeBoletos]);
+    if nQtdeBoletos > 0 then
+      Agrupamento[nQtdeBoletos-1].LayoutBoleto.NextReport := Agrupamento[nQtdeBoletos].LayoutBoleto;
+  except
+    for nI := 0 to nQtdeBoletos do
+      Agrupamento[nI].Free;
+    nQtdeBoletos := -1;
+    SetLength(Agrupamento, 0);
+    raise;
+  end;
+{  Inc(nQtdeBoletos);
   SetLength(Agrupamento, nQtdeBoletos+1);
   Agrupamento[nQtdeBoletos] := TLayoutBoleto.Create(nil);
   PrepararBoleto(Agrupamento[nQtdeBoletos]);
-  {** Comentado pôr edson}
- // if nQtdeBoletos > 0 then
- //   Agrupamento[nQtdeBoletos-1].LayoutBoleto.NextReport := Agrupamento[nQtdeBoletos].LayoutBoleto;
-
+  if nQtdeBoletos > 0 then
+    Agrupamento[nQtdeBoletos-1].LayoutBoleto.NextReport := Agrupamento[nQtdeBoletos].LayoutBoleto;}
 end;
 
 procedure TRLBTitulo.Imprimir;
@@ -1281,8 +1389,7 @@ begin
   ABoleto := TLayoutBoleto.Create(nil);
   try
     PrepararBoleto(ABoleto);
-   {** Comentado pôr edson}
-    //ABoleto.LayoutBoleto.Print;
+    ABoleto.LayoutBoleto.Print;
     ABoleto.Free;
    except
      ABoleto.Free;
@@ -1298,21 +1405,21 @@ var
   ABoleto : TLayoutBoleto;
   AImagem : TMetafile;
 begin
-  //ABoleto := TLayoutBoleto.Create(nil);
+//  ABoleto := TLayoutBoleto.Create(nil);
   AImagem := TMetafile.Create;
   Result := TImage.Create(nil);
   try
     PrepararBoleto(ABoleto);
-    {** Comentado pôr edson}
-    //ABoleto.LayoutBoleto.Prepare;
-    //AImagem := ABoleto;
-    //Result.Height := AImagem.Height;
-    //Result.Width := AImagem.Width;
-    //Result.Canvas.Draw(0,0,AImagem);
-    //Result.Picture.Bitmap.Monochrome := TRUE;
-    AImagem.Free;
-    //ABoleto.QRPrinter.Free;
-    //ABoleto.Free;
+    ABoleto.LayoutBoleto.Prepare;
+//    AImagem := ABoleto. ;
+//      Result.Height := AImagem.Height;
+//      Result.Width := AImagem.Width;
+//      Result.Canvas.Draw(0,0,AImagem);
+
+//      Result.Picture.Bitmap.Monochrome := TRUE;
+//      AImagem.Free;
+//      ABoleto.QRPrinter.Free;
+//      ABoleto.Free;
    EXCEPT
 //      AImagem.Free;
 //      ABoleto.QRPrinter.Free;
