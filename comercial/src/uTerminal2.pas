@@ -2589,9 +2589,20 @@ end;
 
 procedure TfTerminal2.JvFinalizarClick(Sender: TObject);
 var i: integer;
+  aux_vendedor: String;
 begin
   if (PVD_VENDEDOR = 'SIM') then
   begin
+    if (dbEdit6.Text = '') then
+    begin
+      if not(InputQuery('Codigo do Vendedor', 'Codigo Vendedor', aux_vendedor)) then
+        exit;
+      if (DM_MOV.c_movimento.State in [dsBrowse]) then
+        DM_MOV.c_movimento.Edit;
+      dbEdit6.Text := aux_vendedor;
+      DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := StrToInt(aux_vendedor);
+      DM_MOV.c_movimentoNOMEUSUARIO.AsString   := aux_vendedor;
+    end;
     if (dbEdit6.Text = '') then
     begin
       MessageDlg('Informe o Vendedor.', mtWarning, [mbOK], 0);
@@ -2734,13 +2745,23 @@ end;
 
 procedure TfTerminal2.JvBitBtn4Click(Sender: TObject);
 var porc_com : Double;
+  aux_vendedor: String;
 begin
   if (PVD_VENDEDOR = 'SIM') then
   begin
     if (dbEdit6.Text = '') then
     begin
+      if not(InputQuery('Codigo do Vendedor', 'Codigo Vendedor', aux_vendedor)) then
+        exit;
+      if (DM_MOV.c_movimento.State in [dsBrowse]) then
+        DM_MOV.c_movimento.Edit;
+      dbEdit6.Text := aux_vendedor;
+      DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := StrToInt(aux_vendedor);
+      DM_MOV.c_movimentoNOMEUSUARIO.AsString   := aux_vendedor;
+    end;
+    if (dbEdit6.Text = '') then
+    begin
       MessageDlg('Informe o Vendedor.', mtWarning, [mbOK], 0);
-      dbEdit6.SetFocus;
       exit;
     end;
   end;
