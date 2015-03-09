@@ -350,6 +350,11 @@ inherited fProcura_prod1: TfProcura_prod1
     Height = 451
     Visible = False
   end
+  inherited JvDBGrid1: TJvDBGrid
+    Top = 124
+    Width = 792
+    Height = 451
+  end
   inherited sds_proc: TSQLDataSet
     CommandText = 
       'select CODPRODUTO'#13#10', CODPRO'#13#10', PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_' +

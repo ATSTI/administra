@@ -7,7 +7,8 @@ uses
   Dialogs, ufprocura_prod, FMTBcd, rpcompobase, rpvclreport, XPMenu, Menus,
   DB, DBClient, Provider, SqlExpr, Buttons, MMJPanel, Grids, DBGrids,
   EDBFind, StdCtrls, DBCtrls, ExtCtrls, Mask, JvExMask, JvToolEdit,
-  JvBaseEdits, JvExControls, JvLabel;
+  JvBaseEdits, JvExControls, JvLabel, JvFormPlacement, JvComponentBase,
+  JvAppStorage, JvAppXMLStorage, JvExDBGrids, JvDBGrid;
 
 type
   TfProcura_prod1 = class(TfProcura_prod)
