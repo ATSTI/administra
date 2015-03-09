@@ -1,6 +1,6 @@
 inherited fCfop: TfCfop
-  Width = 691
-  Height = 527
+  Width = 830
+  Height = 533
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -33,11 +33,11 @@ inherited fCfop: TfCfop
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 446
-    Width = 683
+    Top = 452
+    Width = 822
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 683
+    Width = 822
     inherited Label1: TLabel
       Left = 203
       Width = 278
@@ -178,7 +178,7 @@ inherited fCfop: TfCfop
   object DBEdit2: TDBEdit [6]
     Left = 182
     Top = 72
-    Width = 448
+    Width = 435
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -195,8 +195,8 @@ inherited fCfop: TfCfop
     OnKeyPress = FormKeyPress
   end
   object BitBtn1: TBitBtn [7]
-    Left = 629
-    Top = 60
+    Left = 618
+    Top = 61
     Width = 39
     Height = 36
     PopupMenu = PopupMenu1
@@ -304,8 +304,8 @@ inherited fCfop: TfCfop
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
   object DBNavigator1: TDBNavigator [8]
-    Left = 160
-    Top = 396
+    Left = 168
+    Top = 412
     Width = 368
     Height = 31
     DataSource = DtSrc
@@ -315,8 +315,8 @@ inherited fCfop: TfCfop
   object DBGrid1: TDBGrid [9]
     Left = 19
     Top = 134
-    Width = 646
-    Height = 259
+    Width = 790
+    Height = 275
     DataSource = DtSrc
     TabOrder = 7
     TitleFont.Charset = DEFAULT_CHARSET
@@ -344,18 +344,18 @@ inherited fCfop: TfCfop
       end>
   end
   object cbTotalTributos: TCheckBox [10]
-    Left = 424
+    Left = 443
     Top = 104
-    Width = 227
+    Width = 193
     Height = 17
     Caption = 'Calcula Total dos Tributos nas NFs'
     TabOrder = 8
     OnClick = cbTotalTributosClick
   end
   object cbFreteBC: TCheckBox [11]
-    Left = 213
+    Left = 234
     Top = 104
-    Width = 209
+    Width = 196
     Height = 17
     Caption = 'Acrescentar Frete '#224' Base de Calculo'
     TabOrder = 9
@@ -369,6 +369,20 @@ inherited fCfop: TfCfop
     Caption = 'Acrescentar IPI '#224' Base de Calculo'
     TabOrder = 10
     OnClick = cbIpiBcClick
+  end
+  object rgFinalidade: TRadioGroup [13]
+    Left = 656
+    Top = 56
+    Width = 161
+    Height = 73
+    Caption = 'Finalidade da NFE'
+    Columns = 2
+    Items.Strings = (
+      'Normal'
+      'Devolu'#231#227'o'
+      'Ajustes')
+    TabOrder = 11
+    OnClick = rgFinalidadeClick
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_cfop

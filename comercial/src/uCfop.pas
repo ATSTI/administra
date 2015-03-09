@@ -20,6 +20,7 @@ type
     cbTotalTributos: TCheckBox;
     cbFreteBC: TCheckBox;
     cbIpiBc: TCheckBox;
+    rgFinalidade: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -35,6 +36,7 @@ type
     procedure cbIpiBcClick(Sender: TObject);
     procedure cbFreteBCClick(Sender: TObject);
     procedure cbTotalTributosClick(Sender: TObject);
+    procedure rgFinalidadeClick(Sender: TObject);
   private
     procedure IpiBaseCalculo;
     procedure FreteBaseCalculo;
@@ -96,6 +98,11 @@ begin
   TotalTributosNF;
   IpiBaseCalculo;
   FreteBaseCalculo;
+  rgFinalidade.ItemIndex := 0;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'D') then
+    rgFinalidade.ItemIndex := 1;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
+    rgFinalidade.ItemIndex := 2;
 end;
 
 procedure TfCfop.BitBtn1Click(Sender: TObject);
@@ -152,9 +159,18 @@ begin
   else
     atualizaCfop := atualizaCfop + ', TOTTRIB = NULL ';
 
+  Case rgFinalidade.ItemIndex of
+    0 : atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = NULL ';
+    1 : atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = ' + QuotedStr('D');
+    2 : atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = ' + QuotedStr('R');
+  else
+    atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = NULL ';
+  end;
+
   atualizaCfop := atualizaCfop + ', CFNOME = ' + QuotedStr(dbEdit2.Text);
 
   atualizaCfop := atualizaCfop + ' WHERE  CFCOD = ' + QuotedStr(dm.cds_cfopCFCOD.AsString);
+
   dm.sqlsisAdimin.ExecuteDirect(atualizaCfop);
   inherited;
 end;
@@ -197,6 +213,12 @@ begin
   TotalTributosNF;
   IpiBaseCalculo;
   FreteBaseCalculo;
+  rgFinalidade.ItemIndex := 0;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'D') then
+    rgFinalidade.ItemIndex := 1;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
+    rgFinalidade.ItemIndex := 2;
+
 end;
 
 procedure TfCfop.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -206,6 +228,12 @@ begin
   TotalTributosNF;
   IpiBaseCalculo;
   FreteBaseCalculo;
+  rgFinalidade.ItemIndex := 0;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'D') then
+    rgFinalidade.ItemIndex := 1;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
+    rgFinalidade.ItemIndex := 2;
+
 end;
 
 procedure TfCfop.DBGrid1KeyUp(Sender: TObject; var Key: Word;
@@ -215,6 +243,12 @@ begin
   TotalTributosNF;
   IpiBaseCalculo;
   FreteBaseCalculo;
+  rgFinalidade.ItemIndex := 0;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'D') then
+    rgFinalidade.ItemIndex := 1;
+  if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
+    rgFinalidade.ItemIndex := 2;
+
 end;
 
 procedure TfCfop.cbIpiBcClick(Sender: TObject);
@@ -238,6 +272,13 @@ begin
   if (DtSrc.State in  [dsBrowse]) then
     DtSrc.DataSet.Edit;
 
+end;
+
+procedure TfCfop.rgFinalidadeClick(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_cfop.State in  [dsBrowse]) then
+    dm.cds_cfop.Edit;
 end;
 
 end.
