@@ -583,7 +583,7 @@ begin
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
     BitBtn1.Click;
-    JvDbGrid1.SetFocus;
+    //JvDbGrid1.SetFocus;   // Comentei por causa da Felicita 
   end;
 end;
 

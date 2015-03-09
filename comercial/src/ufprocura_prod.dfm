@@ -1553,7 +1553,7 @@ object fProcura_prod: TfProcura_prod
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Descri'#231#227'o do Produto'
-        Width = 200
+        Width = 450
         Visible = True
       end
       item
