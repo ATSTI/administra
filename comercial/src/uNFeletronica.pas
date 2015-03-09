@@ -715,6 +715,24 @@ type
     BitBtn5: TBitBtn;
     BitBtn6: TBitBtn;
     memoRespWS: TMemo;
+    rgViaTransp: TRadioGroup;
+    edDadosXml: TEdit;
+    sdsNFNFE_FINNFE: TStringField;
+    sdsNFNFE_MODELO: TStringField;
+    sdsNFNFE_VERSAO: TStringField;
+    sdsNFNFE_DESTOPERACAO: TStringField;
+    sdsNFNFE_FORMATODANFE: TStringField;
+    sdsNFNFE_TIPOEMISSAO: TStringField;
+    sdsNFNFE_INDFINAL: TStringField;
+    sdsNFNFE_INDPRES: TStringField;
+    cdsNFNFE_FINNFE: TStringField;
+    cdsNFNFE_MODELO: TStringField;
+    cdsNFNFE_VERSAO: TStringField;
+    cdsNFNFE_DESTOPERACAO: TStringField;
+    cdsNFNFE_FORMATODANFE: TStringField;
+    cdsNFNFE_TIPOEMISSAO: TStringField;
+    cdsNFNFE_INDFINAL: TStringField;
+    cdsNFNFE_INDPRES: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -764,6 +782,7 @@ type
     procedure btnSvcanGeraClick(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure cdsNFAfterOpen(DataSet: TDataSet);
 
   private
     tpNFe : integer;
@@ -844,6 +863,7 @@ begin
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, ' +
       ' nf.NOMETRANSP TRANSP2, nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, ' +
       ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML  ' +
+      ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
       '  from NOTAFISCAL nf ' +
       ' inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE ' +
       ' inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR ' +
@@ -873,6 +893,7 @@ begin
     ' co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     ', nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) ' +
     ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML   ' +
+    ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +    
     '  from NOTAFISCAL nf ' +
     ' inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE ' +
     ' inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
@@ -999,6 +1020,7 @@ begin
             exit;
           end
         end;
+
         tipoNota := trim(cdsNFCFOP.AsString)[1];
         if (tipoNota in ['1','2','3']) then
         begin
@@ -1056,6 +1078,7 @@ begin
          end;
 
           ACBrNFe1.NotasFiscais.Clear;
+  //        ACBrNFe1.NotasFiscais.Add.NFe.Ide.finNFe
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
             //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
@@ -1109,11 +1132,8 @@ begin
               Ide.tpEmis    := teSVCAN;
               Ide.serie     := 1;
             end;
-            if( (cdsNFIDCOMPLEMENTAR.IsNull) or (cdsNFIDCOMPLEMENTAR.AsString = '')) then
-              ide.finNFe    := fnNormal
-            else
+            if (cdsNFIDCOMPLEMENTAR.AsString <> '') then
             begin
-              ide.finNFe    := fnComplementar;
               ide.NFref.Add.refNFe := cdsNFIDCOMPLEMENTAR.AsString;
             end;
             Ide.nNF       := StrToInt(cdsNFNOTASERIE.AsString);
@@ -1139,7 +1159,19 @@ begin
               ide.idDest := doExterior;
 
             //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
-            Ide.verProc   := '1.0.0.0';
+            Ide.verProc := '1.0.0.0';
+
+            if (cdsNFNFE_FINNFE.AsString = 'fnNormal') then
+              Ide.finNFe := fnNormal;
+
+            if (cdsNFNFE_FINNFE.AsString = 'fnDevolucao') then
+              Ide.finNFe := fnDevolucao;
+
+            if (cdsNFNFE_FINNFE.AsString = 'fnAjuste') then
+              Ide.finNFe := fnAjuste;
+
+            if (cdsNFNFE_FINNFE.AsString = 'fnComplementar') then
+              ide.finNFe    := fnComplementar;
 
             if (sTabIBGE.Active) then
               sTabIBGE.Close;
@@ -3554,6 +3586,13 @@ begin
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add(' ** Retorno gravado no arquivo : ' + nota_rec + ' **');
 
+end;
+
+procedure TfNFeletronica.cdsNFAfterOpen(DataSet: TDataSet);
+begin
+  edDadosXml.Text := cdsnfNFE_FINNFE.AsString + '-' + cdsnfNFE_MODELO.AsString + '-' + cdsnfNFE_VERSAO.AsString + '-' +
+    cdsnfNFE_DESTOPERACAO.AsString + '-' + cdsnfNFE_FORMATODANFE.AsString + '-' + cdsnfNFE_TIPOEMISSAO.AsString + '-' +
+    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString;
 end;
 
 end.

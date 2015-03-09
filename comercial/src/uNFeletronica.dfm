@@ -1,8 +1,8 @@
 object fNFeletronica: TfNFeletronica
   Left = 2
   Top = 2
-  Width = 875
-  Height = 580
+  Width = 873
+  Height = 607
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -20,8 +20,8 @@ object fNFeletronica: TfNFeletronica
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 867
-    Height = 553
+    Width = 865
+    Height = 580
     ActivePage = NFe
     TabOrder = 0
     object NFe: TTabSheet
@@ -650,8 +650,8 @@ object fNFeletronica: TfNFeletronica
       object JvDBGrid1: TJvDBGrid
         Left = 0
         Top = 224
-        Width = 857
-        Height = 300
+        Width = 849
+        Height = 297
         DataSource = DataSource1
         TabOrder = 2
         TitleFont.Charset = DEFAULT_CHARSET
@@ -715,35 +715,35 @@ object fNFeletronica: TfNFeletronica
             Expanded = False
             FieldName = 'RAZAOSOCIAL'
             Title.Caption = 'Raz'#227'o Social'
-            Width = 170
+            Width = 168
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CNPJ'
             Title.Caption = 'CNPJ / CPF'
-            Width = 110
+            Width = 109
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PROTOCOLOENV'
             Title.Caption = 'Protocolo de Envio'
-            Width = 96
+            Width = 95
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'NUMRECIBO'
             Title.Caption = 'Numero Recebimento'
-            Width = 105
+            Width = 104
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PROTOCOLOCANC'
             Title.Caption = 'Protocolo de Cancelamento'
-            Width = 114
+            Width = 111
             Visible = True
           end>
       end
@@ -1072,41 +1072,64 @@ object fNFeletronica: TfNFeletronica
           Caption = 'Exporta'#231#227'o'
           ImageIndex = 6
           object Label12: TLabel
-            Left = 24
-            Top = 8
+            Left = 1
+            Top = 3
             Width = 65
             Height = 13
             Caption = 'UF Embarque'
           end
           object Label13: TLabel
-            Left = 24
-            Top = 40
-            Width = 92
+            Left = 0
+            Top = 24
+            Width = 56
             Height = 13
-            Caption = 'Local de Embarque'
+            Caption = 'Local Emb.:'
           end
           object edUfEmbarque: TEdit
-            Left = 96
-            Top = 8
+            Left = 70
+            Top = 1
             Width = 41
             Height = 21
             TabOrder = 0
           end
           object edLocalEmbarque: TEdit
-            Left = 24
-            Top = 60
-            Width = 329
+            Left = 70
+            Top = 24
+            Width = 284
             Height = 21
+            Hint = 'Local de Embarque'
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 1
           end
           object btnAbaPrincipal: TBitBtn
-            Left = 152
-            Top = 83
+            Left = 240
+            Top = 0
             Width = 113
-            Height = 25
+            Height = 23
             Caption = 'Voltar aba principal'
             TabOrder = 2
             OnClick = btnAbaPrincipalClick
+          end
+          object rgViaTransp: TRadioGroup
+            Left = -3
+            Top = 45
+            Width = 361
+            Height = 65
+            Caption = 'Via de Transporte Internacioanl'
+            Columns = 4
+            Items.Strings = (
+              '1=Mar'#237'tima;'
+              '2=Fluvial;'
+              '3=Lacustre;'
+              '4=A'#233'rea;'
+              '5=Postal'
+              '6=Ferrovi'#225'ria;'
+              '7=Rodovi'#225'ria;'
+              '8=Conduto / Rede Transmiss'#227'o;'
+              '9=Meios Pr'#243'prios;'
+              '10=Entrada / Sa'#237'da ficta;')
+            TabOrder = 3
           end
         end
         object TabSheet8: TTabSheet
@@ -1204,6 +1227,16 @@ object fNFeletronica: TfNFeletronica
           Height = 297
           TabOrder = 4
         end
+      end
+      object edDadosXml: TEdit
+        Left = 0
+        Top = 528
+        Width = 849
+        Height = 21
+        Color = clScrollBar
+        ReadOnly = True
+        TabOrder = 5
+        Text = '...'
       end
     end
     object CCe: TTabSheet
@@ -1442,7 +1475,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -1726,15 +1759,17 @@ object fNFeletronica: TfNFeletronica
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
       'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
-      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10'from NOTAFISC' +
-      'AL nf '#13#10'inner join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13 +
-      #10'inner join enderecocliente endecli on endecli.CODCLIENTE = cl.C' +
-      'ODCLIENTE'#13#10'left outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10 +
-      'where (nf.DTAEMISSAO between :dta1 and :dta2)'#13#10'          and ((n' +
-      'f.SERIE = :pvendacusto) or (:pvendacusto = '#39'todasasseriesdenotaf' +
-      #39'))'#13#10'          and (endecli.TIPOEND = 0) and NF.NATUREZA = :natn' +
-      'f  and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by' +
-      ' nf.DTAEMISSAO DESC'
+      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10', NFE_FINNFE ' +
+      #13#10', NFE_MODELO '#13#10', NFE_VERSAO  '#13#10', NFE_DESTOPERACAO '#13#10', NFE_FORM' +
+      'ATODANFE '#13#10', NFE_TIPOEMISSAO      '#13#10', NFE_INDFINAL         '#13#10', N' +
+      'FE_INDPRES        '#13#10#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES c' +
+      'l on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente e' +
+      'ndecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join VE' +
+      'NDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between ' +
+      ':dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:' +
+      'pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.T' +
+      'IPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS N' +
+      'ULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -2018,6 +2053,41 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       Size = 60
     end
+    object sdsNFNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+      ReadOnly = True
+    end
+    object sdsNFNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      ReadOnly = True
+      Size = 10
+    end
+    object sdsNFNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      ReadOnly = True
+      Size = 10
+    end
+    object sdsNFNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+      ReadOnly = True
+    end
+    object sdsNFNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+      ReadOnly = True
+    end
+    object sdsNFNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      ReadOnly = True
+      Size = 15
+    end
+    object sdsNFNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+      ReadOnly = True
+    end
+    object sdsNFNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+      ReadOnly = True
+    end
   end
   object cdsNF: TClientDataSet
     Aggregates = <>
@@ -2053,6 +2123,7 @@ object fNFeletronica: TfNFeletronica
         ParamType = ptInput
       end>
     ProviderName = 'dspNF'
+    AfterOpen = cdsNFAfterOpen
     Left = 520
     Top = 347
     object cdsNFFRETE: TStringField
@@ -2340,6 +2411,41 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'NOMEXML'
       ReadOnly = True
       Size = 60
+    end
+    object cdsNFNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+      ReadOnly = True
+    end
+    object cdsNFNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      ReadOnly = True
+      Size = 10
+    end
+    object cdsNFNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      ReadOnly = True
+      Size = 10
+    end
+    object cdsNFNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+      ReadOnly = True
+    end
+    object cdsNFNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+      ReadOnly = True
+    end
+    object cdsNFNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      ReadOnly = True
+      Size = 15
+    end
+    object cdsNFNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+      ReadOnly = True
+    end
+    object cdsNFNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+      ReadOnly = True
     end
   end
   object dspNF: TDataSetProvider
