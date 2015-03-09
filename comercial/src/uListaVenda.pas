@@ -387,7 +387,7 @@ begin
     cdsListaVenda.Open;
     if (cdsLista_det.Active) then
       cdsLista_det.Close;
-    cdsLista_det.CommandText := ' SELECT UDF_STRZERO(UDF_DIGITS(p.CODPRO),12) AS COD_P,  l.*, p.CODPRO' +
+    cdsLista_det.CommandText := ' SELECT UDF_STRZERO(UDF_DIGITS(UDF_LEFT(p.CODPRO,6)),9) AS COD_P,  l.*, p.CODPRO' +
       '  FROM LISTAPRECO_VENDADET  l, PRODUTOS P ' +
       ' where l.codproduto = p.codproduto ' +
       '   and l.CODLISTA = ' + IntToSTr(fListaVendaProc.codlista) +
