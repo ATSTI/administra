@@ -1941,6 +1941,7 @@ object DMNF: TDMNF
     end
     object cds_nfIDCOMPLEMENTAR: TStringField
       FieldName = 'IDCOMPLEMENTAR'
+      ProviderFlags = [pfInUpdate]
       Size = 44
     end
     object cds_nfVLRTOTALEXP: TFloatField
@@ -1997,6 +1998,47 @@ object DMNF: TDMNF
     object cds_nfVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
       DisplayFormat = ',##0.00'
+    end
+    object cds_nfII: TFloatField
+      FieldName = 'II'
+    end
+    object cds_nfBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object cds_nfNOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      Size = 60
+    end
+    object cds_nfNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object cds_nfNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object cds_nfNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object cds_nfNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object cds_nfNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object cds_nfNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object cds_nfNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object cds_nfNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object cds_nfNFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
     end
   end
   object dsp_nf: TDataSetProvider
@@ -2387,6 +2429,47 @@ object DMNF: TDMNF
     object sds_nfVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
     end
+    object sds_nfII: TFloatField
+      FieldName = 'II'
+    end
+    object sds_nfBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object sds_nfNOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      Size = 60
+    end
+    object sds_nfNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object sds_nfNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object sds_nfNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object sds_nfNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object sds_nfNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object sds_nfNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object sds_nfNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object sds_nfNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object sds_nfNFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
+    end
   end
   object DtSrc_NF1: TDataSource
     DataSet = cds_nf1
@@ -2731,6 +2814,75 @@ object DMNF: TDMNF
     end
     object cds_nf1BASE_COFINS: TFloatField
       FieldName = 'BASE_COFINS'
+    end
+    object cds_nf1PROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object cds_nf1NUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object cds_nf1PROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object cds_nf1PESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
+    object cds_nf1NOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object cds_nf1CCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object cds_nf1IDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
+    end
+    object cds_nf1XMLNFE: TGraphicField
+      FieldName = 'XMLNFE'
+      BlobType = ftGraphic
+    end
+    object cds_nf1NOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      Size = 60
+    end
+    object cds_nf1INDPAG: TIntegerField
+      FieldName = 'INDPAG'
+    end
+    object cds_nf1VLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object cds_nf1NFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object cds_nf1NFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object cds_nf1NFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object cds_nf1NFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object cds_nf1NFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object cds_nf1NFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object cds_nf1NFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object cds_nf1NFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object cds_nf1NFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
     end
   end
   object dsp_nf1: TDataSetProvider
@@ -3096,6 +3248,75 @@ object DMNF: TDMNF
     end
     object sds_nf1BASE_COFINS: TFloatField
       FieldName = 'BASE_COFINS'
+    end
+    object sds_nf1PROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+    end
+    object sds_nf1NUMRECIBO: TStringField
+      FieldName = 'NUMRECIBO'
+    end
+    object sds_nf1PROTOCOLOCANC: TStringField
+      FieldName = 'PROTOCOLOCANC'
+    end
+    object sds_nf1PESOREMESSA: TBCDField
+      FieldName = 'PESOREMESSA'
+      Precision = 9
+      Size = 2
+    end
+    object sds_nf1NOTAMAE: TIntegerField
+      FieldName = 'NOTAMAE'
+    end
+    object sds_nf1CCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object sds_nf1IDCOMPLEMENTAR: TStringField
+      FieldName = 'IDCOMPLEMENTAR'
+      Size = 44
+    end
+    object sds_nf1XMLNFE: TGraphicField
+      FieldName = 'XMLNFE'
+      BlobType = ftGraphic
+    end
+    object sds_nf1NOMEXML: TStringField
+      FieldName = 'NOMEXML'
+      Size = 60
+    end
+    object sds_nf1INDPAG: TIntegerField
+      FieldName = 'INDPAG'
+    end
+    object sds_nf1VLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object sds_nf1NFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object sds_nf1NFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object sds_nf1NFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object sds_nf1NFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object sds_nf1NFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object sds_nf1NFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object sds_nf1NFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object sds_nf1NFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object sds_nf1NFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
     end
   end
   object sds_compra: TSQLDataSet
