@@ -880,6 +880,39 @@ object fNotaf: TfNotaf
               C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
           end
         end
+        object TabSheet4: TTabSheet
+          Caption = 'Documento Fiscal Referenciado'
+          ImageIndex = 2
+          object Label4: TLabel
+            Left = 19
+            Top = 8
+            Width = 243
+            Height = 13
+            Caption = 'Chave NFe (Devolu'#231#227'o/Complementar/Cancelada)'
+          end
+          object Memo2: TMemo
+            Left = 16
+            Top = 51
+            Width = 729
+            Height = 33
+            BorderStyle = bsNone
+            Color = cl3DLight
+            Lines.Strings = (
+              
+                'Informa'#231#227'o utilizada nas hip'#243'teses previstas na legisla'#231#227'o. (Ex.' +
+                ': Devolu'#231#227'o de mercadorias,'
+              'Substitui'#231#227'o de NF cancelada, Complementa'#231#227'o de NF, etc.).')
+            ReadOnly = True
+            TabOrder = 0
+          end
+          object edtNFRef: TEdit
+            Left = 16
+            Top = 24
+            Width = 721
+            Height = 21
+            TabOrder = 1
+          end
+        end
       end
       object PageControl2: TPageControl
         Left = 0
@@ -4227,5 +4260,51 @@ object fNotaf: TfNotaf
     SQLConnection = DM.sqlsisAdimin
     Left = 280
     Top = 64
+  end
+  object sdsCFOP: TSQLDataSet
+    CommandText = 'select *  from CFOP'#13#10' where CFCOD = :id '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 310
+    Top = 331
+    object sdsCFOPCFCOD: TStringField
+      FieldName = 'CFCOD'
+      Required = True
+      Size = 30
+    end
+    object sdsCFOPCFNOME: TStringField
+      FieldName = 'CFNOME'
+      Size = 250
+    end
+    object sdsCFOPCFNOTA: TMemoField
+      FieldName = 'CFNOTA'
+      BlobType = ftMemo
+    end
+    object sdsCFOPTIPOMOVIMENTO: TStringField
+      FieldName = 'TIPOMOVIMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPFRETEBC: TStringField
+      FieldName = 'FRETEBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPIPIBC: TStringField
+      FieldName = 'IPIBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPTOTTRIB: TStringField
+      FieldName = 'TOTTRIB'
+      FixedChar = True
+      Size = 1
+    end
   end
 end

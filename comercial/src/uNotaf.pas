@@ -425,6 +425,18 @@ type
     DBEdit55: TDBEdit;
     calcman: TCheckBox;
     sqlBSerie: TSQLQuery;
+    sdsCFOP: TSQLDataSet;
+    sdsCFOPCFCOD: TStringField;
+    sdsCFOPCFNOME: TStringField;
+    sdsCFOPCFNOTA: TMemoField;
+    sdsCFOPTIPOMOVIMENTO: TStringField;
+    sdsCFOPFRETEBC: TStringField;
+    sdsCFOPIPIBC: TStringField;
+    sdsCFOPTOTTRIB: TStringField;
+    TabSheet4: TTabSheet;
+    Label4: TLabel;
+    Memo2: TMemo;
+    edtNFRef: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -462,6 +474,7 @@ type
     procedure cboFreteChange(Sender: TObject);
     procedure btnCrClick(Sender: TObject);
   private
+    TD: TTransactionDesc;
     cod_natNotaf: Integer;
     { Private declarations }
     procedure carregaDadosAdicionais(motivo:String);
@@ -476,6 +489,7 @@ type
     procedure alteraVlrVenda;
     procedure gravamov_detalhe;
     procedure gravanotafiscal;
+    procedure gravarDadosNFe310;
   public
     vrr : double;
     codMovFin, codVendaFin, codCliFin : integer;
@@ -823,6 +837,14 @@ begin
     dmnf.cds_nf.Params[1].Clear;
     dmnf.cds_nf.Params[1].AsInteger := codVendaFin;
     dmnf.cds_nf.Open;
+
+    if (dmnf.cds_nfNFE_FINNFE.IsNull) then
+    begin
+      dmnf.cds_nf.Edit;
+      gravarDadosNFe310;
+      btnGravar.Click;
+    end;
+
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
       RadioGroup1.ItemIndex := 0
     else
@@ -1330,13 +1352,13 @@ end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
 var nfe : string;
-    TD: TTransactionDesc;
     numnf, codm, codv : Integer;
 begin
   if DMNF.DtSrc_NF.State in [dsBrowse] then
     DMNF.DtSrc_NF.DataSet.Edit;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
+
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     if (calcman.Checked) then
@@ -1474,7 +1496,6 @@ begin
 end;
 
 procedure TfNotaf.gravamov_detalhe;
-var  TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1526,7 +1547,6 @@ begin
 end;
 
 procedure TfNotaf.gravamovimento;
-var  TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1580,7 +1600,6 @@ begin
 end;
 
 procedure TfNotaf.gravavenda;
-var  TD: TTransactionDesc;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1718,7 +1737,7 @@ begin
     if (dm.cds_parametroD1.AsString <> '') then
       fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString
     else
-      fFiltroMovimento.Edit4.Text := 'NOTA FISCAL';  
+      fFiltroMovimento.Edit4.Text := 'NOTA FISCAL';
     dm.cds_parametro.Close;
     fFiltroMovimento.BitBtn8.Enabled := False;
     fFiltroMovimento.ShowModal;
@@ -1759,17 +1778,17 @@ begin
        RadioGroup1.ItemIndex := 1;
 
     if (DMNF.cds_nfFRETE.AsString <>  '') then
-      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);       
+      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
   if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
-    ChkComp.Checked := True; 
+    ChkComp.Checked := True;
 end;
 
 procedure TfNotaf.gravanotafiscal;
 var  pesoremessa, entrega: Double;
-   TD: TTransactionDesc;
+   var varsql:string;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1797,6 +1816,7 @@ begin
     dm.c_6_genid.Close;
   end;
   dmnf.cds_nfCODVENDA.AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+
   if (parametroNF <> 'S') then
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then
@@ -1833,20 +1853,26 @@ begin
   end;
   if (not calcman.Checked) then
     dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_PRODUTO.AsFloat + dmnf.cds_nfVALOR_ICMS_SUBST.AsFloat + dmnf.cds_nfVALOR_IPI.AsFloat + dmnf.cds_nfVALOR_FRETE.AsFloat - dmnf.cds_nfVALOR_DESCONTO.AsFloat;
-  if (ChkComp.Checked) then
+
+  gravarDadosNFe310;
+  if ((ChkComp.Checked) or (dmnf.cds_nfNFE_FINNFE.AsString  = 'fnComplementar')  or (dmnf.cds_nfNFE_FINNFE.AsString  = 'fnDevolucao')) then
   begin
-    fComplementar := TfComplementar.Create(Application);
+    if ((dmnf.cds_nfIDCOMPLEMENTAR.IsNull) or (dmnf.cds_nfIDCOMPLEMENTAR.AsString = '')) then
+    begin
+      MessageDlg('Informe o Documento de Referencia, na ABA Documento Fiscal Referenciado.', mtWarning, [mbOK], 0);
+    end;
+
+    {fComplementar := TfComplementar.Create(Application);
     try
       fComplementar.ShowModal;
     finally
       fComplementar.Free;
-    end;
-  end
-  else
-  begin
-    if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
-      dmnf.cds_nfIDCOMPLEMENTAR.AsString := '';
+    end;}
   end;
+  //else begin
+  //  if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
+  //    dmnf.cds_nfIDCOMPLEMENTAR.AsString := '';
+  //end;
 
   if (dmnf.cds_nfCODTRANSP.IsNull) then
   begin
@@ -1869,6 +1895,7 @@ begin
   try
     dmnf.cds_nf.ApplyUpdates(0);
     dm.sqlsisAdimin.Commit(TD);
+
   except
     on E : Exception do
     begin
@@ -1883,7 +1910,22 @@ begin
         IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
     end;
   end;
+  if (edtNFRef.Text <> '') then
+  begin
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      varsql := 'UPDATE NOTAFISCAL SET IDCOMPLEMENTAR = ' +
+        QuotedStr(Copy(edtNFRef.Text,0,44)) + ' WHERE NUMNF = ' + IntToStr(dmnf.cds_nfNUMNF.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(varsql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
 
+  end;
 
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nfUF.AsString);
@@ -2306,9 +2348,9 @@ end;
 
 procedure TfNotaf.btnNotaFiscalClick(Sender: TObject);
 begin
-    fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
-    fNFeletronica.cbTipoNota.ItemIndex := 1;
-    fNFeletronica.ShowModal;
+  fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
+  fNFeletronica.cbTipoNota.ItemIndex := 1;
+  fNFeletronica.ShowModal;
 end;
 
 procedure TfNotaf.btnRemessaClick(Sender: TObject);
@@ -2380,7 +2422,6 @@ end;
 
 procedure Tfnotaf.ativaCalc;
 var  cm : string;
-     TD: TTransactionDesc;
 begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
     try
@@ -2401,7 +2442,6 @@ end;
 
 procedure Tfnotaf.inativaCalc;
 var  cm : string;
-     TD: TTransactionDesc;
 begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
     try
@@ -2494,6 +2534,53 @@ begin
     dmnf.scds_serie_proc.Close;
   end;
 
+end;
+
+procedure TfNotaf.gravarDadosNFe310;
+var tipoNota :Char;
+begin
+  if (sdsCFOP.Active) then
+    sdsCFOP.Close;
+  sdsCFOP.Params[0].AsString := dmnf.cds_nfCFOP.asString;
+  sdsCFOP.Open;
+  dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
+  //if (sdsCFOP.RecordCount > 0) then
+  //begin
+  dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
+  if (sdsCFOP.FieldByName('TIPOMOVIMENTO').AsString = 'D') then
+    dmnf.cds_nfNFE_FINNFE.AsString := 'fnDevolucao';
+  if (sdsCFOP.FieldByName('TIPOMOVIMENTO').AsString = 'R') then
+    dmnf.cds_nfNFE_FINNFE.AsString := 'fnAjuste';
+  if (ChkComp.Checked) then
+    dmnf.cds_nfNFE_FINNFE.AsString := 'fnComplementar';
+  //end;
+  dmnf.cds_nfNFE_MODELO.AsString       := 'moNFe';
+  dmnf.cds_nfNFE_VERSAO.AsString       := 've310';
+
+  tipoNota := trim(dmnf.cds_nfCFOP.AsString)[1];
+
+  if (tipoNota in ['1','2','3']) then
+  begin
+    dmnf.cds_nfNFE_TIPO.AsString := 'tnEntrada';
+  end;
+  if (tipoNota in ['5','6','7']) then
+  begin
+    dmnf.cds_nfNFE_TIPO.AsString := 'tnSaida';
+  end;
+
+  if (tipoNota in ['1','5']) then
+    dmnf.cds_nfNFE_DESTOPERACAO.AsString := 'doInterna';
+  if (tipoNota in ['2','6']) then
+    dmnf.cds_nfNFE_DESTOPERACAO.AsString := 'doInterestadual';
+  if (tipoNota in ['3', '7']) then
+    dmnf.cds_nfNFE_DESTOPERACAO.AsString := 'doExterior';
+
+  dmnf.cds_nfNFE_FORMATODANFE.AsString   := 'tiRetrato';
+  dmnf.cds_nfNFE_TIPOEMISSAO.AsString    := 'teNormal';
+
+  // Buscar do Cadastro de Cliente
+  dmnf.cds_nfNFE_INDFINAL.AsString       := 'teNormal';
+  //dmnf.cds_nfNFE_INDPRES.AsString
 end;
 
 end.
