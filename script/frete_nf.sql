@@ -21,7 +21,7 @@ declare variable SEGURO_TOTAL double precision;
 declare variable valtot double precision;
 declare variable vp double precision;
 declare variable levaDesc char(1);
-declare variable log_sis varchar(30);
+declare variable log_sis varchar(60);
 BEGIN
   log_sis =  new.IDCOMPLEMENTAR;
   if (log_sis is null) then 
