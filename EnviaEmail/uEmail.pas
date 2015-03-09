@@ -95,6 +95,8 @@ type
     chkTipo: TCheckBox;
     Label3: TLabel;
     Edit2: TEdit;
+    chkImagem: TCheckBox;
+    Label4: TLabel;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -518,6 +520,7 @@ begin
 end;
 
 procedure TForm1.enviarEmailAcbr;
+var linha: integer;
 begin
   ACBrMail1.From := dm.cds_empresaE_MAIL.AsString; // 'seu_email';
   ACBrMail1.FromName := dm.cds_empresaEMPRESA.AsString; // 'seu_nome_opcional';
@@ -529,7 +532,7 @@ begin
   //ACBrMail1.AddCC('um_email'); // opcional
   //ACBrMail1.AddReplyTo('um_email'); // opcional
   //ACBrMail1.AddBCC('um_email'); // opcional
-  ACBrMail1.Subject := edtAssunto.Text; //'Teste de Envio'; // assunto
+  ACBrMail1.Subject := UTF8Encode(edtAssunto.Text); //'Teste de Envio'; // assunto
   ACBrMail1.IsHTML := True; // define que a mensagem é html
   // mensagem principal do e-mail. pode ser html ou texto puro
   if (chkTipo.Checked) then
@@ -537,34 +540,59 @@ begin
     ACBrMail1.SetTLS := True;
     //ACBrMail1.SetSSL := True;
   end;
-  ACBrMail1.Body.Text :=
-  '<html>'+#13+#10+
-  '<head>'+#13+#10+#13+#10+
-  '  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">'+#13+#10+
-  '</head>'+#13+#10+
-  '<body text="#000000" bgcolor="#FFFFFF">'+#13+#10+
-  '<img style="margin:1px 1px 1px 0px;"' +
-  '<IMG SRC="cid:' + edit1.Text + '">'+
-  '</body>'+#13+#10+
-  '</html>'+#13+#10;
+  ACBrMail1.Body.Text := '<html>'+#13+#10+
+    '<head>'+#13+#10+#13+#10+
+    '  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">'+#13+#10+
+    '</head>'+#13+#10+
+    '<body text="#000000" bgcolor="#FFFFFF">'+#13+#10;
 
-  //  '<img>imagem1<img>'+#13+#10+
+  if (edit1.Text <> '') then
+  begin
+    linha := 0;
 
-     {     text.Body.Add('<img>imagem1<img>');
-          text.Body.Add('<img style="margin:1px 1px 1px 0px;"');
-          text.Body.Add('<IMG SRC="cid:alemanha.jpg">');
-          text.Body.Add('</BODY><HTML>');
-          //anexa as imagens que vai no email
-          text := TIdText.Create(email.MessageParts);
-          text.ContentType := 'text/plain';
-          anexo := TIdAttachmentFile.Create(email.MessageParts,'D:\imagens\alemanha.jpg');
-          anexo.ExtraHeaders.Values['content-ID'] := 'alemanha.jpg';
+    if (chkImagem.Checked) then
+    begin
+      ACBrMail1.Body.Text := ACBrMail1.Body.Text +   '<img style="margin:1px 1px 1px 0px;"' +
+        '<IMG SRC="cid:' + edit1.Text + '">' + '<BR />+#13+#10+<BR />';
+     end;
+    while linha < edText.Lines.Count do
+    begin
+      ACBrMail1.Body.Text := ACBrMail1.Body.Text + UTF8Encode(edText.lines[linha]) + '<BR />'+#13+#10;
+      inc(linha);
+    end;
+  end
+  else begin
+    ACBrMail1.Body.Text := '';
+    linha := 0;
+    while linha < edText.Lines.Count do
+    begin
+      ACBrMail1.Body.Text := ACBrMail1.Body.Text + UTF8Encode(edText.lines[linha]) + '<BR />'+#13+#10;
+      //if (linha = 4) then
+      //  ACBrMail1.Body.Text := ACBrMail1.Body.Text + edText.lines[linha] + '</br>';
+      inc(linha);
+    end;
 
-      exemplo q eu usei }
+  end;
+  ACBrMail1.Body.Text := ACBrMail1.Body.Text + '</body>'+#13+#10+
+    '</html>'+#13+#10;
+
+  {linha := 0;
+  ACBrMail1.AltBody := '';
+  while linha < edText.Lines.Count do
+  begin
+    ACBrMail1.AltBody.Text := ACBrMail1.AltBody.Text + UTF8Encode(edText.lines[linha]) + '\n';
+    //if (linha = 4) then
+    //  ACBrMail1.Body.Text := ACBrMail1.Body.Text + edText.lines[linha] + '</br>';
+    inc(linha);
+  end}
+
 
   //ACBrMail1.AltBody.Text := 'Texto puro alternativo.';
-  ACBrMail1.AddAttachment(anexoArquivo,edit1.Text);
-  ACBrMail1.Send
+  if (edit1.Text <> '') then
+  begin
+    ACBrMail1.AddAttachment(anexoArquivo,edit1.Text);
+  end;
+  ACBrMail1.Send;
 end;
 
 end.

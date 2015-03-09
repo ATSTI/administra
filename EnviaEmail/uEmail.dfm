@@ -125,6 +125,19 @@ object Form1: TForm1
       Height = 13
       Caption = 'Tempo Envio(seg.)'
     end
+    object Label4: TLabel
+      Left = 584
+      Top = 56
+      Width = 28
+      Height = 13
+      Caption = 'V. 1.0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
     object BitBtn1: TBitBtn
       Left = 468
       Top = 13
@@ -292,8 +305,8 @@ object Form1: TForm1
       TabOrder = 4
     end
     object chkTipo: TCheckBox
-      Left = 216
-      Top = 44
+      Left = 213
+      Top = 38
       Width = 97
       Height = 17
       Caption = 'Conex'#227'o Segura'
@@ -311,6 +324,14 @@ object Form1: TForm1
       ShowHint = True
       TabOrder = 6
       Text = '2'
+    end
+    object chkImagem: TCheckBox
+      Left = 213
+      Top = 54
+      Width = 97
+      Height = 17
+      Caption = 'Imagem'
+      TabOrder = 7
     end
   end
   object Panel2: TPanel
@@ -371,7 +392,7 @@ object Form1: TForm1
           Height = 258
           Align = alClient
           AutoSize = False
-          ReadOnly = True
+          StreamMode = [smPlainRtf]
           TabOrder = 0
         end
       end
