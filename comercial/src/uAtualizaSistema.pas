@@ -2199,6 +2199,11 @@ begin
       mudaVersao('3.0.0.25');
     end;
 
+    if (versaoSistema = '3.0.0.25') then
+    begin
+      mudaVersao('3.0.0.28');
+    end;
+
     if (versaoSistema = '3.0.0.28') then
     begin
       insereouatualizaScript('lanca_ent_saida.sql', '3.0.0.28', StrToDate('01/02/2015'));
@@ -2214,6 +2219,65 @@ begin
       end;
       insereouatualizaScript('insere_transp_fornec.sql', '3.0.0.29', StrToDate('01/02/2015'));
       mudaVersao('3.0.0.30');
+    end;
+
+    if (versaoSistema = '3.0.0.30') then
+    begin
+      try
+        EXECUTADDL('NOTAFISCAL', 'NFE_FINNFe', 'VARCHAR(20)'); // fnNormal, fnComplementar, fnAjuste, fnDevolucao
+        { 1=NF-e normal;
+          2=NF-e complementar;
+          3=NF-e de ajuste;
+          4=Devolução de mercadoria.
+        }
+        EXECUTADDL('NOTAFISCAL', 'NFE_MODELO', 'VARCHAR(10)'); // TpcnModeloDF = (moNFe, moNFCe);
+        EXECUTADDL('NOTAFISCAL', 'NFE_TIPO', 'VARCHAR(15)'); // tnEntrada ou tnSaida;
+        EXECUTADDL('NOTAFISCAL', 'NFE_VERSAO', 'VARCHAR(10)'); // TpcnVersaoDF = (ve200, ve300, ve310);
+        EXECUTADDL('NOTAFISCAL', 'NFE_DESTOPERACAO', 'VARCHAR(20)');
+        //TpcnDestinoOperacao = (doInterna, doInterestadual, doExterior);
+        EXECUTADDL('NOTAFISCAL', 'NFE_FORMATODANFE', 'VARCHAR(20)');
+        {[tiSemGeracao, tiRetrato, tiPaisagem, tiSimplificado, tiNFCe, tiMsgEletronica, tiNFCeA4]);
+          0=Sem geração de DANFE;
+          1=DANFE normal, Retrato;
+          2=DANFE normal, Paisagem;
+          3=DANFE Simplificado;
+          4=DANFE NFC-e;
+          5=DANFE NFC-e em mensagem eletrônica.}
+        EXECUTADDL('NOTAFISCAL', 'NFE_TIPOEMISSAO', 'VARCHAR(15)');
+        //TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA, teSVCAN, teSVCRS, teSVCSP, teOffLine);
+        EXECUTADDL('NOTAFISCAL', 'NFE_INDFINAL', 'VARCHAR(20)'); // TpcnConsumidorFinal = (cfNao, cfConsumidorFinal); 0=Normal; 1=Consumidor final;
+        EXECUTADDL('NOTAFISCAL', 'NFE_INDPRES', 'VARCHAR(20)'); // TpcnPresencaComprador = (pcNao, pcPresencial, pcInternet, pcTeleatendimento, pcEntregaDomicilio, pcOutros);
+        { 0=Não se aplica (por exemplo, para a Nota Fiscal
+          complementar ou de ajuste);
+          1=Operação presencial;
+          2=Operação não presencial, pela Internet;
+          3=Operação não presencial, Teleatendimento;
+          4=NFC-e em operação com entrega em domicílio;
+          9=Operação não presencial, outros.
+          Nota: Para a NFC-e, somente são aceitas as opções 1 e 4.
+        }
+
+      except
+      end;
+      mudaVersao('3.1.0.0');
+    end;
+
+    if (versaoSistema = '3.1.0.0') then
+    begin
+      try
+        EXECUTADDL('BANCO', 'DIA_GEROU_ARQUIVO', 'DATE');
+        EXECUTADDL('BANCO', 'SEQUENCIA_DIA', 'INTEGER');
+        EXECUTADDL('BANCO', 'SEQUENCIA_ARQUIVO', 'INTEGER');
+        EXECUTADDL('BANCO', 'GERANDO_ARQUIVO', 'INTEGER');
+      except
+      end;
+      mudaVersao('3.1.0.1');
+    end;
+
+    if (versaoSistema = '3.1.0.1') then
+    begin
+      insereouatualizaScript('boleto.sql', '3.1.0.1', StrToDate('01/03/2015'));
+      mudaVersao('3.1.0.2');
     end;
 
     try
