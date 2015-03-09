@@ -371,7 +371,9 @@ uses
   uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente},
   uTributosInfo in 'uTributosInfo.pas' {fTributosInfo},
   uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa},
-  uNFCe in 'uNFCe.pas' {fNFCe};
+  uNFCe in 'uNFCe.pas' {fNFCe},
+  uBolSic in 'uBolSic.pas' {fBolSic},
+  uBolSicR in 'uBolSicR.pas' {fBolSicR},  RLCob748 in 'RLCob748.pas',  RLBoleto in 'RLBoleto.pas',  BoletoLayout in 'BoletoLayout.pas' {LayoutBoleto};
 
 {$R *.res}
 
