@@ -2356,7 +2356,7 @@ object fAtsAdmin: TfAtsAdmin
       object ConfiguraoFiscal1: TMenuItem
         Caption = 'Configura'#231#227'o Fiscal'
         object CFOPEstados1: TMenuItem
-          Caption = 'CFOP-Cadastrar'
+          Caption = 'CFOP-Cadastrar por UF'
           OnClick = CFOPEstados1Click
         end
         object CFOPNCM1: TMenuItem
