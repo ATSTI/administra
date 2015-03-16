@@ -30,7 +30,6 @@ from openerp.tools.translate import _
 
 from openerp.addons.base_status.base_stage import base_stage
 from openerp.addons.resource.faces import task as Task
-import pdb
 
 _TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
@@ -1220,6 +1219,9 @@ class project_work(osv.osv):
         totalhora = ((hours_out - hours_in)+diferencaDias)
         return totalhora
 
+    def onchange_date(self, cr, uid, ids, date):
+        return {'value':{'date_out': date,'date_base': date}} 
+
     def onchange_hours_out(self, cr, uid, ids, hours_out=0.0, hours_in=0.0, datex=None, datex_out=None):
         #dataEnt = date(*time.strptime(datex,'%Y-%m-%d')[:3])
         #dataSai = date(*time.strptime(datex_out,'%Y-%m-%d')[:3])
@@ -1314,17 +1316,22 @@ class project_work(osv.osv):
             new_user_id = forced_user_id or sheet.user_id and sheet.user_id.id
             if new_user_id:
                 # procurando apontamento com esta hora de entrada e saida
-                cr.execute('SELECT id \
-                    FROM project_task_work \
-                    WHERE (date = %s) \
-                      AND (date_out = %s) \
-                      AND ((%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
-                       OR (%s BETWEEN (hours_in+0.01) and (hours_out-0.01)) \
-                       OR ((hours_in > %s) AND (hours_out < %s))) \
-                      AND (user_id=%s) \
-                      AND (id <> %s)',(sheet.date, sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, new_user_id, sheet.id))
+                cr.execute('SELECT ptw.id,TO_CHAR(ptw.date, \'DD/MM/YYYY\') date, ptw.hours_in, ptw.hours_out, pt.ordserv \
+                    FROM project_task_work ptw, project_task pt \
+                    WHERE (ptw.task_id = pt.id) \
+                      AND (ptw.date = %s) \
+                      AND (ptw.date_out = %s) \
+                      AND ((%s BETWEEN (ptw.hours_in+0.01) and (ptw.hours_out-0.01)) \
+                       OR (%s BETWEEN (ptw.hours_in+0.01) and (ptw.hours_out-0.01)) \
+                       OR ((ptw.hours_in >= %s) AND (ptw.hours_out <= %s)) \
+                       OR ((ptw.hours_in <= %s) AND (ptw.hours_out >= %s))) \
+                      AND (ptw.user_id=%s) \
+                      AND (ptw.id <> %s)',(sheet.date, sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, sheet.hours_in, sheet.hours_out,new_user_id, sheet.id))
                 encontrado_apont = cr.fetchall()
+                for row in encontrado_apont:
+                    msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
                 if encontrado_apont:
+                    raise osv.except_osv(_('Erro, já existe o apontamento:'),_(msg_apontado))
                     return False     
         return True
 

@@ -363,17 +363,17 @@
                                     <sheet string="Detalhes">
                                         <group col="2">
                                             <field name="name"/>
-                                            <field name="detalhe" widget="html" class="oe_memo" editor_height="250px" maxlenght="100"/>
+                                            <field name="detalhe" widget="txt" class="oe_memo" editor_height="250px" maxlenght="100"/>
                                         </group>
                                         <group>
                                             <group>
-                                                <field name="date"/>
+                                                <field name="date" on_change="onchange_date(date)"/>
                                                 <field name="hours_in" widget="float_time" on_change="onchange_hours_in(hours_out, hours_in,date,date_out)" />
                                             </group>
                                             <group>
                                                 <field name="date_out" />
                                                 <field name="hours_out" widget="float_time" on_change="onchange_hours_out(hours_out, hours_in,date,date_out)" />
-                                                <field name="hours" widget="float_time" sum="Spent Hours"/>
+                                                <field name="hours" widget="float_time" sum="Spent Hours" readonly="1"/>
                                             </group>
                                             <group>
                                                 <field name="date_base" />
