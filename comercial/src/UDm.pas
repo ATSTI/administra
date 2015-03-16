@@ -3412,7 +3412,7 @@ begin
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
-  sqlCf := 'SELECT CFOP FROM ESTADO_ICMS WHERE CFOP = ' + QuotedStr(cfop);
+  sqlCf := 'SELECT CFOP FROM ESTADO_ICMS WHERE CFOP = ' + QuotedStr(Trim(cfop));
   sqlBusca.SQL.Add(sqlCf);
   sqlBusca.Open;
   Result := True;
