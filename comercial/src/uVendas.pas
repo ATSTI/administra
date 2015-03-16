@@ -4060,17 +4060,17 @@ begin
 
   if (dm.ufPadrao = sqlBCfop.Fields[1].AsString) then
   begin
-    if (sqlBCfop.Fields[0].AsString = '') then
-      edCfop.Text := dm.cfopSaida
+    if (Trim(sqlBCfop.Fields[0].AsString) = '') then
+      edCfop.Text := Trim(dm.cfopSaida)
     else
-      edCfop.Text := sqlBCfop.Fields[0].AsString;
+      edCfop.Text := Trim(sqlBCfop.Fields[0].AsString);
   end
   else if (dm.ufPadrao <> sqlBCfop.Fields[1].AsString) then
   begin
-    if (sqlBCfop.Fields[0].AsString = '') then
+    if (Trim(sqlBCfop.Fields[0].AsString) = '') then
       edCfop.Text := dm.cfopSaidaF
     else
-      edCfop.Text := sqlBCfop.Fields[0].AsString;
+      edCfop.Text := Trim(sqlBCfop.Fields[0].AsString);
   end;
   if (dm.validaCfop(edCFOP.Text) = False) then
   begin
