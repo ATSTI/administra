@@ -200,7 +200,6 @@ class hr_timesheet_sheet(osv.osv):
         return emp_ids and emp_ids[0] or False
 
     #def _default_manager(self, cr, uid, vals, context=None):
-    #    pdb.set_trace()
     #    emp_ids=self.pool.get('hr.analytic.timesheet').search(cr,uid,[('id','=',vals.get('timesheet_ids'))],context=context).manager_id.id
     #    return emp_ids and emp_ids[0] or False
 
@@ -349,35 +348,35 @@ class hr_timesheet_line(osv.osv):
         return ts_line_ids
 
     def _get_work_id(self, cr, uid, ids, name, args, context=None):
-       result = {}
-       if not ids:
-           return result
-       for id in ids:
-           result[id] = False
-           cr.execute("""select feriado, periculosidade, retrabalho, justmedica,
+        result = {}
+        if not ids:
+            return result
+        for id in ids:
+            result[id] = False
+            cr.execute("""select feriado, periculosidade, retrabalho, justmedica,
 justespecial, externo, sobreaviso, embarcado  
                        from project_task_work 
                        where hr_analytic_timesheet_id in (%s)""",(id,))
-           s = ''
-           for res in cr.fetchall():
-               if res[0]:
-                   s = 'F '
-               if res[1]:
-                   s = s + 'P '
-               if res[2]:
-                   s = s + 'R '   
-               if res[3]:
-                   s = s + 'M '   
-               if res[4]:
-                   s = s + 'J '   
-               if res[5]:
-                   s = s + 'E '   
-               if res[6]:
-                   s = s + 'S '   
-               if res[7]:
-                   s = s + 'B'   
-               result[id] = s
-       return result
+            s = ''
+            for res in cr.fetchall():
+                if res[0]:
+                    s = 'F '
+                if res[1]:
+                    s = s + 'P '
+                if res[2]:
+                    s = s + 'R '   
+                if res[3]:
+                    s = s + 'M '   
+                if res[4]:
+                    s = s + 'J '   
+                if res[5]:
+                    s = s + 'E '   
+                if res[6]:
+                    s = s + 'S '   
+                if res[7]:
+                    s = s + 'B'   
+                result[id] = s
+        return result
 
     _columns = {
         'sheet_id': fields.function(_sheet, string='Sheet', select="1",
@@ -573,6 +572,7 @@ class hr_timesheet_sheet_sheet_day(osv.osv):
     }
 
     def init(self, cr):
+        # Lista as planilhas de horas que existem
         cr.execute("""create or replace view hr_timesheet_sheet_sheet_day as
             SELECT
                 id,
