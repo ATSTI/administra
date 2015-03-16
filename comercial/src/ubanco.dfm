@@ -2,7 +2,7 @@ inherited fbanco: Tfbanco
   Left = 328
   Top = 74
   Width = 707
-  Height = 591
+  Height = 700
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -115,7 +115,7 @@ inherited fbanco: Tfbanco
   end
   object lbl4: TLabel [12]
     Left = 37
-    Top = 277
+    Top = 256
     Width = 83
     Height = 13
     Caption = 'Local Pagamento'
@@ -123,7 +123,7 @@ inherited fbanco: Tfbanco
   end
   object lbl5: TLabel [13]
     Left = 36
-    Top = 313
+    Top = 291
     Width = 49
     Height = 13
     Caption = 'Instru'#231#245'es'
@@ -163,7 +163,7 @@ inherited fbanco: Tfbanco
   end
   object lbl11: TLabel [18]
     Left = 239
-    Top = 237
+    Top = 219
     Width = 171
     Height = 13
     Caption = 'Pasta destino do Arquivo Remessa :'
@@ -171,7 +171,7 @@ inherited fbanco: Tfbanco
   end
   object lbl10: TLabel [19]
     Left = 40
-    Top = 237
+    Top = 219
     Width = 165
     Height = 13
     Caption = 'Pasta destino do Arquivo Retorno :'
@@ -219,7 +219,7 @@ inherited fbanco: Tfbanco
   end
   object lbl15: TLabel [25]
     Left = 42
-    Top = 194
+    Top = 180
     Width = 71
     Height = 13
     Caption = '% Mora / Juros'
@@ -227,7 +227,7 @@ inherited fbanco: Tfbanco
   end
   object lbl16: TLabel [26]
     Left = 154
-    Top = 194
+    Top = 180
     Width = 48
     Height = 13
     Caption = 'Protesta ?'
@@ -235,15 +235,15 @@ inherited fbanco: Tfbanco
   end
   object lbl17: TLabel [27]
     Left = 439
-    Top = 237
+    Top = 219
     Width = 120
     Height = 13
     Caption = 'Nome Arquivo Remessa :'
     Transparent = True
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 499
-    Width = 691
+    Top = 619
+    Width = 699
     inherited btnGravar: TBitBtn
       Left = 180
     end
@@ -265,7 +265,7 @@ inherited fbanco: Tfbanco
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 691
+    Width = 699
     inherited Label1: TLabel
       Left = 151
       Top = -63
@@ -283,7 +283,7 @@ inherited fbanco: Tfbanco
     object RxLabel2: TRxLabel
       Left = 1
       Top = 1
-      Width = 689
+      Width = 697
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -339,9 +339,9 @@ inherited fbanco: Tfbanco
   end
   object DBGrid1: TDBGrid [32]
     Left = 36
-    Top = 419
+    Top = 397
     Width = 616
-    Height = 74
+    Height = 118
     TabStop = False
     BorderStyle = bsNone
     DataSource = DtSrc
@@ -400,8 +400,8 @@ inherited fbanco: Tfbanco
       end>
   end
   object DBNavigator1: TDBNavigator [33]
-    Left = 212
-    Top = 467
+    Left = 204
+    Top = 491
     Width = 248
     Height = 28
     DataSource = DtSrc
@@ -495,7 +495,7 @@ inherited fbanco: Tfbanco
   end
   object DBEdit10: TDBEdit [41]
     Left = 36
-    Top = 329
+    Top = 307
     Width = 616
     Height = 21
     BevelKind = bkFlat
@@ -506,7 +506,7 @@ inherited fbanco: Tfbanco
   end
   object DBEdit11: TDBEdit [42]
     Left = 36
-    Top = 351
+    Top = 329
     Width = 616
     Height = 21
     BevelKind = bkFlat
@@ -517,7 +517,7 @@ inherited fbanco: Tfbanco
   end
   object DBEdit12: TDBEdit [43]
     Left = 36
-    Top = 373
+    Top = 351
     Width = 616
     Height = 21
     BevelKind = bkFlat
@@ -528,7 +528,7 @@ inherited fbanco: Tfbanco
   end
   object DBEdit13: TDBEdit [44]
     Left = 36
-    Top = 395
+    Top = 373
     Width = 616
     Height = 21
     BevelKind = bkFlat
@@ -575,7 +575,7 @@ inherited fbanco: Tfbanco
   end
   object dbedtINSTRUCAO1: TDBEdit [48]
     Left = 37
-    Top = 292
+    Top = 271
     Width = 614
     Height = 21
     BevelKind = bkFlat
@@ -706,7 +706,7 @@ inherited fbanco: Tfbanco
   end
   object JvDBSpinEdit1: TJvDBSpinEdit [58]
     Left = 39
-    Top = 211
+    Top = 197
     Width = 108
     Height = 21
     TabOrder = 30
@@ -715,7 +715,7 @@ inherited fbanco: Tfbanco
   end
   object dbcbbPROTESTO: TDBComboBox [59]
     Left = 153
-    Top = 211
+    Top = 197
     Width = 520
     Height = 21
     BevelKind = bkFlat
@@ -745,7 +745,7 @@ inherited fbanco: Tfbanco
   end
   object dbedtPASTA_RETORNO: TDBEdit [60]
     Left = 39
-    Top = 251
+    Top = 233
     Width = 186
     Height = 21
     BevelKind = bkFlat
@@ -756,7 +756,7 @@ inherited fbanco: Tfbanco
   end
   object dbedtPASTA_RETORNO1: TDBEdit [61]
     Left = 240
-    Top = 250
+    Top = 232
     Width = 193
     Height = 21
     BevelKind = bkFlat
@@ -767,7 +767,7 @@ inherited fbanco: Tfbanco
   end
   object dbedtPASTA_REMESSA: TDBEdit [62]
     Left = 440
-    Top = 250
+    Top = 232
     Width = 193
     Height = 21
     BevelKind = bkFlat
@@ -775,6 +775,20 @@ inherited fbanco: Tfbanco
     DataField = 'NOME_ARQUIVO'
     DataSource = DtSrc
     TabOrder = 34
+  end
+  object Memo1: TMemo [63]
+    Left = 36
+    Top = 518
+    Width = 617
+    Height = 96
+    Lines.Strings = (
+      'Sicredi :  '
+      '    Carteira = 1;'
+      
+        '    Convenio = 3 para Sem Registro;  Convenio = 1 para Com Regis' +
+        'tro;')
+    ReadOnly = True
+    TabOrder = 35
   end
   inherited PopupMenu1: TPopupMenu
     Left = 632

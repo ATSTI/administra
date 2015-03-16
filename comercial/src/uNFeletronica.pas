@@ -1156,7 +1156,10 @@ begin
               ide.idDest := doInterestadual;
 
             if (tipoNota in ['3', '7']) then
+            begin
               ide.idDest := doExterior;
+              Dest.idEstrangeiro := '';
+            end;
 
             //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
             Ide.verProc := '1.0.0.0';

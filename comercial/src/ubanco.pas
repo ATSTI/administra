@@ -72,6 +72,7 @@ type
     dbedtPASTA_RETORNO1: TDBEdit;
     dbedtPASTA_REMESSA: TDBEdit;
     lbl17: TLabel;
+    Memo1: TMemo;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
