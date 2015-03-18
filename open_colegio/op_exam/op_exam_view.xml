@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_op_notas_tree" model="ir.ui.view">
+			<field name="name">op.notas.tree</field>
+			<field name="model">op_notas_bimestre_view</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<tree string="Notas">
+					<field name="numero" />
+					<field name="student_id" />
+					<field name="bim1" />
+					<field name="bim2" />
+					<field name="bim3" />
+					<field name="bim4" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_op_notas_search" model="ir.ui.view">
+			<field name="name">op.notas.search</field>
+			<field name="model">op_notas_bimestre_view</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<search string="Notas">
+					<field name="student_id" />
+					<field name="type_id" />
+					<field name="course_id" />
+					<field name="classroom_id" select="True" />
+					<field name="partner_id" select="True" />
+                    <group expand="0" string="Group By...">
+                        <filter name="grupo_sala" string="Período" icon="terp-personal" domain="[]" context="{'group_by' : 'classroom_id'}" />
+                        <filter name="grupo_disciplina" string="Disciplina" icon="terp-personal" domain="[]" context="{'group_by' : 'type_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_notas_view">
+			<field name="name">Notas Bimestre</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op_notas_bimestre_view</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="search_view_id" ref="view_op_notas_search" />
+			<field name="domain">[]</field>
+			<field name="context">{'search_default_grupo_sala': 1, 'search_default_grupo_disciplina': 1}</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_notas_prof_view">
+			<field name="name">Notas por Bimestre</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op_notas_bimestre_view</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="search_view_id" ref="view_op_notas_search" />
+			<field name="domain">[('partner_id','=',uid)]</field>
+			<field name="context">{'search_default_grupo_sala': 1, 'search_default_grupo_disciplina': 1}</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_notas_view_form">
+			<field name="act_window_id" ref="act_open_op_notas_view" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_op_notas_tree" />
+		</record>
+		<record id="view_op_exam_tree" model="ir.ui.view">
+			<field name="name">op.exam.tree</field>
+			<field name="model">op.exam</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<tree string="Exame Alunos">
+					<field name="session_id" />
+					<field name="student_id" />
+					<field name="roll_number" />
+					<field name="avaliacao" />
+					<field name="falta" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_op_exam_form" model="ir.ui.view">
+			<field name="name">op.exam.form</field>
+			<field name="model">op.exam</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<form string="Exame Aluno" version="7.0">
+					<sheet>
+						<group col="4" colspan="4">
+							<field name="student_id" />
+							<field name="avaliacao" />
+							<field name="falta" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_op_exam_search" model="ir.ui.view">
+			<field name="name">op.exam.search</field>
+			<field name="model">op.exam</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<search string="Exame Alunos">
+					<field name="session_id" />
+					<field name="student_id" />
+					<field name="avaliacao" />
+					<field name="falta" />
+				</search>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_exam_view">
+			<field name="name">Exame</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.exam</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_op_exam_search" />
+			<field name="domain">[]</field>
+			<field name="context">{}</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_view_form">
+			<field name="act_window_id" ref="act_open_op_exam_view" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_op_exam_form" />
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_view_tree">
+			<field name="act_window_id" ref="act_open_op_exam_view" />
+			<field name="sequence" eval="10" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_op_exam_tree" />
+		</record>
+		<record id="view_op_exam_session_tree" model="ir.ui.view">
+			<field name="name">op.exam.session.tree</field>
+			<field name="model">op.exam.session</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<tree string="Exame">
+					<field name="name" />
+					<field name="bimestre" />
+					<field name="exam_ids" />
+					<field name="data_exame" />
+					<field name="course_id" />
+					<field name="partner_id" />
+					<field name="classroom_id" />
+					<field name="type_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_op_exam_sessionp_tree" model="ir.ui.view">
+			<field name="name">op.exam.sessionp.tree</field>
+			<field name="model">op.exam.session</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<tree string="Exame">
+					<field name="name" />
+					<field name="bimestre" />
+					<field name="exam_ids" />
+					<field name="data_exame" />
+					<field name="course_id" />
+					<field name="classroom_id" />
+					<field name="type_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_op_exam_session_form2" model="ir.ui.view">
+            <field name="name">op.exam.session.form2</field>
+            <field name="model">op.exam.session</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+				<tree string="Exame">
+                    <field name="name" />
+                    <field name="exam_ids" colspan="4" nolabel="1">
+                        <tree string="Exame">
+                            <field name="student_id" readonly="1"/>
+                            <field name="avaliacao" />
+                            <field name="falta" />
+                        </tree>
+                    </field>
+				</tree>
+            </field>
+        </record>
+
+		<record id="view_op_exam_session_form" model="ir.ui.view">
+            <field name="name">op.exam.session.form</field>
+            <field name="model">op.exam.session</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Exame" version="7.0">
+                <header>
+                    <button name="generate_turma" type="object" string="Criar Turma para exame" states="n"/>
+                    <button name="tela_exportacao" type='object' string='Criar planilha' states="a"/> 
+                    <button name="importar_planilha" type='object' string='Importar planilha' states="a"/> 
+                    <button name="set_done" string="Notas Finalizadas" type="object" states="a" groups="base.group_user"/>
+                    <button name="set_andamento" string="Retornar Andamento" type="object" states="d,c" groups="base.group_user"/>
+                    <button name="set_cancelado" string="Cancelar Exame" type="object" states="n,a" groups="base.group_user"/>
+                    <field name="state" widget="statusbar" statusbar_visible="n,a,d,c" statusbar_colors='{"n":"green","a":"yellow","d":"red","c":"blue"}' readonly="1"/>
+                </header>
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="user_id" invisible="1" />
+                        <field name="course_id" />
+                        <field name="classroom_id" domain="[('course_id', '=', course_id)]" />
+                        <field name="type_id" domain="[('course_id', '=', course_id)]" />
+                        <field name="name" readonly="1" string='Exame'/>
+                        <field name="bimestre" />
+                        <field name="data_exame" />
+                        <field name="partner_id" />
+                        <field name="aulas_dadas" />
+                        <field name="exam_ids" colspan="4" nolabel="1">
+                            <tree string="Alunos" editable="botton">
+                                <field name="student_id" readonly="1"/>
+                                <field name="avaliacao" />
+                                <field name="falta" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_op_exam_sessionp_form" model="ir.ui.view">
+            <field name="name">op.exam.sessionp.form</field>
+            <field name="model">op.exam.session</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Exame" version="7.0">
+                    <header>
+                        <button name="generate_turma" type="object" string="Criar Turma para exame" states="n"/>
+                        <button name="set_done" string="Notas Finalizadas" type="object" states="a" groups="base.group_user"/>
+                        <button name="set_andamento" string="Retornar Andamento" type="object" states="d,c" groups="base.group_user"/>
+                        <button name="set_cancelado" string="Cancelar Exame" type="object" states="n,a" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="n,a,d,c" statusbar_colors='{"n":"green","a":"yellow","d":"red","c":"blue"}' readonly="1"/>
+                    </header>
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="name" select="1" />
+                            <field name="user_id" />
+                            <field name="partner_id" />
+							<field name="data_exame" />
+							<field name="course_id" />
+							<field name="type_id" domain="[('course_id', '=', course_id)]" />
+							<field name="classroom_id" domain="[('course_id', '=', course_id)]" />
+							<field name="aulas_dadas" />
+							<field name="exam_ids" colspan="4" nolabel="1">
+								<tree string="Alunos" editable="botton">
+									<field name="student_id" />
+									<field name="avaliacao" />
+									<field name="falta" />
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="view_op_exam_exporta_tree" model="ir.ui.view">
+			<field name="name">op.exam.session.tree</field>
+			<field name="model">op.exam.session</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<field name="exam_ids">
+                    <tree string="Exame - Alunos">
+				        <field name="session_id" />
+				        <field name="student_id" />
+				        <field name="roll_number" />
+				        <field name="avaliacao" />
+				        <field name="falta" />
+				    </tree>
+			    </field>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="act_op_exam_exporta_tree">
+			<field name="name">Exame Secretaria</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.exam.session</field>
+			<field name="view_type">tree</field>
+			<field name="domain">['exam_ids','=',exam_ids]</field>
+            <field name="view_id" ref="view_op_exam_exporta_tree"/>
+		</record>
+
+		<record id="view_op_exam_session_search" model="ir.ui.view">
+			<field name="name">op.exam.session.search</field>
+			<field name="model">op.exam.session</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<search string="Exame">
+					<field name="name" select="True" />
+					<field name="state" select="True" />
+					<field name="type_id" select="True" />
+					<field name="exam_ids" select="True" />
+					<field name="data_exame" select="True" />
+					<field name="course_id" select="True" />
+					<field name="classroom_id" select="True" />
+					<field name="partner_id" select="True" />
+                    <group expand="0" string="Group By...">
+                        <filter name="grupo_sala" string="Período" icon="terp-personal" domain="[]" context="{'group_by' : 'classroom_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_exam_session_view">
+			<field name="name">Exame</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.exam.session</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_op_exam_session_search" />
+			<field name="domain">[('state','in',['n','a']),('partner_id','=',uid)]</field>
+			<field name="context">{'search_default_grupo_sala': 1}</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_exam_sessionp_view">
+			<field name="name">Exame Secretaria</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.exam.session</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_op_exam_session_search" />
+			<field name="domain">[]</field>
+			<field name="context">{}</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_session_view_form">
+			<field name="act_window_id" ref="act_open_op_exam_session_view" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_op_exam_session_form" />
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_sessionp_view_form">
+			<field name="act_window_id" ref="act_open_op_exam_sessionp_view" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_op_exam_sessionp_form" />
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_session_view_tree">
+			<field name="act_window_id" ref="act_open_op_exam_session_view" />
+			<field name="sequence" eval="10" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_op_exam_session_tree" />
+		</record>
+		<record model="ir.actions.act_window.view" id="act_open_op_exam_sessionp_view_tree">
+			<field name="act_window_id" ref="act_open_op_exam_sessionp_view" />
+			<field name="sequence" eval="10" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_op_exam_sessionp_tree" />
+		</record>
+
+		<!-- <act_window id="action_importa_planilha"
+            multi="True"
+            key2="client_action_multi" name="Importar Planilha com notas"
+            res_model="ea_import.chain" src_model="ea_import.chain"
+			view_mode="form" target="new" view_type="form" />
+        -->
+	</data>
+</openerp>
