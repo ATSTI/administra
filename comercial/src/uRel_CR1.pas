@@ -1039,6 +1039,7 @@ begin
     + cdsBoletoE_DDD.AsString + ') ' + cdsBoletoE_FONE.AsString;
 
     //dados do sacado
+    RLBTitulo1.Sacado.Codigo := cdsBoletoCODCLIENTE.AsInteger;
     RLBTitulo1.Sacado.Nome := cdsBoletoRAZAOSOCIAL.AsString;
     case (cdsBoletoTIPO.AsInteger) of
       0: RLBTitulo1.Sacado.TipoInscricao := tiPessoaFisica;
