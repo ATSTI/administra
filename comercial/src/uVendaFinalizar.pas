@@ -511,6 +511,7 @@ type
     edtMotivoCancelamento: TEdit;
     BitBtn9: TBitBtn;
     BitBtn10: TBitBtn;
+    ImprimirPedidoII1: TMenuItem;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -574,6 +575,7 @@ type
     procedure btnCupomClick(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
+    procedure ImprimirPedidoII1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -3423,6 +3425,7 @@ begin
       if dm.cds_parametroDADOS.AsString = 'PADRÃO' then
       begin
         VCLReport2.FileName := str_relatorio + 'impr_texto.rep';
+        VCLReport2.Title := str_relatorio + 'impr_texto.rep';
         if (dm.moduloUsado = 'AGROPECUARIA') then
         begin
           valorextenco := cdsVALOR.AsFloat; //StrToFloat(DBEdit1.Text);
@@ -3437,6 +3440,7 @@ begin
       if dm.cds_parametroDADOS.AsString = 'PERSONALIZADO' then
       begin
         VCLReport2.FileName := str_relatorio + 'recibo_venda.rep';
+        VCLReport2.Title := str_relatorio + 'recibo_venda.rep';
         VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
         VCLReport2.Report.Params.ParamByName('CODVENDA').Value := cdsCODVENDA.AsInteger;
         VCLReport2.Report.Params.ParamByName('CODID').Value := cdsCODCLIENTE.AsInteger;
@@ -3770,6 +3774,22 @@ procedure TfVendaFinalizar.BitBtn10Click(Sender: TObject);
 begin
   inherited;
   pnlMotivoCancelamento.visible := False;
+end;
+
+procedure TfVendaFinalizar.ImprimirPedidoII1Click(Sender: TObject);
+begin
+  inherited;
+
+  tipoImpressao := 'PADRÃO';
+
+  if (tipoImpressao = 'PADRÃO') then
+  begin
+    VCLReport2.FileName := str_relatorio + 'impr_texto2.rep';
+    VCLReport2.Title := str_relatorio + 'impr_texto2.rep';
+    VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
+    VCLReport2.Execute;
+  end;
 end;
 
 end.

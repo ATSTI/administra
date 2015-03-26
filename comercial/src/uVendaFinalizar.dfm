@@ -5081,6 +5081,10 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Caption = 'Imprimir Cupom'
       OnClick = ImprimirCupom1Click
     end
+    object ImprimirPedidoII1: TMenuItem
+      Caption = 'Imprimir Pedido II'
+      OnClick = ImprimirPedidoII1Click
+    end
   end
   object dlgSave1: TSaveDialog
     Left = 584
