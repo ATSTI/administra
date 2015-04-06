@@ -139,7 +139,7 @@ object Form1: TForm1
       ParentFont = False
     end
     object BitBtn1: TBitBtn
-      Left = 468
+      Left = 467
       Top = 13
       Width = 107
       Height = 36

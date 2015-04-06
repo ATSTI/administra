@@ -153,84 +153,26 @@ begin
 
   if (cdsEnvia.RecordCount > 0) then
   begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
     cdsEnvia.DisableControls;
     cdsEnvia.First;
     while not cdsEnvia.Eof do
     begin
       enviarEmailAcbr;
-      { carlos 19/12/2014
-      IdMessage1.From.Address := dm.cds_empresaE_MAIL.AsString; //'atsti@bol.com.br' ; //
-      // e-mail do destinatário
-      IdMessage1.Recipients.EMailAddresses := cdsEnviaEMAIL.AsString;
-      // Assunto
-      IdMessage1.Subject := edtAssunto.Text;
-      IdMessage1.Body.Add(edText.Text);
-      IdMessage1.ContentType := 'text/html';
-      //TIdAttachmentFile.Create(IdMessage1.MessageParts, TFileName('C:\home\avisos\gerenciador.jpg'));
-      for Anexo := 0 to lbxAnexos.Items.Count-1 do
-      begin
-        TIdAttachmentFile.Create(idmessage1.MessageParts, TFileName(lbxAnexos.Items.Strings[Anexo]));
-      end;
-      //fim da mensagem
-      //Configuração do IdSMTP SMTP
-      IdSMTP1.Host := dm.cds_empresaSMTP.AsString;//  'smtps.bol.com.br';
-      // Port do Provedor
-      IdSMTP1.Port := dm.cds_empresaPORTA.AsInteger;//  587;
-      // Login do usuário
-      IdSMTP1.Username := dm.cds_empresaE_MAIL.AsString;// 'atsti@bol.com.br' ;
-      // Password Senha do usuário
-      IdSMTP1.Password := dm.cds_empresaSENHA.AsString;// 'a2t00s7' ;
-      if (dm.cds_empresaPORTA.AsInteger <> 25) then
-      begin
-        // configurações adicionais servidor SMTP com autenticação
-        with idSMTP1 do
-        begin
-           IdSSL := nil;
-           try
-              port := 465;
-              IdSSL := TIdSSLIOHandlerSocketOpenSSL.Create( nil );
-              IdSMTP1.IOHandler := IdSSL;
-              UseTLS := utUseImplicitTLS;
-           except
-              on E: Exception do
-              begin
-                 IOHandler := TIdIOHandler.MakeDefaultIOHandler( nil );
-                 UseTLS := utNoTLSSupport;
-              end;
-           end;
-           if Assigned(IdSSL) then
-           begin
-              IdSSL.SSLOptions.Method := sslvSSLv3;
-              IdSSL.SSLOptions.Mode := sslmClient;
-           end;
-        end;
-        idSMTP1.AuthType := IdSMTP.atDefault;
-      end;
-      IdSMTP1.Connect;
+      DM.sqlsisAdimin.StartTransaction(TD);
       try
-        //IdSMTP1.SendCmd('STARTTLS', 220);
-        FlatGauge1.Progress := FlatGauge1.Progress + 20;
-        IdSMTP1.Authenticate; //Faz a autenticação
-        IdSMTP1.Send(IdMessage1); //Envia a mensagem
         dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
-        QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
-        ', ENVIADO = ' + QuotedStr('S') +
-        ', ASSUNTO = ' + QuotedStr(edtAssunto.Text) +
-        ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
-        ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
-        //MessageDlg('Email enviado com sucesso para, ' + FormCadastroAlunoConsulta.scdsAlunoNOME.AsString, mtWarning, [mbOK], 0);
-      finally
-        IdSMTP1.Disconnect;
-        IdMessage1.Clear;
+          QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
+          ', ENVIADO = ' + QuotedStr('S') +
+          ', ASSUNTO = ' + QuotedStr(edtAssunto.Text) +
+          ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
+          ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
+      except
+        DM.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro para gravar o envio do Email .', mtError, [mbOK], 0);
+        exit;                                        
       end;
-      FlatGauge1.Progress :=  FlatGauge1.Progress + cdsEnvia.recNo;
-      carlos }
-      dm.sqlsisAdimin.ExecuteDirect('UPDATE EMAIL_ENVIAR SET DATAENVIO = ' +
-        QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
-        ', ENVIADO = ' + QuotedStr('S') +
-        ', ASSUNTO = ' + QuotedStr(edtAssunto.Text) +
-        ', GRUPO   = ' + QuotedStr(cbbSerie.Text) +
-        ' WHERE CODEMAIL = ' + IntToStr(cdsEnviaCODEMAIL.AsInteger));
 
       sleep(StrToInt(edit2.Text)*1000);
       FlatGauge1.Progress := cdsEnvia.RecNo;
