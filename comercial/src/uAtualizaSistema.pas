@@ -2063,6 +2063,8 @@ begin
     if (versaoSistema = '3.0.0.2') then
     begin
       EXECUTADDL('LISTAPRECO_VENDADET', 'PRODUTO', 'VARCHAR(300)');
+      executaDDL('MOVIMENTODETALHE', 'SUITE', 'varchar(40)');
+
       insereouatualizaScript('busca_cfop.sql', '3.0.0.2', StrToDate('01/09/2014'));
       insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.2', StrToDate('01/11/2014'));
       try
@@ -2076,7 +2078,6 @@ begin
 
     if (versaoSistema = '3.0.0.3') then
     begin
-      insereouatualizaScript('frete_nf.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('gera_nf_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('sp_mov_caixac.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('listaProduto.sql', '3.0.0.3', StrToDate('01/09/2014'));
@@ -2130,9 +2131,6 @@ begin
       insereouatualizaScript('spestoquegrupo.sql', '3.0.0.14', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_atualiza.sql', '3.0.0.14', StrToDate('04/12/2013'));
       insereouatualizaScript('trg_calcula_icms_st.sql', '3.0.0.14', StrToDate('01/11/2014'));
-
-      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.14', StrToDate('01/11/2014'));
-      insereouatualizaScript('frete_nf.sql', '3.0.0.14', StrToDate('01/11/2014'));
       insereouatualizaScript('retornaEstoqueVenda.sql', '3.0.0.14', StrToDate('01/11/2014'));
       insereouatualizaScript('retornaEstoqueCompra.sql', '3.0.0.14', StrToDate('01/11/2014'));
       insereouatualizaScript('busca_cfop.sql', '3.0.0.14', StrToDate('01/11/2014'));
@@ -2155,7 +2153,6 @@ begin
       insereouatualizaScript('data_invalida_venda.sql', '3.0.0.21', StrToDate('15/12/2014'));
       insereouatualizaScript('data_invalida_compra.sql', '3.0.0.21', StrToDate('15/12/2014'));
       insereouatualizaScript('gera_nf.sql', '3.0.0.21', StrToDate('15/12/2014'));
-      insereouatualizaScript('gera_nf_venda.sql', '3.0.0.21', StrToDate('15/12/2014'));
       insereouatualizaScript('rel_vendaCompra.sql', '3.0.0.21', StrToDate('01/09/2014'));
       insereouatualizaScript('invent_estoque.sql', '3.0.0.21', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_view_custo.sql', '3.0.0.21', StrToDate('01/11/2014'));
@@ -2185,7 +2182,7 @@ begin
     if (versaoSistema = '3.0.0.23') then
     begin
       insereouatualizaScript('ncm_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));
-      insereouatualizaScript('origem_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));      
+      insereouatualizaScript('origem_produto.sql', '3.0.0.23', StrToDate('01/01/2015'));
       AtualizandoScript('3.0.0.23');
       mudaVersao('3.0.0.24');
     end;
@@ -2276,8 +2273,22 @@ begin
 
     if (versaoSistema = '3.1.0.1') then
     begin
+      insereouatualizaScript('gera_nf_venda.sql', '3.1.0.1', StrToDate('01/02/2015'));
+
       insereouatualizaScript('boleto.sql', '3.1.0.1', StrToDate('01/03/2015'));
+      insereouatualizaScript('frete_nf.sql', '3.1.0.1', StrToDate('01/03/2015'));
       mudaVersao('3.1.0.2');
+    end;
+
+    if (versaoSistema = '3.1.0.2') then
+    begin
+      try
+        EXECUTADDL('CLASSIFICACAOFISCALNCM', 'ALIQ_CUPOM', 'CHAR(4)');
+        EXECUTADDL('ESTADO_ICMS', 'ALIQ_CUPOM', 'CHAR(4)');
+        EXECUTADDL('CLASSIFICACAOFISCALPRODUTO', 'ALIQ_CUPOM', 'CHAR(4)');
+      except
+      end;
+      mudaVersao('3.1.0.8');
     end;
 
     try
