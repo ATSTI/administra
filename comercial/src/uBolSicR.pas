@@ -198,7 +198,7 @@ begin
       exit;
     end;
     RLBTitulo1.Cedente.ContaBancaria.Convenio := cdsBoletoCONVENIO.AsString; // Tipo de Cobrança  incluido dia 26/02/15
-    RLBTitulo1.Cedente.ContaBancaria.NomeCliente := cdsBoletoEMPRESA.AsString;
+    RLBTitulo1.Cedente.ContaBancaria.NomeCliente := cdsBoletoEMPRESA.AsString ;
     RLBTitulo1.Cedente.TipoInscricao := tiPessoaJuridica;
     RLBTitulo1.Cedente.NumeroCPFCGC := cdsBoletoCNPJ_CPF.AsString;
     RLBTitulo1.Cedente.Nome := cdsBoletoEMPRESA.AsString;
