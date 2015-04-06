@@ -811,7 +811,7 @@ begin
       end;
       fven.CodCliente           := codigo_cliente;
       fven.CodCCusto            := codigo_almox;
-      fven.CodVendedor          := 1;
+      fven.CodVendedor          := dm_mov.c_movimentoCODVENDEDOR.AsInteger;
       fven.ValorPagar           := c_formatotal.Value;
       FVen.Entrada              := c_formatotal.Value;
       FVen.Valor                := c_formatotal.Value;
