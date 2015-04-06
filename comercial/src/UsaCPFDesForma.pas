@@ -40,24 +40,25 @@ uses UnitDeclaracoes, uTerminal_Delivery, Principal;
 Procedure TFormUsaCPFDesForma.Button1Click(Sender: TObject);
 var cOperacao: string;
 Begin
-   //if (fTerminal_Delivery.RadioGroup1.ItemIndex = 0) then
-   //   Edit2.Text := fTerminal_Delivery.ComboBox2.Text;
-   if Caption = 'CGC/CPF do Consumidor ' then
-      begin
-         iRetorno := Bematech_FI_AbreCupom( Edit1.Text );
-         //iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
-         frmPrincipal.Analisa_iRetorno();
-         frmPrincipal.Retorno_Impressora();
-      end
-   else
-      begin
-         if optFazTEF.Checked = true then cOperacao := '1';
-         if optNaoFazTEF.Checked = true then cOperacao := '0';
-         iRetorno := Bematech_FI_ProgramaFormaPagamentoMFD( Edit2.Text, pchar( cOperacao ));
-         frmPrincipal.Analisa_iRetorno();
-         frmPrincipal.Retorno_Impressora();
-      end;
-Close;
+  //if (fTerminal_Delivery.RadioGroup1.ItemIndex = 0) then
+  //   Edit2.Text := fTerminal_Delivery.ComboBox2.Text;
+  if Caption = 'CGC/CPF do Consumidor ' then
+  begin
+    fTerminal_Delivery.cpf_cliente_cupom := Edit1.Text;
+    //iRetorno := Bematech_FI_AbreCupom( Edit1.Text );
+    ////iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
+    //frmPrincipal.Analisa_iRetorno();
+    //frmPrincipal.Retorno_Impressora();
+  end
+  else
+  begin
+    if optFazTEF.Checked = true then cOperacao := '1';
+      if optNaoFazTEF.Checked = true then cOperacao := '0';
+        iRetorno := Bematech_FI_ProgramaFormaPagamentoMFD( Edit2.Text, pchar( cOperacao ));
+      frmPrincipal.Analisa_iRetorno();
+      frmPrincipal.Retorno_Impressora();
+  end;
+  Close;
 End;
 
 Procedure TFormUsaCPFDesForma.Button2Click(Sender: TObject);
