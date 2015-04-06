@@ -79,6 +79,11 @@ Procedure TFormFechaComAcrecimo.Button1Click(Sender: TObject);
 
     iRetorno := Bematech_FI_FechaCupom( Edit2.Text, sAcreDesc, sPercValor,
                 sValorPercentual, Edit3.Text, Edit4.Text + Tributos);
+    if (iRetorno <> 1) then
+    begin
+      frmPrincipal.Analisa_iRetorno();
+      iRetorno := Bematech_FI_CancelaCupom();
+    end;
     frmPrincipal.Analisa_iRetorno();
     SetLength(fTerminal_Delivery.cupom_numcupom, 6);
     iRetorno := Bematech_FI_NumeroCupom(fTerminal_Delivery.cupom_numcupom);
