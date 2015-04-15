@@ -30,6 +30,7 @@ from openerp.tools.translate import _
 
 from openerp.addons.base_status.base_stage import base_stage
 from openerp.addons.resource.faces import task as Task
+#import pdb
 
 _TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
@@ -1210,6 +1211,22 @@ class task(base_stage, osv.osv):
             }
         return self.do_reopen(cr, uid, ids, context=context)
 
+    '''  Abrir o Form Abontamento por Botao
+    def do_work(self):
+        view = {
+            'name': _('Details'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'my.custom.model',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'readonly': True,
+            'res_id': self.id,
+        }
+        return view
+    '''
+
 class project_work(osv.osv):
 
     def _calcula_hora(self, hours_out=0.0, hours_in=0.0, hours_i=None, hours_o=None):
@@ -1304,11 +1321,26 @@ class project_work(osv.osv):
         if 'hours' in vals and (not vals['hours']):
             vals['hours'] = 0.00
 
-        if 'hours' in vals:
-            for work in self.browse(cr, uid, ids, context=context):
-                if vals['hours_out'] > 0.00:
-                    vals['hours'] = self._calcula_hora(vals['hours_out'], work.hours_in, work.date, work.date_out)
-                cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (vals.get('hours',0.0), work.hours, work.task_id.id))
+        for work in self.browse(cr, uid, ids, context=context):
+            hours_out = work.hours_out
+            if 'hours_out' in vals:
+                hours_out = vals['hours_out']
+            hours_in = work.hours_in
+            if 'hours_in' in vals:
+                hours_in = vals['hours_in']
+            date = work.date
+            if 'date' in vals:
+                date = vals['date']
+            date_out = work.date_out
+            if 'date_out' in vals:
+                date_out = vals['date_out']
+            work_id = work.task_id.id
+            hours = work.hours
+
+        if 'hours_out' in vals or 'hours_in' in vals or 'date' in vals or 'date_out' in vals:
+            #if vals['hours_out'] > 0.00:
+            vals['hours'] = self._calcula_hora(hours_out, hours_in, date, date_out)
+            cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (vals.get('hours',0.0), hours, work_id))
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
     def _ja_apontado(self, cr, uid, ids, forced_user_id=False, context=None):
@@ -1317,21 +1349,54 @@ class project_work(osv.osv):
             if new_user_id:
                 # procurando apontamento com esta hora de entrada e saida
                 cr.execute('SELECT ptw.id,TO_CHAR(ptw.date, \'DD/MM/YYYY\') date, ptw.hours_in, ptw.hours_out, pt.ordserv \
+                    ,ptw.date data_entrada, ptw.date_out data_saida \
                     FROM project_task_work ptw, project_task pt \
                     WHERE (ptw.task_id = pt.id) \
-                      AND (ptw.date = %s) \
-                      AND (ptw.date_out = %s) \
+                      AND ((ptw.date = %s) or (ptw.date_out = %s)) \
+                      AND (ptw.user_id=%s) \
+                      AND (ptw.id <> %s)',(sheet.date, sheet.date, new_user_id, sheet.id))
+
+                '''  AND (ptw.date_out = %s) \
                       AND ((%s BETWEEN (ptw.hours_in+0.01) and (ptw.hours_out-0.01)) \
                        OR (%s BETWEEN (ptw.hours_in+0.01) and (ptw.hours_out-0.01)) \
                        OR ((ptw.hours_in >= %s) AND (ptw.hours_out <= %s)) \
                        OR ((ptw.hours_in <= %s) AND (ptw.hours_out >= %s))) \
-                      AND (ptw.user_id=%s) \
-                      AND (ptw.id <> %s)',(sheet.date, sheet.date, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, sheet.hours_in, sheet.hours_out,new_user_id, sheet.id))
+                      AND (ptw.id <> %s)',(sheet.date, sheet.date_out, sheet.hours_in,sheet.hours_out,sheet.hours_in, sheet.hours_out, sheet.hours_in, sheet.hours_out,new_user_id, sheet.id))  '''
+
                 encontrado_apont = cr.fetchall()
+                apontamento_existe = 'n'
+                periodo_errado = 'n'
+                #pdb.set_trace()
+                diferencaDias = 0
+                if sheet.date_out <> sheet.date:
+                    dataEnt = date(*time.strptime(sheet.date,'%Y-%m-%d')[:3])
+                    dataSai = date(*time.strptime(sheet.date_out,'%Y-%m-%d')[:3])
+                    diferencaDias =((dataSai-dataEnt).days*24)
+                if diferencaDias > 36:
+                    periodo_errado = 's'
+
                 for row in encontrado_apont:
-                    msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
-                if encontrado_apont:
+                    # data entrada diferente da data de saida
+                    if row[5] <> row[6]:
+                        if row[3] > sheet.hours_in:
+                            apontamento_existe = 's'
+                            msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
+                    else:
+                        if row[2] >= sheet.hours_in and row[2] < sheet.hours_out:
+                            apontamento_existe = 's'
+                            msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
+                        if row[3] > sheet.hours_in and row[3] < sheet.hours_out:
+                            apontamento_existe = 's'
+                            msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
+                        if row[2] < sheet.hours_in and row[3] > sheet.hours_out and sheet.date == sheet.date_out:
+                            apontamento_existe = 's'
+                            msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
+
+                if apontamento_existe == 's':
                     raise osv.except_osv(_('Erro, já existe o apontamento:'),_(msg_apontado))
+                    return False     
+                if periodo_errado == 's':
+                    raise osv.except_osv(_('Erro, período maior que 3 dias'), '')
                     return False     
         return True
 

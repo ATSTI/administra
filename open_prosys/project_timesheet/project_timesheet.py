@@ -75,6 +75,13 @@ project_project()
 class project_work(osv.osv):
     _inherit = "project.task.work"
 
+    def _calcula_hora(self, hours_out=0.0, hours_in=0.0, hours_i=None, hours_o=None):
+        dataEnt = date(*time.strptime(hours_i,'%Y-%m-%d')[:3])
+        dataSai = date(*time.strptime(hours_o,'%Y-%m-%d')[:3])
+        diferencaDias =((dataSai-dataEnt).days*24)
+        totalhora = ((hours_out - hours_in)+diferencaDias)
+        return totalhora
+
     def get_user_related_details(self, cr, uid, user_id):
         res = {}
         emp_obj = self.pool.get('hr.employee')
@@ -168,6 +175,7 @@ class project_work(osv.osv):
         """
         When a project task work gets updated, handle its hr analytic timesheet.
         """
+        #pdb.set_trace()
         if context is None:
             context = {}
         timesheet_obj = self.pool.get('hr.analytic.timesheet')
@@ -189,14 +197,28 @@ class project_work(osv.osv):
                 vals_line['name'] = '%s: %s' % (tools.ustr(task.task_id.name), tools.ustr(vals['name'] or '/'))
             if 'user_id' in vals:
                 vals_line['user_id'] = vals['user_id']
+            date = task.date
             if 'date' in vals:
-                vals_line['date'] = vals['date'][:10]
+                date =  vals['date'][:10]
+            vals_line['date'] = date
+            date_out = task.date_out
+            if 'date_out' in vals:
+                date_out =  vals['date_out'][:10]
+            date_base = task.date_base
+            if 'date_base' in vals:
+                date_base =  vals['date_base'][:10]
+            vals_line['date_base'] = date_base
+            hours_in = task.hours_in
             if 'hours_in' in vals:
-                vals_line['hours_in'] = vals['hours_in']
+                hours_in = vals['hours_in']
+            vals_line['hours_in'] = hours_in
+            hours_out = task.hours_out
             if 'hours_out' in vals:
-                vals_line['hours_out'] = vals['hours_out']
-            if 'hours' in vals:
-                vals_line['unit_amount'] = vals['hours']
+                hours_out = vals['hours_out']
+            vals_line['hours_out'] = hours_out
+            hours = self._calcula_hora(hours_out, hours_in, date, date_out)
+            vals_line['unit_amount'] = hours
+            if 'hours_out' in vals or 'hours_in' in vals or 'date' in vals or 'date_out' in vals:
                 prod_id = vals_line.get('product_id', line_id.product_id.id) # False may be set
 
                 # Put user related details in analytic timesheet values

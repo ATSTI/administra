@@ -70,16 +70,55 @@ class hr_timesheet_sheet(osv.osv):
         #if 'manager_id' in vals:
         #    mg_id = self.pool.get('hr.employee').browse(cr, uid, vals['manager_id'], context=context).user_id
         #    vals['manager_id'] = mg_id.id
+        #journal_id = 0
+        #new_user_id = 0
         if 'employee_id' in vals:
-            if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).user_id:
+            emp_hr = self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context)
+            new_user_id = emp_hr.user_id.id
+            if not emp_hr.user_id:
                 raise osv.except_osv(_('Error!'), _('In order to create a timesheet for this employee, you must assign it to a user.'))
-            if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).product_id:
+            if not emp_hr.product_id:
                 raise osv.except_osv(_('Error!'), _('In order to create a timesheet for this employee, you must link the employee to a product, like \'Consultant\'.'))
-            if not self.pool.get('hr.employee').browse(cr, uid, vals['employee_id'], context=context).journal_id:
+            journal_id = emp_hr.journal_id
+            if not journal_id:
                 raise osv.except_osv(_('Configuration Error!'), _('In order to create a timesheet for this employee, you must assign an analytic journal to the employee, like \'Timesheet Journal\'.'))
+            #acc_id = emp_hr.product_id.property_account_expense.id
+            #if not acc_id:
+            #    acc_id = emp_hr.product_id.categ_id.property_account_expense_categ.id
+
         if vals.get('attendances_ids'):
             # If attendances, we sort them by date asc before writing them, to satisfy the alternance constraint
             vals['attendances_ids'] = self.sort_attendances(cr, uid, vals['attendances_ids'], context=context)
+
+        """ VERIFICO SE EXISTE, pois algumas vezes exlcuia"""
+        cr.execute("""
+            SELECT al.id, ac.manager_id, al.user_id, ac.partner_id, al.general_account_id
+              FROM account_analytic_line al 
+             INNER JOIN account_analytic_account ac
+                      ON (al.account_id = ac.id)
+                    WHERE %(date_to)s >= al.date
+                        AND %(date_from)s <= al.date
+                        AND %(user_id)s = al.user_id
+                        AND %(manager_id)s = ac.manager_id
+                    """, {'date_from': vals.get('date_from'),
+                                        'date_to': vals.get('date_to'),
+                                        'user_id': new_user_id,
+                                        'manager_id': vals.get('manager_id'),})
+        #pdb.set_trace()
+        man_obj = self.pool.get('hr.analytic.timesheet')
+        for row in cr.fetchall():
+            man_id = man_obj.search(cr, uid, [('id', '=', row[0])], context=context)
+            if not man_id:
+                insere = {}
+                insere['line_id'] = row[0]
+                insere['manager_id'] = row[1]
+                insere['journal_id'] = journal_id.id
+                insere['partner_id'] = row[3]
+                insere['account_id'] = row[4]
+                #insere['product_uom_id'] = emp_hr.product_id.uom_id.id
+                man_obj.create(cr, uid, insere, context=context)
+
+            #print row[0]
         return super(hr_timesheet_sheet, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -259,6 +298,7 @@ class hr_timesheet_sheet(osv.osv):
                     context=context, load='_classic_write')]
 
     def unlink(self, cr, uid, ids, context=None):
+        #pdb.set_trace()
         sheets = self.read(cr, uid, ids, ['state','total_attendance'], context=context)
         for sheet in sheets:
             if sheet['state'] in ('confirm', 'done'):
@@ -311,6 +351,7 @@ class hr_timesheet_line(osv.osv):
     _inherit = "hr.analytic.timesheet"
 
     def _sheet(self, cursor, user, ids, name, args, context=None):
+        #pdb.set_trace()
         sheet_obj = self.pool.get('hr_timesheet_sheet.sheet')
         res = {}.fromkeys(ids, False)
         for ts_line in self.browse(cursor, user, ids, context=context):
@@ -325,6 +366,7 @@ class hr_timesheet_line(osv.osv):
         return res
 
     def _get_hr_timesheet_sheet(self, cr, uid, ids, context=None):
+        #pdb.set_trace()
         ts_line_ids = []
         for ts in self.browse(cr, uid, ids, context=context):
             cr.execute("""
@@ -354,33 +396,46 @@ class hr_timesheet_line(osv.osv):
         for id in ids:
             result[id] = False
             cr.execute("""select feriado, periculosidade, retrabalho, justmedica,
-justespecial, externo, sobreaviso, embarcado  
-                       from project_task_work 
-                       where hr_analytic_timesheet_id in (%s)""",(id,))
+                justespecial, externo, sobreaviso, embarcado  
+                ,to_char(date_out, 'DD/MM/YYYY') as date_out, hours_in, hours_out, to_char(date, 'DD/MM/YYYY') as date
+                from project_task_work 
+                where hr_analytic_timesheet_id in (%s)""",(id,))
             s = ''
             for res in cr.fetchall():
+                if res[9]:
+                    hora = int(res[9])
+                    minuto = int((res[9]-hora)*60)
+                    s = s + str(hora).zfill(2) + ':' + str(minuto).zfill(2)
+                if res[10]:
+                    hora = int(res[10])
+                    minuto = int((res[10]-hora)*60)
+                    s = s + ' - ' + str(hora).zfill(2) + ':' + str(minuto).zfill(2)
+                if res[8] and res[8] != res[11]:
+                    s = s + ' - Saída:' + str(res[8])
                 if res[0]:
-                    s = 'F '
+                    s = ' - F'
                 if res[1]:
-                    s = s + 'P '
+                    s = s + ' - P'
                 if res[2]:
-                    s = s + 'R '   
+                    s = s + ' - R'   
                 if res[3]:
-                    s = s + 'M '   
+                    s = s + ' - M'   
                 if res[4]:
-                    s = s + 'J '   
+                    s = s + ' - J'   
                 if res[5]:
-                    s = s + 'E '   
+                    s = s + ' - E'   
                 if res[6]:
-                    s = s + 'S '   
+                    s = s + ' - S'   
                 if res[7]:
-                    s = s + 'B'   
+                    s = s + ' - B'   
+                    
+
                 result[id] = s
         return result
 
     _columns = {
         'sheet_id': fields.function(_sheet, string='Sheet', select="1",
-            type='many2one', relation='hr_timesheet_sheet.sheet', ondelete="cascade",
+            type='many2one', relation='hr_timesheet_sheet.sheet', ondelete="set null",
             store={
                     'hr_timesheet_sheet.sheet': (_get_hr_timesheet_sheet, ['employee_id', 'date_from', 'date_to'], 10),
                     'account.analytic.line': (_get_account_analytic_line, ['user_id', 'date'], 10),
@@ -393,9 +448,24 @@ justespecial, externo, sobreaviso, embarcado
     def _check_sheet_state(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        for timesheet_line in self.browse(cr, uid, ids, context=context):
-            if timesheet_line.sheet_id and timesheet_line.sheet_id.state not in ('draft', 'new'):
-                return False
+        #for timesheet_line in self.browse(cr, uid, ids, context=context):
+        #    if timesheet_line.sheet_id and timesheet_line.sheet_id.state not in ('draft', 'new'):
+        #        return False
+        ts_sheet_obj = self.pool.get('hr_timesheet_sheet.sheet')
+        # When a timesheet_line is created from view tree of
+        # hr.analytic.timesheet sheet_id is not defined at this stage
+        # here we check the state of the timesheet for the given date
+        # Furthermore we don't want a default sheet_id allowing to bypass
+        # the check so we recompute all sheet_ids
+        #pdb.set_trace()
+        sheet_ids = self._sheet(cr ,uid, ids, False, False, context=context)
+        for ts_line_id, sheet in sheet_ids.iteritems():
+            if sheet:
+                ts_sheet = ts_sheet_obj.browse(cr, uid, sheet[0], context=context)
+                for ts_line in self.browse(cr, uid, ids, context=context):
+                    if ts_line.date < ts_sheet.date_to and ts_sheet.state not in ('draft', 'new'):
+                        return False
+
         return True
 
     _constraints = [
