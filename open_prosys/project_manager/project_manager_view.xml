@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="act_project_project_2_project_task_manager" model="ir.actions.act_window">
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="name">Tasks - Manager</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_project_id': [active_id], 'default_project_id': active_id}</field>
+        </record>
+
+        <!-- Task -->
+        <record id="view_task_form_manager" model="ir.ui.view">
+            <field name="name">project.task.manager.form</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <form string="Project" version="7.0">
+                    <header>
+                        <!--
+                        <button name="do_open" string="Start Task" type="object"
+                                states="draft,pending" class="oe_highlight"/>
+                        <button name="do_draft" string="Draft" type="object"
+                                states="cancel,done"/>
+                        -->
+                        <button name="project_task_reevaluate" string="Reactivate" type="object"
+                                states="cancelled,done" context="{'button_reactivate':True}" groups="base.group_user"/>
+                        <button name="action_close" string="Done" type="object"
+                                states="draft,open,pending" groups="base.group_user"/>
+                        <button name="do_cancel" string="Cancel Task" type="object"
+                                states="draft,open,pending" groups="base.group_user"/>
+                        <field name="stage_id" widget="statusbar" clickable="True"/>
+                    </header>
+                    <sheet string="Task">
+                    <h1>
+                        <field name="name" placeholder="Descrição RRRRRRRR ..." />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="project_id"  on_change="onchange_project(project_id)" context="{'default_use_tasks':1}" />
+							<field name="phase_id" context="{'default_project_id' : project_id}"/>
+                            <field name="user_id" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}" options='{"no_open": True}' />
+                            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+ 
+                            <field name="planned_hours" widget="float_time"
+                                    groups="project.group_time_work_estimation_tasks"
+                                    on_change="onchange_planned(planned_hours, effective_hours)"/>
+							<field name="grupo" />
+                        </group>
+                        <group>
+                            <field name="date_deadline" attrs="{'readonly':[('state','in',['done', 'cancelled'])]}" groups="project.group_delegate_task"/>
+                            <field name="categ_ids" widget="many2many_tags" groups="project.group_delegate_task"/>
+                            <field name="progress" widget="progressbar" groups="project.group_delegate_task"
+                                attrs="{'invisible':[('state','=','cancelled')]}"/>
+							<field name="atividade"/>
+                            <field name="ordserv"/>
+                            <field name="categoria" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" attrs="{'readonly':[('state','=','done')]}" placeholder="Add a Description..."/>
+                            <field name="work_ids" groups="project.group_tasks_work_on_tasks" >
+                                <form string="Apontamento" editable="botton">
+                                    <sheet string="Detalhes">
+                                        <group col="2">
+                                            <field name="name"/>
+                                            <field name="detalhe" widget="txt" class="oe_memo" editor_height="250px" maxlenght="100"/>
+                                        </group>
+                                        <group>
+                                            <group>
+                                                <field name="date" on_change="onchange_date(date)"/>
+                                                <field name="hours_in" widget="float_time" on_change="onchange_hours_in(hours_out, hours_in,date,date_out)" />
+                                            </group>
+                                            <group>
+                                                <field name="date_out" />
+                                                <field name="hours_out" widget="float_time" on_change="onchange_hours_out(hours_out, hours_in,date,date_out)" />
+                                                <field name="hours" widget="float_time" sum="Spent Hours" readonly="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="date_base" />
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group>
+                                                <field name="feriado" />
+                                                <field name="periculosidade" />
+                                                <field name="retrabalho" />
+                                                <field name="justmedica" />
+                                            </group>
+                                            <group>
+                                                <field name="justespecial" />
+                                                <field name="externo" />
+                            	                <field name="sobreaviso" />
+                            	                <field name="embarcado" />
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="adicional1" />
+                                            <field name="adicional2" />
+                                            <field name="adicional3" />
+                            	            <field name="adicional4" />
+                                            <field name="user_id"/>
+                                        </group>
+                                        <group>  
+                                            <field name="attachment_ids">
+                                                <tree><field name="name"/></tree>
+                                            </field>
+                                        </group>
+                                    </sheet>
+                                </form> 
+                                <tree string="Apontamento">
+                                    <field name="name"/>
+                                    <field name="hours_in" widget="float_time"/>
+									<field name="hours_out" widget="float_time" on_change="onchange_hours_out(hours_out, hours_in,date,date_out)" />
+                                    <field name="hours" widget="float_time" sum="Spent Hours"/>
+                                    <field name="date"/>
+                                    <field name="date_base" />
+                                    <field name="user_id"/>
+                                </tree>
+                            </field>
+                            <group>
+                             <group class="oe_subtotal_footer oe_right" name="project_hours" groups="project.group_time_work_estimation_tasks">
+                                <field name="effective_hours" widget="float_time"/>
+                                <label for="remaining_hours" string="Remaining" groups="project.group_time_work_estimation_tasks"/>
+                                <div>
+                                    <field name="remaining_hours" widget="float_time" attrs="{'readonly':[('state','in',('done','cancelled'))]}" groups="project.group_time_work_estimation_tasks"/>
+                                </div>
+                                <field name="total_hours" widget="float_time" class="oe_subtotal_footer_separator"/>
+                             </group>
+                            </group>
+                            <div class="oe_clear"/>
+                        </page>
+                        <page string="Extra Info" attrs="{'readonly':[('state','=','done')]}">
+                            <group col="4">
+                                <field name="priority" groups="base.group_user"/>
+                                <field name="sequence"/>
+                                <field name="partner_id"/>
+                                <field name="state" invisible="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_task_manager_tree" model="ir.ui.view">
+            <field name="name">project.task.manager.tree</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <tree fonts="bold:message_unread==True" colors="grey:state in ('cancelled','done');blue:state == 'pending';red:date_deadline and (date_deadline&lt;current_date) and (state in ('draft','pending','open'))" string="Tasks">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="sequence" invisible="not context.get('seq_visible', False)"/>
+                    <field name="name"/>
+                    <field name="grupo"/>
+                    <field name="categoria"/>
+                    <field name="ordserv"/>
+                    <field name="project_id" icon="gtk-indent" invisible="context.get('user_invisible', False)"/>
+                    <field name="user_id" invisible="context.get('user_invisible', False)"/>
+                    <field name="delegated_user_id" invisible="context.get('show_delegated', True)"/>
+                    <field name="total_hours" invisible="1"/>
+                    <field name="planned_hours" invisible="context.get('set_visible',False)" groups="project.group_time_work_estimation_tasks"/>
+                    <field name="remaining_hours" widget="float_time" sum="Remaining Hours" on_change="onchange_remaining(remaining_hours,planned_hours)" invisible="context.get('set_visible',False)" groups="project.group_time_work_estimation_tasks"/>
+                    <field name="effective_hours" widget="float_time" sum="Spent Hours" />
+                    <field name="date_deadline" invisible="context.get('deadline_visible',True)"/>
+                    <field name="stage_id" invisible="context.get('set_visible',False)"/>
+                    <field name="state" invisible="1"/>
+                    <field name="date_start" invisible="1" groups="base.group_no_one"/>
+                    <field name="date_end" invisible="1" groups="base.group_no_one"/>
+                    <field name="progress" widget="progressbar" invisible="context.get('set_visible',False)"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_task_search_form_manager" model="ir.ui.view">
+            <field name="name">project.task.manager.search</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+               <search string="Tasks">
+                    <field name="name" string="Tasks"/>
+                    <field name="categ_ids"/>
+                    <separator/>
+                    <filter icon="terp-mail-message-new" string="Unread Messages" name="message_unread" domain="[('message_unread','=',True)]"/>
+                    <separator/>
+                    <filter name="draft" string="New" domain="[('state','=','draft')]" help="New Tasks" icon="terp-check"/>
+                    <filter name="open" string="In Progress" domain="[('state','=','open')]" help="In Progress Tasks" icon="terp-camera_test"/>
+                    <filter string="Pending" domain="[('state','=','pending')]" context="{'show_delegated':False}" help="Pending Tasks" icon="terp-gtk-media-pause"/>
+                    <separator/>
+                    <filter name="My project" string="Project" domain="[('project_id.user_id','=',uid)]" help="My Projects" icon="terp-check"/>
+                    <separator/>
+                    <filter string="My Tasks" domain="[('user_id','=',uid)]"  help="My Tasks" icon="terp-personal"/>
+                    <filter string="Unassigned Tasks" domain="[('user_id','=',False)]"  help="Unassigned Tasks" icon="terp-personal-"/>
+                    <separator/>
+                    <filter string="Deadlines" context="{'deadline_visible': False}" domain="[('date_deadline','&lt;&gt;',False)]"
+                        help="Show only tasks having a deadline" icon="terp-gnome-cpu-frequency-applet+"/>
+                    <field name="project_id"/>
+                    <field name="atividade"/>
+                    <field name="ordserv"/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Users" name="group_user_id" icon="terp-personal" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Project" name="group_project_id" icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Stage" name="group_stage_id" icon="terp-stage" domain="[]" context="{'group_by':'stage_id'}"/>
+                        <filter string="Deadline" icon="terp-gnome-cpu-frequency-applet+" domain="[]" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Start Date" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" groups="base.group_no_one"/>
+                        <filter string="End Date" icon="terp-go-month" domain="[]" context="{'group_by':'date_end'}" groups="base.group_no_one"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_task_manager" model="ir.actions.act_window">
+            <field name="name">Tarefas - Geral</field>
+			<field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+			<field name="domain">[]</field>
+            <field name="search_view_id" ref="view_task_search_form_manager"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new task.
+              </p><p>
+                OpenERP's project management allows you to manage the pipeline
+                of tasks in order to get things done efficiently. You can
+                track progress, discuss on tasks, attach documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="open_view_task_list_tree_manager" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_view_task_manager"/>
+			<field name="view_id" ref="view_task_manager_tree" />
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_form_view_manager">
+			<field name="act_window_id" ref="action_view_task_manager" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_task_form_manager" />
+		</record>
+
+        <menuitem action="action_view_task_manager" id="menu_action_view_task_manager" parent="project.menu_project_management" sequence="1" groups="project.group_project_manager"/>
+    </data>
+</openerp>
