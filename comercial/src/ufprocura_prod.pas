@@ -580,11 +580,11 @@ begin
 
   dm.cds_parametro.Close;
 
-  if (procprod <> 'PROC_PROD_COMPLETO') then
-  begin
-    BitBtn1.Click;
-    //JvDbGrid1.SetFocus;   // Comentei por causa da Felicita 
-  end;
+  //if (procprod <> 'PROC_PROD_COMPLETO') then
+  //begin
+  //  BitBtn1.Click;
+    //JvDbGrid1.SetFocus;   // Comentei por causa da Felicita
+  //end;
 end;
 
 procedure TfProcura_prod.btnIncluirClick(Sender: TObject);

@@ -356,6 +356,7 @@ var utilcrtitulo : Tutils;
   i, j : integer;
   conta_local , banco_boleto: String;
 begin
+  JvAppXMLFileStorage1.FileName := 'fCR_' + dm.empresa + '.xml';
   utilcrtitulo := Tutils.Create;
   // Popula Status
   j := utilcrtitulo.StatusRec.Count;

@@ -398,6 +398,13 @@ type
     Edit24: TEdit;
     Label80: TLabel;
     chkPDV_VENDEDOR: TCheckBox;
+    GroupBox45: TGroupBox;
+    Edit25: TEdit;
+    BitBtn48: TBitBtn;
+    GroupBox46: TGroupBox;
+    Label81: TLabel;
+    edCFOP_CUPOM: TEdit;
+    BitBtn49: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -500,6 +507,8 @@ type
     procedure BitBtn46Click(Sender: TObject);
     procedure BitBtn47Click(Sender: TObject);
     procedure chkPDV_VENDEDORClick(Sender: TObject);
+    procedure BitBtn48Click(Sender: TObject);
+    procedure BitBtn49Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -795,6 +804,7 @@ begin
   if (dm.cds_param.Locate('PARAMETRO','EMPRESA', [loCaseInsensitive])) then
   begin
     Edit15.Text := dm.cds_paramDADOS.AsString;
+    Edit25.Text := dm.cds_paramD5.AsString;
     ComboBox8.Text := dm.cds_paramD1.AsString;
   end;
   if (dm.cds_param.Locate('PARAMETRO','MODULO', [loCaseInsensitive])) then
@@ -1042,6 +1052,15 @@ begin
     begin
       rgCadastroCliente.ItemIndex := 1;
     end;
+  end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CFOP';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    edCFOP_CUPOM.Text := dm.cds_parametroDADOS.asString;
   end;
 
   if (dm.cds_parametro.Active) then
@@ -5804,6 +5823,94 @@ begin
         dm.sqlsisAdimin.Rollback(TD);
         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
       end;
+    end;
+  end;
+
+end;
+
+procedure TfParametro.BitBtn48Click(Sender: TObject);
+begin
+  inherited;
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'EMPRESA';
+  s_parametro.Open;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D5';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('EMPRESA') + ', ';
+    strSql := strSql + QuotedStr('EMPRESA') + ', ';
+    strSql := strSql + QuotedStr(edit25.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET D5 = ';
+    strSql := strSql + QuotedStr(edit25.Text);
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('EMPRESA');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
+    end;
+  end;
+
+end;
+
+procedure TfParametro.BitBtn49Click(Sender: TObject);
+begin
+  inherited;
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'CFOP';
+  s_parametro.Open;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, DADOS';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('CFOP') + ', ';
+    strSql := strSql + QuotedStr('CFOP') + ', ';
+    strSql := strSql + QuotedStr(edCFOP_CUPOM.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Parametro gravado com sucesso.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET DADOS = ';
+    strSql := strSql + QuotedStr(edCFOP_CUPOM.Text);
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('CFOP');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Parametro gravado com sucesso.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
     end;
   end;
 

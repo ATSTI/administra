@@ -806,7 +806,7 @@ begin
   MMJPanel2.Background.EndColor   := dm.corStart;
   MMJPanel2.Background.StartColor := dm.corEnd;
 
-
+  JvAppXMLFileStorage1.FileName := 'fCP_' + dm.empresa + '.xml';
   // Popula Status
   j := varCpProc.Forma.Count;
   for i := 0 to j - 1 do

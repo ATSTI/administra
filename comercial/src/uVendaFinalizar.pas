@@ -1177,17 +1177,20 @@ begin
       end;
     end;
 
-    cdsVALOR.AsFloat := vrr + cdsVALOR_FRETE.AsFloat + cdsVALOR_SEGURO.AsFloat +
-      cdsOUTRAS_DESP.AsFloat - cdsDESCONTO.AsFloat;
-    cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
-    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
-    edAPagar.Value := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
+    if DtSrc.State in [dsInsert] then
+    begin
+      cdsVALOR.AsFloat := vrr + cdsVALOR_FRETE.AsFloat + cdsVALOR_SEGURO.AsFloat +
+        cdsOUTRAS_DESP.AsFloat - cdsDESCONTO.AsFloat;
+      cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
+      cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
+      edAPagar.Value := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
 
-    {Usado para bloquear alteração em RECEBIMENTO pelas triggers
-     da notafiscal }
-    if (cds.State in [dsInsert, dsEdit]) then
-    if (cdsVALOR.AsFloat <> vrr) then
-      cdsSTATUS1.AsString := 'B';
+      {Usado para bloquear alteração em RECEBIMENTO pelas triggers
+       da notafiscal }
+      if (cds.State in [dsInsert, dsEdit]) then
+      if (cdsVALOR.AsFloat <> vrr) then
+        cdsSTATUS1.AsString := 'B';
+    end;
 
     //inherited;
     // Retirei do Inherited a opção de gravar, pois, não exibe mensagem de erro, e aqui e necessario

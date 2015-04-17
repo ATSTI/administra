@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabPDV
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -805,6 +805,30 @@ inherited fParametro: TfParametro
         Caption = 'Gravar'
         TabOrder = 10
         OnClick = BitBtn47Click
+      end
+      object GroupBox45: TGroupBox
+        Left = 467
+        Top = 224
+        Width = 271
+        Height = 48
+        Caption = 'Casas DECIMAIS - DANFE'
+        TabOrder = 11
+        object Edit25: TEdit
+          Left = 42
+          Top = 19
+          Width = 89
+          Height = 21
+          TabOrder = 0
+        end
+        object BitBtn48: TBitBtn
+          Left = 155
+          Top = 16
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn48Click
+        end
       end
     end
     object TabSheet2: TTabSheet
@@ -4158,6 +4182,37 @@ inherited fParametro: TfParametro
           Caption = 'Sim'
           TabOrder = 0
           OnClick = cbCupomClick
+        end
+      end
+      object GroupBox46: TGroupBox
+        Left = 8
+        Top = 136
+        Width = 297
+        Height = 49
+        Caption = 'CFOP Utilizado para Emiss'#227'o do  CUPOM'
+        TabOrder = 2
+        object Label81: TLabel
+          Left = 16
+          Top = 24
+          Width = 28
+          Height = 13
+          Caption = 'CFOP'
+        end
+        object edCFOP_CUPOM: TEdit
+          Left = 56
+          Top = 20
+          Width = 121
+          Height = 21
+          TabOrder = 0
+        end
+        object BitBtn49: TBitBtn
+          Left = 204
+          Top = 17
+          Width = 77
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn49Click
         end
       end
     end

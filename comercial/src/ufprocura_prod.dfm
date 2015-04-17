@@ -1521,6 +1521,7 @@ object fProcura_prod: TfProcura_prod
     Height = 247
     Align = alClient
     DataSource = Dtsrc
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     PopupMenu = PopupMenu1
     TabOrder = 7
     TitleFont.Charset = DEFAULT_CHARSET
@@ -1534,6 +1535,7 @@ object fProcura_prod: TfProcura_prod
     OnKeyUp = DBGrid1KeyUp
     OnTitleClick = DBGrid1TitleClick
     IniStorage = jvStorageF
+    MultiSelect = True
     TitleButtons = True
     TitleArrow = True
     SelectColumnsDialogStrings.Caption = 'Select columns'
