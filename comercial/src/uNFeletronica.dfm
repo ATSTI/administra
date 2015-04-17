@@ -3198,9 +3198,10 @@ object fNFeletronica: TfNFeletronica
       'ADE, '#13#10'           e.UF,            e.CEP ,           e.NUMERO,  ' +
       '         e.TELEFONE,'#13#10'           e.DDD,           e.CD_IBGE,    ' +
       '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS, c.CODFISCAL, c.S' +
-      'UFRAMA'#13#10'from CLIENTES c '#13#10'inner join ENDERECOCLIENTE e on'#13#10' e.CO' +
-      'DCLIENTE = c.CODCLIENTE '#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10 +
-      'where c.CODCLIENTE = :id and e.TIPOEND = 0'
+      'UFRAMA'#13#10'          , c.TIPOFIRMA '#13#10'from CLIENTES c '#13#10'inner join E' +
+      'NDERECOCLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE '#13#10'inner join P' +
+      'AIS p on p.PAIS = e.PAIS'#13#10'where c.CODCLIENTE = :id and e.TIPOEND' +
+      ' = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -3317,6 +3318,11 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'SUFRAMA'
       ReadOnly = True
       Size = 9
+    end
+    object sClienteTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      ReadOnly = True
+      Required = True
     end
   end
   object OpenDialog1: TOpenDialog
@@ -4836,10 +4842,10 @@ object fNFeletronica: TfNFeletronica
       'st(e.CIDADE as varchar (60) ) as CIDADE, '#13#10'           e.UF,     ' +
       '       e.CEP ,           e.NUMERO,           e.TELEFONE,        ' +
       '   e.DDD,'#13#10'           e.CD_IBGE,            e.E_MAIL,           ' +
-      'e.PAIS, p.CODPAIS,'#13#10'           f.CODFISCAL '#13#10'from FORNECEDOR f'#13#10 +
-      'inner join ENDERECOFORNECEDOR e on'#13#10' e.CODFORNECEDOR = f.CODFORN' +
-      'ECEDOR'#13#10'inner join PAIS p on p.PAIS = e.PAIS'#13#10'where f.CODFORNECE' +
-      'DOR = :id and e.TIPOEND = 0'
+      'e.PAIS, p.CODPAIS,'#13#10'           f.CODFISCAL '#13#10'          ,f.TIPOFI' +
+      'RMA '#13#10'from FORNECEDOR f'#13#10'inner join ENDERECOFORNECEDOR e on'#13#10' e.' +
+      'CODFORNECEDOR = f.CODFORNECEDOR'#13#10'inner join PAIS p on p.PAIS = e' +
+      '.PAIS'#13#10'where f.CODFORNECEDOR = :id and e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -4950,6 +4956,11 @@ object fNFeletronica: TfNFeletronica
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sFornecTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      ReadOnly = True
+      Required = True
     end
   end
   object sEmpresa1: TSQLDataSet

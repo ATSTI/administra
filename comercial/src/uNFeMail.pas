@@ -150,7 +150,7 @@ begin
       OpenDialog1.Title := 'Selecione a NFE';
       OpenDialog1.DefaultExt := '*-nfe.XML';
       OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-      OpenDialog1.InitialDir := fNFeletronica.ACBrNFe1.Configuracoes.Geral.PathSalvar;
+      OpenDialog1.InitialDir := fNFeletronica.Edit1.Text;
       if OpenDialog1.Execute then
       begin
         fNFeletronica.ACBrNFe1.NotasFiscais.Clear;

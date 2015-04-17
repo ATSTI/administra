@@ -733,6 +733,8 @@ type
     cdsNFNFE_TIPOEMISSAO: TStringField;
     cdsNFNFE_INDFINAL: TStringField;
     cdsNFNFE_INDPRES: TStringField;
+    sFornecTIPOFIRMA: TSmallintField;
+    sClienteTIPOFIRMA: TSmallintField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1094,7 +1096,7 @@ begin
             //Verifica tipo de Pagamento
             getPagamento;
 
-            Ide.cMunFG    := 3554003;
+            Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
             Ide.modelo    := 55;
             Ide.serie     := 1;
             if (tp_amb = 1) then
@@ -1753,7 +1755,7 @@ begin
     OpenDialog1.Title := 'Selecione a NFE';
     OpenDialog1.DefaultExt:= '*-nfe.XML';
     OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-    OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Geral.PathSalvar;
+    OpenDialog1.InitialDir := Edit1.Text;
     if OpenDialog1.Execute then
     begin
       ACBrNFe1.NotasFiscais.Clear;
@@ -2066,7 +2068,7 @@ var
     Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
          //Verifica tipo de Pagamento
     getPagamento;
-    Ide.cMunFG    := 3554003;
+    Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
     Ide.modelo    := 55;
     if (tp_amb = 1) then
     begin
@@ -2323,6 +2325,8 @@ begin
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
 
       IERG := StrLen(PChar(RemoveChar(sFornecINSCESTADUAL.AsString)));
+      if (sFornecTIPOFIRMA.AsInteger = 0) then
+        IERG := 0;
       if (IERG = 0) then
       begin
         Dest.indIEDest := inNaoContribuinte;
@@ -2398,6 +2402,9 @@ begin
       end
       else begin
         IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
+        if (sClienteTIPOFIRMA.AsInteger = 0) then
+          IERG := 0;
+
         if (IERG = 0) then
         begin
           Dest.indIEDest := inNaoContribuinte;
