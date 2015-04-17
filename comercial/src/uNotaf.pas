@@ -473,6 +473,8 @@ type
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
     procedure btnCrClick(Sender: TObject);
+    procedure edtNFRefExit(Sender: TObject);
+    procedure edtNFRefClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
@@ -845,6 +847,9 @@ begin
       btnGravar.Click;
     end;
 
+    if (dmnf.cds_nfIDCOMPLEMENTAR.AsString <> '') then
+      edtNFRef.Text := dmnf.cds_nfIDCOMPLEMENTAR.AsString;
+      
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
       RadioGroup1.ItemIndex := 0
     else
@@ -2355,7 +2360,7 @@ end;
 
 procedure TfNotaf.btnRemessaClick(Sender: TObject);
 begin
-    fNotafRemessa := TfNotafRemessa.Create(Application);
+  fNotafRemessa := TfNotafRemessa.Create(Application);
   try
     fNotafRemessa.ShowModal;
   finally
@@ -2581,6 +2586,22 @@ begin
   // Buscar do Cadastro de Cliente
   dmnf.cds_nfNFE_INDFINAL.AsString       := 'teNormal';
   //dmnf.cds_nfNFE_INDPRES.AsString
+end;
+
+procedure TfNotaf.edtNFRefExit(Sender: TObject);
+begin
+  if (edtNFRef.Text <> '') then
+  begin
+    if (dmnf.cds_nf.State in [dsBrowse]) then
+      dmnf.cds_nf.Edit;
+    dmnf.cds_nfIDCOMPLEMENTAR.AsString := edtNFRef.Text;
+  end;  
+end;
+
+procedure TfNotaf.edtNFRefClick(Sender: TObject);
+begin
+  if (dmnf.cds_nf.State in [dsBrowse]) then
+    dmnf.cds_nf.Edit;
 end;
 
 end.

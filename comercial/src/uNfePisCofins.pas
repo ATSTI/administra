@@ -858,6 +858,8 @@ type
     sqlM400: TSQLDataSet;
     dspM400: TDataSetProvider;
     cdsM: TClientDataSet;
+    dspUnimed: TDataSetProvider;
+    cdsUnimed: TClientDataSet;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1225,13 +1227,56 @@ begin
             end;
           end;
 
-          if (sdsUnimed.Active) then
-            sdsUnimed.Close;
-          sdsUnimed.Params[0].AsDate := data_ini.Date-60;
-          sdsUnimed.Params[1].AsDate := data_fim.Date+60;
-          sdsUnimed.Open;
+          if (cdsUnimed.Active) then
+            cdsUnimed.Close;
 
-          while (not sdsUnimed.Eof) do
+          cdsUnimed.CommandText := 'SELECT DISTINCT DET.UN, det.DESCPRODUTO, ' +
+           '  mov.CONTROLE, mov.CODNATUREZA, mov.CODMOVIMENTO ' +
+           '   FROM MOVIMENTO mov, MOVIMENTODETALHE DET ' +
+           '  WHERE NOT EXISTS (SELECT * FROM UNIDADEMEDIDA UN WHERE UN.CODUN = DET.UN )' +
+           '    AND mov.codmovimento = det.codmovimento ' +
+           '    AND mov.DATAMOVIMENTO between ' +
+           QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date-60)) +
+           '    AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date+60));
+          cdsUnimed.Open;
+          if (cdsUnimed.RecordCount > 0) then
+          begin
+            memoError.Lines.Add('ERRO : Unidades não cadastradas');
+            memoError.Lines.Add('');
+          end;
+          while (not cdsUnimed.Eof) do
+          begin
+            if (cdsUnimed.Fields[0].AsString = '') then
+            begin
+              memoError.Lines.Add('CodMovimento : ' + IntToStr(cdsUnimed.Fields[4].AsInteger));
+              memoError.Lines.Add('');
+              memoError.Lines.Add('Natureza : ' + IntToStr(cdsUnimed.Fields[3].AsInteger) +
+                ' Pedido ' + cdsUnimed.Fields[2].AsString + ' Item : ' + cdsUnimed.Fields[1].AsString);
+            end;
+            memoError.Lines.Add(cdsUnimed.Fields[0].AsString);
+            memoError.Lines.Add('');
+            cdsUnimed.Next;
+          end;
+          if (cdsUnimed.RecordCount > 0) then
+          begin
+            MessageDlg('Faça o Cadastro das Unidades não localizadas.', mtWarning, [mbOK], 0);
+            exit;
+          end;
+
+          if (cdsUnimed.Active) then
+            cdsUnimed.Close;
+
+          cdsUnimed.CommandText := 'SELECT DISTINCT UN.CODUN, UN.DESCRICAO ' +
+           '   FROM UNIDADEMEDIDA UN, MOVIMENTO mov, MOVIMENTODETALHE DET ' +
+           '  WHERE UN.CODUN = DET.UN ' +
+           '    AND mov.codmovimento = det.codmovimento ' +
+           '    AND mov.DATAMOVIMENTO between ' +
+           QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date-60)) +
+           '    AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date+60));
+
+          cdsUnimed.Open;
+
+          while (not cdsUnimed.Eof) do
           begin
             teveCompraVenda := 'NAO';
             if (sqlProduto.Active) then
@@ -1242,7 +1287,7 @@ begin
             sql1 := sql1 + ' WHERE C.CODMOVIMENTO   = MOV.CODMOVIMENTO ';
             sql1 := sql1 + '   AND MOV.CODMOVIMENTO = DET.CODMOVIMENTO';
             sql1 := sql1 + '   AND MOV.CODNATUREZA  = 4';
-            sql1 := sql1 + '   AND DET.UN   = ' + QuotedStr(sdsUnimed.Fields[0].AsString);
+            sql1 := sql1 + '   AND DET.UN   = ' + QuotedStr(cdsUnimed.Fields[0].AsString);
             sql1 := sql1 + '   AND C.DATACOMPRA BETWEEN ';
             sql1 := sql1 + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date));
             sql1 := sql1 + '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
@@ -1258,7 +1303,7 @@ begin
               sql1 := sql1 + ' WHERE NF.CODVENDA = V.CODVENDA ';
               sql1 := sql1 + '   AND V.CODMOVIMENTO = M.CODMOVIMENTO';
               sql1 := sql1 + '   AND V.CODMOVIMENTO = DET.CODMOVIMENTO';
-              sql1 := sql1 + '   AND DET.UN   = ' + QuotedStr(sdsUnimed.Fields[0].AsString);
+              sql1 := sql1 + '   AND DET.UN   = ' + QuotedStr(cdsUnimed.Fields[0].AsString);
               sql1 := sql1 + '   AND M.CODNATUREZA  IN (12, 15, 16, 20, 21)';
               sql1 := sql1 + '   AND NF.DTAEMISSAO BETWEEN ';
               sql1 := sql1 + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date));
@@ -1277,11 +1322,11 @@ begin
               // 0190 - Identificação das Unidades de Medida
               with Registro0190New do
               begin
-                UNID  := sdsUnimed.Fields[0].AsString;
-                DESCR := sdsUnimed.Fields[1].AsString;
+                UNID  := cdsUnimed.Fields[0].AsString;
+                DESCR := cdsUnimed.Fields[1].AsString;
               end;
             end;
-            sdsUnimed.Next;
+            cdsUnimed.Next;
           end;
 
           // LISTA COM TODOS OS ITENS E NATUREZA JÁ USADA ###################
@@ -1293,6 +1338,8 @@ begin
           sql1 := sql1 + '  FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ';
           sql1 := sql1 + ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO';
           sql1 := sql1 + '   AND PRO.CODPRODUTO   = DET.CODPRODUTO';
+          //sql1 := sql1 + '   AND DET.BAIXA IS NOT NULL ';
+          sql1 := sql1 + '   AND MOV.CODNATUREZA IN (4,12,15,16,20,21)';
           sql1 := sql1 + '   AND MOV.DATAMOVIMENTO BETWEEN ';
           sql1 := sql1 + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date-60));
           sql1 := sql1 + '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date+60));
@@ -1583,16 +1630,16 @@ begin
                   VL_PIS           := cdsCompraDetVALOR_PIS.AsFloat;
                   VL_BC_PIS        := cdsCompraDetVLR_BASE.AsFloat * cdsCompraDetQUANTIDADE.AsFloat;
                   ALIQ_PIS_PERC    := cdsCompraDetPPIS.AsFloat;
-                  QUANT_BC_PIS     := 0;
+                  //QUANT_BC_PIS     := 0;
                   ALIQ_PIS_R       := 0;
 
                   CST_COFINS       := cstCofins(cdsCompraDetCSTCOFINS.AsString, InttoStr(cdsCompraNOTAFISCAL.AsInteger)+ '-COMPRA');
                   VL_BC_COFINS     := cdsCompraDetVLR_BASE.AsFloat * cdsCompraDetQUANTIDADE.AsFloat;
                   ALIQ_COFINS_PERC := cdsCompraDetPCOFINS.AsFloat;
                   VL_COFINS        := cdsCompraDetVALOR_COFINS.AsFloat;
-                  QUANT_BC_COFINS  := 0;
-                  ALIQ_COFINS_R    := 0;
-                  VL_COFINS        := 0;
+                  //QUANT_BC_COFINS  := 0;
+                  //ALIQ_COFINS_R    := 0;
+                  //VL_COFINS        := 0;
                   COD_CTA          := '';
                 end; //Fim dos Itens;
                 IItens := IItens + 1;
@@ -1783,12 +1830,12 @@ begin
                     VL_BC_PIS        := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
                     VL_PIS           := cdsItensVALOR_PIS.AsFloat;
                     ALIQ_PIS_PERC    := cdsItensPPIS.AsFloat;
-                    ALIQ_PIS_R       := 0;
+                    //ALIQ_PIS_R       := '';
                     CST_COFINS       := cstCofins(cdsItensCSTCOFINS.AsString, cdsNFVendaNOTASERIE.AsString + '-VENDA');
                     VL_BC_COFINS     := cdsItensVLR_BASE.AsFloat* cdsItensQUANTIDADE.AsFloat;
                     VL_COFINS        := cdsItensVALOR_COFINS.AsFloat;
                     ALIQ_COFINS_PERC := cdsItensPCOFINS.AsFloat;;
-                    ALIQ_COFINS_R    := 0;
+                    //ALIQ_COFINS_R    := '';
                     COD_CTA          := '';
                   end; //Fim dos Itens;
                   IItens := IItens + 1;

@@ -2465,7 +2465,7 @@ begin
     end;
     if (chkInventario.Checked) then
     begin
-      s := 'select  DISTINCT p.CODPRODUTO, (select EV.PRECOCUSTO * EV.SALDOESTOQUE from ESTOQUEMES EV ';
+      s := 'select  DISTINCT p.CODPRODUTO, (select SUM(EV.PRECOCUSTO * EV.SALDOESTOQUE) from ESTOQUEMES EV ';
       s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
       s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
       s := s + '   AND EV.CENTROCUSTO = 51 ';
@@ -2494,12 +2494,12 @@ begin
         //DT_FIN := edDataInventario.Date;
         VL_INV := total; // Valor do Inventario
       end;
-      s := 'select DISTINCT p.CODPRODUTO, (select EV.PRECOCUSTO from ESTOQUEMES EV ';
+      s := 'select DISTINCT p.CODPRODUTO, (select FIRST 1 EV.PRECOCUSTO from ESTOQUEMES EV ';
       s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
       s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
       s := s + '   AND EV.CENTROCUSTO = 51 ';
       s := s + ') PRECOCUSTO ';
-      s := s + ' , (select EV.SALDOESTOQUE from ESTOQUEMES EV ';
+      s := s + ' , (select FIRST 1 EV.SALDOESTOQUE from ESTOQUEMES EV ';
       s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
       s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
       s := s + '   AND EV.CENTROCUSTO = 51 ';

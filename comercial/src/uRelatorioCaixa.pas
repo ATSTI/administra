@@ -279,6 +279,7 @@ procedure TfRelatorioCaixa.FormCreate(Sender: TObject);
 var
   i, j : integer;
 begin
+  JvAppXMLFileStorage1.FileName := 'fCaixa_' + dm.empresa + '.xml';
   util := TUtils.Create;
   // Popula Status
   j := util.Forma.Count;

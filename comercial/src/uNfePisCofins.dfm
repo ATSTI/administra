@@ -3811,4 +3811,27 @@ object fNfePisCofins: TfNfePisCofins
     Left = 680
     Top = 336
   end
+  object dspUnimed: TDataSetProvider
+    DataSet = sdsUnimed
+    Options = [poAllowCommandText]
+    Left = 376
+    Top = 208
+  end
+  object cdsUnimed: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'pdata1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'pdata2'
+        ParamType = ptUnknown
+      end>
+    ProviderName = 'dspUnimed'
+    Left = 416
+    Top = 208
+  end
 end

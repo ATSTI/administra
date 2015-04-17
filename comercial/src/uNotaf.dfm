@@ -94,7 +94,6 @@ object fNotaf: TfNotaf
           Width = 77
           Height = 25
           Caption = 'N.F. Remessa '
-          Enabled = False
           TabOrder = 1
           OnClick = btnRemessaClick
         end
@@ -911,6 +910,8 @@ object fNotaf: TfNotaf
             Width = 721
             Height = 21
             TabOrder = 1
+            OnClick = edtNFRefClick
+            OnExit = edtNFRefExit
           end
         end
       end
