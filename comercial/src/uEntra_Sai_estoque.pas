@@ -497,14 +497,15 @@ begin
   if (Combobox2.Visible) then
     ComboBox2.Text := ccpadrao;
 
-   // comentei 13/02/2015  , nao esta buscando o novo numero qdo nao usa o parametro    
-  {if Dm.cds_parametro.Active then
+   // comentei 13/02/2015  , nao esta buscando o novo numero qdo nao usa o parametro
+   // voltei pois a DNZ nao quer q aparece o numero    
+  if Dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
   dm.cds_parametro.Open;
 
-  if not (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-  begin     }
+  if not (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+  begin
     if (Edit1.Visible) then
     begin
       if (Edit1.Text = '') then
@@ -528,7 +529,7 @@ begin
         Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
       end;
     end;
-  //  end;
+  end;
 end;
 
 procedure TfEntra_Sai_estoque.FormClose(Sender: TObject;
