@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
   Left = 237
   Top = 21
-  Width = 791
+  Width = 859
   Height = 640
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
@@ -11,7 +11,7 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   object Label18: TLabel [0]
-    Left = 178
+    Left = 195
     Top = 57
     Width = 29
     Height = 16
@@ -30,36 +30,36 @@ inherited fEstado: TfEstado
   end
   inherited MMJPanel1: TMMJPanel
     Top = 559
-    Width = 783
+    Width = 851
     inherited btnIncluir: TBitBtn [0]
-      Left = 299
+      Left = 329
       Anchors = [akTop, akBottom]
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 299
+      Left = 329
       Anchors = [akTop, akBottom]
     end
     inherited btnCancelar: TBitBtn
-      Left = 415
+      Left = 455
       Anchors = [akTop, akBottom]
     end
     inherited btnExcluir: TBitBtn
-      Left = 415
+      Left = 455
       Anchors = [akTop, akBottom]
     end
     inherited btnProcurar: TBitBtn
-      Left = 181
+      Left = 201
       Anchors = [akTop, akBottom]
       Caption = 'CFOP'
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 532
+      Left = 583
       Anchors = [akTop, akBottom]
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 783
+    Width = 851
     Height = 140
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -83,7 +83,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label3: TLabel
-      Left = 16
+      Left = 19
       Top = 45
       Width = 39
       Height = 16
@@ -98,7 +98,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label4: TLabel
-      Left = 104
+      Left = 114
       Top = 44
       Width = 20
       Height = 16
@@ -116,7 +116,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label8: TLabel
-      Left = 272
+      Left = 299
       Top = 44
       Width = 76
       Height = 16
@@ -131,7 +131,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label6: TLabel
-      Left = 356
+      Left = 390
       Top = 44
       Width = 83
       Height = 16
@@ -146,7 +146,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label10: TLabel
-      Left = 442
+      Left = 482
       Top = 44
       Width = 35
       Height = 16
@@ -164,7 +164,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label11: TLabel
-      Left = 527
+      Left = 577
       Top = 44
       Width = 93
       Height = 16
@@ -179,7 +179,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label12: TLabel
-      Left = 612
+      Left = 668
       Top = 44
       Width = 76
       Height = 16
@@ -194,7 +194,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label13: TLabel
-      Left = 135
+      Left = 148
       Top = 44
       Width = 27
       Height = 16
@@ -214,7 +214,7 @@ inherited fEstado: TfEstado
       OnClick = Label13Click
     end
     object Label7: TLabel
-      Left = 102
+      Left = 107
       Top = 91
       Width = 21
       Height = 16
@@ -232,7 +232,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label5: TLabel
-      Left = 498
+      Left = 592
       Top = 91
       Width = 76
       Height = 16
@@ -247,7 +247,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label9: TLabel
-      Left = 263
+      Left = 262
       Top = 93
       Width = 24
       Height = 16
@@ -265,7 +265,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label14: TLabel
-      Left = 426
+      Left = 423
       Top = 91
       Width = 56
       Height = 16
@@ -283,7 +283,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label15: TLabel
-      Left = 17
+      Left = 20
       Top = 93
       Width = 45
       Height = 16
@@ -317,7 +317,7 @@ inherited fEstado: TfEstado
       OnClick = Label16Click
     end
     object Label17: TLabel
-      Left = 338
+      Left = 336
       Top = 91
       Width = 77
       Height = 16
@@ -334,7 +334,7 @@ inherited fEstado: TfEstado
       OnClick = Label17Click
     end
     object Label19: TLabel
-      Left = 187
+      Left = 205
       Top = 44
       Width = 46
       Height = 16
@@ -354,8 +354,26 @@ inherited fEstado: TfEstado
       Transparent = True
       OnClick = Label19Click
     end
+    object Label20: TLabel
+      Left = 496
+      Top = 90
+      Width = 88
+      Height = 16
+      Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
+      Anchors = [akTop]
+      Caption = 'Aliq. Cupom'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      Transparent = True
+    end
     object DBEdit1: TDBEdit
-      Left = 16
+      Left = 21
       Top = 61
       Width = 81
       Height = 24
@@ -375,7 +393,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 100
+      Left = 110
       Top = 61
       Width = 28
       Height = 24
@@ -395,7 +413,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit9: TDBEdit
-      Left = 131
+      Left = 144
       Top = 61
       Width = 49
       Height = 24
@@ -415,7 +433,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit3: TDBEdit
-      Left = 268
+      Left = 295
       Top = 61
       Width = 81
       Height = 24
@@ -435,7 +453,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 353
+      Left = 387
       Top = 61
       Width = 81
       Height = 24
@@ -455,7 +473,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit6: TDBEdit
-      Left = 439
+      Left = 481
       Top = 61
       Width = 81
       Height = 24
@@ -475,7 +493,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit7: TDBEdit
-      Left = 524
+      Left = 573
       Top = 61
       Width = 81
       Height = 24
@@ -495,7 +513,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit8: TDBEdit
-      Left = 609
+      Left = 665
       Top = 61
       Width = 81
       Height = 24
@@ -515,7 +533,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 99
+      Left = 103
       Top = 109
       Width = 70
       Height = 24
@@ -535,7 +553,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit10: TDBEdit
-      Left = 260
+      Left = 261
       Top = 109
       Width = 70
       Height = 24
@@ -555,7 +573,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit11: TDBEdit
-      Left = 423
+      Left = 420
       Top = 109
       Width = 70
       Height = 24
@@ -575,7 +593,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit12: TDBEdit
-      Left = 14
+      Left = 19
       Top = 109
       Width = 81
       Height = 24
@@ -595,7 +613,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
-      Left = 175
+      Left = 176
       Top = 109
       Width = 81
       Height = 24
@@ -615,7 +633,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit14: TDBEdit
-      Left = 336
+      Left = 335
       Top = 109
       Width = 81
       Height = 24
@@ -635,8 +653,8 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object CheckBox1: TCheckBox
-      Left = 642
-      Top = 112
+      Left = 679
+      Top = 91
       Width = 121
       Height = 13
       Anchors = [akTop]
@@ -649,11 +667,11 @@ inherited fEstado: TfEstado
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 15
+      TabOrder = 16
       OnClick = CheckBox1Click
     end
     object DBEdit21: TDBEdit
-      Left = 183
+      Left = 202
       Top = 61
       Width = 81
       Height = 24
@@ -692,7 +710,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBLookupComboBox3: TDBLookupComboBox
-      Left = 498
+      Left = 590
       Top = 108
       Width = 138
       Height = 24
@@ -710,12 +728,12 @@ inherited fEstado: TfEstado
       ListSource = DtSrcTFiscal
       ParentCtl3D = False
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 17
       OnKeyPress = FormKeyPress
     end
     object dxButton11: TdxButton
-      Left = 703
-      Top = 58
+      Left = 759
+      Top = 42
       Width = 56
       Height = 42
       Hint = 'Chat-Suporte'
@@ -798,13 +816,38 @@ inherited fEstado: TfEstado
         9DA6AEC4F4F4F4F4F4F4F4F4F40316ABA1B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B49DA5AA8A160903030A8DADA4A7B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B4B4B415BCABA6A6A6A8AA9DB4B4B4B4B4B4B4B4B4B4B4B4B4}
-      TabOrder = 17
+      TabOrder = 18
+    end
+    object DBEdit22: TDBEdit
+      Left = 494
+      Top = 109
+      Width = 89
+      Height = 24
+      Hint = 
+        'II (ii) para ISENTO'#13#10'FF  Produto com Substitui'#231#227'o Tributaria'#13#10'Pr' +
+        'odutos Tributados informar a Aliquota :  1800  0700  1200'
+      Anchors = [akTop]
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      DataField = 'ALIQ_CUPOM'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 15
+      OnKeyPress = FormKeyPress
     end
   end
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 331
-    Width = 783
+    Width = 851
     Height = 228
     Align = alClient
     DataSource = DtSrc
@@ -970,7 +1013,7 @@ inherited fEstado: TfEstado
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 140
-    Width = 783
+    Width = 851
     Height = 191
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -982,10 +1025,10 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      783
+      851
       191)
     object DBEdit15: TDBEdit
-      Left = 64
+      Left = 97
       Top = 18
       Width = 627
       Height = 24
@@ -1005,7 +1048,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 64
+      Left = 97
       Top = 47
       Width = 627
       Height = 24
@@ -1025,7 +1068,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 64
+      Left = 97
       Top = 76
       Width = 627
       Height = 24
@@ -1045,7 +1088,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 64
+      Left = 97
       Top = 104
       Width = 627
       Height = 24
@@ -1065,7 +1108,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 64
+      Left = 97
       Top = 132
       Width = 627
       Height = 24
@@ -1085,7 +1128,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 64
+      Left = 97
       Top = 160
       Width = 627
       Height = 24
@@ -1150,8 +1193,9 @@ inherited fEstado: TfEstado
       '        , esta.DADOSADC1        , esta.DADOSADC2'#13#10'        , esta' +
       '.DADOSADC3        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5    ' +
       '    , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA, esta.CSOSN, e' +
-      'sta.CODFISCAL'#13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CFOP cfo ' +
-      'on cfo.CFCOD = esta.CFOP '#13#10'order by esta.CFOP'
+      'sta.CODFISCAL'#13#10'        , esta.ALIQ_CUPOM  '#13#10'FROM ESTADO_ICMS est' +
+      'a '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by' +
+      ' esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1257,6 +1301,11 @@ inherited fEstado: TfEstado
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+    object sdsALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
     end
   end
   object dsp: TDataSetProvider
@@ -1373,6 +1422,11 @@ inherited fEstado: TfEstado
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+    object cds_estadoALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
     end
   end
   object sdsTFiscal: TSQLDataSet

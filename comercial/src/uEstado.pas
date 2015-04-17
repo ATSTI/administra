@@ -117,6 +117,10 @@ type
     panelAjuda: TPanel;
     Memo1: TMemo;
     dxButton11: TdxButton;
+    Label20: TLabel;
+    DBEdit22: TDBEdit;
+    sdsALIQ_CUPOM: TStringField;
+    cds_estadoALIQ_CUPOM: TStringField;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -280,7 +284,7 @@ begin
       ' ,esta.ICMS_SUBSTRIB_IND, esta.CST , esta.PIS , esta.COFINS' +
       ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
       ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
-      ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
+      ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL, esta.ALIQ_CUPOM ' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
       ' order by esta.CFOP';
