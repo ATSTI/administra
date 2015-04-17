@@ -2786,7 +2786,7 @@ object fTerminal2: TfTerminal2
           end
         end
         object btnProduto: TBitBtn
-          Left = 296
+          Left = 304
           Top = 8
           Width = 75
           Height = 25

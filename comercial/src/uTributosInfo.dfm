@@ -214,18 +214,24 @@ object fTributosInfo: TfTributosInfo
           ''
           ''
           
-            'Preencher o campo CST, com as condi'#231'oes deste para o cupom, exem' +
-            'plo:'
+            'Preencher o campo ALIQUOTA ICMS, com as condi'#231'oes deste para o c' +
+            'upom, exemplo:'
           ''
-          '    CST = 060 -> No Cupom sair'#225' FF (Substitui'#231#227'o Tribut'#225'ria);'
+          
+            '    CST = 060 -> No Cupom sair'#225' FF (Substitui'#231#227'o Tribut'#225'ria), PR' +
+            'EENCHER COM :   FF;'
           ''
           
             '    CST = 000 -> No Cupom sair'#225' a Aliquota do ICMS Informado no ' +
-            'campo ICMS;'
+            'campo ICMS , PREENCHER COM A Aliquota: 1800, 1200, 0700;'
           ''
-          '    CST = 040 -> No Cupom sair'#225' II (Produto Isento);'
+          
+            '    CST = 040 -> No Cupom sair'#225' II (Produto Isento), PREENCHER C' +
+            'OM : II (ii);'
           ''
-          '    CST = 041 -> No Cupom sair'#225' NN (N'#227'o Incidencia de ICMS);'
+          
+            '    CST = 041 -> No Cupom sair'#225' NN (N'#227'o Incidencia de ICMS), PRE' +
+            'ENCHER COM : NN;'
           ''
           ''
           ''

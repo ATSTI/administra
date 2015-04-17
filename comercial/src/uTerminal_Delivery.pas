@@ -403,6 +403,8 @@ type
     sds_Mov_DetCST: TStringField;
     cds_Mov_detCST: TStringField;
     Label7: TLabel;
+    sds_Mov_DetALIQ_CUPOM: TStringField;
+    cds_Mov_detALIQ_CUPOM: TStringField;
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
@@ -473,7 +475,9 @@ type
      TD: TTransactionDesc;
     { Private declarations }
      procedure alteraStatusMovimento;
+     function VerificaRetornoFuncaoImpressora( iRetorno: integer ): boolean;
   public
+    cpf_cliente_cupom: String;
      retornoImpressora: Integer;
      cupom_numcupom: String;
      cupom_codMov :  Integer;
@@ -556,7 +560,10 @@ begin
       codproduto := 0;
       buscaProduto;
       dbeProduto.Text := '';
-      DBEdit2.SetFocus;
+      if (tipo_busca = '1') then
+        dbeProduto.SetFocus
+      else
+        DBEdit2.SetFocus;
     end
     else
       BitBtn3.Click;
@@ -930,6 +937,16 @@ begin
     MessageDlg('Natureza da operação 7(Consumidor),13(Mesa) e 14(Delivery) - para uso no cupom não cadastrada', mtWarning, [mbOK], 0);
     Exit;
   end;
+
+  {if (Dm.cds_parametro.Active) then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CFOP_CUPOM';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageDlg('CADASTRE EM PARAMETROS O PARAMETRO CFOP_CUPOM na ABA CUPOM', mtWarning, [mbOK], 0);
+    Exit;
+  end;}
 
     //------Pesquisando na tab Parametro Centro de Receita Padrão ---------
     if Dm.cds_parametro.Active then
@@ -1474,9 +1491,9 @@ begin
   begin
     if ((cds_Mov_detCST.IsNull) or (Trim(cds_Mov_detCST.AsString) = '') or (length(Trim(cds_Mov_detCST.AsString)) < 3)) then
     begin
-      MessageDlg('O Produto : ' + cds_Mov_detDESCPRODUTO.AsString + ', esta sem CST.', mtError, [mbOk], 0);
-      semCSTCupom := 'SIM';
-      exit;
+      MessageDlg('O Produto : ' + cds_Mov_detDESCPRODUTO.AsString + ', esta sem CST. Saira como II (ISENTO)', mtError, [mbOk], 0);
+      //semCSTCupom := 'SIM';
+      //exit;
     end;
     cds_mov_det.Next;
   end;
@@ -1580,7 +1597,7 @@ end;
 
 procedure TfTerminal_Delivery.imprimecupom;
 var
-  texto1, texto2, texto3, texto4, texto5, texto6, texto7 : string;
+  texto1, texto2, texto3, texto4, texto5, texto6, texto7,var_aliq_cupom : string;
   varPago : Double;
   sDesconto, sAcrescimo: String;
   I : integer;
@@ -1595,6 +1612,7 @@ begin
     MessageDlg('Cupom já impresso.', mtWarning, [mbOK], 0);
     Exit;
   end;
+  cpf_cliente_cupom := '';
   If MessageDlg('Usar CGC/CPF do Consumidor?', mtConfirmation, [mbYes, mbNo], 0) = mrYes Then
   begin
     with TFormUsaCPFDesForma.Create(self) do
@@ -1605,22 +1623,24 @@ begin
       Edit3.Text := DBEdit5.Text;
       ShowModal;
       free;
-    end
-  end
-  Else
-  Begin
-    iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
-    retornoImpressora := 1;
-    if (iRetorno <> 1) then
-    begin
-      frmPrincipal.Analisa_iRetorno();
-      retornoImpressora := 0;
-      exit;
     end;
-    frmPrincipal.Analisa_iRetorno();
+  end;
+  //Else
+  //Begin
+  if (cpf_cliente_cupom = '') then
+    iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) )
+  else
+    iRetorno := Bematech_FI_AbreCupom(cpf_cliente_cupom);
+{  if ( iRetorno <> 1 ) or ( iRetorno = -27 ) then
+  begin
+    VerificaRetornoFuncaoImpressora(iRetorno);
+    //frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
-  End;
-
+    //iRetorno := Bematech_FI_CancelaCupom();
+    retornoImpressora := 0;
+    exit;
+  end;
+}
   DecimalSeparator := '.';
   cupom_codMov := cds_Mov_detCODMOVIMENTO.AsInteger ;
   cds_Mov_det.First;
@@ -1656,17 +1676,30 @@ begin
     sTipoDesconto := '%';
     texto1 := cds_Mov_detCODPRO.AsString;
     texto2 := Trim(copy(cds_Mov_detDESCPRODUTO.AsString, 0,200));
-    texto3 := FloatToStr(cds_Mov_detICMS.AsFloat); //'II'; // Aliquota
+    texto3 := cds_Mov_detALIQ_CUPOM.AsString; //'II'; // Aliquota
     //texto4 := FloatToStr(buscaTributacaoICMS_SUBST.AsFloat); //'FF'; // Aliquota
-    I := StrToInt(texto3);
-    //if (buscaTributacaoICMS_SUBST.AsFloat > 0) then
+    //I := StrToInt(texto3);
+    var_aliq_cupom := texto3;
+    {if (cds_Mov_detALIQ_CUPOM.AsString <> '') then
+    begin
+      if (var_aliq_cupom = '') then
+        var_aliq_cupom := '18';
+      if (Length(var_aliq_cupom) = 2) then
+        var_aliq_cupom := var_aliq_cupom + '00';
+      if (Length(var_aliq_cupom) = 1) then
+        var_aliq_cupom := '0' + var_aliq_cupom + '00';
+    end
+    else begin
+      var_aliq_cupom := '';
+    end;
+    texto3 := 'II';
     if (Trim(cds_Mov_detCST.AsString) = '060') then
     begin
       texto3 := 'FF';
     end;
     if (Trim(cds_Mov_detCST.AsString) = '000') then
     begin
-      texto3 := texto3 + '00';
+      texto3 := '00';
     end;
     if (Trim(cds_Mov_detCST.AsString) = '040') then
     begin
@@ -1680,8 +1713,11 @@ begin
 
     //buscaTributacao.Close;
 
-    varAliquota := texto3;
-    sAliquota := varAliquota;
+    varAliquota := texto3;}
+    if (var_aliq_cupom <> '') then
+      sAliquota := var_aliq_cupom
+    else
+      sAliquota := 'II';
     texto4 := Format('%-6.3n',  [cds_Mov_detQUANTIDADE.AsFloat]);
     texto5 := Format('%-6.3n',  [cds_Mov_detPRECO.AsFloat]);
     texto6 := '0';  // Desconto
@@ -1695,11 +1731,12 @@ begin
     retornoImpressora := 1;
     if (iRetorno <> 1) then
     begin
-      frmPrincipal.Analisa_iRetorno();
+      VerificaRetornoFuncaoImpressora(iRetorno);
+      //frmPrincipal.Analisa_iRetorno();
+      iRetorno := Bematech_FI_CancelaCupom();
       retornoImpressora := 0;
       exit;
     end;
-
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
     cds_Mov_det.Next
@@ -2402,6 +2439,136 @@ begin
     end;
   end;
 
+end;
+
+function TfTerminal_Delivery.VerificaRetornoFuncaoImpressora(
+  iRetorno: integer): boolean;
+  var cMSGErro: string;
+begin
+  cMSGErro := '';
+  result := False;
+  case iRetorno of
+     0: cMSGErro := 'Erro de Comunicação !';
+    -1: cMSGErro := 'Erro de execução na Função !';
+    -2: cMSGErro := 'Parâmetro inválido na Função !';
+    -3: cMSGErro := 'Alíquota não Programada !';
+    -4: cMSGErro := 'Arquivo BEMAFI32.INI não Encontrado !';
+    -5: cMSGErro := 'Erro ao abrir a Porta de Comunicação !';
+    -6: cMSGErro := 'Impressora Desligada ou Cabo de Comunicação Desconectado!';
+    -7: cMSGErro := 'Código do Banco não encontrado no arquivo BEMAFI32.INI !';
+    -8: cMSGErro := 'Erro ao criar arquivo STATUS.TXT ou RETORNO.TXT!';
+    -27: cMSGErro := 'Status diferente de 6, 0, 0 !';
+    -30: cMSGErro := 'Função incompatível com a impressora fiscal YANCO !';
+  end;
+  if ( cMSGErro <> '' ) then
+  begin
+    Application.MessageBox( pchar( cMSGErro ), 'Atenção', MB_IconError + MB_OK );
+    result := False;
+  end;
+  cMSGErro := '';
+  if ( iRetorno <> 1 ) then
+  begin
+    Bematech_FI_RetornoImpressora( iACK, iST1, iST2 );
+    if ( iACK = 21 ) then
+    begin
+      Application.MessageBox( 'A Impressora retornou NAK !' + #13 +
+        'Erro de Protocolo de Comunicação !', 'Atenção', MB_IconError + MB_OK );
+      result := False;
+    end
+    else
+    if ( iST1 <> 0 ) or ( iST2 <> 0 ) then
+    begin
+      // Analisa ST1
+      if ( iST1 >= 128 ) then
+      begin
+        iST1 := iST1 - 128;
+        cMSGErro := cMSGErro + 'Fim de Papel' + #13;
+      end;
+      if ( iST1 >= 64 ) then
+      begin
+        iST1 := iST1 - 64;
+        cMSGErro := cMSGErro + 'Pouco Papel' + #13;
+      end;
+      if ( iST1 >= 32 ) then
+      begin
+        iST1 := iST1 - 32;
+        cMSGErro := cMSGErro + 'Erro no Relógio' + #13;
+      end;
+      if ( iST1 >= 16 ) then
+      begin
+        iST1 := iST1 - 16;
+        cMSGErro := cMSGErro + 'Impressora em Erro' + #13;
+      end;
+      if ( iST1 >= 8 ) then
+      begin
+        iST1 := iST1 - 8;
+        cMSGErro := cMSGErro + 'Primeiro Dado do Comando não foi ESC' + #13;
+      end;
+      if iST1 >= 4 then
+      begin
+        iST1 := iST1 - 4;
+        cMSGErro := cMSGErro + 'Comando Inexistente' + #13;
+      end;
+      if iST1 >= 2 then
+      begin
+        iST1 := iST1 - 2;
+        cMSGErro := cMSGErro + 'Cupom Fiscal Aberto' + #13;
+      end;
+      if iST1 >= 1 then
+      begin
+        iST1 := iST1 - 1;
+        cMSGErro := cMSGErro + 'Número de Parâmetros Inválidos' + #13;
+      end;
+      // Analisa ST2
+      if iST2 >= 128 then
+      begin
+        iST2 := iST2 - 128;
+        cMSGErro := cMSGErro + 'Tipo de Parâmetro de Comando Inválido' + #13;
+      end;
+      if iST2 >= 64 then
+      begin
+        iST2 := iST2 - 64;
+        cMSGErro := cMSGErro + 'Memória Fiscal Lotada' + #13;
+      end;
+      if iST2 >= 32 then
+      begin
+        iST2 := iST2 - 32;
+        cMSGErro := cMSGErro + 'Erro na CMOS' + #13;
+      end;
+      if iST2 >= 16 then
+      begin
+        iST2 := iST2 - 16;
+        cMSGErro := cMSGErro + 'Alíquota não Programada' + #13;
+      end;
+      if iST2 >= 8 then
+      begin
+        iST2 := iST2 - 8;
+        cMSGErro := cMSGErro + 'Capacidade de Alíquota Programáveis Lotada' + #13;
+      end;
+      if iST2 >= 4 then
+      begin
+        iST2 := iST2 - 4;
+        cMSGErro := cMSGErro + 'Cancelamento não permitido' + #13;
+      end;
+      if iST2 >= 2 then
+      begin
+        iST2 := iST2 - 2;
+        cMSGErro := cMSGErro + 'CGC/IE do Proprietário não Programados' + #13;
+      end;
+      if iST2 >= 1 then
+      begin
+        iST2 := iST2 - 1;
+        cMSGErro := cMSGErro + 'Comando não executado' + #13;
+      end;
+      if ( cMSGErro <> '' ) then
+      begin
+        Application.MessageBox( pchar( cMSGErro ), 'Atenção', MB_IconError + MB_OK );
+        result := False;
+      end;
+    end
+    else
+      result := True;
+  end;
 end;
 
 end.

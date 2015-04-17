@@ -1,5 +1,5 @@
 inherited fTerminal_Delivery: TfTerminal_Delivery
-  Left = 214
+  Left = 216
   Top = 61
   Width = 875
   Height = 594
@@ -6197,6 +6197,12 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       FieldName = 'CST'
       Size = 5
     end
+    object cds_Mov_detALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -6234,10 +6240,11 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       'PCT'#13#10'        , ccus.ALMOXARIFADO'#13#10'        , prod.CONTA_DESPESA  ' +
       #13#10'        , prod.COD_BARRA '#13#10'        , prod.LOCALIZACAO '#13#10'      ' +
       '  , prod.ESTOQUEATUAL '#13#10'        , prod.NCM'#13#10'        , movd.CST'#13#10 +
-      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
-      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ' +
-      'ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.CODDETA' +
-      'LHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV '#13#10
+      '        , movd.ALIQ_CUPOM '#13#10'from MOVIMENTODETALHE movd '#13#10'inner j' +
+      'oin PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left oute' +
+      'r join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOX' +
+      'ARIFADO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO' +
+      '=:pCODMOV '#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -6375,6 +6382,12 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object sds_Mov_DetCST: TStringField
       FieldName = 'CST'
       Size = 5
+    end
+    object sds_Mov_DetALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
     end
   end
   object sds_venda: TSQLDataSet

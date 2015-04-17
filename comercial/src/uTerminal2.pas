@@ -818,6 +818,17 @@ begin
     DM_MOV.c_movimento.Params[0].Clear;
     DM_MOV.c_movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
     DM_MOV.c_movimento.Open;
+
+    if (dm.scds_usuario_proc.Active) then
+      dm.scds_usuario_proc.Close;
+    dm.scds_usuario_proc.Params[0].Clear;
+    dm.scds_usuario_proc.Params[1].AsInteger := DM_MOV.c_movimentoCODVENDEDOR.AsInteger;
+    dm.scds_usuario_proc.Params[2].AsString  := 'AMBOS';
+    dm.scds_usuario_proc.Params[3].AsString  := 'VEND';
+    dm.scds_usuario_proc.Open;
+
+    edVendedor.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
+
     vTIPO_PEDIDO := DM_MOV.c_movimentoTIPO_PEDIDO.AsString;
     if (vTIPO_PEDIDO = 'C') then // COMANDA
     begin
@@ -2602,6 +2613,7 @@ begin
       dbEdit6.Text := aux_vendedor;
       DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := StrToInt(aux_vendedor);
       DM_MOV.c_movimentoNOMEUSUARIO.AsString   := aux_vendedor;
+      DM_MOV.c_movimento.ApplyUpdates(0);      
     end;
     if (dbEdit6.Text = '') then
     begin
@@ -2758,6 +2770,7 @@ begin
       dbEdit6.Text := aux_vendedor;
       DM_MOV.c_movimentoCODVENDEDOR.AsInteger  := StrToInt(aux_vendedor);
       DM_MOV.c_movimentoNOMEUSUARIO.AsString   := aux_vendedor;
+      DM_MOV.c_movimento.ApplyUpdates(0);
     end;
     if (dbEdit6.Text = '') then
     begin
@@ -3383,6 +3396,8 @@ end;
 procedure TfTerminal2.incluiPedido;
 var id_movimento: integer;
 begin
+  if (dbEdit6.Text = '') then
+    edVendedor.Text := ''; 
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
