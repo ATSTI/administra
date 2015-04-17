@@ -23,7 +23,6 @@ from datetime import datetime
 from openerp import tools
 from openerp.tools.translate import _
 import time
-import pdb
 
 class op_exam(osv.osv):
     _name = 'op.exam'
@@ -215,11 +214,11 @@ class op_notas_bimestre_view(osv.osv):
     _columns = {
         'ano': fields.integer('Ano'),
         'course_id': fields.many2one('op.course', string='Turma', store=False),
-        'classroom_id':fields.many2one('op.classroom',string='Período', store=False),
+        'classroom_id':fields.many2one('op.classroom',string='Periodo', store=False),
         'type_id': fields.many2one('op.exam.type', string='Disciplina', store=False),
-        'partner_id': fields.many2one('res.partner', u'Professor', store=False),
+        'partner_id': fields.many2one('res.partner', string='Professor', store=False),
         'student_id': fields.many2one('op.student',string='Estudante', store=False),
-        'numero': fields.integer('Número'),
+        'numero': fields.integer('Numero'),
         'bim1':fields.char('1. Bim.', size=3),
         'bim2':fields.char('2. Bim.', size=3),
         'bim3':fields.char('3. Bim.', size=3),
@@ -250,6 +249,11 @@ class op_notas_bimestre_view(osv.osv):
               from op_exam_session exame, op_exam notas, op_student aluno  
              where exame.id = notas.session_id
                and aluno.id = notas.student_id 
+               and exame.type_id is not null 
+               and exame.classroom_id is not null
+               and exame.course_id is not null 
+               and exame.partner_id is not null 
+               and (Extract(Year FROM exame.data_exame) > 2014)
 
                group by exame.course_id, exame.classroom_id, exame.partner_id, 
               notas.student_id, ano, aluno.roll_number

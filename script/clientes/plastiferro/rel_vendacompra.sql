@@ -63,7 +63,7 @@ BEGIN
     SELECT FIRST 1 ev.SALDOFIMACUM FROM ESTOQUE_VIEW_CUSTO (:pdta2,:CodPro,  :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
      into :qtdeEstoque; 
      
-    /*   select (sum(md.VALTOTAL) / sum(md.QUANTIDADE))  as CUSTOMEDIO
+       select (sum(md.VALTOTAL) / sum(md.QUANTIDADE))  as CUSTOMEDIO
   from compra c, movimento m, MOVIMENTODETALHE md, NATUREZAOPERACAO np
    where m.CODMOVIMENTO = c.CODMOVIMENTO
      and md.CODMOVIMENTO = m.CODMOVIMENTO
@@ -73,7 +73,7 @@ BEGIN
      and c.DATACOMPRA between :pdta1 and :pdta2
      and md.CODPRODUTO = :CodPro
      and m.codalmoxarifado = 51
-     into :vlrCustoTotal;*/
+     into :vlrCustoTotal;
 
 
 
@@ -81,7 +81,7 @@ BEGIN
      Select sum(m.QUANTIDADE) from MOVIMENTO mov 
     inner join MOVIMENTODETALHE m on m.CODMOVIMENTO = mov.CODMOVIMENTO
     where m.codProduto = :codPRo 
-      and mov.DATAMOVIMENTO < :pdta1
+      and mov.DATAMOVIMENTO < '01.11.14'  -- coloquei data fixo aqui, pois, apos isso comecou a dar entrada PERCA e saida PATIO
       and mov.codnatureza = 1 
       and mov.CODALMOXARIFADO = :CPERDA
     group by mov.CODALMOXARIFADO
@@ -181,7 +181,7 @@ BEGIN
       VlrPerda = 0;      
     end
 
-    qtdeEstoque = qtdeEstoque - qtdePerda;
+    -- qtdeEstoque = qtdeEstoque - qtdePerda;
 
 
     if (qtdeCompra is null) then 

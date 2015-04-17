@@ -52,10 +52,16 @@ BEGIN
     acumula = 0;
     if (CCUSTO = 0) then 
       CCUSTO = 1;
+      
+    /* #########################              21/03/2015                                                ###############   
+       #########################  IMPORTANTE - NAO POSSO MOSTRAR DESCRICAO DIGITADA NA VENDA            ###############
+       #########################  POIS, 2 linhas do mesmo item da erro no estoque o sistema se perde    ############### */
+      
+      
     /* SAIDA */
     FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA, movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, 
-        COALESCE(movdet.DESCPRODUTO, prod.PRODUTO) 
+        prod.PRODUTO
         , prod.FAMILIA, prod.CATEGORIA, mov.OBS, prod.VALORUNITARIOATUAL, 
         prod.VALOR_PRAZO, UDF_LEFT(movdet.OBS,99), prod.PRODUTO
         FROM MOVIMENTO mov
@@ -100,7 +106,7 @@ BEGIN
     FOR SELECT distinct l.codlote, mov.datamovimento, mov.CODMOVIMENTO, natu.BAIXAMOVIMENTO, natu.DESCNATUREZA,
          movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO,
-         COALESCE(movdet.DESCPRODUTO, prod.PRODUTO) 
+          prod.PRODUTO
          , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
         , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.OBS, prod.PRODUTO
         FROM MOVIMENTO mov

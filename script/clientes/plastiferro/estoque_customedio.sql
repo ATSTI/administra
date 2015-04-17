@@ -10,9 +10,14 @@ RETURNS (
     SALDOINICIAL DOUBLE PRECISION,
     QTDEENTRADAS DOUBLE PRECISION )
 AS
+declare variable tipopreco varchar(20);
 BEGIN
-  /* 122 */
-  /*custo inicial  */
+  -- 2.1
+  tipopreco = 'PRECOMEDIO';
+  SELECT dados from parametro where parametro = 'PRECOESTOQUE'
+    into :tipopreco;
+    
+  --custo inicial 
   select ev.PRECOCUSTO, ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(UDF_INCDAY(:dataini,-1), :codproduto, 51, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
     into :custoinicial, :saldoinicial;
   if (custoinicial is null) then 
@@ -21,9 +26,12 @@ BEGIN
     saldoinicial = 0;  
   if (saldoinicial = 0) then 
     custoinicial = 0; 
+    
+  if (saldoinicial < 0) then 
+    saldoinicial = 0;  
       
-  /*custo no periodo           */
-  select (case when sum(md.QUANTIDADE) > 0 then (sum(md.VALTOTAL) / sum(md.QUANTIDADE)) else 0 end) as CUSTOMEDIO, sum(md.QUANTIDADE) 
+  --custo no periodo          
+  select (case when sum(md.QUANTIDADE) > 0 then ((sum(md.VALTOTAL+(coalesce(md.VIPI,0)+coalesce(md.FRETE,0)+coalesce(md.ICMS_SUBST,0)))) / sum(md.QUANTIDADE)) else 0 end) as CUSTOMEDIO, sum(md.QUANTIDADE) 
   from compra c, movimento m, MOVIMENTODETALHE md, NATUREZAOPERACAO np
    where m.CODMOVIMENTO = c.CODMOVIMENTO
      and md.CODMOVIMENTO = m.CODMOVIMENTO
@@ -43,21 +51,23 @@ BEGIN
   end   
   
   if ((qtdeEntradas + saldoinicial) > 0) then 
-    customedio = ((custoentradas*qtdeentradas)+(saldoinicial*custoinicial))/(qtdeentradas+saldoinicial);
+   customedio = ((custoentradas*qtdeentradas)+(saldoinicial*custoinicial))/(qtdeentradas+saldoinicial);
     
   if (customedio is null) then 
     customedio = custoinicial;  
   
-  if (customedio is null) then 
-  begin 
-    select p.PRECOMEDIO from produtos p where p.CODPRODUTO = :codproduto
-    into :customedio;
-  end 
   
   if (customedio is null) then 
     customedio = 0;
   if ((saldoinicial + qtdeentradas) > 0) then   
     customedio = ((saldoinicial * custoinicial) + (qtdeentradas * custoentradas))/(saldoinicial + qtdeEntradas);  
+
+  if ((customedio is null) or (tipopreco = 'ULTIMACOMPRA')) then 
+  begin 
+    select coalesce(p.VALORUNITARIOATUAL, COALESCE(p.PRECOMEDIO,0)) from produtos p where p.CODPRODUTO = :codproduto
+    into :customedio;
+  end 
+
   suspend; 
 END^
 SET TERM ; ^

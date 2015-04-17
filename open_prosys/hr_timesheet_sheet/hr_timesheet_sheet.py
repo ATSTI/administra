@@ -29,6 +29,7 @@ from openerp.osv import fields, osv
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 from openerp import netsvc
+import pdb
 
 class hr_timesheet_sheet(osv.osv):
     _name = "hr_timesheet_sheet.sheet"
@@ -104,10 +105,10 @@ class hr_timesheet_sheet(osv.osv):
                                         'date_to': vals.get('date_to'),
                                         'user_id': new_user_id,
                                         'manager_id': vals.get('manager_id'),})
-        #pdb.set_trace()
+        pdb.set_trace()
         man_obj = self.pool.get('hr.analytic.timesheet')
         for row in cr.fetchall():
-            man_id = man_obj.search(cr, uid, [('id', '=', row[0])], context=context)
+            man_id = man_obj.search(cr, uid, [('line_id', '=', row[0])], context=context)
             if not man_id:
                 insere = {}
                 insere['line_id'] = row[0]

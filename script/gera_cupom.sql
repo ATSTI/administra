@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE GERA_CUPOM (
     CODMOV integer )
 AS
@@ -62,8 +63,14 @@ begin
   if(CODNATUREZA is null) then
   begin    
     -- CFOP Padrao
-    SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
+    SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP_CUPOM'
       INTO :cfop, cfop_outros;
+      
+    if (cfop is null) then  
+    BEGIN
+      SELECT DADOS, D1 FROM PARAMETRO WHERE PARAMETRO = 'CFOP'
+        INTO :cfop, cfop_outros;
+    end
 
     select first 1 ende.uf, m.CODCLIENTE, cli.CFOP, cli.codfiscal from ENDERECOCLIENTE ende
     inner join MOVIMENTO m on m.CODCLIENTE = ende.CODCLIENTE
@@ -77,17 +84,19 @@ begin
       cfop_cli = '';
     
     cfop_ = cfop;
-    if (uf <> 'SP') then 
+    /* vai carregar o CFOP do PARAMETRO 02/04/15 */
+    /*if (uf <> 'SP') then 
     begin
       cfop = cfop_outros;
       cfop_ = cfop;
-    end
+    end*/
     
-    if (cfop_cli <> '')then
+    /* vai carregar o CFOP do PARAMETRO 02/04/15 */
+    /*if (cfop_cli <> '')then
     begin
       cfop = cfop_cli;
       cfop_ = cfop;
-    end
+    end */
 
     select GEN_ID(GENMOV, 1) from RDB$DATABASE
       into :codMovNovo;
@@ -104,17 +113,17 @@ begin
     end 
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.CST, md.OBS, md.CFOP, md.vlr_base
+      , md.ICMS, prod.BASE_ICMS, prod.CST, md.OBS, md.vlr_base
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :cstProd, :obsp, :cfop, :vlr_base
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :cstProd, :obsp, :vlr_base
     do begin 
-        
-    if(:cfop = '') then
+    /* vai carregar o CFOP do PARAMETRO 02/04/15 */    
+    /*if(:cfop = '') then
         cfop = :cfop_;
     if(:cfop is null) then
-        cfop = :cfop_;
+        cfop = :cfop_;*/
 
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade, preco, un, descProduto, icms, valor_icms, cst, vlr_base, OBS, CFOP) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde, :preco, :un, :descP, :icms, :valoricms, :cst, :vlr_base, :obsp, :cfop);  

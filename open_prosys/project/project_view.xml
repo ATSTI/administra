@@ -357,7 +357,7 @@
                     <notebook>
                         <page string="Description">
                             <field name="description" attrs="{'readonly':[('state','=','done')]}" placeholder="Add a Description..."/>
-							<field name="work_ids" groups="project.group_tasks_work_on_tasks" editable="top">
+							<field name="work_ids" groups="project.group_tasks_work_on_tasks" >
                                 <tree string="Apontamento" >
                                     <field name="name"/>
                                     <field name="hours_in" widget="float_time"/>
@@ -367,7 +367,7 @@
                                     <field name="date_base" />
                                     <field name="user_id"/>
                                 </tree>
-                                <form string="Apontamento">
+                                <form string="Apontamento" editable="top">
                                     <sheet string="Detalhes">
                                         <group col="2">
                                             <field name="name"/>
