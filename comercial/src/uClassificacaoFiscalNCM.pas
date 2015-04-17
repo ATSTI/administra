@@ -163,6 +163,26 @@ type
     cdsClassFiscDADOSADC6: TStringField;
     Label17: TLabel;
     dxButton11: TdxButton;
+    Label22: TLabel;
+    DBEdit24: TDBEdit;
+    sdsClassFiscALIQ_CUPOM: TStringField;
+    cdsClassFiscALIQ_CUPOM: TStringField;
+    sdsNCMCopiaORIGEM: TIntegerField;
+    sdsNCMCopiaDADOSADC1: TStringField;
+    sdsNCMCopiaDADOSADC2: TStringField;
+    sdsNCMCopiaDADOSADC3: TStringField;
+    sdsNCMCopiaDADOSADC4: TStringField;
+    sdsNCMCopiaDADOSADC5: TStringField;
+    sdsNCMCopiaDADOSADC6: TStringField;
+    sdsNCMCopiaALIQ_CUPOM: TStringField;
+    cdsNCMCopiaORIGEM: TIntegerField;
+    cdsNCMCopiaDADOSADC1: TStringField;
+    cdsNCMCopiaDADOSADC2: TStringField;
+    cdsNCMCopiaDADOSADC3: TStringField;
+    cdsNCMCopiaDADOSADC4: TStringField;
+    cdsNCMCopiaDADOSADC5: TStringField;
+    cdsNCMCopiaDADOSADC6: TStringField;
+    cdsNCMCopiaALIQ_CUPOM: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -244,6 +264,7 @@ begin
       str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
       str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
       str := str + ', CODFISCAL = ' + QuotedStr(cdsClassFiscCODFISCAL.AsString);
+      str := str + ', ALIQ_CUPOM = ' + QuotedStr(cdsClassFiscALIQ_CUPOM.AsString);
       str := str + ', DADOSADC1 = ' + QuotedStr(cdsClassFiscDADOSADC1.AsString);
       str := str + ', DADOSADC2 = ' + QuotedStr(cdsClassFiscDADOSADC2.AsString);
       str := str + ', DADOSADC3 = ' + QuotedStr(cdsClassFiscDADOSADC3.AsString);
@@ -595,6 +616,7 @@ begin
   cdsClassFiscCOFINS.AsFloat := 0;
   cdsClassFiscCODFISCAL.AsString := '0';
   cdsClassFiscORIGEM.AsInteger := 0;
+  cdsClassFiscALIQ_CUPOM.AsString := '';
 end;
 
 procedure TfClassificacaoFiscalNCM.dxButton11Click(Sender: TObject);

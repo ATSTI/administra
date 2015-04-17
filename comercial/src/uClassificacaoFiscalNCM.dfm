@@ -448,8 +448,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
     end
     object Label14: TLabel
-      Left = 90
-      Top = 45
+      Left = 89
+      Top = 47
       Width = 39
       Height = 13
       Hint = 'Imposto sobre Produto Industrializado'
@@ -459,8 +459,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
     end
     object Label16: TLabel
-      Left = 213
-      Top = 45
+      Left = 212
+      Top = 47
       Width = 17
       Height = 13
       Hint = 'Imposto sobre Produto Industrializado'
@@ -470,8 +470,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
     end
     object Label20: TLabel
-      Left = 351
-      Top = 45
+      Left = 409
+      Top = 47
       Width = 56
       Height = 13
       Caption = 'Tipos Fiscal'
@@ -481,7 +481,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object Label18: TLabel
       Left = 281
-      Top = 45
+      Top = 47
       Width = 33
       Height = 13
       Hint = 
@@ -561,7 +561,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object Label13: TLabel
       Left = 6
-      Top = 45
+      Top = 44
       Width = 77
       Height = 16
       Cursor = crHandPoint
@@ -577,7 +577,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label13Click
     end
     object Label15: TLabel
-      Left = 143
+      Left = 142
       Top = 45
       Width = 50
       Height = 16
@@ -592,6 +592,28 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ParentFont = False
       Transparent = True
       OnClick = Label15Click
+    end
+    object Label22: TLabel
+      Left = 344
+      Top = 47
+      Width = 56
+      Height = 13
+      Hint = 
+        'Origem da mercadoria: '#13#10'0 - Nacional, exceto as indicadas nos c'#243 +
+        'digos 3 a 5.'#13#10'1 - Estrangeira - Importa'#231#227'o direta, exceto a indi' +
+        'cada no c'#243'digo 6.'#13#10'2 - Estrangeira - Adquirida no mercado intern' +
+        'o, exceto a indicada '#13#10'no c'#243'digo 7.'#13#10'3 - Nacional, mercadoria ou' +
+        ' bem com Conte'#250'do de Importa'#231#227'o '#13#10'superior a 40%.'#13#10'4 - Nacional,' +
+        ' cuja produ'#231#227'o tenha sido feita em conformidade '#13#10'com os process' +
+        'os produtivos b'#225'sicos de que tratam as legisla'#231#245'es '#13#10'citadas nos' +
+        ' Ajustes.'#13#10'5 - Nacional, mercadoria ou bem com Conte'#250'do de Impor' +
+        'ta'#231#227'o '#13#10'inferior ou igual a 40%.'#13#10'6 - Estrangeira - Importa'#231#227'o d' +
+        'ireta, sem similar nacional, constante '#13#10'em lista da CAMEX.'#13#10'7 -' +
+        ' Estrangeira - Adquirida no mercado interno, sem similar naciona' +
+        'l, '#13#10'constante em lista da CAMEX.'
+      Caption = 'Aliq. Cupom'
+      ParentShowHint = False
+      ShowHint = True
     end
     object DBEdit1: TDBEdit
       Left = 3
@@ -738,7 +760,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 14
     end
     object BitBtn1: TBitBtn
-      Left = 516
+      Left = 572
       Top = 40
       Width = 107
       Height = 42
@@ -753,7 +775,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ParentShowHint = False
       PopupMenu = PopupMenu1
       ShowHint = True
-      TabOrder = 18
+      TabOrder = 19
       Visible = False
       OnClick = BitBtn1Click
       Glyph.Data = {
@@ -857,8 +879,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object DBLookupComboBox1: TDBLookupComboBox
-      Left = 349
-      Top = 58
+      Left = 407
+      Top = 61
       Width = 162
       Height = 24
       BevelKind = bkFlat
@@ -875,7 +897,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ListSource = DtSrcTFiscal
       ParentCtl3D = False
       ParentFont = False
-      TabOrder = 17
+      TabOrder = 18
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
@@ -972,7 +994,21 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         9DA6AEC4F4F4F4F4F4F4F4F4F40316ABA1B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B49DA5AA8A160903030A8DADA4A7B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B4B4B415BCABA6A6A6A8AA9DB4B4B4B4B4B4B4B4B4B4B4B4B4}
-      TabOrder = 19
+      TabOrder = 20
+    end
+    object DBEdit24: TDBEdit
+      Left = 342
+      Top = 61
+      Width = 60
+      Height = 21
+      Hint = 
+        'II (ii) para ISENTO'#13#10'FF  Produto com Substitui'#231#227'o Tributaria'#13#10'Pr' +
+        'odutos Tributados informar a Aliquota :  1800  0700  1200'
+      DataField = 'ALIQ_CUPOM'
+      DataSource = DtSrc
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 17
     end
   end
   object panelAjuda: TPanel [6]
@@ -1111,6 +1147,11 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FieldName = 'DADOSADC6'
       Size = 200
     end
+    object sdsClassFiscALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -1218,6 +1259,11 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FieldName = 'DADOSADC6'
       Size = 200
     end
+    object cdsClassFiscALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
   end
   object dspClassFisc: TDataSetProvider
     DataSet = sdsClassFisc
@@ -1303,6 +1349,39 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object sdsNCMCopiaCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+    object sdsNCMCopiaORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+      Required = True
+    end
+    object sdsNCMCopiaDADOSADC1: TStringField
+      FieldName = 'DADOSADC1'
+      Size = 200
+    end
+    object sdsNCMCopiaDADOSADC2: TStringField
+      FieldName = 'DADOSADC2'
+      Size = 200
+    end
+    object sdsNCMCopiaDADOSADC3: TStringField
+      FieldName = 'DADOSADC3'
+      Size = 200
+    end
+    object sdsNCMCopiaDADOSADC4: TStringField
+      FieldName = 'DADOSADC4'
+      Size = 200
+    end
+    object sdsNCMCopiaDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object sdsNCMCopiaDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
+    end
+    object sdsNCMCopiaALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
   end
   object dspNCMCopia: TDataSetProvider
     DataSet = sdsNCMCopia
@@ -1387,6 +1466,39 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object cdsNCMCopiaCOFINS: TFloatField
       FieldName = 'COFINS'
+    end
+    object cdsNCMCopiaORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+      Required = True
+    end
+    object cdsNCMCopiaDADOSADC1: TStringField
+      FieldName = 'DADOSADC1'
+      Size = 200
+    end
+    object cdsNCMCopiaDADOSADC2: TStringField
+      FieldName = 'DADOSADC2'
+      Size = 200
+    end
+    object cdsNCMCopiaDADOSADC3: TStringField
+      FieldName = 'DADOSADC3'
+      Size = 200
+    end
+    object cdsNCMCopiaDADOSADC4: TStringField
+      FieldName = 'DADOSADC4'
+      Size = 200
+    end
+    object cdsNCMCopiaDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object cdsNCMCopiaDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
+    end
+    object cdsNCMCopiaALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
     end
   end
   object sdsTFiscal: TSQLDataSet
