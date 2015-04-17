@@ -59,7 +59,6 @@ type
     Consultar1: TMenuItem;
     Sair1: TMenuItem;
     VerMovimento1: TMenuItem;
-    btnSair: TBitBtn;
     BitBtn2: TBitBtn;
     sdscds1CODPRODUTO: TIntegerField;
     strngfldcds1COD_BARRA: TStringField;
@@ -97,6 +96,7 @@ type
     strngfldcds1LOTE: TStringField;
     rgEmUso: TCheckBox;
     Panel1: TPanel;
+    btnSair: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure FormShow(Sender: TObject);

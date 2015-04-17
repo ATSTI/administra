@@ -162,6 +162,7 @@ uses UDm, ufprocura_prod, uPdm, uProcurar, uRelestoque, sCtrlResize;
 procedure TfFiltroEstoque.FormCreate(Sender: TObject);
 var masc : string;
 begin
+  JvAppXMLFileStorage1.FileName := 'fEstoque_' + dm.empresa + '.xml';
   if (not sdsLote.Active) then
     sdsLote.Open;
   while not sdsLote.Eof do

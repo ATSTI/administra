@@ -135,7 +135,7 @@ var
 
 implementation
 
-uses UDm, uProcurar, uCompra, uComercial, uPdm, uFiltroMovimento,
+uses UDm, uProcurar, uCompra, uComercial, uPdm, 
   ufDlgLogin, uListadeCompra, uAgendamento, sCtrlResize, uRateioPag, dbXpress,
   uAtsAdmin, uCotacaoVer;
 
@@ -445,6 +445,7 @@ begin
 end;
 
 procedure TfFiltroMov_compra.BitBtn9Click(Sender: TObject);
+var cod_movfMov: Integer;
 begin
    varCodCompra := cds_cnsCODMOVIMENTO.AsInteger; // para uso no form fNFCompra
    if (fFiltroMov_compra.codigo <> 'LISTACOMPRA') then
@@ -455,10 +456,10 @@ begin
       if fCompra.cds_Movimento.IsEmpty then
        fCompra.cds_Movimento.Cancel
       else
-       fFiltroMovimento.cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
+       cod_movfMov := cds_cnsCODMOVIMENTO.AsInteger;
        fCompra.cds_Mov_det.Close;
        fCompra.cds_Mov_det.Params[0].Clear;
-       fCompra.cds_Mov_det.Params[1].AsInteger := fFiltroMovimento.cod_mov;
+       fCompra.cds_Mov_det.Params[1].AsInteger := cod_movfMov;
        fCompra.cds_Mov_det.Open;
        if (not DM.cds_ccusto.Active) then
            DM.cds_ccusto.Open;
@@ -475,10 +476,10 @@ begin
       if fListadeCompra.cds_Movimento.IsEmpty then
        fListadeCompra.cds_Movimento.Cancel
       else
-       fFiltroMovimento.cod_mov := cds_cnsCODMOVIMENTO.AsInteger;
+       cod_movfMov := cds_cnsCODMOVIMENTO.AsInteger;
        fListadeCompra.cds_Mov_det.Close;
        fListadeCompra.cds_Mov_det.Params[0].Clear;
-       fListadeCompra.cds_Mov_det.Params[1].AsInteger := fFiltroMovimento.cod_mov;
+       fListadeCompra.cds_Mov_det.Params[1].AsInteger := cod_movfMov;
        fListadeCompra.cds_Mov_det.Open;
        fListadeCompra.Label9.Caption := cds_cnsNOMEFORNECEDOR.AsString;
        fListadeCompra.DataEdit.Text := DateTimeToStr(cds_cnsDATAMOVIMENTO.AsDateTime);
@@ -534,6 +535,7 @@ end;
 
 procedure TfFiltroMov_compra.FormCreate(Sender: TObject);
 begin
+  JvAppXMLFileStorage1.FileName := 'fCompra_' + dm.empresa + '.xml';
   sCtrlResize.CtrlResize(TForm(fFiltroMov_compra));
   MMJPanel1.Background.EndColor   := dm.corStart;
   MMJPanel1.Background.StartColor := dm.corEnd;

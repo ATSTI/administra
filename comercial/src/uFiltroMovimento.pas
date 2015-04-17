@@ -187,7 +187,7 @@ uses uComercial, UDm, uProcurar, uListaClientes, uVendas, uPdm, ufDlgLogin,
 procedure TfFiltroMovimento.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
-
+  JvAppXMLFileStorage1.FileName := 'fVenda_' + dm.empresa + '.xml';
   //MMJPanel1.Background.EndColor   := dm.corStart;
   //MMJPanel1.Background.StartColor := dm.corEnd;
   //MMJPanel2.Background.EndColor   := dm.corEnd;
@@ -416,13 +416,13 @@ begin
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
-      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL,' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, ' + QuotedStr('Fornecedor') +
+      ' as NOMEFORNECEDOR, ven.NOTAFISCAL,' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
       ' , cli.BLOQUEIO, mov.DATA_ENTREGA, MOV.HIST_MOV  ' +
-      ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
+      ' from MOVIMENTO mov inner join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
-      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
-      ' mov.CODFORNECEDOR left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
+      ' = mov.CODNATUREZA left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
   end
   else begin
@@ -430,7 +430,8 @@ begin
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
-      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
+      ' nat.DESCNATUREZA, mov.CODFORNECEDOR, , ' + QuotedStr('Fornecedor') +
+      ' as NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
       ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
       ' , cli.BLOQUEIO , mov.DATA_ENTREGA, MOV.HIST_MOV ' +
       ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
@@ -480,7 +481,7 @@ begin
         ' and ' +
         '''' + formatdatetime('mm/dd/yy', medta2.Date) + '''';
     end;
-  end;  
+  end;
   //==============================================================================
   //------------------------------------------------------------------------------
   //Status
@@ -642,7 +643,7 @@ begin
   end;
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
       'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
-      'mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
+      'mov.CODFORNECEDOR, NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
       'ven.VALOR, ven.DATAVENDA, mov.NFE, mov.CODPEDIDO, cli.BLOQUEIO, mov.DATA_ENTREGA , MOV.HIST_MOV  ';
 
   ordenar := '';

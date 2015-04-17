@@ -1105,8 +1105,8 @@ inherited fInventario: TfInventario
     end
   end
   object Memo1: TMemo [4]
-    Left = 264
-    Top = 144
+    Left = 184
+    Top = 224
     Width = 465
     Height = 393
     Lines.Strings = (

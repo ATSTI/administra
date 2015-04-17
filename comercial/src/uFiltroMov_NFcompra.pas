@@ -120,7 +120,7 @@ var
 
 implementation
 
-uses UDm, uProcurar, uCompra, uComercial, uPdm, uFiltroMovimento,
+uses UDm, uProcurar, uCompra, uComercial, uPdm,
   ufDlgLogin, uListadeCompra, uAgendamento, sCtrlResize, uRateioPag,
   uNotaf1, UDMNF, uFiltroMov_compra;
 

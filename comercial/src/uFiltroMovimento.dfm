@@ -1775,7 +1775,7 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object cds_cns: TClientDataSet
     Aggregates = <>
-    PacketRecords = 15
+    FetchOnDemand = False
     Params = <>
     ProviderName = 'dsp_cns'
     Left = 390

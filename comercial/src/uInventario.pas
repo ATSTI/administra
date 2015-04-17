@@ -290,7 +290,7 @@ begin
               lote := sqlEstoqueLOTE.asString;
               sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
                 ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
-                QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
+                QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Dta.Date)) +
                 ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
                 QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
                 QuotedStr(cdsProdUNIDADEMEDIDA.AsString) ;
