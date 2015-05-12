@@ -506,29 +506,32 @@ begin
 
   if not (dm.cds_parametroCONFIGURADO.AsString = 'N') then
   begin
-    if (Edit1.Visible) then
+    if (dm.cds_parametroD1.AsString <> 'SEMSERIE') then
     begin
-      if (Edit1.Text = '') then
+      if (Edit1.Visible) then
       begin
-        if scds_serie_proc.Active then
-          scds_serie_proc.Close;
-        scds_serie_proc.Params[0].AsString:='O';
-        scds_serie_proc.Open;
-        Edit1.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+        if (Edit1.Text = '') then
+        begin
+          if scds_serie_proc.Active then
+            scds_serie_proc.Close;
+          scds_serie_proc.Params[0].AsString:='O';
+          scds_serie_proc.Open;
+          Edit1.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+        end;
       end;
-    end;
 
-    if (Edit2.Visible) then
-    begin
-      if (Edit2.Text = '') then
+      if (Edit2.Visible) then
       begin
-        if scds_serie_proc.Active then
-          scds_serie_proc.Close;
-        scds_serie_proc.Params[0].AsString:='I';
-        scds_serie_proc.Open;
-        Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+        if (Edit2.Text = '') then
+        begin
+          if scds_serie_proc.Active then
+            scds_serie_proc.Close;
+          scds_serie_proc.Params[0].AsString:='I';
+          scds_serie_proc.Open;
+          Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+        end;
       end;
-    end;
+    end;  
   end;
 end;
 
