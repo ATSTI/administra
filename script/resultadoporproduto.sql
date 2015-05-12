@@ -30,6 +30,7 @@ BEGIN
     WHERE ((p.MARCA = :MARCA) OR (:MARCA = 'TODAS AS MARCAS DO CADASTRO'))
         and ((p.CATEGORIA = :CATEGORIA) OR (:CATEGORIA = 'TODAS AS CATEGORIAS CADASTRO'))     
         and ((p.FAMILIA = :FAMILIA) OR (:FAMILIA = 'TODAS AS FAMILIAS DO CADASTRO'))     
+        and (p.USA is null)
         order by p.CODPRODUTO
   INTO :CP, :CODPRO, :PRODUTO
   DO BEGIN
@@ -53,6 +54,7 @@ BEGIN
       WHERE (m.CODMOVIMENTO = md.CODMOVIMENTO) and 
         (nt.CODNATUREZA = m.CODNATUREZA) and (nt.BAIXAMOVIMENTO = 1) and 
         (m.DATAMOVIMENTO BETWEEN :DTAINI AND :DTAFIM) and md.CODPRODUTO = :CP
+        and (md.BAIXA = 1)
         and ((m.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 999999)) 
       INTO :QTDE, :VLR 
     do begin
