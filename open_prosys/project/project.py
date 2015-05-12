@@ -1381,6 +1381,9 @@ class project_work(osv.osv):
                         if row[3] > sheet.hours_in:
                             apontamento_existe = 's'
                             msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
+                        if row[2] < sheet.hours_out:
+                            apontamento_existe = 's'
+                            msg_apontado = ('%s : %s - %s na OS: %s') %(row[1], row[2], row[3], row[4])
                     else:
                         if row[2] >= sheet.hours_in and row[2] < sheet.hours_out:
                             apontamento_existe = 's'
