@@ -2323,10 +2323,10 @@ begin
         Dest.EnderDest.cPais   := StrToInt(sFornecCODPAIS.asString);
       Dest.EnderDest.xPais   := sFornecPAIS.AsString;
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
-
+      IERG := 0;
       IERG := StrLen(PChar(RemoveChar(sFornecINSCESTADUAL.AsString)));
-      if (sFornecTIPOFIRMA.AsInteger = 0) then
-        IERG := 0;
+      //if (sFornecTIPOFIRMA.AsInteger = 0) then
+      //  IERG := 0;
       if (IERG = 0) then
       begin
         Dest.indIEDest := inNaoContribuinte;
@@ -2401,9 +2401,10 @@ begin
         Dest.indIEDest := inIsento;
       end
       else begin
+        IERG := 0;
         IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
-        if (sClienteTIPOFIRMA.AsInteger = 0) then
-          IERG := 0;
+        //if (sClienteTIPOFIRMA.AsInteger = 0) then
+        //  IERG := 0;
 
         if (IERG = 0) then
         begin
