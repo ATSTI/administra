@@ -747,7 +747,7 @@ begin
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cds_compraCODCOMPRA.AsInteger;
   scdsCr_proc.Open;
-  
+
 end;
 
 procedure TfCompraFinalizar.DBEdit8Exit(Sender: TObject);
@@ -1739,7 +1739,11 @@ var     usu_n, usu_s, str : string;
         FEstoque : TEstoque;
         dataCompra  : TDateTime;
         codmov : Integer;
+ Save_Cursor:TCursor;
 begin
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
   dataCompra   := cds_compraDATACOMPRA.AsDateTime;
   codmov       := cds_compraCODMOVIMENTO.AsInteger;
   usu_n        := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
@@ -1794,6 +1798,9 @@ begin
       end;
     end;
   end;
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end;  
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
 

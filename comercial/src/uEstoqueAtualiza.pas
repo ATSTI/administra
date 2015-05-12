@@ -23,7 +23,7 @@ procedure TEstoqueAtualiza.atualiza;
 var strBuscaItem: string;
   strEstoqueAtual: String;
   strAtualiza: String;
-  strAtualizaLote: String;
+ strAtualizaLote: String;
   sqlB: TSqlQuery;
   strMudaStatus: String;
   codProd : Integer;

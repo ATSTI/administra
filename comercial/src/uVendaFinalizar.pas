@@ -1283,7 +1283,11 @@ var    utilcrtitulo : Tutils;
   dataVenda: TDateTime;
   FMov : TMovimento;
   FRec : TReceberCls;
+  Save_Cursor:TCursor;
 begin
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
   {if scdscr_proc.Active then
      scdscr_proc.Close;
   scdscr_proc.Params[0].Clear;
@@ -1420,6 +1424,10 @@ begin
   end
   else
     BitBtn2.Click;
+
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end;
 
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
