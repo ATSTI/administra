@@ -25,6 +25,7 @@ from openerp.osv import fields, osv
 from openerp import pooler
 from openerp import tools
 from openerp.tools.translate import _
+import pdb
 
 class project_project(osv.osv):
     _inherit = 'project.project'
@@ -125,7 +126,10 @@ class project_work(osv.osv):
             vals_line['name'] = '%s: %s' % (tools.ustr(task_obj.name), tools.ustr(vals['name'] or '/'))
             vals_line['user_id'] = vals['user_id']
             vals_line['product_id'] = result['product_id']
-            vals_line['date'] = vals['date'][:10]
+            #vals_line['date'] = vals['date'][:10]
+            timestamp = datetime.datetime.strptime(vals['date'], tools.DEFAULT_SERVER_DATETIME_FORMAT)
+            ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
+            vals_line['date'] = ts.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
             vals_line['hours_in'] = vals['hours_in']
             vals_line['hours_out'] = vals['hours_out']
             vals_line['date_base'] = vals['date_base'][:10]
@@ -241,10 +245,9 @@ class project_work(osv.osv):
                     vals_line['amount'] = amount_unit['value']['amount']
 
             #vals_line['work_id'] = ids[0]
-
+            #pdb.set_trace()
             if vals_line:
-                self.pool.get('hr.analytic.timesheet').write(cr, uid, 
-                        [line_id.id], vals_line, context=context)
+                self.pool.get('hr.analytic.timesheet').write(cr, uid,[line_id.id], vals_line, context=context)
 
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
@@ -279,14 +282,20 @@ class task(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
             context = {}
+        #if vals.get('project_id',False) or vals.get('name',False):
         if vals.get('project_id',False) or vals.get('name',False):
             vals_line = {}
+            #vals_acc = {}
             hr_anlytic_timesheet = self.pool.get('hr.analytic.timesheet')
             if vals.get('project_id',False):
                 project_obj = self.pool.get('project.project').browse(cr, uid, vals['project_id'], context=context)
                 acc_id = project_obj.analytic_account_id.id
+            #pdb.set_trace()
 
             for task_obj in self.browse(cr, uid, ids, context=context):
+                project_obj = self.pool.get('project.project').browse(cr, uid, task_obj.project_id.id, context=context)
+                #acc_id = project_obj.analytic_account_id.id
+                #acc_obj = self.pool.get('account.analytic.line')
                 if len(task_obj.work_ids):
                     for task_work in task_obj.work_ids:
                         if not task_work.hr_analytic_timesheet_id:
@@ -296,7 +305,17 @@ class task(osv.osv):
                             vals_line['account_id'] = acc_id
                         if vals.get('name',False):
                             vals_line['name'] = '%s: %s' % (tools.ustr(vals['name']), tools.ustr(task_work.name) or '/')
+                        #vals_line['hours_in'] = task_work.hours_in
+                        #vals_line['hours_out'] = task_work.hours_out
+                        #vals_line['unit_amount'] = task_obj.total_hours
                         hr_anlytic_timesheet.write(cr, uid, [line_id], vals_line, {})
+            
+                        # inseri pra atualizar a account_an_line ..
+                        #hr_analytic_t = hr_anlytic_timesheet.browse(cr, uid, [line_id], context=context)[0]
+                        #acc_id = hr_analytic_t.line_id.id
+                        #acc_obj.write(cr, uid, [acc_id], vals_acc, {})
+
+
         return super(task,self).write(cr, uid, ids, vals, context)
 
 task()
