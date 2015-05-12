@@ -2301,6 +2301,14 @@ begin
       mudaVersao('3.1.0.10');
     end;
 
+    if (versaoSistema = '3.1.0.10') then
+    begin
+      insereouatualizaScript('estoque_produto_atualiza.sql', '3.1.0.10', StrToDate('01/04/2015'));
+      insereouatualizaScript('os_excluir.sql', '3.1.0.10', StrToDate('01/04/2015'));      
+      AtualizandoScript('3.1.0.10');
+      mudaVersao('3.2.0.0');
+    end;
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
