@@ -11,6 +11,7 @@
 					<field name="abrev" />
 					<field name="code" />
 					<field name="course_id" />
+					<field name="partner_id" />
 				</tree>
 			</field>
 		</record>
@@ -27,6 +28,7 @@
 					        <field name="abrev" />
 							<field name="code" />
 							<field name="course_id" />
+					        <field name="partner_id" domain="[('ref','=', True)]"/>
 						</group>
 					</sheet>
 				</form>
@@ -42,10 +44,12 @@
 					<field name="abrev" />
 					<field name="code" />
 					<field name="course_id" />
+					<field name="partner_id" />
 					<newline />
 					<group expand="0" string="Group By...">
 						<filter string="Name" domain="[]" context="{'group_by':'name'}" />
 						<filter string="Code" domain="[]" context="{'group_by':'code'}" />
+						<filter string="Professor" domain="[]" context="{'group_by':'partner_id'}" />
 					</group>
 				</search>
 			</field>

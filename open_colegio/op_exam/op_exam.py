@@ -23,6 +23,7 @@ from datetime import datetime
 from openerp import tools
 from openerp.tools.translate import _
 import time
+#import pdb
 
 class op_exam(osv.osv):
     _name = 'op.exam'
@@ -60,16 +61,17 @@ class op_exam_session(osv.osv):
 
     _columns = {
             'name': fields.char(size=64, string='Exame', required=True),
-            'course_id': fields.many2one('op.course', string='Turma', required=True),
+            'course_id': fields.many2one('op.course', string='Curso', required=True),
             'state': fields.selection([('n','Novo'),('a', 'Andamento'),('d','Encerrado'),('c','Cancelado')], string='Situação', select=True, readonly=True),
-            'classroom_id':fields.many2one('op.classroom',string='Período', required=True),
+            'classroom_id':fields.many2one('op.classroom',string='Turma', required=True),
             'type_id': fields.many2one('op.exam.type', string='Disciplina', required=True),
             'exam_ids':fields.one2many('op.exam','session_id','Exames'),
             'partner_id': fields.many2one('res.users', 'Professor', required=True, select=True),
             'user_id': fields.many2one('res.users', 'Usuário', select=True, track_visibility='onchange'),
             'data_exame': fields.date(string='Data exame', required=True),
             'aulas_dadas':fields.float('Aulas dadas'),
-            'bimestre': fields.selection([('01','1. Bim.'),('02','2. Bim.'),('03','3. Bim'),('4','04. Bim.'),('05','Outros')], string='Período', select=True, required=True),
+            'bimestre': fields.selection([('01','1. Bim.'),('02','2. Bim.'),('03','3. Bim'),('04','04. Bim.'),('05','Outros')], string='Período', select=True, required=True),
+            'tipo_prova': fields.selection([('1','Mensal'),('2','Bimestral'),('3','Trabalho'),('4','Simulado'),('5','Outro')], string='Tipo Prova', select=True, required=True),
     }
 
     _defaults = {
@@ -116,6 +118,49 @@ class op_exam_session(osv.osv):
 
     def set_andamento(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'a'}, context=context)
+
+    def copiar_notas_simulado(self, cr, uid, ids, context=None):
+        disc_obj = self.pool.get('op.exam.type')
+        session_obj = self.pool.get('op.exam.session')
+        notas_obj = self.pool.get('op.exam')
+        #vals = {}
+        # pegando o curso
+        for trm in self.browse(cr, uid, ids, context=context):
+            disc_ids = disc_obj.search(cr, uid, [('course_id', '=', trm.course_id.id)], context=context)
+            vals = {'classroom_id': trm.classroom_id.id,
+                    'data_exame': trm.data_exame,
+                    'bimestre': trm.bimestre,
+                    'aulas_dadas': trm.aulas_dadas,
+                    'user_id': trm.user_id.id,
+                    'course_id': trm.course_id.id,
+                    'tipo_prova': trm.tipo_prova,
+            }
+            # pegando as materias do curso
+            #pdb.set_trace()
+            for t in disc_obj.browse(cr, uid, disc_ids, context=context):
+                # pulando a disciplina ja digitada e professor
+                if t.partner_id and t.id != trm.type_id.id:
+                    vals['type_id'] = t.id
+                    vals['partner_id'] = t.partner_id.id
+                    vals['user_id'] = t.partner_id.id
+                    # verificar se ja foi criado
+                    exam_id = session_obj.search(cr, uid, [('course_id', '=', trm.course_id.id),('type_id','=', t.id),('bimestre','=',trm.bimestre),('data_exame','=',trm.data_exame),('classroom_id','=',trm.classroom_id.id)], context=context)
+                    if not exam_id:
+                        s_id = session_obj.create(cr, uid, vals)
+
+                        # pegando os alunos e notas
+                        # for tm in notas_obj.browse(cr, uid, ids, context=context):
+                        for tm in trm.exam_ids:
+                            #pulando o professor ja digitado
+                            #if t.partner_id != tm.partner_id:
+                            vals_exam = {'student_id': tm.student_id.id,
+                                         'avaliacao': tm.avaliacao,
+                                         'falta': tm.falta,
+                                         'classroom_id': tm.classroom_id.id,
+                                         'session_id': s_id,
+                            }
+                            notas_obj.create(cr, uid, vals_exam)
+
 
     def generate_turma(self, cr, uid, ids,  context=None):
         #pdb.set_trace()

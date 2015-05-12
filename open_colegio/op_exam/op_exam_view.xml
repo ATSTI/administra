@@ -140,6 +140,7 @@
 					<field name="classroom_id" />
 					<field name="type_id" />
 					<field name="state" />
+					<field name="tipo_prova" />
 				</tree>
 			</field>
 		</record>
@@ -157,6 +158,7 @@
 					<field name="classroom_id" />
 					<field name="type_id" />
 					<field name="state" />
+					<field name="tipo_prova" />
 				</tree>
 			</field>
 		</record>
@@ -200,11 +202,12 @@
                         <field name="course_id" />
                         <field name="classroom_id" domain="[('course_id', '=', course_id)]" />
                         <field name="type_id" domain="[('course_id', '=', course_id)]" />
-                        <field name="name" readonly="1" string='Exame'/>
                         <field name="bimestre" />
+						<field name="tipo_prova" />
                         <field name="data_exame" />
                         <field name="partner_id" />
                         <field name="aulas_dadas" />
+                        <field name="name" readonly="1" string='Exame'/>
                         <field name="exam_ids" colspan="4" nolabel="1">
                             <tree string="Alunos" editable="botton">
                                 <field name="student_id" readonly="1"/>
@@ -225,6 +228,7 @@
             <field name="arch" type="xml">
                 <form string="Exame" version="7.0">
                     <header>
+                        <button name="copiar_notas_simulado" type='object' string='Copiar Simulado' states="a"/> 
                         <button name="generate_turma" type="object" string="Criar Turma para exame" states="n"/>
                         <button name="set_done" string="Notas Finalizadas" type="object" states="a" groups="base.group_user"/>
                         <button name="set_andamento" string="Retornar Andamento" type="object" states="d,c" groups="base.group_user"/>
@@ -241,6 +245,8 @@
 							<field name="type_id" domain="[('course_id', '=', course_id)]" />
 							<field name="classroom_id" domain="[('course_id', '=', course_id)]" />
 							<field name="aulas_dadas" />
+							<field name="tipo_prova" />
+							<field name="bimestre" />
 							<field name="exam_ids" colspan="4" nolabel="1">
 								<tree string="Alunos" editable="botton">
 									<field name="student_id" />
@@ -295,6 +301,7 @@
 					<field name="course_id" select="True" />
 					<field name="classroom_id" select="True" />
 					<field name="partner_id" select="True" />
+					<field name="tipo_prova" select="True" />
                     <group expand="0" string="Group By...">
                         <filter name="grupo_sala" string="Período" icon="terp-personal" domain="[]" context="{'group_by' : 'classroom_id'}" />
 					</group>

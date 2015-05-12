@@ -28,6 +28,7 @@ class op_exam_type(osv.osv):
             'abrev': fields.char(size=4, string='Cód. Mat.'),
             'code': fields.char(size=4, string='Code', required=True),
             'course_id': fields.many2one('op.course', 'Course', required=True),
+            'partner_id': fields.many2one('res.users', 'Professor', select=True),
     }
 
 op_exam_type()
