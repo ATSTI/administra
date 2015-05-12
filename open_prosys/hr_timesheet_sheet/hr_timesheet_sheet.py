@@ -105,7 +105,7 @@ class hr_timesheet_sheet(osv.osv):
                                         'date_to': vals.get('date_to'),
                                         'user_id': new_user_id,
                                         'manager_id': vals.get('manager_id'),})
-        pdb.set_trace()
+        #pdb.set_trace()
         man_obj = self.pool.get('hr.analytic.timesheet')
         for row in cr.fetchall():
             man_id = man_obj.search(cr, uid, [('line_id', '=', row[0])], context=context)
@@ -219,21 +219,26 @@ class hr_timesheet_sheet(osv.osv):
         if r=='month':
             return time.strftime('%Y-%m-01')
         elif r=='week':
-            return (datetime.today() + relativedelta(weekday=0, days=-6)).strftime('%Y-%m-%d')
+            #return (datetime.today() + relativedelta(weekday=0, days=-6)).strftime('%Y-%m-%d')
+            return (datetime.today() + relativedelta(weekday=0, days=-6)).strftime(DEFAULT_SERVER_DATE_FORMAT)
         elif r=='year':
             return time.strftime('%Y-01-01')
-        return time.strftime('%Y-%m-%d')
+        #return time.strftime('%Y-%m-%d')
+        return fields.date.context_today(self, cr, uid, context)
 
     def _default_date_to(self, cr, uid, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         r = user.company_id and user.company_id.timesheet_range or 'month'
         if r=='month':
-            return (datetime.today() + relativedelta(months=+1,day=1,days=-1)).strftime('%Y-%m-%d')
+            #return (datetime.today() + relativedelta(months=+1,day=1,days=-1)).strftime('%Y-%m-%d')
+            return (datetime.today() + relativedelta(months=+1,day=1,days=-1)).strftime(DEFAULT_SERVER_DATE_FORMAT)
         elif r=='week':
-            return (datetime.today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')
+            #return (datetime.today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')
+            return (datetime.today() + relativedelta(weekday=6)).strftime(DEFAULT_SERVER_DATE_FORMAT)
         elif r=='year':
             return time.strftime('%Y-12-31')
-        return time.strftime('%Y-%m-%d')
+        #return time.strftime('%Y-%m-%d')
+        return fields.date.context_today(self, cr, uid, context)
 
     def _default_employee(self, cr, uid, context=None):
         emp_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id','=',uid)], context=context)
@@ -294,7 +299,8 @@ class hr_timesheet_sheet(osv.osv):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-        return [(r['id'], _('Week ')+datetime.strptime(r['date_from'], '%Y-%m-%d').strftime('%U')) \
+        #return [(r['id'], _('Week ')+datetime.strptime(r['date_from'], '%Y-%m-%d').strftime('%U')) \
+        return [(r['id'], _('Week ')+datetime.strptime(r['date_from'], DEFAULT_SERVER_DATE_FORMAT).strftime('%U')) \
                 for r in self.read(cr, uid, ids, ['date_from'],
                     context=context, load='_classic_write')]
 
@@ -499,7 +505,8 @@ class hr_attendance(osv.osv):
             context = {}
         if 'name' in context:
             return context['name'] + time.strftime(' %H:%M:%S')
-        return time.strftime('%Y-%m-%d %H:%M:%S')
+        #return time.strftime('%Y-%m-%d %H:%M:%S')
+        return time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     def _get_hr_timesheet_sheet(self, cr, uid, ids, context=None):
         attendance_ids = []
@@ -511,8 +518,13 @@ class hr_attendance(osv.osv):
                                INNER JOIN resource_resource r
                                        ON (e.resource_id = r.id)
                             ON (a.employee_id = e.id)
-                        WHERE %(date_to)s >= date_trunc('day', a.name)
-                              AND %(date_from)s <= a.name
+                         LEFT JOIN ((
+                           SELECT u.id AS user_id, coalesce(p.tz, current_setting('TIMEZONE')) AS tz
+                              FROM res_users AS u
+                               LEFT JOIN res_partner AS p ON p.id=u.partner_id
+                               )) AS z ON z.user_id=r.user_id
+                              WHERE %(date_to)s >= date_trunc('day', a.name AT TIME ZONE 'UTC' AT TIME ZONE z.tz)
+                             AND %(date_from)s <= date_trunc('day', a.name AT TIME ZONE 'UTC' AT TIME ZONE z.tz)
                               AND %(user_id)s = r.user_id
                          GROUP BY a.id""", {'date_from': ts.date_from,
                                             'date_to': ts.date_to,
