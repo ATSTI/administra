@@ -2092,6 +2092,7 @@ type
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
     procedure verificaTamCampo;
     procedure EstoqueAtualiza(codMovimento: integer);
+    procedure EstoqueAtualizaSemThread(codMovimento: integer);
     function validaClienteParaNF(codCliente: Integer): Boolean;
     function validaClienteParaVenda(codCliente: Integer): String;
     function cfopCalculoFiscal(cfop, tipoFiscal, UF: String;
@@ -3427,64 +3428,9 @@ var ThreadEstoque: TEstoqueAtualiza;
 //  strAtualizaLote: String;
 begin
   EstoquecodMOV := codMovimento;
-  {if (cdsBusca.Active) then
-    cdsBusca.Close;
-  cdsBusca.CommandText := 'SELECT p.CODPRODUTO, p.CODALMOXARIFADO, p.LOTE, ' +
-    ' p.PRECO_CUSTO, p.ESTOQUE, p.PRECO_COMPRA, p.USA_LOTE, p.CODLOTE, p.ESTOQUELOTE ' +
-    ' FROM ESTOQUE_ATUALIA (' + IntToStr(codMovimento) + ') p';
-  cdsBusca.Open;
-  DecimalSeparator := '.';
-  TDA.TransactionID  := 1;
-  TDA.IsolationLevel := xilREADCOMMITTED;
-  sqlsisAdimin.StartTransaction(TDA);
-  try
-    while not cdsBusca.eof do
-    begin
-      strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
-      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
-      strAtualiza := strAtualiza + ' , PRECOMEDIO = ';
-      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('PRECO_CUSTO').asfloat);
-      strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
-      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('ESTOQUE').asfloat);
-      strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
-      IntToStr(cdsBusca.FieldByName('CODPRODUTO').asInteger);
-      // atualiza lote
-      if (cdsBusca.FieldByName('USA_LOTE').asString = 'S') then
-      begin
-        if (cdsBusca.FieldByName('CODLOTE').AsInteger = 0) then
-        begin
-          strAtualizaLote := 'INSERT INTO LOTES (LOTE, CODPRODUTO, DATAFABRICACAO ' +
-            ', DATAVENCIMENTO, ESTOQUE, PRECO) VALUES (';  // , NOTAFISCAL, SERIEINI, SERIEFIM
-          strAtualizaLote := strAtualizaLote + QuotedStr(cdsBusca.FieldByName('LOTE').AsString);
-          strAtualizaLote := strAtualizaLote + ', ' + InttoStr(cdsBusca.FieldByName('CODLOTE').AsInteger);
-          strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
-          strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
-          strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(cdsBusca.FieldByName('ESTOQUELOTE').asfloat);
-          strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
-          strAtualizaLote := strAtualizaLote + ')';
-        end
-        else
-        begin
-          strAtualizaLote := 'UPDATE LOTES SET ESTOQUE = ' +
-            FloatToStr(cdsBusca.FieldByName('ESTOQUELOTE').asfloat) +
-            ' WHERE CODLOTE = ' + IntToStr(cdsBusca.FieldByName('CODLOTE').AsInteger);
-        end;
-        sqlsisAdimin.ExecuteDirect(strAtualizaLote);
-      end;
-      sqlsisAdimin.ExecuteDirect(strAtualiza);
-      cdsBusca.Next;
-    end;
-    DecimalSeparator := ',';
-    sqlsisAdimin.Commit(TDA);
-  except
-    on E : Exception do
-    begin
-      sqlsisAdimin.Rollback(TDA);
-    end;
-  end;}
-  ThreadEstoque := TEstoqueAtualiza.Create(True);
+  {ThreadEstoque := TEstoqueAtualiza.Create(True);
   ThreadEstoque.FreeOnTerminate := True;
-  ThreadEstoque.Resume;
+  ThreadEstoque.Resume;}
 end;
 
 function TDM.pesquisaCfopAUsar(codProduto: Integer; UF, codFiscal: String;
@@ -3706,6 +3652,11 @@ begin
   else begin
     result := '';
   end;
+end;
+
+procedure TDM.EstoqueAtualizaSemThread(codMovimento: integer);
+begin
+
 end;
 
 end.
