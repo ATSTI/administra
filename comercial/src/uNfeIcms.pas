@@ -1020,6 +1020,8 @@ type
     Label12: TLabel;
     sdsCompraDetCODPRO: TStringField;
     cdsCompraDetCODPRO: TStringField;
+    sdsProdutoCLASS_FISCAL: TStringField;
+    cdsProdutoCLASS_FISCAL: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1106,7 +1108,7 @@ end;
 
 procedure TfNfeIcms.blocoA;
 begin
- 
+
 end;
 
 procedure TfNfeIcms.blocoO;
@@ -1317,6 +1319,8 @@ begin
            with Registro0190New do
            begin
              UNID  := Trim(sdsUnimed.Fields[0].AsString);
+             if (Trim(sdsUnimed.Fields[0].AsString) = 'PÇ') then
+                 UNID := 'PC';
              DESCR := Trim(sdsUnimed.Fields[1].AsString);
            end;
            sdsUnimed.Next;
@@ -1396,6 +1400,8 @@ begin
            with Registro0190New do
            begin
              UNID  := Trim(sdsUnimed.Fields[0].AsString);
+             if (Trim(sdsUnimed.Fields[0].AsString) = 'PÇ') then
+                 UNID := 'PC';
              DESCR := Trim(sdsUnimed.Fields[1].AsString);
            end;
            sdsUnimed.Next;
@@ -1438,7 +1444,7 @@ begin
              cdsProduto.Close;
 
            cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, ' +
-           ' PRO.NCM, PRO.PRODUTO, DET.UN ' +
+           ' PRO.NCM, PRO.PRODUTO, DET.UN  , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
            ' FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
            ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
            ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
@@ -1470,7 +1476,58 @@ begin
                DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
                COD_BARRA    := '';
                UNID_INV     := Trim(cdsProdutoUN.AsString);
-               TIPO_ITEM    := tiMercadoriaRevenda;
+               if (Trim(cdsProdutoUN.AsString) = 'PÇ') then
+                  UNID_INV     := 'PC';
+
+                {tiMercadoriaRevenda,    // 00 – Mercadoria para Revenda
+                 tiMateriaPrima,         // 01 – Matéria-Prima;
+                 tiEmbalagem,            // 02 – Embalagem;
+                 tiProdutoProcesso,      // 03 – Produto em Processo;
+                 tiProdutoAcabado,       // 04 – Produto Acabado;
+                 tiSubproduto,           // 05 – Subproduto;
+                 tiProdutoIntermediario, // 06 – Produto Intermediário;
+                 tiMaterialConsumo,      // 07 – Material de Uso e Consumo;
+                 tiAtivoImobilizado,     // 08 – Ativo Imobilizado;
+                 tiServicos,             // 09 – Serviços;
+                 tiOutrosInsumos,        // 10 – Outros Insumos;
+                 tiOutras                // 99 – Outras}
+               TIPO_ITEM := tiOutras;
+               if (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '00') then
+                  TIPO_ITEM    := tiMercadoriaRevenda;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '01')) then
+                  TIPO_ITEM    := tiMateriaPrima;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '02')) then
+                  TIPO_ITEM    := tiEmbalagem;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '03')) then
+                  TIPO_ITEM    := tiProdutoProcesso;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '04')) then
+                  TIPO_ITEM    := tiProdutoAcabado;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '05')) then
+                  TIPO_ITEM    := tiSubproduto;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '06')) then
+                  TIPO_ITEM    := tiProdutoIntermediario;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '07')) then
+                  TIPO_ITEM    := tiMaterialConsumo;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '08')) then
+                  TIPO_ITEM    := tiAtivoImobilizado;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '09')) then
+                  TIPO_ITEM    := tiServicos;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '10')) then
+                  TIPO_ITEM    := tiOutrosInsumos;
+
+               if ((TIPO_ITEM = tiOutras) and (cdsProduto.FieldByName('CLASS_FISCAL').AsString = '99')) then
+                  TIPO_ITEM    := tiOutras;
+
                COD_NCM      := Trim(cdsProdutoNCM.AsString);
                COD_GEN      := '';
                ALIQ_ICMS    := 0;
@@ -1483,7 +1540,7 @@ begin
 
            // INVENTARIO
            cdsProduto.CommandText := 'SELECT DISTINCT P.CODPRODUTO, P.CODPRO, ' +
-             ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN ' +
+             ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN , UDF_LEFT(P.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
              '  FROM ESTOQUEMES EM, PRODUTOS P       ' +
              ' WHERE EM.CODPRODUTO = P.CODPRODUTO    ' +
              '   AND ( not exists (SELECT DISTINCT DETC.CODPRODUTO ' +
@@ -1708,8 +1765,13 @@ begin
 
                 DESCR_COMPL      := cdsCompraDetDESCPRODUTO.AsString;
                 QTD              := cdsCompraDetQUANTIDADE.AsFloat;
-                UNID             := Trim(cdsCompraDetUN.AsString);
-                VL_ITEM          := cdsCompraDetPRECO.AsFloat;
+
+                UNID  := Trim(cdsCompraDetUN.AsString);
+                if (Trim(cdsCompraDetUN.AsString) = 'PÇ') then
+                   UNID := 'PC';
+                //UNID             := Trim(cdsCompraDetUN.AsString);
+                
+                VL_ITEM          := SimpleRoundTo((cdsCompraDetPRECO.AsFloat*cdsCompraDetQUANTIDADE.AsFloat),(-2));
                 VL_DESC          := 0;
                 IND_MOV          := mfSim;
                 CST_ICMS         := cdsCompraDetCST.AsString;
@@ -2524,7 +2586,12 @@ begin
           else
             COD_ITEM     := FormatFloat('000000', sqlInventario.FieldByName('CODPRODUTO').AsInteger); // Nao usa mascara fica como era
 
-          UNID     := sqlInventario.FieldByName('UNIDADEMEDIDA').AsString;
+          UNID  := Trim(sqlInventario.FieldByName('UNIDADEMEDIDA').AsString);
+          if (Trim(sqlInventario.FieldByName('UNIDADEMEDIDA').AsString) = 'PÇ') then
+            UNID := 'PC';
+
+          //UNID     := sqlInventario.FieldByName('UNIDADEMEDIDA').AsString;
+
           if (sqlInventario.FieldByName('ESTOQUE').IsNull) then
             QTD := 0
           else
