@@ -342,11 +342,19 @@ begin
       dm.sqlsisAdimin.StartTransaction(TD);
       try
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          str_Sql := 'UPDATE SERIES SET ULTIMO_NUMERO = ';
+          str_Sql := str_Sql + IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger+1);
+          str_Sql := str_Sql + ' where SERIE = ';
+          str_Sql := str_Sql + QuotedStr(serieNF);
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
           dm.sqlsisAdimin.Commit(TD);
       except
-          dm.sqlsisAdimin.Rollback(TD);
-          MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+        on E: Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
           exit;
+        end;
       end;
       if (sqlBuscaNota.Active) then
         sqlBuscaNota.Close;

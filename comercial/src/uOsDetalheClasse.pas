@@ -149,7 +149,7 @@ begin
   Result := False;
   sqlExclui := 'DELETE FROM OS_DET ';
   sqlExclui := sqlExclui + ' WHERE ID_OS_DET  = ' + IntToStr(Self.CodDet);
-  sqlExclui := sqlExclui + '   AND STATUS     = ' + QuotedStr('P');
+  //sqlExclui := sqlExclui + '   AND STATUS     = ' + QuotedStr('P');
 
   if (executaSql(sqlExclui)) then
     Result := True;

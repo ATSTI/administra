@@ -914,8 +914,10 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OS_DET = ' +
       IntToStr(cdsServicoID_OS_DET.AsInteger));
+    //  '   AND STATUS     = ' + QuotedStr('P'));
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OSDET_SERV = ' +
       IntToStr(cdsServicoID_OS_DET.AsInteger));
+    //  '   AND STATUS     = ' + QuotedStr('P'));
 
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Serviço excluído com sucesso.', mtWarning, [mbOk], 0);
@@ -943,6 +945,7 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM OS_DET WHERE ID_OS_DET = ' +
       IntToStr(cdsPecasID_OS_DET.AsInteger));
+    //  '   AND STATUS     = ' + QuotedStr('P'));
 
     dm.sqlsisAdimin.Commit(TD);
     MessageDlg('Peça excluída com sucesso.', mtWarning, [mbOk], 0);
