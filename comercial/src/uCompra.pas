@@ -2149,6 +2149,36 @@ begin
       dm.cds_produto.close;
     dm.cds_produto.Params[0].AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
     dm.cds_produto.Open;
+    fProdutoCadastro.cbAplicacao.ItemIndex := -1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '00 - MERCADORIA PARA REVENDA') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 0;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '01 - MATÉRIA-PRIMA') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 1;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '02 - EMBALAGEM') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 2;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '03 - PRODUTO EM PROCESSO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 3;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '04 - PRODUTO ACABADO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 4;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '05 - SUBPRODUTO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 5;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '06 - PRODUTO INTERMEDIÁRIO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 6;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '07 - MATERIAL DE USO E CONSUMO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 7;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '08 - ATIVO IMOBILIZADO') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 8;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '09 - SERVIÇOS') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 9;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '10 - OUTROS INSUMOS') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 10;
+    if (dm.cds_produtoCLASSIFIC_FISCAL.AsString = '99 - OUTRAS') then
+      fProdutoCadastro.cbAplicacao.ItemIndex := 11;
+
+    fProdutoCadastro.cbLocal.ItemIndex := -1;
+    if (dm.cds_ccusto.Locate('CODIGO', dm.cds_produtoCODALMOXARIFADO.AsInteger, [loCaseInsensitive])) then
+      fProdutoCadastro.cbLocal.ItemIndex := dm.cds_ccusto.RecNo-1;
+
     fProdutoCadastro.ShowModal;
   finally
     fProdutoCadastro.Free;
