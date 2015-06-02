@@ -1,6 +1,6 @@
 object fRelVenda: TfRelVenda
-  Left = 317
-  Top = 95
+  Left = 122
+  Top = 29
   Width = 760
   Height = 640
   BorderIcons = [biSystemMenu]

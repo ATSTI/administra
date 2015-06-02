@@ -482,7 +482,7 @@ begin
       if (cbRazao.Text <> '') then
         Rep.Report.Params.ParamByName('PRO1').Value := cbRazao.Text
       else
-        Rep.Report.Params.ParamByName('PRO1').Value := 'TODAS AS RAZOES SOCIAIS';
+        Rep.Report.Params.ParamByName('PRO1').Value := 'TODAS AS RAZOES SOCIAIS CADASTRADAS NO SISTEMA';
     end
     else
     begin
