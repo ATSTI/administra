@@ -1,6 +1,6 @@
 object fRelatorio: TfRelatorio
   Left = 192
-  Top = 107
+  Top = 108
   Width = 613
   Height = 457
   BorderIcons = [biSystemMenu]
