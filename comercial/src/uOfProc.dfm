@@ -358,8 +358,12 @@ object fOfProc: TfOfProc
       Top = 2
       Width = 77
       Height = 55
+      Hint = 'of_proc.rep'
       Caption = '&Relat'#243'rios'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 4
+      OnClick = btnImprimirClick
       Glyph.Data = {
         76020000424D7602000000000000760000002800000020000000200000000100
         0400000000000002000000000000000000001000000000000000000000000000
@@ -1264,6 +1268,12 @@ object fOfProc: TfOfProc
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 552
+    Top = 24
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 608
     Top = 24
   end
 end

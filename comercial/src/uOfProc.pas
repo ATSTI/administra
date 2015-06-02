@@ -7,7 +7,7 @@ uses
   Dialogs, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvExMask, JvToolEdit,
   JvBaseEdits, Mask, StdCtrls, ComCtrls, JvExComCtrls, JvComCtrls, Buttons,
   ExtCtrls, MMJPanel, FMTBcd, DB, DBClient, Provider, SqlExpr, JvMaskEdit,
-  JvCheckedMaskEdit, JvDatePickerEdit;
+  JvCheckedMaskEdit, JvDatePickerEdit, rpcompobase, rpvclreport;
 
 type
   TfOfProc = class(TForm)
@@ -76,12 +76,14 @@ type
     edProdutoDesc: TEdit;
     sqlProduto: TSQLQuery;
     BitBtn1: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure btnSairClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure edProdutoExit(Sender: TObject);
     procedure edProdutoDescExit(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure JvDBGrid1TitleClick(Column: TColumn);
+    procedure btnImprimirClick(Sender: TObject);
   private
     codProduto : String;
     procedure buscaProduto;
@@ -201,6 +203,15 @@ end;
 procedure TfOfProc.JvDBGrid1TitleClick(Column: TColumn);
 begin
   cdsOfProc.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfOfProc.btnImprimirClick(Sender: TObject);
+begin
+  VCLReport1.Filename := str_relatorio + 'of_proc.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.DataInfo.Items[0].SQL := cdsOfProc.CommandText;
+  VCLReport1.Execute;
 end;
 
 end.
