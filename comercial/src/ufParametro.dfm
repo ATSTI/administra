@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabSheet8
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet

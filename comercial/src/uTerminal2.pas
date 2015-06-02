@@ -568,6 +568,7 @@ type
     procedure permissao;
     procedure libera_mesa;
     procedure buscaProduto;
+    procedure buscaProdutoPeso;
     procedure incluiItemPedido;
     procedure buscaLote;
     procedure abreDeliverySelec;
@@ -575,6 +576,8 @@ type
 
   public
     var_FINALIZOU : string;
+    pesagem ,totpesagem : string;
+    totpesagemfloat , pesot: double;
     { Public declarations }
   end;
 
@@ -3126,6 +3129,11 @@ begin
   DecimalSeparator := ',';
   codLote := '0';    
   gradeVenda := '';
+  pesagem := '';
+  totpesagem := '';
+  totpesagemfloat:= 0;
+  totpesagem := '';     
+
   if (key = #13) then
   begin
 
@@ -3177,14 +3185,28 @@ begin
       estoque_negativo := 'FALSO'
     else
       estoque_negativo := 'TRUE';
+      totpesagem := '';
+      pesagem := copy(EdtCodBarra1.Text,1,1);
+      totpesagem := copy(EdtCodBarra1.Text,7,6);
+      totpesagemfloat := 0;
+      if (totpesagem <> '') then
+      begin
+        totpesagemfloat := strtofloat(totpesagem);
+        totpesagem := formatfloat('###,###,##0.00',totpesagemfloat/100);
+      end;
 
-    if (EdtCodBarra1.Text <> '') then
-      BuscaProduto
+    if (pesagem = '2') then
+      BuscaProdutoPeso
     else
     begin
-      btnProduto.Click;
-      EdtCodBarra1.Clear;
-      exit;
+      if (EdtCodBarra1.Text <> '') then
+        BuscaProduto
+      else
+      begin
+        btnProduto.Click;
+        EdtCodBarra1.Clear;
+        exit;
+      end;
     end;
 
     if (retorno = 'FALSO') then
@@ -3202,11 +3224,23 @@ begin
       exit;
     end;
 
-    IncluiItemPedido;
-    edtQtde1.Value := 1;
-    edtQtde1.SetFocus;
+    pesot := ( (totpesagemfloat)  / StrToFloat(scds_produto_procVALOR_PRAZO.Text)) ;
 
-    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    IncluiItemPedido;
+    if (pesagem = '2') then
+    begin
+
+      edtQtde1.Value := ( pesot / 100) ;
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    end;
+
+    if (pesagem <> '2') then
+    begin
+      edtQtde1.Value := 1;
+      edtQtde1.SetFocus;
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    end;
+
 
     if (s_parametro.Active) then
       s_parametro.Close;
@@ -3636,15 +3670,41 @@ begin
          'PRECO, DESCPRODUTO, LOTE, OBS) VALUES ( ' +
          IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
          'null' + ', ' + IntToStr(0) + ', ';
+  DecimalSeparator := '.';
+
   if (jvPageControl1.ActivePage = TabVenda) then
-    str_sql := str_sql +  IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+    str_sql := str_sql +  IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' ; //+ IntToStr(1) + ', ';
+
+  if(pesagem = '2')then
+  begin
+    str_sql := str_sql +  FloatToStr(pesot/100) + ', ';
+  end;
+
+  if(pesagem <> '2')then
+  begin
+    str_sql := str_sql +  IntToStr(1)  + ', ';
+  end;
+
   if (jvPageControl1.ActivePage = TabComanda) then
     str_sql := str_sql +  IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
   if (jvPageControl1.ActivePage = TabDelivery) then
-    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', '  + IntToStr(1) + ', ';
+
+
   str_sql := str_sql +  QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ';
-  DecimalSeparator := '.';
-  str_sql := str_sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
+
+
+  if(pesagem = '2')then
+  begin
+  //  str_sql := str_sql + (formatfloat('###,###,##0.00',totpesagemfloat/100)) + ', ';  //(formatfloat('###,###,##0.00',totpesagemfloat/100)) + ', ';
+    str_sql := str_sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
+  end;
+
+  if(pesagem <> '2')then
+  begin
+    str_sql := str_sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
+  end;
+
   str_sql := str_sql +  QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
 
    if (codLote <> '0') then  // so preencho o campo Lote se o parametro usa lote for 3
@@ -4787,6 +4847,83 @@ begin
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
   end;
+end;
+
+procedure TfTerminal2.buscaProdutoPeso;
+begin
+
+  RETORNO := '';
+  tipo_busca := '1'; //CODBARRA
+  {------Verifico se a busca sera efetuada pelo CODPRO ou pelo CODBARRA ---------}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
+  dm.cds_parametro.Open;
+  if not dm.cds_parametro.IsEmpty then
+    tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+  dm.cds_parametro.Close;
+
+  str_sql := ' select CODPRODUTO, COD_BARRA' +
+    ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+    QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+    ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+    ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+    ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+    ' from LISTAPRODUTO(0, ' +
+    QuotedStr('TODOSPRODUTOS') + ', ' +
+    QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+    QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)' +
+    ' where ';
+
+  if scds_produto_proc.Active then
+    scds_produto_proc.Close;
+  scds_produto_proc.CommandText := '';
+  if (codLote <> '0') then
+  begin
+    scds_produto_proc.CommandText := str_sql + ' CODPRODUTO = ' +
+      IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
+  end
+  else begin
+    if (tipo_busca = 'CODBARRA') then
+    begin
+      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + copy(EdtCodBarra1.Text,2,6)  + '''';
+    end
+    else begin
+      str_sql := ' select CODPRODUTO, COD_BARRA' +
+        ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+        QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+        ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
+        ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
+        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+        ' from LISTAPRODUTO(0, ' ;
+      str_sql := str_sql + QuotedStr(EdtCodBarra1.Text) + ', ' +
+        QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
+        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
+      scds_produto_proc.CommandText := str_sql;
+    end;
+  end;
+  scds_produto_proc.Open;
+
+  if (scds_produto_proc.IsEmpty) then
+  begin
+    BuscaLote;
+    if (scds_produto_proc.IsEmpty) then
+    begin
+      RETORNO := 'FALSO';
+      scds_produto_proc.Close;
+    end;
+  end
+  else begin
+    lblEstoque.Caption := Format('%10.1n', [scds_produto_procESTOQUEATUAL.AsFloat]);
+  end;
+
+  if ((estoque_negativo = 'TRUE') and (retorno = 'FALSO')) then // nao permito venda com saldo negativo
+    if (scds_produto_procESTOQUEATUAL.Value <= 0) then
+    begin
+      ShowMessage('Produto com saldo negativo !');
+      SaldoNegativo := 'TRUE';
+      scds_produto_proc.Close;
+    end;
 end;
 
 end.
