@@ -1144,6 +1144,13 @@ begin
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
+
+            if (cdsNFNFE_FINNFE.AsString = 'fnAjuste') then
+            begin
+              InputQuery('Justificativa do estorno nas Informações Adicionais de Interesse do Fisco', 'Justificativa', vAux);
+              infAdic.infAdFisco := vAux;
+            end;
+
             // Tipo de movimentação 0 entrada 1 saida
             if (tpNFe = 0) then
               Ide.tpNF   := tnEntrada;
