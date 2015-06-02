@@ -19,7 +19,7 @@
 #
 ##############################################################################
 import time
-from datetime import datetime, date
+import datetime
 
 from openerp.osv import fields, osv
 from openerp import pooler
@@ -77,9 +77,20 @@ class project_work(osv.osv):
     _inherit = "project.task.work"
 
     def _calcula_hora(self, hours_out=0.0, hours_in=0.0, hours_i=None, hours_o=None):
-        dataEnt = date(*time.strptime(hours_i,'%Y-%m-%d')[:3])
-        dataSai = date(*time.strptime(hours_o,'%Y-%m-%d')[:3])
-        diferencaDias =((dataSai-dataEnt).days*24)
+        totalhora = 0
+        if hours_i:
+            dataEnt = datetime.datetime.strptime(hours_i, '%Y-%m-%d')
+            #dataEnt = fields.datetime.context_timestamp(timestamp)
+        #dataEnt = ts.day
+        #dataSai = date(*time.strptime(str(hours_o),'%Y-%m-%d')[:3])
+        if hours_o:
+            dataSai = datetime.datetime.strptime(hours_o, '%Y-%m-%d')
+            #dataSai = fields.datetime.context_timestamp(timestamp)
+        #dataSai = ts.day
+        if hours_o and hours_i:
+            diferencaDias =((dataSai-dataEnt).days*24)
+        else:
+            diferentaDias = 0
         totalhora = ((hours_out - hours_in)+diferencaDias)
         return totalhora
 
@@ -89,22 +100,22 @@ class project_work(osv.osv):
         emp_id = emp_obj.search(cr, uid, [('user_id', '=', user_id)])
         if not emp_id:
             user_name = self.pool.get('res.users').read(cr, uid, [user_id], ['name'])[0]['name']
-            raise osv.except_osv(_('Bad Configuration !'),
+            raise osv.except_osv(_('Bad Configuration!'),
                  _('Please define employee for user "%s". You must create one.')% (user_name,))
         emp = emp_obj.browse(cr, uid, emp_id[0])
         if not emp.product_id:
-            raise osv.except_osv(_('Bad Configuration !'),
+            raise osv.except_osv(_('Bad Configuration!'),
                  _('Please define product and product category property account on the related employee.\nFill in the HR Settings tab of the employee form.'))
 
         if not emp.journal_id:
-            raise osv.except_osv(_('Bad Configuration !'),
+            raise osv.except_osv(_('Bad Configuration!'),
                  _('Please define journal on the related employee.\nFill in the timesheet tab of the employee form.'))
 
         acc_id = emp.product_id.property_account_expense.id
         if not acc_id:
             acc_id = emp.product_id.categ_id.property_account_expense_categ.id
             if not acc_id:
-                raise osv.except_osv(_('Bad Configuration !'),
+                raise osv.except_osv(_('Bad Configuration!'),
                         _('Please define product and product category property account on the related employee.\nFill in the timesheet tab of the employee form.'))
 
         res['product_id'] = emp.product_id.id
@@ -113,73 +124,86 @@ class project_work(osv.osv):
         res['product_uom_id'] = emp.product_id.uom_id.id
         return res
 
-    def create(self, cr, uid, vals, *args, **kwargs):
-        timesheet_obj = self.pool.get('hr.analytic.timesheet')
-        task_obj = self.pool.get('project.task')
-        uom_obj = self.pool.get('product.uom')
+    def _create_analytic_entries(self, cr, uid, vals, context):
+        """Create the hr analytic timesheet from project task work"""
+        timesheet_obj = self.pool['hr.analytic.timesheet']
+        task_obj = self.pool['project.task']
 
         vals_line = {}
+        timeline_id = False
+        acc_id = False
+
+        task_obj = task_obj.browse(cr, uid, vals['task_id'], context=context)
+        result = self.get_user_related_details(cr, uid, vals.get('user_id', uid))
+        vals_line['name'] = '%s: %s' % (tools.ustr(task_obj.name), tools.ustr(vals['name'] or '/'))
+        vals_line['user_id'] = vals['user_id']
+        vals_line['product_id'] = result['product_id']
+        if vals['date']:
+            #timestamp = datetime.datetime.strptime(vals['date'], '%Y-%m-%d')
+            #ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
+            #date_x = ts.strftime('%Y-%m-%d')
+            date_x = vals.get('date')
+            #timestamp = datetime.datetime.strptime(vals['date'], tools.DEFAULT_SERVER_DATETIME_FORMAT)
+            #ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
+            #date_x = ts.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
+            vals_line['date'] = date_x
+            if vals.get('hours_in', False):
+                vals_line['hours_in'] = vals.get('hours_in')
+            if vals.get('hours_out', False):
+                vals_line['hours_out'] = vals['hours_out']
+            if vals.get('data_base', False):
+                vals_line['date_base'] = vals['date_base'][:10]
+            dataEnt = datetime.datetime.strptime(date_x, '%Y-%m-%d')
+            if vals.get('date_out', False):
+                dataSai = datetime.datetime.strptime(vals['date_out'], '%Y-%m-%d')
+                #dataEnt = date(*time.strptime(date_x,'%Y-%m-%d')[:3])
+                #dataSai = date(*time.strptime(vals['date_out'],'%Y-%m-%d')[:3])
+                diferencaDias =((dataSai - dataEnt).days*24)
+            vals_line['unit_amount'] = 0
+            if vals.get('hours_out', False) and vals.get('hours_in', False) and vals.get('date_out', False):   
+                totalhora = (vals['hours_out'] - vals['hours_in'])+diferencaDias
+                vals_line['unit_amount'] = totalhora
+
+        # Calculate quantity based on employee's product's uom
+        #vals_line['unit_amount'] = vals['hours']
+
+        default_uom = self.pool['res.users'].browse(cr, uid, uid, context=context).company_id.project_time_mode_id.id
+        if result['product_uom_id'] != default_uom:
+            vals_line['unit_amount'] = self.pool['product.uom']._compute_qty(cr, uid, default_uom, vals['hours'], result['product_uom_id'])
+        acc_id = task_obj.project_id and task_obj.project_id.analytic_account_id.id or acc_id
+        if acc_id:
+            vals_line['account_id'] = acc_id
+            res = timesheet_obj.on_change_account_id(cr, uid, False, acc_id)
+            if res.get('value'):
+                vals_line.update(res['value'])
+            vals_line['general_account_id'] = result['general_account_id']
+            vals_line['journal_id'] = result['journal_id']
+            vals_line['amount'] = 0.0
+            vals_line['product_uom_id'] = result['product_uom_id']
+            amount = vals_line['unit_amount']
+            prod_id = vals_line['product_id']
+            unit = False
+            timeline_id = timesheet_obj.create(cr, uid, vals=vals_line, context=context)
+
+            # Compute based on pricetype
+            amount_unit = timesheet_obj.on_change_unit_amount(cr, uid, timeline_id,
+                prod_id, amount, False, unit, vals_line['journal_id'], context=context)
+            if amount_unit and 'amount' in amount_unit.get('value',{}):
+                updv = { 'amount': amount_unit['value']['amount'] }
+                timesheet_obj.write(cr, uid, [timeline_id], updv, context=context)
+
+        return timeline_id
+
+    def create(self, cr, uid, vals, *args, **kwargs):
         context = kwargs.get('context', {})
         if not context.get('no_analytic_entry',False):
-            task_obj = task_obj.browse(cr, uid, vals['task_id'])
-            result = self.get_user_related_details(cr, uid, vals.get('user_id', uid))
-            vals_line['name'] = '%s: %s' % (tools.ustr(task_obj.name), tools.ustr(vals['name'] or '/'))
-            vals_line['user_id'] = vals['user_id']
-            vals_line['product_id'] = result['product_id']
-            #vals_line['date'] = vals['date'][:10]
-            timestamp = datetime.datetime.strptime(vals['date'], tools.DEFAULT_SERVER_DATETIME_FORMAT)
-            ts = fields.datetime.context_timestamp(cr, uid, timestamp, context)
-            vals_line['date'] = ts.strftime(tools.DEFAULT_SERVER_DATE_FORMAT)
-            vals_line['hours_in'] = vals['hours_in']
-            vals_line['hours_out'] = vals['hours_out']
-            vals_line['date_base'] = vals['date_base'][:10]
-
-            # Calculate quantity based on employee's product's uom
-            #if vals['hours_out'] >= vals['hours_in']:
-            #    horas = vals['hours_out'] - vals['hours_in']
-            #if vals['hours_out'] < vals['hours_in']:
-            #    if vals['hours_out'] > 
-
-            dataEnt = date(*time.strptime(vals['date'],'%Y-%m-%d')[:3])
-            dataSai = date(*time.strptime(vals['date_out'],'%Y-%m-%d')[:3])
-            diferencaDias =((dataSai - dataEnt).days*24)
-            totalhora = (vals['hours_out'] - vals['hours_in'])+diferencaDias
-
-            #vals_line['unit_amount'] = vals['hours_out']-vals['hours_in] #// Carlos - nao esta trazendo o hours em 05/3/2015
-            vals_line['unit_amount'] = totalhora
-
-            default_uom = self.pool.get('res.users').browse(cr, uid, uid).company_id.project_time_mode_id.id
-            if result['product_uom_id'] != default_uom:
-                vals_line['unit_amount'] = uom_obj._compute_qty(cr, uid, default_uom, vals['hours'], result['product_uom_id'])
-            acc_id = task_obj.project_id and task_obj.project_id.analytic_account_id.id or False
-            if acc_id:
-                vals_line['account_id'] = acc_id
-                res = timesheet_obj.on_change_account_id(cr, uid, False, acc_id)
-                if res.get('value'):
-                    vals_line.update(res['value'])
-                vals_line['general_account_id'] = result['general_account_id']
-                vals_line['journal_id'] = result['journal_id']
-                vals_line['amount'] = 0.0
-                vals_line['product_uom_id'] = result['product_uom_id']
-                amount = vals_line['unit_amount'] #Carlos 05/03/2015  
-                prod_id = vals_line['product_id']
-                unit = False
-                timeline_id = timesheet_obj.create(cr, uid, vals=vals_line, context=context)
-
-                # Compute based on pricetype
-                amount_unit = timesheet_obj.on_change_unit_amount(cr, uid, timeline_id,
-                    prod_id, amount, False, unit, vals_line['journal_id'], context=context)
-                if amount_unit and 'amount' in amount_unit.get('value',{}):
-                    updv = { 'amount': amount_unit['value']['amount'] }
-                    timesheet_obj.write(cr, uid, [timeline_id], updv, context=context)
-                vals['hr_analytic_timesheet_id'] = timeline_id
+            vals['hr_analytic_timesheet_id'] = self._create_analytic_entries(cr, uid, vals, context=context)
         return super(project_work,self).create(cr, uid, vals, *args, **kwargs)
 
     def write(self, cr, uid, ids, vals, context=None):
         """
         When a project task work gets updated, handle its hr analytic timesheet.
         """
-        #pdb.set_trace()
         if context is None:
             context = {}
         timesheet_obj = self.pool.get('hr.analytic.timesheet')
@@ -188,7 +212,6 @@ class project_work(osv.osv):
 
         if isinstance(ids, (long, int)):
             ids = [ids]
-
         for task in self.browse(cr, uid, ids, context=context):
             line_id = task.hr_analytic_timesheet_id
             if not line_id:
@@ -201,10 +224,12 @@ class project_work(osv.osv):
                 vals_line['name'] = '%s: %s' % (tools.ustr(task.task_id.name), tools.ustr(vals['name'] or '/'))
             if 'user_id' in vals:
                 vals_line['user_id'] = vals['user_id']
-            date = task.date
+            date_l = task.date
             if 'date' in vals:
-                date =  vals['date'][:10]
-            vals_line['date'] = date
+                vals_line['date'] = vals['date'][:10]
+                date_l = vals.get('date')[:10]
+            if 'hours' in vals:
+                vals_line['unit_amount'] = vals['hours']
             date_out = task.date_out
             if 'date_out' in vals:
                 date_out =  vals['date_out'][:10]
@@ -216,11 +241,15 @@ class project_work(osv.osv):
             if 'hours_in' in vals:
                 hours_in = vals['hours_in']
             vals_line['hours_in'] = hours_in
+            if not hours_in: 
+               vals_line['hours_in'] = 0
             hours_out = task.hours_out
             if 'hours_out' in vals:
                 hours_out = vals['hours_out']
             vals_line['hours_out'] = hours_out
-            hours = self._calcula_hora(hours_out, hours_in, date, date_out)
+            if not hours_out: 
+               vals_line['hours_out'] = 0
+            hours = self._calcula_hora(hours_out, hours_in, date_l, date_out)
             vals_line['unit_amount'] = hours
             if 'hours_out' in vals or 'hours_in' in vals or 'date' in vals or 'date_out' in vals:
                 prod_id = vals_line.get('product_id', line_id.product_id.id) # False may be set
@@ -244,10 +273,13 @@ class project_work(osv.osv):
                 if amount_unit and 'amount' in amount_unit.get('value',{}):
                     vals_line['amount'] = amount_unit['value']['amount']
 
-            #vals_line['work_id'] = ids[0]
-            #pdb.set_trace()
             if vals_line:
-                self.pool.get('hr.analytic.timesheet').write(cr, uid,[line_id.id], vals_line, context=context)
+                #if not line_id:
+                #    self._create_analytic_entries(cr, uid, vals_line, context=context)
+                #else:
+                self.pool.get('hr.analytic.timesheet').write(cr, uid, [line_id.id], vals_line, context=context)
+                update_acc = 'UPDATE account_analytic_line set hours_in = ' + str(vals_line.get('hours_in')) + ', hours_out = ' + str(vals_line.get('hours_out')) + ', unit_amount = ' + str(vals_line.get('unit_amount')) + ', date_base = \'' + date_base + '\', date = \'' + date_l + '\' where id = ' + str(line_id.line_id.id)
+                cr.execute(update_acc)
 
         return super(project_work,self).write(cr, uid, ids, vals, context)
 
@@ -282,41 +314,48 @@ class task(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
             context = {}
-        #if vals.get('project_id',False) or vals.get('name',False):
+        task_work_obj = self.pool['project.task.work']
+        acc_id = False
+        missing_analytic_entries = {}
+
         if vals.get('project_id',False) or vals.get('name',False):
             vals_line = {}
-            #vals_acc = {}
             hr_anlytic_timesheet = self.pool.get('hr.analytic.timesheet')
             if vals.get('project_id',False):
                 project_obj = self.pool.get('project.project').browse(cr, uid, vals['project_id'], context=context)
                 acc_id = project_obj.analytic_account_id.id
-            #pdb.set_trace()
 
             for task_obj in self.browse(cr, uid, ids, context=context):
-                project_obj = self.pool.get('project.project').browse(cr, uid, task_obj.project_id.id, context=context)
-                #acc_id = project_obj.analytic_account_id.id
-                #acc_obj = self.pool.get('account.analytic.line')
                 if len(task_obj.work_ids):
                     for task_work in task_obj.work_ids:
                         if not task_work.hr_analytic_timesheet_id:
+                            if acc_id:
+                                # missing timesheet activities to generate
+                                missing_analytic_entries[task_work.id] = {
+                                    'name' : task_work.name,
+                                    'user_id' : task_work.user_id.id,
+                                    'date' : task_work.date and task_work.date[:10] or False,
+                                    'date_base' : task_work.date_base and task_work.date_base[:10] or False,
+                                    'account_id': task_work.task_id.project_id.analytic_account_id.id,
+                                    'hours' : task_work.hours,
+                                    'task_id' : task_obj.id
+                                } 
                             continue
                         line_id = task_work.hr_analytic_timesheet_id.id
                         if vals.get('project_id',False):
                             vals_line['account_id'] = acc_id
                         if vals.get('name',False):
-                            vals_line['name'] = '%s: %s' % (tools.ustr(vals['name']), tools.ustr(task_work.name) or '/')
-                        #vals_line['hours_in'] = task_work.hours_in
-                        #vals_line['hours_out'] = task_work.hours_out
-                        #vals_line['unit_amount'] = task_obj.total_hours
+                            vals_line['name'] = '%s: %s' % (tools.ustr(vals['name']), tools.ustr(task_work.name or '/'))
                         hr_anlytic_timesheet.write(cr, uid, [line_id], vals_line, {})
-            
-                        # inseri pra atualizar a account_an_line ..
-                        #hr_analytic_t = hr_anlytic_timesheet.browse(cr, uid, [line_id], context=context)[0]
-                        #acc_id = hr_analytic_t.line_id.id
-                        #acc_obj.write(cr, uid, [acc_id], vals_acc, {})
 
+        res = super(task,self).write(cr, uid, ids, vals, context)
 
-        return super(task,self).write(cr, uid, ids, vals, context)
+        for task_work_id, analytic_entry in missing_analytic_entries.items():
+            #pdb.set_trace()
+            timeline_id = task_work_obj._create_analytic_entries(cr, uid, analytic_entry, context=context)
+            task_work_obj.write(cr, uid, task_work_id, {'hr_analytic_timesheet_id' : timeline_id}, context=context)
+
+        return res
 
 task()
 
@@ -354,7 +393,7 @@ class account_analytic_line(osv.osv):
        st = acc.to_invoice.id
        res['value']['to_invoice'] = st or False
        if acc.state == 'close' or acc.state == 'cancelled':
-           raise osv.except_osv(_('Invalid Analytic Account !'), _('You cannot select a Analytic Account which is in Close or Cancelled state.'))
+           raise osv.except_osv(_('Invalid Analytic Account!'), _('You cannot select a Analytic Account which is in Close or Cancelled state.'))
        return res
 
 account_analytic_line()

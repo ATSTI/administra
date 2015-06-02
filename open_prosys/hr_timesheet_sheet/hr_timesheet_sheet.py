@@ -29,7 +29,6 @@ from openerp.osv import fields, osv
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 from openerp import netsvc
-import pdb
 
 class hr_timesheet_sheet(osv.osv):
     _name = "hr_timesheet_sheet.sheet"
@@ -105,7 +104,6 @@ class hr_timesheet_sheet(osv.osv):
                                         'date_to': vals.get('date_to'),
                                         'user_id': new_user_id,
                                         'manager_id': vals.get('manager_id'),})
-        #pdb.set_trace()
         man_obj = self.pool.get('hr.analytic.timesheet')
         for row in cr.fetchall():
             man_id = man_obj.search(cr, uid, [('line_id', '=', row[0])], context=context)
@@ -118,6 +116,40 @@ class hr_timesheet_sheet(osv.osv):
                 insere['account_id'] = row[4]
                 #insere['product_uom_id'] = emp_hr.product_id.uom_id.id
                 man_obj.create(cr, uid, insere, context=context)
+
+        """ Verificando se existe apontamento sem linha na account_analytic_line """
+        cr.execute("""
+            SELECT pw.id, pw.task_id, pw.name, pw.date, pp.analytic_account_id, coalesce(pw.hours,0) as hours 
+                   ,pw.hours_in, pw.hours_out, pw.date_base 
+                    FROM project_task_work pw, project_task pt, project_project pp 
+                    WHERE pp.id = pt.project_id 
+                        AND pt.id = pw.task_id 
+                        AND pw.hr_analytic_timesheet_id is null
+                        AND %(date_to)s >= pw.date
+                        AND %(date_from)s <= pw.date
+                        AND %(user_id)s = pw.user_id
+                    """, {'date_from': vals.get('date_from'),
+                                        'date_to': vals.get('date_to'),
+                                        'user_id': new_user_id,
+                        })
+        for row in cr.fetchall():
+            task_work_obj = self.pool.get('project.task.work')
+            missing_analytic_entries = {} 
+            missing_analytic_entries[row[0]] = {
+                'name' : row[2],
+                'user_id' : new_user_id,
+                'date' : row[3],
+                'account_id': row[4],
+                'hours' : row[5],
+                'task_id' : row[1]
+            }
+            for task_work_id, analytic_entry in missing_analytic_entries.items():
+                timeline_id = task_work_obj._create_analytic_entries(cr, uid, analytic_entry, context=context)
+                task_work_obj.write(cr, uid, task_work_id, {'hr_analytic_timesheet_id' : timeline_id}, context=context)
+                hr_acc = man_obj.browse(cr, uid, timeline_id, context=context)
+                update_acc = 'UPDATE account_analytic_line set hours_in = ' + str(row[6]) + ', hours_out = ' + str(row[7]) + ', unit_amount = ' + str(row[5]) + ', date_base = \'' + row[8] + '\' where id = ' + str(hr_acc.line_id.id)
+                cr.execute(update_acc)
+
 
             #print row[0]
         return super(hr_timesheet_sheet, self).create(cr, uid, vals, context=context)
@@ -305,7 +337,6 @@ class hr_timesheet_sheet(osv.osv):
                     context=context, load='_classic_write')]
 
     def unlink(self, cr, uid, ids, context=None):
-        #pdb.set_trace()
         sheets = self.read(cr, uid, ids, ['state','total_attendance'], context=context)
         for sheet in sheets:
             if sheet['state'] in ('confirm', 'done'):
@@ -358,7 +389,6 @@ class hr_timesheet_line(osv.osv):
     _inherit = "hr.analytic.timesheet"
 
     def _sheet(self, cursor, user, ids, name, args, context=None):
-        #pdb.set_trace()
         sheet_obj = self.pool.get('hr_timesheet_sheet.sheet')
         res = {}.fromkeys(ids, False)
         for ts_line in self.browse(cursor, user, ids, context=context):
@@ -373,7 +403,6 @@ class hr_timesheet_line(osv.osv):
         return res
 
     def _get_hr_timesheet_sheet(self, cr, uid, ids, context=None):
-        #pdb.set_trace()
         ts_line_ids = []
         for ts in self.browse(cr, uid, ids, context=context):
             cr.execute("""
@@ -406,7 +435,7 @@ class hr_timesheet_line(osv.osv):
                 justespecial, externo, sobreaviso, embarcado  
                 ,to_char(date_out, 'DD/MM/YYYY') as date_out, hours_in, hours_out, to_char(date, 'DD/MM/YYYY') as date
                 from project_task_work 
-                where hr_analytic_timesheet_id in (%s)""",(id,))
+                where hr_analytic_timesheet_id in (%s) order by date, hours_in """,(id,))
             s = ''
             for res in cr.fetchall():
                 if res[9]:
@@ -420,7 +449,7 @@ class hr_timesheet_line(osv.osv):
                 if res[8] and res[8] != res[11]:
                     s = s + ' - Saída:' + str(res[8])
                 if res[0]:
-                    s = ' - F'
+                    s = s + ' - F'
                 if res[1]:
                     s = s + ' - P'
                 if res[2]:
@@ -464,7 +493,6 @@ class hr_timesheet_line(osv.osv):
         # here we check the state of the timesheet for the given date
         # Furthermore we don't want a default sheet_id allowing to bypass
         # the check so we recompute all sheet_ids
-        #pdb.set_trace()
         sheet_ids = self._sheet(cr ,uid, ids, False, False, context=context)
         for ts_line_id, sheet in sheet_ids.iteritems():
             if sheet:

@@ -33,7 +33,7 @@
                     </header>
                     <sheet string="Task">
                     <h1>
-                        <field name="name" placeholder="Descrição RRRRRRRR ..." />
+                        <field name="name" placeholder="Descrição ..." />
                     </h1>
                     <group>
                         <group>
@@ -249,5 +249,58 @@
 		</record>
 
         <menuitem action="action_view_task_manager" id="menu_action_view_task_manager" parent="project.menu_project_management" sequence="1" groups="project.group_project_manager"/>
+
+        <record id="view_planilhahora_search" model="ir.ui.view">
+            <field name="name">planilhahora.search</field>
+            <field name="model">planilhahora_date</field>
+            <field name="priority" eval="0"/>
+            <field name="arch" type="xml">
+               <search string="Planilha horas">
+                    <field name="user_codigo" string="Usuário"/>
+                    <field name="data_apontd"/>
+                    <field name="projeto"/>
+                    <group string="Group By...">
+                        <filter string="Usuario" name="group_user" icon="terp-folder-violet" domain="[]" context="{'group_by':'user_name'}"/>
+                        <filter string="Data" name="group_data" icon="terp-personal" domain="[]" context="{'group_by':'data_apontd'}"/>
+                        <filter string="Projeto" name="group_data" icon="terp-personal" domain="[]" context="{'group_by':'projeto'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="planilhahora_tree_view">
+            <field name="name">planilhahora.tree</field>
+            <field name="model">planilhahora_date</field>			
+            <field name="arch" type="xml">
+                <tree string="Planilha horas" version="7.0">	
+                    <field name="user_codigo"/>
+                    <field name="user_name"/>
+                    <field name="data_apontd"/>
+                    <field name="projeto"/>
+                    <field name="task"/>
+                    <field name="apont"/>
+                    <field name="apont_det"/>
+                    <field name="horae1" widget="float_time"/>
+                    <field name="horas1" widget="float_time"/>
+                    <field name="horae2" widget="float_time"/>
+                    <field name="horas2" widget="float_time"/>
+                    <field name="horae3" widget="float_time"/>
+                    <field name="horas3" widget="float_time"/>
+                    <field name="horae4" widget="float_time"/>
+                    <field name="horas4" widget="float_time"/>
+                    <field name="horae5" widget="float_time"/>
+                    <field name="horas5" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+ 
+        <record model="ir.actions.act_window" id="action_planilhahora">
+            <field name="name">Planilha Hora</field>
+			<field name="res_model">planilhahora_date</field>
+			<field name="context">{'search_default_group_user': 1,'serch_default_group_data': 1}</field>
+        </record>
+
+        <menuitem name="Planilha Hora" parent="project.menu_project_management" id="planilhahora_menu" action="action_planilhahora" sequence="4"/>
+
     </data>
 </openerp>

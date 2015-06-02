@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openerp import models, fields, api, SUPERUSER_ID
-import pdb
+#import pdb
 
 
 class product_attribute(models.Model):
@@ -10,6 +10,34 @@ class product_attribute(models.Model):
 class product_attribute_value(models.Model):
     _inherit = "product.attribute.value"
     cod_prod = fields.Char(string="Cod. Prod.")
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    prod_tipo = fields.Selection([
+        ('fionylon','Fio de Nylon'),
+        ('inteira','Inteira'),
+        ('mascara','Mascará'),
+        ('parafuso', 'Parafuso')
+    ],'Tipo')
+    prod_material = fields.Selection([
+        ('metal','Metal'),
+        ('acetato','Acetado'),
+        ('titanium','Titanium')
+    ],'Material')
+    prod_sexo = fields.Selection([
+        ('f','Feminino'),
+        ('m','Masculino'),
+        ('u','Unisex')
+    ],'Genero')
+    prod_estilo = fields.Selection([
+        ('a','Adulto'),
+        ('i','Infantil'),
+        ('e','Esportivo')
+    ],'Estilo')
+    oculos = fields.Boolean('É óculos')
+
+
 
 class product_product(models.Model):
     _inherit = 'product.product'
@@ -72,11 +100,8 @@ class product_product(models.Model):
             name, variant_and_attributes) or name
         self.name = name
 
-    name = fields.Char(
-        'Complete Name',
-        compute='_get_complete_name',
-        store=True,
-    )
+
+    name = fields.Char('Complete Name',compute='_get_complete_name',store=True)
 
 # Overwrite of name_get function to avoid joining variants again
     def name_get(self, cr, user, ids, context=None):

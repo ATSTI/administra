@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+        <record model="ir.ui.view" id="product_optica_view">
+			<field name="name">product.optica.view</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_form_view"/>
+			<field name="arch" type="xml">
+			    <xpath expr='//notebook' position='inside'>
+					<page string="Óculos" attrs="{'invisible':[('oculos','=',False)]}">
+						<group name="oculos" string="Detalhes do óculos">>
+					        <field name="prod_tipo" string="Tipo"/>
+			                <field name="prod_material" string="Material"/>
+					        <field name="prod_sexo" string="Sexo"/>
+					        <field name="prod_estilo" string="Estilo"/>
+						</group>	
+					</page>
+				</xpath>
+				<xpath expr="//notebook" position="before">
+					<div>
+						<field name="oculos"/>
+						<label for="oculos"/>
+					</div>
+				</xpath>
+			</field>
+		</record>
         <record id="attribute_tree_view" model="ir.ui.view">
             <field name="name">product.attribute.tree.type</field>
             <field name="model">product.attribute</field>
