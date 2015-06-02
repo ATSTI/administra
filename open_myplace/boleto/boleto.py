@@ -39,7 +39,7 @@ class boleto_company_config(osv.osv):
     _name = 'boleto.company_config'
     _columns = {
         'name': fields.char('Name', size=20, required=True),
-        'banco': fields.selection([('bb', 'Banco do Brasil'), ('real', 'Banco Real'), ('bradesco', 'Banco Bradesco'), ('caixa', 'Banco Caixa Federal'),('sicredi', 'Sicredi')], 'Banco', required=True),
+        'banco': fields.selection([('bb', 'Banco do Brasil'), ('real', 'Banco Real'), ('bradesco', 'Banco Bradesco'), ('caixa', 'Banco Caixa Federal'),('sicredi', 'Sicredi'),('itau', 'Banco Itau')], 'Banco', required=True),
         'agencia_cedente': fields.integer('Agencia', size=6, required=True),
         'conta_cedente': fields.integer('Conta', size=8, required=True),
         'convenio': fields.integer(u'Convenio', size=8, required=True),
@@ -61,7 +61,7 @@ class boleto_boleto(osv.osv):
         'instrucoes': fields.text(u'Instruções'),
         'sacado': fields.many2one('res.partner', 'Sacado'),
         # da empresa
-        'banco': fields.selection([('bb', 'Banco do Brasil'), ('real', 'Banco Real'), ('bradesco', 'Banco Bradesco'), ('caixa', 'Banco Caixa Federal'),('sicredi', 'Sicredi')], 'Banco'),
+        'banco': fields.selection([('bb', 'Banco do Brasil'), ('real', 'Banco Real'), ('bradesco', 'Banco Bradesco'), ('caixa', 'Banco Caixa Federal'),('sicredi', 'Sicredi'),('itau','Banco Itau')], 'Banco'),
         'agencia_cedente': fields.char('Agencia', size=6),
         'conta_cedente': fields.char('Conta', size=8),
         'convenio': fields.char('Convenio', size=8),

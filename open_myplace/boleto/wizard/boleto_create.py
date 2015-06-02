@@ -23,6 +23,7 @@ from pyboleto.bank.bradesco import BoletoBradesco
 from pyboleto.bank.caixa import BoletoCaixa
 from pyboleto.bank.bancodobrasil import BoletoBB
 from pyboleto.bank.sicredi import BoletoSicredi
+from pyboleto.bank.itau import BoletoItau
 from pyboleto.pdf import BoletoPDF
 from datetime import datetime, date
 import pdb
@@ -90,11 +91,13 @@ class boleto_create(osv.osv_memory):
         }
 
     def create_boleto(self, cr, uid, ids, context=None):
+        pdb.set_trace()
         if context is None:
             context = {}
         data = self.read(cr, uid, ids, [], context=context)[0]
         bol_conf_id = int(data['boleto_company_config_ids'])
         inv_obj = self.pool.get('account.invoice')
+        acc_obj = self.pool.get('account.move.line')
         boleto_obj = self.pool.get('boleto.boleto')
         active_ids = context.get('active_ids', [])
         boleto_ids = []
@@ -105,7 +108,9 @@ class boleto_create(osv.osv_memory):
 
             if invoice.state in ['proforma2', 'open', 'sefaz_export']:
                 #rec_ids = invoice._get_receivable_lines(active_ids, False)
-                for move_line in self.pool.get('account.move.line').browse(cr, uid, invoice.id):
+
+                acc_line = acc_obj.search(cr, uid, [('move_id','=',invoice.move_id.id)], context=context)
+                for move_line in self.pool.get('account.move.line').browse(cr, uid, acc_line):
                     if not partner.boleto_partner_config.carteira:
                         raise osv.except_osv(
                             u'Faltam dados na configuração do boleto no parceiro".',
@@ -145,7 +150,7 @@ class boleto_create(osv.osv_memory):
                     'conta_cedente': bol_conf.conta_cedente,
                     'convenio': bol_conf.convenio,
                     'nosso_numero': invoice.internal_number,
-                    #'nosso_numero': '05644',
+                    #'nosso_numero': '49588827',
                     'move_line_id': move_line.id,
                     #'data_vencimento': move_line.date_maturity or date.today(),
                     'data_vencimento': invoice.date_due or date.today(),
@@ -157,7 +162,7 @@ class boleto_create(osv.osv_memory):
                     'valor': invoice.amount_total,
                     #'valor': 215.00,
                     'numero_documento': invoice.internal_number,
-                    #'numero_documento': '05644',
+                    #'numero_documento': '49588827',
                     }
                     boleto_id = boleto_obj.create(cr, uid, boleto, context)
                     boleto_ids.append(boleto_id)
@@ -188,6 +193,8 @@ class boleto_create(osv.osv_memory):
                 boleto = BoletoReal()
             elif bol.banco == 'sicredi':
                 boleto = BoletoSicredi(5,1)
+            elif bol.banco == 'itau':
+                boleto = BoletoItau()
 
             boleto.cedente = bol.cedente.name
             boleto.cedente_documento = bol.cedente.cnpj_cpf
