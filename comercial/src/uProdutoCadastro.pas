@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, EDBFind, Mask, FMTBcd, SqlExpr, JvExStdCtrls,
   JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit, ComCtrls,
-  JvExComCtrls, JvComCtrls, JvCheckBox, ACBrBase, ACBrValidador;
+  JvExComCtrls, JvComCtrls, JvCheckBox, ACBrBase, ACBrValidador, dbxpress;
 
 type
   TfProdutoCadastro = class(TfPai)
@@ -179,7 +179,7 @@ implementation
 uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
   uContaRateio, uClassificacaoFiscal, uCodigoTerceiros, uUsoCadastro,
   ufListaProd, uProduto_Mat_prima, sCtrlResize, Math, uFiltro_forn_plano,
-  uNCM;
+  uNCM, uEstoqueAtualiza;
 
 {$R *.dfm}
 
@@ -380,6 +380,7 @@ begin
 end;
 
 procedure TfProdutoCadastro.btnGravarClick(Sender: TObject);
+var tipoProd : integer;
 begin
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -476,7 +477,44 @@ begin
     3 : dm.cds_produtoTIPO.AsString := 'SERV';
     4 : dm.cds_produtoTIPO.AsString := 'LOCA';
   end;
+
+  tipoProd := 1;
+  if (DtSrc.State in [dsInsert]) then
+  begin
+    tipoProd := 0;
+  end;
   inherited;
+
+  if (tipoProd = 0) then
+  begin
+    // se usa lista de preco incluir nas listas
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT first 1 r.CODLISTA, ' + QuotedStr('S') + ' as usaLista ' +
+      '  FROM LISTAPRECO_VENDA r ' +
+      ' WHERE r.DATAFINAL >= current_date ' +
+      '   AND r.VALIDADE >= current_date ';
+
+    dm.cdsBusca.Open;
+    if (dm.cdsBusca.RecordCount > 0) then
+    begin
+      if dm.c_6_genid.Active then
+        dm.c_6_genid.Close;
+      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENLISTVEN_DET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+      dm.c_6_genid.Open;
+      DecimalSeparator := '.';
+      dm.sqlsisAdimin.ExecuteDirect('INSERT INTO LISTAPRECO_VENDADET (CODLISTADET, ' +
+        ' CODLISTA, CODPRODUTO, PRODUTO, PRECOVENDA, PRECOCOMPRA)  VALUES ( ' +
+        IntToStr(dm.c_6_genid.Fields[0].AsInteger) + ', ' +
+        IntToStr(dm.cdsBusca.Fields[0].AsInteger) + ', ' +
+        IntToStr(codprod1) + ', ' +
+        QuotedStr(dm.cds_produtoPRODUTO.AsString) + ', ' +
+        FloatToStr(dm.cds_produtoPRECOMEDIO.AsFloat) + ', '  +
+        FloatToStr(dm.cds_produtoVALORUNITARIOATUAL.AsFloat) + ')');
+        DecimalSeparator := ',';
+      dm.c_6_genid.Close;
+    end;
+  end;
 
 {  if varForm = 'Procura' then
      fProcura.editProc.Text := dm.cds_produtoPRODUTO.AsString;
@@ -1036,26 +1074,112 @@ begin
   {if (dbEdit1.Text <> '') then
     if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
       MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
-  }    
+  }
 end;
 
 procedure TfProdutoCadastro.BitBtn5Click(Sender: TObject);
+var strAtualiza: String;
+  codProd : Integer;
+  TDA: TTransactionDesc;
+  Save_Cursor:TCursor;
 begin
-  inherited;
-  // pega o ultimo movimento deste produto
-  if (dm.cdsBusca.Active) then
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+  try
+    codProd := 0;
+    TDA.TransactionID  := 1;
+    TDA.IsolationLevel := xilREADCOMMITTED;
+    // pega o ultimo movimento deste produto
+    {if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT FIRST 1 CODMOVIMENTO ' +
+      '  FROM MOVIMENTODETALHE M, PRODUTOS P ' +
+      ' WHERE P.CODPRODUTO = M.CODPRODUTO ' +
+      '   AND M.BAIXA IS NOT NULL ' +
+      '   AND M.CODPRODUTO = ' + IntToStr(DM.cds_produtoCODPRODUTO.AsInteger) +
+      ' ORDER BY M.CODDETALHE DESC ';
+    dm.cdsBusca.Open;
+    if (dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger  > 0) then
+    begin}
+      //dm.EstoqueAtualiza(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger);
+      //dm.EstoquecodMOV := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
+    if dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+    dm.cds_parametro.Open;
+    if ((dm.cds_parametro.IsEmpty) or (dm.cds_parametroDADOS.AsString = '')) then
+    begin
+      MessageDlg('Parametro CENTROCUSTO nao informado.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'select coalesce(ev.PRECOCUSTO,0) PRECO_CUSTO, ' +
+      ' coalesce(ev.SALDOFIMACUM,0) ESTOQUE, coalesce(ev.PRECOCOMPRA,0) PRECO_COMPRA ' +
+      ' from ESTOQUE_VIEW_CUSTO(current_date, ' + IntToStr(DM.cds_produtoCODPRODUTO.AsInteger) + ',' +
+    dm.cds_parametroD1.AsString + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
+      ' ) ev';
+
+
+    {'SELECT p.CODPRODUTO, p.CODALMOXARIFADO, ' +
+      ' p.LOTE, p.PRECO_CUSTO, p.ESTOQUE, p.PRECO_COMPRA, p.USA_LOTE, ' +
+      ' p.ESTOQUELOTE ' +
+      ' FROM ESTOQUE_ATUALIZA (' + IntToStr(dm.EstoquecodMOV)  + ') p';}
+    dm.cdsBusca.Open;
+    DecimalSeparator := '.';
+    dm.sqlsisAdimin.StartTransaction(TDA);
+    try
+      //while not dm.cdsBusca.eof do
+      //begin
+      //  if (codProd <> dm.cdsBusca.FieldByName('CODPRODUTO').AsInteger) then
+      //  begin
+      if (dm.prdPrecoCustoFixo = 'S') then
+      begin
+        strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+        strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+        strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
+        strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
+        strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
+        IntToStr(DM.cds_produtoCODPRODUTO.AsInteger);
+      end
+      else begin
+        strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+        strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+        strAtualiza := strAtualiza + ' , PRECOMEDIO = ';
+        strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('PRECO_CUSTO').asfloat);
+        strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
+        strAtualiza := strAtualiza + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
+        strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
+        IntToStr(DM.cds_produtoCODPRODUTO.AsInteger);
+      end;
+      dm.sqlsisAdimin.ExecuteDirect(strAtualiza);
+      //  end;
+      ///  codProd := dm.cdsBusca.FieldByName('CODPRODUTO').AsInteger;
+      //  if (dm.cds_produtoCODPRODUTO.AsInteger = codProd) then
+      //  begin
+          if (dm.cds_produto.State in [dsBrowse]) then
+            dm.cds_produto.Edit;
+          dm.cds_produtoESTOQUEATUAL.AsFloat := dm.cdsBusca.FieldByName('ESTOQUE').asfloat;
+      //  end;
+      //  dm.cdsBusca.Next;
+      //end;
+      DecimalSeparator := ',';
+      dm.sqlsisAdimin.Commit(TDA);
+    except
+      on E : Exception do
+      begin
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
     dm.cdsBusca.Close;
-  dm.cdsBusca.CommandText := 'SELECT FIRST 1 CODMOVIMENTO ' +
-    '  FROM MOVIMENTODETALHE M, PRODUTOS P ' +
-    ' WHERE P.CODPRODUTO = M.CODPRODUTO ' +
-    '   AND M.BAIXA IS NOT NULL ' +
-    '   AND M.CODPRODUTO = ' + IntToStr(DM.cds_produtoCODPRODUTO.AsInteger) +
-    ' ORDER BY M.CODDETALHE DESC ';
-  dm.cdsBusca.Open;
-  if (dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger  > 0) then
-    dm.EstoqueAtualiza(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger);
-  dm.cds_produto.Close;
-  dm.cds_produto.Open;  
+    //end;
+
+    dm.cds_produto.Close;
+    dm.cds_produto.Open;
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+  end;
 end;
 
 procedure TfProdutoCadastro.DBEdit22Exit(Sender: TObject);
