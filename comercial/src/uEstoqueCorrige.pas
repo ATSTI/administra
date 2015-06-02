@@ -595,18 +595,19 @@ end;
 procedure TfEstoqueCorrige.Button3Click(Sender: TObject);
 var str: String;
   Save_Cursor:TCursor;
+   TD: TTransactionDesc;
 begin
   if MessageDlg('Confirma a atualização do estoque ? ',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-  dm.EstoqueAtualiza(0);
+  //dm.EstoqueAtualiza(0);
   Save_Cursor := Screen.Cursor;
+
   Try
     lblAtualizando.Visible := True;
     lblAtualizando.Caption := 'Atualizando ....';
     Screen.Cursor := crHourGlass;
 
-    str := 'SELECT DISTINCT CODPRODUTO from MOVIMENTODETALHE ';
-    if (cdsA.Active) then
+   {if (cdsA.Active) then
       cdsA.Close;
     cdsA.CommandText := str;
     cdsA.Open;
@@ -627,12 +628,25 @@ begin
       end;
       prog2.Position := cdsA.RecNo;
       cdsA.Next;
+    end;}
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      dm.sqlsisAdimin.ExecuteDirect('execute PROCEDURE ESTOQUE_CORRIGE');
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
     end;
+
   finally
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
     lblAtualizando.Caption := 'Atualizado.';
   end;
-  MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
+
 end;
 
 end.
