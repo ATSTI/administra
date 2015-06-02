@@ -3385,10 +3385,11 @@ object fNfeIcms: TfNfeIcms
   object sdsProduto: TSQLDataSet
     CommandText = 
       'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
-      ', DET.UN '#13#10'   FROM COMPRA C,MOVIMENTO MOV, MOVIMENTODETALHE DET,' +
-      ' PRODUTOS PRO'#13#10'WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'      AN' +
-      'D MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO ' +
-      '    = DET.CODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'
+      ', DET.UN , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2)  AS CLASS_FISCAL '#13#10 +
+      '   FROM COMPRA C,MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS P' +
+      'RO'#13#10'WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'      AND MOV.CODMO' +
+      'VIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO     = DET.C' +
+      'ODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -3415,6 +3416,11 @@ object fNfeIcms: TfNfeIcms
       FixedChar = True
       Size = 2
     end
+    object sdsProdutoCLASS_FISCAL: TStringField
+      FieldName = 'CLASS_FISCAL'
+      ReadOnly = True
+      Size = 254
+    end
   end
   object dspProduto: TDataSetProvider
     DataSet = sdsProduto
@@ -3424,27 +3430,7 @@ object fNfeIcms: TfNfeIcms
   end
   object cdsProduto: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'PMOV'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftInteger
-        Name = 'PMOVF'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_INI'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTA_FIM'
-        ParamType = ptInput
-      end>
+    Params = <>
     ProviderName = 'dspProduto'
     Left = 337
     Top = 328
@@ -3468,6 +3454,11 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'UN'
       FixedChar = True
       Size = 2
+    end
+    object cdsProdutoCLASS_FISCAL: TStringField
+      FieldName = 'CLASS_FISCAL'
+      ReadOnly = True
+      Size = 254
     end
   end
   object sdsCompraDet: TSQLDataSet
