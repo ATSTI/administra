@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record forcecreate="1" id="seq_type_cnab240exportsegmento" model="ir.sequence.type">
+            <field name="name">Exportacao Segmento CNAB240</field>
+            <field name="code">cnab240exportsegmento.export</field>
+        </record>
+        <record forcecreate="1" id="cnab240exportsegmento" model="ir.sequence">
+            <field name="name">Exportacao CNAB Segmento</field>
+            <field name="code" >cnab240exportsegmento.export</field>
+            <!--<field eval="3" name="padding"/>-->
+        </record>
+    </data>
+</openerp>

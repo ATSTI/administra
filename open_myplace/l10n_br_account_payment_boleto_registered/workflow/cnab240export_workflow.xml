@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+<!--Declaração do Workflow-->
+
+        <record id="wkf_cnab240export" model="workflow">
+            <field name="name">cnab240export.workflow</field>
+            <field name="osv">cnab240export</field>
+            <field name="on_create">True</field>
+        </record>
+
+<!--Declaração das atividades-->
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_cnab240export"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+        </record>
+               
+        <record id="act_conf" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_cnab240export"/>
+            <field name="name">confirmed</field>
+            <field name="action">write({'state':'confirm'})</field>
+            <!--<field name="kind">function</field>-->
+        </record>
+
+        <record id="act_envi" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_cnab240export"/>
+            <field name="name">sent</field>
+            <field name="flow_stop">True</field>
+            <field name="action">write({'state': 'sent'})</field>
+            <!--<field name="kind">function</field>-->
+        </record>
+
+<!--Declaração das Transições-->
+
+        <record id="cnabexport_trans_draft_open" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_conf"/>
+            <field name="signal"></field>
+        </record>
+
+        <record id="cnabexport__trans_open_paid" model="workflow.transition">
+            <field name="act_from" ref="act_conf"/>
+            <field name="act_to" ref="act_envi"/>
+            <field name="signal"></field>
+        </record>
+
+        <!--<record id="cnabexport_trans_paid_storno" model="workflow.transition">-->
+            <!--<field name="act_from" ref="act_envi"/>-->
+            <!--<field name="act_to" ref="act_storno"/>-->
+            <!--<field name="signal">unlink</field>-->
+        <!--</record>-->
+
+    </data>
+</openerp>

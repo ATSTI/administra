@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+    <record model="ir.ui.view" id="action_cnab_export_seg_tree">
+        <field name="name">cnab240exportseg.tree</field>
+        <field name="model">cnab240export.segmentos</field>
+        <field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+            <tree string="Exportacao CNAB240 Tree Segmento" version="7.0">
+                <field name="name"/>
+                <field name="carteira_numero"/>
+                <field name="nosso_numero"/>
+                <field name="numero_documento"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="action_cnab_export_seg_form">
+        <field name="name">cnab240exportseg.form</field>
+        <field name="model">cnab240export.segmentos</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <form string="Exportacao CNAB240 Form Segmento" version="7.0">
+				<group string="Segmento">
+					<group>
+					    <field name="name"/>
+					    <field name="arquivo_id"/>
+					    <field name="carteira_numero"/>
+					    <field name="nosso_numero"/>
+					    <field name="nosso_numero_dv"/>
+					    <field name="numero_documento"/>
+				    </group>
+					<group>
+					    <field name="data_emissao_titulo"/>
+					    <field name="juros_mora_taxa_dia"/>
+					    <field name="vencimento_titulo"/>
+					    <field name="valor_titulo"/>
+					    <field name="especie_titulo"/>
+					    <field name="aceite_titulo"/>
+				    </group>
+				</group>
+				<group string="Sacado">
+					<group>
+					    <field name="partner_id"/>
+				    </group>
+					<group>
+					    <field name="codigo_protesto"/>
+					    <field name="prazo_protesto"/>
+				    </group>
+				</group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="action_account_cnab_export_tree">
+        <field name="name">cnab240export.tree</field>
+        <field name="model">cnab240export</field>
+        <field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+            <tree string="Exportacao CNAB240 Tree" version="7.0">
+                <field name="cedente_nome"/>
+                <field name="codigo_banco"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="action_account_cnab_export_form">
+        <field name="name">cnab240export.form</field>
+        <field name="model">cnab240export</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <form string="Exportacao CNAB240 Form" version="7.0">
+                <sheet>
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft, confirmed, sent"
+                               statusbar_colors='{
+                                "draft":"blue",
+                                 "confirmed":"blue",
+                                  "sent": "blue"}'/>
+                        <h1>Tela de Exportação do CNAB240</h1>
+                    </header>
+                    <group col="1">
+                        <!--<button name="montarArquivoNC_IDS" type="object" string="Download" class="oe_right"/>-->
+                        <div><button name="%(action_view_cnab_from_account_payment_receivable)d" string="Import Invoices" type="action" class="oe_right" attrs="{'invisible':[('state','=','sent')]}"/></div>
+                        <div><button name="montarArquivo" string="Download Arquivo" type="object" class="oe_right"/></div>
+                    </group>
+                    <group col="1">
+                        <field name="arquivo_sequencia"/>
+                    </group>
+                    <group col="2">
+                        <field name="cedente_nome"/>
+                        <field name="cedente_inscricao_numero"/>
+                        <field name="cedente_inscricao_tipo"/>
+						<!-- <field name="cedente_codCedente"/> -->
+                    </group>
+
+                    <group col="2">
+                        <field name="cedente_agencia"/>
+						<field name="cedente_agencia_digito"/>
+                        <field name="cedente_conta"/>
+                    </group>
+                    <group col="2" string="Banco">
+                        <field name="codigo_banco"/>
+                        <field name="nome_do_banco"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Segmentos">
+                            <field name="segmento_ids">
+                                <!--<form string="Segmentos">-->
+                                    <!--<notebook>-->
+                                        <!--<page string="Form de Segmentos">-->
+
+                                        <!--</page>-->
+                                    <!--</notebook>-->
+                                <!--</form>-->
+
+                                <tree string="Linhas de Segmentos" >
+                                    <field name="partner_id"/>
+                                    <field name="data_emissao_titulo"/>
+                                    <field name="prazo_protesto"/>
+                                    <field name="prazo_baixa"/>
+                                    <field name="valor_titulo"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+        <record model="ir.actions.act_window" id="action_account_cnab_export">
+            <field name="name">CNAB240</field>
+            <field name="res_model">cnab240export</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Clique para estruturar e criar um arquivo CNAB240.
+              </p><p>
+              </p>
+            </field>
+        </record>
+        <menuitem id="periodical_processing_cnab" name="CNAB"
+                  parent="account.menu_finance_periodical_processing"/>
+
+        <menuitem id="menu_cnab_export"
+             name="Exportacao CNAB"
+             action="action_account_cnab_export"
+             parent="periodical_processing_cnab"/>
+    </data>
+</openerp>
