@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_csv_export_view" model="ir.ui.view">
+             <field name="name">Product CSV Export</field>
+             <field name="model">product.csv.export</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                <form string="Product CSV Export" version="7.0">
+                    <group colspan="4">
+                        <field name="category_id" />
+                    </group>
+                    <separator string ="Report" colspan="4"/>
+                    <group colspan="4">
+                        <field name="data" filename="export_filename"/>
+                    </group>
+                    <footer>
+                        <button name="action_manual_export_product" string="Produtos" type="object" icon="gtk-execute" class="oe_highlight"/>
+                        or 
+                        <button string="Close" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+             </field>
+         </record>
+
+        <record id="action_product_csv_export" model="ir.actions.act_window">
+             <field name="name">Product CSV Export</field>
+             <field name="res_model">product.csv.export</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="product_csv_export_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+    </data>
+</openerp>
