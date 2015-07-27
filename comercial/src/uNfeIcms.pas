@@ -1022,6 +1022,8 @@ type
     cdsCompraDetCODPRO: TStringField;
     sdsProdutoCLASS_FISCAL: TStringField;
     cdsProdutoCLASS_FISCAL: TStringField;
+    sdsCompraOPERACAO: TStringField;
+    cdsCompraOPERACAO: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1708,6 +1710,25 @@ begin
           begin
             IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
             IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
+
+            IND_FRT := tfNenhum;
+            if (cdsCompraOPERACAO.AsString = '0') then
+            begin
+              IND_FRT := tfPorContaEmitente;      // 0 - Por conta do emitente
+            end
+            else if (cdsCompraOPERACAO.AsString = '1') then
+            begin
+              IND_FRT := tfPorContaDestinatario;  // 1 - Por conta do destinatário
+            end
+            else  if (cdsCompraOPERACAO.AsString = '2') then
+            begin
+              IND_FRT := tfPorContaTerceiros;     // 2 - Por conta de terceiros
+            end
+            else if (cdsCompraOPERACAO.AsString = '9') then
+            begin
+              IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
+            end;
+
             COD_PART      := FormatFloat('100000', cdsCompraCODFORNECEDOR.asInteger);
             if (Length(cdsCompraMODELO.AsString) = 1) then
               COD_MOD       := trim('0' + cdsCompraMODELO.AsString)
@@ -1731,7 +1752,7 @@ begin
             VL_DESC       := 0;
             VL_ABAT_NT    := 0;
             VL_MERC       := cdsCompraVALOR.AsFloat;
-            IND_FRT       := tfSemCobrancaFrete;
+            //IND_FRT       := tfSemCobrancaFrete;
             VL_FRT        := cdsCompraVALOR_FRETE.AsFloat;
             VL_SEG        := cdsCompraVALOR_SEGURO.AsFloat;
             VL_OUT_DA     := 0;
@@ -1881,6 +1902,7 @@ begin
           //begin
           //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
           // Fiscal de Produtor (código 04) e NF-e (código 55)
+
           with RegistroC100New do
           begin
             IND_OPER      := tpSaidaPrestacao; // 1-Saida
@@ -1908,15 +1930,15 @@ begin
             VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
             if (cdsNFVendaFRETE.AsString = '0') then
             begin
-              IND_FRT := tfPorContaTerceiros;     // 0 - Por conta de terceiros
+              IND_FRT := tfPorContaEmitente;     // 0 - Por conta de terceiros
             end
             else if (cdsNFVendaFRETE.AsString = '1') then
             begin
-              IND_FRT := tfPorContaEmitente;      // 1 - Por conta do emitente
+              IND_FRT := tfPorContaDestinatario;      // 1 - Por conta do emitente
             end
             else if (cdsNFVendaFRETE.AsString = '2') then
             begin
-              IND_FRT := tfPorContaDestinatario;  // 2 - Por conta do destinatário
+              IND_FRT := tfPorContaTerceiros;  // 2 - Por conta do destinatário
             end
             else if (cdsNFVendaFRETE.AsString = '3') then
             begin

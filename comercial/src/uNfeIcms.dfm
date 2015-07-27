@@ -2594,20 +2594,20 @@ object fNfeIcms: TfNfeIcms
       'E, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BAS' +
       'E_ST, c.CODMOVIMENTO, c.CHAVENF, c.MODELO'#13#10', SUM(MD.VIPI) IPI, S' +
       'UM(MD.VALOR_PIS) PIS, SUM(MD.VALOR_COFINS) COFINS , SUM(VLR_BASE' +
-      'ICMS) BASE_ICMS '#13#10'    FROM COMPRA C, MOVIMENTO MOV, FORNECEDOR f' +
-      ', ENDERECOFORNECEDOR ef, MOVIMENTODETALHE MD '#13#10'   WHERE C.CODMOV' +
-      'IMENTO = MOV.CODMOVIMENTO'#13#10'     AND md.CODMOVIMENTO = c.CODMOVIM' +
-      'ENTO      '#13#10'     AND  f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     AN' +
-      'D ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef.TIPOEND = 0  '#13 +
-      #10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND C.CODMOVIMENTO BETWE' +
-      'EN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA      BETWEEN :DTA' +
-      '_INI AND :DTA_FIM'#13#10'     group by C.DATACOMPRA, C.NOTAFISCAL, C.V' +
-      'ALOR_ICMS, C.VALOR_FRETE, C.VALOR_SEGURO, C.VALOR_IPI'#13#10', f.CODFO' +
-      'RNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, f.TIPOFIRMA, ef' +
-      '.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPL' +
-      'EMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VA' +
-      'LOR, C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c.CHAVENF, c.MOD' +
-      'ELO'#13#10'  ORDER BY F.CODFORNECEDOR'
+      'ICMS) BASE_ICMS '#13#10', c.OPERACAO '#13#10'    FROM COMPRA C, MOVIMENTO MO' +
+      'V, FORNECEDOR f, ENDERECOFORNECEDOR ef, MOVIMENTODETALHE MD '#13#10'  ' +
+      ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'     AND md.CODMOVIMEN' +
+      'TO = c.CODMOVIMENTO      '#13#10'     AND  f.CODFORNECEDOR = c.CODFORN' +
+      'ECEDOR'#13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef' +
+      '.TIPOEND = 0  '#13#10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND C.COD' +
+      'MOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA   ' +
+      '   BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     group by C.DATACOMPRA, C.' +
+      'NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, C.VALOR_SEGURO, C.VALOR' +
+      '_IPI'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, ' +
+      'f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef' +
+      '.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10 +
+      ', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c' +
+      '.CHAVENF, c.MODELO, c.OPERACAO'#13#10'  ORDER BY F.CODFORNECEDOR'
     MaxBlobSize = -1
     Params = <
       item
@@ -2751,6 +2751,12 @@ object fNfeIcms: TfNfeIcms
     object sdsCompraBASE_ICMS: TFloatField
       FieldName = 'BASE_ICMS'
       ReadOnly = True
+    end
+    object sdsCompraOPERACAO: TStringField
+      FieldName = 'OPERACAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dspCompra: TDataSetProvider
@@ -2902,6 +2908,12 @@ object fNfeIcms: TfNfeIcms
     object cdsCompraBASE_ICMS: TFloatField
       FieldName = 'BASE_ICMS'
       ReadOnly = True
+    end
+    object cdsCompraOPERACAO: TStringField
+      FieldName = 'OPERACAO'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object sdsEmpS: TSQLDataSet
