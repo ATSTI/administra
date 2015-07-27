@@ -1016,7 +1016,7 @@ procedure TfTerminal_Delivery.btnGravarClick(Sender: TObject);
 begin
   // Salvo o Movimento
   if (cds_Mov_detTotalPedido.Value >= 500) then
-    if MessageDlg('Confirma o valor da Nota Fiscal ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    if MessageDlg('Confirma o valor para o Cupom ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       gravacupom
     else
       Exit
@@ -1676,7 +1676,7 @@ begin
     sTipoDesconto := '%';
     texto1 := cds_Mov_detCODPRO.AsString;
     texto2 := Trim(copy(cds_Mov_detDESCPRODUTO.AsString, 0,200));
-    texto3 := cds_Mov_detALIQ_CUPOM.AsString; //'II'; // Aliquota
+    texto3 := trim(cds_Mov_detALIQ_CUPOM.AsString); //'II'; // Aliquota
     //texto4 := FloatToStr(buscaTributacaoICMS_SUBST.AsFloat); //'FF'; // Aliquota
     //I := StrToInt(texto3);
     var_aliq_cupom := texto3;
