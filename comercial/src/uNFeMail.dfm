@@ -305,7 +305,7 @@ object fNFeMail: TfNFeMail
     object sEmailE_MAIL: TStringField
       FieldName = 'E_MAIL'
       ReadOnly = True
-      Size = 30
+      Size = 256
     end
   end
   object cds_ccusto: TClientDataSet
