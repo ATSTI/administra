@@ -2,7 +2,7 @@ object fPrincipal: TfPrincipal
   Left = 245
   Top = 49
   Width = 1083
-  Height = 640
+  Height = 664
   BorderIcons = [biSystemMenu]
   Caption = 'Impress'#227'o de Etiquetas'
   Color = clGradientInactiveCaption
@@ -202,6 +202,15 @@ object fPrincipal: TfPrincipal
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+  end
+  object Memo1: TMemo
+    Left = 616
+    Top = 248
+    Width = 433
+    Height = 313
+    Lines.Strings = (
+      'Imprimir Etiqueta')
+    TabOrder = 25
   end
   object cbMarca: TComboBox
     Left = 473
@@ -601,7 +610,7 @@ object fPrincipal: TfPrincipal
   object DBGrid2: TDBGrid
     Left = 6
     Top = 48
-    Width = 956
+    Width = 955
     Height = 188
     DataSource = Dtsrc
     TabOrder = 8
@@ -793,8 +802,8 @@ object fPrincipal: TfPrincipal
     Layout = blGlyphTop
   end
   object btnSair: TBitBtn
-    Left = 990
-    Top = 528
+    Left = 998
+    Top = 568
     Width = 70
     Height = 55
     Caption = 'F9-Sair'
@@ -974,7 +983,7 @@ object fPrincipal: TfPrincipal
     Layout = blGlyphTop
   end
   object bEtqSimples: TButton
-    Left = 531
+    Left = 524
     Top = 471
     Width = 88
     Height = 56
@@ -1073,13 +1082,22 @@ object fPrincipal: TfPrincipal
     OnClick = BitBtn4Click
   end
   object Button1: TButton
-    Left = 531
+    Left = 523
     Top = 471
     Width = 88
     Height = 56
     Caption = 'IMPRIMIR'
     TabOrder = 23
     OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 627
+    Top = 567
+    Width = 118
+    Height = 56
+    Caption = 'IMP. ARQUIVO - IZA'
+    TabOrder = 24
+    OnClick = Button2Click
   end
   object SQLPro: TSQLDataSet
     CommandText = 'select  * from PRODUTOS '

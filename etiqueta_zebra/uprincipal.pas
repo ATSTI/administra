@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, rpcompobase, rpvclreport, DB, Provider, DBClient,
   SqlExpr, StdCtrls, Grids, DBGrids, EDBFind, Buttons, DBXpress ,comobj,
-  ACBrBase, ACBrETQ ,ACBrDevice;
+  ACBrBase, ACBrETQ ,ACBrDevice, JvComponentBase, JvCSVBaseControls;
 
 type
   TfPrincipal = class(TForm)
@@ -266,6 +266,8 @@ type
     Button1: TButton;
     SQLqOBS: TStringField;
     CDSqOBS: TStringField;
+    Button2: TButton;
+    Memo1: TMemo;
     procedure BitBtn1Click(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -279,9 +281,13 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
-         procedure AtivarACBrETQ ;
+    procedure AtivarACBrETQ ;
+    procedure lerPlanilha;
+    procedure imprimePlanilha(cod, produto, preco, qtde: String);
+
   public
     { Public declarations }
        TD: TTransactionDesc;
@@ -708,6 +714,95 @@ begin
     end;
   end;
 
+end;
+
+procedure TfPrincipal.lerPlanilha;
+var
+  Arq: TextFile;
+  Texto, linha: string;
+  Txt: TStringList;
+begin
+  memo1.Lines.Clear;
+  Txt := TStringList.Create; // cria a stringlist
+  //Txt.s.StrictDelimiter := True; // indica que o delimitador é somente aquele definido abaixo
+  Txt.Delimiter := ','; // caractere delimitador de campos
+  try
+    Screen.Cursor := crHourGlass;
+    AssignFile(Arq,'C:\home\prod.csv');
+    Reset(Arq);
+    linha := 'linha1';
+    if not EOF(Arq) then
+    repeat
+      ReadLn(Arq, Texto);
+      Txt.DelimitedText := Texto; // desmembra o texto
+
+      //Texto := Txt[1]; // Codigo
+      //Texto := Txt[2]; // Descrição
+      //Texto  := Txt[3]; // Preço
+      //Texto  := Txt[4]; // Quantidade
+      if (linha <> 'linha1') then
+      begin
+        imprimePlanilha(txt[1], txt[2],txt[3],txt[4]);
+      end;
+      linha := 'linha2';
+      until EOF(Arq);
+  finally
+    Closefile(Arq); //fecha arquivo CSV
+    Screen.Cursor := crDefault;
+  end;
+  FreeAndNil(Txt);
+end;
+
+procedure TfPrincipal.imprimePlanilha(cod, produto, preco, qtde: String);
+  var numero_etiqueta, i: integer;
+  pco: Double;
+begin
+  //num := ;
+  DecimalSeparator := '.';
+  try
+    numero_etiqueta := Trunc(StrToFloat(qtde));
+    pco := StrToFloat(preco);
+  finally
+    DecimalSeparator := ',';
+  end;
+  preco := FormatFloat('##0.00', pco);
+  AtivarACBrETQ ;
+  with ACBrETQ do
+  begin
+    if Modelo = etqPPlb then
+    begin
+      //descricao := CDSqPRODUTO.AsString ;
+      {
+       Arquivo ACBrETQEpl2  Exemplo
+       =========================
+       39         - "3C"
+       128       - "1A"  "1B"  "1C"
+       EAN8    - "E80" "E82" "E85"
+       EAN13  - "E30"  "E32" "E35"
+       2 of 5 - "2"  "2C" "2D"
+       ImprimirBarras(orNormal,'1A', '2', '2', 410, 570, '12345', 60, becSIM);
+       ImprimirBarras(orNormal, 'E30', '2', '2', 410, 570, '7896003701685', 60, becSIM);
+      }
+      //for i := 1 to numero_etiqueta do
+      //begin
+        // primeira parte etiqueta
+        ImprimirBarras(orNormal, 'E80', '2', '2', 2, 95, cod, 90, becSIM);
+        // segunda parte etiqueta
+        ImprimirTexto(orNormal, 2, 1, 1, 15, 365, preco);
+        ImprimirTexto(orNormal, 1, 1, 1, 45, 365,Copy(produto,1,21));
+        ImprimirTexto(orNormal, 1, 1, 1, 75, 365,Copy('',1,21));
+      //end;
+    end;
+    Imprimir(numero_etiqueta);
+    memo1.Lines.Add(cod + ' - ' + produto + ' - ' + preco + ' - ' + IntToStr(numero_etiqueta) + ' - FEITO. ');    
+    Desativar;
+  end;
+
+end;
+
+procedure TfPrincipal.Button2Click(Sender: TObject);
+begin
+  lerPlanilha;
 end;
 
 end.
