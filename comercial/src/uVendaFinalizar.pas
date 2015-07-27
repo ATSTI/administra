@@ -577,6 +577,7 @@ type
     procedure BitBtn10Click(Sender: TObject);
     procedure ImprimirPedidoII1Click(Sender: TObject);
   private
+    controleExclui: String;
     TD: TTransactionDesc;
     usaMateriaPrima: String;
     { Private declarations }
@@ -1284,7 +1285,10 @@ var    utilcrtitulo : Tutils;
   FMov : TMovimento;
   FRec : TReceberCls;
   Save_Cursor:TCursor;
+
 begin
+  if (controleExclui = 'N') then
+  begin
   Save_Cursor := Screen.Cursor;
   Screen.Cursor := crHourGlass;
   try
@@ -1313,6 +1317,7 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
+        controleExclui := 'S';
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1372,6 +1377,7 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
+        controleExclui := 'S';
         if (dm.moduloUsado = 'CITRUS') then
         begin
           grava := TCompras.Create;
@@ -1430,6 +1436,7 @@ begin
   end;
 
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
+  end;// fim do if controleexclui
 end;
 
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
@@ -2018,7 +2025,7 @@ begin
   Excluir := 'S';
   Cancelar := 'S';
   Procurar := 'S';
-
+  controleExclui := 'N';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'USACUPOM';
