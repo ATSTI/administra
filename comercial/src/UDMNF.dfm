@@ -3342,6 +3342,7 @@ object DMNF: TDMNF
     Top = 4
     object sds_compraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object sds_compraCODMOVIMENTO: TIntegerField
@@ -3493,6 +3494,7 @@ object DMNF: TDMNF
     Top = 94
     object cds_compraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cds_compraCODMOVIMENTO: TIntegerField
