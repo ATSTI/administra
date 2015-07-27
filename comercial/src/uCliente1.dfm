@@ -1298,7 +1298,7 @@ inherited fCliente1: TfCliente1
     end
     object cds_CliEndE_MAIL: TStringField
       FieldName = 'E_MAIL'
-      Size = 100
+      Size = 256
     end
     object cds_CliEndRAMAL: TStringField
       FieldName = 'RAMAL'
@@ -1415,7 +1415,7 @@ inherited fCliente1: TfCliente1
     end
     object sds_CliEndE_MAIL: TStringField
       FieldName = 'E_MAIL'
-      Size = 100
+      Size = 256
     end
     object sds_CliEndRAMAL: TStringField
       FieldName = 'RAMAL'

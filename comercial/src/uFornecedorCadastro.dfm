@@ -1821,11 +1821,6 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       ProviderFlags = [pfInUpdate]
       Size = 9
     end
-    object cds_endforE_MAIL: TStringField
-      FieldName = 'E_MAIL'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
-    end
     object cds_endforRAMAL: TStringField
       FieldName = 'RAMAL'
       ProviderFlags = [pfInUpdate]
@@ -1852,6 +1847,12 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object cds_endforPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object cds_endforE_MAIL: TStringField
+      DisplayWidth = 256
+      FieldName = 'E_MAIL'
+      ProviderFlags = [pfInUpdate]
+      Size = 256
     end
   end
   object dsp_endfor: TDataSetProvider
@@ -1937,11 +1938,6 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
       ProviderFlags = [pfInUpdate]
       Size = 9
     end
-    object sds_endforE_MAIL: TStringField
-      FieldName = 'E_MAIL'
-      ProviderFlags = [pfInUpdate]
-      Size = 30
-    end
     object sds_endforRAMAL: TStringField
       FieldName = 'RAMAL'
       ProviderFlags = [pfInUpdate]
@@ -1968,6 +1964,10 @@ inherited fFornecedorCadastro: TfFornecedorCadastro
     object sds_endforPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object sds_endforE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 256
     end
   end
   object SQLDataSet1: TSQLDataSet

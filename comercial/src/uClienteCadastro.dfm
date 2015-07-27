@@ -7200,10 +7200,10 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 9
     end
     object sdsEnderecoCliE_MAIL: TStringField
-      DisplayWidth = 100
+      DisplayWidth = 256
       FieldName = 'E_MAIL'
       ProviderFlags = [pfInUpdate]
-      Size = 100
+      Size = 256
     end
     object sdsEnderecoCliRAMAL: TStringField
       FieldName = 'RAMAL'
@@ -7337,10 +7337,10 @@ inherited fClienteCadastro: TfClienteCadastro
       Size = 9
     end
     object cdsEnderecoCliE_MAIL: TStringField
-      DisplayWidth = 100
+      DisplayWidth = 256
       FieldName = 'E_MAIL'
       ProviderFlags = [pfInUpdate]
-      Size = 100
+      Size = 256
     end
     object cdsEnderecoCliRAMAL: TStringField
       FieldName = 'RAMAL'

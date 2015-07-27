@@ -88,7 +88,6 @@ type
     cds_endforTELEFONE1: TStringField;
     cds_endforTELEFONE2: TStringField;
     cds_endforFAX: TStringField;
-    cds_endforE_MAIL: TStringField;
     cds_endforRAMAL: TStringField;
     cds_endforTIPOEND: TSmallintField;
     cds_endforDADOSADICIONAIS: TStringField;
@@ -107,7 +106,6 @@ type
     sds_endforTELEFONE1: TStringField;
     sds_endforTELEFONE2: TStringField;
     sds_endforFAX: TStringField;
-    sds_endforE_MAIL: TStringField;
     sds_endforRAMAL: TStringField;
     sds_endforTIPOEND: TSmallintField;
     sds_endforDADOSADICIONAIS: TStringField;
@@ -224,6 +222,8 @@ type
     cds_fornecedorCAMPOADICIONAL: TStringField;
     cds_fornecedorCAMPOADICIONAL1: TStringField;
     cds_fornecedorCFOP: TStringField;
+    sds_endforE_MAIL: TStringField;
+    cds_endforE_MAIL: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
