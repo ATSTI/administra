@@ -259,6 +259,8 @@ class Cnab240Export(orm.Model):
             nome_do_banco = obj_id.nome_do_banco
             arquivo_sequencia = int(obj_id.arquivo_sequencia)
 
+        pdb.set_trace()
+        cedente_inscricao_numero = cedente_inscricao_numero.replace(".", "").replace("/", "").replace("-", "")
         data_arq = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S') 
         data_arquivo = data_arq[8:10] + data_arq[5:7] + data_arq[0:4]
         hora_arq = data_arq[11:13] + data_arq[14:16] + data_arq[17:19]
@@ -330,7 +332,7 @@ class Cnab240Export(orm.Model):
             #'carteira_numero': 109,
             'nosso_numero': 99999999,
             'nosso_numero_dv': 9,
-            'numero_documento': u'9999999999',
+            #'numero_documento': u'9999999999',
             'vencimento_titulo': 30072012,
             'valor_titulo': Decimal('100.00'),
             'especie_titulo': 8,
@@ -360,7 +362,7 @@ class Cnab240Export(orm.Model):
             #cedente_agencia = segmento.cedente_agencia
             #cedente_carteira = segmento.carteira_numero
             id_arquivo = segmento.arquivo_id
-            numero_documento = segmento.numero_documento
+            res['numero_documento'] = str(segmento.numero_documento)
             #nosso_numero = segmento.nosso_numero
             #nosso_numero_dv = segmento.nosso_numero_dv
             juros = segmento.juros_mora_taxa_dia
