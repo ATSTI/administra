@@ -2078,6 +2078,10 @@ begin
 
     if (versaoSistema = '3.0.0.3') then
     begin
+      try
+        executaDDL('MOVIMENTODETALHE', 'SUITE', 'varchar(40)');
+      except
+      end;
       insereouatualizaScript('gera_nf_venda.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('sp_mov_caixac.sql', '3.0.0.3', StrToDate('01/09/2014'));
       insereouatualizaScript('listaProduto.sql', '3.0.0.3', StrToDate('01/09/2014'));
@@ -2127,7 +2131,6 @@ begin
 
     if (versaoSistema = '3.0.0.14') then
     begin
-
       insereouatualizaScript('spestoquegrupo.sql', '3.0.0.14', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_atualiza.sql', '3.0.0.14', StrToDate('04/12/2013'));
       //insereouatualizaScript('trg_calcula_icms_st.sql', '3.0.0.14', StrToDate('01/11/2014'));
@@ -2296,18 +2299,35 @@ begin
 
     if (versaoSistema = '3.1.0.8') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '3.1.0.9', StrToDate('01/04/2015'));
+      try
+        executaDDL('MOVIMENTODETALHE', 'SUITE', 'varchar(40)');
+      except
+      end;
       AtualizandoScript('3.1.0.9');
       mudaVersao('3.1.0.10');
     end;
 
     if (versaoSistema = '3.1.0.10') then
     begin
-      insereouatualizaScript('estoque_produto_atualiza.sql', '3.1.0.10', StrToDate('01/04/2015'));
-      insereouatualizaScript('os_excluir.sql', '3.1.0.10', StrToDate('01/04/2015'));      
+      insereouatualizaScript('trg_calcula_icms_st.sql', '3.1.0.10', StrToDate('01/04/2015'));
+      insereouatualizaScript('estoque_produto_atualiza.sql', '3.1.0.10', StrToDate('01/07/2015'));
+      insereouatualizaScript('os_excluir.sql', '3.1.0.10', StrToDate('01/04/2015'));
       AtualizandoScript('3.1.0.10');
       mudaVersao('3.2.0.0');
     end;
+
+    if (versaoSistema = '3.2.0.0') then
+    begin
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOFORNECEDOR ALTER E_MAIL TYPE Varchar(256)');
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER E_MAIL TYPE Varchar(256)');
+      except
+        MessageDlg('Erro para alterar o tamanho do campo do Email, Cliente e Forncedor.'
+        , mtWarning, [mbOK], 0);
+      end;
+      mudaVersao('3.2.0.1');
+    end;
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
