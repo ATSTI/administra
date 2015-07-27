@@ -3,7 +3,7 @@
 from openerp.osv import fields, osv
 from datetime import datetime, timedelta
 from openerp import tools
-#import pdb
+import pdb
 
 
 class crm_claim(osv.Model):
@@ -16,10 +16,11 @@ class crm_claim(osv.Model):
         "fornece_email": fields.related('partner_id', 'fornece_email', type='boolean', string='Pode fornecer email ?'),
         "title": fields.related('partner_id', 'title', type='char', string='Ramo Atividade'),
         "transfer_recado": fields.related('partner_id', 'transfer_recado', type='char', string='Tranferencia/Recado'),
-        "motivo_ausencia": fields.related('partner_id', 'motivo_ausencia', type='char', string='Motivo Ausencia'),
-        "ramal_softphone1": fields.related('partner_id', 'ramal_softphone1', type='char', string='Fone Redirec.'),
-        "ramal_softphone2": fields.related('partner_id', 'ramal_softphone2', type='char', string='Email Redirec.'),
-        "contatos": fields.char('Contatos', store=False),
+        "motivo_ausencia": fields.char(string='Motivo Ausencia'),
+        "ramal_softphone1": fields.char(string='Fone Redirec.'),
+        "ramal_softphone2": fields.char(string='Email Redirec.'),
+        "contato1": fields.html('Contato'),
+        "contato2": fields.html('Contato'),
         'transferencia': fields.boolean('Transferência'),
         'recado': fields.boolean('Recado'),
     }
@@ -32,15 +33,72 @@ class crm_claim(osv.Model):
         if not partner_id:
             return {'value': {'email_from': False, 'partner_phone': False, 'legal_name': False, 'fornece_fone': False, 'title': False, 'fornece_email': False, 'motivo_ausencia': False, 'razao_empresa':False, 'transfer_recado': False, 'ramal_softphone1': False, 'ramal_softphone2': False}}
         address = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
-        contatos = ''
+        contato1 = ''
+        contato2 = ''
+        funcao = ''
+        email = ''
+        conta = 1
+        contato_html = '<div> <ul class="columns" data-columns="2">'
+        contato2_html = '<div> <ul class="columns" data-columns="2">'
         for contact in address.child_ids: 
-            if contatos != '':
-                contatos = contatos + ', ' 
-            if contact.function:
-                contatos += '%s/%s' %(contact.name,contact.function)
-            else:    
-                contatos += '%s' %(contact.name)
-        return {'value': {'email_from': address.email, 'partner_phone': address.phone, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contatos': contatos}}
+            if conta < 3:
+                if contact.function:
+                    funcao = contact.function + '<br>'
+                if contact.email:
+                    email = contact.email + '<br>'
+                contato1 = contato1 + '<li>%s %s %s %s %s</li>' %(contact.name + '<br>', funcao, email, contact.phone or '', contact.mobile or '')
+            if conta > 2:
+                if contact.function:
+                    funcao = contact.function + '<br>'
+                if contact.email:
+                    email = contact.email + '<br>'
+                contato2 = contato2 + '<li>%s %s %s %s %s</li>' %(contact.name + '<br>', funcao, email, contact.phone or '', contact.mobile or '')
+            conta = conta + 1
+        if contato1 != '':
+            contato_html = contato_html + contato1 + '</ul></div>'
+        else:
+            contato_html = ''
+        if contato2 != '':
+            contato2_html = contato2_html + contato2 + '</ul></div>'
+        else:
+            contato2_html = ''
+        #pdb.set_trace()
+        return {'value': {'email_from': address.email, 'partner_phone': address.phone, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contato1': contato_html, 'contato2': contato2_html}}
         
+    def action_atendimento_send(self, cr, uid, ids, context=None):
+        '''
+        This function opens a window to compose an email, with the edi sale template message loaded by default
+        '''
+        #pdb.set_trace()
+        assert len(ids) == 1, 'This option should only be used for a single id at a time.'
+        ir_model_data = self.pool.get('ir.model.data')
+        try:
+            template_id = ir_model_data.get_object_reference(cr, uid, 'myplace', 'email_template_crm_claim')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference(cr, uid, 'mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False 
+        ctx = dict()
+        ctx.update({
+            'default_model': 'crm.claim',
+            'default_res_id': ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
+
 crm_claim()
 

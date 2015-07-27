@@ -2,6 +2,17 @@
 <openerp>
     <data>
 
+	    <record id="view_client_title_form" model="ir.ui.view">
+	        <field name="name">partner.title.form</field>
+            <field name="model">res.partner.title</field>
+            <field name="inherit_id" ref="base.view_partner_title_form" />
+	        <field name="arch" type="xml">
+				<field name="shortcut" position="after">
+					<field name="domain"/>
+				</field>
+            </field>
+        </record>
+
         <record id="view_client_search_form" model="ir.ui.view">
             <field name="name">myplace.client.search.form</field>
             <field name="model">res.partner</field>
@@ -30,43 +41,72 @@
             </field>
         </record>
 
+		<record id="view_myplace_partner_tree" model="ir.ui.view">
+			<field name="name">myplace.partner.filter</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter" />
+			<field name="arch" type="xml">
+				<field name="name" position="replace">
+                   <field name="name"
+                       filter_domain="['|','|','|','|','|',('name','ilike',self),('display_name','ilike',self),('ref','=',self),('email','ilike',self),('legal_name','ilike',self),('razao_empresa','ilike',self)]"/>
+				</field>
+			</field>
+		</record>
+
 	    <record id="view_client_form" model="ir.ui.view">
 	        <field name="name">l10n_br_base.partner.form</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_br_base.view_l10n_br_base_partner_form" />
 	        <field name="arch" type="xml">
 				<field name="parent_id" position="before">
-					<div>
-                        <label for="razao_empresa" string="Razão Empresa" />
-					    <field name="razao_empresa" nolabel="1"/>
-					</div>	
 				</field>	
-				<xpath expr="/form/sheet/div/group/div" position="replace">
-                    <label for="legal_name" string="Cliente" />
+				<xpath expr="/form/sheet/div/div" position="replace">
+                    <label for="name"/> (
+                    <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline"/> <label for="is_company" string="P. Juridica?"/>)
 				</xpath>
+				<xpath expr="/form/sheet/div/h1" position="replace">
+                    <field name="name" default_focus="1" placeholder="Nome Fantasia" />
+				</xpath>
+				<xpath expr="/form/sheet/div/group/div" position="replace">
+                    <label for="legal_name" string="Cliente(Contratante)" />
+				</xpath>
+				<field name="parent_id" position="before">
+                    <label for="razao_empresa" string="Razão Empresa" />
+					<field name="razao_empresa" nolabel="1" />
+				</field>
+                <field name="email" position="after">
+                    <field name="email_financeiro" string="Email Financeiro" widget="email" />
+                    <field name="birthdate_n" />
+                </field>
                 <field name="title" position="replace">
-                    <field name="title" string="Ramo Atividade" />
+                    <field name="title" string="Ramo Atividade" placeholder="Title" domain="[('domain', '=', 'contact')]" />
                 </field>
                 <field name="fax" position="attributes">
 					<attribute name="string">Linha Interna</attribute>
-                </field>
+				</field>
+				<!--  <label for="street" position="replace">
+				</label> -->
                 <xpath expr="/form/sheet/group" position="after">
-                     <group string="Outros Dados">
-                         <group>
-                             <field name="fornece_fone" />
-                             <field name="fornece_email" />
-                             <field name="birthdate_n" />
-                         </group>
-                         <group>
-                             <field name="ramal_softphone1" />
-                             <field name="ramal_softphone2" />
-                         </group>
-                     </group>
-                     <group>
-                         <field name="motivo_ausencia" />
-                         <field name="transfer_recado" />
-                     </group>
+                    <group string="Dados Atendimento">
+                    </group>
+					<group>
+                        <group>
+                            <field name="fornece_fone" />
+                            <field name="fornece_email" />
+                        </group>
+                        <group>
+                            <field name="ramal_softphone1" />
+                            <field name="ramal_softphone2" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="motivo_ausencia" placeholder="Motivo ausência" />
+                        <field name="transfer_recado" placeholder="Transferência ou Recado"/>
+                    </group>
                  </xpath>
+				<xpath expr="//page[@string='Contacts']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </xpath>
              </field>
          </record>
 
@@ -135,13 +175,12 @@
             <field name="view_id" ref="view_client_form"/>
             <field name="act_window_id" ref="action_prospect_form"/>
         </record>
-
+        <!-- 
         <record id="view_niver_search_form" model="ir.ui.view">
             <field name="name">aniversario.search.form</field>
-            <field name="model">partner_aniversario</field>
-            <field name="priority" eval="0"/>
+            <field name="model">partner.aniversario</field>
             <field name="arch" type="xml">
-               <search string="Aniversarios">
+                <search string="Aniversarios">
                     <field name="partner" string="Cliente"/>
                     <field name="mes_nasc"/>
                     <field name="dia_nasc"/>
@@ -153,10 +192,9 @@
             </field>
         </record>
 
-
         <record model="ir.ui.view" id="partner_aniversario_tree_view">
             <field name="name">partner_aniversario.tree</field>
-            <field name="model">partner_aniversario</field>			
+            <field name="model">partner.aniversario</field>			
             <field name="arch" type="xml">
                 <tree string="Aniversariantes" version="7.0">	
                     <field name="partner"/>
@@ -171,7 +209,7 @@
 
         <record model="ir.ui.view" id="partner_aniversario_form_view">
             <field name="name">partner_aniversario.form</field>
-            <field name="model">partner_aniversario</field>			
+            <field name="model">partner.aniversario</field>			
             <field name="arch" type="xml">
                 <tree string="Aniversariante" version="7.0">	
                     <field name="partner"/>
@@ -187,9 +225,10 @@
 
          <record model="ir.actions.act_window" id="action_partner_aniversariante">
              <field name="name">Lista Aniversariantes</field>
-             <field name="res_model">partner_aniversario</field>
+             <field name="res_model">partner.aniversario</field>
          </record>
 
-         <menuitem name="Aniversariante" parent="base.menu_sales" id="niver_menu" action="action_partner_aniversariante" sequence="4"/>
+		 <menuitem name="Aniversariante" parent="base.menu_sales" id="niver_menu" action="action_partner_aniversariante" sequence="4"/>
+        -->
     </data>
 </openerp>

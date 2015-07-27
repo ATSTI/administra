@@ -1,46 +1,46 @@
  #-*- coding: utf-8 -*-
+import re
 
-from openerp.osv import fields, osv
-from datetime import datetime, timedelta
+from openerp import models, fields, api, _
+from openerp.osv import osv
+from openerp.exceptions import Warning
 from openerp import tools
+
 #import pdb
 
 
-class res_partner(osv.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
-    _name = "res.partner"
 
-    _columns = {
-        'fornece_fone': fields.boolean('Fornec. Telefone ?', help="Pode fornecer telefone do cliente caso solicitado." ),
-        'fornece_email': fields.boolean('Fornec. Email ?', help="Pode fornecer email do cliente caso solicitado."),
-        'birthdate_n': fields.date('Date de nascimento'),
-        'motivo_ausencia': fields.char(u"Justificativa", size=256),
-        'transfer_recado': fields.char(u"Tranferencia/Recado", size=256),
-        'razao_empresa': fields.char(u"Razao-Empresa", size=256),
-        'ramal_softphone1': fields.char(u"Fone Redirec.", size=60),
-        'ramal_softphone2': fields.char(u"Email Redirec.", size=60),
-    }
+    fornece_fone = fields.Boolean(string='Fornec. Telefone ?', help="Pode fornecer telefone do cliente caso solicitado." )
+    fornece_email = fields.Boolean(string='Fornec. Email ?', help="Pode fornecer email do cliente caso solicitado.")
+    birthdate_n = fields.Date(string='Date de nascimento')
+    motivo_ausencia = fields.Char(string='Justificativa', size=256)
+    transfer_recado = fields.Char(string='Tranferencia/Recado', size=128)
+    razao_empresa = fields.Char(string='Razao-Empresa', size=128)
+    ramal_softphone1 = fields.Char(string='Fone Redirec.', size=60)
+    ramal_softphone2 = fields.Char(string='Email Redirec.', size=60)
+    email_financeiro = fields.Text(string='Email Financeiro', help="Usado para cobrança. Mais de um email separar com Virgula")
 
     _defaults = {
         'country_id': 32,
         'state_id': 71
     }
-res_partner()
+
 
 class partner_aniversario(osv.osv):
-    _name = "partner_aniversario"
+    _name = "partner.aniversario"
     _description = "tree map"
     _auto = False
-    _columns = {
-        "partner": fields.char("Cliente", size=128),
-        "partner_id": fields.many2one("res.partner", u"Parceiro", store=False),
-        'niver': fields.date('Date de nascimento'),
-        "email": fields.char("Email", size=128),
-        "phone": fields.char("Fone", size=30),
-        'dia_nasc': fields.integer('Dia nascimento'),
-        'mes_nasc': fields.integer('Mes nascimento'),
-        'ordem': fields.integer('Ordem'),
-       }
+    
+    partner = fields.Char(string='Cliente', size=120)
+    partner_id = fields.Many2one('res.partner', string='Parceiro', store=False)
+    niver = fields.Date(string='Date de nascimento')
+    email = fields.Char(string='Email', size=120)
+    phone = fields.Char(string='Fone', size=60)
+    dia_nasc = fields.Integer(string='Dia nascimento')
+    mes_nasc = fields.Integer(string='Mes nascimento')
+    ordem = fields.Integer(string='Ordem')
 
     _order = "partner, ordem"
 
@@ -58,3 +58,4 @@ class partner_aniversario(osv.osv):
                  )
   
         """)
+

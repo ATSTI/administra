@@ -28,7 +28,7 @@ import openerp.tools
 from openerp.tools.translate import _
 #from openerp import netsvc
 from openerp import workflow
-import pdb
+#import pdb
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +38,6 @@ class account_analytic_account(osv.osv):
 
     # Executa o faturamento das vendas existentes
     def faturar_invoice(self, cr, uid, ids, context=None):
-        #pdb.set_trace()
         venda = self.pool.get('sale.order')
         order_obj = self.pool.get('sale.order')
         venda_ids = venda.search(cr, uid, [('state', '=', 'manual')],context=context)
@@ -48,7 +47,7 @@ class account_analytic_account(osv.osv):
         mk = {'grouped': True}
         vnd = self.pool.get('sale.make.invoice')
         contabil = self.pool.get('account.invoice')
-        boleto_obj = self.pool.get('boleto.boleto_create')
+        #boleto_obj = self.pool.get('boleto.boleto_create')
         id_mk = vnd.create(cr, uid, mk)
         data = vnd.read(cr, uid, id_mk)
         for vnd_cli in venda.browse(cr, uid, venda_ids, context=context):
@@ -60,34 +59,36 @@ class account_analytic_account(osv.osv):
 
                 # cria a fatura
                 order_obj.action_invoice_create(cr, uid, venda_cli, data['grouped'], date_invoice=data['invoice_date'])
+                print 'FEITO - ' + vnd_cli.partner_id.name
                 orders = order_obj.browse(cr, uid, venda_cli, context=context)
-                order_obj.signal_workflow(cr, uid, [o.id for o in orders if o.order_policy == 'manual'], 'manual_invoice')
+                # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                # comentei aqui , pois, precisamos primeiro confirmar todas que estao la, pra depois usar isto
+                #order_obj.signal_workflow(cr, uid, [o.id for o in orders if o.order_policy == 'manual'], 'manual_invoice')
+                # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 
                 # valida a Fatura
-                cont_ids = contabil.search(cr, uid, [('state', '=', 'draft'), ('type','=', 'out_invoice'),('partner_id', '=', vnd_cli.partner_id.id)],context=context)
-                for id in contabil.browse(cr, uid, conta_ids, context=context):
-                    workflow.trg_validate(uid, 'account.invoice', id.id, 'invoice_open', cr)
-                    boleto_nome = id.number + str(id.id) + '.pdf'
+                #cont_ids = contabil.search(cr, uid, [('state', '=', 'draft'), ('type','=', 'out_invoice'),('partner_id', '=', vnd_cli.partner_id.id)],context=context)
+                # gerar BOLETO
+                #for id in contabil.browse(cr, uid, cont_ids, context=context):
+                    # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                    # comentei aqui , pois, precisamos primeiro confirmar todas que estao la, pra depois usar isto
+                    # workflow.trg_validate(uid, 'account.invoice', id.id, 'invoice_open', cr)
+                    # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                    #boleto_nome = id.number + str(id.id) + '.pdf'
                     # gerar o PDF da BOLETO
                     # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     #PRECISO GERAR O PDF AQUI, dai ele ficara salvo no BOLETO_CREATE
                     # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                     #
                     # OPS JA TENHO ELAS NO BOLETO_CREATE
-                    boletos = boleto_obj.search(cr,uid,[('pdf_name', '=', boleto_nome)],context=context)
-                    for blt in boletos_obj.browse(cr, uid, boletos, context=context):
-                        boleto_file = blt.pdf_stream
-                    #attachment_obj.create(cr, uid, {
-                    #    'name': fname_invoice,
-                    #    'datas': base64.encodestring(xml_data),
-                    #    'datas_fname': fname_invoice,
-                    #    'res_model': 'account.invoice',
-                    #    'res_id': invoice.id,
-                    #}, context=None)
+                    # COMENTEI AQUI - 17/06/2015
+                    #boletos = boleto_obj.search(cr,uid,[('pdf_name', '=', boleto_nome)],context=context)
+                    #for blt in boletos_obj.browse(cr, uid, boletos, context=context):
+                    #    boleto_file = blt.pdf_stream
                     
                     
 
-            cliente = vnd_cli.partner_id.id
+                cliente = vnd_cli.partner_id.id
 
         return id
 
@@ -111,10 +112,22 @@ class account_analytic_account(osv.osv):
 
         return ids
 
+    def message_new(self, cr, uid, msg, custom_values=None, context=None):
+        if custom_values is None:
+            custom_values = {}
+        context = dict(context or {}, state_to='draft')
+        defaults = {
+            'name':  msg.get('subject') or _("No Subject"),
+
+            'partner_id': msg.get('author_id', False),
+            'user_id': False,
+        }
+        defaults.update(custom_values)
+        res_id = super(account_analytic_account, self).message_new(cr, uid, msg, custom_values=defaults, context=context)
+        return res_id
+
     def _recurring_create_invoice(self, cr, uid, ids, automatic=False, context=None):
-        #pdb.set_trace()
         context = context or {}
-        invoice_ids = []
         current_date =  time.strftime('%Y-%m-%d')
         if ids:
             contract_ids = ids
@@ -122,11 +135,13 @@ class account_analytic_account(osv.osv):
             contract_ids = self.search(cr, uid, [('recurring_next_date','<=', current_date), ('state','=', 'open'), ('recurring_invoices','=', True), ('type', '=', 'contract')])
         if contract_ids:
             cr.execute('SELECT company_id, array_agg(id) as ids FROM account_analytic_account WHERE id IN %s GROUP BY company_id', (tuple(contract_ids),))
+            
             for company_id, ids in cr.fetchall():
+                print 'Empresa - ' + str(company_id)
                 for contract in self.browse(cr, uid, ids, context=dict(context, company_id=company_id, force_company=company_id)):
+                    invoice_ids = []
                     try:
                         #invoice_values = self._prepare_invoice(cr, uid, contract, context=context)
-                        #pdb.set_trace()
                         venda_values = self._prepare_invoice(cr, uid, contract, context=context)
                         #invoice_ids.append(self.pool['account.invoice'].create(cr, uid, invoice_values, context=context))
                         invoice_ids.append(self.pool['sale.order'].create(cr, uid, venda_values, context=context))
@@ -147,9 +162,17 @@ class account_analytic_account(osv.osv):
                         self.write(cr, uid, [contract.id], {'recurring_next_date': new_date.strftime('%Y-%m-%d')}, context=context)
                         if automatic:
                             cr.commit()
+                            print 'CONTRATO - ' + str(contract)
                     except Exception:
                         if automatic:
                             cr.rollback()
+                            print ' ERRO CONTRATO - ' + str(contract)
+                            context['email_to'] = contract.manager_id.email
+                            context['partnername'] = contract.partner_id.name
+                            context['subject'] = u'Erro para gerar fatura do contrato'
+                            context['body'] = u'Contrato ' + contract.code
+                            template_id =self.pool.get('ir.model.data').get_object_reference(cr,uid, 'myplace','email_erro_fatura')[1]
+                            self.pool.get('email.template').send_mail(cr, uid,template_id, uid, force_send=True, context=context)
                             _logger.exception('Fail to create recurring invoice for contract %s', contract.code)
                         else:
                             raise
@@ -157,7 +180,7 @@ class account_analytic_account(osv.osv):
 
     def _prepare_invoice_data(self, cr, uid, contract, context=None):
         context = context or {}
-
+        #pdb.set_trace()
         journal_obj = self.pool.get('account.journal')
 
         if not contract.partner_id:
@@ -182,7 +205,7 @@ class account_analytic_account(osv.osv):
         invoice = {
             # conta analitica
             #'project_id': contract.partner_id.property_account_receivable.id, 
-            'invoice_type_id': 1,
+            #'invoice_type_id': 1,
             'partner_id': contract.partner_id.id,
             #'currency_id': currency_id,
             #'journal_id': len(journal_ids) and journal_ids[0] or False,
@@ -200,7 +223,8 @@ class account_analytic_account(osv.osv):
         fiscal_position = None
         if fiscal_position_id:
             fiscal_position = fpos_obj.browse(cr, uid,  fiscal_position_id, context=context)
-        #invoice_lines = []"""
+        """
+        invoice_lines = []
         for line in contract.recurring_invoice_line_ids:
 
             res = line.product_id
