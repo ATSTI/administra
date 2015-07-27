@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE  GERA_REC_DUPLICATAS( N_TITULO                         VARCHAR( 18 )
                                     , DT_EMISSAO                       DATE
                                     , COD_CLIENTE                      INTEGER
@@ -142,7 +141,7 @@ begin
           --UPDATE SERIES SET ULTIMO_NUMERO =  :NUM_DUP WHERE SERIE = :SERIE;
          i = i + 1;    
       end
-    exception exc_c;
+    -- exception exc_c;
     ERRO_LOCAL = ' UPDATE SERIES - ' || :SERIE;  
     UPDATE SERIES SET ULTIMO_NUMERO = :NUM_DUP WHERE SERIE = :SERIE; 
     --when any do 
