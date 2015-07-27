@@ -60,7 +60,6 @@ type
     dbeSerie: TDBEdit;
     dbeUsuario: TDBEdit;
     DataSource1: TDataSource;
-    JvDBGrid1: TJvDBGrid;
     BitBtn5: TBitBtn;
     DBEdit34: TDBEdit;
     TabSheet1: TTabSheet;
@@ -260,6 +259,21 @@ type
     calcman: TCheckBox;
     listaFornecedoresCODFISCAL: TStringField;
     listaFornecedorCODFISCAL: TStringField;
+    PageControl2: TPageControl;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    JvDBGrid1: TJvDBGrid;
+    Label4: TLabel;
+    edtNFRef: TEdit;
+    Memo2: TMemo;
+    sdsCFOP: TSQLDataSet;
+    sdsCFOPCFCOD: TStringField;
+    sdsCFOPCFNOME: TStringField;
+    sdsCFOPCFNOTA: TMemoField;
+    sdsCFOPTIPOMOVIMENTO: TStringField;
+    sdsCFOPFRETEBC: TStringField;
+    sdsCFOPIPIBC: TStringField;
+    sdsCFOPTOTTRIB: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -295,6 +309,7 @@ type
     procedure calcmanClick(Sender: TObject);
     procedure btnDIClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
+    procedure edtNFRefExit(Sender: TObject);
   private
     codNatNotafc     : Integer;
     movEstoque : String;
@@ -312,6 +327,7 @@ type
     procedure gravavenda;
     procedure alteraVlrVenda;
     procedure carregaNaturezaOperacao;
+    procedure gravarDadosNFe310c;
   public
       vrr : double;
       codMovFin, codVendaFin, codCliFin : integer;
@@ -633,6 +649,16 @@ begin
     dmnf.cds_nf1.Params[0].Clear;
     dmnf.cds_nf1.Params[1].AsInteger := codVendaFin;
     dmnf.cds_nf1.Open;
+
+    if (dmnf.cds_nf1NFE_FINNFE.IsNull) then
+    begin
+      dmnf.cds_nf1.Edit;
+      gravarDadosNFe310c;
+      btnGravar.Click;
+    end;
+
+    if (dmnf.cds_nf1IDCOMPLEMENTAR.AsString <> '') then
+      edtNFRef.Text := dmnf.cds_nf1IDCOMPLEMENTAR.AsString;
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
@@ -1370,10 +1396,9 @@ begin
     dm.c_6_genid.Close;
   end;
 
-
-  if DMNF.DtSrc_Compra.DataSet.State in [dsBrowse] then
-    DMNF.DtSrc_Compra.DataSet.Append;
-  DMNF.DtSrc_Compra.DataSet.post;
+  //if DMNF.DtSrc_Compra.DataSet.State in [dsBrowse] then
+  //  DMNF.DtSrc_Compra.DataSet.Append;
+  //DMNF.DtSrc_Compra.DataSet.post;
 
   dm.sqlsisAdimin.StartTransaction(TD);
   try
@@ -1507,6 +1532,7 @@ end;
 procedure TfNotaFc.gravanotafiscal;
 var nfnum : integer;
    TD: TTransactionDesc;
+   varsql: String;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1537,6 +1563,15 @@ begin
   if (nfnum = 0) then
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
 
+  gravarDadosNFe310c;
+  if ((dmnf.cds_nfNFE_FINNFE.AsString  = 'fnComplementar')  or (dmnf.cds_nfNFE_FINNFE.AsString  = 'fnDevolucao')) then
+  begin
+    if ((dmnf.cds_nfIDCOMPLEMENTAR.IsNull) or (dmnf.cds_nfIDCOMPLEMENTAR.AsString = '')) then
+    begin
+      MessageDlg('Informe o Documento de Referencia, na ABA Documento Fiscal Referenciado.', mtWarning, [mbOK], 0);
+    end;
+  end;
+
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     dmnf.cds_nf1.ApplyUpdates(0);
@@ -1556,6 +1591,22 @@ begin
     end;
   end;
 
+  if (edtNFRef.Text <> '') then
+  begin
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      varsql := 'UPDATE NOTAFISCAL SET IDCOMPLEMENTAR = ' +
+        QuotedStr(Copy(edtNFRef.Text,0,44)) + ' WHERE NUMNF = ' + IntToStr(dmnf.cds_nfNUMNF.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(varsql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      end;
+    end;
+
+  end;
 
   // Calcula ICMS - IPI
   if (not calcman.Checked) then
@@ -2161,6 +2212,63 @@ begin
  if DMNF.DtSrc_NF1.State in [dsBrowse] then
       DMNF.DtSrc_NF1.DataSet.Edit;
     DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+end;
+
+procedure TfNotaFc.edtNFRefExit(Sender: TObject);
+begin
+  if (edtNFRef.Text <> '') then
+  begin
+    if (dmnf.cds_nf1.State in [dsBrowse]) then
+      dmnf.cds_nf1.Edit;
+    dmnf.cds_nf1IDCOMPLEMENTAR.AsString := edtNFRef.Text;
+  end;
+end;
+
+procedure TfNotaFc.gravarDadosNFe310c;
+var tipoNota :Char;
+begin
+  if (sdsCFOP.Active) then
+    sdsCFOP.Close;
+  sdsCFOP.Params[0].AsString := dmnf.cds_nf1CFOP.asString;
+  sdsCFOP.Open;
+  dmnf.cds_nf1NFE_FINNFE.AsString := 'fnNormal';
+  //if (sdsCFOP.RecordCount > 0) then
+  //begin
+  dmnf.cds_nf1NFE_FINNFE.AsString := 'fnNormal';
+  if (sdsCFOP.FieldByName('TIPOMOVIMENTO').AsString = 'D') then
+    dmnf.cds_nf1NFE_FINNFE.AsString := 'fnDevolucao';
+  if (sdsCFOP.FieldByName('TIPOMOVIMENTO').AsString = 'R') then
+    dmnf.cds_nf1NFE_FINNFE.AsString := 'fnAjuste';
+  //end;
+  dmnf.cds_nf1NFE_MODELO.AsString       := 'moNFe';
+  dmnf.cds_nf1NFE_VERSAO.AsString       := 've310';
+
+  tipoNota := trim(dmnf.cds_nf1CFOP.AsString)[1];
+
+  if (tipoNota in ['1','2','3']) then
+  begin
+    dmnf.cds_nf1NFE_TIPO.AsString := 'tnEntrada';
+  end;
+  if (tipoNota in ['5','6','7']) then
+  begin
+    dmnf.cds_nf1NFE_TIPO.AsString := 'tnSaida';
+  end;
+
+  if (tipoNota in ['1','5']) then
+    dmnf.cds_nf1NFE_DESTOPERACAO.AsString := 'doInterna';
+  if (tipoNota in ['2','6']) then
+    dmnf.cds_nf1NFE_DESTOPERACAO.AsString := 'doInterestadual';
+  if (tipoNota in ['3', '7']) then
+    dmnf.cds_nf1NFE_DESTOPERACAO.AsString := 'doExterior';
+
+  dmnf.cds_nf1NFE_FORMATODANFE.AsString   := 'tiRetrato';
+  dmnf.cds_nf1NFE_TIPOEMISSAO.AsString    := 'teNormal';
+
+  // Buscar do Cadastro de Cliente
+  dmnf.cds_nf1NFE_INDFINAL.AsString       := 'teNormal';
+  //dmnf.cds_nfNFE_INDPRES.AsString
+
+
 end;
 
 end.

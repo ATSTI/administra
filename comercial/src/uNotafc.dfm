@@ -412,171 +412,6 @@ object fNotafc: TfNotafc
           OnKeyPress = FormKeyPress
         end
       end
-      object JvDBGrid1: TJvDBGrid
-        Left = 3
-        Top = 170
-        Width = 757
-        Height = 121
-        DataSource = DMNF.DtSrc1
-        PopupMenu = PopupMenu1
-        TabOrder = 17
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'MS Sans Serif'
-        TitleFont.Style = []
-        OnDblClick = JvDBGrid1DblClick
-        OnKeyPress = JvDBGrid1KeyPress
-        OnEditChange = JvDBGrid1EditChange
-        AutoSizeColumns = True
-        SelectColumnsDialogStrings.Caption = 'Select columns'
-        SelectColumnsDialogStrings.OK = '&OK'
-        SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-        EditControls = <>
-        RowsHeight = 17
-        TitleRowHeight = 17
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'CODPRO'
-            ReadOnly = True
-            Title.Caption = 'C'#243'digo'
-            Width = 22
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'DESCPRODUTO'
-            ReadOnly = True
-            Title.Caption = 'Produtos'
-            Width = 120
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'NCM'
-            Width = 45
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CFOP'
-            Width = 26
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CST'
-            ReadOnly = True
-            Width = 16
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CSOSN'
-            ReadOnly = True
-            Width = 29
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'UN'
-            ReadOnly = True
-            Width = 11
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'QUANTIDADE'
-            ReadOnly = True
-            Title.Caption = 'Quantidade'
-            Width = 26
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VLR_BASE'
-            ReadOnly = True
-            Title.Caption = 'Valor Unit'#225'rio'
-            Width = 40
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_DESCONTO'
-            Title.Caption = 'Desconto'
-            Width = 33
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'FRETE'
-            Title.Caption = 'Frete'
-            Width = 37
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ValorTotal'
-            ReadOnly = True
-            Title.Caption = 'Valor Total'
-            Width = 36
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS'
-            ReadOnly = True
-            Width = 16
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VLR_BASEICMS'
-            ReadOnly = True
-            Title.Caption = 'Base ICMS'
-            Width = 34
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_ICMS'
-            ReadOnly = True
-            Title.Caption = 'ICMS'
-            Width = 46
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS_SUBSTD'
-            ReadOnly = True
-            Title.Caption = 'Base ST'
-            Width = 38
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'ICMS_SUBST'
-            ReadOnly = True
-            Title.Caption = 'ST'
-            Width = 42
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_OUTROS'
-            Title.Caption = 'Outras Desp.'
-            Width = 51
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALOR_SEGURO'
-            Title.Caption = 'Seguro'
-            Width = 54
-            Visible = True
-          end>
-      end
       object memo1: TMemo
         Left = 224
         Top = 216
@@ -584,8 +419,219 @@ object fNotafc: TfNotafc
         Height = 65
         Lines.Strings = (
           'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
-        TabOrder = 18
+        TabOrder = 17
         Visible = False
+      end
+      object PageControl2: TPageControl
+        Left = 3
+        Top = 167
+        Width = 769
+        Height = 140
+        ActivePage = TabSheet2
+        TabOrder = 18
+        object TabSheet2: TTabSheet
+          Caption = 'Itens'
+          object JvDBGrid1: TJvDBGrid
+            Left = 0
+            Top = 0
+            Width = 761
+            Height = 112
+            Align = alClient
+            DataSource = DMNF.DtSrc1
+            PopupMenu = PopupMenu1
+            TabOrder = 0
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            OnDblClick = JvDBGrid1DblClick
+            OnKeyPress = JvDBGrid1KeyPress
+            OnEditChange = JvDBGrid1EditChange
+            AutoSizeColumns = True
+            SelectColumnsDialogStrings.Caption = 'Select columns'
+            SelectColumnsDialogStrings.OK = '&OK'
+            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+            EditControls = <>
+            RowsHeight = 17
+            TitleRowHeight = 17
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'CODPRO'
+                ReadOnly = True
+                Title.Caption = 'C'#243'digo'
+                Width = 22
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'DESCPRODUTO'
+                ReadOnly = True
+                Title.Caption = 'Produtos'
+                Width = 120
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'NCM'
+                Width = 46
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CFOP'
+                Width = 26
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CST'
+                ReadOnly = True
+                Width = 16
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CSOSN'
+                ReadOnly = True
+                Width = 29
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'UN'
+                ReadOnly = True
+                Width = 11
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'QUANTIDADE'
+                ReadOnly = True
+                Title.Caption = 'Quantidade'
+                Width = 26
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VLR_BASE'
+                ReadOnly = True
+                Title.Caption = 'Valor Unit'#225'rio'
+                Width = 40
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_DESCONTO'
+                Title.Caption = 'Desconto'
+                Width = 33
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'FRETE'
+                Title.Caption = 'Frete'
+                Width = 37
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ValorTotal'
+                ReadOnly = True
+                Title.Caption = 'Valor Total'
+                Width = 36
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS'
+                ReadOnly = True
+                Width = 16
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VLR_BASEICMS'
+                ReadOnly = True
+                Title.Caption = 'Base ICMS'
+                Width = 34
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_ICMS'
+                ReadOnly = True
+                Title.Caption = 'ICMS'
+                Width = 46
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS_SUBSTD'
+                ReadOnly = True
+                Title.Caption = 'Base ST'
+                Width = 38
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'ICMS_SUBST'
+                ReadOnly = True
+                Title.Caption = 'ST'
+                Width = 42
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_OUTROS'
+                Title.Caption = 'Outras Desp.'
+                Width = 51
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_SEGURO'
+                Title.Caption = 'Seguro'
+                Width = 57
+                Visible = True
+              end>
+          end
+        end
+        object TabSheet3: TTabSheet
+          Caption = 'Documento Fiscal Referenciado'
+          ImageIndex = 1
+          object Label4: TLabel
+            Left = 19
+            Top = 8
+            Width = 243
+            Height = 13
+            Caption = 'Chave NFe (Devolu'#231#227'o/Complementar/Cancelada)'
+          end
+          object edtNFRef: TEdit
+            Left = 16
+            Top = 24
+            Width = 721
+            Height = 21
+            TabOrder = 0
+            OnExit = edtNFRefExit
+          end
+          object Memo2: TMemo
+            Left = 16
+            Top = 51
+            Width = 729
+            Height = 33
+            BorderStyle = bsNone
+            Color = cl3DLight
+            Lines.Strings = (
+              
+                'Informa'#231#227'o utilizada nas hip'#243'teses previstas na legisla'#231#227'o. (Ex.' +
+                ': Devolu'#231#227'o de mercadorias,'
+              'Substitui'#231#227'o de NF cancelada, Complementa'#231#227'o de NF, etc.).')
+            ReadOnly = True
+            TabOrder = 1
+          end
+        end
       end
     end
     object TabSheet1: TTabSheet
@@ -1834,9 +1880,9 @@ object fNotafc: TfNotafc
     TabOrder = 2
   end
   object PageControl1: TPageControl
-    Left = 8
-    Top = 381
-    Width = 753
+    Left = 6
+    Top = 394
+    Width = 771
     Height = 183
     ActivePage = tsTributos
     TabOrder = 3
@@ -3080,6 +3126,52 @@ object fNotafc: TfNotafc
     end
     object listaFornecedoresCODFISCAL: TStringField
       FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object sdsCFOP: TSQLDataSet
+    CommandText = 'select *  from CFOP'#13#10' where CFCOD = :id '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 310
+    Top = 331
+    object sdsCFOPCFCOD: TStringField
+      FieldName = 'CFCOD'
+      Required = True
+      Size = 30
+    end
+    object sdsCFOPCFNOME: TStringField
+      FieldName = 'CFNOME'
+      Size = 250
+    end
+    object sdsCFOPCFNOTA: TMemoField
+      FieldName = 'CFNOTA'
+      BlobType = ftMemo
+    end
+    object sdsCFOPTIPOMOVIMENTO: TStringField
+      FieldName = 'TIPOMOVIMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPFRETEBC: TStringField
+      FieldName = 'FRETEBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPIPIBC: TStringField
+      FieldName = 'IPIBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCFOPTOTTRIB: TStringField
+      FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
     end
