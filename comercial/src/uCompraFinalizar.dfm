@@ -1,5 +1,6 @@
 inherited fCompraFinalizar: TfCompraFinalizar
-  Left = 172
+  Left = 227
+  Top = 106
   Width = 789
   Height = 545
   Caption = 'Compras Finalizar'
@@ -2004,6 +2005,13 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Style = []
       ParentFont = False
     end
+    object Label42: TLabel
+      Left = 184
+      Top = 128
+      Width = 31
+      Height = 16
+      Caption = 'Frete'
+    end
     object dbeSerie: TDBEdit
       Left = 5
       Top = 29
@@ -2188,7 +2196,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 17
+      TabOrder = 19
       OnClick = BtnChequeClick
     end
     object ComboBox1: TComboBox
@@ -2252,7 +2260,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Top = 11
       Width = 25
       Height = 17
-      TabOrder = 18
+      TabOrder = 20
       OnClick = CheckBox2Click
     end
     object btnSerie: TBitBtn
@@ -2261,7 +2269,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Width = 33
       Height = 25
       Caption = '. . .'
-      TabOrder = 19
+      TabOrder = 21
       TabStop = False
       OnClick = btnSerieClick
     end
@@ -2278,7 +2286,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 18
       OnKeyPress = FormKeyPress
     end
     object Button1: TButton
@@ -2287,7 +2295,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Width = 87
       Height = 25
       Caption = 'Validar NFe'
-      TabOrder = 20
+      TabOrder = 22
       OnClick = Button1Click
     end
     object DBEdit18: TDBEdit
@@ -2309,7 +2317,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object DBEdit19: TDBEdit
       Left = 125
       Top = 144
-      Width = 90
+      Width = 52
       Height = 24
       DataField = 'MODELO'
       DataSource = DtSrc
@@ -2319,7 +2327,26 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 21
+      TabOrder = 16
+      OnKeyPress = FormKeyPress
+    end
+    object DBEdit20: TDBEdit
+      Left = 183
+      Top = 144
+      Width = 33
+      Height = 24
+      Hint = '0-Emitente'#13#10'1-Destinatario'#13#10'2-Terceiros'#13#10'9-Sem Cobranca'
+      DataField = 'OPERACAO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 17
       OnKeyPress = FormKeyPress
     end
   end

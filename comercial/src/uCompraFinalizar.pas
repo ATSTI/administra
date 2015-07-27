@@ -342,6 +342,8 @@ type
     sds_compraMODELO: TStringField;
     cds_compraMODELO: TStringField;
     scds_serie_procMODELO: TStringField;
+    Label42: TLabel;
+    DBEdit20: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
