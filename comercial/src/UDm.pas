@@ -2423,6 +2423,10 @@ begin
   LicencaUso;
 
   verificaMensagemInicial;
+  try
+    sqlsisAdimin.ExecuteDirect('ALTER TRIGGER CALCULA_ICMS_ST ACTIVE');
+  except
+  end;
 
   { Adiciona CAMPO a uma tabela se nao existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
