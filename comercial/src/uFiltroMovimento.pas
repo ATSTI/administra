@@ -717,7 +717,11 @@ begin
     edit3.Text := '7';
     edit4.Text := 'CUPOM FISCAL';
   end;
-
+  if (DM.tipoVenda = 'DEVOLUCAO') then
+  begin
+    edit3.Text := '10';
+    edit4.Text := 'DEVOLUCAO';
+  end;
   btnProcurar.Click;
 end;
 
