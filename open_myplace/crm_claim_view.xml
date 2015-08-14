@@ -42,6 +42,7 @@
                                 <field name="transfer_recado" class="oe_tag" readonly="1" />
                                 <field name="fornece_fone" class="oe_tag" readonly="1"/>
                                 <field name="fornece_email" class="oe_tag" readonly="1"/>
+                                <field name="fornece_endereco" class="oe_tag" readonly="1"/>
                                 <field name="ramal_softphone1" class="oe_tag" readonly="1"/>
                         </group>	
                         <group>
@@ -49,6 +50,7 @@
                                 <field name="motivo_ausencia" class="oe_tag" readonly="1"/>
                                 <field name="partner_phone" readonly="1" class="oe_tag" string="Fone"/>
                                 <field name="email_from"  readonly="1" class="oe_tag" string="Email"/>
+                                <field name="endereco" readonly="1" class="oe_tag" string="Endereço"/>
                                 <field name="ramal_softphone2" class="oe_tag" readonly="1"/>
                         </group>	
                     </group>

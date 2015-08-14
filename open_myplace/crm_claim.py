@@ -3,7 +3,6 @@
 from openerp.osv import fields, osv
 from datetime import datetime, timedelta
 from openerp import tools
-import pdb
 
 
 class crm_claim(osv.Model):
@@ -14,13 +13,15 @@ class crm_claim(osv.Model):
         "razao_empresa": fields.related('partner_id', 'razao_empresa', type='char', string='Razão-Empresa'),
         "fornece_fone": fields.related('partner_id', 'fornece_fone', type='boolean', string='Pode fornecer telefone ?'),
         "fornece_email": fields.related('partner_id', 'fornece_email', type='boolean', string='Pode fornecer email ?'),
+        "fornece_endereco": fields.related('partner_id', 'fornece_endereco', type='boolean', string='Pode fornecer endereco ?'),
         "title": fields.related('partner_id', 'title', type='char', string='Ramo Atividade'),
         "transfer_recado": fields.related('partner_id', 'transfer_recado', type='char', string='Tranferencia/Recado'),
-        "motivo_ausencia": fields.char(string='Motivo Ausencia'),
-        "ramal_softphone1": fields.char(string='Fone Redirec.'),
-        "ramal_softphone2": fields.char(string='Email Redirec.'),
-        "contato1": fields.html('Contato'),
-        "contato2": fields.html('Contato'),
+        "endereco": fields.char(string='Endereco', store=False),
+        "motivo_ausencia": fields.char(string='Motivo Ausencia', store=False),
+        "ramal_softphone1": fields.char(string='Fone Redirec.', store=False),
+        "ramal_softphone2": fields.char(string='Email Redirec.', store=False),
+        "contato1": fields.html('Contato', store=False),
+        "contato2": fields.html('Contato', store=False),
         'transferencia': fields.boolean('Transferência'),
         'recado': fields.boolean('Recado'),
     }
@@ -58,12 +59,16 @@ class crm_claim(osv.Model):
             contato_html = contato_html + contato1 + '</ul></div>'
         else:
             contato_html = ''
+        if address.comment:
+            contato2 = contato2 + address.comment
         if contato2 != '':
             contato2_html = contato2_html + contato2 + '</ul></div>'
         else:
             contato2_html = ''
         #pdb.set_trace()
-        return {'value': {'email_from': address.email, 'partner_phone': address.phone, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contato1': contato_html, 'contato2': contato2_html}}
+        #if address.fornece_endereco:
+        endereco_cliente = address.company_id.street + ', ' + address.company_id.number + ' - ' + address.company_id.district
+        return {'value': {'email_from': address.email, 'partner_phone': address.phone, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contato1': contato_html, 'contato2': contato2_html, 'fornece_endereco': address.fornece_endereco, 'endereco': endereco_cliente}}
         
     def action_atendimento_send(self, cr, uid, ids, context=None):
         '''

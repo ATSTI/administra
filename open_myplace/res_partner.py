@@ -14,6 +14,7 @@ class ResPartner(models.Model):
 
     fornece_fone = fields.Boolean(string='Fornec. Telefone ?', help="Pode fornecer telefone do cliente caso solicitado." )
     fornece_email = fields.Boolean(string='Fornec. Email ?', help="Pode fornecer email do cliente caso solicitado.")
+    fornece_endereco = fields.Boolean(string='Fornec. Endereço ?', help="Pode fornecer endereço do cliente caso solicitado.")
     birthdate_n = fields.Date(string='Date de nascimento')
     motivo_ausencia = fields.Char(string='Justificativa', size=256)
     transfer_recado = fields.Char(string='Tranferencia/Recado', size=128)
