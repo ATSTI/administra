@@ -2166,6 +2166,37 @@ begin
     dbxconec.Free;
   end;
 
+  linhaTracejada  := '------------------------';
+  linhaTituloItem := 'UN  Qtde  V.Un.  V.Total';
+  linhaDescItem   := '30';
+  linhaItemUn     := '%-2s';
+  linhaItemQtde   :='%5.2n';
+  linhaItemVlUnit := '%7.2n';
+  linhaItemVlTotal := '%12.2n';
+  linhaTotal      := '%18s';
+  qntespacos      := '6';
+  linhaTamanho    := '38';
+  recortacupom   := '';
+
+  ImpressoraDet := TIniFile.Create('dbxconnections.ini');
+  try
+    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
+    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
+    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
+    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
+    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
+    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
+    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
+    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
+    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
+    recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
+    linhaTamanho := ImpressoraDet.ReadString('IMPRESSORA', 'linhatamanho', '');
+    if (linhaTamanho = '') then
+      linhaTamanho    := '38';
+  finally
+    ImpressoraDet.Free;
+  end;
+
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'PRODUTOMASCARA';
@@ -2488,38 +2519,6 @@ begin
       videoFUNDO := clNone;
     if (cds_parametroD4.AsString = 'BRANCO') then
       videoFONTE := clWhite;
-  end;
-
-
-  linhaTracejada  := '------------------------';
-  linhaTituloItem := 'UN  Qtde  V.Un.  V.Total';
-  linhaDescItem   := '30';
-  linhaItemUn     := '%-2s';
-  linhaItemQtde   :='%5.2n';
-  linhaItemVlUnit := '%7.2n';
-  linhaItemVlTotal := '%12.2n';
-  linhaTotal      := '%18s';
-  qntespacos      := '6';
-  linhaTamanho    := '38';
-  recortacupom   := '';
-
-  ImpressoraDet := TIniFile.Create('dbxconnections.ini');
-  try
-    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
-    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
-    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
-    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
-    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
-    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
-    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
-    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
-    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
-    recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
-    linhaTamanho := ImpressoraDet.ReadString('IMPRESSORA', 'linhatamanho', '');
-    if (linhaTamanho = '') then
-      linhaTamanho    := '38';
-  finally
-    ImpressoraDet.Free;
   end;
 
 end;
