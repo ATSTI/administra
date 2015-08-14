@@ -1,0 +1,5 @@
+import res_partner
+import crm_claim
+import crm_lead
+import account_analytic_analysis
+import crm_productsite

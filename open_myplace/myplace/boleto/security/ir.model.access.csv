@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"boleto_boleto","boleto.boleto","boleto.model_boleto_boleto","base.module_category_accounting_and_finance",1,1,1,1
+"boleto_company_config","boleto.company_config","boleto.model_boleto_company_config","base.module_category_accounting_and_finance",1,1,1,1
+"boleto_partner_config","boleto.partner_config","boleto.model_boleto_partner_config","base.module_category_accounting_and_finance",1,1,1,1

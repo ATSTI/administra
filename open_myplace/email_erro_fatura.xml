@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<openerp>
+    <data>
+
+        <record id="email_erro_fatura" model="email.template">
+            <field name="name">ErroFatura</field>
+            <field name="email_from">carlos@atsti.com.br</field>
+            <field name="subject">${ctx.get('subject')}</field>
+            <field name="email_to">${ctx.get('email_to')}</field>
+			<!-- <field name="email_cc">marcio@somaseguros.com.br</field> -->
+            <field name="lang"></field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+
+<p>
+   ${ctx.get('body')} 
+</p>
+
+            ]]></field>
+        </record>
+    </data>
+</openerp>

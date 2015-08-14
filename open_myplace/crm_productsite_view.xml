@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- crm.productsite -->
+        <record id="crm_productsite_view_tree" model="ir.ui.view">
+            <field name="name">crm.productsite.tree</field>
+            <field name="model">crm.productsite</field>
+            <field name="arch" type="xml">
+                <tree string="Produto Site">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="crm_productsite_view_form" model="ir.ui.view">
+            <field name="name">crm.productsite.form</field>
+            <field name="model">crm.productsite</field>
+            <field name="arch" type="xml">
+                <form string="Produto Site">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="crm_productsite_action" model="ir.actions.act_window">
+            <field name="name">Produto Site</field>
+            <field name="res_model">crm.productsite</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Produtos que constam no Site.
+              </p>
+            </field>
+        </record>
+
+        <menuitem action="crm_productsite_action" id="menu_crm_productsite" parent="base.menu_crm_config_lead" sequence="5" groups="base.group_no_one"/>
+    </data>
+</openerp>
