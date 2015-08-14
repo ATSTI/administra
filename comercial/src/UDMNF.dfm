@@ -1621,6 +1621,7 @@ object DMNF: TDMNF
       end>
     ProviderName = 'dsp_nf'
     OnNewRecord = cds_nfNewRecord
+    OnReconcileError = cds_nfReconcileError
     Left = 477
     Top = 94
     object cds_nfNOTASERIE: TStringField
@@ -2492,6 +2493,7 @@ object DMNF: TDMNF
       end>
     ProviderName = 'dsp_nf1'
     OnNewRecord = cds_nf1NewRecord
+    OnReconcileError = cds_nf1ReconcileError
     Left = 529
     Top = 94
     object cds_nf1NUMNF: TIntegerField

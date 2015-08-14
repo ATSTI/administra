@@ -1519,6 +1519,12 @@ type
     procedure cds_compraReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure cds_nfReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
+    procedure cds_nf1ReconcileError(DataSet: TCustomClientDataSet;
+      E: EReconcileError; UpdateKind: TUpdateKind;
+      var Action: TReconcileAction);
   private
 
   public
@@ -2182,6 +2188,20 @@ procedure TDMNF.cds_compraReconcileError(DataSet: TCustomClientDataSet;
   var Action: TReconcileAction);
 begin
   MessageDlg('Mensagem: '+E.Message,mtInformation,[mbok],0);
+end;
+
+procedure TDMNF.cds_nfReconcileError(DataSet: TCustomClientDataSet;
+  E: EReconcileError; UpdateKind: TUpdateKind;
+  var Action: TReconcileAction);
+begin
+   MessageDlg(E.Message, mtWarning, [mbOK], 0);
+end;
+
+procedure TDMNF.cds_nf1ReconcileError(DataSet: TCustomClientDataSet;
+  E: EReconcileError; UpdateKind: TUpdateKind;
+  var Action: TReconcileAction);
+begin
+   MessageDlg(E.Message, mtWarning, [mbOK], 0);
 end;
 
 end.
