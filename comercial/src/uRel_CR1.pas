@@ -954,23 +954,30 @@ begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
-  // marco as Duplicatas a serem impressas
-  fcrProc.scdsCr_proc.DisableControls;
-  fcrProc.scdsCr_proc.First;
-  While not fcrProc.scdsCr_proc.Eof do
-  begin
-    if (fcrProc.scdsCr_procDUP_REC_NF.AsString = 'S') then
+  try
+    // marco as Duplicatas a serem impressas
+    fcrProc.scdsCr_proc.DisableControls;
+    fcrProc.scdsCr_proc.First;
+    While not fcrProc.scdsCr_proc.Eof do
     begin
-      update_dp := '';
-      update_dp := 'update RECEBIMENTO set DP = 1 ' ;
-      update_dp := update_dp + 'where CODRECEBIMENTO = ';
-      update_dp := update_dp + IntToStr(fcrProc.scdsCr_procCODRECEBIMENTO.AsInteger);
-      dm.sqlsisAdimin.ExecuteDirect(update_dp);
+      if (fcrProc.scdsCr_procDUP_REC_NF.AsString = 'S') then
+      begin
+        update_dp := '';
+        update_dp := 'update RECEBIMENTO set DP = 1 ' ;
+        update_dp := update_dp + 'where CODRECEBIMENTO = ';
+        update_dp := update_dp + IntToStr(fcrProc.scdsCr_procCODRECEBIMENTO.AsInteger);
+        dm.sqlsisAdimin.ExecuteDirect(update_dp);
+      end;
+      fcrProc.scdsCr_proc.Next;
     end;
-    fcrProc.scdsCr_proc.Next;
+    dm.sqlsisAdimin.Commit(TD);
+
+  except
+    dm.sqlsisAdimin.Rollback(TD);
   end;
-  dm.sqlsisAdimin.Commit(TD);
+
   boletoSicrediSR;
+
    {fBolSic := TfBolSic.Create(Application);
    try
       fBolSic.ShowModal;
@@ -990,7 +997,6 @@ var  nQtdeBoletos: Integer;
   str_sql : String;
   TD: TTransactionDesc;
 begin
-
   if (not sqlConta.Active) then
     sqlConta.Open;
 
@@ -1010,9 +1016,7 @@ begin
   while not (cdsBoleto.Eof) do
   begin
 
-   ProgressBar1.Position := nI;
-
-
+    ProgressBar1.Position := nI;
     //Dados do Cedente
     RLBTitulo1.LocalPagamento := 'PAGÁVEL PREFERENCIALMENTE NAS COOPERATIVAS DE CRÉDITO DO SICREDI';
     RLBTitulo1.Cedente.ContaBancaria.Banco.Codigo := '748';
@@ -1046,7 +1050,6 @@ begin
       1: RLBTitulo1.Sacado.TipoInscricao := tiPessoaJuridica;
     end;
 
-
     RLBTitulo1.Sacado.NumeroCPFCGC := cdsBoletoCNPJ.AsString;
     RLBTitulo1.Sacado.Endereco.Rua := cdsBoletoENDERECO.AsString;
     RLBTitulo1.Sacado.Endereco.CEP := cdsBoletoCEP.AsString;
@@ -1062,23 +1065,21 @@ begin
     begin
       RLBTitulo1.DataVencimento :=  StrToDateTime(MaskEdit1.Text);   // DATA VENCIMENTO
 
-    if(MaskEdit1.Text <> '  /  /  ') then
-    begin
-      str_sql := 'UPDATE RECEBIMENTO SET DATAVENCIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', StrToDate(MaskEdit1.Text)));
-      str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
-      str_sql := str_sql +  cdsBoletoCODRECEBIMENTO.AsString ;
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro ao Alterar data Vencimento.', mtError, [mbOK], 0);
-        exit;
+      if(MaskEdit1.Text <> '  /  /  ') then
+      begin
+        str_sql := 'UPDATE RECEBIMENTO SET DATAVENCIMENTO = ' + QuotedStr(formatdatetime('mm/dd/yy', StrToDate(MaskEdit1.Text)));
+        str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
+        str_sql := str_sql +  cdsBoletoCODRECEBIMENTO.AsString ;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        try
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          dm.sqlsisAdimin.Rollback(TD);
+          MessageDlg('Erro ao Alterar data Vencimento.', mtError, [mbOK], 0);
+          exit;
+        end;
       end;
-    end;
-
-
     end else
     begin
        RLBTitulo1.DataVencimento := cdsBoletoDATAREC.AsDateTime;   // DATA VENCIMENTO
@@ -1093,14 +1094,11 @@ begin
     RLBTitulo1.Preparar;
     cdsBoleto.Next;
 
-    ProgressBar1.Visible := False;
-    Repaint;
-    end;
-
-
-   RLBTitulo1.Visualizar;
-   Panel1.Visible := False;
-
+    //ProgressBar1.Visible := False;
+    //Repaint;
+  end;
+  RLBTitulo1.Visualizar;
+  Panel1.Visible := False;
 end;
 
 end.
