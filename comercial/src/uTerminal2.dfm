@@ -1792,7 +1792,7 @@ object fTerminal2: TfTerminal2
       Top = 1
       Width = 471
       Height = 550
-      ActivePage = TabVenda
+      ActivePage = TabComanda
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0
@@ -2770,7 +2770,7 @@ object fTerminal2: TfTerminal2
             Left = 297
             Top = 25
             Width = 140
-            Height = 22
+            Height = 19
             BevelInner = bvLowered
             Color = clMenuBar
             Ctl3D = False

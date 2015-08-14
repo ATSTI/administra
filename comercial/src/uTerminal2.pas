@@ -3132,7 +3132,7 @@ begin
   pesagem := '';
   totpesagem := '';
   totpesagemfloat:= 0;
-  totpesagem := '';     
+  totpesagem := '';
 
   if (key = #13) then
   begin
@@ -3673,7 +3673,12 @@ begin
   DecimalSeparator := '.';
 
   if (jvPageControl1.ActivePage = TabVenda) then
-    str_sql := str_sql +  IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' ; //+ IntToStr(1) + ', ';
+     str_sql := str_sql +  IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' ; //+ IntToStr(1) + ', ';
+  if (jvPageControl1.ActivePage = TabComanda) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ' ;//+ IntToStr(1) + ', ';
+  if (jvPageControl1.ActivePage = TabDelivery) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', ';//  + IntToStr(1) + ', ';
+
 
   if(pesagem = '2')then
   begin
@@ -3685,10 +3690,6 @@ begin
     str_sql := str_sql +  IntToStr(1)  + ', ';
   end;
 
-  if (jvPageControl1.ActivePage = TabComanda) then
-    str_sql := str_sql +  IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
-  if (jvPageControl1.ActivePage = TabDelivery) then
-    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', '  + IntToStr(1) + ', ';
 
 
   str_sql := str_sql +  QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ';
