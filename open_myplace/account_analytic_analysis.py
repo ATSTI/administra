@@ -47,32 +47,71 @@ class account_analytic_account(osv.osv):
         mk = {'grouped': True}
         vnd = self.pool.get('sale.make.invoice')
         contabil = self.pool.get('account.invoice')
-        #boleto_obj = self.pool.get('boleto.boleto_create')
+        boleto_obj = self.pool.get('boleto.boleto_create')
         id_mk = vnd.create(cr, uid, mk)
         data = vnd.read(cr, uid, id_mk)
+        boleto = {}
         for vnd_cli in venda.browse(cr, uid, venda_ids, context=context):
             if cliente != vnd_cli.partner_id.id:
+                import pudb;pudb.set_trace()
+                cliente = vnd_cli.partner_id.id
+                # validando dados do cliente
                 venda_cli = venda.search(cr, uid, [('state', '=', 'manual'),('partner_id','=',vnd_cli.partner_id.id)],context=context)
+                grp_msg = boleto.setdefault(vnd_cli.partner_id.name, [])
+                cli = vnd_cli.partner_id
+                if not cli.cnpj_cpf or not cli.legal_name or not cli.zip or not cli.street or not cli.number or not cli.l10n_br_city_id or not cli.district or not cli.state_id or not cli.country_id:
+                    boleto['erro0'] = u'Falta preencher campos obrigatórios no cadastro do cliente(CNPJ/CPF, Contratante, Endereço completo)'  
+                    grp_msg.append(boleto)
+                    continue
+
                 for sale_order in venda.browse(cr, uid, venda_cli, context=context):
                     if sale_order.state != 'manual':
                         raise osv.except_osv(_('Warning!'), _("You shouldn't manually invoice the following sale order %s") % (sale_order.name))
 
                 # cria a fatura
-                order_obj.action_invoice_create(cr, uid, venda_cli, data['grouped'], date_invoice=data['invoice_date'])
-                print 'FEITO - ' + vnd_cli.partner_id.name
+                    order_obj.action_invoice_create(cr, uid, venda_cli, data['grouped'], date_invoice=data['invoice_date'])
+                #print 'FEITO - ' + vnd_cli.partner_id.name
                 orders = order_obj.browse(cr, uid, venda_cli, context=context)
                 # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
                 # comentei aqui , pois, precisamos primeiro confirmar todas que estao la, pra depois usar isto
-                #order_obj.signal_workflow(cr, uid, [o.id for o in orders if o.order_policy == 'manual'], 'manual_invoice')
+                order_obj.signal_workflow(cr, uid, [o.id for o in orders if o.order_policy == 'manual'], 'manual_invoice')
                 # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 
-                # valida a Fatura
-                #cont_ids = contabil.search(cr, uid, [('state', '=', 'draft'), ('type','=', 'out_invoice'),('partner_id', '=', vnd_cli.partner_id.id)],context=context)
+                # Localiza as faturas com status pendente para confirmar e gerar o boleto
+                cont_ids = contabil.search(cr, uid, [('state', '=', 'draft'), ('type','=', 'out_invoice'),('partner_id', '=', vnd_cli.partner_id.id),('date_invoice','>','2015-07-30')],context=context)
+                #import pudb;pudb.set_trace()
                 # gerar BOLETO
-                #for id in contabil.browse(cr, uid, cont_ids, context=context):
+                msg_erro = {}
+                for id in contabil.browse(cr, uid, cont_ids, context=context):
                     # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
                     # comentei aqui , pois, precisamos primeiro confirmar todas que estao la, pra depois usar isto
-                    # workflow.trg_validate(uid, 'account.invoice', id.id, 'invoice_open', cr)
+                    if not id.payment_term:
+                        id.payment_term = vnd_cli.partner_id.property_payment_term
+                    try:
+                        # valida a Fatura
+                        workflow.trg_validate(uid, 'account.invoice', id.id, 'invoice_open', cr)
+                        boleto['fatura'] = id.internal_number
+                    except:
+                        boleto['fatura'] = id.id
+                        msg_erro['erro0'] = "Conta de cliente e/ou produto diferente da Unidade/Empresa."
+                        #msg_erro['fatura'] = id.id
+                        continue
+                    context['active_ids'] = [id.id] 
+                    context['active_id'] = id.id 
+                    context['active_model'] = 'account.invoice'
+                    context['origem'] = 'contract'
+                    if not len(msg_erro):
+                        boleto = boleto_obj.create_boleto(cr, uid, ids, context)
+                    else:
+                        boleto['erro0'] = msg_erro['erro0']
+                        boleto['id'] = 0
+                    if len(boleto) and boleto['id'] == 0:
+                        #boleto['cliente'] = vnd_cli.partner_id.name
+                        grp_msg.append(boleto)
+                        print "enviar email deu erro : %s " %(boleto)
+                    else:
+                        print "passou ........"
+
                     # @@@@@@@@@@@@@@@@@@  19/06/2015 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
                     #boleto_nome = id.number + str(id.id) + '.pdf'
                     # gerar o PDF da BOLETO
@@ -86,9 +125,11 @@ class account_analytic_account(osv.osv):
                     #for blt in boletos_obj.browse(cr, uid, boletos, context=context):
                     #    boleto_file = blt.pdf_stream
                     
+        if len(boleto):
+            #boleto['cliente'] = vnd_cli.partner_id.name
+            print "enviar email deu erro : %s " %(boleto)
                     
 
-                cliente = vnd_cli.partner_id.id
 
         return id
 
