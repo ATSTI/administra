@@ -2925,8 +2925,9 @@ object fNfeIcms: TfNfeIcms
       'CODVENDA'#13#10'      AND V.CODMOVIMENTO = M.CODMOVIMENTO '#13#10'      AND ' +
       'M.CODNATUREZA IN (12, 15)'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1' +
       ' AND :DTA2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND EC.TIPOEND = 0' +
-      #13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'      AND V.CODMOVIMENTO ' +
-      'BETWEEN  :CODMOV AND :CODMOVF'
+      #13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'      AND ((NF.STATUS = '#39 +
+      'E'#39') or (NF.STATUS = '#39'C'#39'))'#13#10'      AND V.CODMOVIMENTO BETWEEN  :CO' +
+      'DMOV AND :CODMOVF'
     MaxBlobSize = -1
     Params = <
       item
