@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, rpcompobase, rpvclreport, DB, Provider, DBClient,
   SqlExpr, StdCtrls, Grids, DBGrids, EDBFind, Buttons, DBXpress ,comobj,
-  ACBrBase, ACBrETQ ,ACBrDevice, JvComponentBase, JvCSVBaseControls;
+  ACBrBase, ACBrETQ ,ACBrDevice, JvComponentBase, JvCSVBaseControls, IniFiles, uThread;
 
 type
   TfPrincipal = class(TForm)
@@ -266,8 +266,10 @@ type
     Button1: TButton;
     SQLqOBS: TStringField;
     CDSqOBS: TStringField;
-    Button2: TButton;
+    btnImprimeIza: TButton;
     Memo1: TMemo;
+    Edit1: TEdit;
+    edDiretorio: TEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -281,11 +283,21 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure btnImprimeIzaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    ArquivoCSV: TextFile;
+    Config: TIniFile;
+    dir: String;
+    porta: String;
+    arquivo1: String;
+    diretorio: String;
+    lendoDir : FThread;
+    dbxconec: TStringList;
+    str_relatorio : String;
     procedure AtivarACBrETQ ;
-    procedure lerPlanilha;
+    procedure lerPlanilha(arquivo: String);
     procedure imprimePlanilha(cod, produto, preco, qtde: String);
 
   public
@@ -297,15 +309,11 @@ var
   fPrincipal: TfPrincipal;
 
 implementation
-var
-  dbxconec: TStringList;
-  str_relatorio : String;
 
 {$R *.dfm}
 
 procedure TfPrincipal.BitBtn1Click(Sender: TObject);
 var varSql, varCondicao ,sql : string;
-i : integer;
 begin
 
  cds_proc.CommandText := '';
@@ -716,19 +724,20 @@ begin
 
 end;
 
-procedure TfPrincipal.lerPlanilha;
+procedure TfPrincipal.lerPlanilha(arquivo: String);
 var
   Arq: TextFile;
-  Texto, linha: string;
+  Texto, linha, codigo: string;
   Txt: TStringList;
 begin
   memo1.Lines.Clear;
   Txt := TStringList.Create; // cria a stringlist
-  //Txt.s.StrictDelimiter := True; // indica que o delimitador é somente aquele definido abaixo
-  Txt.Delimiter := ','; // caractere delimitador de campos
+  //Txt.StrictDelimiter := True; // indica que o delimitador é somente aquele definido abaixo
+  Txt.Delimiter := ';'; // caractere delimitador de campos
   try
     Screen.Cursor := crHourGlass;
-    AssignFile(Arq,'C:\home\prod.csv');
+    //AssignFile(Arq,'C:\home\prod.csv');
+    AssignFile(Arq,arquivo);
     Reset(Arq);
     linha := 'linha1';
     if not EOF(Arq) then
@@ -742,7 +751,8 @@ begin
       //Texto  := Txt[4]; // Quantidade
       if (linha <> 'linha1') then
       begin
-        imprimePlanilha(txt[1], txt[2],txt[3],txt[4]);
+        codigo := txt[0];
+        imprimePlanilha(codigo, txt[1], txt[2],txt[3]);
       end;
       linha := 'linha2';
       until EOF(Arq);
@@ -766,6 +776,7 @@ begin
     DecimalSeparator := ',';
   end;
   preco := FormatFloat('##0.00', pco);
+  ACBrETQ.Porta := Edit1.Text;
   AtivarACBrETQ ;
   with ACBrETQ do
   begin
@@ -786,23 +797,53 @@ begin
       //for i := 1 to numero_etiqueta do
       //begin
         // primeira parte etiqueta
-        ImprimirBarras(orNormal, 'E80', '2', '2', 2, 95, cod, 90, becSIM);
+        ImprimirBarras(orNormal, 'E80', '2', '2', 2, 125, cod, 90, becSIM);
         // segunda parte etiqueta
-        ImprimirTexto(orNormal, 2, 1, 1, 15, 365, preco);
-        ImprimirTexto(orNormal, 1, 1, 1, 45, 365,Copy(produto,1,21));
-        ImprimirTexto(orNormal, 1, 1, 1, 75, 365,Copy('',1,21));
+        ImprimirTexto(orNormal, 2, 1, 1, 35, 365, preco);
+        ImprimirTexto(orNormal, 1, 1, 1, 65, 365,Copy(produto,1,21));
+        ImprimirTexto(orNormal, 1, 1, 1, 95, 365,Copy('',1,21));
       //end;
     end;
-    Imprimir(numero_etiqueta);
-    memo1.Lines.Add(cod + ' - ' + produto + ' - ' + preco + ' - ' + IntToStr(numero_etiqueta) + ' - FEITO. ');    
+    Imprimir(numero_etiqueta);  
+    memo1.Lines.Add(cod + ' - ' + produto + ' - ' + preco + ' - ' + IntToStr(numero_etiqueta) + ' - FEITO. ');
     Desativar;
   end;
 
 end;
 
-procedure TfPrincipal.Button2Click(Sender: TObject);
+procedure TfPrincipal.btnImprimeIzaClick(Sender: TObject);
+var
+  path    : String;
+  IsFound : Integer;
+  SR      : TSearchRec;
 begin
-  lerPlanilha;
+   path := edDiretorio.Text+'etiqueta.csv';
+   IsFound := FindFirst(path, faAnyFile, SR);
+   while IsFound = 0  do
+   begin
+     lerPlanilha(path);
+   end;
+   DeleteFile(path);
+end;
+
+procedure TfPrincipal.FormCreate(Sender: TObject);
+begin
+  try
+    dir              := ExtractFilePath(Application.ExeName);
+    config           := TIniFile.Create(dir + 'CONFIG.INI');
+    cbPorta.Text     := config.ReadString('IMPRESSORA', 'porta', '');
+    edDiretorio.Text := config.ReadString('DIRETORIO', 'pasta', '');
+    porta            := cbPorta.Text;
+    diretorio        := edDiretorio.Text;
+
+    // Inicia a Thread
+    lendoDir := FThread.Create(true);
+    lendoDir.FreeOnTerminate := False;
+    lendoDir.Priority := tpNormal;
+    lendoDir.Resume;
+  Finally
+    FreeAndNil(config);
+  end;
 end;
 
 end.

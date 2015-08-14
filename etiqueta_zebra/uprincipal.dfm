@@ -1,6 +1,6 @@
 object fPrincipal: TfPrincipal
-  Left = 245
-  Top = 49
+  Left = 246
+  Top = 50
   Width = 1083
   Height = 664
   BorderIcons = [biSystemMenu]
@@ -12,6 +12,7 @@ object fPrincipal: TfPrincipal
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -1090,14 +1091,30 @@ object fPrincipal: TfPrincipal
     TabOrder = 23
     OnClick = Button1Click
   end
-  object Button2: TButton
+  object btnImprimeIza: TButton
     Left = 627
     Top = 567
     Width = 118
     Height = 56
     Caption = 'IMP. ARQUIVO - IZA'
     TabOrder = 24
-    OnClick = Button2Click
+    OnClick = btnImprimeIzaClick
+  end
+  object Edit1: TEdit
+    Left = 16
+    Top = 576
+    Width = 153
+    Height = 21
+    TabOrder = 26
+    Text = 'LPT1'
+  end
+  object edDiretorio: TEdit
+    Left = 16
+    Top = 608
+    Width = 121
+    Height = 21
+    TabOrder = 27
+    Text = 'C:\home'
   end
   object SQLPro: TSQLDataSet
     CommandText = 'select  * from PRODUTOS '
