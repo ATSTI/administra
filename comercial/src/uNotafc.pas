@@ -1142,13 +1142,15 @@ begin
   if (cbTransportadora.Text <> '') then
   begin
      DMNF.listaTransp.Open;
-     DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive]);
+     if (not DMNF.listaTransp.Locate('FANTASIA',cbTransportadora.Text,[loCaseInsensitive])) then
+       DMNF.listaTransp.Locate('NOMETRANSP',cbTransportadora.Text,[loCaseInsensitive]);
      dmnf.cds_nf1PLACATRANSP.AsString := DMNF.listaTranspPLACATRANSP.AsString;
      dmnf.cds_nf1UF_VEICULO_TRANSP.AsString := DMNF.listaTranspUF_VEICULO_TRANSP.AsString;
      dmnf.cds_nf1CNPJ_CPF.AsString := DMNF.listaTranspCNPJ_CPF.AsString;
      dmnf.cds_nf1END_TRANSP.AsString := DMNF.listaTranspEND_TRANSP.AsString;
      dmnf.cds_nf1CIDADE_TRANSP.AsString := DMNF.listaTranspCIDADE_TRANSP.AsString;
      dmnf.cds_nf1UF_TRANSP.AsString := DMNF.listaTranspUF_TRANSP.AsString;
+     dmnf.cds_nf1CODTRANSP.AsInteger := dmnf.listaTranspCODTRANSP.AsInteger;
      DMNF.listaTransp.Close;
   end;
 end;
@@ -1393,6 +1395,7 @@ begin
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_COD_COMPRA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     dmnf.cds_compraCODCOMPRA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    codVendaFin := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
 
@@ -1564,9 +1567,9 @@ begin
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
 
   gravarDadosNFe310c;
-  if ((dmnf.cds_nfNFE_FINNFE.AsString  = 'fnComplementar')  or (dmnf.cds_nfNFE_FINNFE.AsString  = 'fnDevolucao')) then
+  if ((dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnComplementar')  or (dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnDevolucao')) then
   begin
-    if ((dmnf.cds_nfIDCOMPLEMENTAR.IsNull) or (dmnf.cds_nfIDCOMPLEMENTAR.AsString = '')) then
+    if ((dmnf.cds_nf1IDCOMPLEMENTAR.IsNull) or (dmnf.cds_nf1IDCOMPLEMENTAR.AsString = '')) then
     begin
       MessageDlg('Informe o Documento de Referencia, na ABA Documento Fiscal Referenciado.', mtWarning, [mbOK], 0);
     end;
