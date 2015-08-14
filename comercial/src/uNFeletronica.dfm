@@ -1013,6 +1013,13 @@ object fNFeletronica: TfNFeletronica
         object TabSheet6: TTabSheet
           Caption = 'Outros Servi'#231'os'
           ImageIndex = 5
+          object Label18: TLabel
+            Left = 9
+            Top = 92
+            Width = 88
+            Height = 13
+            Caption = 'N. NF a Cancelar :'
+          end
           object btnStatus: TBitBtn
             Left = 6
             Top = 14
@@ -1042,7 +1049,7 @@ object fNFeletronica: TfNFeletronica
           end
           object btnCancelaNFe: TBitBtn
             Left = 6
-            Top = 54
+            Top = 51
             Width = 91
             Height = 36
             Caption = 'Cancelar NF-e'
@@ -1051,7 +1058,7 @@ object fNFeletronica: TfNFeletronica
           end
           object btnInutilizar: TBitBtn
             Left = 107
-            Top = 54
+            Top = 51
             Width = 91
             Height = 36
             Caption = 'Inutilizar NF-e'
@@ -1060,12 +1067,19 @@ object fNFeletronica: TfNFeletronica
           end
           object BitBtn4: TBitBtn
             Left = 208
-            Top = 55
+            Top = 51
             Width = 91
             Height = 34
             Caption = 'Cons. por Recibo'
             TabOrder = 5
             OnClick = BitBtn4Click
+          end
+          object edNFCancelar: TEdit
+            Left = 107
+            Top = 89
+            Width = 90
+            Height = 21
+            TabOrder = 6
           end
         end
         object TabSheet7: TTabSheet

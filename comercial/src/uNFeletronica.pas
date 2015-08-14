@@ -11,7 +11,8 @@ uses
   ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe,
   ACBrNFeDANFeQRClass, xmldom, XMLIntf, msxmldom, XMLDoc, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, DBCtrls, JvFormPlacement, JvExControls, JvLabel
-  ,DBLocal, DBLocalS, DBXpress, ACBrBase, ACBrValidador, MaskUtils;
+  ,DBLocal, DBLocalS, DBXpress, ACBrBase, ACBrValidador, MaskUtils,
+  UCHistDataset;
 
 type
   TfNFeletronica = class(TForm)
@@ -735,6 +736,8 @@ type
     cdsNFNFE_INDPRES: TStringField;
     sFornecTIPOFIRMA: TSmallintField;
     sClienteTIPOFIRMA: TSmallintField;
+    Label18: TLabel;
+    edNFCancelar: TEdit;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -972,6 +975,7 @@ var
   Protocolo, Recibo, str, vAux, valida : String;
   tipoNota: Char;
 begin
+  codnf := 0;
   if (edtNumSerie.Text = '') then
   begin
     MessageDlg('Selecione o Certificado!',mtWarning,[mbOk],0);
@@ -1754,9 +1758,31 @@ var
   vXMLDoc: TXMLDocument;
   vAux, Protocolo, caminho, str : String;
   NumeroLote : Integer;
+  notaFCancela: String;
   //numnf : WideString;
 begin
   Protocolo := '';
+  if (edNFCancelar.Text = '') then
+  begin
+    MessageDlg('Informe o número da nota a ser Cancelada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  cdsNF.First;
+  while not cdsNF.Eof do
+  begin
+    if (cdsNFSELECIONOU.AsString = 'S') then
+    begin
+      notaFCancela := cdsNFNOTASERIE.AsString;
+    end;
+    cdsNF.Next;
+  end;
+
+  if (edNFCancelar.Text <> notaFCancela) then
+  begin
+    MessageDlg('Nota selecionada é diferente do número da Nota informada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   vXMLDoc := TXMLDocument.Create(self);
   Try
     OpenDialog1.Title := 'Selecione a NFE';
@@ -1768,6 +1794,24 @@ begin
       ACBrNFe1.NotasFiscais.Clear;
       caminho := OpenDialog1.FileName;
       ACBrNFe1.NotasFiscais.LoadFromFile(caminho);
+
+      //ABRE A NOTA
+      vXMLDoc.LoadFromFile(caminho);
+
+      //PEGA A RESPOSTA
+      with vXMLDoc.DocumentElement  do
+      begin
+        numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+        if (numnf = '') then
+          numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
+      end;
+
+      if (edNFCancelar.Text <> numnf) then
+      begin
+        MessageDlg('Nota selecionada é diferente do número que consta no arquivo xml: ' + numnf, mtWarning, [mbOK], 0);
+        exit;
+      end;
+
       if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
         exit;
       NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
@@ -1808,16 +1852,7 @@ begin
       AcbrNfe1.Configuracoes.Geral.Salvar := True;
     end;
 
-      //ABRE A NOTA
-      vXMLDoc.LoadFromFile(caminho);
 
-      //PEGA A RESPOSTA
-      with vXMLDoc.DocumentElement  do
-      begin
-        numnf := ChildNodes['NFe'].ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-        if (numnf = '') then
-          numnf := ChildNodes['infNFe'].ChildNodes['ide'].ChildNodes['nNF'].Text;
-      end;
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
 
