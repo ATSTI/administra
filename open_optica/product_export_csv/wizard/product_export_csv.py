@@ -101,7 +101,7 @@ class ProductCSVExport(orm.TransientModel):
             writer.writerows(rows)
             file_value = file_data.getvalue()
             self.write(cr, uid, ids,
-                       {'data': base64.encodestring(file_value)},
+                       {'data': base64.encodestring(file_value), 'export_filename':'lentes.csv'},
                        context=context)
         finally:
             file_data.close()
@@ -134,7 +134,8 @@ class ProductCSVExport(orm.TransientModel):
         Pego todos os produtos da Categoria Informada
         """
         cr.execute("""
-                select id, name, coalesce(list_price,0)
+                select id, name, coalesce(list_price,0), 
+                coalesce(substr(reference_mask, 1, position('[' in reference_mask) - 1),'0') as code 
                 from product_template 
                 where categ_id = %(category_ids)s 
                 """,
@@ -147,6 +148,7 @@ class ProductCSVExport(orm.TransientModel):
         for prod in res:
             produto = prod[1]
             preco_prod = prod[2]
+            cod_prod = prod[3]
             cr.execute("""
                 select distinct pav.id, pav.name || ' (' || coalesce(pav.attribute_code,'0') || ')' atributo, coalesce(pap.price_extra,0)
                 , coalesce(pav.attribute_code,'0')
@@ -197,8 +199,10 @@ class ProductCSVExport(orm.TransientModel):
             rows.append(list(planilha))
 
             """ Pegando os itens com os atributos - Lentes """
+            #      substr(pt.default_code,char_length(pt.default_code) -2, 3) as code    
             cr.execute("""
-                select distinct pav.id, pav.name atributo, coalesce(pap.price_extra,0), substr(pt.default_code,1,2) || substr(pt.default_code,5,8) as code
+                select distinct pav.id, pav.name atributo, coalesce(pap.price_extra,0), 
+                  coalesce(pav.attribute_code,'0') as code
                   from product_product pt
                   left join product_attribute_value_product_product_rel as ppr on ppr.prod_id = pt.id
                   left join product_attribute_value as pav on ppr.att_id = pav.id
@@ -226,7 +230,7 @@ class ProductCSVExport(orm.TransientModel):
                     price4 = price4 + p
                 if price5 > 0:
                     price5 = price5 + p
-                planilha = [dc[3], produto,dc[1],price1,price2,price3,price4,price5]
+                planilha = [cod_prod + dc[3], produto,dc[1],price1,price2,price3,price4,price5]
                 
                 rows.append(list(planilha))
 
