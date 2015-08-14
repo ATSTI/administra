@@ -21,7 +21,7 @@ declare variable SEGURO_TOTAL double precision;
 declare variable valtot double precision;
 declare variable vp double precision;
 declare variable levaDesc char(1);
-declare variable log_sis varchar(60);
+declare variable log_sis varchar(260);
 BEGIN
   log_sis =  new.IDCOMPLEMENTAR;
   if (log_sis is null) then 
@@ -29,7 +29,7 @@ BEGIN
     log_sis = 'NAO COMPLEMENTAR'; 
   end 
   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 'IDCOMPLEMENTA ' || :log_sis);
-  if (log_sis = 'NAO COMPLEMENTAR') then 
+  if ((log_sis = 'NAO COMPLEMENTAR') and (new.VALOR_PRODUTO > 0)) then 
   begin
   -- versao 3.0.0.4
   levaDesc = 'N';
