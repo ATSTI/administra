@@ -1264,7 +1264,7 @@ begin
       Write(Impressora, c17cpi + Format('   %-2s  ',[cds_imovdetUN.Value]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetQTDE.AsFloat]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetPRECO.AsFloat]));
-      total := cds_imovdetTotalPedido.value;
+      total := cds_imovdetQTDE.AsFloat * cds_imovdetPRECO.AsFloat;
       Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
 
       with Printer.Canvas do
@@ -1706,7 +1706,7 @@ begin
     IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
   Texto2 := '-------------------------------------------------' ;
   Texto3 := 'Produto                                          ' ;
-  Texto4 := 'Cod.Barra      UN     Qtde     V.Un.     V.Total ' ;
+  Texto4 := 'Cod.     UN     Qtde     V.Un.     V.Total ' ;
   Texto5 := DateTimeToStr(Now) + '       Total.: R$   ';
   Texto8 := '                      Desconto.: R$   ';
   cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
