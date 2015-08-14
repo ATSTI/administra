@@ -2280,7 +2280,7 @@ begin
       insereouatualizaScript('gera_nf_venda.sql', '3.1.0.1', StrToDate('01/02/2015'));
 
       insereouatualizaScript('boleto.sql', '3.1.0.1', StrToDate('01/03/2015'));
-      insereouatualizaScript('frete_nf.sql', '3.1.0.1', StrToDate('01/03/2015'));
+
       AtualizandoScript('3.1.0.1');
       mudaVersao('3.1.0.2');
     end;
@@ -2325,6 +2325,8 @@ begin
         MessageDlg('Erro para alterar o tamanho do campo do Email, Cliente e Forncedor.'
         , mtWarning, [mbOK], 0);
       end;
+      insereouatualizaScript('frete_nf.sql', '3.2.0.0', StrToDate('01/08/2015'));
+      AtualizandoScript('3.2.0.0');
       mudaVersao('3.2.0.1');
     end;
 
