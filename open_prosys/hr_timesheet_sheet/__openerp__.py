@@ -59,6 +59,7 @@ The validation can be configured in the company:
         'wizard/hr_timesheet_current_view.xml',
         'hr_timesheet_sheet_data.xml',
         'res_config_view.xml',
+        'email_planilha_aprovar.xml',
     ],
     'demo': ['hr_timesheet_sheet_demo.xml'],
     'test':['test/test_hr_timesheet_sheet.yml'],

@@ -192,6 +192,23 @@ class hr_timesheet_sheet(osv.osv):
         date_attendances.sort()
         return [att[2] for att in date_attendances]
 
+    def para_aprovar_send_mail(self, cr, uid, ids, context=None):
+        template_id =self.pool.get('ir.model.data').get_object_reference(cr,uid, 'hr_timesheet_sheet','email_planilha_aprovar_template')[1]
+        context['subject']=u'Planilha para aprovar'
+        for sheet in self.browse(cr, uid, ids, context=context):
+            if sheet.manager_id.email:
+                if sheet.manager_id.email:
+                    context['email_to']=sheet.manager_id.email
+                else:
+                    context['email_to']='admin@prosyseng.com.br'
+                if sheet.user_id.email:
+                    context['email_de']=sheet.user_id.email
+                else:
+                    context['email_de']='admin@prosyseng.com.br'
+
+                context['planilhade']=sheet.user_id.name
+                self.pool.get('email.template').send_mail(cr, uid,template_id, uid, force_send=True, context=context)
+
     def button_confirm(self, cr, uid, ids, context=None):
         for sheet in self.browse(cr, uid, ids, context=context):
             if sheet.employee_id and sheet.employee_id.parent_id and sheet.employee_id.parent_id.user_id:
@@ -201,6 +218,7 @@ class hr_timesheet_sheet(osv.osv):
             if (abs(sheet.total_difference) < di) or not di:
                 wf_service = netsvc.LocalService("workflow")
                 wf_service.trg_validate(uid, 'hr_timesheet_sheet.sheet', sheet.id, 'confirm', cr)
+                self.para_aprovar_send_mail(cr, uid, ids, context=context)
             else:
                 raise osv.except_osv(_('Warning!'), _('Please verify that the total difference of the sheet is lower than %.2f.') %(di,))
         return True
