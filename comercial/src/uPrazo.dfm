@@ -1,18 +1,26 @@
 inherited fPrazo: TfPrazo
+  Width = 784
+  Height = 610
   Caption = 'Prazos'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
+  inherited MMJPanel1: TMMJPanel
+    Width = 776
+  end
   inherited MMJPanel2: TMMJPanel
+    Top = 532
+    Width = 776
     inherited btnProcurar: TBitBtn
       Visible = False
     end
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [2]
-    Left = 32
-    Top = 64
-    Width = 713
-    Height = 401
+    Left = 0
+    Top = 51
+    Width = 776
+    Height = 481
+    Align = alClient
     DataSource = DtSrc
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
@@ -91,7 +99,6 @@ inherited fPrazo: TfPrazo
         Expanded = False
         FieldName = 'VALOR'
         Title.Caption = 'Num. Parcelas'
-        Width = 64
         Visible = True
       end>
   end

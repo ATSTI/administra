@@ -10,9 +10,9 @@ uses
 type
   TfPrazo = class(TfPai_new)
     JvDBUltimGrid1: TJvDBUltimGrid;
-    procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,12 +28,6 @@ uses UDm;
 
 {$R *.dfm}
 
-procedure TfPrazo.FormCreate(Sender: TObject);
-begin
-//  inherited;
-
-end;
-
 procedure TfPrazo.btnIncluirClick(Sender: TObject);
 begin
   inherited;
@@ -42,12 +36,23 @@ end;
 
 procedure TfPrazo.btnGravarClick(Sender: TObject);
 begin
+  if (dm.cdsPrazoD2.asString = '') then
+    dm.cdsPrazoD2.Clear;
+  if (dm.cdsPrazoD3.asString = '') then
+    dm.cdsPrazoD3.Clear;
+
   if (dm.cdsPrazoVALOR.AsFloat > 0) then
     inherited
   else
     MessageDlg('É necessário preencher o número de parcelas.', mtError, [mbOK], 0);
   if (dm.cdsPrazoD9.AsString <> '999') then
     MessageDlg('O Parametro D9 é padrão "999"', mtError, [mbOK], 0);
+end;
+
+procedure TfPrazo.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
 end;
 
 end.
