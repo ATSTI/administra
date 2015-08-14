@@ -1827,7 +1827,11 @@ begin
   if (RadioGroup1.ItemIndex = 0) then
     dmnf.cds_nfSTATUS.AsString := 'S';
   if ((dmnf.cds_nfCFOP.AsString = '6922') or (dmnf.cds_nfCFOP.AsString = '5922')) then
-    dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
+    try
+      dmnf.cds_nfPESOREMESSA.AsBCD := dmnf.cds_nfPESOLIQUIDO.AsBCD;
+    except
+      MessageDlg('Preencha o campo PESO LIQUIDO.', mtWarning, [mbOK], 0);
+    end;
   if (not calcman.Checked) then
     dmnf.cds_nfVALOR_TOTAL_NOTA.value := dmnf.cds_nfVALOR_PRODUTO.value + dmnf.cds_nfVALOR_FRETE.Value +
   dmnf.cds_nfVALOR_SEGURO.Value + dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
