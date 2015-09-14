@@ -738,24 +738,29 @@ begin
     Screen.Cursor := crHourGlass;
     //AssignFile(Arq,'C:\home\prod.csv');
     AssignFile(Arq,arquivo);
-    Reset(Arq);
-    linha := 'linha1';
-    if not EOF(Arq) then
-    repeat
-      ReadLn(Arq, Texto);
-      Txt.DelimitedText := Texto; // desmembra o texto
+    try
+      // carreguei ele posso exlcuir
+      Reset(Arq);
+      linha := 'linha1';
+      if not EOF(Arq) then
+      repeat
+        ReadLn(Arq, Texto);
+        Txt.DelimitedText := Texto; // desmembra o texto
 
-      //Texto := Txt[1]; // Codigo
-      //Texto := Txt[2]; // Descrição
-      //Texto  := Txt[3]; // Preço
-      //Texto  := Txt[4]; // Quantidade
-      if (linha <> 'linha1') then
-      begin
-        codigo := txt[0];
-        imprimePlanilha(codigo, txt[1], txt[2],txt[3]);
-      end;
-      linha := 'linha2';
+        //Texto := Txt[1]; // Codigo
+        //Texto := Txt[2]; // Descrição
+        //Texto  := Txt[3]; // Preço
+        //Texto  := Txt[4]; // Quantidade
+        if (linha <> 'linha1') then
+        begin
+          codigo := txt[0];
+          memo1.Lines.Add('Lendo: ' + codigo + ' - ' + txt[1] + ' - ' + txt[2] + ' - ' + txt[3] + '.');
+          imprimePlanilha(codigo, txt[1], txt[2],txt[3]);
+        end;
+        linha := 'linha2';
       until EOF(Arq);
+    except
+    end;  
   finally
     Closefile(Arq); //fecha arquivo CSV
     Screen.Cursor := crDefault;
@@ -776,6 +781,7 @@ begin
     DecimalSeparator := ',';
   end;
   preco := FormatFloat('##0.00', pco);
+  memo1.Lines.Add('Impri.: ' + cod + ' - ' + produto + ' - ' + preco + ' - ' + IntToStr(numero_etiqueta) + '.');
   ACBrETQ.Porta := Edit1.Text;
   AtivarACBrETQ ;
   with ACBrETQ do
@@ -804,8 +810,8 @@ begin
         ImprimirTexto(orNormal, 1, 1, 1, 95, 365,Copy('',1,21));
       //end;
     end;
-    Imprimir(numero_etiqueta);  
-    memo1.Lines.Add(cod + ' - ' + produto + ' - ' + preco + ' - ' + IntToStr(numero_etiqueta) + ' - FEITO. ');
+    Imprimir(numero_etiqueta);
+
     Desativar;
   end;
 
@@ -814,16 +820,20 @@ end;
 procedure TfPrincipal.btnImprimeIzaClick(Sender: TObject);
 var
   path    : String;
-  IsFound : Integer;
-  SR      : TSearchRec;
+  //IsFound : Integer;
+  //SR      : TSearchRec;
 begin
    path := edDiretorio.Text+'etiqueta.csv';
-   IsFound := FindFirst(path, faAnyFile, SR);
-   while IsFound = 0  do
-   begin
+   //IsFound := FindFirst(path, faArchive, SR);
+   //FindFirst(path, faArchive, SR);
+   label10.Caption := path;
+   //while IsFound = 0  do
+   //begin
      lerPlanilha(path);
-   end;
-   DeleteFile(path);
+     DeleteFile(path);
+     //IsFound := 1;
+   //end;
+
 end;
 
 procedure TfPrincipal.FormCreate(Sender: TObject);
@@ -837,10 +847,10 @@ begin
     diretorio        := edDiretorio.Text;
 
     // Inicia a Thread
-    lendoDir := FThread.Create(true);
+    {lendoDir := FThread.Create(true);
     lendoDir.FreeOnTerminate := False;
     lendoDir.Priority := tpNormal;
-    lendoDir.Resume;
+    lendoDir.Resume;}
   Finally
     FreeAndNil(config);
   end;

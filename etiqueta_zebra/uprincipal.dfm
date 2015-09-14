@@ -1,6 +1,6 @@
 object fPrincipal: TfPrincipal
-  Left = 246
-  Top = 50
+  Left = 120
+  Top = 52
   Width = 1083
   Height = 664
   BorderIcons = [biSystemMenu]
@@ -12,6 +12,7 @@ object fPrincipal: TfPrincipal
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
