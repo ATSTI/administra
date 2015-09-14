@@ -34,32 +34,6 @@ object fNFeletronica: TfNFeletronica
         Align = alCustom
         Caption = 'Gerar NF-e'
         TabOrder = 0
-        object GroupBox3: TGroupBox
-          Left = 12
-          Top = 159
-          Width = 360
-          Height = 58
-          Caption = 'Danfe'
-          TabOrder = 0
-          object btnImprime: TBitBtn
-            Left = 52
-            Top = 13
-            Width = 91
-            Height = 36
-            Caption = 'Imprimir DANFe'
-            TabOrder = 0
-            OnClick = btnImprimeClick
-          end
-          object btnGeraPDF: TBitBtn
-            Left = 166
-            Top = 12
-            Width = 91
-            Height = 36
-            Caption = 'DANFe em PDF'
-            TabOrder = 1
-            OnClick = btnGeraPDFClick
-          end
-        end
       end
       object Panel1: TPanel
         Left = 0
@@ -751,7 +725,7 @@ object fNFeletronica: TfNFeletronica
         Left = 486
         Top = 17
         Width = 366
-        Height = 138
+        Height = 200
         ActivePage = TabSheet1
         TabOrder = 3
         object TabSheet1: TTabSheet
@@ -760,7 +734,7 @@ object fNFeletronica: TfNFeletronica
             Left = 5
             Top = 3
             Width = 348
-            Height = 104
+            Height = 166
             Caption = 'Normal'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clRed
@@ -810,6 +784,38 @@ object fNFeletronica: TfNFeletronica
               Caption = 'Enviar NF-e Email'
               TabOrder = 2
               OnClick = BtnEnvEmailClick
+            end
+            object GroupBox3: TGroupBox
+              Left = 4
+              Top = 100
+              Width = 341
+              Height = 62
+              Caption = 'Danfe'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlue
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+              TabOrder = 3
+              object btnImprime: TBitBtn
+                Left = 52
+                Top = 19
+                Width = 91
+                Height = 36
+                Caption = 'Imprimir DANFe'
+                TabOrder = 0
+                OnClick = btnImprimeClick
+              end
+              object btnGeraPDF: TBitBtn
+                Left = 166
+                Top = 18
+                Width = 91
+                Height = 36
+                Caption = 'DANFe em PDF'
+                TabOrder = 1
+                OnClick = btnGeraPDFClick
+              end
             end
           end
         end
@@ -1015,7 +1021,7 @@ object fNFeletronica: TfNFeletronica
           ImageIndex = 5
           object Label18: TLabel
             Left = 9
-            Top = 92
+            Top = 133
             Width = 88
             Height = 13
             Caption = 'N. NF a Cancelar :'
@@ -1076,7 +1082,7 @@ object fNFeletronica: TfNFeletronica
           end
           object edNFCancelar: TEdit
             Left = 107
-            Top = 89
+            Top = 130
             Width = 90
             Height = 21
             TabOrder = 6
@@ -1098,6 +1104,40 @@ object fNFeletronica: TfNFeletronica
             Width = 56
             Height = 13
             Caption = 'Local Emb.:'
+          end
+          object Label19: TLabel
+            Left = 5
+            Top = 113
+            Width = 71
+            Height = 13
+            Caption = 'UF Sa'#237'da Pa'#237's'
+          end
+          object Label20: TLabel
+            Left = 4
+            Top = 136
+            Width = 83
+            Height = 13
+            Caption = 'Local Exporta'#231#227'o'
+          end
+          object Label21: TLabel
+            Left = 184
+            Top = 136
+            Width = 78
+            Height = 13
+            Caption = 'Local Despacho'
+          end
+          object Label22: TLabel
+            Left = 126
+            Top = 112
+            Width = 200
+            Height = 13
+            Caption = 'IE : 00000  eo CNPJ : Preencha com Zero'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
           end
           object edUfEmbarque: TEdit
             Left = 70
@@ -1126,9 +1166,9 @@ object fNFeletronica: TfNFeletronica
             OnClick = btnAbaPrincipalClick
           end
           object rgViaTransp: TRadioGroup
-            Left = -3
+            Left = 0
             Top = 45
-            Width = 361
+            Width = 355
             Height = 65
             Caption = 'Via de Transporte Internacioanl'
             Columns = 4
@@ -1140,10 +1180,40 @@ object fNFeletronica: TfNFeletronica
               '5=Postal'
               '6=Ferrovi'#225'ria;'
               '7=Rodovi'#225'ria;'
-              '8=Conduto / Rede Transmiss'#227'o;'
+              '8=Cond./R.Transmiss'#227'o;'
               '9=Meios Pr'#243'prios;'
-              '10=Entrada / Sa'#237'da ficta;')
+              '10=Entra/Sa'#237'da ficta;')
             TabOrder = 3
+          end
+          object Edit2: TEdit
+            Left = 2
+            Top = 151
+            Width = 178
+            Height = 21
+            Hint = ' Descri'#231#227'o do local de embarque ou transposi'#231#227'o de fronteira'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 4
+          end
+          object Edit4: TEdit
+            Left = 182
+            Top = 151
+            Width = 174
+            Height = 21
+            Hint = 
+              'Descri'#231#227'o do local de despacho - Informa'#231#227'o do Recinto Alfandega' +
+              'do ou do local onde foi efetivado o despacho para exporta'#231#227'o, co' +
+              'nforme padroniza'#231#227'o da RFB.'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 5
+          end
+          object Edit5: TEdit
+            Left = 83
+            Top = 112
+            Width = 31
+            Height = 21
+            TabOrder = 6
           end
         end
         object TabSheet8: TTabSheet
@@ -1184,8 +1254,8 @@ object fNFeletronica: TfNFeletronica
         end
       end
       object GroupBox11: TGroupBox
-        Left = 90
-        Top = 156
+        Left = 58
+        Top = 220
         Width = 761
         Height = 321
         Caption = 'Consultar nota pelo Recibo'
@@ -1489,7 +1559,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox

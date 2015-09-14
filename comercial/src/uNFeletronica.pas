@@ -531,9 +531,6 @@ type
     PageControl1: TPageControl;
     NFe: TTabSheet;
     GroupBox1: TGroupBox;
-    GroupBox3: TGroupBox;
-    btnImprime: TBitBtn;
-    btnGeraPDF: TBitBtn;
     Panel1: TPanel;
     sbtnGetCert: TSpeedButton;
     Label4: TLabel;
@@ -738,6 +735,16 @@ type
     sClienteTIPOFIRMA: TSmallintField;
     Label18: TLabel;
     edNFCancelar: TEdit;
+    GroupBox3: TGroupBox;
+    btnImprime: TBitBtn;
+    btnGeraPDF: TBitBtn;
+    Edit2: TEdit;
+    Edit4: TEdit;
+    Label19: TLabel;
+    Edit5: TEdit;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1171,7 +1178,8 @@ begin
             if (tipoNota in ['3', '7']) then
             begin
               ide.idDest := doExterior;
-              Dest.idEstrangeiro := '';
+              Dest.idEstrangeiro := sClienteINSCESTADUAL.AsString;
+              Dest.indIEDest := inNaoContribuinte;
             end;
 
             //Ide.tpAmb     := tn2;                           // 1 - Produção // 2 Homologação
@@ -1264,6 +1272,9 @@ begin
               begin
                 exporta.UFembarq := edUfEmbarque.Text;
                 exporta.xLocEmbarq := edLocalEmbarque.Text;
+                exporta.UFSaidaPais := edUfEmbarque.Text;
+                exporta.xLocExporta := edit2.Text;
+                exporta.xLocDespacho := edit4.Text;
               end;
             end;
             //VALOR TORAL
@@ -1665,7 +1676,7 @@ begin
         end;
         nProtCanc := '';
         nProtCanc := ACBrNFe1.WebServices.Consulta.retCancNFe.nProt;
-        if (nProtCanc <> '') then
+        {if (nProtCanc <> '') then
         begin
           strAtualizaNota := 'UPDATE NOTAFISCAL SET PROTOCOLOCANC = ' +
           QuotedStr(ACBrNFe1.WebServices.Consulta.retCancNFe.nProt) + ', STATUS = ' +
@@ -1680,11 +1691,11 @@ begin
              on E : Exception do
              begin
                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+               dm.sqlsisAdimin.Rollback(TD);
              end;
           end;
 
-        end;
+        end;}
       end;
       ACBrNFe1.NotasFiscais.Imprimir;
       ACBrNFe1.NotasFiscais.Items[0].SaveToFile;
@@ -2470,6 +2481,11 @@ begin
           end;
         end;
       end;
+      if (sClienteUF.AsString = 'EX') then
+      begin
+        Dest.indIEDest := inNaoContribuinte;
+      end;
+
     end;
   end;
 end;
