@@ -2331,12 +2331,12 @@ begin
     end;
 
 
-    try
-      IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
-      IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
-    finally
-      IniAtualiza.Free;
-    end;
+    //try
+    //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
+    //  IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
+    //finally
+    //  IniAtualiza.Free;
+    //end;
   end; // Fim Atualizacao
 end;
 
