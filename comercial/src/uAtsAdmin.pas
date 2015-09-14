@@ -233,6 +233,10 @@ type
     RelVendas1: TMenuItem;
     RelFinanceiros1: TMenuItem;
     RelMateriais1: TMenuItem;
+    pnInfo: TPanel;
+    Memo1: TMemo;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -382,6 +386,7 @@ type
     procedure CFOPNCM1Click(Sender: TObject);
     procedure ListadePreo1Click(Sender: TObject);
     procedure ExluirOrdemProduo1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2248,7 +2253,8 @@ end;
 procedure TfAtsAdmin.dxButton11Click(Sender: TObject);
 begin
   // Chat
-  WinExec('Pandion\Application\pandion.exe', SW_NORMAL);  
+  //WinExec('Pandion\Application\pandion.exe', SW_NORMAL);
+  pnInfo.Visible := True;  
 end;
 
 procedure TfAtsAdmin.Correio1Click(Sender: TObject);
@@ -2436,6 +2442,11 @@ begin
 		fOf.Free;
 	end;
 
+end;
+
+procedure TfAtsAdmin.BitBtn1Click(Sender: TObject);
+begin
+  pnInfo.Visible := False; 
 end;
 
 end.
