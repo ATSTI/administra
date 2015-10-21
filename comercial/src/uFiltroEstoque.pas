@@ -397,6 +397,16 @@ begin
   end
   else
      RepRelEstoque.Report.Params.ParamByName('SUBGRUPOA').Value := 'TODOS OS SUBGRUPOS CADASTRADOS NO SISTEMA';
+
+  if (ComboBox1.Text <> 'TODOS') then
+  begin
+    dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
+      RepRelEstoque.Report.Params.ParamByName('CUSTO').Value := IntToStr(dm.cds_ccustoCODIGO.asInteger);
+  end
+  else begin
+    RepRelEstoque.Report.Params.ParamByName('CUSTO').Value := 0;
+  end;
+
   RepRelEstoque.Execute;
 end;
 
