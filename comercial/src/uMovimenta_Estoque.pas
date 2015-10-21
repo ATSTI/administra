@@ -625,6 +625,7 @@ begin
       fven.NotaFiscal           := codMovSaida;
       fven.CodCliente           := 1;
       fven.CodVendedor          := 1;
+      fven.CodUsuario           := 1;
       fven.CodCCusto            := 51;
       IF (ComboBox1.Text <> '') then
       begin
