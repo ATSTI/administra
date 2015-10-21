@@ -60,6 +60,10 @@ class CrmLead(models.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         # stage change: update date_last_stage_update
+        if 'productsite_id' in vals:
+            prod = self.pool.get('crm.productsite').browse(cr, uid, vals.get('productsite_id'), context=context)
+            vals['name'] = prod.name 
+
         if 'stage_id' in vals:
             vals['date_last_stage_update'] = fields.datetime.now()
         if vals.get('user_id'):

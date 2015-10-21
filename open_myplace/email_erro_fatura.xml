@@ -14,7 +14,17 @@
             <field name="body_html"><![CDATA[
 
 <p>
-   ${ctx.get('body')} 
+   Contrato : ${ctx.get('contrato1')} - Cliente : ${ctx.get('contrato2')} 
+   ${ctx.get('cliente1')} 
+   ${ctx.get('cliente2')} 
+   ${ctx.get('cliente3')} 
+   ${ctx.get('cliente4')} 
+   ${ctx.get('cliente5')} 
+   ${ctx.get('empresa1')} 
+   ${ctx.get('empresa2')} 
+   ${ctx.get('empresa3')} 
+   ${ctx.get('contrato3')} 
+   ${ctx.get('pedido')} 
 </p>
 
             ]]></field>
