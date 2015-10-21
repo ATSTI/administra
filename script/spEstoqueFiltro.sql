@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 date,
     DTA2 date,
@@ -107,23 +108,31 @@ BEGIN
             
 
       -- SALDOS ANTERIORES DE ENTRADA E SAIDA 
-      SELECT FIRST 1 (EM.QTDECOMPRA+em.QTDEENTRADA) TOTALENTRADA, em.PRECOCUSTO, em.MESANO FROM ESTOQUEMES EM 
+      SELECT (sum(EM.QTDECOMPRA)+sum(em.QTDEENTRADA)) TOTALENTRADA FROM ESTOQUEMES EM 
+       WHERE em.MESANO < :DTA1 
+         AND em.CODPRODUTO = :CODPRODUTO
+         AND ((em.CENTROCUSTO = :CCUSTO) OR (:CCUSTO = 1))
+         AND ((em.LOTE is null) or ((em.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))) 
+        INTO :ENTRAEM;
+      
+      SELECT First 1 em.PRECOCUSTO, em.MESANO FROM ESTOQUEMES EM 
        WHERE em.MESANO < :DTA1 
          AND em.CODPRODUTO = :CODPRODUTO
          AND ((em.CENTROCUSTO = :CCUSTO) OR (:CCUSTO = 1))
          AND ((em.LOTE is null) or ((em.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))) 
        ORDER BY em.MESANO DESC
-        INTO :ENTRAEM, :VLREM, :dataEstoqueMEs;
+        INTO :VLREM, :dataEstoqueMEs;
         precocusto = vlrem;
         if (entraem is null) then 
           entraem = 0;
           
         if (dataEstoqueMes is null) then 
           dataEstoqueMes = '01.01.01';  
-          
+        --anotacoes = ' 1 - ' || cast(entraem as varchar(8));  
+        --SUSPEND;  
       -- SALDO INICIAL DO ESTOQUE 
       -- Qtde Inicial ENTRADA e PRECO CUSTO
-      FOR SELECT SUM(movdet.QUANTIDADE), sum((coalesce(movdet.VLR_BASE, movdet.PRECO)*movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0)))
+      FOR SELECT COALESCE(SUM(movdet.QUANTIDADE),0), coalesce(sum((coalesce(movdet.VLR_BASE, movdet.PRECO)*movdet.QUANTIDADE)+(coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))),0)
             FROM COMPRA c, MOVIMENTO mov, NATUREZAOPERACAO natu, MOVIMENTODETALHE movdet 
            WHERE c.CODMOVIMENTO = mov.CODMOVIMENTO 
              AND natu.CODNATUREZA = mov.CODNATUREZA 
@@ -136,6 +145,7 @@ BEGIN
              AND c.DATACOMPRA  BETWEEN UDF_INCDAY(:dataEstoqueMEs,1) and UDF_INCDAY(:DTA1,-1) 
             INTO :ENTRA, :VLR
       DO BEGIN     
+        --anotacoes = ' 2 - ' || cast(entra as varchar(8));
         ENTRA = ENTRA + ENTRAEM;
         VLR = VLR + VLREM;
         if ((ENTRA > 0) AND (VLR > 0)) then 
@@ -144,13 +154,15 @@ BEGIN
         IF (ENTRA IS NULL) THEN 
           ENTRA = 0;  
         TOTENTRA = TOTENTRA + ENTRA;   
+        --anotacoes = ' 3 - ' || cast(totentra as varchar(8));
+        --SUSPEND;
       END
       
       if ((Entra = 0) and (entraEM > 0)) then 
       begin 
         totentra = totentra + entraEm;
       end
-      
+      --suspend;
       -- Preco da Ultima Compra
       
       FOR SELECT FIRST 1 coalesce(coalesce(movdet.VLR_BASE,0)+((coalesce(movdet.VIPI,0)+coalesce(movdet.FRETE,0)+coalesce(movdet.ICMS_SUBST,0))
@@ -226,7 +238,6 @@ BEGIN
       TOTSAI = 0;
       TOTPRECO = 0;
       --VALORESTOQUE = ACUMULAVLR;
-      --SUSPEND;
       
     end  -- FIM IF -- CALCULA ESTOQUE INICIAL E PRECO INICIAL, SO FAZ UMA VEZ POR PRODUTO
 
