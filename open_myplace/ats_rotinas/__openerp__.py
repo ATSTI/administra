@@ -20,33 +20,20 @@
 ##############################################################################
 
 {
-    'name': 'MyPlace',
+    'name': 'Ats Rotinas',
     'version': '1.0',
     'category': 'Others',
     'sequence': 2,
-    'summary': 'ATS Myplace',
+    'summary': 'ATS Rotinas',
     'description': """
    """,
     'author': 'ATS Soluções',
     'website': '',
-    'depends': ['l10n_br_base','l10n_br_crm','crm_claim','account_analytic_analysis','l10n_br_account_payment_boleto'],
+    'depends': ['account'],
     'data': [
-        #'security/ir.model.access.csv',
-        #'security/crm_productsite_security.xml',   
-        'res_partner_view.xml',
-        'crm_claim_view.xml',
-        'crm_lead_view.xml',
-        'crm_claim_solic_view.xml',
-        'crm_solic_menu.xml',
-        'crm_claim_menu.xml',
-        'crm_opportunity_view.xml',
-        'crm_productsite_view.xml',
-        'account_analytic_analysis_view.xml',
-        'email_erro_fatura.xml',
-        'email_template_crm_claim.xml',
-        'report/crm_lead_report_view.xml',
+        'ats_envia_boleto.xml',
     ],
     'installable': True,
-    'application': True,
+    'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

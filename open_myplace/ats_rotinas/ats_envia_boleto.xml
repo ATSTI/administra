@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<openerp>
+    <data>
+
+        <record id="envia_boleto_cron_email_template" model="email.template">
+            <field name="name">Envia Boleto</field>
+            <field name="email_from">${user.company_id.email}</field>
+            <field name="subject">Segue cobrança plano Myplace</field>
+            <field name="email_to">${object.email},ats@atsti.com.br</field>
+            <field name="lang"></field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+<p>
+</p>
+<p>
+</p>
+<p>
+</p>
+<pre>
+Soma Seguros
+</pre>
+
+            ]]></field>
+        </record>
+        <!--
+
+        -->
+
+        <record model="ir.cron" id="ats_envia_boleto_cron">
+            <field name="name">Envia Boleto cobrana</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'ats.rotinas'"/>
+            <field name="function" eval="'cron_envia_boleto'"/>
+            <field name="args" eval="'()'" />
+        </record>
+    </data>
+</openerp>
