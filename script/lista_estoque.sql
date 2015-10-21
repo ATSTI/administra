@@ -66,9 +66,18 @@ begin
     INTO :usaListaTerceiros;
     if (usaListaTerceiros is null) then
       usaListaTerceiros = 'N';
-  For Select distinct q.CODPRODUTO, q.MESANO from ESTOQUEMES q where q.MESANO between (:MES-40) and :MES order by q.CODPRODUTO, q.MESANO desc 
-    into :codProduto, :mesAno
-  do begin
+      
+  -- 17-09-2015 : Nao estava aparecendo alguns produtos na lista   
+  For Select p.codproduto from produtos p where p.USA is null or p.usa = 'S'
+     into :codProduto
+  do begin    
+      
+    --For Select distinct q.CODPRODUTO, q.MESANO from ESTOQUEMES q where q.MESANO between (:MES-40) and :MES order by q.CODPRODUTO, q.MESANO desc 
+    Select first 1 q.CODPRODUTO, q.MESANO from ESTOQUEMES q 
+         where q.CODPRODUTO = :codProduto and q.MESANO <= :MES 
+         order by q.CODPRODUTO, q.MESANO desc 
+         into :codProduto, :mesAno;
+  
     if (prodImpresso <> codProduto) then 
       jaImprimiu = 'N';
     else   
@@ -291,8 +300,8 @@ begin
         end   
       end 
     end
-  end  
   end   /* Ja Imprimiu  */
+  end -- loop da cad. produtos 
   /*else begin
     --if ( 
   end */   
