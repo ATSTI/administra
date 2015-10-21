@@ -145,6 +145,9 @@ type
     GroupBox11: TGroupBox;
     BitBtn17: TBitBtn;
     BitBtn18: TBitBtn;
+    BitBtn20: TBitBtn;
+    BitBtn21: TBitBtn;
+    BitBtn22: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure Data1KeyPress(Sender: TObject; var Key: Char);
@@ -177,6 +180,9 @@ type
     procedure BitBtn15Click(Sender: TObject);
     procedure BitBtn17Click(Sender: TObject);
     procedure BitBtn18Click(Sender: TObject);
+    procedure BitBtn20Click(Sender: TObject);
+    procedure BitBtn21Click(Sender: TObject);
+    procedure BitBtn22Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -1085,6 +1091,36 @@ begin
   Rep.Report.Params.ParamByName('DTA1').Value := Data1.Date;
   Rep.Report.Params.ParamByName('DTA2').Value := Data2.Date;
   Rep.Execute;
+end;
+
+procedure TfRelVenda.BitBtn20Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'nota_fiscal_rel_emissao_d.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DTAINI').Value := StrToDate(Data1.Text);
+  Rep.Report.Params.ParamByName('DTAFIM').Value := StrToDate(Data2.Text);
+  Rep.execute;
+end;
+
+procedure TfRelVenda.BitBtn21Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'nota_fiscal_rel_emissao.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DTAINI').Value := StrToDate(Data1.Text);
+  Rep.Report.Params.ParamByName('DTAFIM').Value := StrToDate(Data2.Text);
+  Rep.execute;
+end;
+
+procedure TfRelVenda.BitBtn22Click(Sender: TObject);
+begin
+  Rep.Filename := str_relatorio + 'nota_fiscal_UF.rep';
+  Rep.Title := Rep.Filename;
+  Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  Rep.Report.Params.ParamByName('DTAINI').Value := StrToDate(Data1.Text);
+  Rep.Report.Params.ParamByName('DTAFIM').Value := StrToDate(Data2.Text);
+  Rep.execute;
 end;
 
 end.
