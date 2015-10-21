@@ -7,6 +7,9 @@
             <field name="model">account.analytic.account</field>
             <field name="inherit_id" ref="account_analytic_analysis.account_analytic_account_form_form"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+					<attribute name="domain">"[('parent_id','=',False)]"</attribute>
+				</field>
                 <xpath expr='//separator[@name="toinvoice"]' position='replace'>
 			    </xpath>
                 <xpath expr='//table' position='replace'>
@@ -31,6 +34,7 @@
                 </xpath>
 				<field name="quantity_max" position="replace">
 					<field name="quantity_max" string="Dia Vencimento"/>
+					<field name="total_contrato" string="Valor Total"/>
 				</field>
             </field>
 		</record>
