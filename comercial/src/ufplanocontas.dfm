@@ -714,7 +714,10 @@ inherited fPlanoContas: TfPlanoContas
       'CREDITO'
       'VALE'
       'OUTROS'
-      'CAIXINHA')
+      'CAIXINHA'
+      '0 = Estoque Local'
+      '1 = Estoque em Terceiros'
+      '2 = Estoque de Terceiros')
     ParentFont = False
     TabOrder = 22
   end
