@@ -16,6 +16,7 @@ class crm_claim(osv.Model):
         "fornece_endereco": fields.related('partner_id', 'fornece_endereco', type='boolean', string='Pode fornecer endereco ?'),
         "title": fields.related('partner_id', 'title', type='char', string='Ramo Atividade'),
         "transfer_recado": fields.related('partner_id', 'transfer_recado', type='char', string='Tranferencia/Recado'),
+        "aviso_atendimento": fields.related('partner_id', 'aviso_atencimento', type='char', string='Aviso'),
         "endereco": fields.char(string='Endereco', store=False),
         "motivo_ausencia": fields.char(string='Motivo Ausencia', store=False),
         "ramal_softphone1": fields.char(string='Fone Redirec.', store=False),
@@ -67,8 +68,19 @@ class crm_claim(osv.Model):
             contato2_html = ''
         #pdb.set_trace()
         #if address.fornece_endereco:
-        endereco_cliente = address.company_id.street + ', ' + address.company_id.number + ' - ' + address.company_id.district
-        return {'value': {'email_from': address.email, 'partner_phone': address.phone, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contato1': contato_html, 'contato2': contato2_html, 'fornece_endereco': address.fornece_endereco, 'endereco': endereco_cliente}}
+        endereco_cliente = ''
+        if address.company_id.street:
+            endereco_cliente = address.company_id.street
+        if address.company_id.number:
+            endereco_cliente = endereco_cliente + ', ' +  address.company_id.number
+        if address.company_id.street2:
+            endereco_cliente = endereco_cliente + ' - ' +  address.company_id.street2
+        if address.company_id.district:
+            endereco_cliente = endereco_cliente + ' - ' +  address.company_id.district
+        if address.company_id.l10n_br_city_id.name:
+            endereco_cliente = endereco_cliente + ' - ' +  address.company_id.l10n_br_city_id.name
+        #endereco_cliente = address.company_id.street + ', ' + address.company_id.number + ' - ' + address.company_id.district
+        return {'value': {'email_from': address.email, 'partner_phone': address.fax, 'legal_name': address.legal_name, 'fornece_fone':address.fornece_fone, 'title': address.title.name, 'fornece_email':address.fornece_email, 'motivo_ausencia':address.motivo_ausencia, 'razao_empresa':address.razao_empresa, 'transfer_recado': address.transfer_recado, 'ramal_softphone1': address.ramal_softphone1, 'ramal_softphone2': address.ramal_softphone2, 'contato1': contato_html, 'contato2': contato2_html, 'fornece_endereco': address.fornece_endereco, 'endereco': endereco_cliente, 'aviso_atendimento': address.aviso_atendimento}}
         
     def action_atendimento_send(self, cr, uid, ids, context=None):
         '''
