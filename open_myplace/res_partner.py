@@ -22,12 +22,20 @@ class ResPartner(models.Model):
     ramal_softphone1 = fields.Char(string='Fone Redirec.', size=60)
     ramal_softphone2 = fields.Char(string='Email Redirec.', size=60)
     email_financeiro = fields.Text(string='Email Financeiro', help="Usado para cobrança. Mais de um email separar com Virgula")
+    aviso_atendimento = fields.Char(string='Aviso Atendimento', size=164)
 
     _defaults = {
         'country_id': 32,
         'state_id': 71
     }
 
+    #@api.multi
+    #def write(self, vals):
+    #    result = super(res_partner, self).write(vals)
+    #    self.message_post(cr, uid, ids,
+    #        body="has been <b>updated</b>.",
+    #        subject="Record Updated",context=context)
+    #    return result
 
 class partner_aniversario(osv.osv):
     _name = "partner.aniversario"

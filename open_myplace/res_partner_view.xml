@@ -114,6 +114,7 @@
                     <group>
                         <field name="motivo_ausencia" placeholder="Motivo ausência" />
                         <field name="transfer_recado" placeholder="Transferência ou Recado"/>
+						<field name="aviso_atendimento" placeholder="Recado p/Atendimento" />
                     </group>
                  </xpath>
 				<xpath expr="//page[@string='Contacts']" position="attributes">
