@@ -169,6 +169,11 @@ class hr_timesheet_sheet(osv.osv):
             # If attendances, we sort them by date asc before writing them, to satisfy the alternance constraint
             # In addition to the date order, deleting attendances are done before inserting attendances
             vals['attendances_ids'] = self.sort_attendances(cr, uid, vals['attendances_ids'], context=context)
+        #import pudb;pudb.set_trace()
+        if 'state' in vals:
+            if vals['state'] == 'done':
+                #print " enviar email XXXXXXXXXXXXXXXXXXXXX"
+                self.planilha_aprovada_send_mail(cr, uid, ids, context=context)
         res = super(hr_timesheet_sheet, self).write(cr, uid, ids, vals, context=context)
         if vals.get('attendances_ids'):
             for timesheet in self.browse(cr, uid, ids):
@@ -192,11 +197,27 @@ class hr_timesheet_sheet(osv.osv):
         date_attendances.sort()
         return [att[2] for att in date_attendances]
 
+    def planilha_aprovada_send_mail(self, cr, uid, ids, context=None):
+        template_id =self.pool.get('ir.model.data').get_object_reference(cr,uid, 'hr_timesheet_sheet','email_planilha_aprovada_template')[1]
+        context = {}
+        context['subject']=u'Planilha aprovada'
+        for sheet in self.browse(cr, uid, ids, context=context):
+            if sheet.manager_id.email:
+                context['email_de']=sheet.manager_id.email
+            else:
+                context['email_de']='admin@prosyseng.com.br'
+
+            context['planilhade']=sheet.user_id.name
+            context['aprovadapor']=sheet.manager_id.name
+            self.pool.get('email.template').send_mail(cr, uid,template_id, uid, force_send=True, context=context)
+
     def para_aprovar_send_mail(self, cr, uid, ids, context=None):
         template_id =self.pool.get('ir.model.data').get_object_reference(cr,uid, 'hr_timesheet_sheet','email_planilha_aprovar_template')[1]
+        context = {}
         context['subject']=u'Planilha para aprovar'
         for sheet in self.browse(cr, uid, ids, context=context):
             if sheet.manager_id.email:
+                context['manager']=sheet.manager_id.name
                 if sheet.manager_id.email:
                     context['email_to']=sheet.manager_id.email
                 else:
@@ -210,6 +231,7 @@ class hr_timesheet_sheet(osv.osv):
                 self.pool.get('email.template').send_mail(cr, uid,template_id, uid, force_send=True, context=context)
 
     def button_confirm(self, cr, uid, ids, context=None):
+        #import pudb;pudb.set_trace()
         for sheet in self.browse(cr, uid, ids, context=context):
             if sheet.employee_id and sheet.employee_id.parent_id and sheet.employee_id.parent_id.user_id:
                 self.message_subscribe_users(cr, uid, [sheet.id], user_ids=[sheet.employee_id.parent_id.user_id.id], context=context)
