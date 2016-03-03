@@ -507,26 +507,10 @@ object fBolSic: TfBolSic
       Size = 1
     end
   end
-  object RLBTitulo1: TRLBTitulo
-    PrintDialog = True
-    TipoOcorrencia = toRemessaRegistrar
-    LocalPagamento = 'PAG'#193'VEL EM QUALQUER BANCO AT'#201' O VENCIMENTO'
-    Cedente.TipoInscricao = tiPessoaFisica
-    Sacado.TipoInscricao = tiPessoaFisica
-    AceiteDocumento = adNao
-    EspecieDocumento = edRecibo
-    EmissaoBoleto = ebClienteEmite
-    LayoutNN = lnN11
-    Versao = '1.1.4'
-    Left = 360
-    Top = 8
-  end
   object RLPDFFilter1: TRLPDFFilter
     DocumentInfo.Creator = 
       'FortesReport(Open Source) v3.24(BETA13) \251 Copyright '#169' 1999-20' +
       '07 Fortes Inform'#225'tica'
-    ViewerOptions = []
-    FontEncoding = feNoEncoding
     DisplayName = 'Documento PDF'
     Left = 320
     Top = 8

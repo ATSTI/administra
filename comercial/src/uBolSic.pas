@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, FMTBcd, RLPreviewForm, RLFilters, RLPDFFilter, RLBoleto,
+  Dialogs, FMTBcd, RLPreviewForm, RLFilters, RLPDFFilter, 
   SqlExpr, Provider, DB, DBClient, StdCtrls, Mask, Buttons, ComCtrls,DBXpress,
   ExtCtrls;
 
@@ -93,7 +93,6 @@ type
     sdsBoletoE_NUMERO: TStringField;
     sdsBoletoCODRECEBIMENTO: TIntegerField;
     sdsBoletoCODIGO_CEDENTE: TStringField;
-    RLBTitulo1: TRLBTitulo;
     RLPDFFilter1: TRLPDFFilter;
     sqlconta: TSQLDataSet;
     sqlcontaNUMERO_CONTA: TStringField;
@@ -131,7 +130,7 @@ var  nQtdeBoletos: Integer;
   str_sql : String;
   TD: TTransactionDesc;
 begin
-
+  {
   if (cdsBoleto.Active) then
      cdsBoleto.Close;
    cdsBoleto.Params[0].AsString := comboConta.Text;
@@ -237,7 +236,7 @@ begin
 
    RLBTitulo1.Visualizar;
    Panel1.Visible := False;
-
+    }
 end;
 
 procedure TfBolSic.FormShow(Sender: TObject);

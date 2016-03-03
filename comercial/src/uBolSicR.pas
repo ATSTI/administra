@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, FMTBcd, DB, DBClient, Provider, RLPreviewForm, RLBoleto,
+  Dialogs, FMTBcd, DB, DBClient, Provider, RLPreviewForm,
   SqlExpr, RLFilters, RLPDFFilter, Mask, JvExMask, JvToolEdit, StdCtrls,
   Buttons, ComCtrls, ExtCtrls, DBXpress;
 
@@ -20,12 +20,10 @@ type
     Edit1: TEdit;
     Edit2: TEdit;
     JvDateEdit1: TJvDateEdit;
-    RLBTitulo1: TRLBTitulo;
     RLPDFFilter1: TRLPDFFilter;
     sqlconta: TSQLDataSet;
     sqlcontaNUMERO_CONTA: TStringField;
     sqlcontaDIGITO_CONTA: TStringField;
-    RLBRemessa1: TRLBRemessa;
     RLPreviewSetup1: TRLPreviewSetup;
     sqlEmpresa: TSQLDataSet;
     sqlEmpresaANOLETIVO: TStringField;
@@ -154,6 +152,7 @@ procedure TfBolSicR.btnVisualizarClick(Sender: TObject);
 var  nQtdeBoletos: Integer;
      nI , tipo : Integer ;
 begin
+{
  if(comboConta.Text = '') then
   begin
   MessageDlg('Selecione uma Conta', mtWarning, [mbOK], 0);
@@ -250,7 +249,7 @@ begin
    RLBTitulo1.Visualizar;
    Panel1.Visible := False;
    btnGerar_Arq.Enabled := True;
-
+   }
 end;
 
 procedure TfBolSicR.btnGerar_ArqClick(Sender: TObject);
@@ -260,7 +259,7 @@ var
   A , EXT ,Dir: string;
   Txt : TextFile;
 begin
-
+ {
   if(comboConta.Text = '') then
   begin
     MessageDlg('Selecione uma Conta', mtWarning, [mbOK], 0);
@@ -354,8 +353,10 @@ begin
   end;
 
   RLBRemessa1.DataArquivo := Date; //É a data que o arquivo está sendo gerado
-  RLBRemessa1.LayoutArquivo := laCNAB400; { Layout do arquivo, é necessário ver com o banco qual é o indicado.
-                                            CNAB400 é o mais comum. }
+
+  RLBRemessa1.LayoutArquivo := laCNAB400;
+  // Layout do arquivo, é necessário ver com o banco qual é o indicado.
+  //                                          CNAB400 é o mais comum.
   decodedate(Date, ano, mes, dia);
 
   me := mes ;
@@ -396,9 +397,8 @@ begin
 
    cdsBanco.Close;
 
-   RLBRemessa1.NomeArquivo := FormatDateTime( comboConta.Text + A  + 'dd' ,Date)+ EXT ; { Apenas o nome do arquivo, alguns bancos estipulam regras e outros não }
-
-//  RLBRemessa1.NumeroArquivo := 1; { Sequencia númerica de quandos arquivos já foram gerados para este banco }
+   //RLBRemessa1.NomeArquivo := FormatDateTime( comboConta.Text + A  + 'dd' ,Date)+ EXT ;
+   // Apenas o nome do arquivo, alguns bancos estipulam regras e outros não
 
    // Sequencia do arquivo
 
@@ -429,7 +429,8 @@ begin
 
    cdsBanco.Close;
 
-   RLBRemessa1.NumeroArquivo := StrToInt(Edit1.Text); { Sequencia númerica de quandos arquivos já foram gerados para este banco }
+   RLBRemessa1.NumeroArquivo := StrToInt(Edit1.Text);
+   // Sequencia númerica de quandos arquivos já foram gerados para este banco
 
 
 
@@ -448,7 +449,7 @@ begin
    if RLBRemessa1.GerarRemessa then
      MessageDlg('O arquivo foi gerado com sucesso.'#13+RLBRemessa1.NomeArquivo,mtInformation,[mbOK],0);
 
-    { MARCAR QUAIS BOLETOS FORAM GERADOS NO ARQUIVO }
+    // MARCAR QUAIS BOLETOS FORAM GERADOS NO ARQUIVO
 
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
@@ -475,7 +476,7 @@ begin
 
     btnGerar_Arq.Enabled := False;
 
-
+   }
 end;
 
 procedure TfBolSicR.FormShow(Sender: TObject);
