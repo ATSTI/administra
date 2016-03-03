@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
   Left = 424
-  Top = 299
+  Top = 309
   Width = 417
   Height = 302
   BorderIcons = [biSystemMenu]
@@ -140,7 +140,7 @@ object F_Boletos: TF_Boletos
     end
   end
   object ACBrBoleto1: TACBrBoleto
-    Banco.TamanhoMaximoNossoNum = 10
+    Banco.TamanhoMaximoNossoNum = 17
     Banco.TipoCobranca = cobNenhum
     Cedente.TipoInscricao = pOutras
     NumeroArquivo = 0

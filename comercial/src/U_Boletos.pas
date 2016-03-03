@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ACBrBoleto, ACBrBoletoFCQuickFr, ACBrBase,
+  Dialogs, StdCtrls, ACBrBoleto, ACBrBase,
   ACBrBoletoFCFortesFr, ExtCtrls, MMJPanel, Buttons, ACBrUtil, FMTBcd, DB,
   SqlExpr, uRel_CR1, U_AUTOPECAS, uVendas, DBClient, Provider, Grids,
   DBGrids;
@@ -344,7 +344,7 @@ type
     varLocal : String;
     ID_VENDA, ID_RECEBIMENTO : Integer;
     { Public declarations }
-    procedure BANCO_SELECIONADO;    
+    procedure BANCO_SELECIONADO;
     procedure CRIA_BOLETO_MEMORIA;
   end;
 
@@ -455,7 +455,7 @@ begin
       begin
            Titulo:= ACBrBoleto1.CriarTituloNaLista;
            Titulo.Carteira  := s_bancoCARTEIRA.AsString;
-           Titulo.NossoNumero := '';
+           //Titulo.NossoNumero := '';
            with Titulo do
            begin
               //Abro os dados do cliente com endereço de cobrança se não existir busco pelo endereço principal
@@ -553,7 +553,7 @@ begin
               //Titulo.NumeroDocumento   := padR(vartitulo,6,'0');
               //varNossoNumero := StrToInt(RemoveChar(vartitulo));
 
-              Titulo.NumeroDocumento   := padR(vartitulo,8,'0');
+              Titulo.NumeroDocumento   := PadRight(vartitulo,8,'0');
               if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
               begin
                 case StrToInt(s_bancoN_BANCO.AsString) of
@@ -586,13 +586,20 @@ begin
 
               if ((s_bancoN_BANCO.AsString = '748')) then
               begin
-                 ACBrBoleto1.Cedente.AgenciaDigito := padR(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
+                 ACBrBoleto1.Cedente.AgenciaDigito := PadRight(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
                  if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
                     ACBrBoleto1.Cedente.Modalidade := '3';
                  Titulo.NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
                     //Titulo.Carteira := '1';
               end;
-
+              if ((s_bancoN_BANCO.AsString = '001')) then
+              begin
+                ACBrBoleto1.Banco.TamanhoMaximoNossoNum := 17;
+                if (Length(s_bancoCONVENIO.AsString) = 6) then
+                   Titulo.NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,11);
+                if (Length(s_bancoCONVENIO.AsString) = 7) then
+                   Titulo.NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,10);
+              end;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
               Titulo.Sacado.NomeSacado := RemoveAcento(s_clienteNOMECLIENTE.AsString); // NomeSacado;
