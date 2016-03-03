@@ -44,9 +44,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   end
   object DBGrid1: TDBGrid [2]
     Left = 0
-    Top = 329
+    Top = 346
     Width = 858
-    Height = 255
+    Height = 238
     Align = alClient
     DataSource = DtSrc
     TabOrder = 4
@@ -202,9 +202,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   end
   object GroupBox1: TGroupBox [4]
     Left = 0
-    Top = 137
+    Top = 185
     Width = 858
-    Height = 192
+    Height = 161
     Align = alTop
     Caption = 'Dados Adicionais'
     Font.Charset = ANSI_CHARSET
@@ -216,7 +216,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     TabOrder = 2
     DesignSize = (
       858
-      192)
+      161)
     object Label17: TLabel
       Left = 6
       Top = 21
@@ -239,7 +239,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Left = 100
       Top = 18
       Width = 627
-      Height = 24
+      Height = 21
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -257,9 +257,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBEdit19: TDBEdit
       Left = 100
-      Top = 47
+      Top = 40
       Width = 627
-      Height = 24
+      Height = 21
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -277,9 +277,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBEdit20: TDBEdit
       Left = 100
-      Top = 76
+      Top = 62
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -297,9 +297,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBEdit21: TDBEdit
       Left = 100
-      Top = 104
+      Top = 85
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -317,9 +317,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBEdit22: TDBEdit
       Left = 100
-      Top = 132
+      Top = 108
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -337,9 +337,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBEdit23: TDBEdit
       Left = 100
-      Top = 160
+      Top = 131
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -360,12 +360,12 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Left = 0
     Top = 51
     Width = 858
-    Height = 86
+    Height = 134
     Align = alTop
     TabOrder = 1
     DesignSize = (
       858
-      86)
+      134)
     object Label1: TLabel
       Left = 3
       Top = 1
@@ -615,6 +615,76 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ParentShowHint = False
       ShowHint = True
     end
+    object Label42: TLabel
+      Left = 4
+      Top = 84
+      Width = 59
+      Height = 13
+      Caption = 'FCP UF D.%'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label43: TLabel
+      Left = 87
+      Top = 84
+      Width = 65
+      Height = 13
+      Caption = 'ICMS UF D.%'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label36: TLabel
+      Left = 159
+      Top = 84
+      Width = 61
+      Height = 13
+      Caption = 'ICMS Inter %'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label38: TLabel
+      Left = 247
+      Top = 84
+      Width = 80
+      Height = 13
+      Caption = 'ICMS Inter Part%'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label23: TLabel
+      Left = 341
+      Top = 84
+      Width = 81
+      Height = 13
+      Caption = 'C'#243'd. Enquad. IPI'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
     object DBEdit1: TDBEdit
       Left = 3
       Top = 17
@@ -761,7 +831,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object BitBtn1: TBitBtn
       Left = 572
-      Top = 40
+      Top = 39
       Width = 107
       Height = 42
       Hint = 'Copiar configura'#231#227'o de outro Produto'
@@ -880,7 +950,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 407
-      Top = 61
+      Top = 58
       Width = 162
       Height = 24
       BevelKind = bkFlat
@@ -1010,19 +1080,120 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
       TabOrder = 17
     end
+    object DBEdit41: TDBEdit
+      Left = 2
+      Top = 98
+      Width = 81
+      Height = 24
+      Hint = 
+        'Percentual do ICMS relativo ao Fundo de Combate '#224' Pobreza (FCP) ' +
+        'na UF de destino'
+      DataField = 'PFCPUFDEST'
+      DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 21
+    end
+    object DBEdit42: TDBEdit
+      Left = 86
+      Top = 98
+      Width = 70
+      Height = 24
+      Hint = 
+        'Al'#237'quota interna da UF de destino'#13#10'Al'#237'quota adotada nas opera'#231#245'e' +
+        's internas na UF de destino para o'#13#10'produto / mercadoria.'
+      DataField = 'PICMSUFDEST'
+      DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 22
+    end
+    object DBEdit35: TDBEdit
+      Left = 159
+      Top = 98
+      Width = 81
+      Height = 24
+      Hint = 
+        'Al'#237'quota interestadual das UF envolvidas:'#13#10'- 4% al'#237'quota interes' +
+        'tadual para produtos importados;'#13#10'- 7% para os Estados de origem' +
+        ' do Sul e Sudeste (exceto ES),'#13#10'destinado para os Estados do Nor' +
+        'te, Nordeste, Centro-'#13#10'Oeste e Esp'#237'rito Santo;'#13#10'- 12% para os de' +
+        'mais casos.'
+      DataField = 'PICMSINTER'
+      DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 23
+    end
+    object DBEdit36: TDBEdit
+      Left = 244
+      Top = 98
+      Width = 92
+      Height = 24
+      Hint = 
+        'Percentual de ICMS Interestadual para a UF de destino:'#13#10'- 40% em' +
+        ' 2016;'#13#10'- 60% em 2017;'#13#10'- 80% em 2018;'#13#10'- 100% a partir de 2019.'
+      DataField = 'PICMSINTERPART'
+      DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 24
+    end
+    object DBEdit25: TDBEdit
+      Left = 341
+      Top = 98
+      Width = 88
+      Height = 24
+      Hint = 'C'#243'digo de Enquadramento Legal do IPI'
+      DataField = 'CST_IPI_CENQ'
+      DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 25
+    end
   end
   object panelAjuda: TPanel [6]
-    Left = 129
-    Top = 139
-    Width = 673
-    Height = 425
+    Left = 200
+    Top = 168
+    Width = 602
+    Height = 396
     TabOrder = 6
     Visible = False
     object Memo1: TMemo
       Left = 1
       Top = 1
-      Width = 671
-      Height = 423
+      Width = 600
+      Height = 394
       Align = alClient
       BorderStyle = bsNone
       Font.Charset = EASTEUROPE_CHARSET
@@ -1152,6 +1323,35 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FixedChar = True
       Size = 4
     end
+    object sdsClassFiscVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object sdsClassFiscPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object sdsClassFiscPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object sdsClassFiscPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object sdsClassFiscPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object sdsClassFiscVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object sdsClassFiscVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object sdsClassFiscVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object sdsClassFiscCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -1263,6 +1463,35 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FieldName = 'ALIQ_CUPOM'
       FixedChar = True
       Size = 4
+    end
+    object cdsClassFiscVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object cdsClassFiscPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object cdsClassFiscPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object cdsClassFiscPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object cdsClassFiscPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object cdsClassFiscVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object cdsClassFiscVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object cdsClassFiscVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object cdsClassFiscCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
     end
   end
   object dspClassFisc: TDataSetProvider

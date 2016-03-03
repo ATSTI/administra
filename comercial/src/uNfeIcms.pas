@@ -1024,6 +1024,80 @@ type
     cdsProdutoCLASS_FISCAL: TStringField;
     sdsCompraOPERACAO: TStringField;
     cdsCompraOPERACAO: TStringField;
+    sdsNFVendaBASE_IPI: TFloatField;
+    sdsNFVendaBASE_PIS: TFloatField;
+    sdsNFVendaBASE_COFINS: TFloatField;
+    sdsNFVendaVLRTOT_TRIB: TFloatField;
+    sdsNFVendaNFE_FINNFE: TStringField;
+    sdsNFVendaNFE_MODELO: TStringField;
+    sdsNFVendaNFE_VERSAO: TStringField;
+    sdsNFVendaNFE_DESTOPERACAO: TStringField;
+    sdsNFVendaNFE_FORMATODANFE: TStringField;
+    sdsNFVendaNFE_TIPOEMISSAO: TStringField;
+    sdsNFVendaNFE_INDFINAL: TStringField;
+    sdsNFVendaNFE_INDPRES: TStringField;
+    sdsNFVendaNFE_TIPO: TStringField;
+    sdsNFVendaBLOQUEADO: TStringField;
+    cdsNFVendaBASE_IPI: TFloatField;
+    cdsNFVendaBASE_PIS: TFloatField;
+    cdsNFVendaBASE_COFINS: TFloatField;
+    cdsNFVendaVLRTOT_TRIB: TFloatField;
+    cdsNFVendaNFE_FINNFE: TStringField;
+    cdsNFVendaNFE_MODELO: TStringField;
+    cdsNFVendaNFE_VERSAO: TStringField;
+    cdsNFVendaNFE_DESTOPERACAO: TStringField;
+    cdsNFVendaNFE_FORMATODANFE: TStringField;
+    cdsNFVendaNFE_TIPOEMISSAO: TStringField;
+    cdsNFVendaNFE_INDFINAL: TStringField;
+    cdsNFVendaNFE_INDPRES: TStringField;
+    cdsNFVendaNFE_TIPO: TStringField;
+    cdsNFVendaBLOQUEADO: TStringField;
+    sqlTotalEntradaVLR_BASE_IPI: TFloatField;
+    sqlTotalSaidaVLR_BASE_IPI: TFloatField;
+    sqlTotalEntradaIpi: TSQLQuery;
+    FloatField31: TFloatField;
+    FloatField32: TFloatField;
+    FloatField33: TFloatField;
+    FloatField34: TFloatField;
+    FloatField35: TFloatField;
+    FloatField36: TFloatField;
+    FloatField37: TFloatField;
+    sqlTotalSaidaIpi: TSQLQuery;
+    FloatField38: TFloatField;
+    FloatField39: TFloatField;
+    FloatField40: TFloatField;
+    FloatField41: TFloatField;
+    FloatField42: TFloatField;
+    FloatField43: TFloatField;
+    FloatField44: TFloatField;
+    sqlTotalEntradaIpiCSTIPI: TStringField;
+    sqlTotalEntradaIpiCFOP: TStringField;
+    sqlTotalSaidaIpiCFOP: TStringField;
+    sqlTotalSaidaIpiCSTIPI: TStringField;
+    dsp_tot_ipi: TDataSetProvider;
+    dsp_tot_ipi_s: TDataSetProvider;
+    cdsTotIpi: TClientDataSet;
+    cdsTotIpiSaida: TClientDataSet;
+    cdsTotIpiVLR_ICMS: TFloatField;
+    cdsTotIpiVLR_OPERACAO: TFloatField;
+    cdsTotIpiICMS_ST: TFloatField;
+    cdsTotIpiVLR_BASE_ICMS_ST: TFloatField;
+    cdsTotIpiVLR_BASE_ICMS: TFloatField;
+    cdsTotIpiVLR_IPI: TFloatField;
+    cdsTotIpiVLR_BASE_IPI: TFloatField;
+    cdsTotIpiCSTIPI: TStringField;
+    cdsTotIpiCFOP: TStringField;
+    cdsTotIpiSaidaVLR_ICMS: TFloatField;
+    cdsTotIpiSaidaVLR_OPERACAO: TFloatField;
+    cdsTotIpiSaidaICMS_ST: TFloatField;
+    cdsTotIpiSaidaVLR_BASE_ICMS_ST: TFloatField;
+    cdsTotIpiSaidaVLR_BASE_ICMS: TFloatField;
+    cdsTotIpiSaidaVLR_IPI: TFloatField;
+    cdsTotIpiSaidaVLR_BASE_IPI: TFloatField;
+    cdsTotIpiSaidaCFOP: TStringField;
+    cdsTotIpiSaidaCSTIPI: TStringField;
+    cbIPI: TComboBox;
+    Label13: TLabel;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1042,6 +1116,7 @@ type
     tipo: String;
     temCompra, temVenda: String;
     function validaCodMunicipio(cod: String; quem: String):String;
+    function tipoDocumentoFiscal(finalidade: String):TACBrCodSit;
     //function cstIcms(cstI: String): String;
     procedure LoadToMemo;
     procedure blocoO;
@@ -1055,6 +1130,7 @@ type
     procedure abrirTabelasCompra;
     procedure abrirTabelasVenda;
     procedure bloco_E;
+    procedure bloco_E_ipi;
     { Private declarations }
   public
     codMovMin, codMovMax: Integer;
@@ -1662,6 +1738,7 @@ NNotas: Integer;
 BNotas: Integer;
 parametroVer: Integer;
 codParticip, progresso: Integer;
+serie_NF_sai: String;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -1912,13 +1989,15 @@ begin
               COD_MOD       := trim('0' + cdsNFVendaMODELO.AsString)
             else
               COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
-            COD_SIT       := sdRegular;
-            if (Length(cdsNFVendaSERIE.AsString) = 1) then
-              SER           := trim('00' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
-            else if (Length(cdsNFVendaSERIE.AsString) = 2) then
-              SER           := trim('0' + trim(cdsNFVendaSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+
+            COD_SIT       := tipoDocumentoFiscal(cdsNFVendaNFE_FINNFE.AsString);
+            serie_NF_sai  := trim(cdsNFVendaSERIE.AsString);
+            if (Length(serie_NF_sai) = 1) then
+              SER         := trim('00' + serie_NF_sai) //04	SER	Série do documento fiscal	C	003	-
+            else if (Length(serie_NF_sai) = 2) then
+              SER           := trim('0' + serie_NF_sai) //04	SER	Série do documento fiscal	C	003	-
             else
-              SER           := trim(cdsNFVendaSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
+              SER           := serie_NF_sai; //04	SER	Série do documento fiscal	C	003	-
             NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
             CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
             DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
@@ -2205,6 +2284,7 @@ begin
 
   //bloco E - Apuração do ICMS e do IPI
   bloco_E;
+  bloco_e_ipi;
 
   //bloco G - Controle do Crédito de ICMS do Ativo Permanente – CIAP
 
@@ -2635,6 +2715,103 @@ begin
       end; // Fim H010
     end;
   end; // Fim Blco H
+end;
+
+function TfNfeIcms.tipoDocumentoFiscal(finalidade: String): TACBrCodSit;
+var retorna: TACBrCodSit;
+begin
+  retorna := sdRegular;
+  if (finalidade = 'fnNormal') then
+     retorna := sdRegular;
+  if (finalidade = 'fnComplementar') then
+     retorna := sdFiscalCompl;
+  if (finalidade = 'fnCancelado') then
+     retorna := sdCancelado;
+  if (finalidade = 'fnDenegado') then
+     retorna := sdDoctoDenegado;
+  if (finalidade = 'fnInutilizado') then
+     retorna := sdDoctoNumInutilizada;
+  result := retorna;
+end;
+
+procedure TfNfeIcms.bloco_E_ipi;
+var ipi_entrada, ipi_saida: Double;
+begin
+  ipi_entrada := 0;
+  ipi_saida := 0;
+
+  with ACBrSPEDFiscal1.Bloco_E do
+  begin
+    with RegistroE500New do
+    begin
+      IND_APUR := iaNenhum;
+      if (cbIPI.ItemIndex = 0) then
+        IND_APUR := iaMensal; // iaMensal, iaDecendial, iaNenhum
+      if (cbIPI.ItemIndex = 1) then
+        IND_APUR := iaDecendial; // iaMensal, iaDecendial, iaNenhum
+
+      DT_INI := Data_Ini.Date;
+      DT_FIN := Data_Fim.Date;
+    end;
+
+    if (cdsTotIpi.Active) then
+      cdsTotIpi.Close;
+    cdsTotIpi.Params[0].AsDate := data_ini.Date;
+    cdsTotIpi.Params[1].AsDate := data_fim.Date;
+    cdsTotIpi.Open;
+
+    if (cdsTotIpiSaida.Active) then
+      cdsTotIpiSaida.Close;
+    cdsTotIpiSaida.Params[0].AsDate := data_ini.Date;
+    cdsTotIpiSaida.Params[1].AsDate := data_fim.Date;
+    cdsTotIpiSaida.Open;
+
+    while not cdsTotIpi.Eof do
+    begin
+      if (cdsTotIpiCSTIPI.AsString = '00') then
+        ipi_entrada := ipi_entrada + cdsTotIpiVLR_IPI.AsFloat;
+      with RegistroE510New do
+      begin
+        CFOP        := cdsTotIpiCFOP.AsString;
+        CST_IPI     := cdsTotIpiCSTIPI.AsString;
+        VL_CONT_IPI := cdsTotIpiVLR_BASE_IPI.AsFloat;
+        VL_BC_IPI   := cdsTotIpiVLR_BASE_IPI.AsFloat;
+        VL_IPI      := cdsTotIpiVLR_IPI.AsFloat;
+      end;
+      cdsTotIpi.Next;
+    end;
+
+    while not cdsTotIpiSaida.Eof do
+    begin
+      if (cdsTotIpiSaidaCSTIPI.AsString = '50') then
+        ipi_saida := ipi_saida + cdsTotIpiSaidaVLR_IPI.AsFloat;
+      with RegistroE510New do
+      begin
+        CFOP        := cdsTotIpiSaidaCFOP.AsString;
+        CST_IPI     := cdsTotIpiSaidaCSTIPI.AsString;
+        VL_CONT_IPI := cdsTotIpiSaidaVLR_BASE_IPI.AsFloat;
+        VL_BC_IPI   := cdsTotIpiSaidaVLR_BASE_IPI.AsFloat;
+        VL_IPI      := cdsTotIpiSaidaVLR_IPI.AsFloat;
+      end;
+      cdsTotIpiSaida.Next;
+    end;
+    with RegistroE520New do
+    begin
+      VL_SD_ANT_IPI := 0;
+      VL_DEB_IPI := ipi_saida;
+      VL_CRED_IPI := ipi_entrada;
+      VL_OD_IPI := 0;
+      VL_OC_IPI := 0;
+      VL_SC_IPI := 0;
+      if (ipi_entrada > ipi_saida) then
+        VL_SC_IPI := ipi_entrada - ipi_saida;
+      VL_SD_IPI := 0;
+      if (ipi_entrada < ipi_saida) then
+        VL_SD_IPI := ipi_saida - ipi_entrada;
+    end;
+
+  end;
+
 end;
 
 end.

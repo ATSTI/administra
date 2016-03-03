@@ -111,7 +111,7 @@ object fNfeIcms: TfNfeIcms
     end
     object Label6: TLabel
       Left = 654
-      Top = 22
+      Top = 14
       Width = 69
       Height = 13
       Caption = 'Num.Notas (C)'
@@ -121,10 +121,17 @@ object fNfeIcms: TfNfeIcms
     end
     object Label11: TLabel
       Left = 512
-      Top = 48
+      Top = 57
       Width = 87
       Height = 13
       Caption = 'Finalidade Arquivo'
+    end
+    object Label13: TLabel
+      Left = 515
+      Top = 79
+      Width = 62
+      Height = 13
+      Caption = 'Apura'#231'a'#245' IPI'
     end
     object edtFile: TEdit
       Left = 22
@@ -138,7 +145,7 @@ object fNfeIcms: TfNfeIcms
     end
     object cbConcomitante: TCheckBox
       Left = 509
-      Top = 30
+      Top = 28
       Width = 134
       Height = 19
       Hint = 
@@ -159,7 +166,7 @@ object fNfeIcms: TfNfeIcms
     end
     object edNotas: TEdit
       Left = 654
-      Top = 36
+      Top = 28
       Width = 80
       Height = 21
       TabOrder = 2
@@ -235,9 +242,9 @@ object fNfeIcms: TfNfeIcms
       end
     end
     object cbTipo: TComboBox
-      Left = 512
-      Top = 64
-      Width = 177
+      Left = 611
+      Top = 53
+      Width = 121
       Height = 21
       ItemHeight = 13
       ItemIndex = 0
@@ -310,6 +317,20 @@ object fNfeIcms: TfNfeIcms
         ShowHint = True
         TabOrder = 2
       end
+    end
+    object cbIPI: TComboBox
+      Left = 611
+      Top = 77
+      Width = 121
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 7
+      Text = '0 - Mensal'
+      OnChange = cbTipoChange
+      Items.Strings = (
+        '0 - Mensal'
+        '1 - Decendial')
     end
   end
   object memoError: TMemo
@@ -675,9 +696,9 @@ object fNfeIcms: TfNfeIcms
       #13#10'WHERE NF.CODCLIENTE = C.CODCLIENTE'#13#10'      AND C.CODCLIENTE   =' +
       ' EC.CODCLIENTE'#13#10'      AND V.CODVENDA = NF.CODVENDA'#13#10'      AND S.' +
       'SERIE = NF.SERIE'#13#10'      AND NF.DTAEMISSAO BETWEEN :DTA1 AND :DTA' +
-      '2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND V.CODMOVIMENTO BETWEEN ' +
-      ':CODINI AND :CODFIM '#13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'     ' +
-      ' AND NF.STATUS IS NOT NULL '
+      '2'#13#10'      AND C.CODCLIENTE > 0'#13#10'      AND EC.TIPOEND = 0 '#13#10'      ' +
+      'AND V.CODMOVIMENTO BETWEEN :CODINI AND :CODFIM '#13#10'      AND NF.PR' +
+      'OTOCOLOCANC IS NULL '#13#10'      AND NF.STATUS IS NOT NULL '
     MaxBlobSize = -1
     Params = <
       item
@@ -1503,6 +1524,54 @@ object fNfeIcms: TfNfeIcms
     object sdsNFVendaMODELO: TStringField
       FieldName = 'MODELO'
       Size = 2
+    end
+    object sdsNFVendaBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object sdsNFVendaBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object sdsNFVendaBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+    end
+    object sdsNFVendaVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object sdsNFVendaNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object sdsNFVendaNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object sdsNFVendaNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object sdsNFVendaNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object sdsNFVendaNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object sdsNFVendaNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object sdsNFVendaNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object sdsNFVendaNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object sdsNFVendaNFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
+    end
+    object sdsNFVendaBLOQUEADO: TStringField
+      FieldName = 'BLOQUEADO'
+      FixedChar = True
+      Size = 1
     end
   end
   object dspNFVenda: TDataSetProvider
@@ -2336,6 +2405,54 @@ object fNfeIcms: TfNfeIcms
     object cdsNFVendaMODELO: TStringField
       FieldName = 'MODELO'
       Size = 2
+    end
+    object cdsNFVendaBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object cdsNFVendaBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object cdsNFVendaBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+    end
+    object cdsNFVendaVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object cdsNFVendaNFE_FINNFE: TStringField
+      FieldName = 'NFE_FINNFE'
+    end
+    object cdsNFVendaNFE_MODELO: TStringField
+      FieldName = 'NFE_MODELO'
+      Size = 10
+    end
+    object cdsNFVendaNFE_VERSAO: TStringField
+      FieldName = 'NFE_VERSAO'
+      Size = 10
+    end
+    object cdsNFVendaNFE_DESTOPERACAO: TStringField
+      FieldName = 'NFE_DESTOPERACAO'
+    end
+    object cdsNFVendaNFE_FORMATODANFE: TStringField
+      FieldName = 'NFE_FORMATODANFE'
+    end
+    object cdsNFVendaNFE_TIPOEMISSAO: TStringField
+      FieldName = 'NFE_TIPOEMISSAO'
+      Size = 15
+    end
+    object cdsNFVendaNFE_INDFINAL: TStringField
+      FieldName = 'NFE_INDFINAL'
+    end
+    object cdsNFVendaNFE_INDPRES: TStringField
+      FieldName = 'NFE_INDPRES'
+    end
+    object cdsNFVendaNFE_TIPO: TStringField
+      FieldName = 'NFE_TIPO'
+      Size = 15
+    end
+    object cdsNFVendaBLOQUEADO: TStringField
+      FieldName = 'BLOQUEADO'
+      FixedChar = True
+      Size = 1
     end
   end
   object sdsItens: TSQLDataSet
@@ -4181,7 +4298,7 @@ object fNfeIcms: TfNfeIcms
       
         'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
         'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
-      'SUM(r.VIPI) VLR_IPI'
+      'SUM(r.VIPI) VLR_IPI, SUM(r.VLRBC_IPI) as VLR_BASE_IPI'
       '  FROM COMPRA C, MOVIMENTO M, MOVIMENTODETALHE r'
       'WHERE C.CODMOVIMENTO = M.CODMOVIMENTO '
       '      AND C.CODMOVIMENTO = r.CODMOVIMENTO'
@@ -4214,6 +4331,10 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'VLR_IPI'
       ReadOnly = True
     end
+    object sqlTotalEntradaVLR_BASE_IPI: TFloatField
+      FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
   end
   object sqlTotalSaida: TSQLQuery
     MaxBlobSize = -1
@@ -4236,7 +4357,7 @@ object fNfeIcms: TfNfeIcms
       
         'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
         'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
-      'SUM(r.VIPI) VLR_IPI'
+      'SUM(r.VIPI) VLR_IPI, SUM(r.VLRBC_IPI) as VLR_BASE_IPI'
       '    FROM NOTAFISCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'
       '   WHERE NF.CODVENDA = v.CODVENDA'
       '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
@@ -4270,6 +4391,10 @@ object fNfeIcms: TfNfeIcms
     end
     object sqlTotalSaidaVLR_IPI: TFloatField
       FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVLR_BASE_IPI: TFloatField
+      FieldName = 'VLR_BASE_IPI'
       ReadOnly = True
     end
   end
@@ -4686,5 +4811,277 @@ object fNfeIcms: TfNfeIcms
     SQLConnection = DM.sqlsisAdimin
     Left = 856
     Top = 272
+  end
+  object sqlTotalEntradaIpi: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
+        '+ r.VIPI + r.VALOR_OUTROS +  '
+      'r.ICMS_SUBST + (r.QUANTIDADE * r.VLR_BASE))  VLR_OPERACAO,  '
+      
+        'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
+        'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
+      
+        'SUM(r.VIPI) VLR_IPI, SUM(r.VLRBC_IPI) as VLR_BASE_IPI, r.CSTIPI,' +
+        ' r.CFOP'
+      '  FROM COMPRA C, MOVIMENTO M, MOVIMENTODETALHE r'
+      'WHERE C.CODMOVIMENTO = M.CODMOVIMENTO '
+      '      AND C.CODMOVIMENTO = r.CODMOVIMENTO'
+      '      AND M.CODNATUREZA = 4 '
+      '      AND C.DATACOMPRA BETWEEN :DTA1 AND :DTA2'
+      'group by   r.CFOP, r.CSTIPI')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 640
+    Top = 304
+    object FloatField31: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object FloatField32: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object FloatField33: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object FloatField34: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object FloatField35: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object FloatField36: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object FloatField37: TFloatField
+      FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
+    object sqlTotalEntradaIpiCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object sqlTotalEntradaIpiCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+  end
+  object sqlTotalSaidaIpi: TSQLQuery
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'dta1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dta2'
+        ParamType = ptInput
+      end>
+    SQL.Strings = (
+      
+        'SELECT SUM(r.VALOR_ICMS) VLR_ICMS, SUM(r.FRETE + r.VALOR_SEGURO ' +
+        '+ r.VIPI + r.VALOR_OUTROS +  '
+      'r.ICMS_SUBST + (r.QUANTIDADE * r.VLR_BASE))  VLR_OPERACAO,  '
+      
+        'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
+        'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
+      
+        'SUM(r.VIPI) VLR_IPI, SUM(r.VLRBC_IPI) as VLR_BASE_IPI, r.CFOP, r' +
+        '.CSTIPI'
+      ''
+      '    FROM NOTAFISCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'
+      '   WHERE NF.CODVENDA = v.CODVENDA'
+      '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
+      '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
+      '     AND m.CODNATUREZA in (12, 15)'
+      '     AND NF.PROTOCOLOCANC IS NULL '
+      '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2'
+      '  '
+      'GROUP BY r.CFOP, r.CSTIPI')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 672
+    Top = 304
+    object FloatField38: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object FloatField39: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object FloatField40: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object FloatField41: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object FloatField42: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object FloatField43: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object FloatField44: TFloatField
+      FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaIpiCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+    object sqlTotalSaidaIpiCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+  end
+  object dsp_tot_ipi: TDataSetProvider
+    DataSet = sqlTotalEntradaIpi
+    Left = 640
+    Top = 336
+  end
+  object dsp_tot_ipi_s: TDataSetProvider
+    DataSet = sqlTotalSaidaIpi
+    Left = 672
+    Top = 336
+  end
+  object cdsTotIpi: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_tot_ipi'
+    Left = 640
+    Top = 368
+    object cdsTotIpiVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object cdsTotIpiVLR_OPERACAO: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object cdsTotIpiICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsTotIpiVLR_BASE_ICMS_ST: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsTotIpiVLR_BASE_ICMS: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object cdsTotIpiVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object cdsTotIpiVLR_BASE_IPI: TFloatField
+      FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
+    object cdsTotIpiCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
+    object cdsTotIpiCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+  end
+  object cdsTotIpiSaida: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'dta1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'dta2'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_tot_ipi_s'
+    Left = 672
+    Top = 368
+    object cdsTotIpiSaidaVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaVLR_OPERACAO: TFloatField
+      FieldName = 'VLR_OPERACAO'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaICMS_ST: TFloatField
+      FieldName = 'ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaVLR_BASE_ICMS_ST: TFloatField
+      FieldName = 'VLR_BASE_ICMS_ST'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaVLR_BASE_ICMS: TFloatField
+      FieldName = 'VLR_BASE_ICMS'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaVLR_IPI: TFloatField
+      FieldName = 'VLR_IPI'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaVLR_BASE_IPI: TFloatField
+      FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
+    object cdsTotIpiSaidaCFOP: TStringField
+      FieldName = 'CFOP'
+      ReadOnly = True
+      FixedChar = True
+      Size = 4
+    end
+    object cdsTotIpiSaidaCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      ReadOnly = True
+      Size = 2
+    end
   end
 end
