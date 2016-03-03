@@ -1115,6 +1115,7 @@ var
   ABanco: TPersistent;
   GetFormatoBoleto: procedure(ATitulo: TRLBTitulo; var AAgenciaCodigoCedente, ANossoNumero, ACarteira, AEspecieDocumento: string) of object;
 begin
+ {
   AInstrucoes := TStringList.Create;
   GetFormatoBoleto := nil;
 
@@ -1165,7 +1166,7 @@ begin
   begin
     LayoutBoleto.PrintDialog := PrintDialog;
     LayoutBoleto.Caption := 'Cobrança - ' + Cedente.ContaBancaria.Banco.Nome + ' - Sacado: ' + Sacado.Nome;
-    {Primeira via do boleto}
+    //Primeira via do boleto
 
       RLImage3.Picture.LoadFromFile('logo_boleto.jpg');
  //   ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,ABoleto.imgBanco1.Picture.Bitmap);
@@ -1185,7 +1186,7 @@ begin
  ////   txtEspecie1.Caption := 'R$';
  ////   txtValorDocumento1.Caption := FormatCurr('#,##0.00',ValorDocumento);
  ////   txtNomeSacado1.Caption := AnsiUpperCase(Sacado.Nome);
-    {Segunda via do boleto}
+    //Segunda via do boleto
     ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,imgBanco2.Picture.Bitmap);
     txtNumeroBanco2.Caption := Cedente.ContaBancaria.Banco.Codigo + '-' + Cedente.ContaBancaria.Banco.Digito;//txtNumeroBanco1.Caption;
     txtLocalPagamento2.Caption := AnsiUpperCase(LocalPagamento);
@@ -1224,7 +1225,7 @@ begin
     txtCidadeSacado2.Caption := AnsiUpperCase(FormatarComMascara('00000-000;0; ',Sacado.Endereco.CEP) + '    ' + Sacado.Endereco.Bairro + '    ' + Sacado.Endereco.Cidade + '    ' + Sacado.Endereco.Estado);
     txtSacadorAvalista2.Caption := AnsiUpperCase(Sacado.SacadorAvaLista);
     txtCodigoBaixa2.Caption := ANossoNumero;
-    {Terceira via do boleto}
+    //Terceira via do boleto
     ImageList.GetBitmap(Cedente.ContaBancaria.Banco.ImagemBanco,imgBanco3.Picture.Bitmap);
     txtNumeroBanco3.Caption := txtNumeroBanco2.Caption;
     txtLocalPagamento3.Caption := AnsiUpperCase(LocalPagamento);
@@ -1268,6 +1269,7 @@ begin
   end;
 
   AInstrucoes.Free;
+  }
 end;
 
 {procedure TRLBTitulo.EnviarPorEMail(Host, LoginUsuario: string; Porta : integer; Assunto : string; Mensagem : TStringList);
@@ -1334,7 +1336,7 @@ var
 begin
   if nQtdeBoletos = -1 then
   begin
-    ABoleto := TLayoutBoleto.Create(nil);
+    {ABoleto := TLayoutBoleto.Create(nil);
     try
       PrepararBoleto(ABoleto);
       ABoleto.RLBand1.Visible := Tag = 0;
@@ -1343,16 +1345,17 @@ begin
      except
       ABoleto.Free;
       raise;
-    end;
+    end;}
   end
   else
   begin
-    Agrupamento[0].RLBand1.Visible := Tag = 0; //quebra galho, impressao de boleto PRO 05/05/2005
+    {Agrupamento[0].RLBand1.Visible := Tag = 0; //quebra galho, impressao de boleto PRO 05/05/2005
     Agrupamento[0].LayoutBoleto.PreviewModal;
     for nI := 0 to nQtdeBoletos do
       Agrupamento[nI].Free;
     nQtdeBoletos := -1;
     SetLength(Agrupamento, 0);
+    }
   end;
 end;
 
@@ -1360,7 +1363,7 @@ procedure TRLBTitulo.Preparar;
 var
   nI: Integer;
 begin
-  try
+  {try
     Inc(nQtdeBoletos);
     SetLength(Agrupamento, nQtdeBoletos+1);
     Agrupamento[nQtdeBoletos] := TLayoutBoleto.Create(nil);
@@ -1374,6 +1377,7 @@ begin
     SetLength(Agrupamento, 0);
     raise;
   end;
+  }
 {  Inc(nQtdeBoletos);
   SetLength(Agrupamento, nQtdeBoletos+1);
   Agrupamento[nQtdeBoletos] := TLayoutBoleto.Create(nil);
@@ -1386,6 +1390,7 @@ procedure TRLBTitulo.Imprimir;
 var
   ABoleto : TLayoutBoleto;
 begin
+  {
   ABoleto := TLayoutBoleto.Create(nil);
   try
     PrepararBoleto(ABoleto);
@@ -1395,6 +1400,7 @@ begin
      ABoleto.Free;
      raise;
   end;
+  }
 end;
 
 {$HINTS OFF}
@@ -1409,8 +1415,8 @@ begin
   AImagem := TMetafile.Create;
   Result := TImage.Create(nil);
   try
-    PrepararBoleto(ABoleto);
-    ABoleto.LayoutBoleto.Prepare;
+    //PrepararBoleto(ABoleto);
+    //ABoleto.LayoutBoleto.Prepare;
 //    AImagem := ABoleto. ;
 //      Result.Height := AImagem.Height;
 //      Result.Width := AImagem.Width;
