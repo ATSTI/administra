@@ -373,7 +373,10 @@ uses
   uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa},
   uNFCe in 'uNFCe.pas' {fNFCe},
   uBolSic in 'uBolSic.pas' {fBolSic},
-  uBolSicR in 'uBolSicR.pas' {fBolSicR},  RLCob748 in 'RLCob748.pas',  RLBoleto in 'RLBoleto.pas',  BoletoLayout in 'BoletoLayout.pas' {LayoutBoleto};
+  uBolSicR in 'uBolSicR.pas' {fBolSicR},
+  RLCob748 in 'RLCob748.pas',
+  BoletoLayout in 'BoletoLayout.pas' {LayoutBoleto},
+  uSat in 'uSat.pas' {fSat};
 
 {$R *.res}
 
