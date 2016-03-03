@@ -1013,6 +1013,7 @@ begin
 end;
 
 procedure TF_Entrada.imprimeCupom;
+// var t_c: string;
 begin
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
@@ -1022,12 +1023,12 @@ begin
      ' - ' + dm.cds_empresaCEP.Value;
      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
      ' / ' + dm.cds_empresaFONE_2.Value;
-     Texto  := '------------------------------------------------------' ;
-     Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
-      IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
-     Texto2 := '------------------------------------------------------' ;
-     Texto3 := 'Produto                                               ' ;
-     Texto4 := 'Codigo             UN      Qtde     V.Un.     V.Total ' ;
+     Texto  := dm.linhaTracejada;
+     Texto1 := DateTimeToStr(Now) + ' Cod.: ' +
+      IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + '-' + DM_MOV.c_vendaSERIE.AsString;
+     Texto2 := dm.linhaTracejada;
+     Texto3 := 'Produto           ' ;
+     Texto4 := dm.linhaTituloItem;
 
      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
        cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
@@ -1076,18 +1077,28 @@ begin
      Writeln(Impressora, fone);
      //Writeln(Impressora, c10cpi + Format('%-40s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
      Writeln(Impressora, cliente);
-     Writeln(Impressora, c17cpi, texto);
-     Writeln(Impressora, c17cpi, texto1);
-     Writeln(Impressora, c17cpi, texto2);
-     Writeln(Impressora, c17cpi, texto3);
-     Writeln(Impressora, c17cpi, texto4);
+     Writeln(Impressora, c10cpi, texto);
+     Writeln(Impressora, c10cpi, texto1);
+     Writeln(Impressora, c10cpi, texto2);
+     Writeln(Impressora, c10cpi, texto3);
+     Writeln(Impressora, c10cpi, texto4);
   {-----------------------------------------------------------}
   {-------------------Imprimi itens do boleto-----------------}
   try
-     DM_MOV.c_movdet.First;
-     while not DM_MOV.c_movdet.Eof do
-     begin
-       DM_MOV.c_movdet.RecordCount;
+    DM_MOV.c_movdet.First;
+    while not DM_MOV.c_movdet.Eof do
+    begin
+      DM_MOV.c_movdet.RecordCount;
+
+      // 22-10-2015  coloquei as linhas abaixo para substituir o comentado
+      Writeln(Impressora, c10cpi + Format('%-24s',[Copy(DM_MOV.c_movdetDESCPRODUTO.Value,0,StrToInt(dm.linhaDescItem))]));
+      //Write(Impressora, c10cpi, Format('%-4s',[cds_iMovdetCOD_BARRA.Value]));
+      Write(Impressora, c10cpi + Format(dm.linhaItemUn ,[DM_MOV.c_movdetUN.Value]));
+      Write(Impressora, c10cpi + Format(dm.linhaItemQtde,[DM_MOV.c_movdetQUANTIDADE.AsFloat]));
+      Write(Impressora, c10cpi + Format(dm.linhaItemVlUnit,[DM_MOV.c_movdetValorTotal.value/DM_MOV.c_movdetQUANTIDADE.AsFloat]));
+      Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[DM_MOV.c_movdetValorTotal.value]));
+
+      { alterei aqui  22/10/2015
       // imprime
       Writeln(Impressora, c17cpi + Format('%-40s',[DM_MOV.c_movdetDESCPRODUTO.Value]));
       Write(Impressora, c17cpi, Format('%-13s  ',[DM_MOV.c_movdetCOD_BARRA.Value]));
@@ -1101,56 +1112,72 @@ begin
        Font.Name := 'Courier New';
        Font.Size := 4;
       end;
+      }
       DM_MOV.c_movdet.next;
-     end;
+    end;
+    {
      Texto5 := 'Total.: R$';
      total := DM_MOV.c_movdettotalpedido.Value;
-     Writeln(Impressora, c17cpi, texto);
-     Write(Impressora, c17cpi + Format('%40s',[texto5]));
-     Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+     Writeln(Impressora, c10cpi, texto);
+     Write(Impressora, c10cpi + Format('%30s',[texto5]));
+     Writeln(Impressora, c10cpi + Format('%10.2n',[total]));
+    }
+    total := DM_MOV.c_movdettotalpedido.Value;
+    Writeln(Impressora, c10cpi, texto);
+    Texto5 := '  Total : R$ ';
+    Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+    Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
 
-     // imprimir vencimentos
-     while not scdsCr_proc.Eof do
-     begin
+    // imprimir vencimentos
+    while not scdsCr_proc.Eof do
+    begin
        Texto5 := 'Vencimento :   ';
-       Write(Impressora, c17cpi, texto5);
+       Write(Impressora, c10cpi, texto5);
        Texto5 := DateTimeToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
        Texto5 := Texto5 + ' - Valor R$' + FloatToStr(scdsCr_procVALOR_RESTO.AsFloat);
-       Writeln(Impressora, c17cpi, texto5);
+       Writeln(Impressora, c10cpi, texto5);
        scdsCr_proc.Next;
-     end;
+    end;
 
-     s_parametro.Close;
-     if (s_parametro.Active) then
-     s_parametro.Close;
-     s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
-     s_parametro.Open;
-     if (not s_parametro.IsEmpty) then
-     begin
-       if (fTerminal2.JvComissao.Value > 0) then
-       begin
-         Texto5 := '% : R$ ';
-         Write(Impressora, c17cpi + Format('%40s',[texto5]));
-         porc    := JvComissao.Value;
-         Writeln(Impressora, c17cpi + Format('%10.2n',[porc]));
-         total   := total + porc;
-         Texto5 := 'Total + perc.: R$ ';
-         Write(Impressora, c17cpi + Format('%40s',[texto5]));
-         Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
-       end;
-     end;
-     s_parametro.Close;
+    s_parametro.Close;
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+    s_parametro.Open;
+    if (not s_parametro.IsEmpty) then
+    begin
+      if (fTerminal2.JvComissao.Value > 0) then
+      begin
+        Texto5 := '% : R$ ';
+        //Write(Impressora, c10cpi + Format('%30s',[texto5]));
+        Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+        porc    := JvComissao.Value;
+        //Writeln(Impressora, c10cpi + Format('%10.2n',[porc]));
+        Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[porc]));
+        total   := total + porc;
+        Texto5 := 'Total + perc.: R$ ';
+        //Write(Impressora, c10cpi + Format('%30s',[texto5]));
+        Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+        //Writeln(Impressora, c10cpi + Format('%10.2n',[total]));
+        Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
+      end;
+    end;
+    s_parametro.Close;
 
-     if (edDesconto.Value > 0) then
-     begin
-         Texto5 := 'Desconto : R$ ';
-         Write(Impressora, c17cpi + Format('%40s',[texto5]));
-         Writeln(Impressora, c17cpi + Format('%10.2n',[vlrDesc]));
-         porc    := (fTerminal2.JvComissao.Value / 100) * total;
-         total   := total - vlrDesc;
-         Texto5 := 'Total : R$ ';
-         Write(Impressora, c17cpi + Format('%40s',[texto5]));
-         Writeln(Impressora, c17cpi + Format('%10.2n',[total]));
+    if (edDesconto.Value > 0) then
+    begin
+      Texto5 := 'Desconto : R$ ';
+      //Write(Impressora, c10cpi + Format('%30s',[texto5]));
+      Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+      //Writeln(Impressora, c10cpi + Format('%10.2n',[vlrDesc]));
+      Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[vlrDesc]));
+      porc    := (fTerminal2.JvComissao.Value / 100) * total;
+      total   := total - vlrDesc;
+      Texto5 := 'Total : R$ ';
+      //Write(Impressora, c10cpi + Format('%30s',[texto5]));
+      Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+      //Writeln(Impressora, c10cpi + Format('%10.2n',[total]));
+      Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
      end;
 
      Writeln(IMPRESSORA);
