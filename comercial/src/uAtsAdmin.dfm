@@ -2226,35 +2226,124 @@ object fAtsAdmin: TfAtsAdmin
     TabOrder = 7
   end
   object pnInfo: TPanel
-    Left = 176
+    Left = 124
     Top = 56
-    Width = 689
+    Width = 671
     Height = 393
     TabOrder = 8
     Visible = False
     object Memo1: TMemo
       Left = 1
       Top = 1
-      Width = 687
+      Width = 669
       Height = 350
       Align = alClient
       Lines.Strings = (
         'Altera'#231#245'es na vers'#227'o :'
         ''
-        '  3.1 :'
-        '         - ')
+        'VERS'#195'O  4.0.0.0  - 04/01/2016:'
+        ''
+        '       Nota T'#233'cnica 2015/003 - V 1.60 - 30/12/2015:'#10
+        ''
+        
+          '            ICMS em Opera'#231#245'es Interestaduais de Vendas a Consumi' +
+          'dor Final'
+        '         '
+        ''
+        'Exemplo de calculo para consumidor final ou n'#227'o:'
+        ''
+        
+          '1) Considere uma opera'#231#227'o interestadual onde o remetente n'#227'o sej' +
+          'a ind'#250'stria:'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio for consumidor final n'#227'o contribuinte de ICMS,' +
+          ' a al'#237'quota ser'#225' a interna;'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio N'#195'O for consumidor final, a al'#237#173'quota ser'#225' a i' +
+          'nterestadual;'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio for consumidor final contribuinte de ICMS, a a' +
+          'l'#237#173'quota ser'#225' a interna. '
+        
+          '   E o pr'#243'prio destinat'#225'rio far'#225' o recolhimento da diferen'#231'a par' +
+          'a seu estado;'#10
+        ''
+        ''
+        ' '#10
+        ''
+        ''
+        
+          '2) Se considerarmos uma opera'#231#227'o interestadual onde o remetente ' +
+          #233' ind'#250'stria, '
+        
+          '    al'#233'm dos aspectos acima ainda temos o complicador da determi' +
+          'na'#231#227'o da base de '
+        
+          '    c'#225'lculo do ICMS, pois se o produto for destinado a industria' +
+          'liza'#231#227'o ou comercializa'#231#227'o'
+        '    o IPI n'#227'o deve compor a base de c'#225'lculo.'#10
+        ''
+        ''
+        ' '#10
+        ''
+        ''
+        
+          '3) Considerando produtos sujeitos a ST (substitui'#231#227'o tribut'#225'ria)' +
+          ' e o remetente substituto tribut'#225'rio:'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio for consumidor final n'#227'o contribuinte de ICMS,' +
+          ' n'#227'o h'#225' ST;'#10
+        ''
+        ''
+        '- Se destinat'#225'rio N'#195'O for consumidor final, calcula-se a ST;'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio N'#195'O for consumidor final, mas o produto ser'#225' d' +
+          'estinado a industrializa'#231#227'o, n'#227'o h'#225' ST;'#10
+        ''
+        ''
+        
+          '- Se destinat'#225'rio for consumidor final contribuinte de ICMS, cal' +
+          'cula-se a ST baseada no diferencial de al'#237#173'quota.  '
+        ''
+        ''
+        'VERS'#195'O  3.3.0.0 - 07/12/2015: '
+        ''
+        
+          '         NFe:  Op'#231#227'o para mudar o Status da Nota para DENEGADA, ' +
+          'quando acontecer isso ao enviar pra Receita;'
+        
+          '                    Aba Outros Servi'#231'os, op'#231#227'o NFe Denegada, sel' +
+          'ecione a NFe e utilize o bot'#227'o.'
+        ''
+        
+          '                    O sistema far'#225' registro interno das Numera'#231#245 +
+          'es de NFes Inutilizadas, para'
+        
+          '                    que apare'#231'am na listagem o cliente do Sistem' +
+          'a dever'#225' ter endere'#231'o.'
+        '')
       ScrollBars = ssVertical
       TabOrder = 0
     end
     object Panel1: TPanel
       Left = 1
       Top = 351
-      Width = 687
+      Width = 669
       Height = 41
       Align = alBottom
       TabOrder = 1
       object BitBtn1: TBitBtn
-        Left = 579
+        Left = 546
         Top = 3
         Width = 103
         Height = 35
