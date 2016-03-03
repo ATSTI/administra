@@ -2309,7 +2309,6 @@ begin
 
     if (versaoSistema = '3.1.0.10') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '3.1.0.10', StrToDate('01/04/2015'));
       insereouatualizaScript('estoque_produto_atualiza.sql', '3.1.0.10', StrToDate('01/07/2015'));
       insereouatualizaScript('os_excluir.sql', '3.1.0.10', StrToDate('01/04/2015'));
       AtualizandoScript('3.1.0.10');
@@ -2330,6 +2329,61 @@ begin
       mudaVersao('3.2.0.1');
     end;
 
+    if (versaoSistema = '3.2.0.1') then
+    begin
+      try
+        executaDDL('MOVIMENTODETALHE', 'vBCUFDest', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'pFCPUFDest', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'pICMSUFDest', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'pICMSInter', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'pICMSInterPart', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'vFCPUFDest', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'vICMSUFDest', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'vICMSUFRemet', 'double precision');
+        executaDDL('MOVIMENTODETALHE', 'CST_IPI_CENQ', 'CHAR(3)');
+        executaDDL('ESTADO_ICMS', 'vBCUFDest', 'double precision');
+        executaDDL('ESTADO_ICMS', 'pFCPUFDest', 'double precision');
+        executaDDL('ESTADO_ICMS', 'pICMSUFDest', 'double precision');
+        executaDDL('ESTADO_ICMS', 'pICMSInter', 'double precision');
+        executaDDL('ESTADO_ICMS', 'pICMSInterPart', 'double precision');
+        executaDDL('ESTADO_ICMS', 'vFCPUFDest', 'double precision');
+        executaDDL('ESTADO_ICMS', 'vICMSUFDest', 'double precision');
+        executaDDL('ESTADO_ICMS', 'vICMSUFRemet', 'double precision');
+        executaDDL('ESTADO_ICMS', 'CST_IPI_CENQ', 'CHAR(3)');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'vBCUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'pFCPUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'pICMSUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'pICMSInter', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'pICMSInterPart', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'vFCPUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'vICMSUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'vICMSUFRemet', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALNCM', 'CST_IPI_CENQ', 'CHAR(3)');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'vBCUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'pFCPUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'pICMSUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'pICMSInter', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'pICMSInterPart', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'vFCPUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'vICMSUFDest', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'vICMSUFRemet', 'double precision');
+        executaDDL('CLASSIFICACAOFISCALPRODUTO', 'CST_IPI_CENQ', 'CHAR(3)');
+      except
+      end;
+      try
+        dm.sqlsisAdimin.ExecuteDirect('INSERT INTO TIPO_FISCAL (CODFISCAL, DESCRICAO) VALUES('
+          + QuotedStr('9') + ', ' + QuotedStr('Consumidor Final') + ')');
+      except
+      end;
+      mudaVersao('4.0.0.0');
+    end;
+
+    if (versaoSistema = '4.0.0.0') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.0', StrToDate('04/01/2016'));
+      AtualizandoScript('4.0.0.0');
+      mudaVersao('4.0.0.1');
+    end;
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
