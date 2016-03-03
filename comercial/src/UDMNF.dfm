@@ -332,12 +332,14 @@ object DMNF: TDMNF
       'd.BCII, movd.OBS, movd.CSTIPI, movd.CSTPIS, movd.VALOR_PIS, movd' +
       '.CSTCOFINS, movd.VALOR_COFINS, movd.VLRBC_IPI,'#13#10'movd.VLRBC_PIS, ' +
       'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS, ' +
-      'movd.PAGOU '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS pr' +
-      'od on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARI' +
-      'FADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left ' +
-      'outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10 +
-      'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV ' +
-      'order by movd.coddetalhe'
+      'movd.PAGOU '#13#10', movd.VBCUFDEST, movd.PFCPUFDEST, movd.PICMSUFDEST' +
+      ', movd.PICMSINTER, movd.PICMSINTERPART, movd.VFCPUFDEST, movd.VI' +
+      'CMSUFDEST, movd.VICMSUFREMET'#13#10', movd.CST_IPI_CENQ'#13#10'from MOVIMENT' +
+      'ODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd' +
+      '.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOX' +
+      'ARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on ' +
+      'cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:COD' +
+      'DETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -605,6 +607,44 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object sds_Mov_DetVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sds_Mov_DetCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -916,6 +956,44 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 1
+    end
+    object cds_Mov_detVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -2041,6 +2119,11 @@ object DMNF: TDMNF
       FieldName = 'NFE_TIPO'
       Size = 15
     end
+    object cds_nfCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2055,12 +2138,12 @@ object DMNF: TDMNF
       ' cnpjcli'#13#10'        , cli.INSCESTADUAL as insccli'#13#10'        , ende.' +
       'LOGRADOURO, ende.BAIRRO as bairrocli, ende.COMPLEMENTO, ende.CID' +
       'ADE as cidadecli, ende.UF as ufcli, ende.CEP as cepcli, TELEFONE' +
-      ' '#13#10'from NOTAFISCAL nf '#13#10'left outer join CFOP nat ON nat.CFCOD = ' +
-      'nf.CFOP '#13#10'left outer join CLIENTES cli on '#13#10'cli.CODCLIENTE=nf.CO' +
-      'DCLIENTE '#13#10'left outer join ENDERECOCLIENTE ende on '#13#10'ende.CODCLI' +
-      'ENTE=cli.CODCLIENTE '#13#10' where ((nf.NUMNF = :pNF)  or (CODVENDA = ' +
-      ':pvenda))'#13#10'     and (nf.NATUREZA IN (12,15,16)) and (ende.TIPOEN' +
-      'D = 0)'
+      ' , cli.CODFISCAL '#13#10'from NOTAFISCAL nf '#13#10'left outer join CFOP nat' +
+      ' ON nat.CFCOD = nf.CFOP '#13#10'left outer join CLIENTES cli on '#13#10'cli.' +
+      'CODCLIENTE=nf.CODCLIENTE '#13#10'left outer join ENDERECOCLIENTE ende ' +
+      'on '#13#10'ende.CODCLIENTE=cli.CODCLIENTE '#13#10' where ((nf.NUMNF = :pNF) ' +
+      ' or (CODVENDA = :pvenda))'#13#10'     and (nf.NATUREZA IN (12,15,16)) ' +
+      'and (ende.TIPOEND = 0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -2470,6 +2553,11 @@ object DMNF: TDMNF
     object sds_nfNFE_TIPO: TStringField
       FieldName = 'NFE_TIPO'
       Size = 15
+    end
+    object sds_nfCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object DtSrc_NF1: TDataSource
@@ -2886,6 +2974,11 @@ object DMNF: TDMNF
       FieldName = 'NFE_TIPO'
       Size = 15
     end
+    object cds_nf1CODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
@@ -2900,12 +2993,12 @@ object DMNF: TDMNF
       '     , cli.CNPJ as cnpjcli'#13#10'        , cli.INSCESTADUAL as insccl' +
       'i'#13#10'        , ende.LOGRADOURO, ende.BAIRRO as bairrocli, ende.COM' +
       'PLEMENTO, ende.CIDADE as cidadecli, ende.UF as ufcli, ende.CEP a' +
-      's cepcli, TELEFONE '#13#10'from NOTAFISCAL nf '#13#10'left outer join CFOP n' +
-      'at ON nat.CFCOD = nf.CFOP '#13#10'left outer join FORNECEDOR cli on '#13#10 +
-      'cli.CODFORNECEDOR=nf.CODCLIENTE '#13#10'left outer join ENDERECOFORNEC' +
-      'EDOR ende on '#13#10'ende.CODFORNECEDOR=cli.CODFORNECEDOR '#13#10' where nf.' +
-      'NUMNF = :pNF or nf.codvenda = :pcodCompra and (nf.NATUREZA = 20 ' +
-      'or nf.NATUREZA = 21)'#13#10
+      's cepcli, TELEFONE , cli.CODFISCAL '#13#10'from NOTAFISCAL nf '#13#10'left o' +
+      'uter join CFOP nat ON nat.CFCOD = nf.CFOP '#13#10'left outer join FORN' +
+      'ECEDOR cli on '#13#10'cli.CODFORNECEDOR=nf.CODCLIENTE '#13#10'left outer joi' +
+      'n ENDERECOFORNECEDOR ende on '#13#10'ende.CODFORNECEDOR=cli.CODFORNECE' +
+      'DOR '#13#10' where nf.NUMNF = :pNF or nf.codvenda = :pcodCompra and (n' +
+      'f.NATUREZA = 20 or nf.NATUREZA = 21)'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -3319,6 +3412,11 @@ object DMNF: TDMNF
     object sds_nf1NFE_TIPO: TStringField
       FieldName = 'NFE_TIPO'
       Size = 15
+    end
+    object sds_nf1CODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object sds_compra: TSQLDataSet

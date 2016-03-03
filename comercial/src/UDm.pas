@@ -2049,6 +2049,9 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    danfe_larg_codprod: integer;
+    portaImpressora2: String;
+    path_executavel: String;
     diretorioUser: String;
     mascaraProduto : String;
     prdPrecoCustoFixo: String;
@@ -2081,6 +2084,8 @@ type
     userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao, USACONTROLECAIXA : String;
     corEnd, corStart: TColor;
     regimeEmpresa: string;
+    imprimeDetalhamentoEspecifico: Boolean;
+    quebraLinhaDanfe: Boolean;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
     function validaCfop(cfop: String):Boolean;
@@ -2126,6 +2131,7 @@ var index, I: integer;
   s, sqlT : String;
   ImpressoraDet: TIniFile;
 begin
+  path_executavel := ExtractFilePath(ParamStr(0));
   sqlsisAdimin.SQLHourGlass := False;
   Sql.SQLHourGlass := False;
   sistemaLiberado := 'S';
@@ -2178,7 +2184,8 @@ begin
   linhaTamanho    := '38';
   recortacupom   := '';
 
-  ImpressoraDet := TIniFile.Create('dbxconnections.ini');
+  portaImpressora2 := '';
+  ImpressoraDet := TIniFile.Create(path_executavel + 'dbxconnections.ini');
   try
     linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
     linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
@@ -2191,6 +2198,7 @@ begin
     qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
     recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
     linhaTamanho := ImpressoraDet.ReadString('IMPRESSORA', 'linhatamanho', '');
+    portaImpressora2 := ImpressoraDet.ReadString('IMPRESSORA', 'portaImpressora2', '');
     if (linhaTamanho = '') then
       linhaTamanho    := '38';
   finally
@@ -2326,6 +2334,18 @@ begin
   corStart := clActiveCaption;
   if (cds_parametroD5.AsString <> '') then
     danfeDec := StrToInt(cds_parametroD5.AsString);
+  quebraLinhaDanfe := True;
+  if (cds_parametroD6.AsString <> '') then
+    quebraLinhaDanfe := False;
+  imprimeDetalhamentoEspecifico := True;
+  if (cds_parametroD7.AsString <> '') then
+    imprimeDetalhamentoEspecifico := False;
+  danfe_larg_codprod := 46;
+  if (cds_parametroD2.AsString <> '') then
+    try
+      danfe_larg_codprod := StrToInt(cds_parametroD2.AsString);
+    except
+    end;
   vendaDec := 2;
   if (cds_parametroD4.AsString <> '') then
     vendaDec := StrToInt(cds_parametroD4.AsString);
@@ -2337,7 +2357,7 @@ begin
   cds_parametro.Params[0].AsString := 'GRUPOMARCA';
   cds_parametro.Open;
 
-  GrupoMarca := dm.cds_parametroDADOS.AsString;
+  GrupoMarca := cds_parametroDADOS.AsString;
   usulog := 1;
   BlVendaCadImcomp := 'N';
   if cds_parametro.Active then
