@@ -2878,6 +2878,8 @@ begin
       dm.cds_parametro.Open;
       portaIMP := dm.cds_parametroDADOS.AsString;
       dm.cds_parametro.Close;
+      if (dm.portaImpressora2 <> '') then
+         portaIMP := dm.portaImpressora2;
       AssignFile(IMPRESSORA,portaIMP);
     end;
 
@@ -2916,7 +2918,9 @@ begin
       texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
       texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
 
-      produto_cupomf := trim(fVendas.cds_Mov_detCODPRO.Value) + '-' + trim(fVendas.cds_Mov_detDESCPRODUTO.Value) + ' - ' + trim(fVendas.cds_Mov_detMARCA.Value);
+      //produto_cupomf := trim(fVendas.cds_Mov_detCODPRO.Value) + '-' +
+      //   trim(fVendas.cds_Mov_detDESCPRODUTO.Value) + ' - ' + trim(fVendas.cds_Mov_detMARCA.Value);
+      produto_cupomf := trim(fVendas.cds_Mov_detDESCPRODUTO.Value);
       texto6 := texto6 + '  ' + Copy(produto_cupomf, 0, 36);       //descrição do produto
       Writeln(Impressora, c17cpi, RemoveAcento(texto6));
       if (length(produto_cupomf)>36) then
