@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
   Left = 237
   Top = 21
-  Width = 859
+  Width = 980
   Height = 640
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
@@ -11,7 +11,7 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   object Label18: TLabel [0]
-    Left = 195
+    Left = 225
     Top = 57
     Width = 29
     Height = 16
@@ -30,42 +30,43 @@ inherited fEstado: TfEstado
   end
   inherited MMJPanel1: TMMJPanel
     Top = 559
-    Width = 851
+    Width = 972
     inherited btnIncluir: TBitBtn [0]
-      Left = 329
+      Left = 383
       Anchors = [akTop, akBottom]
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 329
+      Left = 383
       Anchors = [akTop, akBottom]
     end
     inherited btnCancelar: TBitBtn
-      Left = 455
+      Left = 527
       Anchors = [akTop, akBottom]
     end
     inherited btnExcluir: TBitBtn
-      Left = 455
+      Left = 527
       Anchors = [akTop, akBottom]
     end
     inherited btnProcurar: TBitBtn
-      Left = 201
+      Left = 237
       Anchors = [akTop, akBottom]
       Caption = 'CFOP'
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 583
+      Left = 673
       Anchors = [akTop, akBottom]
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 851
-    Height = 140
+    Width = 972
+    Height = 177
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
+    Background.StartColor = clMoneyGreen
     inherited Label1: TLabel
       Top = -74
     end
@@ -73,18 +74,24 @@ inherited fEstado: TfEstado
       Top = -75
     end
     object DBText2: TDBText
-      Left = 12
+      Left = 16
       Top = 9
-      Width = 661
-      Height = 41
+      Width = 657
+      Height = 24
       DataField = 'CFNOME'
       DataSource = DtSrc
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -21
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
       PopupMenu = PopupMenu1
       Transparent = True
     end
     object Label3: TLabel
-      Left = 19
-      Top = 45
+      Left = 9
+      Top = 43
       Width = 39
       Height = 16
       Anchors = [akTop]
@@ -98,7 +105,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label4: TLabel
-      Left = 114
+      Left = 80
       Top = 44
       Width = 20
       Height = 16
@@ -115,125 +122,9 @@ inherited fEstado: TfEstado
       ShowHint = True
       Transparent = True
     end
-    object Label8: TLabel
-      Left = 299
-      Top = 44
-      Width = 76
-      Height = 16
-      Anchors = [akTop]
-      Caption = 'Aliq. ICMS'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label6: TLabel
-      Left = 390
-      Top = 44
-      Width = 83
-      Height = 16
-      Anchors = [akTop]
-      Caption = 'Red.B. C'#225'lc.'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label10: TLabel
-      Left = 482
-      Top = 44
-      Width = 35
-      Height = 16
-      Hint = 'Margem De Valor Agregado(ST)'
-      Anchors = [akTop]
-      Caption = 'MVA'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-    end
-    object Label11: TLabel
-      Left = 577
-      Top = 44
-      Width = 93
-      Height = 16
-      Anchors = [akTop]
-      Caption = 'ICMS Origem'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label12: TLabel
-      Left = 668
-      Top = 44
-      Width = 76
-      Height = 16
-      Anchors = [akTop]
-      Caption = 'ICMS Dest.'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object Label13: TLabel
-      Left = 148
-      Top = 44
-      Width = 27
-      Height = 16
-      Cursor = crHandPoint
-      Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
-      Anchors = [akTop]
-      Caption = 'CST'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-      OnClick = Label13Click
-    end
-    object Label7: TLabel
-      Left = 107
-      Top = 91
-      Width = 21
-      Height = 16
-      Hint = 'Imposto sobre produtos industrializados'
-      Anchors = [akTop]
-      Caption = 'IPI'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-    end
     object Label5: TLabel
-      Left = 592
-      Top = 91
+      Left = 114
+      Top = 43
       Width = 76
       Height = 16
       Anchors = [akTop]
@@ -246,136 +137,23 @@ inherited fEstado: TfEstado
       ParentFont = False
       Transparent = True
     end
-    object Label9: TLabel
-      Left = 262
-      Top = 93
-      Width = 24
-      Height = 16
-      Hint = 'Programa de Integra'#231#227'o Social'
-      Anchors = [akTop]
-      Caption = 'PIS'
+    object Label38: TLabel
+      Left = 264
+      Top = 136
+      Width = 3
+      Height = 13
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-    end
-    object Label14: TLabel
-      Left = 423
-      Top = 91
-      Width = 56
-      Height = 16
-      Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
-      Anchors = [akTop]
-      Caption = 'COFINS'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-    end
-    object Label15: TLabel
-      Left = 20
-      Top = 93
-      Width = 45
-      Height = 16
-      Cursor = crHandPoint
-      Anchors = [akTop]
-      Caption = 'CST IPI'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      Transparent = True
-      OnClick = Label15Click
-    end
-    object Label16: TLabel
-      Left = 178
-      Top = 91
-      Width = 50
-      Height = 16
-      Cursor = crHandPoint
-      Anchors = [akTop]
-      Caption = 'CST PIS'
-      Font.Charset = ARABIC_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      Transparent = True
-      OnClick = Label16Click
-    end
-    object Label17: TLabel
-      Left = 336
-      Top = 91
-      Width = 77
-      Height = 16
-      Cursor = crHandPoint
-      Anchors = [akTop]
-      Caption = 'CST COFINS'
-      Font.Charset = ARABIC_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      Transparent = True
-      OnClick = Label17Click
-    end
-    object Label19: TLabel
-      Left = 205
-      Top = 44
-      Width = 46
-      Height = 16
-      Cursor = crHandPoint
-      Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
-      Anchors = [akTop]
-      Caption = 'CSOSN'
-      DragCursor = crDefault
-      Font.Charset = ARABIC_CHARSET
-      Font.Color = clBlue
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      Transparent = True
-      OnClick = Label19Click
-    end
-    object Label20: TLabel
-      Left = 496
-      Top = 90
-      Width = 88
-      Height = 16
-      Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
-      Anchors = [akTop]
-      Caption = 'Aliq. Cupom'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Cooper Blk BT'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
       Transparent = True
     end
     object DBEdit1: TDBEdit
-      Left = 21
+      Left = 7
       Top = 61
-      Width = 81
+      Width = 66
       Height = 24
       Anchors = [akTop]
       BevelKind = bkFlat
@@ -393,7 +171,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 110
+      Left = 77
       Top = 61
       Width = 28
       Height = 24
@@ -412,250 +190,10 @@ inherited fEstado: TfEstado
       TabOrder = 1
       OnKeyPress = FormKeyPress
     end
-    object DBEdit9: TDBEdit
-      Left = 144
-      Top = 61
-      Width = 49
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'CST'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit3: TDBEdit
-      Left = 295
-      Top = 61
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'ICMS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 4
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit4: TDBEdit
-      Left = 387
-      Top = 61
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'REDUCAO'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 5
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit6: TDBEdit
-      Left = 481
-      Top = 61
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'ICMS_SUBSTRIB'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 6
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit7: TDBEdit
-      Left = 573
-      Top = 61
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'ICMS_SUBSTRIB_IC'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 7
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit8: TDBEdit
-      Left = 665
-      Top = 61
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'ICMS_SUBSTRIB_IND'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 8
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit5: TDBEdit
-      Left = 103
-      Top = 109
-      Width = 70
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'IPI'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 10
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit10: TDBEdit
-      Left = 261
-      Top = 109
-      Width = 70
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'PIS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 12
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit11: TDBEdit
-      Left = 420
-      Top = 109
-      Width = 70
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'COFINS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 14
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit12: TDBEdit
-      Left = 19
-      Top = 109
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'CSTIPI'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 9
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit13: TDBEdit
-      Left = 176
-      Top = 109
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'CSTPIS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 11
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit14: TDBEdit
-      Left = 335
-      Top = 109
-      Width = 81
-      Height = 24
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'CSTCOFINS'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 13
-      OnKeyPress = FormKeyPress
-    end
     object CheckBox1: TCheckBox
-      Left = 679
-      Top = 91
-      Width = 121
+      Left = 257
+      Top = 61
+      Width = 142
       Height = 13
       Anchors = [akTop]
       Caption = 'N'#227'o Gera Fatura'
@@ -667,52 +205,13 @@ inherited fEstado: TfEstado
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      TabOrder = 16
+      TabOrder = 2
       OnClick = CheckBox1Click
     end
-    object DBEdit21: TDBEdit
-      Left = 202
-      Top = 61
-      Width = 81
-      Height = 24
-      Hint = 
-        'A partir da vers'#227'o 2.00 do leiaute da NF-e, o contribuinte emiss' +
-        'or do SIMPLES NACIONAL deve informar um dos seguintes C'#243'digo de ' +
-        'Situa'#231#227'o da Opera'#231#227'o - SIMPLES NACIONAL (CSOSN) em substitui'#231#227'o ' +
-        'ao CST:'#13#10#13#10'    101 - Tributada pelo Simples Nacional com permiss' +
-        #227'o de cr'#233'dito;'#13#10'    102 - Tributada pelo Simples Nacional sem pe' +
-        'rmiss'#227'o de cr'#233'dito;'#13#10'    103 - Isen'#231#227'o do ICMS no Simples Nacion' +
-        'al para faixa de receita bruta;'#13#10'    201 - Tributada pelo Simple' +
-        's Nacional com permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por s' +
-        'ubstitui'#231#227'o tribut'#225'ria;'#13#10'    202 - Tributada pelo Simples Nacion' +
-        'al sem permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por substitui' +
-        #231#227'o tribut'#225'ria;'#13#10'    203 - Isen'#231#227'o do ICMS no Simples Nacional p' +
-        'ara faixa de receita bruta e com cobran'#231'a do ICMS por substitui'#231 +
-        #227'o tribut'#225'ria;'#13#10'    300 - Imune;'#13#10'    400 - N'#227'o tributada pelo S' +
-        'imples Nacional;'#13#10'    500 - ICMS cobrado anteriormente por subst' +
-        'itui'#231#227'o tribut'#225'ria (substitu'#237'do) ou por antecipa'#231#227'o;'#13#10'    900 - ' +
-        'Outros.'
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'CSOSN'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 3
-      OnKeyPress = FormKeyPress
-    end
     object DBLookupComboBox3: TDBLookupComboBox
-      Left = 590
-      Top = 108
-      Width = 138
+      Left = 110
+      Top = 61
+      Width = 144
       Height = 24
       BevelKind = bkFlat
       Ctl3D = True
@@ -728,14 +227,14 @@ inherited fEstado: TfEstado
       ListSource = DtSrcTFiscal
       ParentCtl3D = False
       ParentFont = False
-      TabOrder = 17
+      TabOrder = 3
       OnKeyPress = FormKeyPress
     end
     object dxButton11: TdxButton
-      Left = 759
-      Top = 42
+      Left = 911
+      Top = 3
       Width = 56
-      Height = 42
+      Height = 41
       Hint = 'Chat-Suporte'
       About = 'Design eXperience. '#169' 2002 M. Hoffmann'
       Font.Charset = DEFAULT_CHARSET
@@ -816,39 +315,893 @@ inherited fEstado: TfEstado
         9DA6AEC4F4F4F4F4F4F4F4F4F40316ABA1B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B49DA5AA8A160903030A8DADA4A7B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
         B4B4B4B415BCABA6A6A6A8AA9DB4B4B4B4B4B4B4B4B4B4B4B4B4}
-      TabOrder = 18
+      TabOrder = 4
     end
-    object DBEdit22: TDBEdit
-      Left = 494
-      Top = 109
-      Width = 89
-      Height = 24
-      Hint = 
-        'II (ii) para ISENTO'#13#10'FF  Produto com Substitui'#231#227'o Tributaria'#13#10'Pr' +
-        'odutos Tributados informar a Aliquota :  1800  0700  1200'
-      Anchors = [akTop]
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      DataField = 'ALIQ_CUPOM'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+    object GroupBox2: TGroupBox
+      Left = 629
+      Top = 48
+      Width = 113
+      Height = 121
+      Caption = 'IPI'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
       Font.Height = -13
-      Font.Name = 'MS Sans Serif'
+      Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 15
-      OnKeyPress = FormKeyPress
+      TabOrder = 5
+      DesignSize = (
+        113
+        121)
+      object Label15: TLabel
+        Left = 3
+        Top = 16
+        Width = 27
+        Height = 16
+        Cursor = crHandPoint
+        Anchors = [akTop]
+        Caption = 'CST'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        Transparent = True
+        OnClick = Label15Click
+      end
+      object Label7: TLabel
+        Left = 3
+        Top = 45
+        Width = 34
+        Height = 16
+        Hint = 'Imposto sobre produtos industrializados'
+        Anchors = [akTop]
+        Caption = 'Aliq.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object Label22: TLabel
+        Left = 3
+        Top = 73
+        Width = 33
+        Height = 16
+        Hint = 'Imposto sobre produtos industrializados'
+        Anchors = [akTop]
+        Caption = 'Enq.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object DBEdit12: TDBEdit
+        Left = 42
+        Top = 16
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CSTIPI'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit5: TDBEdit
+        Left = 42
+        Top = 45
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'IPI'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit23: TDBEdit
+        Left = 42
+        Top = 76
+        Width = 53
+        Height = 24
+        Hint = 'C'#243'digo de Enquadramento Legal do IPI'
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'CST_IPI_CENQ'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 742
+      Top = 48
+      Width = 113
+      Height = 121
+      Caption = 'PIS'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      DesignSize = (
+        113
+        121)
+      object Label16: TLabel
+        Left = 6
+        Top = 17
+        Width = 25
+        Height = 16
+        Cursor = crHandPoint
+        Anchors = [akTop]
+        Caption = 'CST'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        Transparent = True
+        OnClick = Label16Click
+      end
+      object Label9: TLabel
+        Left = 2
+        Top = 46
+        Width = 34
+        Height = 16
+        Hint = 'Programa de Integra'#231#227'o Social'
+        Anchors = [akTop]
+        Caption = 'Aliq.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object DBEdit13: TDBEdit
+        Left = 44
+        Top = 17
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CSTPIS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit10: TDBEdit
+        Left = 44
+        Top = 46
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'PIS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox4: TGroupBox
+      Left = 855
+      Top = 48
+      Width = 113
+      Height = 121
+      Caption = 'COFINS'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      DesignSize = (
+        113
+        121)
+      object Label17: TLabel
+        Left = 5
+        Top = 17
+        Width = 25
+        Height = 16
+        Cursor = crHandPoint
+        Anchors = [akTop]
+        Caption = 'CST'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        Transparent = True
+        OnClick = Label17Click
+      end
+      object Label14: TLabel
+        Left = 4
+        Top = 49
+        Width = 34
+        Height = 16
+        Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
+        Anchors = [akTop]
+        Caption = 'Aliq.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object DBEdit14: TDBEdit
+        Left = 46
+        Top = 17
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CSTCOFINS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit11: TDBEdit
+        Left = 47
+        Top = 49
+        Width = 51
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'COFINS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox5: TGroupBox
+      Left = 403
+      Top = 48
+      Width = 113
+      Height = 121
+      Caption = 'ICMS'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 8
+      DesignSize = (
+        113
+        121)
+      object Label13: TLabel
+        Left = 4
+        Top = 20
+        Width = 27
+        Height = 16
+        Cursor = crHandPoint
+        Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
+        Anchors = [akTop]
+        Caption = 'CST'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+        OnClick = Label13Click
+      end
+      object Label21: TLabel
+        Left = 5
+        Top = 51
+        Width = 34
+        Height = 16
+        Anchors = [akTop]
+        Caption = 'Aliq.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object Label6: TLabel
+        Left = 5
+        Top = 83
+        Width = 39
+        Height = 16
+        Anchors = [akTop]
+        Caption = 'R. BC'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object DBEdit9: TDBEdit
+        Left = 50
+        Top = 21
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CST'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit3: TDBEdit
+        Left = 50
+        Top = 51
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'ICMS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit4: TDBEdit
+        Left = 50
+        Top = 83
+        Width = 53
+        Height = 24
+        Hint = 'Redu'#231#227'o da Base de C'#225'lculo'
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'REDUCAO'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox6: TGroupBox
+      Left = 516
+      Top = 48
+      Width = 113
+      Height = 121
+      Caption = 'ICMS ST'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 9
+      DesignSize = (
+        113
+        121)
+      object Label10: TLabel
+        Left = 6
+        Top = 20
+        Width = 35
+        Height = 16
+        Hint = 'Margem De Valor Agregado(ST)'
+        Anchors = [akTop]
+        Caption = 'MVA'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object Label11: TLabel
+        Left = 4
+        Top = 52
+        Width = 48
+        Height = 15
+        Anchors = [akTop]
+        Caption = 'Origem'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object Label12: TLabel
+        Left = 5
+        Top = 84
+        Width = 34
+        Height = 16
+        Anchors = [akTop]
+        Caption = 'Dest.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        Transparent = True
+      end
+      object DBEdit6: TDBEdit
+        Left = 52
+        Top = 21
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'ICMS_SUBSTRIB'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit7: TDBEdit
+        Left = 52
+        Top = 53
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'ICMS_SUBSTRIB_IC'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit8: TDBEdit
+        Left = 52
+        Top = 85
+        Width = 53
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'ICMS_SUBSTRIB_IND'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox7: TGroupBox
+      Left = 5
+      Top = 87
+      Width = 113
+      Height = 43
+      Caption = 'Simples'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 10
+      DesignSize = (
+        113
+        43)
+      object Label19: TLabel
+        Left = 4
+        Top = 17
+        Width = 46
+        Height = 16
+        Cursor = crHandPoint
+        Hint = 'Codigo Situa'#231#227'o Tribut'#225'ria'
+        Anchors = [akTop]
+        Caption = 'CSOSN'
+        DragCursor = crDefault
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+        OnClick = Label19Click
+      end
+      object DBEdit21: TDBEdit
+        Left = 55
+        Top = 15
+        Width = 53
+        Height = 22
+        Hint = 
+          'A partir da vers'#227'o 2.00 do leiaute da NF-e, o contribuinte emiss' +
+          'or do SIMPLES NACIONAL deve informar um dos seguintes C'#243'digo de ' +
+          'Situa'#231#227'o da Opera'#231#227'o - SIMPLES NACIONAL (CSOSN) em substitui'#231#227'o ' +
+          'ao CST:'#13#10#13#10'    101 - Tributada pelo Simples Nacional com permiss' +
+          #227'o de cr'#233'dito;'#13#10'    102 - Tributada pelo Simples Nacional sem pe' +
+          'rmiss'#227'o de cr'#233'dito;'#13#10'    103 - Isen'#231#227'o do ICMS no Simples Nacion' +
+          'al para faixa de receita bruta;'#13#10'    201 - Tributada pelo Simple' +
+          's Nacional com permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por s' +
+          'ubstitui'#231#227'o tribut'#225'ria;'#13#10'    202 - Tributada pelo Simples Nacion' +
+          'al sem permiss'#227'o de cr'#233'dito e com cobran'#231'a do ICMS por substitui' +
+          #231#227'o tribut'#225'ria;'#13#10'    203 - Isen'#231#227'o do ICMS no Simples Nacional p' +
+          'ara faixa de receita bruta e com cobran'#231'a do ICMS por substitui'#231 +
+          #227'o tribut'#225'ria;'#13#10'    300 - Imune;'#13#10'    400 - N'#227'o tributada pelo S' +
+          'imples Nacional;'#13#10'    500 - ICMS cobrado anteriormente por subst' +
+          'itui'#231#227'o tribut'#225'ria (substitu'#237'do) ou por antecipa'#231#227'o;'#13#10'    900 - ' +
+          'Outros.'
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CSOSN'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox8: TGroupBox
+      Left = 5
+      Top = 124
+      Width = 113
+      Height = 45
+      Caption = 'Cupom'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 11
+      DesignSize = (
+        113
+        45)
+      object Label20: TLabel
+        Left = 5
+        Top = 18
+        Width = 38
+        Height = 16
+        Hint = 'Contribui'#231#227'o para o Financiamento da Seguridade Social'
+        Anchors = [akTop]
+        Caption = 'Aliq. '
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object DBEdit22: TDBEdit
+        Left = 55
+        Top = 19
+        Width = 53
+        Height = 21
+        Hint = 
+          'II (ii) para ISENTO'#13#10'FF  Produto com Substitui'#231#227'o Tributaria'#13#10'Pr' +
+          'odutos Tributados informar a Aliquota :  1800  0700  1200'
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'ALIQ_CUPOM'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+    end
+    object GroupBox9: TGroupBox
+      Left = 119
+      Top = 88
+      Width = 284
+      Height = 81
+      Caption = 'ICMS UF destino'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 12
+      DesignSize = (
+        284
+        81)
+      object Label8: TLabel
+        Left = 4
+        Top = 21
+        Width = 77
+        Height = 15
+        Hint = 'Margem De Valor Agregado(ST)'
+        Anchors = [akTop]
+        Caption = 'FCP UF D.%'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object Label23: TLabel
+        Left = 2
+        Top = 47
+        Width = 86
+        Height = 15
+        Hint = 'Margem De Valor Agregado(ST)'
+        Anchors = [akTop]
+        Caption = 'ICMS UF D.%'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object Label24: TLabel
+        Left = 147
+        Top = 24
+        Width = 75
+        Height = 15
+        Hint = 'Margem De Valor Agregado(ST)'
+        Anchors = [akTop]
+        Caption = 'Aliq. Inter.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object Label25: TLabel
+        Left = 153
+        Top = 52
+        Width = 71
+        Height = 15
+        Hint = 'Margem De Valor Agregado(ST)'
+        Anchors = [akTop]
+        Caption = 'Perc. Part.'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -12
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        Transparent = True
+      end
+      object DBEdit41: TDBEdit
+        Left = 92
+        Top = 22
+        Width = 53
+        Height = 24
+        Hint = 
+          'Percentual do ICMS relativo ao Fundo de Combate '#224' Pobreza (FCP) ' +
+          'na UF de destino'
+        DataField = 'PFCPUFDEST'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+      end
+      object DBEdit42: TDBEdit
+        Left = 92
+        Top = 49
+        Width = 53
+        Height = 24
+        Hint = 
+          'Al'#237'quota interna da UF de destino'#13#10'Al'#237'quota adotada nas opera'#231#245'e' +
+          's internas na UF de destino para o'#13#10'produto / mercadoria.'
+        DataField = 'PICMSUFDEST'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+      object DBEdit35: TDBEdit
+        Left = 225
+        Top = 22
+        Width = 53
+        Height = 24
+        Hint = 
+          'Al'#237'quota interestadual das UF envolvidas:'#13#10'- 4% al'#237'quota interes' +
+          'tadual para produtos importados;'#13#10'- 7% para os Estados de origem' +
+          ' do Sul e Sudeste (exceto ES),'#13#10'destinado para os Estados do Nor' +
+          'te, Nordeste, Centro-'#13#10'Oeste e Esp'#237'rito Santo;'#13#10'- 12% para os de' +
+          'mais casos.'
+        DataField = 'PICMSINTER'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+      end
+      object DBEdit36: TDBEdit
+        Left = 225
+        Top = 49
+        Width = 53
+        Height = 24
+        Hint = 
+          'Percentual provis'#243'rio de partilha de ICMS Interestadual'#13#10'Percent' +
+          'ual de ICMS Interestadual para a UF de destino:'#13#10'- 40% em 2016;'#13 +
+          #10'- 60% em 2017;'#13#10'- 80% em 2018;'#13#10'- 100% a partir de 2019.'
+        DataField = 'PICMSINTERPART'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 3
+      end
     end
   end
   object DBGrid1: TDBGrid [3]
     Left = 0
-    Top = 331
-    Width = 851
-    Height = 228
+    Top = 326
+    Width = 972
+    Height = 233
     Align = alClient
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
@@ -1012,9 +1365,9 @@ inherited fEstado: TfEstado
   end
   object GroupBox1: TGroupBox [4]
     Left = 0
-    Top = 140
-    Width = 851
-    Height = 191
+    Top = 177
+    Width = 972
+    Height = 149
     Align = alTop
     Caption = 'Dados Adicionais'
     Font.Charset = ANSI_CHARSET
@@ -1025,13 +1378,13 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      851
-      191)
+      972
+      149)
     object DBEdit15: TDBEdit
-      Left = 97
-      Top = 18
+      Left = 155
+      Top = 13
       Width = 627
-      Height = 24
+      Height = 21
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1048,10 +1401,10 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 97
-      Top = 47
+      Left = 155
+      Top = 33
       Width = 627
-      Height = 24
+      Height = 21
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1068,10 +1421,10 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 97
-      Top = 76
+      Left = 155
+      Top = 55
       Width = 627
-      Height = 24
+      Height = 21
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1088,10 +1441,10 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 97
-      Top = 104
+      Left = 155
+      Top = 77
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1108,10 +1461,10 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 97
-      Top = 132
+      Left = 155
+      Top = 100
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1128,10 +1481,10 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 97
-      Top = 160
+      Left = 155
+      Top = 123
       Width = 627
-      Height = 24
+      Height = 22
       Anchors = [akTop]
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1149,18 +1502,18 @@ inherited fEstado: TfEstado
     end
   end
   object panelAjuda: TPanel [5]
-    Left = 116
-    Top = 131
-    Width = 673
-    Height = 425
+    Left = 144
+    Top = 161
+    Width = 665
+    Height = 352
     TabOrder = 4
     Visible = False
     object Memo1: TMemo
-      Left = 3
-      Top = 8
-      Width = 666
-      Height = 397
-      Align = alCustom
+      Left = 1
+      Top = 1
+      Width = 663
+      Height = 350
+      Align = alClient
       BorderStyle = bsNone
       Font.Charset = EASTEUROPE_CHARSET
       Font.Color = clWindowText
@@ -1193,9 +1546,13 @@ inherited fEstado: TfEstado
       '        , esta.DADOSADC1        , esta.DADOSADC2'#13#10'        , esta' +
       '.DADOSADC3        , esta.DADOSADC4'#13#10'        , esta.DADOSADC5    ' +
       '    , esta.DADOSADC6'#13#10'        , esta.NAOENVFATURA, esta.CSOSN, e' +
-      'sta.CODFISCAL'#13#10'        , esta.ALIQ_CUPOM  '#13#10'FROM ESTADO_ICMS est' +
-      'a '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10'order by' +
-      ' esta.CFOP'
+      'sta.CODFISCAL'#13#10'        , esta.ALIQ_CUPOM  '#13#10'        , esta.VBCUF' +
+      'DEST   '#13#10'        , esta.PFCPUFDEST '#13#10'        , esta.PICMSUFDEST ' +
+      #13#10'        , esta.PICMSINTER '#13#10'        , esta.PICMSINTERPART  '#13#10' ' +
+      '       , esta.VFCPUFDEST '#13#10'        , esta.VICMSUFDEST '#13#10'        ' +
+      ', esta.VICMSUFREMET '#13#10'        , esta.CST_IPI_CENQ '#13#10'FROM ESTADO_' +
+      'ICMS esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10 +
+      'order by esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1306,6 +1663,35 @@ inherited fEstado: TfEstado
       FieldName = 'ALIQ_CUPOM'
       FixedChar = True
       Size = 4
+    end
+    object sdsVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object sdsPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object sdsPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object sdsPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object sdsPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object sdsVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object sdsVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object sdsVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object sdsCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
     end
   end
   object dsp: TDataSetProvider
@@ -1427,6 +1813,35 @@ inherited fEstado: TfEstado
       FieldName = 'ALIQ_CUPOM'
       FixedChar = True
       Size = 4
+    end
+    object cds_estadoVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object cds_estadoPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object cds_estadoPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object cds_estadoPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object cds_estadoPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object cds_estadoVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object cds_estadoVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object cds_estadoVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object cds_estadoCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
     end
   end
   object sdsTFiscal: TSQLDataSet

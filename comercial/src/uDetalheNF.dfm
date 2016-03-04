@@ -2,7 +2,7 @@ object fDetalheNF: TfDetalheNF
   Left = 343
   Top = 250
   Width = 676
-  Height = 320
+  Height = 352
   Caption = 'Detalhe Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -45,8 +45,8 @@ object fDetalheNF: TfDetalheNF
     Caption = 'UN'
   end
   object Label5: TLabel
-    Left = 189
-    Top = 208
+    Left = 256
+    Top = 252
     Width = 30
     Height = 13
     Caption = 'Total'
@@ -108,8 +108,8 @@ object fDetalheNF: TfDetalheNF
     Caption = 'CSOSN'
   end
   object Label13: TLabel
-    Left = 13
-    Top = 207
+    Left = 89
+    Top = 253
     Width = 41
     Height = 13
     Caption = 'Frete R$'
@@ -262,11 +262,128 @@ object fDetalheNF: TfDetalheNF
     Caption = 'COFINS R$'
   end
   object Label35: TLabel
-    Left = 87
-    Top = 208
-    Width = 83
+    Left = 176
+    Top = 252
+    Width = 66
     Height = 13
-    Caption = 'Total Tributa'#231#245'es'
+    Caption = 'T.Tributa'#231#245'es'
+  end
+  object Label36: TLabel
+    Left = 257
+    Top = 203
+    Width = 61
+    Height = 13
+    Caption = 'ICMS Inter %'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label37: TLabel
+    Left = 416
+    Top = 203
+    Width = 62
+    Height = 13
+    Caption = 'FCP UF Dest'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label38: TLabel
+    Left = 329
+    Top = 203
+    Width = 80
+    Height = 13
+    Caption = 'ICMS Inter Part%'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label39: TLabel
+    Left = 496
+    Top = 204
+    Width = 68
+    Height = 13
+    Caption = 'ICMS UF Dest'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label40: TLabel
+    Left = 575
+    Top = 204
+    Width = 77
+    Height = 13
+    Caption = 'ICMS UF Remet'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label41: TLabel
+    Left = 13
+    Top = 204
+    Width = 56
+    Height = 13
+    Caption = 'BC UF Dest'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label42: TLabel
+    Left = 87
+    Top = 204
+    Width = 73
+    Height = 13
+    Caption = 'FCP UF Dest %'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label43: TLabel
+    Left = 173
+    Top = 204
+    Width = 79
+    Height = 13
+    Caption = 'ICMS UF Dest %'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label44: TLabel
+    Left = 15
+    Top = 253
+    Width = 63
+    Height = 13
+    Caption = 'C'#243'd. Enq. IPI'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object DBEdit1: TDBEdit
     Left = 13
@@ -305,18 +422,18 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'CODPRO'
     DataSource = DMNF.DtSrc1
-    TabOrder = 39
+    TabOrder = 47
     OnChange = abproc
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
-    Left = 189
-    Top = 223
+    Left = 253
+    Top = 267
     Width = 90
     Height = 21
     DataField = 'VALTOTAL'
     DataSource = DMNF.DtSrc1
-    TabOrder = 34
+    TabOrder = 42
     OnChange = abproc
   end
   object DBEdit6: TDBEdit
@@ -400,13 +517,13 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit14: TDBEdit
-    Left = 13
-    Top = 223
-    Width = 73
+    Left = 87
+    Top = 267
+    Width = 82
     Height = 21
     DataField = 'FRETE'
     DataSource = DMNF.DtSrc1
-    TabOrder = 32
+    TabOrder = 40
     OnChange = abproc
   end
   object DBEdit15: TDBEdit
@@ -470,21 +587,21 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object Calcman: TCheckBox
-    Left = 285
-    Top = 227
+    Left = 13
+    Top = 296
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
-    TabOrder = 38
+    TabOrder = 46
     Visible = False
   end
   object btnSair: TBitBtn
     Left = 588
-    Top = 207
+    Top = 251
     Width = 63
     Height = 54
     Caption = 'F9-Sair'
-    TabOrder = 36
+    TabOrder = 44
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -589,20 +706,20 @@ object fDetalheNF: TfDetalheNF
   end
   object DBNavigator1: TDBNavigator
     Left = 393
-    Top = 225
+    Top = 269
     Width = 150
     Height = 35
     DataSource = DMNF.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 37
+    TabOrder = 45
     OnClick = DBNavigator1Click
   end
   object btnGravar: TBitBtn
     Left = 545
-    Top = 225
+    Top = 269
     Width = 37
     Height = 35
-    TabOrder = 35
+    TabOrder = 43
     Visible = False
     OnClick = btnGravarClick
     Glyph.Data = {
@@ -921,13 +1038,103 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit34: TDBEdit
-    Left = 87
-    Top = 223
-    Width = 96
+    Left = 174
+    Top = 267
+    Width = 73
     Height = 21
     DataField = 'VLRTOT_TRIB'
     DataSource = DMNF.DtSrc1
+    TabOrder = 41
+    OnChange = abproc
+  end
+  object DBEdit35: TDBEdit
+    Left = 253
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'PICMSINTER'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 35
+    OnChange = abproc
+  end
+  object DBEdit36: TDBEdit
+    Left = 333
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'PICMSINTERPART'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 36
+    OnChange = abproc
+  end
+  object DBEdit37: TDBEdit
+    Left = 413
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'VFCPUFDEST'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 37
+    OnChange = abproc
+  end
+  object DBEdit38: TDBEdit
+    Left = 493
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'VICMSUFDEST'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 38
+    OnChange = abproc
+  end
+  object DBEdit39: TDBEdit
+    Left = 573
+    Top = 219
+    Width = 78
+    Height = 21
+    DataField = 'VICMSUFREMET'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 39
+    OnChange = abproc
+  end
+  object DBEdit40: TDBEdit
+    Left = 13
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'VBCUFDEST'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 32
+    OnChange = abproc
+  end
+  object DBEdit41: TDBEdit
+    Left = 87
+    Top = 219
+    Width = 82
+    Height = 21
+    DataField = 'PFCPUFDEST'
+    DataSource = DMNF.DtSrc1
     TabOrder = 33
+    OnChange = abproc
+  end
+  object DBEdit42: TDBEdit
+    Left = 174
+    Top = 219
+    Width = 73
+    Height = 21
+    DataField = 'PICMSUFDEST'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 34
+    OnChange = abproc
+  end
+  object DBEdit43: TDBEdit
+    Left = 13
+    Top = 267
+    Width = 73
+    Height = 21
+    DataField = 'CST_IPI_CENQ'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 48
     OnChange = abproc
   end
 end

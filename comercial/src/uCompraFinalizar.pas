@@ -731,6 +731,8 @@ begin
   scdsCr_proc.Open;
 
   // Gravando sequencial
+  // 30-10-2015 comentei aqui, pois, na compra nao deve modificar a serie do sistema
+  // 04-02-2016 o Lajes Caetano usa.
   if (dbeSerie.Text <> '') then
   begin
     if not scds_serie_proc.Active then
@@ -1873,7 +1875,7 @@ procedure TfCompraFinalizar.ValidaNFe();
 begin
   {$IFNDEF ACBrNFeOpenSSL}
     if( fNFeletronica.ACBrNFe1.Configuracoes.Certificados.NumeroSerie = '') then
-    fNFeletronica.ACBrNFe1.Configuracoes.Certificados.SelecionarCertificado;
+    fNFeletronica.ACBrNFe1.SSL.SelecionarCertificado;
   {$ENDIF}
   try
     try

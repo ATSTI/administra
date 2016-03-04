@@ -62,33 +62,9 @@ type
     cds_estadoDADOSADC6: TStringField;
     Label3: TLabel;
     Label4: TLabel;
-    Label8: TLabel;
-    Label6: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
     DBEdit1: TDBEdit;
     DBEdit2: TDBEdit;
-    DBEdit9: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
-    DBEdit6: TDBEdit;
-    DBEdit7: TDBEdit;
-    DBEdit8: TDBEdit;
-    Label7: TLabel;
     Label5: TLabel;
-    Label9: TLabel;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    DBEdit5: TDBEdit;
-    DBEdit10: TDBEdit;
-    DBEdit11: TDBEdit;
-    DBEdit12: TDBEdit;
-    DBEdit13: TDBEdit;
-    DBEdit14: TDBEdit;
     CheckBox1: TCheckBox;
     DBGrid1: TDBGrid;
     GroupBox1: TGroupBox;
@@ -99,10 +75,8 @@ type
     DBEdit19: TDBEdit;
     DBEdit20: TDBEdit;
     Label18: TLabel;
-    Label19: TLabel;
     sdsCSOSN: TStringField;
     cds_estadoCSOSN: TStringField;
-    DBEdit21: TDBEdit;
     DBLookupComboBox3: TDBLookupComboBox;
     sdsTFiscal: TSQLDataSet;
     sdsTFiscalCODFISCAL: TStringField;
@@ -117,10 +91,73 @@ type
     panelAjuda: TPanel;
     Memo1: TMemo;
     dxButton11: TdxButton;
-    Label20: TLabel;
-    DBEdit22: TDBEdit;
     sdsALIQ_CUPOM: TStringField;
     cds_estadoALIQ_CUPOM: TStringField;
+    Label38: TLabel;
+    sdsVBCUFDEST: TFloatField;
+    sdsPFCPUFDEST: TFloatField;
+    sdsPICMSUFDEST: TFloatField;
+    sdsPICMSINTER: TFloatField;
+    sdsPICMSINTERPART: TFloatField;
+    sdsVFCPUFDEST: TFloatField;
+    sdsVICMSUFDEST: TFloatField;
+    sdsVICMSUFREMET: TFloatField;
+    sdsCST_IPI_CENQ: TStringField;
+    cds_estadoVBCUFDEST: TFloatField;
+    cds_estadoPFCPUFDEST: TFloatField;
+    cds_estadoPICMSUFDEST: TFloatField;
+    cds_estadoPICMSINTER: TFloatField;
+    cds_estadoPICMSINTERPART: TFloatField;
+    cds_estadoVFCPUFDEST: TFloatField;
+    cds_estadoVICMSUFDEST: TFloatField;
+    cds_estadoVICMSUFREMET: TFloatField;
+    cds_estadoCST_IPI_CENQ: TStringField;
+    GroupBox2: TGroupBox;
+    Label15: TLabel;
+    DBEdit12: TDBEdit;
+    Label7: TLabel;
+    DBEdit5: TDBEdit;
+    Label22: TLabel;
+    DBEdit23: TDBEdit;
+    GroupBox3: TGroupBox;
+    Label16: TLabel;
+    DBEdit13: TDBEdit;
+    Label9: TLabel;
+    DBEdit10: TDBEdit;
+    GroupBox4: TGroupBox;
+    Label17: TLabel;
+    DBEdit14: TDBEdit;
+    DBEdit11: TDBEdit;
+    Label14: TLabel;
+    GroupBox5: TGroupBox;
+    Label13: TLabel;
+    DBEdit9: TDBEdit;
+    Label21: TLabel;
+    DBEdit3: TDBEdit;
+    Label6: TLabel;
+    DBEdit4: TDBEdit;
+    GroupBox6: TGroupBox;
+    Label10: TLabel;
+    DBEdit6: TDBEdit;
+    Label11: TLabel;
+    DBEdit7: TDBEdit;
+    Label12: TLabel;
+    DBEdit8: TDBEdit;
+    GroupBox7: TGroupBox;
+    Label19: TLabel;
+    DBEdit21: TDBEdit;
+    GroupBox8: TGroupBox;
+    Label20: TLabel;
+    DBEdit22: TDBEdit;
+    GroupBox9: TGroupBox;
+    Label8: TLabel;
+    DBEdit41: TDBEdit;
+    Label23: TLabel;
+    DBEdit42: TDBEdit;
+    Label24: TLabel;
+    DBEdit35: TDBEdit;
+    Label25: TLabel;
+    DBEdit36: TDBEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -285,6 +322,15 @@ begin
       ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
       ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
       ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL, esta.ALIQ_CUPOM ' +
+      ' , esta.VBCUFDEST' +
+      ' , esta.PFCPUFDEST' +
+      ' , esta.PICMSUFDEST' +
+      ' , esta.PICMSINTER' +
+      ' , esta.PICMSINTERPART' +
+      ' , esta.VFCPUFDEST' +
+      ' , esta.VICMSUFDEST' +
+      ' , esta.VICMSUFREMET' +
+      ' , esta.CST_IPI_CENQ ' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
       ' order by esta.CFOP';
@@ -302,7 +348,7 @@ begin
     Memo1.Lines.Add('ATENÇÃO : A ATS não se responsabiliza pelos valores informados aqui, ');
     Memo1.Lines.Add('esta informação e de responsabilidade de seu contador, a tabela');
     Memo1.Lines.Add('abaixo é apenas para auxiliar em sua configuração.');
-    Memo1.Lines.Add(' ');    
+    Memo1.Lines.Add(' ');
     Memo1.Lines.Add('A partir da versão 2.00 do leiaute da NF-e, o contribuinte');
     Memo1.Lines.Add('emissor do SIMPLES NACIONAL deve informar um dos seguintes');
     Memo1.Lines.Add('Código de Situação da Operação - SIMPLES NACIONAL (CSOSN)');
