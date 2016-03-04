@@ -1,9 +1,12 @@
 inherited fEstoqueAjuste: TfEstoqueAjuste
+  Width = 775
+  Height = 486
   Caption = 'Ajuste de Estoque'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
+    Width = 767
     object Label2: TLabel
       Left = 26
       Top = 14
@@ -30,12 +33,14 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
     end
   end
   inherited MMJPanel2: TMMJPanel
+    Top = 408
+    Width = 767
     inherited btnGravar: TBitBtn
       Left = -200
       Visible = False
     end
     inherited btnIncluir: TBitBtn
-      Left = 403
+      Left = 531
       Caption = 'F2-Executar'
     end
     inherited btnCancelar: TBitBtn
@@ -47,14 +52,17 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
       Visible = False
     end
     inherited btnProcurar: TBitBtn
-      Left = 292
+      Left = 420
       OnClick = btnProcurarClick
+    end
+    inherited btnSair: TBitBtn
+      Left = 645
     end
   end
   object GroupBox1: TGroupBox [2]
     Left = 0
     Top = 51
-    Width = 772
+    Width = 767
     Height = 81
     Align = alTop
     Caption = 'Material/Produto'
@@ -296,8 +304,8 @@ inherited fEstoqueAjuste: TfEstoqueAjuste
   object dbgrd1: TDBGrid [3]
     Left = 0
     Top = 132
-    Width = 772
-    Height = 342
+    Width = 767
+    Height = 276
     Align = alClient
     DataSource = ds1
     Font.Charset = DEFAULT_CHARSET
