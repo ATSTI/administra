@@ -1,8 +1,8 @@
 object fNFeMail: TfNFeMail
   Left = 194
   Top = 103
-  Width = 402
-  Height = 318
+  Width = 403
+  Height = 346
   Caption = 'Envio de Nf-e para email Cliente/Fornecedor'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,8 +18,8 @@ object fNFeMail: TfNFeMail
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 394
-    Height = 291
+    Width = 395
+    Height = 319
     Align = alClient
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -268,7 +268,7 @@ object fNFeMail: TfNFeMail
     TabOrder = 2
   end
   object XMLDocument1: TXMLDocument
-    Left = 73
+    Left = 81
     DOMVendorDesc = 'MSXML'
   end
   object sEmail: TSQLDataSet
@@ -286,7 +286,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 40
+    Left = 48
     object sEmailCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -317,7 +317,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     ProviderName = 'd_2'
-    Left = 71
+    Left = 95
     Top = 32
     object cds_ccustoCODIGO: TIntegerField
       FieldName = 'CODIGO'
@@ -346,7 +346,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 7
+    Left = 15
     Top = 32
     object s_2CODIGO: TIntegerField
       FieldName = 'CODIGO'
@@ -365,7 +365,7 @@ object fNFeMail: TfNFeMail
   end
   object d_2: TDataSetProvider
     DataSet = s_2
-    Left = 39
+    Left = 55
     Top = 32
   end
   object sEmpresa: TSQLDataSet
@@ -378,7 +378,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 7
+    Left = 15
     object sEmpresaEMPRESA: TStringField
       FieldName = 'EMPRESA'
       Required = True
@@ -520,11 +520,11 @@ object fNFeMail: TfNFeMail
     NumeroArquivo = 0
     LayoutArquivo = laCNAB400
     TipoMovimento = tmRetorno
-    Left = 72
+    Left = 88
     Top = 64
   end
   object OpenDialog1: TOpenDialog
-    Left = 40
+    Left = 56
     Top = 64
   end
   object XPMenu1: TXPMenu
@@ -554,7 +554,7 @@ object fNFeMail: TfNFeMail
     FlatMenu = False
     AutoDetect = True
     Active = True
-    Left = 8
+    Left = 16
     Top = 64
   end
   object sTransportadora: TSQLDataSet
@@ -569,7 +569,7 @@ object fNFeMail: TfNFeMail
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 110
+    Left = 126
     object sTransportadoraCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
       Required = True

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, MMJPanel, xmldom, XMLIntf, Buttons,
   JvExButtons, JvBitBtn, msxmldom, XMLDoc, FMTBcd, DB, SqlExpr, Provider,
-  DBClient, XPMenu, gbCobranca;
+  DBClient, XPMenu, gbCobranca, ACBrBase, ACBrMail;
 
 type
   TfNFeMail = class(TForm)
@@ -268,12 +268,21 @@ begin
     else
     begin
       try
-        fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
+        // 29/12/2015
+        fNFeletronica.ACBrMail1.Port := sEmpresaPORTA.AsString;
+        fNFeletronica.ACBrMail1.Host := sEmpresaSMTP.AsString;
+        fNFeletronica.ACBrMail1.Username := sEmpresaE_MAIL.AsString;
+        fNFeletronica.ACBrMail1.Password := sEmpresaSENHA.AsString;
+        fNFeletronica.ACBrMail1.From := sEmpresaE_MAIL.AsString;
+        fNFeletronica.ACBrMail1.FromName := sEmpresaEMPRESA.AsString;
+
+       // 29/12/2015
+       { fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
                                                  , sEmpresaPORTA.AsString
                                                  , sEmpresaE_MAIL.AsString
-                                                 , sEmpresaSENHA.AsString
+                                                 , sEmpresaSENHA
                                                  , sEmpresaE_MAIL.AsString
-                                                 , sEmailE_MAIL.AsString
+                                                 , sEmailE_MAIL
                                                  , EdtAssunto.Text
                                                  , Texto
                                                  , False
@@ -283,6 +292,17 @@ begin
                                                  , False  //Pede confirmação de leitura do email
                                                  , True  //Aguarda Envio do Email(não usa thread)
                                                  , sEmpresaRAZAO.AsString ); // Nome do Rementente
+        }
+
+        fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmailE_MAIL.AsString
+                                                 , EdtAssunto.Text
+                                                 , Texto
+                                                 , True //Enviar PDF junto
+                                                 , CC //com copia
+                                                 , nil // Lista de anexos - TStrings
+                                                 );
+
+
         ShowMessage('Email enviado com sucesso!');
       except
          on E: Exception do

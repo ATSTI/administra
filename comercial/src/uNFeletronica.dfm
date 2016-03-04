@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 2
-  Top = 2
+  Left = 359
+  Top = 84
   Width = 873
   Height = 607
   AutoSize = True
@@ -828,7 +828,6 @@ object fNFeletronica: TfNFeletronica
             Width = 91
             Height = 36
             Caption = 'Pr'#233' Visualizar'
-            Enabled = False
             TabOrder = 0
             OnClick = btnSVCANClick
           end
@@ -838,7 +837,6 @@ object fNFeletronica: TfNFeletronica
             Width = 91
             Height = 36
             Caption = 'NF-e SVCAN'
-            Enabled = False
             TabOrder = 1
             OnClick = btnSvcanGeraClick
           end
@@ -1020,7 +1018,7 @@ object fNFeletronica: TfNFeletronica
           Caption = 'Outros Servi'#231'os'
           ImageIndex = 5
           object Label18: TLabel
-            Left = 9
+            Left = 105
             Top = 133
             Width = 88
             Height = 13
@@ -1055,7 +1053,7 @@ object fNFeletronica: TfNFeletronica
           end
           object btnCancelaNFe: TBitBtn
             Left = 6
-            Top = 51
+            Top = 123
             Width = 91
             Height = 36
             Caption = 'Cancelar NF-e'
@@ -1081,11 +1079,20 @@ object fNFeletronica: TfNFeletronica
             OnClick = BitBtn4Click
           end
           object edNFCancelar: TEdit
-            Left = 107
+            Left = 211
             Top = 130
             Width = 90
             Height = 21
             TabOrder = 6
+          end
+          object BitBtn7: TBitBtn
+            Left = 6
+            Top = 51
+            Width = 91
+            Height = 36
+            Caption = 'NFe - Denegada'
+            TabOrder = 7
+            OnClick = BitBtn7Click
           end
         end
         object TabSheet7: TTabSheet
@@ -1559,7 +1566,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -2563,10 +2570,16 @@ object fNFeletronica: TfNFeletronica
       'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
       ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRB' +
       'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB,' +
-      ' pr.COD_BARRA'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on' +
-      #13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf o' +
-      'n'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.COD' +
-      'PRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      ' pr.COD_BARRA,'#13#10'          COALESCE(md.vBCUFDest, 0) vBCUFDest, C' +
+      'OALESCE(md.pFCPUFDest,0) pFCPUFDest, COALESCE(md.pICMSUFDest,0) ' +
+      'pICMSUFDest,COALESCE(md.pICMSInter,0) pICMSInter, '#13#10'          CO' +
+      'ALESCE(md.pICMSInterPart,0) pICMSInterPart,'#13#10'          COALESCE(' +
+      'md.vFCPUFDest,0) vFCPUFDest, COALESCE(md.vICMSUFDest,0) vICMSUFD' +
+      'est, COALESCE(md.vICMSUFRemet,0) vICMSUFRemet, COALESCE(md.CST_I' +
+      'PI_CENQ, '#39'999'#39') CST_IPI_CENQ'#13#10'from VENDA vd '#13#10'inner join MOVIMEN' +
+      'TODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join ' +
+      'NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS' +
+      ' pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2741,6 +2754,44 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
+      ReadOnly = True
+    end
+    object sdsItensNFVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ReadOnly = True
+    end
+    object sdsItensNFPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ReadOnly = True
+    end
+    object sdsItensNFPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ReadOnly = True
+    end
+    object sdsItensNFPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ReadOnly = True
+    end
+    object sdsItensNFPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ReadOnly = True
+    end
+    object sdsItensNFVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ReadOnly = True
+    end
+    object sdsItensNFVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      ReadOnly = True
+    end
+    object sdsItensNFCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
+    end
+    object sdsItensNFVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
       ReadOnly = True
     end
   end
@@ -2926,6 +2977,44 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFCOD_BARRA: TStringField
       FieldName = 'COD_BARRA'
+      ReadOnly = True
+    end
+    object cdsItensNFVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensNFPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensNFPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensNFPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ReadOnly = True
+    end
+    object cdsItensNFPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ReadOnly = True
+    end
+    object cdsItensNFVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensNFVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      ReadOnly = True
+    end
+    object cdsItensNFCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
+    end
+    object cdsItensNFVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
       ReadOnly = True
     end
   end
@@ -4459,58 +4548,20 @@ object fNFeletronica: TfNFeletronica
       000000000000}
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.PathSalvar = 'C:\nfe\'
-    Configuracoes.Geral.PathSchemas = 'c:\home\sisadmin\schemas'
-    Configuracoes.Geral.ExibirErroSchema = True
+    MAIL = ACBrMail1
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoDF = ve310
+    Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
+    Configuracoes.Arquivos.PathInu = 'C:\Home\NFe\Inutilizadas\'
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 10000
     Configuracoes.WebServices.IntervaloTentativas = 10000
     Configuracoes.WebServices.AjustaAguardaConsultaRet = True
-    Configuracoes.Arquivos.Salvar = True
-    Configuracoes.Arquivos.PastaMensal = True
-    Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
-    Configuracoes.Arquivos.PathCan = 'C:\Home\NFe\Cancelamento\'
-    Configuracoes.Arquivos.PathInu = 'C:\Home\NFe\Inutilizadas\'
-    Configuracoes.Arquivos.PathDPEC = 'C:\Home\NFe\Dpec\'
-    Configuracoes.Arquivos.PathCCe = 'C:\Home\NFe\CCe\'
-    DANFE = ACBrNFeDANFERave1
-    Left = 424
-    Top = 316
-  end
-  object ACBrNFeDANFERave1: TACBrNFeDANFERave
-    ACBrNFe = ACBrNFe1
-    Sistema = 'Ats Solu'#231#245'es'
-    PathPDF = 'C:\nfe\'
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDANFE = tiRetrato
-    NumCopias = 1
-    Site = 'www.atsti.com.br'
-    ImprimirDescPorc = False
-    ImprimirTotalLiquido = False
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais._qCom = 3
-    CasasDecimais._vUnCom = 3
-    ExibirResumoCanhoto = False
-    FormularioContinuo = False
-    TamanhoFonte_DemaisCampos = 10
-    ProdutosPorPagina = 0
-    ImprimirDetalhamentoEspecifico = True
-    NFeCancelada = False
-    LocalImpCanhoto = 0
-    RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
-    EspessuraBorda = 1
-    TamanhoFonte_RazaoSocial = 12
-    TamanhoFonte_ANTT = 10
-    TributosFonte = 'IBPT'
-    TributosPercentual = ptValorProdutos
-    Left = 313
-    Top = 341
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    DANFE = ACBrNFeDANFeRL1
+    Left = 128
+    Top = 324
   end
   object sTabIBGE: TSQLDataSet
     CommandText = 'select * from TB_IBGE tb '#13#10'where tb.NM_MUNICIPIO = :Cidade'
@@ -5482,5 +5533,96 @@ object fNFeletronica: TfNFeletronica
     IgnorarChar = './-'
     Left = 260
     Top = 216
+  end
+  object ACBrMail1: TACBrMail
+    Host = '127.0.0.1'
+    Port = '25'
+    SetSSL = False
+    SetTLS = False
+    Attempts = 3
+    DefaultCharset = UTF_8
+    IDECharset = CP1252
+    Left = 166
+    Top = 324
+  end
+  object ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiRetrato
+    NumCopias = 1
+    ImprimeNomeFantasia = False
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = True
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
+    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    LocalImpCanhoto = 0
+    ImprimirItens = True
+    ViaConsumidor = False
+    TamanhoLogoHeight = 0
+    TamanhoLogoWidth = 0
+    RecuoEndereco = 0
+    RecuoEmpresa = 0
+    LogoemCima = False
+    TamanhoFonteEndereco = 0
+    RecuoLogo = 0
+    TributosSeparadamente = False
+    PosCanhoto = prCabecalho
+    Left = 206
+    Top = 324
+  end
+  object ACBrNFeDANFeRL1: TACBrNFeDANFeRL
+    ACBrNFe = ACBrNFe1
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiRetrato
+    NumCopias = 1
+    ImprimeNomeFantasia = False
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = True
+    MargemInferior = 0.700000000000000000
+    MargemSuperior = 0.700000000000000000
+    MargemEsquerda = 0.700000000000000000
+    MargemDireita = 0.700000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais._qCom = 4
+    CasasDecimais._vUnCom = 4
+    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
+    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 10
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = False
+    NFeCancelada = False
+    LocalImpCanhoto = 0
+    ImprimirItens = True
+    ViaConsumidor = True
+    TamanhoLogoHeight = 0
+    TamanhoLogoWidth = 0
+    RecuoEndereco = 0
+    RecuoEmpresa = 0
+    LogoemCima = False
+    TamanhoFonteEndereco = 0
+    RecuoLogo = 0
+    TributosSeparadamente = False
+    LarguraCodProd = 64
+    ExibirEAN = False
+    QuebraLinhaEmDetalhamentoEspecifico = False
+    ExibeCampoFatura = False
+    Left = 246
+    Top = 324
   end
 end
