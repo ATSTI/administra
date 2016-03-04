@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrNFe, StdCtrls, FMTBcd, DBClient, Provider, DB, SqlExpr,
-  ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils, DBXpress;
+  ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils, DBXpress, ACBrDFe,
+  pcnConversaoNFe, pcnConversao,pcnNFe, ACBrUtil;
 
 type
   TfNFCe = class(TForm)
@@ -332,7 +333,7 @@ var
 
 implementation
 
-uses UDm, pcnConversao, pcnNFe, UDMNF;
+uses UDm, UDMNF;
 
 {$R *.dfm}
 
@@ -514,7 +515,7 @@ begin
     end;
 
     pegaItens;
- 
+
 //Adicionando Serviços
 {      with Det.Add do
        begin
@@ -661,7 +662,7 @@ begin
         Prod.NCM      := cdsItensNFNCM.AsString;
         Prod.EXTIPI   := '';
 
-        if (ACBrValidadorValidarGTIN(cdsItensNFCOD_BARRA.AsString) = '') then
+        if (EAN13Valido(cdsItensNFCOD_BARRA.AsString)) then
         begin
           Prod.cEAN := cdsItensNFCOD_BARRA.AsString;
           Prod.cEANTrib := cdsItensNFCOD_BARRA.AsString;;
