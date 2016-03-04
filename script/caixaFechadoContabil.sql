@@ -11,7 +11,7 @@ BEGIN
     select first 1 cc.situacao from caixa_controle cc
       inner join PLANO pl on pl.CODIGO = cc.CODCAIXA
       where pl.CONTA = new.CONTA
-      and cc.SITUACAO = 'F' and cc.DATAFECHAMENTO >= new.DATA
+      and cc.SITUACAO = 'F' and ((cc.DATAFECHAMENTO >= old.DATA) or (cc.DATAFECHAMENTO >= new.DATA))
       order by cc.DATAFECHAMENTO desc
     into :situacao;
       /*update CAIXA_CONTROLE set TESTE = ' old status :' || old.STATUS || ' new status :' || new.STATUS

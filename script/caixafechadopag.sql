@@ -9,7 +9,7 @@ BEGIN
     if ((old.STATUS = '7-') and (new.STATUS = old.STATUS)) then 
     begin     
       select first 1 cc.situacao from caixa_controle cc where cc.codcaixa = new.Caixa 
-        and cc.SITUACAO = 'F' and cc.DATAFECHAMENTO >= new.DATAPAGAMENTO
+        and cc.SITUACAO = 'F' and ((cc.DATAFECHAMENTO >= old.DATAPAGAMENTO) or (cc.DATAFECHAMENTO >= new.DATAPAGAMENTO))
         order by cc.DATAFECHAMENTO desc
       into :situacao;
       /*update CAIXA_CONTROLE set TESTE = ' old status :' || old.STATUS || ' new status :' || new.STATUS
