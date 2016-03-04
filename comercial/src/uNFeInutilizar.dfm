@@ -4,8 +4,8 @@ object fNFeInutilizar: TfNFeInutilizar
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Inutiliza'#231#227'o de NF-e'
-  ClientHeight = 244
-  ClientWidth = 432
+  ClientHeight = 337
+  ClientWidth = 491
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,13 +15,14 @@ object fNFeInutilizar: TfNFeInutilizar
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 432
-    Height = 249
+    Width = 491
+    Height = 337
     Align = alTop
     TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -31,8 +32,8 @@ object fNFeInutilizar: TfNFeInutilizar
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object Label1: TLabel
-      Left = 24
-      Top = 45
+      Left = 32
+      Top = 141
       Width = 23
       Height = 13
       Caption = 'Ano'
@@ -45,8 +46,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label2: TLabel
-      Left = 21
-      Top = 83
+      Left = 29
+      Top = 179
       Width = 42
       Height = 13
       Caption = 'Modelo'
@@ -59,8 +60,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label3: TLabel
-      Left = 21
-      Top = 123
+      Left = 29
+      Top = 219
       Width = 30
       Height = 13
       Caption = 'S'#233'rie'
@@ -73,8 +74,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label4: TLabel
-      Left = 22
-      Top = 162
+      Left = 30
+      Top = 258
       Width = 82
       Height = 13
       Caption = 'N'#250'mero Inicial'
@@ -87,8 +88,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label5: TLabel
-      Left = 22
-      Top = 202
+      Left = 30
+      Top = 298
       Width = 75
       Height = 13
       Caption = 'N'#250'mero Final'
@@ -101,8 +102,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label6: TLabel
-      Left = 224
-      Top = 9
+      Left = 232
+      Top = 105
       Width = 69
       Height = 13
       Caption = 'Justificativa'
@@ -115,8 +116,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Transparent = True
     end
     object Label7: TLabel
-      Left = 24
-      Top = 6
+      Left = 32
+      Top = 102
       Width = 119
       Height = 16
       Caption = 'Centro de Custo :'
@@ -128,16 +129,43 @@ object fNFeInutilizar: TfNFeInutilizar
       ParentFont = False
       Transparent = True
     end
+    object Label8: TLabel
+      Left = 32
+      Top = 48
+      Width = 369
+      Height = 13
+      Caption = 
+        'A Numera'#231#227'o Inutilizada aparecer'#225' na lista de NFe emitidas com S' +
+        'tatus = I (i) .'
+    end
+    object Label9: TLabel
+      Left = 32
+      Top = 64
+      Width = 421
+      Height = 13
+      Caption = 
+        'Caso n'#227'o apare'#231'am na listagem  o cliente do sistema est'#225' sem end' +
+        'ere'#231'o, contate a ATS.'
+    end
+    object Label10: TLabel
+      Left = 32
+      Top = 24
+      Width = 303
+      Height = 13
+      Caption = 
+        'V'#225'lido para Inutiliza'#231#245'es feitas a partir desta vers'#227'o do sistem' +
+        'a : '
+    end
     object edtAno: TEdit
-      Left = 18
-      Top = 59
+      Left = 26
+      Top = 155
       Width = 193
       Height = 21
       TabOrder = 0
     end
     object edtModelo: TEdit
-      Left = 18
-      Top = 97
+      Left = 26
+      Top = 193
       Width = 193
       Height = 21
       ReadOnly = True
@@ -145,37 +173,37 @@ object fNFeInutilizar: TfNFeInutilizar
       Text = '55'
     end
     object edtSerie: TEdit
-      Left = 18
-      Top = 137
+      Left = 26
+      Top = 233
       Width = 193
       Height = 21
       TabOrder = 2
     end
     object edtNumIni: TEdit
-      Left = 18
-      Top = 176
+      Left = 26
+      Top = 272
       Width = 193
       Height = 21
       TabOrder = 3
     end
     object edtNumFim: TEdit
-      Left = 18
-      Top = 214
+      Left = 26
+      Top = 310
       Width = 193
       Height = 21
       TabOrder = 4
     end
     object edtJustificativa: TEdit
-      Left = 218
-      Top = 24
+      Left = 226
+      Top = 120
       Width = 193
       Height = 172
       AutoSize = False
       TabOrder = 5
     end
     object btnInutilizar: TButton
-      Left = 220
-      Top = 203
+      Left = 228
+      Top = 299
       Width = 90
       Height = 33
       Caption = 'Inutilizar'
@@ -183,8 +211,8 @@ object fNFeInutilizar: TfNFeInutilizar
       OnClick = btnInutilizarClick
     end
     object btnSair: TButton
-      Left = 321
-      Top = 203
+      Left = 329
+      Top = 299
       Width = 90
       Height = 33
       Caption = 'Sair'
@@ -192,8 +220,8 @@ object fNFeInutilizar: TfNFeInutilizar
       OnClick = btnSairClick
     end
     object MemoResp: TMemo
-      Left = 176
-      Top = 2
+      Left = 184
+      Top = 96
       Width = 24
       Height = 22
       Align = alCustom
@@ -201,8 +229,8 @@ object fNFeInutilizar: TfNFeInutilizar
       Visible = False
     end
     object ComboBox1: TComboBox
-      Left = 18
-      Top = 24
+      Left = 26
+      Top = 120
       Width = 193
       Height = 21
       ItemHeight = 13
@@ -211,9 +239,9 @@ object fNFeInutilizar: TfNFeInutilizar
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 249
-    Width = 432
-    Height = 277
+    Top = 337
+    Width = 491
+    Height = 0
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -225,8 +253,8 @@ object fNFeInutilizar: TfNFeInutilizar
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 430
-      Height = 275
+      Width = 489
+      Height = 6
       Align = alClient
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -246,69 +274,68 @@ object fNFeInutilizar: TfNFeInutilizar
           Expanded = False
           FieldName = 'SELECIONOU'
           Title.Caption = 'SEL.'
-          Width = 17
+          Width = 19
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NOTASERIE'
           Title.Caption = 'Nota F.'
-          Width = 23
+          Width = 26
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DTAEMISSAO'
           Title.Caption = 'Emiss'#227'o'
-          Width = 26
+          Width = 29
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CFOP'
-          Width = 18
+          Width = 20
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CODCLIENTE'
           Title.Caption = 'C'#243'digo'
-          Width = 20
+          Width = 23
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'RAZAOSOCIAL'
           Title.Caption = 'Raz'#227'o Social'
-          Width = 85
+          Width = 97
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CNPJ'
           Title.Caption = 'CNPJ / CPF'
-          Width = 56
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Protocolo de Envio'
-          Width = 48
+          Width = 54
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMRECIBO'
           Title.Caption = 'Numero Recebimento'
-          Width = 53
+          Width = 61
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
           Title.Caption = 'Protocolo de Cancelamento'
-          Width = 58
+          Width = 70
           Visible = True
         end>
     end

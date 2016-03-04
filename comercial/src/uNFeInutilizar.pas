@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Mask, JvExMask, JvToolEdit, Buttons,
   MMJPanel, ACBrNFe, xmldom, XMLIntf, msxmldom, XMLDoc, FMTBcd, DB,
-  DBClient, Provider, SqlExpr, Grids, DBGrids, JvExDBGrids, JvDBGrid;
+  DBClient, Provider, SqlExpr, Grids, DBGrids, JvExDBGrids, JvDBGrid, DBXpress, DateUtils;
 
 type
   TfNFeInutilizar = class(TForm)
@@ -74,12 +74,17 @@ type
     sEmpresaNUMERO: TStringField;
     sEmpresaCCUSTO: TIntegerField;
     sEmpresaCD_IBGE: TStringField;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
     procedure btnInutilizarClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
+    nfeaInutilizar: String;
     { Public declarations }
   end;
 
@@ -110,6 +115,10 @@ begin
 end;
 
 procedure TfNFeInutilizar.btnInutilizarClick(Sender: TObject);
+var i: Integer;
+ protocoloInutilizacao: String;
+ TD: TTransactionDesc;
+ str_sql: String;
 begin
 
   if (not cds_ccusto.Active) then
@@ -122,15 +131,83 @@ begin
   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
   sEmpresa.Open;
 
+  for i := strtoInt(edtNumIni.Text) to StrToInt(edtNumFim.Text) do
+  begin
+    if (protocoloInutilizacao = '') then
+       protocoloInutilizacao := IntToStr(i)
+    else
+       protocoloInutilizacao := protocoloInutilizacao + ', ' + IntToStr(i);
+  end;
+  if (dm.cdsBusca.Active) then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'select NUMNF from NOTAFISCAL ' +
+    ' WHERE NOTASERIE IN (' + protocoloInutilizacao + ') and (SERIE = ' +
+    QuotedStr(edtSerie.Text) + ') AND (PROTOCOLOENV IS NOT NULL)';
+  dm.cdsBusca.Open;
+
+  if (not dm.cdsBusca.IsEmpty) then
+  begin
+    MessageDlg('Já existe NF emitida com esta numeração.', mtInformation, [mbOK], 0);
+    exit;
+  end;
+  protocoloInutilizacao := '111111111111';
+
   //verifica se o CC foi selecionado caso não da mensagem avisando
   if(sEmpresa.IsEmpty) then
     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
- try
-   fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
-   MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
- finally
-   MessageDlg('Protocolo de Inutilização: ' + fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo, mtInformation, [mbOK], 0);
- end
+  try
+    //fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
+    MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
+  finally
+    //protocoloInutilizacao := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
+    MessageDlg('Protocolo de Inutilização: ' + protocoloInutilizacao, mtInformation, [mbOK], 0);
+  end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+
+    for i := strtoInt(edtNumIni.Text) to StrToInt(edtNumFim.Text) do
+    begin
+      if (dm.cdsBusca.Active) then
+        dm.cdsBusca.Close;
+      dm.cdsBusca.CommandText := 'select GEN_ID(GEN_NF, 1) from RDB$DATABASE';
+      dm.cdsBusca.Open;
+      str_sql := 'INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NOTAFISCAL , SERIE, ' +
+         'STATUS, DATA_SISTEMA, DTAEMISSAO, CORPONF1, CORPONF2, PROTOCOLOENV, NFE_FINNFE, ' +
+         ' NATUREZA, CODCLIENTE, CFOP) VALUES( ';
+      str_sql := str_sql + QuotedStr(IntToStr(i)) + ', ';
+      str_sql := str_sql + IntToStr(dm.cdsBusca.Fields[0].AsInteger) + ', ';
+      str_sql := str_sql + IntToStr(i) + ', ';
+      str_sql := str_sql + QuotedStr(dm.cds_parametroD1.AsString) + ', ';
+      str_sql := str_sql + QuotedStr('I') + ', ';
+      str_sql := str_sql + QuotedStr(formatdatetime('mm/dd/yyyy', today)) + ', ';
+      str_sql := str_sql + QuotedStr(formatdatetime('mm/dd/yyyy', today)) + ', ';
+      str_sql := str_sql + QuotedStr('Usuário : ' + dm.varLogado) + ', ';
+      str_sql := str_sql + QuotedStr('Justificativa : ' + edtJustificativa.Text) + ', ';
+      str_sql := str_sql + QuotedStr(protocoloInutilizacao) + ', ';
+      str_sql := str_sql + QuotedStr('fnInutilizado') + ', ';
+      str_sql := str_sql + '12, 0,';  // Natureza , codcliente
+      str_sql := str_sql + QuotedStr('INUTILIZADA') + ')';
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    end;
+
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
 end;
 
 procedure TfNFeInutilizar.btnSairClick(Sender: TObject);
@@ -157,6 +234,15 @@ begin
       ComboBox1.Items.Add(cds_ccustoNOME.AsString);
       cds_ccusto.Next;
     end;
+end;
+
+procedure TfNFeInutilizar.FormShow(Sender: TObject);
+begin
+  if (nfeaInutilizar <> '') then
+  begin
+    edtNumIni.Text := nfeaInutilizar;
+    edtNumFim.Text := nfeaInutilizar;
+  end;  
 end;
 
 end.
