@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
     CCUSTO integer )
 RETURNS (
     CODPRODUTO varchar(15),
-    PRODUTO varchar(300),
+    PRODUTO varchar(360),
     GRUPO varchar(30),
     QTDEVENDA double precision,
     VLRUNITVENDA double precision,
