@@ -695,6 +695,7 @@ type
     procedure edClienteCnpjExit(Sender: TObject);
   private
     { Private declarations }
+    vnd_status: String;
     limiteCred: Double;
     procurouProd : String;
     function RemoveAcento(Str: string): string;
@@ -1166,6 +1167,11 @@ var usu_n, usu_s : string;
   utilcrtitulo : Tutils;
 begin
   inherited;
+  if (dtsrc.State in [dsInsert]) then
+     vnd_status := 'INSERE';
+  if (dtsrc.State in [dsEdit]) then
+     vnd_status := 'EDITA';
+
   if (dtsrc.State in [dsInsert, dsEdit]) then
   begin
     if (dbeCliente.Text = '') then
@@ -1227,11 +1233,13 @@ begin
     prazoCliente := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
     edClienteCnpj.Text := dm.scds_cliente_procCNPJ.AsString;
     //desconto := dm.scds_cliente_procDESCONTO.AsFloat;
-    cds_MovimentoDESCONTO.AsFloat := dm.scds_cliente_procDESCONTO.AsFloat;
+    if (vnd_status = 'INSERE') then
+      cds_MovimentoDESCONTO.AsFloat := dm.scds_cliente_procDESCONTO.AsFloat;
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
     //cds_Mov_detQTDE_ALT.AsFloat:= desconto ;
-    cds_Mov_detQTDE_ALT.AsFloat:= dm.scds_cliente_procDESCONTO.AsFloat;
+    if (vnd_status = 'INSERE') then
+      cds_Mov_detQTDE_ALT.AsFloat:= dm.scds_cliente_procDESCONTO.AsFloat;
 
     buscaCfop(dm.scds_cliente_procCODCLIENTE.AsInteger);
 
@@ -1490,14 +1498,15 @@ begin
       exit;
     end;
   end;
-  if (usalote = 'S') then
+  // 06/01/2016
+  {if (usalote = 'S') then
   begin
     if (cds_Mov_detLOTE.AsString = '') then
     begin
       MessageDlg('Informe o Lote do Produto.', mtWarning, [mbOK], 0);
       exit;
     end;
-  end;
+  end;}
   inherited;
   if (matPrima = 'SIM') then
     inseridoMatPrima := 'SIM';
@@ -2089,6 +2098,11 @@ procedure TfVendas.btnClienteProcuraClick(Sender: TObject);
 var usu_n, usu_s : string;
   utilcrtitulo : Tutils;
 begin
+  if (dtsrc.State in [dsInsert]) then
+     vnd_status := 'INSERE';
+  if (dtsrc.State in [dsEdit]) then
+     vnd_status := 'EDITA';
+
   if (dtsrc.State in [dsBrowse]) then
   begin
     if dm.scds_venda_proc.Active then
@@ -2168,10 +2182,14 @@ begin
       cds_Mov_detCFOP.AsString := edCfop.Text;
       cds_Mov_det.Next;
     end;
-    cds_MovimentoDESCONTO.AsFloat := DMNF.scds_cli_procDESCONTO.AsFloat;
+    if (vnd_status = 'INSERE') then
+      cds_MovimentoDESCONTO.AsFloat := DMNF.scds_cli_procDESCONTO.AsFloat;
     cds_Mov_det.Edit;
     if (cds_Mov_detQTDE_ALT.AsFloat <= 0) then
-      cds_Mov_detQTDE_ALT.AsFloat:= cds_MovimentoDESCONTO.AsFloat; ;
+    begin
+      if (vnd_status = 'INSERE') then
+        cds_Mov_detQTDE_ALT.AsFloat:= cds_MovimentoDESCONTO.AsFloat;
+    end;
     cds_MovimentoCODVENDEDOR.AsInteger := dmnf.scds_cli_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dmnf.scds_cli_procNOMEUSUARIO.AsString;
 
@@ -2293,7 +2311,8 @@ begin
       prazoCliente := sPrazoPRAZORECEBIMENTO.AsFloat;
     sPrazo.Close;
   end;
-
+  // 06/01/2016
+  {
   if (sdsLoteRepetido.Active) then
     sdsLoteRepetido.Close;
   sdsLoteRepetido.Params[0].AsInteger := cds_Mov_detCODMOVIMENTO.AsInteger;
@@ -2301,7 +2320,7 @@ begin
   if (not sdsLoteRepetido.IsEmpty) then
      MessageDlg('Existe produto com o mesmo Lote em 2 linhas diferentes, isto pode gerar problema.', mtInformation, [mbOK], 0);
   sdsLoteRepetido.Close;
-
+  }
  if DtSrc.DataSet.State in [dsInsert, dsEdit] then
     btnGravar.Click;
 
@@ -4475,7 +4494,7 @@ begin
     cds_MovimentoDESCONTO.AsFloat := dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
     if ( cds_Mov_det.State in [dsBrowse]) then
       cds_Mov_det.Edit;
-    cds_Mov_detQTDE_ALT.AsFloat:= dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
+    //cds_Mov_detQTDE_ALT.AsFloat:= dm.cdsBusca.fieldByName('DESCONTO').AsFloat;
     buscaCfop(dm.cdsBusca.fieldByName('CODCLIENTE').AsInteger);
   end
   else begin
