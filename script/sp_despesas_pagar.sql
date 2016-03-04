@@ -9,12 +9,12 @@ RETURNS (
     DTAEMISSAO Date,
     DTAVENC Date,
     CODFORN Integer,
-    FORNECEDOR Varchar(60),
+    FORNECEDOR Varchar(80),
     DESCRICAO Varchar(150),
     VALORTITULO Double precision,
     VALORPAGO Double precision,
     CONTACONTABIL Varchar(200),
-    CAIXA Varchar(60),
+    CAIXA Varchar(200),
     CODCONTA Varchar(15) )
 AS
 DECLARE VARIABLE CCAIXA INTEGER;
