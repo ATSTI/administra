@@ -48,7 +48,7 @@ object fImporta_XML: TfImporta_XML
       Top = 582
       Width = 28
       Height = 13
-      Caption = 'V. 1.0'
+      Caption = 'V. 1.2'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -11

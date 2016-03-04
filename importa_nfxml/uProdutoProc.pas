@@ -53,11 +53,16 @@ begin
     strB := strB + ' AND CODPRO LIKE ' + QuotedStr(edCod.Text + '%');
   if (edDesc.Text <> '') then
   begin
-    strB := strB + ' AND UPPER(PRODUTO) LIKE UPPER(' + QuotedStr('%' + edDesc.Text + '%')+ ')';
+    strB := strB + ' AND PRODUTO LIKE (' + QuotedStr('%' + edDesc.Text + '%')+ ')';
   end;
 
   if (cdsBuscaProd.Active) then
     cdsBuscaProd.Close;
+  if (sdsBuscaProd.Active) then
+    sdsBuscaProd.Close;
+    
+  sdsBuscaProd.SQLConnection := fImporta_XML.sqlConn;
+
   cdsBuscaProd.CommandText := 'SELECT CODPRODUTO, CODPRO, PRODUTO FROM PRODUTOS ' + strB;
   cdsBuscaProd.Open;
 end;

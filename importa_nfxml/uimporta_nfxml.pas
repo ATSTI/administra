@@ -517,17 +517,22 @@ begin
     strBusca := strBusca + ' where COD_BARRA = ';
     strBusca := strBusca + QuotedStr(retornaCodBarra);
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
-  end
+  //end  13/12/2015
+  // nao posso fazer esta busca pois, pega o codigo do fornecedor e procura no meus produtos
+  // tem que procurar na tabela de relatiocnamento
+  {
   else begin
     strBusca := strBusca + ' where CODPRO = ' + QuotedStr(retornaCodPro);
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end;
-
+  }
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
   sqlBusca.SQL.Add(strBusca);
   sqlBusca.Open;
+
+  end;
 end;
 
 procedure TfImporta_XML.FormShow(Sender: TObject);
