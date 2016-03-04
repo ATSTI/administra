@@ -1,6 +1,6 @@
 object fRel_CR1: TfRel_CR1
   Left = 572
-  Top = 189
+  Top = 196
   Width = 360
   Height = 479
   BorderIcons = [biSystemMenu]
@@ -973,6 +973,7 @@ object fRel_CR1: TfRel_CR1
     Width = 163
     Height = 55
     Caption = 'Boleto Sicredi Sem Registro'
+    Enabled = False
     TabOrder = 13
     OnClick = BitBtn9Click
   end
@@ -1064,36 +1065,6 @@ object fRel_CR1: TfRel_CR1
     Title = 'Untitled'
     Left = 16
     Top = 240
-  end
-  object RLBTitulo1: TRLBTitulo
-    PrintDialog = True
-    TipoOcorrencia = toRemessaRegistrar
-    LocalPagamento = 'PAG'#193'VEL EM QUALQUER BANCO AT'#201' O VENCIMENTO'
-    Cedente.TipoInscricao = tiPessoaFisica
-    Cedente.Nome = 'SABRINA'
-    Cedente.ContaBancaria.Banco.Codigo = '001'
-    Cedente.ContaBancaria.CodigoAgencia = '1475'
-    Cedente.ContaBancaria.DigitoAgencia = '3'
-    Cedente.ContaBancaria.NumeroConta = '12233'
-    Cedente.ContaBancaria.DigitoConta = '5'
-    Cedente.ContaBancaria.Convenio = '1265781'
-    Cedente.ContaBancaria.NomeCliente = 'INSTITUTO DE EDUCA'#199#194'O'
-    Cedente.CodigoCedente = '12233'
-    Cedente.DigitoCodigoCedente = '5'
-    Sacado.TipoInscricao = tiPessoaFisica
-    Sacado.Nome = 'SABRINA'
-    SeuNumero = '12657810000002012'
-    Carteira = '18'
-    AceiteDocumento = adNao
-    EspecieDocumento = edRecibo
-    DataDocumento = 39185.000000000000000000
-    DataVencimento = 39209.000000000000000000
-    ValorDocumento = 370.500000000000000000
-    EmissaoBoleto = ebClienteEmite
-    LayoutNN = lnN11
-    Versao = '1.1.1'
-    Left = 19
-    Top = 16
   end
   object sds_cr: TSQLDataSet
     CommandText = 
@@ -1820,8 +1791,6 @@ object fRel_CR1: TfRel_CR1
     DocumentInfo.Creator = 
       'FortesReport(Open Source) v3.24(BETA13) \251 Copyright '#169' 1999-20' +
       '07 Fortes Inform'#225'tica'
-    ViewerOptions = []
-    FontEncoding = feNoEncoding
     DisplayName = 'Documento PDF'
     Left = 320
     Top = 8

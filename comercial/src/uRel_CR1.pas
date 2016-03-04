@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, StdCtrls, rpcompobase, rpvclreport, FMTBcd, ComCtrls,
-  ExtCtrls, DB, DBClient, Provider, SqlExpr, RLBoleto, DBXpress, Mask,
+  ExtCtrls, DB, DBClient, Provider, SqlExpr, DBXpress, Mask,
   RLFilters, RLPDFFilter;
 
 type
@@ -18,7 +18,6 @@ type
     Edit2: TEdit;
     VCLReport1: TVCLReport;
     BitBtn4: TBitBtn;
-    RLBTitulo1: TRLBTitulo;
     sds_cr: TSQLDataSet;
     sds_crCODRECEBIMENTO: TIntegerField;
     sds_crCODIGO_DE_BARRAS: TStringField;
@@ -508,6 +507,7 @@ begin
       cds_cr.Open;
       cds_cr.Edit;
       //Dados do Cedente
+      {
       RLBTitulo1.Cedente.ContaBancaria.Banco.Codigo := cds_bancoCODIGO_EMPRESA.AsString;
       RLBTitulo1.Cedente.ContaBancaria.CodigoAgencia := cds_bancoCODIGO_AGENCIA.AsString;
       RLBTitulo1.Cedente.ContaBancaria.DigitoAgencia := cds_bancoDIGITO_AGENCIA.AsString;
@@ -524,9 +524,10 @@ begin
       RLBTitulo1.ValorDocumento := fcrproc.scdsCr_procVALORTITULO.AsFloat;
       //RLBTitulo1.DataDocumento := fcrEscolas.scdsCr_procEMISSAO.Value;
       RLBTitulo1.DataVencimento := fcrproc.scdsCr_procDATAVENCIMENTO.Value;
-      {** Falta preencher 0 numero documento}
+      //** Falta preencher 0 numero documento
       //RLBTitulo1.NumeroDocumento := Trim(Edit3.Text);
       RLBTitulo1.Visualizar;
+      }
       cds_cr.ApplyUpdates(0);
     end;
     fcrproc.scdsCr_proc.Next;
@@ -946,6 +947,9 @@ procedure TfRel_CR1.BitBtn9Click(Sender: TObject);
 var  update_dp : string;
      TD: TTransactionDesc;
 begin
+
+// 13/1/2016  Não consegui instalar o componente rlboleto depois q atualizei  o acbr
+
   if (not fcrproc.scdsCr_proc.Active) then
   begin
     MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
@@ -997,6 +1001,7 @@ var  nQtdeBoletos: Integer;
   str_sql : String;
   TD: TTransactionDesc;
 begin
+  {
   if (not sqlConta.Active) then
     sqlConta.Open;
 
@@ -1018,6 +1023,7 @@ begin
 
     ProgressBar1.Position := nI;
     //Dados do Cedente
+
     RLBTitulo1.LocalPagamento := 'PAGÁVEL PREFERENCIALMENTE NAS COOPERATIVAS DE CRÉDITO DO SICREDI';
     RLBTitulo1.Cedente.ContaBancaria.Banco.Codigo := '748';
     RLBTitulo1.Cedente.ContaBancaria.CodigoAgencia := IntToStr(cdsBoletoAGENCIA.AsInteger);
@@ -1099,6 +1105,7 @@ begin
   end;
   RLBTitulo1.Visualizar;
   Panel1.Visible := False;
+  }
 end;
 
 end.
