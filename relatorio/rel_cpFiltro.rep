@@ -11,7 +11,7 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'CR'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'select rec.CODPAGAMENTO, rec.TITULO, rec.EMISSAO, '#13#10' rec.DATAVEN' +
         'CIMENTO, rec.CODFORNECEDOR, rec.VALORTITULO, rec.VALOR_RESTO, re' +
@@ -30,7 +30,7 @@ object TRpReport
     end
     item
       Alias = 'EMPRESA'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'select * from empresa'
     end>
   DatabaseInfo = <
@@ -417,7 +417,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'CR.TITULO'
+    Expression = 'CR.TITULO + '#39' - '#39' + CR.VIA'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
