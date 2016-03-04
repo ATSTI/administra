@@ -42,8 +42,20 @@ AS
  Declare variable CALCTRIB varchar(1); 
  Declare variable UF_EMPRESA char(2); 
  DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
+ DECLARE VARIABLE vBCUFDest DOUBLE PRECISION = 0;
+ DECLARE VARIABLE pFCPUFDest DOUBLE PRECISION = 0; 
+ DECLARE VARIABLE pICMSUFDest DOUBLE PRECISION = 0;
+ DECLARE VARIABLE pICMSInter DOUBLE PRECISION = 0;
+ DECLARE VARIABLE pICMSInterPart DOUBLE PRECISION = 0;
+ DECLARE VARIABLE vFCPUFDest DOUBLE PRECISION = 0;
+ DECLARE VARIABLE vICMSUFDest DOUBLE PRECISION = 0;
+ DECLARE VARIABLE vICMSUFRemet DOUBLE PRECISION = 0;
+ DECLARE VARIABLE CST_IPI_CENQ CHAR(3) = '999';
+
 BEGIN
+
   -- versao 3.0.0.16
+  -- versao 4.0.0.0 04/01/2016
   new.SUITE = ''; 
   new.Aliq_CUPOM = 'II';
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
@@ -97,7 +109,7 @@ BEGIN
     begin
 		if ( new.lote is null) then
 			new.lote = '0';
-		select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
+		select cast(d4 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
         into :arredondar;
         
 		if (arredondar is null) then 
@@ -139,15 +151,19 @@ BEGIN
 	
 		select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
 		COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI,
-		p.NCM, COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), p.ORIGEM , c.TOTTRIB, cfp.ALIQ_CUPOM 
+		p.NCM, COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), p.ORIGEM , c.TOTTRIB, cfp.ALIQ_CUPOM, 
+		COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+		COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
 		from CLASSIFICACAOFISCALPRODUTO cfp
 		inner join PRODUTOS p on p.CODPRODUTO = cfp.COD_PROD
 		inner join CFOP c on c.CFCOD = new.CFOP
 		left outer join NCM n on n.NCM = p.NCM
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :NCM_P, :ALIQIMP, 
-        :ALIQNAC, :origem, :calctrib, :aliq_cupom;
+        :ALIQNAC, :origem, :calctrib, :aliq_cupom, 
+        :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
     
+
 		---------------------------------------------------------------------------------
 		--------------------------INICIO DO CALCULO POR PRODUTO--------------------------
 		---------------------------------------------------------------------------------
@@ -286,12 +302,15 @@ BEGIN
 		begin
             select COALESCE(cfn.ICMS_SUBST, 0), COALESCE(cfn.ICMS_SUBST_IC, 0), COALESCE(cfn.ICMS_SUBST_IND, 0), COALESCE(cfn.ICMS, 0), COALESCE(cfn.ICMS_BASE, 1)
             , cfn.CST, COALESCE(cfn.IPI, 0), cfn.CSOSN, COALESCE(cfn.PIS, 0), COALESCE(cfn.COFINS, 0), cfn.CSTCOFINS, cfn.CSTPIS, cfn.CSTIPI, p.ORIGEM, 
-            COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), c.TOTTRIB, cfn.ALIQ_CUPOM 
+            COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), c.TOTTRIB, cfn.ALIQ_CUPOM,
+            COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+	     COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999') 
             from CLASSIFICACAOFISCALNCM cfn, PRODUTOS p, ncm n, CFOP c
             where p.NCM = cfn.NCM and p.ORIGEM = cfn.ORIGEM and cfn.CFOP = new.CFOP and c.CFCOD = new.CFOP and cfn.UF = :UF and cfn.CODFISCAL = :PESSOA
             and n.NCM = p.NCM and p.CODPRODUTO = new.CODPRODUTO
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
-            :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB, :aliq_cupom;
+            :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB, :aliq_cupom,
+            :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin
@@ -426,11 +445,14 @@ BEGIN
                 --CALCULO PELA ESTADO_ICMS
                 select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
                 , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB
-                , ei.ALIQ_CUPOM
+                , ei.ALIQ_CUPOM,
+                COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+                COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
                 from ESTADO_ICMS ei, CFOP c
                 where ei.CFOP = new.CFOP and ei.UF = :UF and ei.CODFISCAL = :PESSOA and c.CFCOD = new.CFOP
                 into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
-                :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, :aliq_cupom;
+                :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, :aliq_cupom,
+                :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
             
                 select n.ALIQIMP, n.ALIQNAC, p.ORIGEM from NCM n, PRODUTOS p 
                 where p.CODPRODUTO = new.CODPRODUTO 
@@ -443,19 +465,25 @@ BEGIN
                 if (:CICMS IS NULL) then -- Vou Buscar so pelo CFOP e UF
                 begin 
                     select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
-                    , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB
+                    , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB,
+                    COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+		      COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
                     from ESTADO_ICMS ei, CFOP c
                     where ei.CFOP = new.CFOP and ei.UF = :UF and c.CFCOD = new.CFOP
                     into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
-                    :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB;
+                    :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB,
+                    :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
                     if (:CICMS IS NULL) then -- Vou Buscar so pelo CFOP
                     begin 
                         select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
-                        , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB
+                        , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB,
+                        COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+		          COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
                         from ESTADO_ICMS ei, CFOP c
                         where ei.CFOP = new.CFOP and c.CFCOD = new.CFOP
                         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
-                        :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB;
+                        :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, 
+                        :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
                     end 
                 end 
             
@@ -617,6 +645,15 @@ BEGIN
             end
         end    
     end
+    new.vBCUFDest = :vBCUFDest;
+    new.pFCPUFDest = :pFCPUFDest;
+    new.pICMSUFDest = :pICMSUFDest;
+    new.pICMSInter = :pICMSInter;
+    new.pICMSInterPart = :pICMSInterPart;
+    new.vFCPUFDest = :vFCPUFDest;
+    new.vICMSUFDest = :vICMSUFDest;
+    new.vICMSUFRemet = :vICMSUFRemet;
+    new.CST_IPI_CENQ = :CST_IPI_CENQ;
   end  
   else begin 
     -- Calculo Manual
