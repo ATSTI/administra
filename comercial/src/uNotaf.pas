@@ -2587,9 +2587,17 @@ begin
   dmnf.cds_nfNFE_FORMATODANFE.AsString   := 'tiRetrato';
   dmnf.cds_nfNFE_TIPOEMISSAO.AsString    := 'teNormal';
 
-  // Buscar do Cadastro de Cliente
-  dmnf.cds_nfNFE_INDFINAL.AsString       := 'teNormal';
-  //dmnf.cds_nfNFE_INDPRES.AsString
+  //TpcnindIEDest = (inContribuinte, inIsento, inNaoContribuinte);
+  dmnf.cds_nfNFE_INDPRES.AsString := 'inContribuinte';
+  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = 'ISENTO') then
+    dmnf.cds_nfNFE_INDPRES.AsString := 'inIsento';
+  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = '') then
+    dmnf.cds_nfNFE_INDPRES.AsString := 'inNaoContribuinte';
+
+  //TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
+  dmnf.cds_nfNFE_INDFINAL.AsString := 'cfNao';
+  if (dmnf.cds_nfCODFISCAL.AsString = '9') then
+    dmnf.cds_nfNFE_INDFINAL.AsString := 'cfConsumidorFinal';
 end;
 
 procedure TfNotaf.edtNFRefExit(Sender: TObject);

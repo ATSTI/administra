@@ -2267,10 +2267,17 @@ begin
   dmnf.cds_nf1NFE_FORMATODANFE.AsString   := 'tiRetrato';
   dmnf.cds_nf1NFE_TIPOEMISSAO.AsString    := 'teNormal';
 
-  // Buscar do Cadastro de Cliente
-  dmnf.cds_nf1NFE_INDFINAL.AsString       := 'teNormal';
-  //dmnf.cds_nfNFE_INDPRES.AsString
+  //TpcnindIEDest = (inContribuinte, inIsento, inNaoContribuinte);
+  dmnf.cds_nf1NFE_INDPRES.AsString := 'inContribuinte';
+  if (dmnf.cds_nf1INSCRICAOESTADUAL.AsString = 'ISENTO') then
+    dmnf.cds_nf1NFE_INDPRES.AsString := 'inIsento';
+  if (dmnf.cds_nf1INSCRICAOESTADUAL.AsString = '') then
+    dmnf.cds_nf1NFE_INDPRES.AsString := 'inNaoContribuinte';
 
+  //TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
+  dmnf.cds_nf1NFE_INDFINAL.AsString := 'cfNao';
+  if (dmnf.cds_nf1CODFISCAL.AsString = '9') then
+    dmnf.cds_nf1NFE_INDFINAL.AsString := 'cfConsumidorFinal';
 
 end;
 
