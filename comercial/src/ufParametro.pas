@@ -405,6 +405,7 @@ type
     Label81: TLabel;
     edCFOP_CUPOM: TEdit;
     BitBtn49: TBitBtn;
+    Label82: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);

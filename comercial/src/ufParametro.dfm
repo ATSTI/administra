@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet8
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -493,6 +493,21 @@ inherited fParametro: TfParametro
           'Mascara do Produto na DANFE / SPED - Crie o Parametro PRODUTOMAS' +
           'CARA e informe no campo DADOS a mascar'#225' desejada, ex. : 99.999.9' +
           '99.9999-99;0'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label82: TLabel
+        Left = 17
+        Top = 456
+        Width = 570
+        Height = 13
+        Caption = 
+          'DANFE - Largura coluna C'#243'd. Produto :  Parametro EMPRESA , colun' +
+          'a D2, o tamanho padr'#227'o '#233'  46 '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
