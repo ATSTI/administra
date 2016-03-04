@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, EDBFind, Mask, FMTBcd, SqlExpr, JvExStdCtrls,
   JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit, ComCtrls,
-  JvExComCtrls, JvComCtrls, JvCheckBox, ACBrBase, ACBrValidador, dbxpress;
+  JvExComCtrls, JvComCtrls, JvCheckBox, ACBrBase, ACBrValidador, dbxpress, ACBrUtil;
 
 type
   TfProdutoCadastro = class(TfPai)
@@ -410,7 +410,7 @@ begin
   end;
 
   if (dbEdit1.Text <> '') then
-    if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
+    if (EAN13Valido(dbEdit1.Text) = False) then
       MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
 
   if (DtSrc.State in [dsInsert]) then
