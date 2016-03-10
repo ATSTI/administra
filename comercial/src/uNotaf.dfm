@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
   Left = 322
-  Top = 173
+  Top = 174
   Width = 801
   Height = 614
   BorderIcons = [biSystemMenu, biMaximize]
@@ -884,14 +884,21 @@ object fNotaf: TfNotaf
           ImageIndex = 2
           object Label4: TLabel
             Left = 19
-            Top = 8
+            Top = -1
             Width = 243
             Height = 13
             Caption = 'Chave NFe (Devolu'#231#227'o/Complementar/Cancelada)'
           end
+          object Label5: TLabel
+            Left = 19
+            Top = 71
+            Width = 136
+            Height = 13
+            Caption = 'N'#250'mero Pedido de Compra : '
+          end
           object Memo2: TMemo
             Left = 16
-            Top = 51
+            Top = 36
             Width = 729
             Height = 33
             BorderStyle = bsNone
@@ -906,12 +913,24 @@ object fNotaf: TfNotaf
           end
           object edtNFRef: TEdit
             Left = 16
-            Top = 24
+            Top = 15
             Width = 721
             Height = 21
             TabOrder = 1
             OnClick = edtNFRefClick
             OnExit = edtNFRefExit
+          end
+          object DBEdit56: TDBEdit
+            Left = 165
+            Top = 70
+            Width = 119
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            DataField = 'CORPONF6'
+            DataSource = DMNF.DtSrc_NF
+            TabOrder = 2
+            OnKeyPress = FormKeyPress
           end
         end
       end
@@ -1736,7 +1755,7 @@ object fNotaf: TfNotaf
               TabOrder = 4
               OnKeyPress = FormKeyPress
             end
-            object DBEdit66: TDBEdit
+            object DBEdit66NAO_USO_MAIS_USO_EM_CODPEDIDOCOMPRA: TDBEdit
               Left = 3
               Top = 145
               Width = 765
@@ -1751,7 +1770,9 @@ object fNotaf: TfNotaf
               Font.Name = 'MS Sans Serif'
               Font.Style = []
               ParentFont = False
+              ReadOnly = True
               TabOrder = 5
+              Visible = False
               OnKeyPress = FormKeyPress
             end
           end

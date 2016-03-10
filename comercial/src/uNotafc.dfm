@@ -1,6 +1,6 @@
 object fNotafc: TfNotafc
   Left = 214
-  Top = 112
+  Top = 113
   Width = 799
   Height = 604
   BorderIcons = [biSystemMenu, biMaximize]
@@ -427,7 +427,7 @@ object fNotafc: TfNotafc
         Top = 167
         Width = 769
         Height = 140
-        ActivePage = TabSheet2
+        ActivePage = TabSheet3
         TabOrder = 18
         object TabSheet2: TTabSheet
           Caption = 'Itens'
@@ -608,6 +608,13 @@ object fNotafc: TfNotafc
             Height = 13
             Caption = 'Chave NFe (Devolu'#231#227'o/Complementar/Cancelada)'
           end
+          object Label5: TLabel
+            Left = 17
+            Top = 88
+            Width = 136
+            Height = 13
+            Caption = 'N'#250'mero Pedido de Compra : '
+          end
           object edtNFRef: TEdit
             Left = 16
             Top = 24
@@ -630,6 +637,18 @@ object fNotafc: TfNotafc
               'Substitui'#231#227'o de NF cancelada, Complementa'#231#227'o de NF, etc.).')
             ReadOnly = True
             TabOrder = 1
+          end
+          object DBEdit62: TDBEdit
+            Left = 163
+            Top = 87
+            Width = 119
+            Height = 21
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            DataField = 'CORPONF6'
+            DataSource = DMNF.DtSrc_NF1
+            TabOrder = 2
+            OnKeyPress = FormKeyPress
           end
         end
       end
@@ -2707,7 +2726,9 @@ object fNotafc: TfNotafc
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
+          ReadOnly = True
           TabOrder = 5
+          Visible = False
           OnKeyPress = FormKeyPress
         end
       end

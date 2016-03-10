@@ -141,7 +141,7 @@ type
     sdsNotaMaePROTOCOLOENV: TStringField;
     sdsNotaMaeNUMRECIBO: TStringField;
     sdsNotaMaePROTOCOLOCANC: TStringField;
-    sdsNotaMaeNOTAMAE: TIntegerField;
+    sdsNotaMaeNOTAMAE: TIntegerField;                           
     sdsNotaMaePESOREMESSA: TBCDField;
     dspNotaMae: TDataSetProvider;
     cdsNotaMae: TClientDataSet;
@@ -410,7 +410,7 @@ type
     DBEdit63: TDBEdit;
     DBEdit64: TDBEdit;
     DBEdit65: TDBEdit;
-    DBEdit66: TDBEdit;
+    DBEdit66NAO_USO_MAIS_USO_EM_CODPEDIDOCOMPRA: TDBEdit;
     JvGroupBox17: TJvGroupBox;
     DBEdit49: TDBEdit;
     JvGroupBox53: TJvGroupBox;
@@ -437,6 +437,8 @@ type
     Label4: TLabel;
     Memo2: TMemo;
     edtNFRef: TEdit;
+    Label5: TLabel;
+    DBEdit56: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);

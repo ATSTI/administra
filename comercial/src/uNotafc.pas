@@ -274,6 +274,8 @@ type
     sdsCFOPFRETEBC: TStringField;
     sdsCFOPIPIBC: TStringField;
     sdsCFOPTOTTRIB: TStringField;
+    DBEdit62: TDBEdit;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
