@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
   Left = 359
-  Top = 84
+  Top = 85
   Width = 873
   Height = 607
   AutoSize = True
@@ -1566,7 +1566,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -4864,6 +4864,11 @@ object fNFeletronica: TfNFeletronica
   object JvFormStorage1: TJvFormStorage
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fNFeletronica\'
+    StoredProps.Strings = (
+      'ComboBox1.ItemIndex'
+      'ComboBox2.ItemIndex'
+      'JvDateEdit1.Date'
+      'JvDateEdit2.Date')
     StoredValues = <>
     Left = 672
     Top = 313

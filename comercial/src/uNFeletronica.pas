@@ -1026,9 +1026,25 @@ begin
 
    if (not cds_ccusto.Active) then
      cds_ccusto.Open;
-   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
-   cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
 
+   if (PageControl1.ActivePageIndex = 0) then
+   begin
+     cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+     if(ComboBox1.Text = '') then
+     begin
+       MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+       exit;
+     end;
+   end;
+   if (PageControl1.ActivePageIndex = 1) then
+   begin
+     cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
+     if(ComboBox2.Text = '') then
+     begin
+       MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+       exit;
+     end;
+   end;
    //Seleciona Empresa de acordo com o CCusto selecionado
    if (sEmpresa.Active) then
      sEmpresa.Close;
@@ -1115,16 +1131,16 @@ begin
          end;
 
           ACBrNFe1.NotasFiscais.Clear;
-  //        ACBrNFe1.NotasFiscais.Add.NFe.Ide.finNFe
+  
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
-            //infNFe.ID := 0                                  // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
+            //infNFe.ID := 0 // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
 
             if (sEstado.Active) then
               sEstado.Close;
             sEstado.Params[0].AsString := sEmpresaUF.asString;
             sEstado.Open;
-            Ide.cUF       := sEstadoCODIGO.AsInteger;                   // Codigo do UF do Emitente do documento fiscal
+            Ide.cUF       := sEstadoCODIGO.AsInteger; // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
 
@@ -1178,12 +1194,17 @@ begin
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
-            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
+            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString;(usando para codigo pedido de compra)
 
             if (cdsNFNFE_FINNFE.AsString = 'fnAjuste') then
             begin
               InputQuery('Justificativa do estorno nas Informações Adicionais de Interesse do Fisco', 'Justificativa', vAux);
               infAdic.infAdFisco := vAux;
+            end;
+
+            if (cdsNFCORPONF6.AsString <> '') then
+            begin
+              compra.xPed := cdsNFCORPONF6.AsString;
             end;
 
             // Tipo de movimentação 0 entrada 1 saida
@@ -1457,6 +1478,7 @@ begin
      try
        ACBrNFe1.Enviar(0);
        AcbrNfe1.Configuracoes.Arquivos.PathSalvar := sempresaDIVERSOS1.AsString;
+
        ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
        ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
@@ -1586,14 +1608,16 @@ begin
 end;
 
 procedure TfNFeletronica.FormCreate(Sender: TObject);
+var diretorio : string;
 begin
-//  sCtrlResize.CtrlResize(TForm(fNFeletronica));
+  //  sCtrlResize.CtrlResize(TForm(fNFeletronica));
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
   dm.cds_parametro.Open;
   conta_local := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
+
   if cds_ccusto.Active then
     cds_ccusto.Close;
   cds_ccusto.Params[0].AsString := conta_local;
@@ -1606,12 +1630,85 @@ begin
     ComboBox2.Items.Add(cds_ccustoNOME.AsString);
     cds_ccusto.Next;
   end;
+
+  //cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+  //cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
+
+  //if (sEmpresa.Active) then
+  //  sEmpresa.Close;
+  //sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+  //sEmpresa.Open;
+
+  if (sEmpresa1.Active) then
+    sEmpresa1.Close;
+  sEmpresa1.Open;
+
+  Edit1.Text := sEmpresa1DIVERSOS1.AsString;
+  Edit3.Text := sEmpresa1DIVERSOS1.AsString;
+
+  if (sEmpresa1TIPO.AsString = '1') then
+  begin
+    ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
+    label5.Font.Color := clBlue;
+    Label5.Caption :=  'PRODUÇÃO.';
+    label8.Font.Color := clBlue;
+    Label8.Caption :=  'PRODUÇÃO.';
+  end
+  else
+  begin
+    ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
+    label5.Font.Color := clRed;
+    Label5.Caption :=  'HOMOLOGAÇÃO.';
+    label8.Font.Color := clRed;
+    Label8.Caption :=  'HOMOLOGAÇÃO.';
+  end;
+  ACBrNFe1.Configuracoes.Arquivos.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+  if ( not DirectoryExists(sEmpresa1DIVERSOS1.AsString)) then
+     CreateDir(sEmpresa1DIVERSOS1.AsString);
+  ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'Canceladas\';
+  if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
+  ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'CCe\';
+  if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
+     CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
+  // 29/12/2015
+  //ACBrNFe1.Configuracoes.Arquivos.PathDPEC := sEmpresa1DIVERSOS1.AsString + 'DPEC\';
+  //if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathDPEC)) then
+  //   CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathDPEC);
+  ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'Inutilizadas\';
+  if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
+  ACBrNFe1.Configuracoes.Arquivos.PathNFe := sEmpresa1DIVERSOS1.AsString;
+  if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathNFe)) then
+    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathNFe);
+  //ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
+
   tp_amb := 1;
   //ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
   //ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
+  diretorio := GetCurrentDir;
+  if (FilesExists(diretorio + '\logo.jpg')) then
+    ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo.jpg'
+  else
+    ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo.bmp';
+  ACBrNFeDANFCeFortes1.PathPDF := sEmpresa1DIVERSOS1.AsString;
 
+  if (FilesExists(diretorio + '\logo.jpg')) then
+    ACBrNFeDANFeRL1.Logo := diretorio + '\logo.jpg'
+  else
+    ACBrNFeDANFeRL1.Logo := diretorio + '\logo.bmp';
+  ACBrNFeDANFeRL1.PathPDF := sEmpresa1DIVERSOS1.AsString;
+  ACBrNFeDANFeRL1.ImprimirDetalhamentoEspecifico := dm.imprimeDetalhamentoEspecifico;
+  ACBrNFeDANFeRL1.QuebraLinhaEmDetalhamentoEspecifico := dm.quebraLinhaDanfe;
+  // tamanho da coluna produto na DANFE
+  ACBrNFeDANFeRL1.LarguraCodProd := dm.danfe_larg_codprod;
 
+  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
+  ACBrNFe1.Configuracoes.Arquivos.PathSchemas := diretorio + '\Schemas';
+
+  sEmpresa1.Close;
+  
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'EMAILAUTOMATICO';
@@ -2033,81 +2130,11 @@ begin
 end;
 
 procedure TfNFeletronica.FormShow(Sender: TObject);
-var
- diretorio : string;
 begin
- cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
- cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
-
- if (sEmpresa.Active) then
-   sEmpresa.Close;
- sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
- sEmpresa.Open;
-
- if (sEmpresa1.Active) then
-   sEmpresa1.Close;
- sEmpresa1.Open;
-
-  diretorio := GetCurrentDir;
-  ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo.bmp';
-  ACBrNFeDANFCeFortes1.PathPDF := sEmpresa1DIVERSOS1.AsString;
-
-  ACBrNFeDANFeRL1.Logo := diretorio + '\logo.bmp';
-  ACBrNFeDANFeRL1.PathPDF := sEmpresa1DIVERSOS1.AsString;
-  ACBrNFeDANFeRL1.ImprimirDetalhamentoEspecifico := dm.imprimeDetalhamentoEspecifico;
-  ACBrNFeDANFeRL1.QuebraLinhaEmDetalhamentoEspecifico := dm.quebraLinhaDanfe;
-  // tamanho da coluna produto na DANFE
-  ACBrNFeDANFeRL1.LarguraCodProd := dm.danfe_larg_codprod;
-
-  ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
-  ACBrNFe1.Configuracoes.Arquivos.PathSchemas := diretorio + '\Schemas';
-
-
- Edit1.Text := sEmpresa1DIVERSOS1.AsString;
- Edit3.Text := sEmpresa1DIVERSOS1.AsString;
-
- if (sEmpresa1TIPO.AsString = '1') then
- begin
-   ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
-   label5.Font.Color := clBlue;
-   Label5.Caption :=  'PRODUÇÃO.';
-   label8.Font.Color := clBlue;
-   Label8.Caption :=  'PRODUÇÃO.';
- end
- else
- begin
-  ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
-  label5.Font.Color := clRed;
-  Label5.Caption :=  'HOMOLOGAÇÃO.';
-  label8.Font.Color := clRed;
-  Label8.Caption :=  'HOMOLOGAÇÃO.';
- end;
- ACBrNFe1.Configuracoes.Arquivos.PathSalvar := sEmpresa1DIVERSOS1.AsString;
- if ( not DirectoryExists(sEmpresa1DIVERSOS1.AsString)) then
-    CreateDir(sEmpresa1DIVERSOS1.AsString);
- ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'Canceladas\';
- if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
-    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
- ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'CCe\';
- if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
-    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
- // 29/12/2015
- //ACBrNFe1.Configuracoes.Arquivos.PathDPEC := sEmpresa1DIVERSOS1.AsString + 'DPEC\';
- //if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathDPEC)) then
- //   CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathDPEC);
- ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'Inutilizadas\';
- if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
-    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
- ACBrNFe1.Configuracoes.Arquivos.PathNFe := sEmpresa1DIVERSOS1.AsString;
- if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathNFe)) then
-    CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathNFe);
- //ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
- sEmpresa1.Close;
- if (JvDateEdit1.Text = '  /  /    ') then
-   JvDateEdit1.Text := DateToStr(Now);
- if (JvDateEdit2.Text = '  /  /    ') then
-   JvDateEdit2.Text := DateToStr(Now)
-
+  if (JvDateEdit1.Text = '  /  /    ') then
+    JvDateEdit1.Text := DateToStr(Now);
+  if (JvDateEdit2.Text = '  /  /    ') then
+    JvDateEdit2.Text := DateToStr(Now);
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -2241,7 +2268,13 @@ var
     Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
     Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
     Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
-    InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
+    InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString(Usando para o cod pedido compra);
+
+    if (cdsNFCORPONF6.AsString <> '') then
+    begin
+      compra.xPed := cdsNFCORPONF6.AsString;
+    end;
+ 
     // Tipo de movimentação 0 entrada 1 saida
     if (tpNFe = 0) then
       Ide.tpNF   := tnEntrada;
