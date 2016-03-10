@@ -511,20 +511,27 @@ begin
                    // TItulo.DataProtesto :=
                   //titulo.Instrucao1
                     if (s_bancoMORAJUROS.AsString = '1-Diario') then
-                       Titulo.ValorMoraJuros := 1;
+                    begin
+                       Titulo.ValorMoraJuros := s_bancoPERCMULTA.Value;
+                       titulo.CodigoMora := '1';
+                    end;
                     if (s_bancoMORAJUROS.AsString = '2-Mensal') then
-                       Titulo.ValorMoraJuros := 2;
+                    begin
+                       Titulo.ValorMoraJuros := s_bancoPERCMULTA.Value;
+                       titulo.CodigoMora := '2';
+                    end;
                     if (s_bancoMORAJUROS.AsString = '3-Isento') then
-                       Titulo.ValorMoraJuros := 3; // Isento
-
+                       Titulo.ValorMoraJuros := 0; // Isento
+                    
                     Titulo.DataMoraJuros := IncDay(ds_crDATAVENCIMENTO.AsDateTime,1);
 
-                    if (s_bancoPERCMULTA.Value > 0) then
-                      Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
+                    //if (s_bancoPERCMULTA.Value > 0) then
+                    //  Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
 
                     Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
                     titulo.TipoDiasProtesto := diUteis;
-                    //titulo.Instrucao2
+                    Titulo.Instrucao2 := s_bancoINSTRUCAO1.AsString;
+                    Titulo.Instrucao3 := s_bancoINSTRUCAO3.AsString;
 
                   end;
                 end;
