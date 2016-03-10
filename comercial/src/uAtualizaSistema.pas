@@ -69,7 +69,10 @@ uses UDm, uAtsAdmin;
 
 procedure TfAtualizaSistema.atualizaSistema;
 var sql: string;
-    IniAtualiza : TIniFile;
+  IniAtualiza : TIniFile;
+  Linhas:  TStringList;
+  i:       integer;
+  caminho, arq_txt, linha_sql: string;
 begin
   versao := GetVersion;
   versaoSistema := VersaoAtual;
@@ -2384,6 +2387,67 @@ begin
       AtualizandoScript('4.0.0.0');
       mudaVersao('4.0.0.1');
     end;
+
+    if (versaoSistema = '4.0.0.1') then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE TAB_CEST (' +
+        ' CEST VARCHAR(7) NOT NULL,' +
+        ' NCM VARCHAR(8),          ' +
+        ' DESCRICAO VARCHAR(512) )');
+      executaDDL('PRODUTOS', 'CEST', 'VARCHAR(7)');
+      executaDDL('NCM', 'CEST', 'VARCHAR(7)');
+      executaDDL('MOVIMENTODETALHE', 'CEST', 'VARCHAR(7)');
+      AtualizandoScript('4.0.0.1');
+      mudaVersao('4.0.0.10');
+    end;
+
+    if (versaoSistema = '4.0.0.10') then
+    begin
+      //insereouatualizaScript('cest.sql', '4.0.0.10', StrToDate('10/03/2016'));
+      caminho := ExtractFilePath(Application.ExeName);
+      caminho := caminho + 'script\cest.sql';
+      if ( FileExists(caminho)) then
+      begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        dm.sqlsisAdimin.StartTransaction(TD);
+        Linhas := TStringList.Create;
+        try
+          Linhas.Delimiter := ';';
+          Linhas.LoadFromFile(caminho);
+          linha_sql := '';
+          for i := 0 to Linhas.Count-1 do
+          begin
+            caminho := Linhas[i];
+            arq_txt := copy(caminho, length(caminho), 1) ;
+            if (arq_txt = ';') then
+            begin
+               caminho := linha_sql + ' ' + caminho;
+               dm.sqlsisAdimin.ExecuteDirect(caminho);
+               linha_sql := '';
+               if ((i = 250) or (i = 500) or (i = 750) or (i = 1000) or (i = 1250) or (i = 1600)) then
+               begin
+                 dm.sqlsisAdimin.Commit(TD);
+                 dm.sqlsisAdimin.StartTransaction(TD);
+               end;
+            end
+            else begin
+              linha_sql := linha_sql + caminho;
+            end;
+          end;
+          dm.sqlsisAdimin.Commit(TD);
+        finally
+          Linhas.Free;
+        end;
+      end
+      else begin
+        MessageDlg('Arquivo cest.sql não encontrato.', mtError, [mbOK], 0);
+        exit;
+      end;
+      AtualizandoScript('4.0.0.10');
+      mudaVersao('4.0.0.11');
+    end;
+
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
