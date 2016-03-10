@@ -58,6 +58,16 @@ BEGIN
   -- versao 4.0.0.0 04/01/2016
   new.SUITE = ''; 
   new.Aliq_CUPOM = 'II';
+  
+  select cast(d4 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
+    into :arredondar;
+        
+  if (arredondar is null) then 
+	arredondar = 2;
+			
+  if (UDF_LEFt(new.cfop,1) = '1') then 
+    arredondar = 6;  
+  
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
   begin 
   
@@ -109,14 +119,6 @@ BEGIN
     begin
 		if ( new.lote is null) then
 			new.lote = '0';
-		select cast(d4 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
-        into :arredondar;
-        
-		if (arredondar is null) then 
-			arredondar = 2;
-			
-        if (UDF_LEFt(new.cfop,1) = '1') then 
-          arredondar = 6;
 
 		if (new.QTDE_ALT is null) then 
 			new.QTDE_ALT = 0;

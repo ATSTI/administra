@@ -6,7 +6,7 @@ BEGIN
   situacao = 'G'; 
   if (UPDATING) then 
   begin 
-    if ((old.STATUS = '7-') and (new.STATUS = old.STATUS)) then 
+    if ((new.STATUS = '7-') or (old.STATUS = '7-')) then 
     begin     
       select first 1 cc.situacao from caixa_controle cc where cc.codcaixa = new.Caixa 
         and cc.SITUACAO = 'F' and ((cc.DATAFECHAMENTO >= old.DATAPAGAMENTO) or (cc.DATAFECHAMENTO >= new.DATAPAGAMENTO))
