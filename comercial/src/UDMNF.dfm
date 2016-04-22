@@ -334,12 +334,13 @@ object DMNF: TDMNF
       'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS, ' +
       'movd.PAGOU '#13#10', movd.VBCUFDEST, movd.PFCPUFDEST, movd.PICMSUFDEST' +
       ', movd.PICMSINTER, movd.PICMSINTERPART, movd.VFCPUFDEST, movd.VI' +
-      'CMSUFDEST, movd.VICMSUFREMET'#13#10', movd.CST_IPI_CENQ'#13#10'from MOVIMENT' +
-      'ODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd' +
-      '.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOX' +
-      'ARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on ' +
-      'cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:COD' +
-      'DETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
+      'CMSUFDEST, movd.VICMSUFREMET'#13#10', movd.CST_IPI_CENQ, movd.CEST '#13#10'f' +
+      'rom MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.COD' +
+      'PRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on c' +
+      'cus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COM' +
+      'ISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.COD' +
+      'DETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.' +
+      'coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -511,11 +512,9 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
-      ReadOnly = True
     end
     object sds_Mov_DetFRETE: TFloatField
       FieldName = 'FRETE'
-      ReadOnly = True
     end
     object sds_Mov_DetICMS_SUBST: TFloatField
       FieldName = 'ICMS_SUBST'
@@ -525,11 +524,9 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVALOR_SEGURO: TFloatField
       FieldName = 'VALOR_SEGURO'
-      ReadOnly = True
     end
     object sds_Mov_DetVALOR_OUTROS: TFloatField
       FieldName = 'VALOR_OUTROS'
-      ReadOnly = True
     end
     object sds_Mov_DetPIPI: TFloatField
       FieldName = 'PIPI'
@@ -560,11 +557,9 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetNITEMPED: TIntegerField
       FieldName = 'NITEMPED'
-      ReadOnly = True
     end
     object sds_Mov_DetPEDIDO: TStringField
       FieldName = 'PEDIDO'
-      ReadOnly = True
     end
     object sds_Mov_DetCSTIPI: TStringField
       FieldName = 'CSTIPI'
@@ -645,6 +640,11 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 3
+    end
+    object sds_Mov_DetCEST: TStringField
+      FieldName = 'CEST'
+      ReadOnly = True
+      Size = 7
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -845,12 +845,10 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVALOR_DESCONTO: TFloatField
       FieldName = 'VALOR_DESCONTO'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detFRETE: TFloatField
       FieldName = 'FRETE'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detICMS_SUBST: TFloatField
@@ -863,12 +861,10 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVALOR_SEGURO: TFloatField
       FieldName = 'VALOR_SEGURO'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVALOR_OUTROS: TFloatField
       FieldName = 'VALOR_OUTROS'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detPIPI: TFloatField
@@ -994,6 +990,12 @@ object DMNF: TDMNF
       ReadOnly = True
       FixedChar = True
       Size = 3
+    end
+    object cds_Mov_detCEST: TStringField
+      FieldName = 'CEST'
+      ReadOnly = True
+      EditMask = '00\.000\.00;0;_'
+      Size = 7
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

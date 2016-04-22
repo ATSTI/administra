@@ -122,6 +122,7 @@ type
     BitBtn6: TBitBtn;
     chk_grade: TCheckBox;
     AgruparItens1: TMenuItem;
+    BitBtn7: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -160,6 +161,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure DBEdit22Exit(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -179,7 +181,7 @@ implementation
 uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
   uContaRateio, uClassificacaoFiscal, uCodigoTerceiros, uUsoCadastro,
   ufListaProd, uProduto_Mat_prima, sCtrlResize, Math, uFiltro_forn_plano,
-  uNCM, uEstoqueAtualiza;
+  uNCM, uEstoqueAtualiza, uCest;
 
 {$R *.dfm}
 
@@ -1214,6 +1216,22 @@ begin
   finally
     fNCM.Free;
   end;
+end;
+
+procedure TfProdutoCadastro.BitBtn7Click(Sender: TObject);
+begin
+  inherited;
+  fCest := TfCest.Create(Application);
+  try
+    fCest.vrCest := DM.cds_produtoCest.AsString;
+    fCest.ShowModal;
+    if (DM.cds_produto.State in [dsBrowse]) then
+      DM.cds_produto.Edit;
+    DM.cds_produtoCEST.AsString := fCest.vrCest;
+  finally
+    fCest.Free;
+  end;
+
 end;
 
 end.

@@ -466,6 +466,8 @@ type
     DBEdit19: TDBEdit;
     sds_Mov_DetORIGEM: TStringField;
     cds_Mov_detORIGEM: TStringField;
+    sds_Mov_DetCEST: TStringField;
+    cds_Mov_detCEST: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

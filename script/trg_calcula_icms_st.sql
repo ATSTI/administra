@@ -51,14 +51,17 @@ AS
  DECLARE VARIABLE vICMSUFDest DOUBLE PRECISION = 0;
  DECLARE VARIABLE vICMSUFRemet DOUBLE PRECISION = 0;
  DECLARE VARIABLE CST_IPI_CENQ CHAR(3) = '999';
+ DECLARE VARIABLE CEST CHAR(7) = '';
+
 
 BEGIN
 
   -- versao 3.0.0.16
-  -- versao 4.0.0.0 04/01/2016
+  -- versao 4.0.0.0  04/01/2016
+  -- versao 4.0.0.10 15/03/2016 - acrescentado o CEST
   new.SUITE = ''; 
   new.Aliq_CUPOM = 'II';
-  
+   
   select cast(d4 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
     into :arredondar;
         
@@ -98,9 +101,16 @@ BEGIN
 	     and ec.TIPOEND = 0 
 	    into :UF, :PESSOA, :IE;
 	end  
-	select p.NCM from produtos p where p.CODPRODUTO = new.CODPRODUTO
-	  into :NCM_P;  
+	
+	--buscar o Cest pelo NCM 
+	select p.NCM, COALESCE(p.CEST, COALESCE(ncm.CEST, '')) from produtos p 
+	 inner join ncm on ncm.NCM = p.NCM  
+	 where p.CODPRODUTO = new.CODPRODUTO
+	  into :NCM_P, :CEST;  
   
+       if (CEST <> '') then
+          new.CEST = :CEST;
+
 	if ((new.cfop = '') or (new.CFOP is null)) then
 	begin
       select first 1 bc.CFOP_MOV from busca_cfop(:UF, :UF_EMPRESA, :NATUREZA, :NCM_P, new.CODPRODUTO, :PESSOA) bc
@@ -312,7 +322,8 @@ BEGIN
             and n.NCM = p.NCM and p.CODPRODUTO = new.CODPRODUTO
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
             :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB, :aliq_cupom,
-            :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
+            :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet
+            , :CST_IPI_CENQ;
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin

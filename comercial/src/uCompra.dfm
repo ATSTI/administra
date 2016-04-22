@@ -2940,6 +2940,11 @@ inherited fCompra: TfCompra
       FixedChar = True
       Size = 2
     end
+    object cds_Mov_detCEST: TStringField
+      FieldName = 'CEST'
+      EditMask = '00\.000\.00;0;_'
+      Size = 7
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2971,12 +2976,12 @@ inherited fCompra: TfCompra
       'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
       'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
       'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS, frete_bc, mov' +
-      'd.VALOR_PIS, movd.VALOR_COFINS, movd.PAGOU , '#13#10'movd.ORIGEM '#13#10'fro' +
-      'm MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on prod.CODPRO' +
-      'DUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on cc' +
-      'us.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE' +
-      ' = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order by movd.COD' +
-      'DETALHE'
+      'd.VALOR_PIS, movd.VALOR_COFINS, movd.PAGOU , '#13#10'movd.ORIGEM , mov' +
+      'd.CEST '#13#10'from MOVIMENTODETALHE movd'#13#10'inner join PRODUTOS prod on' +
+      ' prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left outer join ALMOXARIFAD' +
+      'O ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO'#13#10'where mov' +
+      'd.CODDETALHE = :CODDETALHE or movd.CODMOVIMENTO = :pCODMOV order' +
+      ' by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
@@ -3211,6 +3216,10 @@ inherited fCompra: TfCompra
       ProviderFlags = [pfInUpdate]
       FixedChar = True
       Size = 2
+    end
+    object sds_Mov_DetCEST: TStringField
+      FieldName = 'CEST'
+      Size = 7
     end
   end
   object s_8: TSQLDataSet

@@ -1566,7 +1566,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -2576,10 +2576,11 @@ object fNFeletronica: TfNFeletronica
       'ALESCE(md.pICMSInterPart,0) pICMSInterPart,'#13#10'          COALESCE(' +
       'md.vFCPUFDest,0) vFCPUFDest, COALESCE(md.vICMSUFDest,0) vICMSUFD' +
       'est, COALESCE(md.vICMSUFRemet,0) vICMSUFRemet, COALESCE(md.CST_I' +
-      'PI_CENQ, '#39'999'#39') CST_IPI_CENQ'#13#10'from VENDA vd '#13#10'inner join MOVIMEN' +
-      'TODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join ' +
-      'NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS' +
-      ' pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'PI_CENQ, '#39'999'#39') CST_IPI_CENQ'#13#10'         , md.CEST '#13#10'from VENDA vd' +
+      ' '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMO' +
+      'VIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA' +
+      #13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'whe' +
+      're vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2793,6 +2794,11 @@ object fNFeletronica: TfNFeletronica
     object sdsItensNFVFCPUFDEST: TFloatField
       FieldName = 'VFCPUFDEST'
       ReadOnly = True
+    end
+    object sdsItensNFCEST: TStringField
+      FieldName = 'CEST'
+      ReadOnly = True
+      Size = 7
     end
   end
   object dspItensNF: TDataSetProvider
@@ -3016,6 +3022,12 @@ object fNFeletronica: TfNFeletronica
     object cdsItensNFVFCPUFDEST: TFloatField
       FieldName = 'VFCPUFDEST'
       ReadOnly = True
+    end
+    object cdsItensNFCEST: TStringField
+      FieldName = 'CEST'
+      ReadOnly = True
+      EditMask = '00\.000\.00;0;_'
+      Size = 7
     end
   end
   object sMenorData: TSQLDataSet

@@ -36,7 +36,7 @@ object fDetalhe: TfDetalhe
     Caption = 'Codigo Prod.'
   end
   object Label4: TLabel
-    Left = 517
+    Left = 452
     Top = 4
     Width = 16
     Height = 13
@@ -155,7 +155,7 @@ object fDetalhe: TfDetalhe
     Caption = 'IPI %'
   end
   object Label21: TLabel
-    Left = 577
+    Left = 497
     Top = 4
     Width = 24
     Height = 13
@@ -252,6 +252,13 @@ object fDetalhe: TfDetalhe
     Height = 13
     Caption = 'Data Vencimento'
   end
+  object Label33: TLabel
+    Left = 575
+    Top = 4
+    Width = 28
+    Height = 13
+    Caption = 'CEST'
+  end
   object DBEdit1: TDBEdit
     Left = 173
     Top = 140
@@ -259,7 +266,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ICMS'
     DataSource = ds1
-    TabOrder = 19
+    TabOrder = 20
   end
   object DBEdit2: TDBEdit
     Left = 13
@@ -268,12 +275,12 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'QUANTIDADE'
     DataSource = ds1
-    TabOrder = 9
+    TabOrder = 10
   end
   object DBEdit3: TDBEdit
-    Left = 513
-    Top = 20
-    Width = 55
+    Left = 450
+    Top = 19
+    Width = 36
     Height = 21
     DataField = 'UN'
     DataSource = ds1
@@ -281,31 +288,31 @@ object fDetalhe: TfDetalhe
   end
   object dbeCodpro: TDBEdit
     Left = 59
-    Top = 20
+    Top = 19
     Width = 73
     Height = 21
     DataField = 'CODPRO'
     DataSource = ds1
-    TabOrder = 2
+    TabOrder = 1
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
     Left = 573
     Top = 140
-    Width = 73
+    Width = 80
     Height = 21
     DataField = 'ValorTotal'
     DataSource = ds1
-    TabOrder = 24
+    TabOrder = 25
   end
   object DBEdit6: TDBEdit
     Left = 136
-    Top = 20
-    Width = 372
+    Top = 19
+    Width = 311
     Height = 21
     DataField = 'DESCPRODUTO'
     DataSource = ds1
-    TabOrder = 1
+    TabOrder = 2
   end
   object DBEdit7: TDBEdit
     Left = 253
@@ -314,7 +321,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CST'
     DataSource = ds1
-    TabOrder = 12
+    TabOrder = 13
   end
   object DBEdit8: TDBEdit
     Left = 93
@@ -323,7 +330,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'PRECO'
     DataSource = ds1
-    TabOrder = 10
+    TabOrder = 11
   end
   object DBEdit9: TDBEdit
     Left = 253
@@ -332,7 +339,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VLR_BASEICMS'
     DataSource = ds1
-    TabOrder = 20
+    TabOrder = 21
   end
   object DBEdit10: TDBEdit
     Left = 333
@@ -341,16 +348,16 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_ICMS'
     DataSource = ds1
-    TabOrder = 21
+    TabOrder = 22
   end
   object DBEdit11: TDBEdit
     Left = 574
     Top = 59
-    Width = 73
+    Width = 80
     Height = 21
     DataField = 'CFOP'
     DataSource = ds1
-    TabOrder = 8
+    TabOrder = 9
   end
   object DBEdit12: TDBEdit
     Left = 333
@@ -359,7 +366,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSOSN'
     DataSource = ds1
-    TabOrder = 13
+    TabOrder = 14
   end
   object DBEdit13: TDBEdit
     Left = 413
@@ -368,7 +375,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_DESCONTO'
     DataSource = ds1
-    TabOrder = 14
+    TabOrder = 15
   end
   object DBEdit14: TDBEdit
     Left = 173
@@ -377,16 +384,16 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'FRETE'
     DataSource = ds1
-    TabOrder = 11
+    TabOrder = 12
   end
   object DBEdit15: TDBEdit
     Left = 493
     Top = 140
-    Width = 73
+    Width = 76
     Height = 21
     DataField = 'ICMS_SUBST'
     DataSource = ds1
-    TabOrder = 23
+    TabOrder = 24
   end
   object DBEdit16: TDBEdit
     Left = 413
@@ -395,25 +402,25 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'ICMS_SUBSTD'
     DataSource = ds1
-    TabOrder = 22
+    TabOrder = 23
   end
   object DBEdit17: TDBEdit
     Left = 493
     Top = 100
-    Width = 73
+    Width = 76
     Height = 21
     DataField = 'VALOR_SEGURO'
     DataSource = ds1
-    TabOrder = 15
+    TabOrder = 16
   end
   object DBEdit18: TDBEdit
     Left = 573
     Top = 100
-    Width = 73
+    Width = 80
     Height = 21
     DataField = 'VALOR_OUTROS'
     DataSource = ds1
-    TabOrder = 16
+    TabOrder = 17
   end
   object DBEdit19: TDBEdit
     Left = 13
@@ -422,7 +429,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'PIPI'
     DataSource = ds1
-    TabOrder = 17
+    TabOrder = 18
   end
   object DBEdit20: TDBEdit
     Left = 93
@@ -431,7 +438,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VIPI'
     DataSource = ds1
-    TabOrder = 18
+    TabOrder = 19
   end
   object btnSair: TBitBtn
     Left = 594
@@ -439,7 +446,7 @@ object fDetalhe: TfDetalhe
     Width = 68
     Height = 59
     Caption = 'F9-Sair'
-    TabOrder = 35
+    TabOrder = 36
     OnClick = btnSairClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -549,14 +556,14 @@ object fDetalhe: TfDetalhe
     Height = 38
     DataSource = fCompra.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
-    TabOrder = 36
+    TabOrder = 37
   end
   object btnGravar: TBitBtn
     Left = 555
     Top = 207
     Width = 38
     Height = 38
-    TabOrder = 37
+    TabOrder = 38
     OnClick = btnGravarClick
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -733,9 +740,9 @@ object fDetalhe: TfDetalhe
       BFBFBFBF0000}
   end
   object DBEdit4: TDBEdit
-    Left = 573
+    Left = 493
     Top = 19
-    Width = 75
+    Width = 76
     Height = 21
     DataField = 'NCM'
     DataSource = ds1
@@ -749,7 +756,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'BCII'
     DataSource = ds1
-    TabOrder = 25
+    TabOrder = 26
   end
   object DBEdit22: TDBEdit
     Left = 93
@@ -758,16 +765,16 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'II'
     DataSource = ds1
-    TabOrder = 26
+    TabOrder = 27
   end
   object DBEdit23: TDBEdit
     Left = 153
     Top = 59
-    Width = 413
+    Width = 416
     Height = 21
     DataField = 'OBS'
     DataSource = ds1
-    TabOrder = 7
+    TabOrder = 8
   end
   object DBEdit24: TDBEdit
     Left = 84
@@ -776,7 +783,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'NITEMPED'
     DataSource = ds1
-    TabOrder = 6
+    TabOrder = 7
   end
   object DBEdit25: TDBEdit
     Left = 13
@@ -785,7 +792,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'PEDIDO'
     DataSource = ds1
-    TabOrder = 5
+    TabOrder = 6
   end
   object DBEdit26: TDBEdit
     Left = 173
@@ -794,7 +801,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSTIPI'
     DataSource = ds1
-    TabOrder = 27
+    TabOrder = 28
   end
   object DBEdit27: TDBEdit
     Left = 253
@@ -803,7 +810,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSTPIS'
     DataSource = ds1
-    TabOrder = 28
+    TabOrder = 29
   end
   object DBEdit28: TDBEdit
     Left = 413
@@ -812,7 +819,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'CSTCOFINS'
     DataSource = ds1
-    TabOrder = 30
+    TabOrder = 31
   end
   object DBEdit29: TDBEdit
     Left = 331
@@ -821,16 +828,16 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'VALOR_PIS'
     DataSource = ds1
-    TabOrder = 29
+    TabOrder = 30
   end
   object DBEdit30: TDBEdit
     Left = 491
     Top = 180
-    Width = 73
+    Width = 76
     Height = 21
     DataField = 'VALOR_COFINS'
     DataSource = ds1
-    TabOrder = 31
+    TabOrder = 32
   end
   object DBCheckBox1: TDBCheckBox
     Left = 16
@@ -840,7 +847,7 @@ object fDetalhe: TfDetalhe
     Caption = 'Usa Frete na B.C. do ICMS'
     DataField = 'FRETE_BC'
     DataSource = ds1
-    TabOrder = 38
+    TabOrder = 39
     ValueChecked = 'True'
     ValueUnchecked = 'False'
   end
@@ -851,7 +858,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'LOTE'
     DataSource = ds1
-    TabOrder = 32
+    TabOrder = 33
   end
   object DBEdit32: TDBEdit
     Left = 173
@@ -860,7 +867,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'DTAFAB'
     DataSource = ds1
-    TabOrder = 33
+    TabOrder = 34
   end
   object DBEdit33: TDBEdit
     Left = 253
@@ -869,7 +876,17 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'DTAVCTO'
     DataSource = ds1
-    TabOrder = 34
+    TabOrder = 35
+  end
+  object DBEdit34: TDBEdit
+    Left = 574
+    Top = 19
+    Width = 80
+    Height = 21
+    DataField = 'CEST'
+    DataSource = ds1
+    ReadOnly = True
+    TabOrder = 5
   end
   object ds1: TDataSource
     DataSet = fVendas.cds_Mov_det

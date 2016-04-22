@@ -767,6 +767,8 @@ type
     cdsItensNFCST_IPI_CENQ: TStringField;
     sdsItensNFVFCPUFDEST: TFloatField;
     cdsItensNFVFCPUFDEST: TFloatField;
+    sdsItensNFCEST: TStringField;
+    cdsItensNFCEST: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1223,7 +1225,10 @@ begin
             if (tipoNota in ['3', '7']) then
             begin
               ide.idDest := doExterior;
-              Dest.idEstrangeiro := sClienteINSCESTADUAL.AsString;
+              if (cbTipoNota.ItemIndex = 0) then
+                 Dest.idEstrangeiro := sFornecINSCESTADUAL.AsString
+              else
+                 Dest.idEstrangeiro := sClienteINSCESTADUAL.AsString;
               Dest.indIEDest := inNaoContribuinte;
             end;
 
@@ -1688,8 +1693,8 @@ begin
 
   //ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
   diretorio := GetCurrentDir;
-  if (FilesExists(diretorio + '\logo.jpg')) then
-    ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo.jpg'
+  if (FilesExists(diretorio + '\logo_nfe.jpg')) then
+    ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo_nfe.jpg'
   else
     ACBrNFeDANFCeFortes1.Logo := diretorio + '\logo.bmp';
   ACBrNFeDANFCeFortes1.PathPDF := sEmpresa1DIVERSOS1.AsString;
@@ -2690,6 +2695,8 @@ begin
       else
         infAdProd     := cdsItensNFOBS.AsString;
       Prod.NCM      := sProdutosNCM.AsString;
+      if (cdsItensNFCEST.AsString <> '') then
+        Prod.CEST := cdsItensNFCEST.AsString;
       Prod.vProd    := cdsItensNFVALTOTAL.AsFloat;
       Prod.vFrete   := cdsItensNFFRETE.AsCurrency;
       Prod.vDesc    := cdsItensNFVALOR_DESCONTO.AsCurrency;
@@ -3378,8 +3385,9 @@ begin
       ' , md.PICMSINTERPART' +
       ' , md.VFCPUFDEST' +
       ' , md.VICMSUFDEST' +
-      ' , md.VICMSUFREMET' +
+      ' , md.VICMSUFREMET ' +
       ' , md.CST_IPI_CENQ ' +
+      ' , md.CEST ' +
       ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -3405,6 +3413,7 @@ begin
       ' , md.VICMSUFDEST' +
       ' , md.VICMSUFREMET' +
       ' , md.CST_IPI_CENQ ' +
+      ' , md.CEST ' +
       ' from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +

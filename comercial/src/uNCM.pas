@@ -12,7 +12,6 @@ type
   TfNCM = class(TfPai)
     Label3: TLabel;
     DBEdit1: TDBEdit;
-    btnProcNCM: TBitBtn;
     Label4: TLabel;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
@@ -27,6 +26,12 @@ type
     cdsNCMALIQNAC: TFloatField;
     cdsNCMALIQIMP: TFloatField;
     JvDBUltimGrid1: TJvDBUltimGrid;
+    sdsNCMCEST: TStringField;
+    cdsNCMCEST: TStringField;
+    Label6: TLabel;
+    DBEdit4: TDBEdit;
+    BitBtn7: TBitBtn;
+    btnProcNCM: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -34,6 +39,7 @@ type
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,7 +52,7 @@ var
 
 implementation
 
-uses UDm, uClassificacaoFiscalNCM;
+uses UDm, uClassificacaoFiscalNCM, uCest;
 
 {$R *.dfm}
 
@@ -125,6 +131,21 @@ begin
   vrNCM := cdsNCMNCM.AsString;
   inherited;
 
+end;
+
+procedure TfNCM.BitBtn7Click(Sender: TObject);
+begin
+  inherited;
+  fCest := TfCest.Create(Application);
+  try
+    fCest.vrCest := DM.cds_produtoCest.AsString;
+    fCest.ShowModal;
+    if (cdsNCM.State in [dsBrowse]) then
+      cdsNCM.Edit;
+    cdsNCMCEST.AsString := fCest.vrCest;
+  finally
+    fCest.Free;
+  end;
 end;
 
 end.

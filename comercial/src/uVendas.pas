@@ -606,6 +606,8 @@ type
     cds_Mov_detMARCA: TStringField;
     sdslistaPRO_COD: TStringField;
     cdslistaPRO_COD: TStringField;
+    sds_Mov_DetCEST: TStringField;
+    cds_Mov_detCEST: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);

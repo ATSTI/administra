@@ -1,9 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 1
-  Height = 875
-  Width = 1360
+  Height = 712
+  Width = 1280
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -15,10 +14,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_silmara'
+      'Database=c:\home\sisadmin\bd\sge_dnz.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -1676,6 +1675,14 @@ object DM: TDM
     object cds_produtoPESO_LIQ: TFloatField
       FieldName = 'PESO_LIQ'
     end
+    object cds_produtoQTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object cds_produtoCEST: TStringField
+      FieldName = 'CEST'
+      EditMask = '00\.000\.00;0;_'
+      Size = 7
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1950,6 +1957,13 @@ object DM: TDM
     end
     object sds_produtoPESO_LIQ: TFloatField
       FieldName = 'PESO_LIQ'
+    end
+    object sds_produtoQTD: TIntegerField
+      FieldName = 'QTD'
+    end
+    object sds_produtoCEST: TStringField
+      FieldName = 'CEST'
+      Size = 7
     end
   end
   object sds_cm: TSQLDataSet

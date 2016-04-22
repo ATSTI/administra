@@ -1984,6 +1984,10 @@ type
     scds_cliente_procCIDADE: TStringField;
     scds_cliente_procCEP: TStringField;
     scds_cliente_procCD_IBGE: TStringField;
+    sds_produtoQTD: TIntegerField;
+    sds_produtoCEST: TStringField;
+    cds_produtoQTD: TIntegerField;
+    cds_produtoCEST: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
