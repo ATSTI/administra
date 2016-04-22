@@ -6,8 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ACBrBase, ACBrSAT, ACBrSATClass, Buttons, ExtCtrls, Spin, ComCtrls,
   Menus, OleCtrls, SHDocVw, FMTBcd, DB, DBClient, Provider, SqlExpr, IniFiles,
-  ACBrSATExtratoClass, ACBrSATExtratoESCPOS, ACBrSATExtratoFortesFr, pcnConversao, ACBrValidador,
-  TypInfo, ACBrUtil, ACBrSATExtratoFortes;
+  ACBrSATExtratoClass, ACBrSATExtratoESCPOS, pcnConversao, ACBrValidador,
+  TypInfo, ACBrUtil, ACBrPosPrinter;
 
 const
   cAssinatura = '9d4c4eef8c515e2c1269c2e4fff0719d526c5096422bf1defa20df50ba06469'+
@@ -107,26 +107,6 @@ type
     edRedeProxySenha: TEdit;
     edRedeProxyPorta: TSpinEdit;
     Impressao: TTabSheet;
-    GroupBox3: TGroupBox;
-    Label19: TLabel;
-    Label20: TLabel;
-    Label21: TLabel;
-    Label22: TLabel;
-    Label23: TLabel;
-    lImpressora: TLabel;
-    seLargura: TSpinEdit;
-    seMargemTopo: TSpinEdit;
-    seMargemFundo: TSpinEdit;
-    seMargemEsquerda: TSpinEdit;
-    seMargemDireita: TSpinEdit;
-    bImpressora: TButton;
-    cbUsarFortes: TRadioButton;
-    cbPreview: TCheckBox;
-    GroupBox4: TGroupBox;
-    Label7: TLabel;
-    edtPorta: TEdit;
-    btSerial: TBitBtn;
-    cbUsarEscPos: TRadioButton;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     mAtivarSAT: TMenuItem;
@@ -388,9 +368,63 @@ type
     cdsFaturaPARCELAS: TIntegerField;
     cdsFaturaFORMARECEBIMENTO: TStringField;
     ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
-    ACBrSATExtratoFortes1: TACBrSATExtratoFortes;
     OpenDialog1: TOpenDialog;
     PrintDialog1: TPrintDialog;
+    ACBrPosPrinter1: TACBrPosPrinter;
+    BitBtn2: TBitBtn;
+    GroupBox3: TGroupBox;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    lImpressora: TLabel;
+    seLargura: TSpinEdit;
+    seMargemTopo: TSpinEdit;
+    seMargemFundo: TSpinEdit;
+    seMargemEsquerda: TSpinEdit;
+    seMargemDireita: TSpinEdit;
+    bImpressora: TButton;
+    cbUsarFortes: TRadioButton;
+    cbPreview: TCheckBox;
+    GroupBox4: TGroupBox;
+    Label7: TLabel;
+    Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    btSerial: TBitBtn;
+    cbUsarEscPos: TRadioButton;
+    cbxModeloPosPrinter: TComboBox;
+    cbxPorta: TComboBox;
+    cbxPagCodigo: TComboBox;
+    seColunas: TSpinEdit;
+    seEspLinhas: TSpinEdit;
+    seLinhasPular: TSpinEdit;
+    cbImprimir1Linha: TCheckBox;
+    cbxSalvarCFeCanc: TCheckBox;
+    cbxSalvarEnvio: TCheckBox;
+    cbxSepararPorCNPJ: TCheckBox;
+    cbxSepararPorMES: TCheckBox;
+    StatusBar1: TStatusBar;
+    btnExcluir: TBitBtn;
+    lblCli: TLabel;
+    lblEnd: TLabel;
+    btnImprimir: TBitBtn;
+    BitBtn3: TBitBtn;
+    btnSair: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn1: TBitBtn;
+    Label31: TLabel;
+    edtPastaXml: TEdit;
+    sdsItensNFSTATUS1: TStringField;
+    sdsItensNFOBS_VENDA: TStringField;
+    cdsItensNFSTATUS1: TStringField;
+    cdsItensNFOBS_VENDA: TStringField;
+    Memo1: TMemo;
+    Label32: TLabel;
+    edtInfAdic: TEdit;
     procedure btLerParamsClick(Sender: TObject);
     procedure btSalvarParamsClick(Sender: TObject);
     procedure bInicializarClick(Sender: TObject);
@@ -410,6 +444,20 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure sePagCodChange(Sender: TObject);
+    procedure ACBrSAT1GetsignAC(var Chave: String);
+    procedure ACBrSAT1GetcodigoDeAtivacao(var Chave: String);
+    procedure ACBrSAT1GravarLog(const ALogLine: String;
+      var Tratado: Boolean);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure miGerarXMLCancelamentoClick(Sender: TObject);
+    procedure miEnviarCancelamentoClick(Sender: TObject);
+    procedure miImprimirExtratoCancelamentoClick(Sender: TObject);
+    procedure mTesteFimAFimClick(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
   private
     codConsumidorSat : integer;
     { Private declarations }
@@ -432,7 +480,7 @@ var
 
 implementation
 
-uses UDm;
+uses UDm, ConfiguraSerial, pcnCFe, StrUtils;
 
 {$R *.dfm}
 
@@ -448,19 +496,30 @@ begin
     cbxModelo.ItemIndex    := INI.ReadInteger('SAT','Modelo',0);
     edLog.Text             := INI.ReadString('SAT','ArqLog','ACBrSAT.log');
     edNomeDLL.Text         := INI.ReadString('SAT','NomeDLL','C:\SAT\SAT.DLL');
-    edtCodigoAtivacao.Text := INI.ReadString('SAT','CodigoAtivacao','123456');
+    edtCodigoAtivacao.Text := INI.ReadString('SAT','CodigoAtivacao','123456789');
     edtCodUF.Text          := INI.ReadString('SAT','CodigoUF','35');
     seNumeroCaixa.Value    := INI.ReadInteger('SAT','NumeroCaixa',1);
     cbxAmbiente.ItemIndex  := INI.ReadInteger('SAT','Ambiente',1);
     sePagCod.Value         := INI.ReadInteger('SAT','PaginaDeCodigo',0);
-    sfeVersaoEnt.Text      := FloatToStr( INI.ReadFloat('SAT','versaoDadosEnt', cversaoDadosEnt) );
+    sfeVersaoEnt.Text      := FloatToString( INI.ReadFloat('SAT','versaoDadosEnt', cversaoDadosEnt) );
     cbxFormatXML.Checked   := INI.ReadBool('SAT','FormatarXML', True);
-    cbxSalvarCFe.Checked   := INI.ReadBool('SAT','SalvarCFe', True);
-    //sePagCodChange(Sender);
+    cbxSalvarCFe.Checked     := INI.ReadBool('SAT','SalvarCFe', True);
+    cbxSalvarCFeCanc.Checked := INI.ReadBool('SAT','SalvarCFeCanc', True);
+    cbxSalvarEnvio.Checked   := INI.ReadBool('SAT','SalvarEnvio', True);
+    cbxSepararPorCNPJ.Checked:= INI.ReadBool('SAT','SepararPorCNPJ', True);
+    cbxSepararPorMES.Checked := INI.ReadBool('SAT','SepararPorMES', True);
+    edtPastaXml.Text         := INI.ReadString('SAT','PastaXml','c:\home\sat');
+    edtInfAdic.Text          := INI.ReadString('SAT','InfoAdicional','ICMS a ser recolhido conforme LC 123/2006 - Simples Nacional');
 
-    edtPorta.Text := INI.ReadString('Extrato','Porta','COM1');
-    // 29/12/2015
-    //ACBrSATExtratoESCPOS1.Device.ParamsString := INI.ReadString('Extrato','ParamsString','');
+    sePagCodChange(Sender);
+
+    cbxModeloPosPrinter.ItemIndex := INI.ReadInteger('PosPrinter', 'Modelo', Integer(ACBrPosPrinter1.Modelo));
+    cbxPorta.Text := INI.ReadString('PosPrinter','Porta',ACBrPosPrinter1.Porta);
+    cbxPagCodigo.ItemIndex := INI.ReadInteger('PosPrinter','PaginaDeCodigo',Integer(ACBrPosPrinter1.PaginaDeCodigo));
+    ACBrPosPrinter1.Device.ParamsString := INI.ReadString('PosPrinter','ParamsString','');
+    seColunas.Value := INI.ReadInteger('PosPrinter','Colunas',ACBrPosPrinter1.ColunasFonteNormal);
+    seEspLinhas.Value := INI.ReadInteger('PosPrinter','EspacoLinhas',ACBrPosPrinter1.EspacoEntreLinhas);
+    seLinhasPular.Value := INI.ReadInteger('PosPrinter','LinhasEntreCupons',ACBrPosPrinter1.LinhasEntreCupons);
 
     edtEmitCNPJ.Text := INI.ReadString('Emit','CNPJ','');
     edtEmitIE.Text   := INI.ReadString('Emit','IE','');
@@ -474,14 +533,15 @@ begin
 
     cbUsarFortes.Checked   := INI.ReadBool('Fortes','UsarFortes', True) ;
     cbUsarEscPos.Checked   := not cbUsarFortes.Checked;
-    seLargura.Value        := INI.ReadInteger('Fortes','Largura',ACBrSATExtratoFortes1.LarguraBobina);
+    {seLargura.Value        := INI.ReadInteger('Fortes','Largura',ACBrSATExtratoFortes1.LarguraBobina);
     seMargemTopo.Value     := INI.ReadInteger('Fortes','MargemTopo',ACBrSATExtratoFortes1.Margens.Topo);
     seMargemFundo.Value    := INI.ReadInteger('Fortes','MargemFundo',ACBrSATExtratoFortes1.Margens.Fundo);
     seMargemEsquerda.Value := INI.ReadInteger('Fortes','MargemEsquerda',ACBrSATExtratoFortes1.Margens.Esquerda);
     seMargemDireita.Value  := INI.ReadInteger('Fortes','MargemDireita',ACBrSATExtratoFortes1.Margens.Direita);
     cbPreview.Checked      := INI.ReadBool('Fortes','Preview',True);
-
+    }
     lImpressora.Caption := INI.ReadString('Printer','Name','');
+    cbImprimir1Linha.Checked := INI.ReadBool('EscPos','ImprimirItemUmaLinha',cbImprimir1Linha.Checked);
 
     rgRedeTipoInter.ItemIndex := INI.ReadInteger('Rede','tipoInter',0);
     rgRedeTipoLan.ItemIndex   := INI.ReadInteger('Rede','tipoLan',0);
@@ -524,13 +584,23 @@ begin
     INI.WriteInteger('SAT','NumeroCaixa',seNumeroCaixa.Value);
     INI.WriteInteger('SAT','Ambiente',cbxAmbiente.ItemIndex);
     INI.WriteInteger('SAT','PaginaDeCodigo',sePagCod.Value);
-    INI.WriteFloat('SAT','versaoDadosEnt', StrToFloatDef(sfeVersaoEnt.Text,cversaoDadosEnt));
+    INI.WriteFloat('SAT','versaoDadosEnt', StringToFloatDef(sfeVersaoEnt.Text,cversaoDadosEnt));
     INI.WriteBool('SAT','FormatarXML', cbxFormatXML.Checked);
-    INI.ReadBool('SAT','SalvarCFe', cbxSalvarCFe.Checked);
+    INI.WriteBool('SAT','SalvarCFe', cbxSalvarCFe.Checked);
+    INI.WriteBool('SAT','SalvarCFeCanc', cbxSalvarCFeCanc.Checked);
+    INI.WriteBool('SAT','SalvarEnvio', cbxSalvarEnvio.Checked);
+    INI.WriteBool('SAT','SepararPorCNPJ', cbxSepararPorCNPJ.Checked);
+    INI.WriteBool('SAT','SepararPorMES', cbxSepararPorMES.Checked);
+    INI.WriteString('SAT','PastaXml',edtPastaXml.Text);
+    INI.WriteString('SAT','InfoAdicional',edtInfAdic.Text);
 
-    INI.WriteString('Extrato','Porta',edtPorta.Text);
-    // 29/12/2015
-    //INI.WriteString('Extrato','ParamsString',ACBrSATExtratoESCPOS1.Device.ParamsString);
+    INI.WriteInteger('PosPrinter','Modelo',cbxModeloPosPrinter.ItemIndex);
+    INI.WriteString('PosPrinter','Porta',cbxPorta.Text);
+    INI.WriteInteger('PosPrinter','PaginaDeCodigo',cbxPagCodigo.ItemIndex);
+    INI.WriteString('PosPrinter','ParamsString',ACBrPosPrinter1.Device.ParamsString);
+    INI.WriteInteger('PosPrinter','Colunas',seColunas.Value);
+    INI.WriteInteger('PosPrinter','EspacoLinhas',seEspLinhas.Value);
+    INI.WriteInteger('PosPrinter','LinhasEntreCupons',seLinhasPular.Value);
 
     INI.WriteString('Emit','CNPJ',edtEmitCNPJ.Text);
     INI.WriteString('Emit','IE',edtEmitIE.Text);
@@ -551,6 +621,7 @@ begin
     INI.WriteBool('Fortes','Preview',cbPreview.Checked);
 
     INI.WriteString('Printer','Name',lImpressora.Caption);
+    INI.WriteBool('EscPos','ImprimirItemUmaLinha',cbImprimir1Linha.Checked);
 
     INI.WriteInteger('Rede','tipoInter',rgRedeTipoInter.ItemIndex);
     INI.WriteInteger('Rede','tipoLan',rgRedeTipoLan.ItemIndex);
@@ -598,18 +669,22 @@ begin
     NomeDLL := edNomeDLL.Text;
     Config.ide_numeroCaixa := seNumeroCaixa.Value;
     Config.ide_tpAmb       := TpcnTipoAmbiente( cbxAmbiente.ItemIndex );
-    Config.ide_CNPJ        := RemoveChar(edtSwHCNPJ.Text);
-    Config.emit_CNPJ       := RemoveChar(edtEmitCNPJ.Text);
-    Config.emit_IE         := RemoveChar(edtEmitIE.Text);
-    Config.emit_IM         := RemoveChar(edtEmitIM.Text);
+    Config.ide_CNPJ        := edtSwHCNPJ.Text;
+    Config.emit_CNPJ       := edtEmitCNPJ.Text;
+    Config.emit_IE         := edtEmitIE.Text;
+    Config.emit_IM         := edtEmitIM.Text;
     Config.emit_cRegTrib      := TpcnRegTrib( cbxRegTributario.ItemIndex ) ;
     Config.emit_cRegTribISSQN := TpcnRegTribISSQN( cbxRegTribISSQN.ItemIndex ) ;
     Config.emit_indRatISSQN   := TpcnindRatISSQN( cbxIndRatISSQN.ItemIndex ) ;
     Config.PaginaDeCodigo     := sePagCod.Value;
     Config.EhUTF8             := cbxUTF8.Checked;
-    Config.infCFe_versaoDadosEnt := StrToFloat( sfeVersaoEnt.Text );
-    // 29/12/2015
-    //SalvarCFes := cbxSalvarCFe.Checked;
+    Config.infCFe_versaoDadosEnt := StringToFloat( sfeVersaoEnt.Text );
+
+    ConfigArquivos.SalvarCFe := cbxSalvarCFe.Checked;
+    ConfigArquivos.SalvarCFeCanc := cbxSalvarCFeCanc.Checked;
+    ConfigArquivos.SalvarEnvio := cbxSalvarEnvio.Checked;
+    ConfigArquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
+    ConfigArquivos.SepararPorMes := cbxSepararPorMES.Checked;
   end;
 end;
 
@@ -622,21 +697,22 @@ end;
 
 procedure TfSat.btSerialClick(Sender: TObject);
 begin
-  {frConfiguraSerial := TfrConfiguraSerial.Create(self);
+  frConfiguraSerial := TfrConfiguraSerial.Create(self);
 
   try
-    frConfiguraSerial.Device.Porta        := ACBrSATExtratoESCPOS1.Device.Porta ;
-    frConfiguraSerial.cmbPortaSerial.Text := edtPorta.Text ;
-    frConfiguraSerial.Device.ParamsString := ACBrSATExtratoESCPOS1.Device.ParamsString ;
+    frConfiguraSerial.Device.Porta        := ACBrPosPrinter1.Device.Porta ;
+    frConfiguraSerial.cmbPortaSerial.Text := cbxPorta.Text ;
+    frConfiguraSerial.Device.ParamsString := ACBrPosPrinter1.Device.ParamsString ;
 
     if frConfiguraSerial.ShowModal = mrOk then
     begin
-       edtPorta.Text := frConfiguraSerial.Device.Porta ;
-       ACBrSATExtratoESCPOS1.Device.ParamsString := frConfiguraSerial.Device.ParamsString ;
+       cbxPorta.Text := frConfiguraSerial.Device.Porta ;
+       ACBrPosPrinter1.Device.ParamsString := frConfiguraSerial.Device.ParamsString ;
     end ;
   finally
      FreeAndNil( frConfiguraSerial ) ;
-  end ;}
+  end ;
+
 
 end;
 
@@ -734,6 +810,8 @@ begin
   ACBrSAT1.CFe.IdentarXML := cbxFormatXML.Checked;
   ACBrSAT1.CFe.TamanhoIdentacao := 3;
 
+  mVendaEnviar.Clear;  
+
   // Trasnferindo Informações de Config para o CFe //
   AjustaACBrSAT;
   ACBrSAT1.InicializaCFe ;
@@ -743,27 +821,29 @@ begin
   begin
     ide.numeroCaixa := 1;
 
-    if (sClienteCODCLIENTE.AsInteger = codConsumidorSat) then
+    if (edCPF.Text <> '') then
     begin
-      if (edCPF.Text <> '') then
-        Dest.CNPJCPF := RemoveChar(edCPF.Text);
-    end
-    else begin
-      Dest.CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
-      Dest.xNome := sClienteRAZAOSOCIAL.AsString;
-      Entrega.xLgr := sClienteLOGRADOURO.AsString;
-      Entrega.nro := sClienteNUMERO.AsString;
-      Entrega.xCpl := sClienteCOMPLEMENTO.AsString;
-      Entrega.xBairro := sClienteBAIRRO.AsString;
-      Entrega.xMun := sClienteCIDADE.AsString;
-      Entrega.UF := sClienteUF.AsString;
+      if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
+      begin
+        //Dest.CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
+        Dest.xNome := sClienteRAZAOSOCIAL.AsString;
+        Entrega.xLgr := sClienteLOGRADOURO.AsString;
+        Entrega.nro := sClienteNUMERO.AsString;
+        Entrega.xCpl := sClienteCOMPLEMENTO.AsString;
+        Entrega.xBairro := sClienteBAIRRO.AsString;
+        Entrega.xMun := sClienteCIDADE.AsString;
+        Entrega.UF := sClienteUF.AsString;
+      end;
+      Dest.CNPJCPF := RemoveChar(edCPF.Text);
     end;
     cdsItensNF.First;
+    A := 0;
     While not cdsItensNF.Eof do
     begin
       with Det.Add do
       begin
         nItem := 1 + A;
+        A := A + 1;
         Prod.cProd := cdsItensNFCODPRO.AsString;
         if (EAN13Valido(cdsItensNFCOD_BARRA.AsString) = True) then
         begin
@@ -784,28 +864,28 @@ begin
           xCampoDet := 'campo';
           xTextoDet := 'texto';
         end;}
-
-        TotalItem := (Prod.qCom * Prod.vUnCom);
+        
+        prod.vProd := (Prod.qCom * Prod.vUnCom);
         Imposto.vItem12741 := cdsItensNFVLRTOT_TRIB.AsFloat;
         vTot12741 := vTot12741 + cdsItensNFVLRTOT_TRIB.AsFloat;
 
-        if (cdsItensNFORIGEM.AsString = '0') then
+        if (trim(cdsItensNFORIGEM.AsString) = '0') then
           Imposto.ICMS.orig := oeNacional;
-        if (cdsItensNFORIGEM.AsString = '1') then
+        if (trim(cdsItensNFORIGEM.AsString) = '1') then
           Imposto.ICMS.orig := oeEstrangeiraImportacaoDireta;
-        if (cdsItensNFORIGEM.AsString = '2') then
+        if (trim(cdsItensNFORIGEM.AsString) = '2') then
           Imposto.ICMS.orig := oeEstrangeiraAdquiridaBrasil;
-        if (cdsItensNFORIGEM.AsString = '3') then
+        if (trim(cdsItensNFORIGEM.AsString) = '3') then
           Imposto.ICMS.orig := oeNacionalConteudoImportacaoSuperior40;
-        if (cdsItensNFORIGEM.AsString = '4') then
+        if (trim(cdsItensNFORIGEM.AsString) = '4') then
           Imposto.ICMS.orig := oeNacionalProcessosBasicos;
-        if (cdsItensNFORIGEM.AsString = '5') then
+        if (trim(cdsItensNFORIGEM.AsString) = '5') then
           Imposto.ICMS.orig := oeNacionalConteudoImportacaoInferiorIgual40;
-        if (cdsItensNFORIGEM.AsString = '6') then
+        if (trim(cdsItensNFORIGEM.AsString) = '6') then
           Imposto.ICMS.orig := oeEstrangeiraImportacaoDiretaSemSimilar;
-        if (cdsItensNFORIGEM.AsString = '7') then
+        if (trim(cdsItensNFORIGEM.AsString) = '7') then
           Imposto.ICMS.orig := oeEstrangeiraAdquiridaBrasilSemSimilar;
-        if (cdsItensNFORIGEM.AsString = '8') then
+        if (trim(cdsItensNFORIGEM.AsString) = '8') then
           Imposto.ICMS.orig := oeNacionalConteudoImportacaoSuperior70;
 
         //Imposto.ICMS.CST := cstICMSSN;
@@ -815,35 +895,144 @@ begin
           if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
             MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
           Exit;
-        end
-        else
+        end;
+
+        if( sEmpresaCRT.AsInteger = 0) then
         begin
+          if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
+          begin
+            Imposto.ICMS.CSOSN := csosnVazio;
+          end
+          else if ( cdsItensNFCSOSN.AsString = '101') then
+          begin
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+
+            Imposto.ICMS.CSOSN := csosn101;
+            {if (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+            begin
+              if (cdsItensNFICMS.AsVariant > 0 ) then
+              begin
+                pCredSN := cdsItensNFICMS.AsVariant; //Aliquota ICMS SIMPLES
+                vCredICMSSN := cdsItensNFVALOR_ICMS.AsVariant; //ICMS SIMPLES
+              end;
+            end;}
+          end
+          else if ( cdsItensNFCSOSN.AsString = '102') then
+            Imposto.ICMS.CSOSN := csosn102
+          else if ( cdsItensNFCSOSN.AsString = '103') then
+          begin
+            Imposto.ICMS.CSOSN := csosn103;
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
+          else if ( cdsItensNFCSOSN.AsString = '201') then
+          begin
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+            Imposto.ICMS.CSOSN := csosn201;
+            {if (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+            begin
+              if (cdsItensNFICMS.AsVariant > 0 ) then
+              begin
+                pCredSN := cdsItensNFICMS.AsVariant; //Aliquota ICMS SIMPLES
+                vCredICMSSN := cdsItensNFVALOR_ICMS.AsVariant; //ICMS SIMPLES
+              end;
+            end;}
+          end
+          else if ( cdsItensNFCSOSN.AsString = '202') then
+          begin
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+            Imposto.ICMS.CSOSN := csosn202;
+          end
+          else if ( cdsItensNFCSOSN.AsString = '203') then
+          begin
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+            Imposto.ICMS.CSOSN := csosn203;
+          end
+          else if ( cdsItensNFCSOSN.AsString = '300') then
+            Imposto.ICMS.CSOSN := csosn300
+          else if ( cdsItensNFCSOSN.AsString = '400') then
+          begin
+            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+            Imposto.ICMS.CSOSN := csosn400;
+          end
+          else if ( cdsItensNFCSOSN.AsString = '500') then
+            Imposto.ICMS.CSOSN := csosn500
+          else if ( cdsItensNFCSOSN.AsString = '900') then
+            Imposto.ICMS.CSOSN := csosn900;
+        end
+        else begin
           if ((cdsItensNFCST.AsString = '000') or (cdsItensNFCST.AsString = '100') or (cdsItensNFCST.AsString = '200') or (cdsItensNFCST.AsString = '00')) then
             Imposto.ICMS.CST := cst00
           else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '110') or (cdsItensNFCST.AsString = '210') or (cdsItensNFCST.AsString = '10')) then
-            Imposto.ICMS.CST := cst10
+          begin
+            Imposto.ICMS.CST := cst10;
+            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CST inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
           else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '120') or (cdsItensNFCST.AsString = '220') or (cdsItensNFCST.AsString = '20')) then
             Imposto.ICMS.CST := cst20
           else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '130') or (cdsItensNFCST.AsString = '230') or (cdsItensNFCST.AsString = '30')) then
-            Imposto.ICMS.CST := cst30
+          begin
+            Imposto.ICMS.CST := cst30;
+            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CST inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
           else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '140') or (cdsItensNFCST.AsString = '240') or (cdsItensNFCST.AsString = '40')) then
             Imposto.ICMS.CST :=  cst40
           else if ((cdsItensNFCST.AsString = '041') or (cdsItensNFCST.AsString = '141') or (cdsItensNFCST.AsString = '241') or (cdsItensNFCST.AsString = '41')) then
             Imposto.ICMS.CST :=  cst41
           else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '150') or (cdsItensNFCST.AsString = '250') or (cdsItensNFCST.AsString = '50')) then
-            Imposto.ICMS.CST :=  cst50
+          begin
+            Imposto.ICMS.CST :=  cst50;
+            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CST inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
           else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '151') or (cdsItensNFCST.AsString = '251') or (cdsItensNFCST.AsString = '51')) then
-            Imposto.ICMS.CST := cst51
+          begin
+            Imposto.ICMS.CST := cst51;
+            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CST inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
           else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '160') or (cdsItensNFCST.AsString = '260') or (cdsItensNFCST.AsString = '60')) then
             Imposto.ICMS.CST := cst60
           else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '170') or (cdsItensNFCST.AsString = '270') or (cdsItensNFCST.AsString = '70')) then
-            Imposto.ICMS.CST := cst70
+          begin
+            Imposto.ICMS.CST := cst70;
+            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            mLog.Lines.Add('-------------------------------------------------');
+            mLog.Lines.Add('CST inválido para emissão do CFe.');
+            mLog.Lines.Add('-------------------------------------------------');
+          end
           else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '190') or (cdsItensNFCST.AsString = '290') or (cdsItensNFCST.AsString = '90')) then
             Imposto.ICMS.CST := cst90
           else
             Imposto.ICMS.CST := cst00;
         end;
-
         Imposto.ICMS.vICMS := cdsItensNFVALOR_ICMS.AsFloat;
         Imposto.ICMS.pICMS := cdsItensNFICMS.AsFloat;
 
@@ -872,7 +1061,9 @@ begin
           else if (cdsItensNFCSTPIS.AsString = '09') then
             Imposto.PIS.CST   := pis09
           else if (cdsItensNFCSTPIS.AsString = '99') then
-            Imposto.PIS.CST   := pis99;
+            Imposto.PIS.CST   := pis99
+          else if (cdsItensNFCSTPIS.AsString = '49') then
+            Imposto.PIS.CST   := pis49;
         end;
 
         Imposto.PIS.vBC := cdsItensNFVLRBC_PIS.AsFloat;
@@ -903,7 +1094,10 @@ begin
           else if (cdsItensNFCSTCOFINS.AsString = '09') then
             Imposto.COFINS.CST   := cof09
           else if (cdsItensNFCSTCOFINS.AsString = '99') then
-            Imposto.COFINS.CST   := cof99;
+            Imposto.COFINS.CST   := cof99
+          else if (cdsItensNFCSTCOFINS.AsString = '49') then
+            Imposto.COFINS.CST   := cof49;
+
         end;
 
         Imposto.COFINS.vBC := cdsItensNFVLRBC_COFINS.AsFloat;
@@ -914,10 +1108,10 @@ begin
       cdsItensNF.Next;
 
     end; // FIM WHILE
-
+    InfAdic.infCpl := edtInfAdic.Text;
     Total.DescAcrEntr.vDescSubtot := 0;
     Total.vCFeLei12741 := vTot12741;
-
+    
     // TpcnCodigoMP = (mpDinheiro, mpCheque, mpCartaodeCredito, mpCartaodeDebito,
     // mpCreditoLoja, mpValeAlimentacao, mpValeRefeicao, mpValePresente, mpValeCombustivel, mpOutros);
     while not cdsFatura.Eof do
@@ -960,7 +1154,13 @@ begin
 end;
 
 procedure TfSat.enviarSAT;
+var arquivosat: String;
 begin
+  if (edtPastaXml.Text = '') then
+  begin
+    MessageDlg('Informe a pasta onde salvará o XML , em parametros, Cupom, Configurar Sat;', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if mVendaEnviar.Text = '' then
     mGerarVenda.Click;
 
@@ -972,6 +1172,11 @@ begin
   begin
     LoadXML( ACBrSAT1.CFe.AsXMLString,  mRecebido);
     PageControl1.ActivePage := tsRecebido;
+    arquivosat := RightStr(ACBrSAT1.CFe.NomeArquivo, 50);
+    ACBrSAT1.CFe.SaveToFile(edtPastaXml.Text + '\' + arquivosat);
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE VENDA SET STATUS1 = ' +
+      QuotedStr('E') + ', OBS = ' + QuotedStr(edtPastaXml.Text + '\' + arquivosat) +
+      ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
   end;
 
 end;
@@ -1007,6 +1212,22 @@ procedure TfSat.FormShow(Sender: TObject);
 begin
   cdsItensNF.Params[0].AsInteger := codVendaSAT;
   cdsItensNF.Open;
+
+  if (cdsItensNFSTATUS1.AsString = 'E') then
+  begin
+    Memo1.Lines.Text := 'Cupom Emitido : ' + cdsItensNFOBS_VENDA.AsString;
+    BitBtn2.Enabled := False;
+    mEnviarVenda.Enabled := False;
+  end;
+
+  if (cdsItensNFSTATUS1.AsString = 'C') then
+  begin
+    mEnviarVenda.Enabled := False;
+    BitBtn2.Enabled := False;
+    Memo1.Lines.Add('............................');
+    Memo1.Lines.Add('Cupom Emitido e Cancelado : ');
+    Memo1.Lines.Add(cdsItensNFOBS_VENDA.AsString);
+  end;
   cds_Movimento.Params[0].AsInteger := cdsItensNFCODMOVIMENTO.AsInteger;
   cds_movimento.Open;
 
@@ -1015,6 +1236,10 @@ begin
 
   sCliente.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
   sCliente.Open;
+  lblCli.Caption := sClienteNOMECLIENTE.AsString;
+  lblEnd.Caption := sClienteLOGRADOURO.AsString + ', ' + sClienteNUMERO.AsString +
+    ', ' + sClienteBAIRRO.AsString + ', ' + sClienteCIDADE.AsString + ', ' +
+    sClienteUF.AsString;
 
   if (sEmpresa.Active) then
     sEmpresa.Close;
@@ -1033,6 +1258,13 @@ begin
     except
       codConsumidorSat := 0;
     end;
+
+  if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
+  begin
+    if (sClienteTIPOFIRMA.AsInteger = 0) then
+      edCPF.Text := sClienteCNPJ.AsString;
+  end;
+
 end;
 
 
@@ -1114,10 +1346,20 @@ end;
 
 procedure TfSat.PrepararImpressao;
 begin
+
+  ACBrPosPrinter1.Desativar;
+  ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo( cbxModeloPosPrinter.ItemIndex );
+  ACBrPosPrinter1.PaginaDeCodigo := TACBrPosPaginaCodigo( cbxPagCodigo.ItemIndex );
+  ACBrPosPrinter1.Porta := cbxPorta.Text;
+  ACBrPosPrinter1.ColunasFonteNormal := seColunas.Value;
+  ACBrPosPrinter1.LinhasEntreCupons := seLinhasPular.Value;
+  ACBrPosPrinter1.EspacoEntreLinhas := seEspLinhas.Value;
+  ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
+  ACBrSATExtratoESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
   // 29/12/2015
-  {
-  if ACBrSAT1.Extrato = ACBrSATExtratoESCPOS1 then
+  {if ACBrSAT1.Extrato = ACBrSATExtratoESCPOS1 then
   begin
+
     ACBrSATExtratoESCPOS1.Device.Porta := edtPorta.Text;
     ACBrSATExtratoESCPOS1.Device.Ativar;
     ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
@@ -1138,6 +1380,134 @@ begin
     end;
   end;
   }
+end;
+
+procedure TfSat.BitBtn1Click(Sender: TObject);
+begin
+  carregarVenda;
+end;
+
+procedure TfSat.BitBtn2Click(Sender: TObject);
+begin
+  carregarVenda;
+  ACBrSAT1.Inicializado := True;
+  bInicializar.Caption := 'DesInicializar';
+  enviarSAT;
+end;
+
+procedure TfSat.sePagCodChange(Sender: TObject);
+begin
+  ACBrSAT1.Config.PaginaDeCodigo := sePagCod.Value;
+  cbxUTF8.Checked := ACBrSAT1.Config.EhUTF8;
+
+end;
+
+procedure TfSat.ACBrSAT1GetsignAC(var Chave: String);
+begin
+  Chave := edtSwHAssinatura.Text;
+end;
+
+procedure TfSat.ACBrSAT1GetcodigoDeAtivacao(var Chave: String);
+begin
+  Chave := edtCodigoAtivacao.Text
+end;
+
+procedure TfSat.ACBrSAT1GravarLog(const ALogLine: String;
+  var Tratado: Boolean);
+begin
+  mLog.Lines.Add(ALogLine);
+  StatusBar1.Panels[0].Text := IntToStr( ACBrSAT1.Resposta.numeroSessao );
+  StatusBar1.Panels[1].Text := IntToStr( ACBrSAT1.Resposta.codigoDeRetorno );
+  Tratado := False;
+end;
+
+procedure TfSat.btnExcluirClick(Sender: TObject);
+begin
+  edCPF.Text := '';
+end;
+
+procedure TfSat.btnSairClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfSat.miGerarXMLCancelamentoClick(Sender: TObject);
+begin
+  OpenDialog1.Filter := 'Arquivo XML|*.xml';
+  if OpenDialog1.Execute then
+  begin
+    ACBrSAT1.CFe.LoadFromFile( OpenDialog1.FileName );
+    ACBrSAT1.CFe2CFeCanc;
+
+    mCancelamentoEnviar.Lines.Text := ACBrSAT1.CFeCanc.GerarXML( True ) ;  // True = Gera apenas as TAGs da aplicação
+    edChaveCancelamento.Text := ACBrSAT1.CFeCanc.infCFe.chCanc;
+    PageControl1.ActivePage := tsCancelamento;
+  end ;
+
+end;
+
+procedure TfSat.miEnviarCancelamentoClick(Sender: TObject);
+begin
+  PageControl1.ActivePage := tsLog;
+  if mCancelamentoEnviar.Lines.Count < 1 then
+  begin
+    ACBrSAT1.CancelarUltimaVenda;
+    mCancelamentoEnviar.Lines.Text := ACBrSAT1.CFeCanc.GerarXML(True);
+  end
+  else
+  begin
+    if edChaveCancelamento.Text = '' then
+    begin
+      ACBrSAT1.CFeCanc.AsXMLString := mCancelamentoEnviar.Lines.Text;
+      edChaveCancelamento.Text := ACBrSAT1.CFeCanc.infCFe.chCanc;
+    end;
+
+    ACBrSAT1.CancelarUltimaVenda( edChaveCancelamento.Text, mCancelamentoEnviar.Lines.Text );
+  end ;
+
+  if ACBrSAT1.Resposta.codigoDeRetorno = 7000 then
+  begin
+    LoadXML( ACBrSAT1.CFeCanc.AsXMLString, mRecebido );
+    PageControl1.ActivePage := tsRecebido;
+  end;
+end;
+
+procedure TfSat.miImprimirExtratoCancelamentoClick(Sender: TObject);
+begin
+  PrepararImpressao;
+  ACBrSAT1.ImprimirExtratoCancelamento;
+end;
+
+procedure TfSat.mTesteFimAFimClick(Sender: TObject);
+begin
+  if mVendaEnviar.Text = '' then
+    mGerarVenda.Click;
+
+  PageControl1.ActivePage := tsLog;
+
+  ACBrSAT1.TesteFimAFim( mVendaEnviar.Text );
+
+  if ACBrSAT1.Resposta.codigoDeRetorno = 9000 then
+  begin
+    LoadXML( ACBrSAT1.CFe.AsXMLString,  mRecebido);
+    PageControl1.ActivePage := tsRecebido;
+  end;
+end;
+
+procedure TfSat.BitBtn4Click(Sender: TObject);
+var arquivosatcanc: String;
+begin
+  AjustaACBrSAT;
+  ACBrSAT1.Inicializado := True;
+  bInicializar.Caption := 'DesInicializar';
+  miGerarXMLCancelamento.Click;
+  miEnviarCancelamento.Click;
+  arquivosatcanc := RightStr(ACBrSAT1.CFe.NomeArquivo, 50);
+  ACBrSAT1.CFeCanc.SaveToFile(edtPastaXml.Text + '\canc\' + arquivosatcanc);
+  dm.sqlsisAdimin.ExecuteDirect('UPDATE VENDA SET STATUS1 = ' +
+    QuotedStr('C') + ', OBS = OBS || ' + QuotedStr(edtPastaXml.Text + '\' + arquivosatcanc) +
+    ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
+
 end;
 
 end.
