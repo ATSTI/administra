@@ -406,6 +406,9 @@ type
     edCFOP_CUPOM: TEdit;
     BitBtn49: TBitBtn;
     Label82: TLabel;
+    Label83: TLabel;
+    BitBtn50: TBitBtn;
+    Memo1: TMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -510,6 +513,7 @@ type
     procedure chkPDV_VENDEDORClick(Sender: TObject);
     procedure BitBtn48Click(Sender: TObject);
     procedure BitBtn49Click(Sender: TObject);
+    procedure BitBtn50Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -528,7 +532,7 @@ var
 implementation
 
 uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes, uProcurar, uSeriaNF,
-  UDMNF;
+  UDMNF, uSat;
 
 {$R *.dfm}
 
@@ -5915,6 +5919,20 @@ begin
     end;
   end;
 
+end;
+
+procedure TfParametro.BitBtn50Click(Sender: TObject);
+begin
+  //inherited;
+  // SAT
+  fSat := TfSat.Create(Application);
+  Try
+    fSat.TabSheet2.Enabled := True;
+    fSat.PageControl1.TabIndex := 1;
+    fSat.ShowModal;
+  Finally
+    fSat.Free;
+  end;
 end;
 
 end.

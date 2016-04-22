@@ -4167,6 +4167,19 @@ inherited fParametro: TfParametro
     object tsCupom: TTabSheet
       Caption = 'Cupom'
       ImageIndex = 11
+      object Label83: TLabel
+        Left = 9
+        Top = 208
+        Width = 376
+        Height = 13
+        Caption = 'Parametro SAT para configurar o uso do SAT no Finalizar Vendas;'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object rgPesqProdCupom: TRadioGroup
         Left = 10
         Top = 16
@@ -4229,6 +4242,35 @@ inherited fParametro: TfParametro
           TabOrder = 1
           OnClick = BitBtn49Click
         end
+      end
+      object BitBtn50: TBitBtn
+        Left = 392
+        Top = 200
+        Width = 97
+        Height = 25
+        Caption = 'Configurar SAT'
+        TabOrder = 3
+        OnClick = BitBtn50Click
+      end
+      object Memo1: TMemo
+        Left = 8
+        Top = 228
+        Width = 729
+        Height = 49
+        Color = clScrollBar
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        Lines.Strings = (
+          
+            'Quando usado o c'#243'digo "Cliente Consumidor" o mesmo cadastrado no' +
+            ' parametro '#39'CONSUMIDOR'#39' o sistema n'#227'o informar'#225', '
+          'dados do Cliente (Dados Entrega: Nome, Endere'#231'o) no Cupom.')
+        ParentFont = False
+        TabOrder = 4
       end
     end
   end
