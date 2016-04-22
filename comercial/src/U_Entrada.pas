@@ -924,7 +924,12 @@ begin
   strSqlMov := 'UPDATE MOVIMENTO SET STATUS = ' + '0 ' +
   ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
   dm.sqlsisAdimin.StartTransaction(TD);
-  dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
+    dm.sqlsisAdimin.Commit(TDA);
+  except
+    dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+  end;
 
   // IMPRIMIR RECIBO
   if (MessageDlg('Imprimir Comprovante ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
@@ -1000,7 +1005,7 @@ begin
   fTerminal2.var_FINALIZOU := 'SIM';
   //Close;
   DecimalSeparator := ',';
-  JvSair.Click;
+  //JvSair.Click;
 end;
 
 procedure TF_Entrada.FormKeyPress(Sender: TObject; var Key: Char);
