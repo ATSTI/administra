@@ -2383,8 +2383,8 @@ begin
 
     if (versaoSistema = '4.0.0.0') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.0', StrToDate('04/01/2016'));
-      AtualizandoScript('4.0.0.0');
+      //insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.0', StrToDate('04/01/2016'));
+      //AtualizandoScript('4.0.0.0');
       mudaVersao('4.0.0.1');
     end;
 
@@ -2444,10 +2444,16 @@ begin
         MessageDlg('Arquivo cest.sql não encontrato.', mtError, [mbOK], 0);
         exit;
       end;
-      AtualizandoScript('4.0.0.10');
+      //AtualizandoScript('4.0.0.10');
       mudaVersao('4.0.0.11');
     end;
 
+    if (versaoSistema = '4.0.0.11') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.11', StrToDate('15/03/2016'));
+      AtualizandoScript('4.0.0.11');
+      mudaVersao('4.1.0.0');
+    end;
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
