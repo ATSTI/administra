@@ -2772,6 +2772,8 @@ begin
         ipi_entrada := ipi_entrada + cdsTotIpiVLR_IPI.AsFloat;
       with RegistroE510New do
       begin
+        if (cdsTotIpiCFOP.AsString = '0000') then
+           MessageDlg('aq', mtWarning, [mbOK], 0);
         CFOP        := cdsTotIpiCFOP.AsString;
         CST_IPI     := cdsTotIpiCSTIPI.AsString;
         VL_CONT_IPI := cdsTotIpiVLR_BASE_IPI.AsFloat;
@@ -2783,6 +2785,9 @@ begin
 
     while not cdsTotIpiSaida.Eof do
     begin
+      if (cdsTotIpiSaidaCSTIPI.AsString = '0000') then
+         MessageDlg('aq', mtWarning, [mbOK], 0);
+
       if (cdsTotIpiSaidaCSTIPI.AsString = '50') then
         ipi_saida := ipi_saida + cdsTotIpiSaidaVLR_IPI.AsFloat;
       with RegistroE510New do

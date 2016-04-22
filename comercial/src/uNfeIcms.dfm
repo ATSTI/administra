@@ -4839,7 +4839,7 @@ object fNfeIcms: TfNfeIcms
       '  FROM COMPRA C, MOVIMENTO M, MOVIMENTODETALHE r'
       'WHERE C.CODMOVIMENTO = M.CODMOVIMENTO '
       '      AND C.CODMOVIMENTO = r.CODMOVIMENTO'
-      '      AND M.CODNATUREZA = 4 '
+      '      AND M.CODNATUREZA in (4, 20) '
       '      AND C.DATACOMPRA BETWEEN :DTA1 AND :DTA2'
       'group by   r.CFOP, r.CSTIPI')
     SQLConnection = DM.sqlsisAdimin
@@ -4914,7 +4914,8 @@ object fNfeIcms: TfNfeIcms
       '   WHERE NF.CODVENDA = v.CODVENDA'
       '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
       '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
-      '     AND m.CODNATUREZA in (12, 15)'
+      '     AND m.CODNATUREZA in (12, 15) '
+      '     AND NF.NATUREZA in (12,15)'
       '     AND NF.PROTOCOLOCANC IS NULL '
       '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2'
       '  '
