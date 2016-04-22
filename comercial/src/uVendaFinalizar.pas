@@ -512,6 +512,7 @@ type
     BitBtn9: TBitBtn;
     BitBtn10: TBitBtn;
     ImprimirPedidoII1: TMenuItem;
+    btnSAT: TBitBtn;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -576,6 +577,7 @@ type
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure ImprimirPedidoII1Click(Sender: TObject);
+    procedure btnSATClick(Sender: TObject);
   private
     controleExclui: String;
     TD: TTransactionDesc;
@@ -621,7 +623,8 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento, U_Boletos, uCarne, uReceberCls, uTerminal_Delivery, uNFCe;
+  uMovimento, U_Boletos, uCarne, uReceberCls, uTerminal_Delivery, uNFCe,
+  uSat;
 
 {$R *.dfm}
 
@@ -1885,6 +1888,18 @@ begin
       DBEdit16.Visible := False;
     end;
   { --- 003 ---- }
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'SAT';
+  dm.cds_parametro.Open;
+  btnCupom.Visible := True;
+  btnSAT.Visible := False;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    btnCupom.Visible := False;
+    btnSAT.Visible := True;
+  end;
+
   // Listo as Contas Caixa
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -3811,6 +3826,34 @@ begin
     VCLReport2.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     VCLReport2.Report.Params.ParamByName('PVENDA').Value := cdsCODVENDA.AsInteger;
     VCLReport2.Execute;
+  end;
+end;
+
+procedure TfVendaFinalizar.btnSATClick(Sender: TObject);
+begin
+  inherited;
+  if (scdsCr_proc.IsEmpty) then
+  begin
+    MessageDlg('Venda não finalizada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  // SAT
+  fSat := TfSat.Create(Application);
+  Try
+    fSat.PageControl1.Pages[1].TabVisible := False;
+    //fSat.TabSheet2.Enabled := False;
+    fSat.codVendaSAT := cdsCODVENDA.AsInteger;
+    fSat.MainMenu1.Items[0].Enabled := False;
+    fSat.MainMenu1.Items[1].Enabled := False;
+    fSat.MainMenu1.Items[2].Enabled := False;
+    fSat.MainMenu1.Items[3].Enabled := False;
+    fSat.MainMenu1.Items[4].Enabled := False;
+    fSat.MainMenu1.Items[5].Enabled := False;
+    fSat.MainMenu1.Items[6].Enabled := False;
+    fSat.PageControl1.TabIndex := 0;
+    fSat.ShowModal;
+  Finally
+    fSat.Free;
   end;
 end;
 
