@@ -2241,9 +2241,75 @@ object fAtsAdmin: TfAtsAdmin
       Lines.Strings = (
         'Altera'#231#245'es na vers'#227'o :'
         ''
+        'VERS'#195'O  4.2.0.0  - 01/04/2016:'
+        
+          '   - Adicionado o SAT (Cupom fiscal eletronico), em substitui'#231#227'o' +
+          ' ao Cupom Fiscal;'
+        ''
+        ''
+        'VERS'#195'O  4.1.0.0  - 15/03/2016:'
+        ''
+        
+          '    - Adicionado a op'#231#227'o de usar o logo_nfe.jpg para a impress'#227'o' +
+          ' da DANFE'
+        ' '
+        
+          '    - Adicionado o campo N'#250'mero do Pedido de Compra na Nota Fisc' +
+          'al, na aba Documento'
+        
+          '     Fiscal Referenciado, para emitir o n'#250'mero do pedido de comp' +
+          'ra no XML.'
+        '    '
+        
+          '    - Inclu'#237'do o CEST - C'#243'digo Especificador da Substitui'#231#227'o Tri' +
+          'but'#225'ria'
+        '      Ver nota t'#233'cnica: Nota T'#233'cnica 2015.003'
+        '      '#167' 2'#186' O CEST '#233' composto por 7 (sete) d'#237'gitos, sendo que:'
+        
+          '          I    o primeiro e o segundo correspondem ao segmento d' +
+          'a mercadoria ou bem;'
+        
+          '          II   o terceiro ao quinto correspondem ao item de um s' +
+          'egmento de mercadoria ou bem;'
+        
+          '          III  o sexto e o s'#233'timo correspondem '#224' especifica'#231#227'o d' +
+          'o item.'
+        ''
+        '      Rela'#231#227'o de CSTs cujo CEST ser'#225' obrigat'#243'rio '
+        
+          '         10'#9'tributada com cobran'#231'a de ICMS por substitui'#231#227'o trib' +
+          'ut'#225'ria'
+        
+          '         30'#9'isenta ou n'#227'o tributada com cobran'#231'a de ICMS por sub' +
+          'stitui'#231#227'o tribut'#225'ria'
+        
+          '         60'#9'ICMS cobrado anteriormente por substitui'#231#227'o tribut'#225'r' +
+          'ia'
+        
+          '         70'#9'com redu'#231#227'o de base de c'#225'lculo e cobran'#231'a de ICMS po' +
+          'r substitui'#231#227'o tribut'#225'ria'
+        '         90'#9'outros, desde que com a TAG vICMSST'
+        ''
+        '      Rela'#231#227'o de CSOSNs cujo CEST ser'#225' obrigat'#243'rio'
+        
+          '        201'#9'tributada pelo Simples Nacional com permiss'#227'o de cr'#233 +
+          'dito e com cobran'#231'a do ICMS por substitui'#231#227'o tribut'#225'ria'
+        
+          '        202'#9'tributada pelo Simples Nacional sem permiss'#227'o de cr'#233 +
+          'dito e com cobran'#231'a do ICMS por substitui'#231#227'o tribut'#225'ria'
+        
+          '        203'#9'isen'#231#227'o de ICMS do Simples Nacional para a faixa de ' +
+          'receita, com cobran'#231'a do ICMS por substitui'#231#227'o tribut'#225'ria'
+        '        900'#9'outros, desde que com a TAG vICMSST'
+        ''
+        ''
         'VERS'#195'O  4.0.0.0  - 04/01/2016:'
         ''
         '       Nota T'#233'cnica 2015/003 - V 1.60 - 30/12/2015:'#10
+        ''
+        ''
+        ''
+        ''
         ''
         
           '            ICMS em Opera'#231#245'es Interestaduais de Vendas a Consumi' +
@@ -2257,14 +2323,26 @@ object fAtsAdmin: TfAtsAdmin
           'a ind'#250'stria:'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         
           '- Se destinat'#225'rio for consumidor final n'#227'o contribuinte de ICMS,' +
           ' a al'#237'quota ser'#225' a interna;'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         
           '- Se destinat'#225'rio N'#195'O for consumidor final, a al'#237#173'quota ser'#225' a i' +
           'nterestadual;'#10
+        ''
+        ''
+        ''
+        ''
         ''
         ''
         
@@ -2275,7 +2353,15 @@ object fAtsAdmin: TfAtsAdmin
           'a seu estado;'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         ' '#10
+        ''
+        ''
+        ''
+        ''
         ''
         ''
         
@@ -2290,7 +2376,15 @@ object fAtsAdmin: TfAtsAdmin
         '    o IPI n'#227'o deve compor a base de c'#225'lculo.'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         ' '#10
+        ''
+        ''
+        ''
+        ''
         ''
         ''
         
@@ -2298,17 +2392,33 @@ object fAtsAdmin: TfAtsAdmin
           ' e o remetente substituto tribut'#225'rio:'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         
           '- Se destinat'#225'rio for consumidor final n'#227'o contribuinte de ICMS,' +
           ' n'#227'o h'#225' ST;'#10
         ''
         ''
+        ''
+        ''
+        ''
+        ''
         '- Se destinat'#225'rio N'#195'O for consumidor final, calcula-se a ST;'#10
+        ''
+        ''
+        ''
+        ''
         ''
         ''
         
           '- Se destinat'#225'rio N'#195'O for consumidor final, mas o produto ser'#225' d' +
           'estinado a industrializa'#231#227'o, n'#227'o h'#225' ST;'#10
+        ''
+        ''
+        ''
+        ''
         ''
         ''
         
