@@ -427,7 +427,7 @@ object fNotafc: TfNotafc
         Top = 167
         Width = 769
         Height = 140
-        ActivePage = TabSheet3
+        ActivePage = TabSheet2
         TabOrder = 18
         object TabSheet2: TTabSheet
           Caption = 'Itens'
@@ -1655,8 +1655,8 @@ object fNotafc: TfNotafc
       Layout = blGlyphTop
     end
     object dbeSerie: TDBEdit
-      Left = 500
-      Top = -75
+      Left = 74
+      Top = 26
       Width = 78
       Height = 24
       BevelKind = bkFlat

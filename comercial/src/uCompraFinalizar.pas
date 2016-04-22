@@ -740,11 +740,14 @@ begin
        scds_serie_proc.Params[0].AsString := dbeSerie.Text;
        scds_serie_proc.Open;
     end;
-    if (cds_compraNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
+    if (scds_serie_procMODELO.AsString <> '55') then
     begin
-      scds_serie_proc.Edit;
-      scds_serie_procULTIMO_NUMERO.AsInteger := cds_compraNOTAFISCAL.AsInteger;
-      scds_serie_proc.ApplyUpdates(0);
+      if (cds_compraNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
+      begin
+        scds_serie_proc.Edit;
+        scds_serie_procULTIMO_NUMERO.AsInteger := cds_compraNOTAFISCAL.AsInteger;
+        scds_serie_proc.ApplyUpdates(0);
+      end;
     end;
     scds_serie_proc.Close;
   end;

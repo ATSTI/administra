@@ -1244,12 +1244,18 @@ begin
   if (DMNF.DtSrc_NF1.State in [dsInsert, dsEdit]) then
     gravanotafiscal;
 
-  dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+  dmnf.scds_serie_proc.Params[0].AsString := DBEdit50.Text;
   dmnf.scds_serie_proc.Open;
-  dmnf.scds_serie_proc.Edit;
-  dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;
-  dmnf.scds_serie_proc.ApplyUpdates(0);
-  dmnf.scds_serie_proc.Close;
+  if (not dmnf.scds_serie_proc.IsEmpty) then
+  begin
+    if (dmnf.scds_serie_procULTIMO_NUMERO.AsInteger < dmnf.cds_compraNOTAFISCAL.AsInteger) then
+    begin
+      dmnf.scds_serie_proc.Edit;
+      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_compraNOTAFISCAL.AsInteger;
+      dmnf.scds_serie_proc.ApplyUpdates(0);
+      dmnf.scds_serie_proc.Close;
+    end;  
+  end;
 
   if (movEstoque = 'S') then
   begin
