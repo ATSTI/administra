@@ -1,6 +1,6 @@
 inherited fCfop: TfCfop
   Width = 830
-  Height = 533
+  Height = 584
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -32,8 +32,15 @@ inherited fCfop: TfCfop
     Font.Style = []
     ParentFont = False
   end
+  object Label5: TLabel [2]
+    Left = 320
+    Top = 125
+    Width = 92
+    Height = 13
+    Caption = 'Indicador Presen'#231'a'
+  end
   inherited MMJPanel1: TMMJPanel
-    Top = 452
+    Top = 503
     Width = 822
   end
   inherited MMJPanel2: TMMJPanel
@@ -49,7 +56,7 @@ inherited fCfop: TfCfop
       Caption = 'Cadastro - CFOP'
     end
   end
-  object DBEdit1: TDBEdit [4]
+  object DBEdit1: TDBEdit [5]
     Left = 19
     Top = 72
     Width = 121
@@ -66,7 +73,7 @@ inherited fCfop: TfCfop
     ParentFont = False
     TabOrder = 2
   end
-  object BitBtn12: TBitBtn [5]
+  object BitBtn12: TBitBtn [6]
     Left = 141
     Top = 60
     Width = 39
@@ -175,10 +182,10 @@ inherited fCfop: TfCfop
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBEdit2: TDBEdit [6]
+  object DBEdit2: TDBEdit [7]
     Left = 182
     Top = 72
-    Width = 435
+    Width = 595
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -194,9 +201,9 @@ inherited fCfop: TfCfop
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
-  object BitBtn1: TBitBtn [7]
-    Left = 618
-    Top = 61
+  object BitBtn1: TBitBtn [8]
+    Left = 778
+    Top = 60
     Width = 39
     Height = 36
     PopupMenu = PopupMenu1
@@ -303,18 +310,18 @@ inherited fCfop: TfCfop
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object DBNavigator1: TDBNavigator [8]
-    Left = 168
-    Top = 412
+  object DBNavigator1: TDBNavigator [9]
+    Left = 184
+    Top = 468
     Width = 368
     Height = 31
     DataSource = DtSrc
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
     TabOrder = 6
   end
-  object DBGrid1: TDBGrid [9]
-    Left = 19
-    Top = 134
+  object DBGrid1: TDBGrid [10]
+    Left = 11
+    Top = 190
     Width = 790
     Height = 275
     DataSource = DtSrc
@@ -343,38 +350,38 @@ inherited fCfop: TfCfop
         Visible = True
       end>
   end
-  object cbTotalTributos: TCheckBox [10]
+  object cbTotalTributos: TCheckBox [11]
     Left = 443
-    Top = 104
+    Top = 100
     Width = 193
     Height = 17
     Caption = 'Calcula Total dos Tributos nas NFs'
     TabOrder = 8
     OnClick = cbTotalTributosClick
   end
-  object cbFreteBC: TCheckBox [11]
+  object cbFreteBC: TCheckBox [12]
     Left = 234
-    Top = 104
+    Top = 100
     Width = 196
     Height = 17
     Caption = 'Acrescentar Frete '#224' Base de Calculo'
     TabOrder = 9
     OnClick = cbFreteBCClick
   end
-  object cbIpiBc: TCheckBox [12]
+  object cbIpiBc: TCheckBox [13]
     Left = 22
-    Top = 104
+    Top = 100
     Width = 190
     Height = 17
     Caption = 'Acrescentar IPI '#224' Base de Calculo'
     TabOrder = 10
     OnClick = cbIpiBcClick
   end
-  object rgFinalidade: TRadioGroup [13]
-    Left = 656
-    Top = 56
-    Width = 161
-    Height = 73
+  object rgFinalidade: TRadioGroup [14]
+    Left = 12
+    Top = 120
+    Width = 297
+    Height = 65
     Caption = 'Finalidade da NFE'
     Columns = 2
     Items.Strings = (
@@ -383,6 +390,25 @@ inherited fCfop: TfCfop
       'Ajustes')
     TabOrder = 11
     OnClick = rgFinalidadeClick
+  end
+  object cb_Ind_Pres: TComboBox [15]
+    Left = 318
+    Top = 140
+    Width = 189
+    Height = 21
+    ItemHeight = 13
+    ItemIndex = 1
+    TabOrder = 12
+    Text = '1=Opera'#231#227'o presencial;'#10
+    Items.Strings = (
+      
+        '0=N'#227'o se aplica (por exemplo, Nota Fiscal complementar ou de aju' +
+        'ste);'#10
+      '1=Opera'#231#227'o presencial;'#10
+      '2=Opera'#231#227'o n'#227'o presencial, pela Internet;'#10
+      '3=Opera'#231#227'o n'#227'o presencial, Teleatendimento;'#10
+      '4=NFC-e em opera'#231#227'o com entrega a domic'#237'lio;'#10
+      '9=Opera'#231#227'o n'#227'o presencial, outros.')
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_cfop

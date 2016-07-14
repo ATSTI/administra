@@ -1850,17 +1850,18 @@ object fNFeletronica: TfNFeletronica
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
       'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
-      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10', NFE_FINNFE ' +
-      #13#10', NFE_MODELO '#13#10', NFE_VERSAO  '#13#10', NFE_DESTOPERACAO '#13#10', NFE_FORM' +
-      'ATODANFE '#13#10', NFE_TIPOEMISSAO      '#13#10', NFE_INDFINAL         '#13#10', N' +
-      'FE_INDPRES        '#13#10#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES c' +
-      'l on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente e' +
-      'ndecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join VE' +
-      'NDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between ' +
-      ':dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:' +
-      'pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.T' +
-      'IPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS N' +
-      'ULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
+      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS , nf.NOMEXML '#13#10', nf.NFE_FINN' +
+      'FE '#13#10', nf.NFE_MODELO '#13#10', nf.NFE_VERSAO  '#13#10', nf.NFE_DESTOPERACAO ' +
+      #13#10', nf.NFE_FORMATODANFE '#13#10', nf.NFE_TIPOEMISSAO      '#13#10', nf.NFE_I' +
+      'NDFINAL         '#13#10', nf.NFE_INDPRES        '#13#10', nf.IND_IEDEST '#13#10', ' +
+      'nf.CCUSTO '#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENTES cl on cl.CO' +
+      'DCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecocliente endecli on ' +
+      'endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer join VENDA v on v' +
+      '.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO between :dta1 and ' +
+      ':dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) or (:pvendacust' +
+      'o = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endecli.TIPOEND = 0' +
+      ') and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV IS NULL) OR (:' +
+      'ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -2177,6 +2178,15 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsNFNFE_INDPRES: TStringField
       FieldName = 'NFE_INDPRES'
+      ReadOnly = True
+    end
+    object sdsNFIND_IEDEST: TStringField
+      FieldName = 'IND_IEDEST'
+      ReadOnly = True
+      Size = 30
+    end
+    object sdsNFCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
       ReadOnly = True
     end
   end
@@ -2536,6 +2546,15 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsNFNFE_INDPRES: TStringField
       FieldName = 'NFE_INDPRES'
+      ReadOnly = True
+    end
+    object cdsNFIND_IEDEST: TStringField
+      FieldName = 'IND_IEDEST'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsNFCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
       ReadOnly = True
     end
   end
@@ -3108,8 +3127,8 @@ object fNFeletronica: TfNFeletronica
   end
   object sEmpresa: TSQLDataSet
     CommandText = 
-      'select e.* from EMPRESA e,  PLANO p'#13#10'where p.codigo = :pcusto an' +
-      'd p.CODEMPRESA = e.CODIGO'
+      'select e.*, p.NOME CENTROCUSTO from EMPRESA e,  PLANO p'#13#10'where p' +
+      '.codigo = :pcusto and p.CODEMPRESA = e.CODIGO'
     MaxBlobSize = -1
     Params = <
       item
@@ -3259,6 +3278,177 @@ object fNFeletronica: TfNFeletronica
     object sEmpresaCRT: TIntegerField
       FieldName = 'CRT'
     end
+    object sEmpresaCONTADOR: TStringField
+      FieldName = 'CONTADOR'
+      Size = 100
+    end
+    object sEmpresaCONTADOR_CRC: TStringField
+      FieldName = 'CONTADOR_CRC'
+      FixedChar = True
+    end
+    object sEmpresaCONTADOR_CNPJ: TStringField
+      FieldName = 'CONTADOR_CNPJ'
+      FixedChar = True
+      Size = 14
+    end
+    object sEmpresaCONTADOR_CPF: TStringField
+      FieldName = 'CONTADOR_CPF'
+      FixedChar = True
+      Size = 11
+    end
+    object sEmpresaCONTADOR_CEP: TStringField
+      FieldName = 'CONTADOR_CEP'
+      FixedChar = True
+      Size = 10
+    end
+    object sEmpresaCONTADOR_END: TStringField
+      FieldName = 'CONTADOR_END'
+      Size = 150
+    end
+    object sEmpresaCONTADOR_NUMEND: TStringField
+      FieldName = 'CONTADOR_NUMEND'
+      FixedChar = True
+      Size = 7
+    end
+    object sEmpresaCONTADOR_COMPL: TStringField
+      FieldName = 'CONTADOR_COMPL'
+      Size = 80
+    end
+    object sEmpresaCONTADOR_BAIRRO: TStringField
+      FieldName = 'CONTADOR_BAIRRO'
+      Size = 100
+    end
+    object sEmpresaCONTADOR_FONE: TStringField
+      FieldName = 'CONTADOR_FONE'
+      Size = 14
+    end
+    object sEmpresaCONTADOR_FAX: TStringField
+      FieldName = 'CONTADOR_FAX'
+      Size = 14
+    end
+    object sEmpresaCONTADOR_EMAIL: TStringField
+      FieldName = 'CONTADOR_EMAIL'
+      Size = 100
+    end
+    object sEmpresaCONTADOR_COD_MUN: TStringField
+      FieldName = 'CONTADOR_COD_MUN'
+      FixedChar = True
+      Size = 10
+    end
+    object sEmpresaIM: TStringField
+      FieldName = 'IM'
+      Size = 15
+    end
+    object sEmpresaTREGIME: TIntegerField
+      FieldName = 'TREGIME'
+    end
+    object sEmpresaCODINDTIPOCON: TSmallintField
+      FieldName = 'CODINDTIPOCON'
+    end
+    object sEmpresaINDAPROCRED: TSmallintField
+      FieldName = 'INDAPROCRED'
+    end
+    object sEmpresaCODINDINCTRIBUTARIA: TSmallintField
+      FieldName = 'CODINDINCTRIBUTARIA'
+    end
+    object sEmpresaINDICADORATIVIDADE: TSmallintField
+      FieldName = 'INDICADORATIVIDADE'
+    end
+    object sEmpresaINDICADORNATUREZAPJ: TSmallintField
+      FieldName = 'INDICADORNATUREZAPJ'
+    end
+    object sEmpresaINDCODINCIDENCIA: TSmallintField
+      FieldName = 'INDCODINCIDENCIA'
+    end
+    object sEmpresaCODINDCRITESCRIT: TSmallintField
+      FieldName = 'CODINDCRITESCRIT'
+    end
+    object sEmpresaINDESCRITURACAO: TSmallintField
+      FieldName = 'INDESCRITURACAO'
+    end
+    object sEmpresaINDCTA: TSmallintField
+      FieldName = 'INDCTA'
+    end
+    object sEmpresaINDTIPCOOP: TSmallintField
+      FieldName = 'INDTIPCOOP'
+    end
+    object sEmpresaINDAJ: TSmallintField
+      FieldName = 'INDAJ'
+    end
+    object sEmpresaBASECALCULOCREDITO: TSmallintField
+      FieldName = 'BASECALCULOCREDITO'
+    end
+    object sEmpresaCODAJ: TSmallintField
+      FieldName = 'CODAJ'
+    end
+    object sEmpresaINDNATREC: TSmallintField
+      FieldName = 'INDNATREC'
+    end
+    object sEmpresaCODCRED: TSmallintField
+      FieldName = 'CODCRED'
+    end
+    object sEmpresaNATCREDDESC: TSmallintField
+      FieldName = 'NATCREDDESC'
+    end
+    object sEmpresaINDCREDORI: TSmallintField
+      FieldName = 'INDCREDORI'
+    end
+    object sEmpresaINDREC: TSmallintField
+      FieldName = 'INDREC'
+    end
+    object sEmpresaCODCONT: TSmallintField
+      FieldName = 'CODCONT'
+    end
+    object sEmpresaINDDESCCRED: TSmallintField
+      FieldName = 'INDDESCCRED'
+    end
+    object sEmpresaINDORIGEMDIVERSAS: TSmallintField
+      FieldName = 'INDORIGEMDIVERSAS'
+    end
+    object sEmpresaINDNATRETFONTE: TSmallintField
+      FieldName = 'INDNATRETFONTE'
+    end
+    object sEmpresaINDTPOPERACAORECEITA: TSmallintField
+      FieldName = 'INDTPOPERACAORECEITA'
+    end
+    object sEmpresaINDNATDEDUCAO: TSmallintField
+      FieldName = 'INDNATDEDUCAO'
+    end
+    object sEmpresaCNPJPREFEITURA: TStringField
+      FieldName = 'CNPJPREFEITURA'
+      Size = 14
+    end
+    object sEmpresaNOMEPREFEITURA: TStringField
+      FieldName = 'NOMEPREFEITURA'
+      Size = 50
+    end
+    object sEmpresaCHAVELIC: TStringField
+      FieldName = 'CHAVELIC'
+      Size = 50
+    end
+    object sEmpresaCHAVECONT: TStringField
+      FieldName = 'CHAVECONT'
+      Size = 50
+    end
+    object sEmpresaMODELOCUPOM: TStringField
+      FieldName = 'MODELOCUPOM'
+      Size = 2
+    end
+    object sEmpresaECFMOD: TStringField
+      FieldName = 'ECFMOD'
+    end
+    object sEmpresaECFFAB: TStringField
+      FieldName = 'ECFFAB'
+    end
+    object sEmpresaECFCX: TStringField
+      FieldName = 'ECFCX'
+      Size = 3
+    end
+    object sEmpresaCENTROCUSTO: TStringField
+      FieldName = 'CENTROCUSTO'
+      Required = True
+      Size = 200
+    end
   end
   object gbCobranca1: TgbCobranca
     NumeroArquivo = 0
@@ -3383,10 +3573,10 @@ object fNFeletronica: TfNFeletronica
       'ADE, '#13#10'           e.UF,            e.CEP ,           e.NUMERO,  ' +
       '         e.TELEFONE,'#13#10'           e.DDD,           e.CD_IBGE,    ' +
       '       e.E_MAIL,'#13#10'           e.PAIS, p.CODPAIS, c.CODFISCAL, c.S' +
-      'UFRAMA'#13#10'          , c.TIPOFIRMA '#13#10'from CLIENTES c '#13#10'inner join E' +
-      'NDERECOCLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE '#13#10'inner join P' +
-      'AIS p on p.PAIS = e.PAIS'#13#10'where c.CODCLIENTE = :id and e.TIPOEND' +
-      ' = 0'
+      'UFRAMA'#13#10'          , c.TIPOFIRMA , c.TEM_IE '#13#10'from CLIENTES c '#13#10'i' +
+      'nner join ENDERECOCLIENTE e on'#13#10' e.CODCLIENTE = c.CODCLIENTE '#13#10'i' +
+      'nner join PAIS p on p.PAIS = e.PAIS'#13#10'where c.CODCLIENTE = :id an' +
+      'd e.TIPOEND = 0'
     MaxBlobSize = -1
     Params = <
       item
@@ -3508,6 +3698,12 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'TIPOFIRMA'
       ReadOnly = True
       Required = True
+    end
+    object sClienteTEM_IE: TStringField
+      FieldName = 'TEM_IE'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object OpenDialog1: TOpenDialog
@@ -4564,6 +4760,7 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.Arquivos.SepararPorMes = True
     Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
     Configuracoes.Arquivos.PathInu = 'C:\Home\NFe\Inutilizadas\'
     Configuracoes.WebServices.UF = 'SP'

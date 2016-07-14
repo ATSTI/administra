@@ -41,14 +41,14 @@ object fNotaf: TfNotaf
       object JvGroupBox1: TJvGroupBox
         Left = 3
         Top = -1
-        Width = 183
+        Width = 154
         Height = 42
         Caption = 'Natureza da Opera'#231#227'o'
         TabOrder = 0
         object cbNatureza: TDBComboBox
           Left = 7
           Top = 14
-          Width = 170
+          Width = 142
           Height = 21
           BevelKind = bkFlat
           DataField = 'DESCNATUREZA'
@@ -60,16 +60,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox2: TJvGroupBox
-        Left = 186
+        Left = 158
         Top = -1
-        Width = 173
+        Width = 165
         Height = 42
         Caption = 'C.F.O.P'
         TabOrder = 1
         object lblFatura: TLabel
           Left = 2
           Top = 27
-          Width = 169
+          Width = 161
           Height = 13
           Align = alBottom
           Caption = '..'
@@ -89,7 +89,7 @@ object fNotaf: TfNotaf
           OnKeyPress = FormKeyPress
         end
         object btnRemessa: TButton
-          Left = 88
+          Left = 85
           Top = 11
           Width = 77
           Height = 25
@@ -99,9 +99,9 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox3: TJvGroupBox
-        Left = 367
+        Left = 323
         Top = -1
-        Width = 135
+        Width = 90
         Height = 42
         Caption = 'C.N.P.J.'
         TabOrder = 3
@@ -122,9 +122,9 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox4: TJvGroupBox
-        Left = 505
+        Left = 413
         Top = -1
-        Width = 135
+        Width = 101
         Height = 42
         Caption = 'Inscri'#231#227'o Estadual'
         TabOrder = 4
@@ -147,14 +147,14 @@ object fNotaf: TfNotaf
       object JvGroupBox5: TJvGroupBox
         Left = 3
         Top = 41
-        Width = 452
+        Width = 401
         Height = 41
         Caption = 'Nome / Raz'#227'o Social'
         TabOrder = 5
         object cbCLiente: TDBComboBox
           Left = 7
           Top = 14
-          Width = 218
+          Width = 186
           Height = 21
           BevelKind = bkFlat
           DataField = 'NOMECLIENTE'
@@ -165,7 +165,7 @@ object fNotaf: TfNotaf
           OnKeyPress = FormKeyPress
         end
         object btnProcCli: TBitBtn
-          Left = 225
+          Left = 193
           Top = 11
           Width = 31
           Height = 25
@@ -174,9 +174,9 @@ object fNotaf: TfNotaf
           OnClick = btnProcCliClick
         end
         object DBEdit48: TDBEdit
-          Left = 258
+          Left = 225
           Top = 14
-          Width = 190
+          Width = 171
           Height = 21
           TabStop = False
           BevelKind = bkFlat
@@ -189,16 +189,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox6: TJvGroupBox
-        Left = 456
+        Left = 405
         Top = 41
-        Width = 185
+        Width = 109
         Height = 41
         Caption = 'C.N.P.J.'
         TabOrder = 6
         object DBEdit1: TDBEdit
           Left = 5
           Top = 14
-          Width = 175
+          Width = 99
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -211,14 +211,14 @@ object fNotaf: TfNotaf
       object JvGroupBox7: TJvGroupBox
         Left = 3
         Top = 83
-        Width = 321
+        Width = 238
         Height = 41
         Caption = 'Endere'#231'o'
         TabOrder = 7
         object DBEdit2: TDBEdit
           Left = 5
           Top = 14
-          Width = 310
+          Width = 228
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -229,16 +229,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox8: TJvGroupBox
-        Left = 324
+        Left = 242
         Top = 83
-        Width = 206
+        Width = 162
         Height = 41
         Caption = 'Bairro'
         TabOrder = 8
         object DBEdit3: TDBEdit
           Left = 5
           Top = 14
-          Width = 196
+          Width = 151
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -249,16 +249,16 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox9: TJvGroupBox
-        Left = 530
+        Left = 405
         Top = 83
-        Width = 111
+        Width = 110
         Height = 41
         Caption = 'CEP'
         TabOrder = 9
         object DBEdit4: TDBEdit
           Left = 5
           Top = 14
-          Width = 100
+          Width = 99
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -269,7 +269,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox10: TJvGroupBox
-        Left = 642
+        Left = 517
         Top = 41
         Width = 118
         Height = 41
@@ -289,7 +289,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox11: TJvGroupBox
-        Left = 642
+        Left = 518
         Top = 83
         Width = 118
         Height = 41
@@ -405,7 +405,7 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox28: TJvGroupBox
-        Left = 641
+        Left = 517
         Top = -1
         Width = 118
         Height = 41
@@ -942,7 +942,7 @@ object fNotaf: TfNotaf
         ActivePage = tsTrib
         TabOrder = 19
         object tsTrib: TTabSheet
-          Caption = 'Tributa'#231#227'o'
+          Caption = 'Totais'
           object JvGroupBox18: TJvGroupBox
             Left = 6
             Top = 12
@@ -3159,7 +3159,7 @@ object fNotaf: TfNotaf
     end
   end
   object CheckBox1: TCheckBox
-    Left = 661
+    Left = 533
     Top = 64
     Width = 97
     Height = 17
@@ -3167,13 +3167,97 @@ object fNotaf: TfNotaf
     TabOrder = 1
   end
   object ChkComp: TCheckBox
-    Left = 650
+    Left = 524
     Top = 64
     Width = 111
     Height = 17
     Caption = 'Nota Complemetar'
     TabOrder = 3
     OnClick = ChkCompClick
+  end
+  object GroupBox3: TGroupBox
+    Left = 641
+    Top = 64
+    Width = 135
+    Height = 126
+    Caption = 'Emiss'#227'o'
+    TabOrder = 4
+    object edFinNFe: TEdit
+      Left = 8
+      Top = 16
+      Width = 123
+      Height = 21
+      Hint = 'Normal - Complementar - Ajuste - Devolu'#231#227'o'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+    end
+    object edIndFinal: TEdit
+      Left = 8
+      Top = 33
+      Width = 123
+      Height = 21
+      Hint = 'N'#227'o ou Consumidor Final'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+    object edIndPres: TEdit
+      Left = 8
+      Top = 50
+      Width = 123
+      Height = 21
+      Hint = 
+        '0=N'#227'o se aplica (por exemplo, Nota Fiscal complementar'#13#10'ou de aj' +
+        'uste);'#13#10'1=Opera'#231#227'o presencial;'#13#10'2=Opera'#231#227'o n'#227'o presencial, pela ' +
+        'Internet;'#13#10'3=Opera'#231#227'o n'#227'o presencial, Teleatendimento;'#13#10'4=NFC-e ' +
+        'em opera'#231#227'o com entrega a domic'#237'lio;'#13#10'9=Opera'#231#227'o n'#227'o presencial,' +
+        ' outros.'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
+    object edIndIeDest: TEdit
+      Left = 8
+      Top = 67
+      Width = 123
+      Height = 21
+      Hint = 
+        '1=Contribuinte ICMS (informar a IE do destinat'#225'rio);'#13#10'2=Contribu' +
+        'inte isento de Inscri'#231#227'o no cadastro de Contribuintes do ICMS;'#13#10 +
+        '9=N'#227'o Contribuinte, que pode ou n'#227'o possuir Inscri'#231#227'o'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 3
+    end
+    object edDestinoOper: TEdit
+      Left = 8
+      Top = 84
+      Width = 123
+      Height = 21
+      Hint = 
+        '1=Opera'#231#227'o interna;'#13#10'2=Opera'#231#227'o interestadual;'#13#10'3=Opera'#231#227'o com e' +
+        'xterior.'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 4
+    end
+    object edTipo: TEdit
+      Left = 8
+      Top = 102
+      Width = 123
+      Height = 21
+      Hint = 'Entrada ou Sa'#237'da'
+      Color = clScrollBar
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 5
+    end
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
@@ -3288,9 +3372,9 @@ object fNotaf: TfNotaf
       'J, cli.INSCESTADUAL, cli.PRAZORECEBIMENTO, cli.COD_TRANPORTADORA' +
       ' '#13#10', ende.LOGRADOURO, ende.BAIRRO, ende.COMPLEMENTO, ende.CIDADE' +
       ', ende.UF, ende.CEP, ende.TELEFONE , CLI.TIPOFIRMA, cli.codfisca' +
-      'l'#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende on e' +
-      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.CODCLIENTE = :pCodCl' +
-      'i'#13#10' order by cli.RAZAOSOCIAL '
+      'l, cli.TEM_IE '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIE' +
+      'NTE ende on ende.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.CODCLIE' +
+      'NTE = :pCodCli'#13#10' order by cli.RAZAOSOCIAL '
     MaxBlobSize = -1
     Params = <
       item
@@ -3378,6 +3462,15 @@ object fNotaf: TfNotaf
     end
     object listaCliente1CODFISCAL: TStringField
       FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
+    object listaCliente1TIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object listaCliente1TEM_IE: TStringField
+      FieldName = 'TEM_IE'
       FixedChar = True
       Size = 1
     end
@@ -4327,6 +4420,9 @@ object fNotaf: TfNotaf
       FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
+    end
+    object sdsCFOPIND_PRES: TIntegerField
+      FieldName = 'IND_PRES'
     end
   end
 end

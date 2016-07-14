@@ -2843,6 +2843,7 @@ var
   total : double;
   produto_cupomf: String;
   portaIMP : string;
+  i: integer;
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
@@ -2994,12 +2995,17 @@ begin
     Writeln(Impressora, c17cpi, texto3);
     // Pula linhas
     Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
-    Writeln(IMPRESSORA);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg1);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg2);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg3);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg4);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg5);
+    Writeln(IMPRESSORA, c17cpi, dm.cupom_msg6);
+    for i := 0 to StrToInt(dm.qntespacos) do
+    begin
+      Writeln(IMPRESSORA);
+    end;
+
     if ((dm.recortacupom = 'S') or (dm.recortacupom = '')) then
       Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally

@@ -77,7 +77,7 @@ object Form1: TForm1
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_lajes'
+      'Database=192.168.6.100:sge_vitton'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -89,11 +89,19 @@ object Form1: TForm1
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
+    Connected = True
     Left = 160
     Top = 96
   end
   object SQLDataSet1: TSQLDataSet
-    CommandText = 'SELECT NCM FROM IBPT'
+    CommandText = 
+      'Select n.NCM '#13#10', n.ALIQNAC '#13#10', n.ALIQIMP     '#13#10', n.CEST   '#13#10', n.' +
+      'ESTADUAL '#13#10', n.MUNICIPAL'#13#10#13#10', i.ALIQNAC  as IMP_FEDERAL '#13#10', i.AL' +
+      'IQIMP as IMP_FERERAL_IMP'#13#10', i.TIPO '#13#10', i.EX '#13#10', i.DESCRICAO '#13#10', ' +
+      'i.ESTADUAL  as IMP_ESTADUAL '#13#10', i.MUNICIPAL  as IMP_MUNICIPAL'#13#10',' +
+      ' i.VIGENCIAINICIO '#13#10', i.VIGENCIAFIM       '#13#10', i.CHAVE '#13#10', i.VERS' +
+      'AO  '#13#10', i.FONTE '#13#10' from NCM n'#13#10'left outer join IBPT i on i.NCM =' +
+      ' n.NCM '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sc
@@ -115,6 +123,62 @@ object Form1: TForm1
       FieldName = 'NCM'
       Required = True
       Size = 8
+    end
+    object cdsALIQNAC: TFloatField
+      FieldName = 'ALIQNAC'
+    end
+    object cdsALIQIMP: TFloatField
+      FieldName = 'ALIQIMP'
+    end
+    object cdsCEST: TStringField
+      FieldName = 'CEST'
+      Size = 7
+    end
+    object cdsESTADUAL: TFloatField
+      FieldName = 'ESTADUAL'
+    end
+    object cdsMUNICIPAL: TFloatField
+      FieldName = 'MUNICIPAL'
+    end
+    object cdsIMP_FEDERAL: TFloatField
+      FieldName = 'IMP_FEDERAL'
+    end
+    object cdsIMP_FERERAL_IMP: TFloatField
+      FieldName = 'IMP_FERERAL_IMP'
+    end
+    object cdsTIPO: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsEX: TIntegerField
+      FieldName = 'EX'
+    end
+    object cdsDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object cdsIMP_ESTADUAL: TFloatField
+      FieldName = 'IMP_ESTADUAL'
+    end
+    object cdsIMP_MUNICIPAL: TFloatField
+      FieldName = 'IMP_MUNICIPAL'
+    end
+    object cdsVIGENCIAINICIO: TDateField
+      FieldName = 'VIGENCIAINICIO'
+    end
+    object cdsVIGENCIAFIM: TDateField
+      FieldName = 'VIGENCIAFIM'
+    end
+    object cdsCHAVE: TStringField
+      FieldName = 'CHAVE'
+    end
+    object cdsVERSAO: TStringField
+      FieldName = 'VERSAO'
+    end
+    object cdsFONTE: TStringField
+      FieldName = 'FONTE'
+      Size = 60
     end
   end
 end

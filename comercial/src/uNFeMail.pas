@@ -275,6 +275,11 @@ begin
         fNFeletronica.ACBrMail1.Password := sEmpresaSENHA.AsString;
         fNFeletronica.ACBrMail1.From := sEmpresaE_MAIL.AsString;
         fNFeletronica.ACBrMail1.FromName := sEmpresaEMPRESA.AsString;
+        fNFeletronica.ACBrMail1.AddAddress(sEmailE_MAIL.AsString);
+        if (dm.email_tls = 'S') then
+          fNFeletronica.ACBrMail1.SetTLS := True;
+        if (dm.email_ssl = 'S') then
+          fNFeletronica.ACBrMail1.SetSSL := True;
 
        // 29/12/2015
        { fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString

@@ -723,7 +723,7 @@ object fNfeIcms: TfNfeIcms
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 328
-    Top = 136
+    Top = 128
     object sdsNFVendaNOTASERIE: TStringField
       FieldName = 'NOTASERIE'
       Required = True
@@ -1577,7 +1577,7 @@ object fNfeIcms: TfNfeIcms
   object dspNFVenda: TDataSetProvider
     DataSet = sdsNFVenda
     Left = 360
-    Top = 136
+    Top = 128
   end
   object cdsNFVenda: TClientDataSet
     Aggregates = <>
@@ -1604,7 +1604,7 @@ object fNfeIcms: TfNfeIcms
       end>
     ProviderName = 'dspNFVenda'
     Left = 392
-    Top = 136
+    Top = 128
     object cdsNFVendaNOTASERIE: TStringField
       FieldName = 'NOTASERIE'
       Required = True
@@ -2467,10 +2467,10 @@ object fNfeIcms: TfNfeIcms
       'E, DET.BCSTFRETE, DET.ICMSFRETE, DET.CSOSN, DET.VALOR_DESCONTO, ' +
       'DET.VALOR_SEGURO, DET.VALOR_OUTROS, DET.OBS, DET.CODSOLICITACAO,' +
       ' DET.VALOR_PIS, DET.VALOR_COFINS, DET.II, DET.BCII, PRO.CODPRO, ' +
-      'PRO.NCM, DET.CSTIPI, DET.CSTPIS, DET.CSTCOFINS'#13#10'   FROM MOVIMENT' +
-      'O MOV, MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WHERE MOV.CODMOVIMENT' +
-      'O = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO     = DET.CODPROD' +
-      'UTO'#13#10'      AND MOV.CODMOVIMENTO = :PMOV'
+      'PRO.NCM, DET.CSTIPI, DET.CSTPIS, DET.CSTCOFINS, DET.CST_IPI_CENQ' +
+      ' '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WH' +
+      'ERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUT' +
+      'O     = DET.CODPRODUTO'#13#10'      AND MOV.CODMOVIMENTO = :PMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -2661,6 +2661,11 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CSTCOFINS'
       Size = 2
     end
+    object cdsItensCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
   end
   object sdsUnimed: TSQLQuery
     MaxBlobSize = -1
@@ -2716,15 +2721,16 @@ object fNfeIcms: TfNfeIcms
       ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'     AND md.CODMOVIMEN' +
       'TO = c.CODMOVIMENTO      '#13#10'     AND  f.CODFORNECEDOR = c.CODFORN' +
       'ECEDOR'#13#10'     AND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND ef' +
-      '.TIPOEND = 0  '#13#10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND C.COD' +
-      'MOVIMENTO BETWEEN  :CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA   ' +
-      '   BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     group by C.DATACOMPRA, C.' +
-      'NOTAFISCAL, C.VALOR_ICMS, C.VALOR_FRETE, C.VALOR_SEGURO, C.VALOR' +
-      '_IPI'#13#10', f.CODFORNECEDOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, ' +
-      'f.TIPOFIRMA, ef.LOGRADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef' +
-      '.CEP'#13#10',ef.COMPLEMENTO, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10 +
-      ', C.SERIE, C.VALOR, C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c' +
-      '.CHAVENF, c.MODELO, c.OPERACAO'#13#10'  ORDER BY F.CODFORNECEDOR'
+      '.TIPOEND = 0  '#13#10'     AND MOV.CODNATUREZA = 4    '#13#10'     AND ((COA' +
+      'LESCE(C.MODELO, '#39#39') <> '#39#39')) '#13#10'     AND C.CODMOVIMENTO BETWEEN  :' +
+      'CODINI AND :CODFIM'#13#10'     AND C.DATACOMPRA      BETWEEN :DTA_INI ' +
+      'AND :DTA_FIM'#13#10'     group by C.DATACOMPRA, C.NOTAFISCAL, C.VALOR_' +
+      'ICMS, C.VALOR_FRETE, C.VALOR_SEGURO, C.VALOR_IPI'#13#10', f.CODFORNECE' +
+      'DOR, f.RAZAOSOCIAL, f.CNPJ, f.INSCESTADUAL, f.TIPOFIRMA, ef.LOGR' +
+      'ADOURO, ef.BAIRRO, ef.CIDADE, ef.CD_IBGE, ef.CEP'#13#10',ef.COMPLEMENT' +
+      'O, ef.DDD, ef.TELEFONE, ef.NUMERO, ef.PAIS'#13#10', C.SERIE, C.VALOR, ' +
+      'C.ICMS_ST, C.ICMS_BASE_ST, c.CODMOVIMENTO, c.CHAVENF, c.MODELO, ' +
+      'c.OPERACAO'#13#10'  ORDER BY F.CODFORNECEDOR'
     MaxBlobSize = -1
     Params = <
       item
@@ -3332,8 +3338,9 @@ object fNfeIcms: TfNfeIcms
       ' MOVIMENTO M'#13#10'   WHERE f.CODFORNECEDOR = c.CODFORNECEDOR'#13#10'     A' +
       'ND ef.CODFORNECEDOR = f.CODFORNECEDOR'#13#10'     AND C.CODMOVIMENTO =' +
       ' M.CODMOVIMENTO '#13#10'      AND M.CODNATUREZA = 4'#13#10'     AND ef.TIPOE' +
-      'ND = 0      '#13#10'     AND C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FI' +
-      'M'#13#10'     AND C.CODMOVIMENTO BETWEEN :CODINI AND :CODFIM'
+      'ND = 0      '#13#10'    AND ((COALESCE(C.MODELO, '#39#39') <> '#39#39')) '#13#10'     AN' +
+      'D C.DATACOMPRA BETWEEN :DTA_INI AND :DTA_FIM'#13#10'     AND C.CODMOVI' +
+      'MENTO BETWEEN :CODINI AND :CODFIM'
     MaxBlobSize = -1
     Params = <
       item
@@ -4358,14 +4365,18 @@ object fNfeIcms: TfNfeIcms
         'SUM(r.ICMS_SUBST) ICMS_ST, SUM(r.ICMS_SUBSTD) VLR_BASE_ICMS_ST, ' +
         'SUM(r.VLR_BASEICMS) VLR_BASE_ICMS, '
       'SUM(r.VIPI) VLR_IPI, SUM(r.VLRBC_IPI) as VLR_BASE_IPI'
+      ', sum(r.VBCUFDEST) VBCUFDEST, sum(r.PFCPUFDEST) PFCPUFDEST, '
+      'sum(r.PICMSUFDEST) PICMSUFDEST, sum(r.PICMSINTER) PICMSINTER, '
+      'sum(r.PICMSINTERPART) PICMSINTERPART   , '
+      'sum(r.VFCPUFDEST) VFCPUFDEST   ,sum(r.VICMSUFDEST) VICMSUFDEST, '
+      'sum(r.VICMSUFREMET) VICMSUFREMET   '
       '    FROM NOTAFISCAL NF, VENDA v, MOVIMENTO m, MOVIMENTODETALHE r'
       '   WHERE NF.CODVENDA = v.CODVENDA'
       '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
       '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
       '     AND m.CODNATUREZA in (12, 15)'
       '     AND NF.PROTOCOLOCANC IS NULL '
-      '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2'
-      '  ')
+      '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2')
     SQLConnection = DM.sqlsisAdimin
     Left = 672
     Top = 272
@@ -4395,6 +4406,38 @@ object fNfeIcms: TfNfeIcms
     end
     object sqlTotalSaidaVLR_BASE_IPI: TFloatField
       FieldName = 'VLR_BASE_IPI'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ReadOnly = True
+    end
+    object sqlTotalSaidaVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
       ReadOnly = True
     end
   end
@@ -5083,6 +5126,276 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CSTIPI'
       ReadOnly = True
       Size = 2
+    end
+  end
+  object sdsSat: TSQLDataSet
+    CommandText = 
+      'SELECT  V.DATAVENDA, V.VALOR, V.VALOR_ICMS, '#13#10'V.N_BOLETO AS N_CN' +
+      'PJ, V.OBS AS SAT, '#13#10'V.N_DOCUMENTO AS N_CFE,  '#13#10' SUM(MD.VALOR_ICM' +
+      'S) ICMS, SUM(MD.VALOR_PIS) PIS,  SUM(MD.VALOR_COFINS) COFINS '#13#10',' +
+      ' V.CODMOVIMENTO '#13#10'   FROM VENDA V, CLIENTES C, ENDERECOCLIENTE E' +
+      'C, '#13#10'     SERIES S, MOVIMENTODETALHE MD'#13#10' WHERE V.CODCLIENTE = C' +
+      '.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'      AND' +
+      ' S.SERIE = V.SERIE'#13#10'     AND MD.CODMOVIMENTO = V.CODMOVIMENTO '#13#10 +
+      '      AND V.DATAVENDA BETWEEN :DTA1 AND :DTA2'#13#10'      AND C.CODCL' +
+      'IENTE > 0'#13#10'      AND EC.TIPOEND = 0 '#13#10'      AND V.CODMOVIMENTO B' +
+      'ETWEEN :CODINI AND :CODFIM '#13#10'      AND V.STATUS1 = '#39'E'#39#13#10' GROUP B' +
+      'Y V.CODMOVIMENTO,  V.DATAVENDA, V.VALOR, V.VALOR_ICMS, '#13#10'V.N_BOL' +
+      'ETO , V.OBS , '#13#10'V.N_DOCUMENTO '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 272
+    Top = 416
+  end
+  object dspSat: TDataSetProvider
+    DataSet = sdsSat
+    Left = 304
+    Top = 416
+  end
+  object cdsSat: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspSat'
+    Left = 336
+    Top = 416
+    object cdsSatDATAVENDA: TDateField
+      FieldName = 'DATAVENDA'
+      Required = True
+    end
+    object cdsSatVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+    object cdsSatVALOR_ICMS: TFloatField
+      FieldName = 'VALOR_ICMS'
+    end
+    object cdsSatN_CNPJ: TStringField
+      FieldName = 'N_CNPJ'
+      ReadOnly = True
+      Size = 30
+    end
+    object cdsSatSAT: TStringField
+      FieldName = 'SAT'
+      ReadOnly = True
+      Size = 500
+    end
+    object cdsSatN_CFE: TStringField
+      FieldName = 'N_CFE'
+      ReadOnly = True
+    end
+    object cdsSatICMS: TFloatField
+      FieldName = 'ICMS'
+      ReadOnly = True
+    end
+    object cdsSatPIS: TFloatField
+      FieldName = 'PIS'
+      ReadOnly = True
+    end
+    object cdsSatCOFINS: TFloatField
+      FieldName = 'COFINS'
+      ReadOnly = True
+    end
+    object cdsSatCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ReadOnly = True
+      Required = True
+    end
+  end
+  object sdsSatAnal: TSQLDataSet
+    CommandText = 
+      'SELECT md.CFOP, md.CST,  sum(MD.VALOR_ICMS) VLR_ICMS, SUM(md.VAL' +
+      'TOTAL) TOTAL, md.ICMS'#13#10'   FROM VENDA V, CLIENTES C, ENDERECOCLIE' +
+      'NTE EC, '#13#10'     SERIES S, MOVIMENTODETALHE MD'#13#10' WHERE V.CODCLIENT' +
+      'E = C.CODCLIENTE'#13#10'      AND C.CODCLIENTE   = EC.CODCLIENTE'#13#10'    ' +
+      '  AND S.SERIE = V.SERIE'#13#10'     AND MD.CODMOVIMENTO = V.CODMOVIMEN' +
+      'TO '#13#10'      AND V.DATAVENDA BETWEEN :DTA1 AND :DTA2'#13#10'      AND C.' +
+      'CODCLIENTE > 0'#13#10'      AND EC.TIPOEND = 0 '#13#10'      AND V.CODMOVIME' +
+      'NTO BETWEEN :CODINI AND :CODFIM '#13#10'      AND V.STATUS1 = '#39'E'#39#13#10' GR' +
+      'OUP BY md.CFOP, md.CST, md.ICMS'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 272
+    Top = 448
+  end
+  object dspSatAnal: TDataSetProvider
+    DataSet = sdsSatAnal
+    Left = 304
+    Top = 448
+  end
+  object cdsSatAnal: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'DTA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'DTA2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODINI'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CODFIM'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspSatAnal'
+    Left = 336
+    Top = 448
+    object cdsSatAnalCFOP: TStringField
+      FieldName = 'CFOP'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsSatAnalCST: TStringField
+      FieldName = 'CST'
+      Size = 5
+    end
+    object cdsSatAnalVLR_ICMS: TFloatField
+      FieldName = 'VLR_ICMS'
+      ReadOnly = True
+    end
+    object cdsSatAnalTOTAL: TFloatField
+      FieldName = 'TOTAL'
+      ReadOnly = True
+    end
+    object cdsSatAnalICMS: TFloatField
+      FieldName = 'ICMS'
+      ReadOnly = True
+    end
+  end
+  object sdsDifal: TSQLDataSet
+    CommandText = 
+      'SELECT  sum(VBCUFDEST) VBCUFDEST, sum(PFCPUFDEST) PFCPUFDEST, su' +
+      'm(PICMSUFDEST) PICMSUFDEST, sum(PICMSINTER) PICMSINTER, sum(PICM' +
+      'SINTERPART) PICMSINTERPART   , sum(VFCPUFDEST) VFCPUFDEST   ,sum' +
+      '( VICMSUFDEST) VICMSUFDEST, sum(VICMSUFREMET) VICMSUFREMET   '#13#10' ' +
+      '  FROM  MOVIMENTODETALHE '#13#10'WHERE  CODMOVIMENTO = :PMOV'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 64
+    Top = 352
+  end
+  object dspDifal: TDataSetProvider
+    DataSet = sdsDifal
+    Left = 96
+    Top = 352
+  end
+  object cdsDifal: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspDifal'
+    Left = 129
+    Top = 352
+    object cdsDifalVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ReadOnly = True
+    end
+    object cdsDifalPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ReadOnly = True
+    end
+    object cdsDifalPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsDifalPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ReadOnly = True
+    end
+    object cdsDifalPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ReadOnly = True
+    end
+    object cdsDifalVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+      ReadOnly = True
+    end
+    object cdsDifalVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsDifalVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      ReadOnly = True
     end
   end
 end

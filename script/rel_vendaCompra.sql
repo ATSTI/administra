@@ -70,13 +70,14 @@ BEGIN
     -- estoque inicial
    
     -- #### TRAZ CUSTO CORRETO MAS E MUITO LENTO NA MARA, POR ISSO, ESTOU PEGANDO PRECOMEDIO - 04/08/2014 
-    select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, :codPRO) ev 
-     into :vlrCustoTotal;   
+    --select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, :codPRO) ev 
+    -- into :vlrCustoTotal;   
    
     custoProd = 0;
     --if (vlrCustoTotal = 0)  then 
     --begin 
     -- se usa materia prima , pega os custos de la
+    /**
     SELECT SUM(COALESCE(r.QTDEUSADA,0) * 
     (select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:PDTA1, :PDTA2, r.CODPRODMP) ev)) 
       FROM MATERIA_PRIMA r, PRODUTOS p
@@ -90,7 +91,7 @@ BEGIN
       if (custoProd > 0) then
         vlrCustoTotal = custoProd; 
     --end  
-    
+    **/
     
     SELECT FIRST 1 ev.SALDOFIMACUM FROM ESTOQUE_VIEW_CUSTO (:pdta2,:CodPro,  :CCUSTO, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev
      into :qtdeEstoque; 
@@ -235,16 +236,6 @@ BEGIN
       vlrLucro = 0;
 
    
-
-    if (qtdeVenda > 0) then
-      PercentProduto =  100*((qtdeVenda / total)-100);
-    else 
-      PercentProduto = 0;
-    if (vlrCustoTotal = 0) then 
-    begin 
-      vlrCustoTotal = custoProd * QtdeVenda;
-    end
-    
     if (vlrUnitCompra  = 0) then 
     begin
       for Select FIRST 1 m.PRECO
@@ -258,8 +249,22 @@ BEGIN
         order by c.DATACOMPRA desc   
          into :vlrUnitCompra
         do begin 
+          if (vlrCustoTotal = 0) then 
+          begin 
+            custoProd = vlrUnitCompra;
+          end  
         end  
-    end 
+    end
+
+
+    if (qtdeVenda > 0) then
+      PercentProduto =  100*((qtdeVenda / total)-100);
+    else 
+      PercentProduto = 0;
+    if (vlrCustoTotal = 0) then 
+    begin 
+      vlrCustoTotal = custoProd * QtdeVenda;
+    end
     
     
     

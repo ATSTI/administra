@@ -634,7 +634,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 6
+          TabOrder = 7
           OnKeyPress = FormKeyPress
         end
         object DBEdit9: TDBEdit
@@ -653,7 +653,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 7
+          TabOrder = 8
           OnKeyPress = FormKeyPress
         end
         object DBEdit10: TDBEdit
@@ -672,7 +672,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 8
+          TabOrder = 9
           OnKeyPress = FormKeyPress
         end
         object DBEdit11: TDBEdit
@@ -691,7 +691,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 9
+          TabOrder = 12
           OnKeyPress = FormKeyPress
         end
         object DBEdit12: TDBEdit
@@ -710,7 +710,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 10
+          TabOrder = 13
           OnKeyPress = FormKeyPress
         end
         object DBEdit13: TDBEdit
@@ -729,7 +729,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 11
+          TabOrder = 14
           OnKeyPress = FormKeyPress
         end
         object DBEdit14: TDBEdit
@@ -748,7 +748,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 12
+          TabOrder = 15
           OnKeyPress = FormKeyPress
         end
         object DBEdit15: TDBEdit
@@ -767,7 +767,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 13
+          TabOrder = 20
           OnKeyPress = FormKeyPress
         end
         object DBEdit16: TDBEdit
@@ -786,7 +786,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 14
+          TabOrder = 17
           OnKeyPress = FormKeyPress
         end
         object DBEdit17: TDBEdit
@@ -805,7 +805,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 15
+          TabOrder = 16
           OnKeyPress = FormKeyPress
         end
         object DBEdit6: TDBEdit
@@ -824,7 +824,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 16
+          TabOrder = 18
           OnKeyPress = FormKeyPress
         end
         object DBEdit18: TDBEdit
@@ -843,7 +843,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 17
+          TabOrder = 19
           OnKeyPress = FormKeyPress
         end
         object BitBtn1: TBitBtn
@@ -858,7 +858,7 @@ inherited fEmpresa: TfEmpresa
           Font.Name = 'Arial'
           Font.Style = []
           ParentFont = False
-          TabOrder = 18
+          TabOrder = 26
           OnClick = BitBtn1Click
           Glyph.Data = {
             360C0000424D360C000000000000360000002800000020000000200000000100
@@ -972,7 +972,7 @@ inherited fEmpresa: TfEmpresa
           Font.Name = 'Arial'
           Font.Style = []
           ParentFont = False
-          TabOrder = 19
+          TabOrder = 27
           OnClick = BitBtn2Click
           Glyph.Data = {
             1E070000424D1E070000000000003600000028000000160000001A0000000100
@@ -1042,7 +1042,7 @@ inherited fEmpresa: TfEmpresa
           BevelInner = bvLowered
           BevelWidth = 3
           Color = clMoneyGreen
-          TabOrder = 20
+          TabOrder = 28
           object Image1: TJvImage
             Left = 6
             Top = 6
@@ -1083,7 +1083,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 22
+          TabOrder = 6
           OnKeyPress = FormKeyPress
         end
         object BitBtn3: TBitBtn
@@ -1098,7 +1098,7 @@ inherited fEmpresa: TfEmpresa
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           ParentFont = False
-          TabOrder = 23
+          TabOrder = 29
           OnClick = BitBtn3Click
         end
         object DBEdit20: TDBEdit
@@ -1117,7 +1117,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 24
+          TabOrder = 10
           OnKeyPress = FormKeyPress
         end
         object DBEdit21: TDBEdit
@@ -1136,7 +1136,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 25
+          TabOrder = 23
           OnKeyPress = FormKeyPress
         end
         object DBEdit22: TDBEdit
@@ -1155,7 +1155,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 26
+          TabOrder = 24
           OnKeyPress = FormKeyPress
         end
         object DBEdit23: TDBEdit
@@ -1175,7 +1175,7 @@ inherited fEmpresa: TfEmpresa
           ParentFont = False
           PasswordChar = '*'
           PopupMenu = PopupMenu1
-          TabOrder = 27
+          TabOrder = 22
           OnKeyPress = FormKeyPress
         end
         object DBEdit24: TDBEdit
@@ -1194,7 +1194,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ParentFont = False
           PopupMenu = PopupMenu1
-          TabOrder = 28
+          TabOrder = 25
           OnKeyPress = FormKeyPress
         end
         object DBRadioGroup2: TDBRadioGroup
@@ -1219,7 +1219,7 @@ inherited fEmpresa: TfEmpresa
           ParentShowHint = False
           PopupMenu = PopupMenu1
           ShowHint = True
-          TabOrder = 29
+          TabOrder = 30
           Values.Strings = (
             '0'
             '1'
@@ -1238,7 +1238,7 @@ inherited fEmpresa: TfEmpresa
           Font.Style = []
           ItemHeight = 16
           ParentFont = False
-          TabOrder = 30
+          TabOrder = 11
           OnChange = cbEstadoChange
         end
       end

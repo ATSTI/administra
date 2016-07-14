@@ -970,7 +970,7 @@ end;
 procedure TfProcura_produtos.DBGrid1CellClick(Column: TColumn);
 var varCondicao, varSql1, varSql2: string;
 begin
- // C�digos
+ // Codigos
  varSql1 := 'select distinct cod.CODIGO ' +
    'from PRODUTOS pro ' +
    'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +

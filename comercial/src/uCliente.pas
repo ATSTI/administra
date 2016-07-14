@@ -41,6 +41,8 @@ type
     procedure setCodFiscal(const Value: String);
     function getCfop: String;
     procedure setCfop(const Value: String);
+    function getTem_ie: String;
+    procedure setTem_ie(const Value: String);
   protected
     //Atributos
     _codCli          : Integer;
@@ -57,7 +59,8 @@ type
     _obs             : String;
     _referencia      : String;
     _codFiscal       : String;
-    _cfop            : String;    
+    _cfop            : String;
+    _tem_ie          : String;  
     _dataCadastro    : TDateTime;
     _dataNasc        : TDateTime;
     _endereco        : TEnderecos;
@@ -70,6 +73,7 @@ type
     property TipoFirma   : Smallint read getTipoFirma write setTipoFirma;
     property NomeCliente : String read getNomeCliente write setNomeCliente;
     property Cfop        : String read getCfop write setCfop;
+    property Tem_ie        : String read getTem_ie write setTem_ie;
     property RazaoSocial : String read getRazaoSocial write setRazaoSocial;
     property Contato     : String read getContato write setContato;
     property Cnpj        : String read getCnpj write setCnpj;
@@ -116,6 +120,7 @@ begin
   sqlAlt := sqlAlt + ' STATUS       = ' + IntToStr(Self.Status) + ', ';
   sqlAlt := sqlAlt + ' TIPOFIRMA    = ' + IntToStr(Self.TipoFirma) + ', ';
   sqlAlt := sqlAlt + ' CODFISCAL    = ' + QuotedStr(Self.CodFiscal) + ', ';
+  sqlAlt := sqlAlt + ' TEM_IE    = ' + QuotedStr(Self.Tem_ie) + ', ';  
   sqlAlt := sqlAlt + ' MARCA        = ' + QuotedStr(Self.Referencia);
   sqlAlt := sqlAlt + ' WHERE CODCLIENTE = ' + IntToStr(codCliA);
   Result := executaSql(sqlAlt);
@@ -235,6 +240,11 @@ begin
   Result := _status;
 end;
 
+function TCliente.getTem_ie: String;
+begin
+  Result := _tem_ie;
+end;
+
 function TCliente.getTipoFirma: Smallint;
 begin
   Result := _tipoFirma;
@@ -258,7 +268,7 @@ begin
   sqlInc := sqlInc + ' CODCLIENTE,   NOMECLIENTE,  RAZAOSOCIAL, CONTATO,';
   sqlInc := sqlInc + ' CNPJ,         INSCESTADUAL, SEGMENTO,    REGIAO, ';
   sqlInc := sqlInc + ' DATACADASTRO, DATANASC,     CODUSUARIO,  STATUS, ';
-  sqlInc := sqlInc + ' TIPOFIRMA, MARCA, CFOP)';
+  sqlInc := sqlInc + ' TIPOFIRMA, MARCA, CFOP, TEM_IE)';
   sqlInc := sqlInc + ' VALUES(';
   sqlInc := sqlInc + IntToStr(Self.CodCli) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.NomeCliente) + ', ';
@@ -272,7 +282,8 @@ begin
   sqlInc := sqlInc + IntToStr(Self.Status) + ', ';
   sqlInc := sqlInc + IntToStr(Self.TipoFirma) + ', ';
   sqlInc := sqlInc + QuotedStr(Self.Referencia) + ',';
-  sqlInc := sqlInc + QuotedStr(Self.Cfop) + ')';
+  sqlInc := sqlInc + QuotedStr(Self.Cfop) + ',';
+  sqlInc := sqlInc + QuotedStr(Self.Tem_ie) + ')';
   try
     executaSql(sqlInc);
     Result := Self.CodCli;
@@ -360,6 +371,11 @@ begin
   _status := Value;
 end;
 
+procedure TCliente.setTem_ie(const Value: String);
+begin
+  _tem_ie := Value;
+end;
+
 procedure TCliente.setTipoFirma(const Value: Smallint);
 begin
   _tipoFirma := Value;
@@ -399,6 +415,7 @@ begin
       Self.InscEstadual  := dm.cdsBusca.FieldByName('INSCESTADUAL').AsString;
       Self.DataCadastro  := dm.cdsBusca.FieldByName('DATACADASTRO').AsDateTime;
       Self.DataNasc      := dm.cdsBusca.FieldByName('DATANASC').AsDateTime;
+      Self.Tem_ie          := dm.cdsBusca.FieldByName('TEM_IE').AsString;
       Result := Self.CodCli;
     end
     else

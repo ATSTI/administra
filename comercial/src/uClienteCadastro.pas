@@ -734,6 +734,7 @@ type
     procedure btnProcListaPrecoClick(Sender: TObject);
     procedure DBEdit63Exit(Sender: TObject);
     procedure btnConsultaCadastroClick(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -1070,7 +1071,7 @@ begin
          cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';
        if cds_cliTEM_IE.AsString = 'S' then
          CheckBox1.Checked := True;
-       if cds_cliTEM_IE.AsString = '' then
+       if ((cds_cliTEM_IE.AsString = '') or (cds_cliTEM_IE.AsString = 'N')) then
          CheckBox1.Checked := False;
       finally
         fListaClientes.Free;
@@ -1262,10 +1263,13 @@ begin
       cdsEnderecoCli.Edit;
  }
 
-      if CheckBox1.Checked = True then
-         cds_cliTEM_IE.AsString := 'S';
       parente := 1;
     end;
+
+    if (CheckBox1.Checked = True) then
+      cds_cliTEM_IE.AsString := 'S'
+    else
+      cds_cliTEM_IE.AsString := 'N';
 
     if (cbPlano.Text <> '') then
     begin
@@ -1763,6 +1767,7 @@ begin
     cds_cli.Params[0].Clear;
     cds_cli.Params[0].AsInteger := fListaClientes.cdsCODCLIENTE.AsInteger;
     cds_cli.Open;
+
     if (not cds_cli.IsEmpty) then
     begin
       // Busca o Plano e o Fornecedor
@@ -1819,8 +1824,12 @@ begin
        cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
     cdsEnderecoCli.Open;
   end;
-    if (Not cds_faixa.Active) then
-       cds_faixa.Open;
+
+  if (cds_cliTEM_IE.AsString = 'S') then
+    CheckBox1.Checked := True;
+
+  if (Not cds_faixa.Active) then
+     cds_faixa.Open;
 
     if (cds_faixa.Locate('CODFAIXA', cds_cliCOD_FAIXA.AsInteger,[loCaseInsensitive])) then
       ComboBox1.Text := cds_faixaDESCRICAO.AsString
@@ -2902,6 +2911,13 @@ begin
       lblConsultaCadastro.Caption := cds_cliCURSO.AsString + ' - ' +
         formatdatetime('dd/mm/yyyy', cds_cliDTAALTERA.AsDateTime);
   end;
+end;
+
+procedure TfClienteCadastro.CheckBox1Click(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_cli.Edit;
 end;
 
 end.
