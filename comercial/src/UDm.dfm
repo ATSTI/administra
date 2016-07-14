@@ -14,10 +14,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\home\sisadmin\bd\sge_dnz.fdb'
+      'Database=192.168.6.100:sge_agriestufa'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=masterkey'
+      'Password=xl04pq21'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -566,9 +566,7 @@ object DM: TDM
     end
   end
   object sds_cfop: TSQLDataSet
-    CommandText = 
-      'select CFCOD, CFNOME, FRETEBC, IPIBC, TIPOMOVIMENTO, TOTTRIB fro' +
-      'm CFOP'
+    CommandText = 'select * from CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
@@ -606,6 +604,13 @@ object DM: TDM
       FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
+    end
+    object sds_cfopCFNOTA: TMemoField
+      FieldName = 'CFNOTA'
+      BlobType = ftMemo
+    end
+    object sds_cfopIND_PRES: TIntegerField
+      FieldName = 'IND_PRES'
     end
   end
   object dsp_cfop: TDataSetProvider
@@ -648,6 +653,13 @@ object DM: TDM
       FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
+    end
+    object cds_cfopCFNOTA: TMemoField
+      FieldName = 'CFNOTA'
+      BlobType = ftMemo
+    end
+    object cds_cfopIND_PRES: TIntegerField
+      FieldName = 'IND_PRES'
     end
   end
   object scds_banco_proc: TSQLDataSet
@@ -7556,7 +7568,7 @@ object DM: TDM
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Left = 152
+    Left = 160
     Top = 10
   end
   object dsp_aluno: TDataSetProvider

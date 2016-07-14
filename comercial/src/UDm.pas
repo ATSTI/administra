@@ -1988,6 +1988,10 @@ type
     sds_produtoCEST: TStringField;
     cds_produtoQTD: TIntegerField;
     cds_produtoCEST: TStringField;
+    sds_cfopCFNOTA: TMemoField;
+    sds_cfopIND_PRES: TIntegerField;
+    cds_cfopCFNOTA: TMemoField;
+    cds_cfopIND_PRES: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2053,6 +2057,15 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    cupom_msg1: String;
+    cupom_msg2: String;
+    cupom_msg3: String;
+    cupom_msg4: String;
+    cupom_msg5: String;
+    cupom_msg6: String;
+    email_ssl: String;
+    email_tls: String;
+    SatNumSerie: String;
     danfe_larg_codprod: integer;
     portaImpressora2: String;
     path_executavel: String;
@@ -2135,6 +2148,7 @@ var index, I: integer;
   s, sqlT : String;
   ImpressoraDet: TIniFile;
 begin
+  vTipoFiscal := '';
   path_executavel := ExtractFilePath(ParamStr(0));
   sqlsisAdimin.SQLHourGlass := False;
   Sql.SQLHourGlass := False;
@@ -2187,7 +2201,12 @@ begin
   qntespacos      := '6';
   linhaTamanho    := '38';
   recortacupom   := '';
-
+  cupom_msg1     := '';
+  cupom_msg2     := '';
+  cupom_msg3     := '';
+  cupom_msg4     := '';
+  cupom_msg5     := '';
+  cupom_msg6     := '';
   portaImpressora2 := '';
   ImpressoraDet := TIniFile.Create(path_executavel + 'dbxconnections.ini');
   try
@@ -2203,8 +2222,24 @@ begin
     recortacupom := ImpressoraDet.ReadString('IMPRESSORA', 'recortacupom', '');
     linhaTamanho := ImpressoraDet.ReadString('IMPRESSORA', 'linhatamanho', '');
     portaImpressora2 := ImpressoraDet.ReadString('IMPRESSORA', 'portaImpressora2', '');
+    cupom_msg1 := ImpressoraDet.ReadString('IMPRESSORA', 'msg1', '');
+    cupom_msg2 := ImpressoraDet.ReadString('IMPRESSORA', 'msg2', '');
+    cupom_msg3 := ImpressoraDet.ReadString('IMPRESSORA', 'msg3', '');
+    cupom_msg4 := ImpressoraDet.ReadString('IMPRESSORA', 'msg4', '');
+    cupom_msg5 := ImpressoraDet.ReadString('IMPRESSORA', 'msg5', '');
+    cupom_msg6 := ImpressoraDet.ReadString('IMPRESSORA', 'msg6', '');
     if (linhaTamanho = '') then
       linhaTamanho    := '38';
+  finally
+    ImpressoraDet.Free;
+  end;
+
+  // SAT - Número de Série do equipamento SAT
+  ImpressoraDet := TIniFile.Create( path_executavel + 'prjAtsAdmin.ini' );
+  try
+    SatNumSerie   := ImpressoraDet.ReadString('SAT','NumSerie','0');
+    email_tls     := ImpressoraDet.ReadString('EMAIL','TLS','N');
+    email_ssl     := ImpressoraDet.ReadString('EMAIL','SSL','N');
   finally
     ImpressoraDet.Free;
   end;
