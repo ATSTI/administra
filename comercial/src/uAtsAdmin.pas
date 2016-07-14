@@ -790,6 +790,7 @@ begin
 //    btnBoleto.Visible := True;
     btnBoleto.Caption := 'Boleto Mensal.';
   end;
+  {  12-07-2016 nao estamos usando
   if (StrToDateTime(dm.VISTO_FTP) <> today) then
   begin
     empresa := RemoveChar(dm.empresa);
@@ -802,7 +803,7 @@ begin
     begin
       btnBoleto.Top := screen.DesktopHeight - 200;
       btnBoleto.Left := Screen.DesktopWidth - 350;
-//      btnBoleto.Visible := True;
+      //btnBoleto.Visible := True;
       btnBoleto.Caption := 'Boleto Mensal.';
     end;
 
@@ -823,9 +824,10 @@ begin
 
     dm.sqlsisAdimin.ExecuteDirect('UPDATE PARAMETRO SET D9 = ' +
     QuotedStr(FormatDateTime('dd/mm/yyyy', today))  +
-    ' , D8 = ' + QuotedStr('BOLETO') + 
+    ' , D8 = ' + QuotedStr('BOLETO') +
     ' WHERE PARAMETRO = ' + QuotedStr('EMPRESA'));
   end;
+  }
     Dm.varLogado := fAtsAdmin.UserControlComercial.CurrentUser.UserLogin;
   //Se tiver Agendamento para o dia abro a agenda
   if (dm.cds_ag.Active) then
