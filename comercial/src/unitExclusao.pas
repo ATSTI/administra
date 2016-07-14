@@ -49,9 +49,8 @@ begin
         MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
         exit;
       end;
-      MessageDlg('O número da Série não será corrigido, faça isso manualmente.', mtInformation, [mbOK], 0);
-      dmnf.DtSrc_NF.DataSet.Delete;
-      (dmnf.DtSrc_NF.DataSet as TClientDataSet).ApplyUpdates(0);
+       dmnf.DtSrc_NF.DataSet.Delete;
+       (dmnf.DtSrc_NF.DataSet as TClientDataSet).ApplyUpdates(0);
     end
     else
       Abort;
@@ -71,7 +70,6 @@ begin
         MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
         exit;
       end;
-      MessageDlg('O número da Série não será corrigido, faça isso manualmente.', mtInformation, [mbOK], 0);
       fNotaf.gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
@@ -150,7 +148,6 @@ begin
             exit;
           end;
         end;
-        MessageDlg('O número da Série não será corrigido, faça isso manualmente.', mtInformation, [mbOK], 0);
         dmnf.DtSrc_NF1.DataSet.Close;
         dmnf.cds_Movimento.Close;
         dmnf.DtSrc_Compra.DataSet.Close;

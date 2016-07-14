@@ -9,8 +9,7 @@ uses
   Mask, DBLocal, DBLocalS, rpcompobase, rpvclreport, DBXpress, UCHist_Base,
   UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
   JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
-  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls, Printers,
-  umovimento;
+  JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls, Printers;
 
 type
   TfVendas = class(TfPai)
@@ -609,7 +608,6 @@ type
     cdslistaPRO_COD: TStringField;
     sds_Mov_DetCEST: TStringField;
     cds_Mov_detCEST: TStringField;
-    btnDuplicar: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -697,8 +695,6 @@ type
     procedure rocarProduto1Click(Sender: TObject);
     procedure edClienteCnpjKeyPress(Sender: TObject; var Key: Char);
     procedure edClienteCnpjExit(Sender: TObject);
-    procedure btnDuplicarClick(Sender: TObject);
-    procedure Label4Click(Sender: TObject);
   private
     { Private declarations }
     vnd_status: String;
@@ -748,6 +744,7 @@ begin
   //inherited;
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendas));
+
   if ((dm.videoFUNDO <> clWhite) and (dm.videoFONTE <> clBlack)) then
   begin
     For nI := 0 to ComponentCount-1 do
@@ -769,8 +766,6 @@ begin
       end;
     end;
   end;
-
-  ufClienteVenda := '';
   
   inseridoMatPrima := 'NAO';
   codmovdet := 1999999;
@@ -4163,26 +4158,10 @@ begin
       ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
       ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
       ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
-      ', esta.ALIQ_CUPOM ' +
-      ' , esta.VBCUFDEST' +
-      ' , esta.PFCPUFDEST' +
-      ' , esta.PICMSUFDEST' +
-      ' , esta.PICMSINTER' +
-      ' , esta.PICMSINTERPART' +
-      ' , esta.VFCPUFDEST' +
-      ' , esta.VICMSUFDEST' +
-      ' , esta.VICMSUFREMET' +
-      ' , esta.CST_IPI_CENQ ' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
-      ' where esta.CFOP = ' + QuotedStr(edCfop.text);
-    if (ufClienteVenda <> '') then
-    begin
-      fEstado.sqlCfop := fEstado.sqlCfop +
-        ' and esta.UF = ' + QuotedStr(ufClienteVenda) +
-        ' and esta.CODFISCAL = ' + QuotedStr(codFiscalClienteVenda);        
-    end;
-    fEstado.sqlCfop := fEstado.sqlCfop +  ' order by esta.CFOP';
+      ' where esta.CFOP = ' + QuotedStr(edCfop.text) +
+      ' order by esta.CFOP';
     fEstado.ShowModal;
   finally
     fEstado.Free;
@@ -4595,109 +4574,6 @@ begin;
   if Pos(Str[x],ComAcento) <> 0 then
     Str[x] := SemAcento[Pos(Str[x], ComAcento)];
   Result := Str
-end;
-
-procedure TfVendas.btnDuplicarClick(Sender: TObject);
-var   FMov : TMovimento;
-   codMov  : Integer;
-      TDA  : TTransactionDesc;
-begin
-  if DtSrc.DataSet.State in [dsInactive] then
-    exit;
-
-  if DtSrc.DataSet.State in [dsEdit, dsInsert] then
-    btnGravar.Click;
-
-  TDA.TransactionID  := 1;
-  TDA.IsolationLevel := xilREADCOMMITTED;
-
-  try
-    FMov := TMovimento.Create;
-
-    Try
-      dm.sqlsisAdimin.StartTransaction(TDA);
-
-      FMov.CodMov      := 0;
-      FMov.CodCCusto   := cds_MovimentoCODALMOXARIFADO.AsInteger;
-      FMov.CodCliente   := cds_MovimentoCODCLIENTE.AsInteger;
-      FMov.CodNatureza := cds_MovimentoCODNATUREZA.AsInteger;
-      FMov.Status      := cds_MovimentoSTATUS.AsInteger;
-      FMov.CodUsuario  := usulog;
-      FMov.CodVendedor := cds_MovimentoCODVENDEDOR.AsInteger;
-      FMov.DataMov     := cds_MovimentoDATAMOVIMENTO.AsDateTime ;
-
-      FMov.Obs         := cds_MovimentoOBS.AsString;
-      Fmov.CodPedido   := cds_MovimentoCODPEDIDO.AsInteger;
-      codMov           := FMov.inserirMovimento(0);
-
-      While not cds_Mov_det.Eof do
-      begin
-        FMov.MovDetalhe.CodMov        := codMov;
-        FMov.MovDetalhe.CodProduto    := cds_Mov_detCODPRODUTO.AsInteger;
-        Fmov.MovDetalhe.Descricao     := cds_Mov_detDESCPRODUTO.AsString;
-        FMov.MovDetalhe.Qtde          := cds_Mov_detQUANTIDADE.AsFloat;
-        FMov.MovDetalhe.Lote          := cds_Mov_detLOTE.AsString;
-        Fmov.MovDetalhe.Preco         := cds_Mov_detPRECO.AsFloat;
-        Fmov.MovDetalhe.Un            := cds_Mov_detUN.AsString;
-        Fmov.MovDetalhe.Desconto      := cds_Mov_detQTDE_ALT.AsFloat;
-        Fmov.MovDetalhe.Cfop          := cds_Mov_detCFOP.AsString;
-        Fmov.MovDetalhe.Frete         := cds_Mov_detFRETE.AsFloat;
-        FMov.MovDetalhe.inserirMovDet;
-        cds_Mov_det.Next;
-      end;
-      dm.sqlsisAdimin.Commit(TDA);
-      MessageDlg('Copia do Pedido de Venda gerado com sucesso.', mtInformation,[mbOk], 0);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
-      end;
-    end;
-
-  finally
-    FMov.Free;
-  end;
-
-end;
-
-procedure TfVendas.Label4Click(Sender: TObject);
-begin
-  //inherited;
-  fEstado := TfEstado.Create(Application);
-  try
-    fEstado.sqlCfop := 'select esta.CODESTADO, esta.CFOP ' +
-      ' ,esta.UF, esta.ICMS ,esta.REDUCAO, cfo.CFNOME ' +
-      ' ,esta.IPI, esta.CSTIPI, esta.ICMS_SUBSTRIB, esta.ICMS_SUBSTRIB_IC ' +
-      ' ,esta.ICMS_SUBSTRIB_IND, esta.CST , esta.PIS , esta.COFINS' +
-      ' ,esta.CSTPIS , esta.CSTCOFINS, esta.DADOSADC1, esta.DADOSADC2' +
-      ' ,esta.DADOSADC3, esta.DADOSADC4, esta.DADOSADC5, esta.DADOSADC6' +
-      ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
-      ', esta.ALIQ_CUPOM ' +
-      ' , esta.VBCUFDEST' +
-      ' , esta.PFCPUFDEST' +
-      ' , esta.PICMSUFDEST' +
-      ' , esta.PICMSINTER' +
-      ' , esta.PICMSINTERPART' +
-      ' , esta.VFCPUFDEST' +
-      ' , esta.VICMSUFDEST' +
-      ' , esta.VICMSUFREMET' +
-      ' , esta.CST_IPI_CENQ ' +
-      ' FROM ESTADO_ICMS esta ' +
-      ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
-      ' where esta.CFOP = ' + QuotedStr(edCfop.text);
-    if (ufClienteVenda <> '') then
-    begin
-      fEstado.sqlCfop := fEstado.sqlCfop +
-        ' and esta.UF = ' + QuotedStr(ufClienteVenda) +
-        ' and esta.CODFISCAL = ' + QuotedStr(codFiscalClienteVenda);
-    end;
-    fEstado.sqlCfop := fEstado.sqlCfop +  ' order by esta.CFOP';
-    fEstado.ShowModal;
-  finally
-    fEstado.Free;
-  end;
-
 end;
 
 end.

@@ -3161,7 +3161,6 @@ object fCpProc: TfCpProc
       000000000000}
   end
   object JvFormStorage1: TJvFormStorage
-    Active = False
     AppStorage = JvAppXMLFileStorage1
     AppStoragePath = 'fCpProc\'
     StoredProps.Strings = (

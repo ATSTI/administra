@@ -769,59 +769,6 @@ type
     cdsItensNFVFCPUFDEST: TFloatField;
     sdsItensNFCEST: TStringField;
     cdsItensNFCEST: TStringField;
-    sClienteTEM_IE: TStringField;
-    sdsNFIND_IEDEST: TStringField;
-    cdsNFIND_IEDEST: TStringField;
-    sEmpresaCONTADOR: TStringField;
-    sEmpresaCONTADOR_CRC: TStringField;
-    sEmpresaCONTADOR_CNPJ: TStringField;
-    sEmpresaCONTADOR_CPF: TStringField;
-    sEmpresaCONTADOR_CEP: TStringField;
-    sEmpresaCONTADOR_END: TStringField;
-    sEmpresaCONTADOR_NUMEND: TStringField;
-    sEmpresaCONTADOR_COMPL: TStringField;
-    sEmpresaCONTADOR_BAIRRO: TStringField;
-    sEmpresaCONTADOR_FONE: TStringField;
-    sEmpresaCONTADOR_FAX: TStringField;
-    sEmpresaCONTADOR_EMAIL: TStringField;
-    sEmpresaCONTADOR_COD_MUN: TStringField;
-    sEmpresaIM: TStringField;
-    sEmpresaTREGIME: TIntegerField;
-    sEmpresaCODINDTIPOCON: TSmallintField;
-    sEmpresaINDAPROCRED: TSmallintField;
-    sEmpresaCODINDINCTRIBUTARIA: TSmallintField;
-    sEmpresaINDICADORATIVIDADE: TSmallintField;
-    sEmpresaINDICADORNATUREZAPJ: TSmallintField;
-    sEmpresaINDCODINCIDENCIA: TSmallintField;
-    sEmpresaCODINDCRITESCRIT: TSmallintField;
-    sEmpresaINDESCRITURACAO: TSmallintField;
-    sEmpresaINDCTA: TSmallintField;
-    sEmpresaINDTIPCOOP: TSmallintField;
-    sEmpresaINDAJ: TSmallintField;
-    sEmpresaBASECALCULOCREDITO: TSmallintField;
-    sEmpresaCODAJ: TSmallintField;
-    sEmpresaINDNATREC: TSmallintField;
-    sEmpresaCODCRED: TSmallintField;
-    sEmpresaNATCREDDESC: TSmallintField;
-    sEmpresaINDCREDORI: TSmallintField;
-    sEmpresaINDREC: TSmallintField;
-    sEmpresaCODCONT: TSmallintField;
-    sEmpresaINDDESCCRED: TSmallintField;
-    sEmpresaINDORIGEMDIVERSAS: TSmallintField;
-    sEmpresaINDNATRETFONTE: TSmallintField;
-    sEmpresaINDTPOPERACAORECEITA: TSmallintField;
-    sEmpresaINDNATDEDUCAO: TSmallintField;
-    sEmpresaCNPJPREFEITURA: TStringField;
-    sEmpresaNOMEPREFEITURA: TStringField;
-    sEmpresaCHAVELIC: TStringField;
-    sEmpresaCHAVECONT: TStringField;
-    sEmpresaMODELOCUPOM: TStringField;
-    sEmpresaECFMOD: TStringField;
-    sEmpresaECFFAB: TStringField;
-    sEmpresaECFCX: TStringField;
-    sEmpresaCENTROCUSTO: TStringField;
-    sdsNFCCUSTO: TIntegerField;
-    cdsNFCCUSTO: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -879,9 +826,6 @@ type
     numnf : WideString;
     envemail : string;
     TD: TTransactionDesc;
-    tot1: double;
-    tot2: double;
-    tot3: double;
     function validaNumNfe():Boolean;
     function validaNumNfeScan():Boolean;
     procedure getCli_Fornec();
@@ -956,8 +900,7 @@ begin
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, ' +
       ' nf.NOMETRANSP TRANSP2, nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, ' +
       ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML  ' +
-      ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES, IND_IEDEST ' +
-      ' , NF.CCUSTO ' +
+      ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
       '  from NOTAFISCAL nf ' +
       ' inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE ' +
       ' inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR ' +
@@ -986,9 +929,8 @@ begin
     ' nf.PROTOCOLOENV, nf.NOMETRANSP TRANSP2, nf.NUMRECIBO, nf.PROTOCOLOCANC, ' +
     ' co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     ', nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) ' +
-    ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML, IND_IEDEST  ' +
+    ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML   ' +
     ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
-    ' , NF.CCUSTO ' +
     '  from NOTAFISCAL nf ' +
     ' inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE ' +
     ' inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
@@ -1004,14 +946,6 @@ begin
      cdsNF.CommandText := str_nf;
    end;
    cdsNF.Open;
-
-  //Seleciona Empresa de acordo com o CCusto selecionado
-  if (sEmpresa.Active) then
-    sEmpresa.Close;
-  sEmpresa.Params[0].AsInteger := cdsNF.FieldByname('CCUSTO').AsInteger;
-  sEmpresa.Open;
-
-  fNFeletronica.Caption := sEmpresaEMPRESA.AsString;
 
   if (sMenorData.Active) then
      sMenorData.Close;
@@ -1199,7 +1133,7 @@ begin
          end;
 
           ACBrNFe1.NotasFiscais.Clear;
-
+  
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
             //infNFe.ID := 0 // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
@@ -1211,6 +1145,7 @@ begin
             Ide.cUF       := sEstadoCODIGO.AsInteger; // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
+
             //Verifica tipo de Pagamento
             getPagamento;
 
@@ -1342,15 +1277,8 @@ begin
               exit;
             getCLi_Fornec();
 
-            ide.indFinal := cfNao;
-            if (dm.vTipoFiscal = '9') then
-               ide.indFinal  := cfConsumidorFinal; //(cfNao, cfConsumidorFinal);
-
             pegaItens(cbTipoNota.ItemIndex);
-            tot1 := 0;
-            tot2 := 0;
-            tot3 := 0;
-          
+
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
             begin
@@ -1430,11 +1358,6 @@ begin
             Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
             Total.ICMSTot.vDesc := cdsNFVALOR_DESCONTO.AsVariant;
             Total.ICMSTot.vII := cdsNFII.AsVariant;
-
-            Total.ICMSTot.vFCPUFDest := tot1;
-            total.ICMSTot.vICMSUFDest := tot2;
-            total.ICMSTot.vICMSUFRemet := tot3;
-
             if (cdsNFVALOR_IPI.IsNull) then
                 MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
@@ -1455,7 +1378,7 @@ begin
    end;
    AcbrNfe1.Configuracoes.Arquivos.PathSalvar := sempresaDIVERSOS1.AsString;
    ACBrNFe1.NotasFiscais.Items[0].GravarXML;
-   //MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' +copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+   MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' +copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    dm.sqlsisAdimin.StartTransaction(TD);
    try
      str := 'UPDATE NOTAFISCAL SET ';
@@ -1621,22 +1544,10 @@ end;
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
 begin
   cdsNF.Edit;
-  if (cdsNFSELECIONOU.AsString = 'S') then
-  begin
-    cdsNFSELECIONOU.AsString := '';
-  end
+  if cdsNFSELECIONOU.AsString = 'S' then
+    cdsNFSELECIONOU.AsString := ''
   else begin
     cdsNFSELECIONOU.AsString := 'S';
-    edDadosXml.Text := cdsnfNFE_FINNFE.AsString + '-' + cdsnfNFE_MODELO.AsString + '-' + cdsnfNFE_VERSAO.AsString + '-' +
-    cdsnfNFE_DESTOPERACAO.AsString + '-' + cdsnfNFE_FORMATODANFE.AsString + '-' + cdsnfNFE_TIPOEMISSAO.AsString + '-' +
-    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString + '-' + cdsNFIND_IEDEST.AsString;
-
-    if (sEmpresa.Active) then
-      sEmpresa.Close;
-    sEmpresa.Params[0].AsInteger := cdsNFCCUSTO.AsInteger;
-    sEmpresa.Open;
-    fNFeletronica.Caption := sEmpresaEMPRESA.AsString;
-    ComboBox1.Items.IndexOf(sEmpresaCENTROCUSTO.AsString);
   end;
 end;
 
@@ -2363,7 +2274,7 @@ var
     Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
     Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
     InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString(Usando para o cod pedido compra);
-   
+
     if (cdsNFCORPONF6.AsString <> '') then
     begin
       compra.xPed := cdsNFCORPONF6.AsString;
@@ -2545,7 +2456,6 @@ procedure TfNFeletronica.getCLi_Fornec();
 var
   IERG : integer;
 begin
-  dm.vTipoFiscal := '';
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     //Carrega dados do Destinatário
@@ -2592,15 +2502,8 @@ begin
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
       IERG := 0;
       IERG := StrLen(PChar(RemoveChar(sFornecINSCESTADUAL.AsString)));
-      if ((sFornecTIPOFIRMA.AsInteger = 0) and (sFornecCODFISCAL.AsString = '9')) then
-      begin
-        IERG := 0;
-      end;
-      if (sFornecCODFISCAL.AsString = '9') then
-      begin
-        dm.vTipoFiscal := '9';
-      end;
-
+      //if (sFornecTIPOFIRMA.AsInteger = 0) then
+      //  IERG := 0;
       if (IERG = 0) then
       begin
         Dest.indIEDest := inNaoContribuinte;
@@ -2672,33 +2575,20 @@ begin
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
       if (sClienteINSCESTADUAL.AsString = 'ISENTO') then
       begin
-        //Dest.indIEDest := inIsento;
+        Dest.indIEDest := inIsento;
       end
       else begin
         IERG := 0;
         IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
-        if ((sClienteTIPOFIRMA.AsInteger = 0) and (sClienteCODFISCAL.AsString = '9')) then
-        begin
-          IERG := 0;
-        end;
-        if (sClienteCODFISCAL.AsString = '9') then
-        begin
-          dm.vTipoFiscal := '9';
-        end;
+        //if (sClienteTIPOFIRMA.AsInteger = 0) then
+        //  IERG := 0;
 
         if (IERG = 0) then
         begin
-          //Dest.indIEDest := inNaoContribuinte;
+          Dest.indIEDest := inNaoContribuinte;
         end
         else begin
-          if (sClienteTEM_IE.AsString = 'S') then
-          begin
-            //Dest.indIEDest := inNaoContribuinte;
-          end
-          else begin
-            //Dest.indIEDest := inContribuinte;
-          end;
-          //Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
+          Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
           if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
           begin
             if (IERG > 11) then
@@ -2714,17 +2604,12 @@ begin
             end;
           end;
         end;
-
-
       end;
-      //if (sClienteUF.AsString = 'EX') then
-      //begin
-      //  Dest.indIEDest := inNaoContribuinte;
-      //end;
-      if (cdsNFIND_IEDEST.AsString = 'inNaoContribuinte') then
-        Dest.indIEDest := inNaoContribuinte
-      else
-        Dest.indIEDest := inContribuinte;      
+      if (sClienteUF.AsString = 'EX') then
+      begin
+        Dest.indIEDest := inNaoContribuinte;
+      end;
+
     end;
   end;
 end;
@@ -2909,7 +2794,6 @@ begin
           //900 - Outros - Classificam-se neste código as demais operações que não se enquadrem nos códigos 101, 102, 103, 201, 202, 203, 300, 400 e 500.
           if( sEmpresaCRT.AsInteger = 0) then
           begin
-            cst_parte := '00';
             if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
             begin
               CSOSN := csosnVazio;
@@ -3224,8 +3108,9 @@ begin
         if ((cdsNFNFE_MODELO.AsString = 'moNFe') and
           (cdsNFNFE_DESTOPERACAO.AsString = 'doInterestadual') and
           (cdsNFNFE_INDFINAL.AsString = 'cfConsumidorFinal') and
-          (cdsNFIND_IEDEST.AsString = 'inNaoContribuinte') and
-          (cst_parte <> '10') and (cst_parte <> '90')) then
+          (cdsNFNFE_INDPRES.AsString = 'inNaoContribuinte') and
+          (cst_parte <> '10') and
+          (cst_parte <> '90')) then
          begin
            with ICMSUFDest do
            begin
@@ -3235,11 +3120,8 @@ begin
              pICMSInter := cdsItensNFPICMSINTER.AsCurrency;
              pICMSInterPart := cdsItensNFPICMSINTERPART.AsCurrency;
              vFCPUFDest := cdsItensNFVFCPUFDEST.AsCurrency;
-             tot1 := tot1 + cdsItensNFVFCPUFDEST.AsCurrency;
              vICMSUFDest := cdsItensNFVICMSUFDEST.AsCurrency;
-             tot2 := tot2 + cdsItensNFVICMSUFDEST.AsCurrency;
              vICMSUFRemet := cdsItensNFVICMSUFREMET.AsCurrency;
-             tot3 := tot3 + cdsItensNFVICMSUFREMET.AsCurrency;
            end;
          end;
 
@@ -3787,11 +3669,6 @@ begin
         ACBrMail1.Password := sEmpresaSENHA.AsString;
         ACBrMail1.From := sEmpresaE_MAIL.AsString;
         ACBrMail1.FromName := sEmpresaEMPRESA.AsString;
-        ACBrMail1.AddAddress(sClienteE_MAIL.AsString);
-        if (dm.email_tls = 'S') then
-          ACBrMail1.SetTLS := True;
-        if (dm.email_ssl = 'S') then
-          ACBrMail1.SetSSL := True;
 
         //sPara, sAssunto: String; sMensagem: TStrings;
         //       EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings)
@@ -4007,7 +3884,7 @@ procedure TfNFeletronica.cdsNFAfterOpen(DataSet: TDataSet);
 begin
   edDadosXml.Text := cdsnfNFE_FINNFE.AsString + '-' + cdsnfNFE_MODELO.AsString + '-' + cdsnfNFE_VERSAO.AsString + '-' +
     cdsnfNFE_DESTOPERACAO.AsString + '-' + cdsnfNFE_FORMATODANFE.AsString + '-' + cdsnfNFE_TIPOEMISSAO.AsString + '-' +
-    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString + '-' + cdsNFIND_IEDEST.AsString;
+    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString;
 end;
 
 procedure TfNFeletronica.BitBtn7Click(Sender: TObject);

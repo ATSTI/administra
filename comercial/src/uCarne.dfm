@@ -2,7 +2,7 @@ object fCarne: TfCarne
   Left = 111
   Top = 30
   Width = 952
-  Height = 850
+  Height = 882
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -792,7 +792,6 @@ object fCarne: TfCarne
         Width = 410
         Height = 64
         AutoSize = False
-        Behavior = [beSiteExpander]
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -9
@@ -874,7 +873,6 @@ object fCarne: TfCarne
         Top = 65
         Width = 412
         Height = 14
-        Hint = 'Teste'
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -1198,6 +1196,8 @@ object fCarne: TfCarne
     DocumentInfo.Creator = 
       'FortesReport (Open Source) v3.24(B14)  \251 Copyright '#169' 1999-200' +
       '8 Fortes Inform'#225'tica'
+    ViewerOptions = []
+    FontEncoding = feNoEncoding
     DisplayName = 'ACBrBoleto - http://acbr.sf.net'
     Left = 128
     Top = 324

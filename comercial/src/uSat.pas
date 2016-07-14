@@ -7,8 +7,7 @@ uses
   Dialogs, StdCtrls, ACBrBase, ACBrSAT, ACBrSATClass, Buttons, ExtCtrls, Spin, ComCtrls,
   Menus, OleCtrls, SHDocVw, FMTBcd, DB, DBClient, Provider, SqlExpr, IniFiles,
   ACBrSATExtratoClass, ACBrSATExtratoESCPOS, pcnConversao, ACBrValidador,
-  TypInfo, ACBrUtil, ACBrPosPrinter, ACBrDFe, ACBrNFe,
-  ACBrDANFCeFortesFrA4, ACBrNFeDANFEClass, ACBrDANFCeFortesFr,DBXpress;
+  TypInfo, ACBrUtil, ACBrPosPrinter;
 
 const
   cAssinatura = '9d4c4eef8c515e2c1269c2e4fff0719d526c5096422bf1defa20df50ba06469'+
@@ -426,12 +425,6 @@ type
     Memo1: TMemo;
     Label32: TLabel;
     edtInfAdic: TEdit;
-    ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
-    ACBrNFe1: TACBrNFe;
-    BitBtn5: TBitBtn;
-    RadioButton1: TRadioButton;
-    sdsFaturaSTATUS: TStringField;
-    cdsFaturaSTATUS: TStringField;
     procedure btLerParamsClick(Sender: TObject);
     procedure btSalvarParamsClick(Sender: TObject);
     procedure bInicializarClick(Sender: TObject);
@@ -465,8 +458,6 @@ type
     procedure miImprimirExtratoCancelamentoClick(Sender: TObject);
     procedure mTesteFimAFimClick(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
-    procedure BitBtn5Click(Sender: TObject);
-    procedure RadioButton1Click(Sender: TObject);
   private
     codConsumidorSat : integer;
     { Private declarations }
@@ -1164,7 +1155,6 @@ end;
 
 procedure TfSat.enviarSAT;
 var arquivosat: String;
-TD: TTransactionDesc;
 begin
   if (edtPastaXml.Text = '') then
   begin
@@ -1184,43 +1174,9 @@ begin
     PageControl1.ActivePage := tsRecebido;
     arquivosat := RightStr(ACBrSAT1.CFe.NomeArquivo, 50);
     ACBrSAT1.CFe.SaveToFile(edtPastaXml.Text + '\' + arquivosat);
-    if (cdsFaturaSTATUS.AsString = '7-') then
-    begin
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER ALTERA_CONTABIL INACTIVE');
-        dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER ALTERA_REC INACTIVE');
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-      end;
-    end;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    try
-      dm.sqlsisAdimin.ExecuteDirect('UPDATE VENDA SET STATUS1 = ' +
-        QuotedStr('E') + ', OBS = ' + QuotedStr(edtPastaXml.Text + '\' + arquivosat) +
-        ' ,N_DOCUMENTO = ' + QuotedStr(IntToStr(ACBrSAT1.CFe.ide.nCFe)) +
-        ' ,N_BOLETO = ' + QuotedStr(ACBrSAT1.CFe.ide.CNPJ) +
-        ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
-       dm.sqlsisAdimin.Commit(TD);
-     except
-       on E : Exception do
-       begin
-         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       end;
-     end;
-    if (cdsFaturaSTATUS.AsString = '7-') then
-    begin
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER ALTERA_CONTABIL ACTIVE');
-        dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER ALTERA_REC ACTIVE');
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-      end;
-    end;
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE VENDA SET STATUS1 = ' +
+      QuotedStr('E') + ', OBS = ' + QuotedStr(edtPastaXml.Text + '\' + arquivosat) +
+      ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
   end;
 
 end;
@@ -1256,16 +1212,10 @@ procedure TfSat.FormShow(Sender: TObject);
 begin
   cdsItensNF.Params[0].AsInteger := codVendaSAT;
   cdsItensNF.Open;
-  edCPF.Text := '';
-  RadioButton1.Checked := False;
+
   if (cdsItensNFSTATUS1.AsString = 'E') then
   begin
     Memo1.Lines.Text := 'Cupom Emitido : ' + cdsItensNFOBS_VENDA.AsString;
-    ACBrSAT1.CFe.Clear;
-    ACBrSAT1.CFe.LoadFromFile(cdsItensNFOBS_VENDA.AsString);
-    ACBrNFe1.NotasFiscais.Clear;
-    ACBrNFe1.NotasFiscais.LoadFromFile(cdsItensNFOBS_VENDA.AsString);
-    LoadXML( ACBrSAT1.CFe.AsXMLString,  mRecebido);
     BitBtn2.Enabled := False;
     mEnviarVenda.Enabled := False;
   end;
@@ -1277,11 +1227,6 @@ begin
     Memo1.Lines.Add('............................');
     Memo1.Lines.Add('Cupom Emitido e Cancelado : ');
     Memo1.Lines.Add(cdsItensNFOBS_VENDA.AsString);
-    ACBrSAT1.CFe.Clear;
-    ACBrSAT1.CFe.LoadFromFile(cdsItensNFOBS_VENDA.AsString);
-    LoadXML( ACBrSAT1.CFe.AsXMLString,  mRecebido);
-    ACBrNFe1.NotasFiscais.Clear;
-    ACBrNFe1.NotasFiscais.LoadFromFile(cdsItensNFOBS_VENDA.AsString)
   end;
   cds_Movimento.Params[0].AsInteger := cdsItensNFCODMOVIMENTO.AsInteger;
   cds_movimento.Open;
@@ -1314,11 +1259,11 @@ begin
       codConsumidorSat := 0;
     end;
 
-  {if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
+  if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
   begin
     if (sClienteTIPOFIRMA.AsInteger = 0) then
       edCPF.Text := sClienteCNPJ.AsString;
-  end;}
+  end;
 
 end;
 
@@ -1401,6 +1346,7 @@ end;
 
 procedure TfSat.PrepararImpressao;
 begin
+
   ACBrPosPrinter1.Desativar;
   ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo( cbxModeloPosPrinter.ItemIndex );
   ACBrPosPrinter1.PaginaDeCodigo := TACBrPosPaginaCodigo( cbxPagCodigo.ItemIndex );
@@ -1411,14 +1357,13 @@ begin
   ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
   ACBrSATExtratoESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
   // 29/12/2015
-  if ACBrSAT1.Extrato = ACBrSATExtratoESCPOS1 then
+  {if ACBrSAT1.Extrato = ACBrSATExtratoESCPOS1 then
   begin
 
-    //ACBrSATExtratoESCPOS1.Device.Porta := edtPorta.Text;
-    //ACBrSATExtratoESCPOS1.Device.Ativar;
+    ACBrSATExtratoESCPOS1.Device.Porta := edtPorta.Text;
+    ACBrSATExtratoESCPOS1.Device.Ativar;
     ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
-  end;
-  {
+  end
   else
   begin
     ACBrSATExtratoFortes1.LarguraBobina    := seLargura.Value;
@@ -1433,8 +1378,8 @@ begin
         ACBrSATExtratoFortes1.PrinterName := lImpressora.Caption;
     except
     end;
-  end;}
-
+  end;
+  }
 end;
 
 procedure TfSat.BitBtn1Click(Sender: TObject);
@@ -1563,20 +1508,6 @@ begin
     QuotedStr('C') + ', OBS = OBS || ' + QuotedStr(edtPastaXml.Text + '\' + arquivosatcanc) +
     ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
 
-end;
-
-procedure TfSat.BitBtn5Click(Sender: TObject);
-begin
-  ACBrNFe1.NotasFiscais.Imprimir;
-end;
-
-procedure TfSat.RadioButton1Click(Sender: TObject);
-begin
-  if RadioButton1.Checked then
-  begin
-    if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
-      edCPF.Text := sClienteCNPJ.AsString;
-  end;
 end;
 
 end.

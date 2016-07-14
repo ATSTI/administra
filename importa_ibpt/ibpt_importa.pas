@@ -21,23 +21,6 @@ type
     cds: TClientDataSet;
     cdsNCM: TStringField;
     ProgressBarX: TProgressBar;
-    cdsALIQNAC: TFloatField;
-    cdsALIQIMP: TFloatField;
-    cdsCEST: TStringField;
-    cdsESTADUAL: TFloatField;
-    cdsMUNICIPAL: TFloatField;
-    cdsIMP_FEDERAL: TFloatField;
-    cdsIMP_FERERAL_IMP: TFloatField;
-    cdsTIPO: TStringField;
-    cdsEX: TIntegerField;
-    cdsDESCRICAO: TStringField;
-    cdsIMP_ESTADUAL: TFloatField;
-    cdsIMP_MUNICIPAL: TFloatField;
-    cdsVIGENCIAINICIO: TDateField;
-    cdsVIGENCIAFIM: TDateField;
-    cdsCHAVE: TStringField;
-    cdsVERSAO: TStringField;
-    cdsFONTE: TStringField;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -62,13 +45,9 @@ var
   ArquivoCSV: TextFile;
   Contador, I, x: Integer;
   Linha, NCM, ALIQNAC, ALIQIMP, nda: String;
-  TIPO, EX, DESCRICAO: String;
-  ESTADUAL, MUNICIPAL, VIGENCIAINICIO, VIGENCIAFIM, CHAVE, VERSAO: String;
-  FONTE: String;
   sql1 :string;
   TD : TTransactionDesc;
-  dta1 : tdate;
-  dta2 : tdate;
+
   // Lê Linha e Monta os valores
   function MontaValor: String;
   var
@@ -106,10 +85,7 @@ begin
     Reset(ArquivoCSV);
     Readln(ArquivoCSV, Linha);
     Contador := 1;
-
-    //sc.StartTransaction(TD);
-    //sc.ExecuteDirect('DELETE FROM IBPT');
-    //sc.Commit(TD);
+    cds.Open;
     sc.StartTransaction(TD);
     try
       while not Eoln(ArquivoCSV) do
@@ -118,45 +94,38 @@ begin
         begin
           I := 0;
           NCM := montavalor;
-          EX      := montavalor;
-          TIPO    := montavalor;
-          DESCRICAO  := montavalor;
+          nda := montavalor;
+          nda := montavalor;
+          nda := montavalor;
           ALIQNAC := montavalor;
           ALIQIMP := montavalor;
-          ESTADUAL  := montavalor;
-          MUNICIPAL  := montavalor;
-          VIGENCIAINICIO  := montavalor;
-          VIGENCIAFIM  := montavalor;
-          CHAVE  := montavalor;
-          VERSAO  := montavalor;
-          FONTE  := montavalor;
-          dta1 := StrToDate(VIGENCIAINICIO) ;
-          dta2 := StrToDate(VIGENCIAFIM)  ;
-          VIGENCIAINICIO := formatdatetime('mm/dd/yyyy', dta1);
-          VIGENCIAFIM := formatdatetime('mm/dd/yyyy', dta2);
-          if (EX = '') then
-            EX := '0';
 
           NCM := copy(ncm, 0, 7);
-          DESCRICAO := copy(descricao,0,99);
           Memo1.Lines.Add('NCM - ' + NCM + ' ALIQ. NAC. - ' + ALIQNAC + ' ALIQ. IMP. - ' + ALIQIMP);
-          {
+
+          cds.Filtered := False;
+          cds.Filter := 'NCM=' + NCM;
+          cds.Filtered := True;
+          if (cds.RecordCount = 1) then
           begin
-            Sql1 := 'INSERT INTO IBPT (NCM, ALIQNAC ,ALIQIMP, TIPO, EX, DESCRICAO' +
-              ', ESTADUAL, MUNICIPAL, VIGENCIAINICIO, VIGENCIAFIM, CHAVE, VERSAO, ' +
-              ' FONTE) VALUES( ' +
-              QuotedStr(NCM) + ', ' + ALIQNAC + ', ' + ALIQIMP + ', ' +
-              QuotedStr(TIPO) + ', ' + EX + ', ' + QuotedStr(DESCRICAO) + ', ' +
-              ESTADUAL + ', ' + MUNICIPAL + ', ' + QuotedStr(VIGENCIAINICIO) + ', ' +
-              QuotedStr(VIGENCIAFIM) + ', ' + QuotedStr(CHAVE) + ', ' +
-              QuotedStr(VERSAO) + ', ' + QuotedStr(FONTE) + ')';
-            try
+            if (ALIQNAC <> '') then
+            begin
+              Sql1 := 'UPDATE NCM SET ALIQNAC = ' + ALIQNAC +
+              ' ,ALIQIMP = ' + ALIQIMP +
+              ' WHERE NCM = ' + QuotedStr(NCM);
               sc.ExecuteDirect(sql1);
-            except
-              MessageDlg(sql1, mtWarning, [mbOK], 0);
+              Sql1 := 'UPDATE IBPT SET ALIQNAC = ' + ALIQNAC +
+              ' ,ALIQIMP = ' + ALIQIMP +
+              ' WHERE NCM = ' + QuotedStr(NCM);
+              sc.ExecuteDirect(sql1);
             end;
           end;
-          }
+          if (cds.RecordCount = 0) then
+          begin
+            Sql1 := 'INSERT INTO IBPT (NCM, ALIQNAC ,ALIQIMP) VALUES( ' +
+              QuotedStr(NCM) + ', ' + ALIQNAC + ', ' + ALIQIMP + ')';
+            sc.ExecuteDirect(sql1);
+          end;
         end;
         Readln(ArquivoCSV, Linha);
         Contador := Contador + 1;
@@ -169,12 +138,7 @@ begin
         ProgressBarX.Position := contador;
       end;
       sc.Commit(TD);
-      memo1.Lines.Add('########################################################');
-      memo1.Lines.Add('########################################################');
-      memo1.Lines.Add('TABELA IBPT atualizada com sucesso.');
-      memo1.Lines.Add('########################################################');
-      memo1.Lines.Add('########################################################');
-      memo1.Lines.Add('Atualizaando tabela NCM, aguarde ....');
+      memo1.Lines.Add('Atualização executada com sucesso.');
     except
       on E : Exception do
       begin
@@ -184,41 +148,6 @@ begin
       end;
     end;
 
-    // atualizar a tabela NCM
-    cds.Open;
-    while not cds.Eof do
-    begin
-      if ((cdsALIQNAC.AsFloat <> cdsIMP_FEDERAL.AsFloat) or
-        (cdsESTADUAL.AsFloat <> cdsIMP_ESTADUAL.AsFloat) or
-        (cdsMUNICIPAL.AsFloat <> cdsIMP_MUNICIPAL.AsFloat)) then
-      begin
-        Sql1 := 'UPDATE NCM SET ' +
-          'ALIQNAC = ' + ALIQNAC +
-          ', ALIQIMP = ' + ALIQIMP +
-          ', MUNICIPAL = ' + MUNICIPAL +
-          ', ESTADUAL = ' + ESTADUAL +
-          ' WHERE NCM = ' + NCM;
-        sc.StartTransaction(TD);
-        try
-          sc.ExecuteDirect(sql1);
-          sc.Commit(TD);
-          memo1.Lines.Add('Atualizado NCM : ' + NCM);
-        except
-          on E : Exception do
-          begin
-            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-            sc.Rollback(TD); //on failure, undo the changes}
-            exit;
-          end;
-        end;
-      end;
-      cds.Next;
-    end;
-    memo1.Lines.Add('########################################################');
-    memo1.Lines.Add('########################################################');
-    memo1.Lines.Add('Atualização executada com sucesso.');
-    memo1.Lines.Add('########################################################');
-    memo1.Lines.Add('########################################################');
   finally
     CloseFile(ArquivoCSV);
   end;

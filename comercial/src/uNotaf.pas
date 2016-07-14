@@ -439,16 +439,6 @@ type
     edtNFRef: TEdit;
     Label5: TLabel;
     DBEdit56: TDBEdit;
-    listaCliente1TIPOFIRMA: TSmallintField;
-    listaCliente1TEM_IE: TStringField;
-    sdsCFOPIND_PRES: TIntegerField;
-    GroupBox3: TGroupBox;
-    edFinNFe: TEdit;
-    edIndFinal: TEdit;
-    edIndPres: TEdit;
-    edIndIeDest: TEdit;
-    edDestinoOper: TEdit;
-    edTipo: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -490,7 +480,6 @@ type
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
-    statusNF: String;
     { Private declarations }
     procedure carregaDadosAdicionais(motivo:String);
     procedure incluiSAida;
@@ -505,7 +494,6 @@ type
     procedure gravamov_detalhe;
     procedure gravanotafiscal;
     procedure gravarDadosNFe310;
-    procedure carregarEmissao;
   public
     vrr : double;
     codMovFin, codVendaFin, codCliFin : integer;
@@ -595,7 +583,6 @@ end;
 procedure TfNotaf.btnIncluirClick(Sender: TObject);
 var numNf: String;
 begin
-  statusNF := 'NOVO';
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].asString := 'SERIENFE';
@@ -609,7 +596,7 @@ begin
   begin
     dbeSerie.Text := dm.cds_parametroD1.AsString;
     numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
-    //gravaSerie(StrToInt(numNf));
+    gravaSerie(StrToInt(numNf));
   end
   else begin
     dbeSerie.Text := dm.cds_parametroD1.AsString;
@@ -787,7 +774,6 @@ end;
 
 procedure TfNotaf.FormShow(Sender: TObject);
 begin
-  statusNF := 'EDICAO';
   DecimalSeparator := ',';
 //  if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fNotaf));
@@ -855,8 +841,6 @@ begin
     dmnf.cds_nf.Params[1].Clear;
     dmnf.cds_nf.Params[1].AsInteger := codVendaFin;
     dmnf.cds_nf.Open;
-
-    carregarEmissao;
 
     if (dmnf.cds_nfNFE_FINNFE.IsNull) then
     begin
@@ -1473,8 +1457,7 @@ begin
     end;
 
     // o bloco abaixo estava no grava Venda -- 04/06/2014
-    if (statusNF = 'NOVO') then
-      gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
+    gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
     if (scdsCr_proc.Active) then
       scdsCr_proc.Close;
     scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
@@ -1497,8 +1480,6 @@ begin
     dmnf.cds_nf.Params[1].AsInteger := codv;
     dmnf.cds_nf.Open;
 
-    carregarEmissao;
-    
     if (dmnf.cds_Movimento.Active) then
       dmnf.cds_Movimento.Close;
     dmnf.cds_Movimento.Params[0].AsInteger := codm;
@@ -1798,9 +1779,6 @@ begin
     dmnf.cds_nf.Params[0].Clear;
     dmnf.cds_nf.Params[1].AsInteger := dmnf.cds_vendaCODVENDA.asInteger;
     dmnf.cds_nf.Open;
-
-    carregarEmissao;
-
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
        RadioGroup1.ItemIndex := 0
     else
@@ -2560,21 +2538,9 @@ begin
     end;
     if (numero > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
     begin
-      //dmnf.scds_serie_proc.Edit;
-      //dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := numero;
-      //dmnf.scds_serie_proc.ApplyUpdates(0);
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        strS := 'update SERIES set ULTIMO_NUMERO = ' + IntToStr(numero) +
-           ' where SERIE = ' +  QuotedStr(dbeSerie.Text);
-        dm.sqlsisAdimin.ExecuteDirect(strS);
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        on E : Exception do
-        begin
-          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-        end;
-      end;
+      dmnf.scds_serie_proc.Edit;
+      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := numero;
+      dmnf.scds_serie_proc.ApplyUpdates(0);
     end;
     dmnf.scds_serie_proc.Close;
   end;
@@ -2589,15 +2555,6 @@ begin
   sdsCFOP.Params[0].AsString := dmnf.cds_nfCFOP.asString;
   sdsCFOP.Open;
   dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
-  //(pcNao, pcPresencial, pcInternet, pcTeleatendimento, pcEntregaDomicilio, pcOutros)
-  Case sdsCFOPIND_PRES.AsInteger of
-    0: dmnf.cds_nfNFE_INDPRES.AsString := 'pcNao';
-    1: dmnf.cds_nfNFE_INDPRES.AsString := 'pcPresencial';
-    2: dmnf.cds_nfNFE_INDPRES.AsString := 'pcInternet';
-    3: dmnf.cds_nfNFE_INDPRES.AsString := 'pcTeleatendimento';
-    4: dmnf.cds_nfNFE_INDPRES.AsString := 'pcEntregaDomicilio';
-    5: dmnf.cds_nfNFE_INDPRES.AsString := 'pcOutros';
-  end;
   //if (sdsCFOP.RecordCount > 0) then
   //begin
   dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
@@ -2633,28 +2590,11 @@ begin
   dmnf.cds_nfNFE_TIPOEMISSAO.AsString    := 'teNormal';
 
   //TpcnindIEDest = (inContribuinte, inIsento, inNaoContribuinte);
-  {dmnf.cds_nfNFE_INDPRES.AsString := 'inContribuinte';
+  dmnf.cds_nfNFE_INDPRES.AsString := 'inContribuinte';
   if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = 'ISENTO') then
     dmnf.cds_nfNFE_INDPRES.AsString := 'inIsento';
   if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = '') then
     dmnf.cds_nfNFE_INDPRES.AsString := 'inNaoContribuinte';
-
-  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = '') then
-    dmnf.cds_nfNFE_INDPRES.AsString := 'inNaoContribuinte';}
-
-  if (listaCliente1.Active) then
-    listaCliente1.Close;
-  listaCliente1.Params.ParamByName('pCodCli').AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
-  listaCliente1.Open;
-  if (listaCliente1TEM_IE.AsString = 'S') then
-  begin
-    dmnf.cds_nfIND_IEDEST.AsString := 'inNaoContribuinte';
-  end
-  else begin
-    dmnf.cds_nfIND_IEDEST.AsString := 'inContribuinte';
-  end;
-  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = 'ISENTO') then
-    dmnf.cds_nfIND_IEDEST.AsString := 'inIsento';
 
   //TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
   dmnf.cds_nfNFE_INDFINAL.AsString := 'cfNao';
@@ -2676,16 +2616,6 @@ procedure TfNotaf.edtNFRefClick(Sender: TObject);
 begin
   if (dmnf.cds_nf.State in [dsBrowse]) then
     dmnf.cds_nf.Edit;
-end;
-
-procedure TfNotaf.carregarEmissao;
-begin
-  edFinNFe.Text := dmnf.cds_nfNFE_FINNFE.AsString;
-  edIndFinal.Text := dmnf.cds_nfNFE_INDFINAL.AsString;
-  edIndPres.Text := dmnf.cds_nfNFE_INDPRES.AsString;
-  edIndIeDest.Text := dmnf.cds_nfIND_IEDEST.AsString;
-  edDestinoOper.Text := dmnf.cds_nfNFE_DESTOPERACAO.AsString;
-  edTipo.Text := dmnf.cds_nfNFE_TIPO.AsString;
 end;
 
 end.

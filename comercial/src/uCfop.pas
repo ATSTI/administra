@@ -21,8 +21,6 @@ type
     cbFreteBC: TCheckBox;
     cbIpiBc: TCheckBox;
     rgFinalidade: TRadioGroup;
-    cb_Ind_Pres: TComboBox;
-    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -168,7 +166,7 @@ begin
   else
     atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = NULL ';
   end;
-  atualizaCfop := atualizaCfop + ', IND_PRES = ' + IntToSTr(cb_Ind_Pres.ItemIndex);
+
   atualizaCfop := atualizaCfop + ', CFNOME = ' + QuotedStr(dbEdit2.Text);
 
   atualizaCfop := atualizaCfop + ' WHERE  CFCOD = ' + QuotedStr(dm.cds_cfopCFCOD.AsString);
@@ -250,7 +248,7 @@ begin
     rgFinalidade.ItemIndex := 1;
   if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
     rgFinalidade.ItemIndex := 2;
-  cb_Ind_Pres.ItemIndex := dm.cds_cfopInd_PREs.asInteger;
+
 end;
 
 procedure TfCfop.cbIpiBcClick(Sender: TObject);

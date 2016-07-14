@@ -112,21 +112,21 @@ inherited fCliente1: TfCliente1
       Caption = 'CPF'
     end
     object lblIE: TLabel
-      Left = 161
+      Left = 225
       Top = 16
       Width = 26
       Height = 16
       Caption = 'R.G.'
     end
     object lblOrgaoEmissor: TLabel
-      Left = 295
+      Left = 385
       Top = 16
-      Width = 77
+      Width = 90
       Height = 16
-      Caption = 'Org. Emissor'
+      Caption = 'Org'#227'o Emissor'
     end
     object Label80: TLabel
-      Left = 379
+      Left = 507
       Top = 16
       Width = 67
       Height = 16
@@ -135,7 +135,7 @@ inherited fCliente1: TfCliente1
     object DBEdit3: TDBEdit
       Left = 10
       Top = 34
-      Width = 145
+      Width = 207
       Height = 24
       DataField = 'CNPJ'
       DataSource = DtSrc
@@ -143,9 +143,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 158
+      Left = 223
       Top = 34
-      Width = 133
+      Width = 155
       Height = 24
       DataField = 'INSCESTADUAL'
       DataSource = DtSrc
@@ -153,9 +153,9 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object DBEdit5: TDBEdit
-      Left = 294
+      Left = 383
       Top = 34
-      Width = 78
+      Width = 118
       Height = 24
       DataField = 'RG'
       DataSource = DtSrc
@@ -163,8 +163,8 @@ inherited fCliente1: TfCliente1
       OnKeyPress = FormKeyPress
     end
     object cbTipoFiscal: TDBLookupComboBox
-      Left = 378
-      Top = 33
+      Left = 508
+      Top = 34
       Width = 193
       Height = 24
       DataField = 'CODFISCAL'
@@ -173,15 +173,6 @@ inherited fCliente1: TfCliente1
       ListField = 'DESCRICAO'
       ListSource = DtSrcTFiscal
       TabOrder = 3
-    end
-    object CheckBox1: TCheckBox
-      Left = 580
-      Top = 34
-      Width = 127
-      Height = 17
-      Caption = 'N'#227'o Contribuinte'
-      TabOrder = 4
-      OnClick = CheckBox1Click
     end
   end
   object GroupBox3: TGroupBox [5]

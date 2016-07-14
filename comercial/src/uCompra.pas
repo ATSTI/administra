@@ -2304,7 +2304,7 @@ begin
         cds_Mov_det.Next;
       end;
       dm.sqlsisAdimin.Commit(TDA);
-      MessageDlg('Copia do Pedido de Compra gerado com sucesso.', mtInformation,[mbOk], 0);
+      MessageDlg('Copia da Compra gerado com sucesso.', mtInformation,[mbOk], 0);
     except
       on E : Exception do
       begin

@@ -1208,11 +1208,10 @@ inherited fClienteCadastro: TfClienteCadastro
       object CheckBox1: TCheckBox
         Left = 499
         Top = 44
-        Width = 118
+        Width = 90
         Height = 17
-        Caption = 'N'#227'o Contribuinte'
+        Caption = 'Insc. Estadual'
         TabOrder = 15
-        OnClick = CheckBox1Click
       end
       object DBEdit10: TDBEdit
         Left = 39
@@ -2523,7 +2522,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2823,7 +2822,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2933,7 +2932,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 14
       end
@@ -3323,7 +3322,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 19
       end
@@ -5755,7 +5754,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6392,7 +6391,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
