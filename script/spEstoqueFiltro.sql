@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEFILTRO (
     DTA1 date,
     DTA2 date,
@@ -115,6 +114,9 @@ BEGIN
          AND ((em.CENTROCUSTO = :CCUSTO) OR (:CCUSTO = 1))
          AND ((em.LOTE is null) or ((em.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA'))) 
         INTO :ENTRAEM, :SAIEM;
+        
+      if (saiem is null) then
+        saiem = 0;
       
       SELECT First 1 em.PRECOCUSTO, em.MESANO FROM ESTOQUEMES EM 
        WHERE em.MESANO < :DTA1 
