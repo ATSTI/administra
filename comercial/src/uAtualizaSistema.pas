@@ -75,7 +75,8 @@ var sql: string;
   caminho, arq_txt, linha_sql: string;
 begin
   versao := GetVersion;
-  versaoSistema := VersaoAtual;
+  VersaoAtual();
+
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   // Verificando o sistema
@@ -2450,9 +2451,56 @@ begin
 
     if (versaoSistema = '4.0.0.11') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.11', StrToDate('15/03/2016'));
+      //insereouatualizaScript('trg_calcula_icms_st.sql', '4.0.0.11', StrToDate('15/03/2016'));
       AtualizandoScript('4.0.0.11');
       mudaVersao('4.1.0.0');
+    end;
+
+    if (versaoSistema = '4.1.0.0') then
+    begin
+      AtualizandoScript('4.3.0.0');
+      mudaVersao('4.3.0.0');
+    end;
+
+    if (versaoSistema = '4.3.0.0') then
+    begin
+      try
+        executaDDL('IBPT', 'tipo', 'CHAR(1)');
+        executaDDL('IBPT', 'ex', 'INTEGER');
+        executaDDL('IBPT', 'descricao', 'VARCHAR(100)');
+        executaDDL('IBPT', 'estadual', 'DOUBLE PRECISION');
+        executaDDL('IBPT', 'municipal', 'DOUBLE PRECISION');
+        executaDDL('IBPT', 'vigenciainicio', 'DATE');
+        executaDDL('IBPT', 'vigenciafim', 'DATE');
+        executaDDL('IBPT', 'chave', 'VARCHAR(20)');
+        executaDDL('IBPT', 'versao', 'VARCHAR(20)');
+        executaDDL('IBPT', 'fonte', 'VARCHAR(60)');
+        executaDDL('NCM', 'estadual', 'DOUBLE PRECISION');
+        executaDDL('NCM', 'municipal', 'DOUBLE PRECISION');
+      except
+        exit;
+      end;
+      AtualizandoScript('4.3.1.0');
+      mudaVersao('4.3.1.0');
+    end;
+
+    if (versaoSistema = '4.3.1.0') then
+    begin
+      try
+        executaDDL('CFOP', 'IND_PRES', 'INTEGER');
+        executaDDL('NOTAFISCAL', 'IND_IEDEST', 'VARCHAR(30)');
+      except
+        exit;
+      end;
+      AtualizandoScript('4.3.2.0');
+      mudaVersao('4.3.2.0');
+    end;
+
+    if (versaoSistema = '4.3.2.0') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '4.3.2.0', StrToDate('14/07/2016'));
+      AtualizandoScript('4.3.2.1');
+      mudaVersao('4.3.2.1');
     end;
 
     //try
@@ -2470,6 +2518,7 @@ begin
     { Atualizando o Sistema }
     if (not sqlVersao.Active) then
       sqlVersao.Open;
+    versaoSistema := sqlVersao.Fields[0].AsString;
     result := sqlVersao.Fields[0].AsString;
   except
     result := '0';
