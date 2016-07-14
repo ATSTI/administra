@@ -161,7 +161,7 @@ BEGIN
 		
 		TOTALITENS = new.VLR_BASE * new.QUANTIDADE;
 	
-		select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
+		select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IND, 0),
 		COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI,
 		p.NCM, COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), p.ORIGEM , c.TOTTRIB, cfp.ALIQ_CUPOM, 
 		COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
@@ -290,6 +290,7 @@ BEGIN
 			end     
 			else	
 				new.ICMS_SUBST = 0;
+				
         
 			--TOTAIS TRIBUTOS ITEM
             if(:CALCTRIB = 'T') then
@@ -658,14 +659,45 @@ BEGIN
             end
         end    
     end
-    new.vBCUFDest = :vBCUFDest;
-    new.pFCPUFDest = :pFCPUFDest;
-    new.pICMSUFDest = :pICMSUFDest;
-    new.pICMSInter = :pICMSInter;
-    new.pICMSInterPart = :pICMSInterPart;
-    new.vFCPUFDest = :vFCPUFDest;
-    new.vICMSUFDest = :vICMSUFDest;
-    new.vICMSUFRemet = :vICMSUFRemet;
+    -- isso aqui estava zerando qdo digitado na nota 
+    if (new.VBCUFDest is null) then 
+      new.VBCUFDEST = 0;
+    if (new.vFCPUFDest is null) THEN
+      new.vFCPUFDest = 0;  
+    if (vICMSUFDest is null) then 
+      vICMSUFDest = 0;
+    if (vICMSUFRemet is null) then
+      vICMSUFRemet = 0;    
+    --new.OBS = ' p:' ||  cast(:pICMSInterPart as char(10)) ;
+    if (:pICMSInterPart > 0) then 
+    begin
+      --new.obs = ' f:' || cast(new.frete as char(10)) || ' d:' || cast(new.VALOR_DESCONTO as char(10)) || ' i:' || cast(new.vipi as char(10));
+      if (new.VLR_BASEICMS > 0) then 
+      begin
+        if (new.VBCUFDest = 0) then   
+          new.vBCUFDest = new.VLR_BASEICMS;
+      end 
+      -- simples não tem base de calculo, tudo zerado
+      /*
+      else begin 
+        if (new.VIPI is null) then 
+          new.VIPI = 0;
+        new.VBCUFDEST = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI), :arredondar);
+      end*/   
+      
+      new.pFCPUFDest = :pFCPUFDest;
+      new.pICMSUFDest = :pICMSUFDest;
+      new.pICMSInter = :pICMSInter;
+      new.pICMSInterPart = :pICMSInterPart;
+      if (new.vBCUFDest > 0) then 
+      begin 
+        -- DIFAL 
+        vBCUFDest = new.VBCUFDEST * ((:pICMSUFDest-:pICMSInter)/100);
+        new.vFCPUFDest = new.VBCUFDEST * (:pFCPUFDest/100);
+        new.vICMSUFDest = vBCUFDest * (:pICMSInterPart/100);
+        new.vICMSUFRemet = vBCUFDest * ((100-:pICMSInterPart)/100);
+      end
+    end
     new.CST_IPI_CENQ = :CST_IPI_CENQ;
   end  
   else begin 
