@@ -2126,6 +2126,10 @@ object DMNF: TDMNF
       FixedChar = True
       Size = 1
     end
+    object cds_nfIND_IEDEST: TStringField
+      FieldName = 'IND_IEDEST'
+      Size = 30
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2560,6 +2564,10 @@ object DMNF: TDMNF
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+    object sds_nfIND_IEDEST: TStringField
+      FieldName = 'IND_IEDEST'
+      Size = 30
     end
   end
   object DtSrc_NF1: TDataSource

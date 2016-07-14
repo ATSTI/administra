@@ -1517,6 +1517,8 @@ type
     cds_Mov_detCST_IPI_CENQ: TStringField;
     sds_Mov_DetCEST: TStringField;
     cds_Mov_detCEST: TStringField;
+    sds_nfIND_IEDEST: TStringField;
+    cds_nfIND_IEDEST: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
