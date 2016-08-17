@@ -608,9 +608,16 @@ inherited fClienteCadastro: TfClienteCadastro
       object Label7: TLabel
         Left = 442
         Top = 46
-        Width = 37
+        Width = 31
         Height = 13
-        Caption = 'IE / RG'
+        Caption = 'IE/RG'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = Label7Click
       end
       object Label8: TLabel
         Left = 630
@@ -1206,12 +1213,13 @@ inherited fClienteCadastro: TfClienteCadastro
           0000000000000000000000000000000000000000000000000000}
       end
       object CheckBox1: TCheckBox
-        Left = 499
+        Left = 541
         Top = 44
-        Width = 90
+        Width = 85
         Height = 17
-        Caption = 'Insc. Estadual'
+        Caption = 'N'#227'o Contrib.'
         TabOrder = 15
+        OnClick = CheckBox1Click
       end
       object DBEdit10: TDBEdit
         Left = 39
@@ -2411,6 +2419,57 @@ inherited fClienteCadastro: TfClienteCadastro
             C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
         end
       end
+      object CheckBox2: TCheckBox
+        Left = 478
+        Top = 44
+        Width = 61
+        Height = 17
+        Caption = 'Tem IE'
+        TabOrder = 44
+        OnClick = CheckBox2Click
+      end
+      object Panel2: TPanel
+        Left = 216
+        Top = 128
+        Width = 337
+        Height = 273
+        TabOrder = 45
+        Visible = False
+        object Memo1: TMemo
+          Left = 8
+          Top = 8
+          Width = 321
+          Height = 257
+          Lines.Strings = (
+            '1=Contribuinte ICMS (informar a IE do destinat'#225'rio);'#10
+            ''
+            '2=Contribuinte isento de Inscri'#231#227'o no cadastro de'
+            'Contribuintes do ICMS;'
+            ''
+            '-Coloque : ISENTO'
+            ''
+            ''
+            '9=N'#227'o Contribuinte, que pode ou n'#227'o possuir Inscri'#231#227'o'
+            'Estadual no Cadastro de Contribuintes do ICMS;'
+            ''
+            '-MARQUE A CIMA - "N'#227'o Contrib."'
+            ''
+            ''
+            'Nota 1: No caso de NFC-e informar indIEDest=9 e n'#227'o'
+            'informar a tag IE do destinat'#225'rio;'
+            #10
+            ''
+            'Nota 2: No caso de opera'#231#227'o com o Exterior informar'
+            'indIEDest=9 e n'#227'o informar a tag IE do destinat'#225'rio;'#10
+            ''
+            ''
+            'Nota 3: No caso de Contribuinte Isento de Inscri'#231#227'o'
+            '(indIEDest=2), n'#227'o informar a tag IE do destinat'#225'rio.')
+          ReadOnly = True
+          ScrollBars = ssVertical
+          TabOrder = 0
+        end
+      end
     end
     object TabInternet: TTabSheet
       Caption = 'DADOS ADICIONAIS'
@@ -2522,7 +2581,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2822,7 +2881,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2932,7 +2991,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3322,7 +3381,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5754,7 +5813,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6391,7 +6450,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change

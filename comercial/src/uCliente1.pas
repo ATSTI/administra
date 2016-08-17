@@ -264,6 +264,8 @@ type
     cds_CliEndTELEFONE: TStringField;
     cds_CliEndTELEFONE1: TStringField;
     cds_CliEndTELEFONE2: TStringField;
+    CheckBox1: TCheckBox;
+    CheckBox2: TCheckBox;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -280,6 +282,7 @@ type
     procedure cds_CliEndNewRecord(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);
     procedure rgSitCadClick(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
   private
     FCli : TCliente;
     cCli : Integer;
@@ -392,6 +395,16 @@ begin
       FCli.DataNasc    := cds_cliDATANASC.AsDateTime;
 
       FCli.Referencia  := cds_cliMARCA.AsString;
+
+      if CheckBox2.Checked then
+        FCli.Tem_ie := 'S'
+      else
+        FCli.Tem_ie := 'N';
+
+      if CheckBox1.Checked then
+        FCli.NaoContribuinte := 'S'
+      else
+        FCli.NaoContribuinte := 'N';
 
       if (cCli = 0) then
       begin
@@ -521,6 +534,13 @@ begin
       cds_cliCNPJ.EditMask := '000.000.000-00;1;_'
     else
       cds_cliCNPJ.EditMask := '00.000.000/0000-00;1;_';    }
+    CheckBox2.Checked := False;
+    if cds_cliTEM_IE.AsString = 'S' then
+      CheckBox2.Checked := True;
+    CheckBox1.Checked := False;
+    if cds_cliSEXO.AsString = 'S' then
+      CheckBox1.Checked := True;
+
   finally
     fListaClientes.Free;
   end;
@@ -614,6 +634,13 @@ end;
 procedure TfCliente1.FormShow(Sender: TObject);
 begin
   inherited;
+  CheckBox1.Checked := False;
+  CheckBox2.Checked := False;
+  if (cds_cliTEM_IE.AsString = 'S') then
+    CheckBox2.Checked := True;
+  if (cds_cliSEXO.AsString = 'S') then
+    CheckBox1.Checked := True;
+
   if (not cdsTFiscal.Active) then
       cdsTFiscal.Open;
   if (modoIncluir = 'S') then
@@ -625,6 +652,14 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     cds_cli.Edit;
+end;
+
+procedure TfCliente1.CheckBox1Click(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_cli.Edit;
+
 end;
 
 end.
