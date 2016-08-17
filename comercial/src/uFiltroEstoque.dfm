@@ -61,6 +61,13 @@ object fFiltroEstoque: TfFiltroEstoque
       Width = 62
       Height = 13
       Caption = 'C'#243'd. Produto'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
+      ParentFont = False
+      OnClick = Label6Click
     end
     object Label7: TLabel
       Left = 172
