@@ -409,6 +409,7 @@ type
     Label83: TLabel;
     BitBtn50: TBitBtn;
     Memo1: TMemo;
+    Label84: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);

@@ -486,7 +486,7 @@ inherited fParametro: TfParametro
       end
       object Label79: TLabel
         Left = 16
-        Top = 424
+        Top = 415
         Width = 896
         Height = 13
         Caption = 
@@ -502,12 +502,27 @@ inherited fParametro: TfParametro
       end
       object Label82: TLabel
         Left = 17
-        Top = 456
+        Top = 434
         Width = 570
         Height = 13
         Caption = 
           'DANFE - Largura coluna C'#243'd. Produto :  Parametro EMPRESA , colun' +
           'a D2, o tamanho padr'#227'o '#233'  46 '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label84: TLabel
+        Left = 18
+        Top = 455
+        Width = 540
+        Height = 13
+        Caption = 
+          'Multi-Empresa : Criar uma s'#233'rie pra cada Empresa e usar o campo ' +
+          'CODSERIE = CODEMPRESA'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
