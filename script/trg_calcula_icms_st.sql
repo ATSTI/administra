@@ -1,3 +1,4 @@
+set term ^ ;
 ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -36,6 +37,8 @@ AS
  DECLARE VARIABLE vd DOUBLE PRECISION;
  DECLARE VARIABLE aliqnac DOUBLE PRECISION;
  DECLARE VARIABLE aliqimp DOUBLE PRECISION;
+ DECLARE VARIABLE aliq_est DOUBLE PRECISION;
+ DECLARE VARIABLE aliq_mun DOUBLE PRECISION;
  Declare variable NCM_P varchar(8);
  Declare variable origem integer;
  Declare variable NATUREZA integer;
@@ -125,6 +128,7 @@ BEGIN
 	  new.cfop = :CFOP_MOV;
 	end 	
 			
+	-- IF-01		
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
 		if ( new.lote is null) then
@@ -166,6 +170,7 @@ BEGIN
 		p.NCM, COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), p.ORIGEM , c.TOTTRIB, cfp.ALIQ_CUPOM, 
 		COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
 		COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
+		, COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) 
 		from CLASSIFICACAOFISCALPRODUTO cfp
 		inner join PRODUTOS p on p.CODPRODUTO = cfp.COD_PROD
 		inner join CFOP c on c.CFCOD = new.CFOP
@@ -173,7 +178,8 @@ BEGIN
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :NCM_P, :ALIQIMP, 
         :ALIQNAC, :origem, :calctrib, :aliq_cupom, 
-        :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
+        :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ,
+        :aliq_est, :aliq_mun;
     
 
 		---------------------------------------------------------------------------------
@@ -293,15 +299,23 @@ BEGIN
 				
         
 			--TOTAIS TRIBUTOS ITEM
+			-- 28-07-2016 calculando abaixo
+			/*
             if(:CALCTRIB = 'T') then
 			begin
                 if (:origem in (0, 3, 4, 5) ) then
-                    new.VLRTOT_TRIB = (new.VALTOTAL * :aliqnac)/100;
-                else
+                begin
+                  new.VLRTOT_TRIB = (new.VALTOTAL * (:aliqnac/100)) + 
+                    (new.VALTOTAL * (:aliq_est/100)) + 
+                    (new.VALTOTAL * (:aliq_mun/100));
+                end      
+                else begin 
                     new.VLRTOT_TRIB = (new.VALTOTAL * :aliqimp)/100;
+                end    
             end
             else
                 new.VLRTOT_TRIB = 0;
+            */    
 		end
 		---------------------------------------------------------------------------------
 		---------------------------FIM DO CALCULO POR PRODUTO----------------------------
@@ -318,13 +332,14 @@ BEGIN
             COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), c.TOTTRIB, cfn.ALIQ_CUPOM,
             COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
 	     COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999') 
+	     , COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) 
             from CLASSIFICACAOFISCALNCM cfn, PRODUTOS p, ncm n, CFOP c
             where p.NCM = cfn.NCM and p.ORIGEM = cfn.ORIGEM and cfn.CFOP = new.CFOP and c.CFCOD = new.CFOP and cfn.UF = :UF and cfn.CODFISCAL = :PESSOA
             and n.NCM = p.NCM and p.CODPRODUTO = new.CODPRODUTO
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
             :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB, :aliq_cupom,
             :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet
-            , :CST_IPI_CENQ;
+            , :CST_IPI_CENQ, :aliq_est, :aliq_mun;
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin
@@ -437,6 +452,8 @@ BEGIN
                     new.ICMS_SUBST = 0;
         
                 --TOTAIS TRIBUTOS ITEM
+                -- 28-07-2016 calculando abaixo
+                /*
                 if(:CALCTRIB = 'T') then
 				begin
                     if (:origem in (0, 3, 4, 5) ) then
@@ -446,6 +463,7 @@ BEGIN
                 end
                 else
                     new.VLRTOT_TRIB = 0;
+                */    
             end
 		---------------------------------------------------------------------------------
 		------------------------------FIM DO CALCULO POR NCM-----------------------------
@@ -468,10 +486,11 @@ BEGIN
                 :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, :aliq_cupom,
                 :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
             
-                select n.ALIQIMP, n.ALIQNAC, p.ORIGEM from NCM n, PRODUTOS p 
+                select COALESCE(n.ALIQIMP,0), COALESCE(n.ALIQNAC,0), p.ORIGEM, 
+                  COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) from NCM n, PRODUTOS p 
                 where p.CODPRODUTO = new.CODPRODUTO 
                 and n.NCM = p.NCM
-                into :aliqimp, :aliqnac, :origem;
+                into :aliqimp, :aliqnac, :origem, :aliq_est, :aliq_mun;
                 
                 new.SUITE = 'Trib. CFOP-UF';
                 new.Aliq_cupom = aliq_cupom;
@@ -623,6 +642,8 @@ BEGIN
                 end
 				
 				--TOTAIS TRIBUTOS ITEM
+				-- 28-07-2016 calculando abaixo
+				/*
 				if(:CALCTRIB = 'T') then
 				begin
                     if (:origem in (0, 3, 4, 5) ) then
@@ -632,7 +653,7 @@ BEGIN
                 end
                 else
                     new.VLRTOT_TRIB = 0;
-				
+				*/
 				
             end 
                 
@@ -658,7 +679,35 @@ BEGIN
                 new.BCSTFRETE = 0;
             end
         end    
-    end
+        -- CALCULO DO TOTAL TRIBUTOS
+        -- colocado aqui em 28/07/2016
+        if(:CALCTRIB = 'T') then
+		begin
+		  if (aliqnac > 0) then 
+		    aliqnac = aliqnac/100;
+		  if (aliqimp > 0) then 
+		    aliqimp = aliqimp/100;
+		  if (aliq_est > 0) then 
+		    aliq_est = aliq_est/100;
+		  if (aliq_mun > 0) then 
+		    aliq_mun = aliq_mun/100;
+		    
+          if (:origem in (0, 3, 4, 5) ) then
+          begin
+            new.VLRTOT_TRIB = (new.VALTOTAL * :aliqnac) + 
+              (new.VALTOTAL * :aliq_est) + 
+              (new.VALTOTAL * :aliq_mun);
+          end      
+          else begin 
+            new.VLRTOT_TRIB = (new.VALTOTAL * :aliqimp) + 
+              (new.VALTOTAL * :aliq_est) + 
+              (new.VALTOTAL * :aliq_mun);
+          end    
+        end
+        else begin
+          new.VLRTOT_TRIB = 0;
+        end     
+    end -- FIM DO IF-01 
     -- isso aqui estava zerando qdo digitado na nota 
     if (new.VBCUFDest is null) then 
       new.VBCUFDEST = 0;
@@ -675,15 +724,13 @@ BEGIN
       if (new.VLR_BASEICMS > 0) then 
       begin
         if (new.VBCUFDest = 0) then   
-          new.vBCUFDest = new.VLR_BASEICMS;
+          new.vBCUFDest = UDF_ROUNDDEC(((TOTALITENS - :vd) - new.VALOR_ICMS), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
       end 
-      -- simples não tem base de calculo, tudo zerado
-      /*
-      else begin 
+      else begin -- simples não tem base de calculo, tudo zerado
         if (new.VIPI is null) then 
           new.VIPI = 0;
-        new.VBCUFDEST = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI), :arredondar);
-      end*/   
+        new.VBCUFDEST = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI - new.VALOR_ICMS), :arredondar);
+      end   
       
       new.pFCPUFDest = :pFCPUFDest;
       new.pICMSUFDest = :pICMSUFDest;
