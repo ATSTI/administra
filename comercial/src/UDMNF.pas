@@ -1519,6 +1519,15 @@ type
     cds_Mov_detCEST: TStringField;
     sds_nfIND_IEDEST: TStringField;
     cds_nfIND_IEDEST: TStringField;
+    sds_Empresa: TSQLDataSet;
+    dsp_empresa: TDataSetProvider;
+    cds_empresa: TClientDataSet;
+    cds_empresaEMPRESA: TStringField;
+    cds_empresaCCUSTO: TIntegerField;
+    cds_empresaNOME: TStringField;
+    cds_empresaCNPJ_CPF: TStringField;
+    cds_empresaIE_RG: TStringField;
+    cds_empresaCODIGO: TIntegerField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

@@ -2057,6 +2057,8 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    dmCentroReceita: String;
+    tipo_nfe: String;
     cupom_msg1: String;
     cupom_msg2: String;
     cupom_msg3: String;
@@ -2148,6 +2150,7 @@ var index, I: integer;
   s, sqlT : String;
   ImpressoraDet: TIniFile;
 begin
+  dmCentroReceita := '';
   vTipoFiscal := '';
   path_executavel := ExtractFilePath(ParamStr(0));
   sqlsisAdimin.SQLHourGlass := False;
@@ -2244,6 +2247,16 @@ begin
     ImpressoraDet.Free;
   end;
 
+  cds_parametro.Params[0].AsString := 'TIPO_NF';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    tipo_nfe := 'NFe';
+    if (cds_parametroDADOS.AsString = 'NFCe') then
+    begin
+      tipo_nfe := 'NFCe';
+    end;
+  end;
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'PRODUTOMASCARA';
@@ -2432,6 +2445,12 @@ begin
   begin
     usaCentroCusto := cds_parametroCONFIGURADO.AsString;
   end;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  dmCentroReceita := dm.cds_parametroDADOS.AsString;
 
   if (cds_parametro.Active) then
     cds_parametro.Close;

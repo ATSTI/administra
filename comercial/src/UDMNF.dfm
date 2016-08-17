@@ -7547,4 +7547,72 @@ object DMNF: TDMNF
       ReadOnly = True
     end
   end
+  object sds_Empresa: TSQLDataSet
+    CommandText = 
+      'select emp.EMPRESA, emp.CCUSTO, pl.NOME '#13#10', emp.CNPJ_CPF, emp.IE' +
+      '_RG '#13#10', emp.CODIGO '#13#10'from EMPRESA emp, PLANO pl '#13#10' WHERE pl.CODI' +
+      'GO = emp.CCUSTO'#13#10'       AND ((pl.CODIGO = :CCUSTO) or (:CCUSTO =' +
+      ' 0))   '#13#10' ORDER BY EMPRESA '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CCUSTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CCUSTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 352
+    Top = 536
+  end
+  object dsp_empresa: TDataSetProvider
+    DataSet = sds_Empresa
+    Left = 400
+    Top = 536
+  end
+  object cds_empresa: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CCUSTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'CCUSTO'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_empresa'
+    Left = 472
+    Top = 536
+    object cds_empresaEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Required = True
+      Size = 80
+    end
+    object cds_empresaCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object cds_empresaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+    object cds_empresaCNPJ_CPF: TStringField
+      FieldName = 'CNPJ_CPF'
+      Required = True
+    end
+    object cds_empresaIE_RG: TStringField
+      FieldName = 'IE_RG'
+      Size = 15
+    end
+    object cds_empresaCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+    end
+  end
 end

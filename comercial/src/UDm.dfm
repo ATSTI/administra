@@ -5547,7 +5547,7 @@ object DM: TDM
     end
   end
   object sds_Empresa: TSQLDataSet
-    CommandText = 'select * from EMPRESA '
+    CommandText = 'select * from EMPRESA'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin

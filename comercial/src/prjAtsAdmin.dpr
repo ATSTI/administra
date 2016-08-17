@@ -379,7 +379,8 @@ uses
   uSat in 'uSat.pas' {fSat},
   uCest in 'uCest.pas' {fCest},
   uSatAcbr in 'uSatAcbr.pas' {fSatAcbr},
-  ConfiguraSerial in 'configuraserial.pas' {frConfiguraSerial};
+  ConfiguraSerial in 'configuraserial.pas' {frConfiguraSerial},
+  uEmpresaProcura in 'uEmpresaProcura.pas' {fEmpresaProcura};
 
 {$R *.res}
 
@@ -423,7 +424,8 @@ begin
   Application.CreateForm(TfCombo, fCombo);
   Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
   Application.CreateForm(TfNFeletronica, fNFeletronica);
-  Application.CreateForm(TfNFCe, fNFCe);  
+  if (dm.tipo_nfe = 'NFCe') then
+    Application.CreateForm(TfNFCe, fNFCe);  
   Application.CreateForm(TfNFeMail, fNFeMail);
   Application.CreateForm(TfBalancete, fBalancete);
   //Application.CreateForm(TForm_1, Form_1);
