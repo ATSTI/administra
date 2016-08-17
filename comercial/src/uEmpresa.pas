@@ -54,13 +54,11 @@ type
     Label20: TLabel;
     Label8: TLabel;
     Label21: TLabel;
-    Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
     Label26: TLabel;
     Label27: TLabel;
-    Label28: TLabel;
     DBEdit1: TDBEdit;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
@@ -83,14 +81,12 @@ type
     BitBtn2: TBitBtn;
     Panel3: TPanel;
     Image1: TJvImage;
-    ComboBox1: TComboBox;
     DBEdit19: TDBEdit;
     BitBtn3: TBitBtn;
     DBEdit20: TDBEdit;
     DBEdit21: TDBEdit;
     DBEdit22: TDBEdit;
     DBEdit23: TDBEdit;
-    DBEdit24: TDBEdit;
     DBRadioGroup2: TDBRadioGroup;
     cbEstado: TJvComboBox;
     Label29: TLabel;
@@ -147,6 +143,13 @@ type
     Label54: TLabel;
     Label55: TLabel;
     DBEdit37: TDBEdit;
+    TabSheet4: TTabSheet;
+    Label22: TLabel;
+    ComboBox1: TComboBox;
+    Label28: TLabel;
+    DBEdit24: TDBEdit;
+    Label56: TLabel;
+    DBEdit38: TDBEdit;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -170,6 +173,7 @@ type
     procedure cbTACBrIndEscrituracaoChange(Sender: TObject);
     procedure cbTACBrBaseCalculoCreditoChange(Sender: TObject);
     procedure cbTACBrIndAJChange(Sender: TObject);
+    procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
   private
     TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
     TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
@@ -194,9 +198,19 @@ begin
   inherited;
   fEmpresaProcura := TfEmpresaProcura.Create(Application);
   try
-   fEmpresaProcura.ShowModal;
+    fEmpresaProcura.ShowModal;
+    if ((fEmpresaProcura.cds.Active) and (fEmpresaProcura.filtrado = 'S')) then
+    begin
+      if (dm.cds_empresa.Filtered = True) then
+        dm.cds_empresa.Filtered := False;
+      dm.cds_empresa.Filter := 'CODIGO = ' + IntToStr(fEmpresaProcura.cdsCODIGO.AsInteger);
+      dm.cds_empresa.Filtered := True;
+      dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loCaseInsensitive]);
+      ComboBox1.Text := dm.cds_ccustoNOME.AsString;
+      JvLabel1.Caption := dm.cds_empresaEMPRESA.AsString;
+    end;
   finally
-   fEmpresaProcura.Free;
+    fEmpresaProcura.Free;
   end;
 end;
 
@@ -254,7 +268,7 @@ begin
 
   cbTACBrCodIndIncTributaria.Text  := dm.cds_empresaCODINDINCTRIBUTARIA.AsString;
   cbTACBrIndAproCred.Text          := dm.cds_empresaINDAPROCRED.AsString;
-  cbTACBrCodIndTipoCon.Text        := dm.cds_empresaCODINDTIPOCON.AsString; 
+  cbTACBrCodIndTipoCon.Text        := dm.cds_empresaCODINDTIPOCON.AsString;
 end;
 
 procedure TfEmpresa.DtSrcStateChange(Sender: TObject);
@@ -486,6 +500,15 @@ begin
   if (dm.cds_empresa.State in [dsBrowse]) then
   dm.cds_empresa.Edit;
   dm.cds_empresaINDAJ.AsInteger := cbTACBrIndAJ.ItemIndex;
+end;
+
+procedure TfEmpresa.DBNavigator1Click(Sender: TObject;
+  Button: TNavigateBtn);
+begin
+  inherited;
+  dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loCaseInsensitive]);
+    ComboBox1.Text := dm.cds_ccustoNOME.AsString;
+  JvLabel1.Caption := dm.cds_empresaEMPRESA.AsString;
 end;
 
 end.
