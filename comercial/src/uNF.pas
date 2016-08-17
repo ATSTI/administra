@@ -2094,26 +2094,24 @@ begin
     end;
   { Usa Centro Receita }
     usaCC := 'NAO';
-    if (dm.parametro.Locate('PARAMETRO','CENTRORECEITA', [loCaseInsensitive])) then
+    if (dm.dmCentroReceita <> '') then
     begin
-      if (dm.parametroCONFIGURADO.AsString = 'S') then
+      usaCC := 'SIM';
+      ComboBox5.Enabled := True;
+      //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+      if (dmnf.cds_ccusto.Active) then
+        dmnf.cds_ccusto.Close;
+      dmnf.cds_ccusto.Params[0].AsString := dm.dmCentroReceita;
+      dmnf.cds_ccusto.Open;
+      // populo a combobox
+      dmnf.cds_ccusto.First;
+      while (not dmnf.cds_ccusto.Eof) do
       begin
-        usaCC := 'SIM';
-        ComboBox5.Enabled := True;
-        //Vejo quais são as contas de Receitas para listar no lookupcombobox.
-        if (dmnf.cds_ccusto.Active) then
-          dmnf.cds_ccusto.Close;
-        dmnf.cds_ccusto.Params[0].AsString := dm.parametroDADOS.AsString;
-        dmnf.cds_ccusto.Open;
-        // populo a combobox
-        dmnf.cds_ccusto.First;
-        while (not dmnf.cds_ccusto.Eof) do
-        begin
-          ComboBox5.Items.Add(dmnf.cds_ccustoNOME.AsString);
-          dmnf.cds_ccusto.Next;
-        end;
+        ComboBox5.Items.Add(dmnf.cds_ccustoNOME.AsString);
+        dmnf.cds_ccusto.Next;
       end;
     end;
+
 end;
 
 procedure TfNF.btnExcluirCliClick(Sender: TObject);
