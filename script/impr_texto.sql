@@ -41,6 +41,7 @@ RETURNS (
         , NFE                              VARCHAR( 10 )
         , CODPRODUTO                       INTEGER
         , NUMERO                           VARCHAR( 5 )
+        , CONTROLE                         VARCHAR( 30 )
         , CODVENDEDOR                      INTEGER )
 AS
 declare variable codmovdet integer;
