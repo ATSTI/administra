@@ -1,7 +1,7 @@
 inherited fVendas: TfVendas
   Left = 2
   Top = 2
-  Width = 797
+  Width = 794
   Height = 594
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Venda'
@@ -18,21 +18,14 @@ inherited fVendas: TfVendas
     Height = 16
     Caption = 'Vendedor'
   end
-  object Label14: TLabel [1]
-    Left = 635
-    Top = 323
-    Width = 34
-    Height = 16
-    Caption = 'Obs..:'
-  end
-  object Label18: TLabel [2]
+  object Label18: TLabel [1]
     Left = 4
     Top = 489
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
   end
-  object Label17: TLabel [3]
+  object Label17: TLabel [2]
     Left = 641
     Top = 509
     Width = 61
@@ -40,28 +33,28 @@ inherited fVendas: TfVendas
     Caption = 'Comiss'#227'o'
     Visible = False
   end
-  object Label19: TLabel [4]
+  object Label19: TLabel [3]
     Left = 637
     Top = 145
     Width = 44
     Height = 16
     Caption = 'Pedido'
   end
-  object Label20: TLabel [5]
+  object Label20: TLabel [4]
     Left = 641
     Top = 167
     Width = 65
     Height = 16
     Caption = 'Anota'#231#245'es'
   end
-  object Label12: TLabel [6]
+  object Label12: TLabel [5]
     Left = 7
     Top = 517
     Width = 31
     Height = 16
     Caption = 'Obs.:'
   end
-  object Label29: TLabel [7]
+  object Label29: TLabel [6]
     Left = 637
     Top = 116
     Width = 42
@@ -69,7 +62,7 @@ inherited fVendas: TfVendas
     Cursor = crHandPoint
     Caption = 'CFOP :'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clBlue
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsUnderline]
@@ -78,13 +71,13 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 789
+    Width = 786
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     inherited btnCancelar: TBitBtn [0]
-      Left = 81
+      Left = 79
       Top = 2
       Width = 77
       Height = 55
@@ -190,7 +183,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     inherited btnExcluir: TBitBtn [1]
-      Left = 83
+      Left = 80
       Top = 2
       Width = 77
       Height = 55
@@ -436,7 +429,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     inherited btnProcurar: TBitBtn
-      Left = 408
+      Left = 392
       Top = 2
       Width = 77
       Height = 55
@@ -543,7 +536,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     inherited btnSair: TBitBtn
-      Left = 565
+      Left = 620
       Top = 2
       Width = 77
       Height = 55
@@ -649,7 +642,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     object Panel1: TPanel
-      Left = 159
+      Left = 156
       Top = 2
       Width = 4
       Height = 56
@@ -659,7 +652,7 @@ inherited fVendas: TfVendas
       TabOrder = 6
     end
     object BitBtn1: TBitBtn
-      Left = 164
+      Left = 159
       Top = 2
       Width = 77
       Height = 55
@@ -770,7 +763,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     object Panel2: TPanel
-      Left = 242
+      Left = 235
       Top = 2
       Width = 4
       Height = 56
@@ -781,7 +774,7 @@ inherited fVendas: TfVendas
     object Panel3: TPanel
       Left = 403
       Top = 2
-      Width = 4
+      Width = 0
       Height = 56
       BevelInner = bvRaised
       Color = clTeal
@@ -789,7 +782,7 @@ inherited fVendas: TfVendas
       TabOrder = 9
     end
     object BitBtn2: TBitBtn
-      Left = 247
+      Left = 238
       Top = 2
       Width = 77
       Height = 55
@@ -868,7 +861,7 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     object BitBtn3: TBitBtn
-      Left = 325
+      Left = 315
       Top = 2
       Width = 77
       Height = 55
@@ -979,8 +972,8 @@ inherited fVendas: TfVendas
       Layout = blGlyphTop
     end
     object RadioPedido: TJvRadioButton
-      Left = 669
-      Top = 16
+      Left = 697
+      Top = 14
       Width = 65
       Height = 17
       Alignment = taLeftJustify
@@ -997,7 +990,7 @@ inherited fVendas: TfVendas
       LinkedControls = <>
     end
     object RadioOrcamento: TJvRadioButton
-      Left = 669
+      Left = 697
       Top = 32
       Width = 87
       Height = 17
@@ -1017,7 +1010,7 @@ inherited fVendas: TfVendas
       LinkedControls = <>
     end
     object Btn: TBitBtn
-      Left = 486
+      Left = 469
       Top = 2
       Width = 77
       Height = 55
@@ -1095,12 +1088,125 @@ inherited fVendas: TfVendas
         0000000000000000000808080808080808080808080808080808}
       Layout = blGlyphTop
     end
+    object btnDuplicar: TBitBtn
+      Left = 546
+      Top = 2
+      Width = 74
+      Height = 55
+      Hint = 'Duplicar Compra Selecionada'
+      Caption = 'Duplicar'
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 15
+      OnClick = btnDuplicarClick
+      Glyph.Data = {
+        360C0000424D360C000000000000360000002800000020000000200000000100
+        180000000000000C000000000000000000000000000000000000C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0ADD2B02A71
+        32196E2313741D0F761B11751B15741D1A6F242C7233ACD4B1C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C049854F1773200F77180C77
+        170E791C0A781A08781A08781A0A78180C78180C77160D781718731E558E5BC0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0D2F1D41871211078190D781808781A118A
+        2F22A2492CB65E2AB55D2AB65B37BD6324A2491389300A781A0D78180F77181F
+        7128C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C028762F12771B0C771A1B91403EC3732DBE691EC0
+        6117C16113C15D0FC05914C15F19BF6021C26626BF6938C1704DCA7B20903C0D
+        771A11761A28772EC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C01D6E2512771B10781B52C87D40C17635C06F2BBF6B1CBF
+        631EBB601BB15819A9561FAF5C23B05F22B46228BF6937C17443C1794DC27D54
+        C27A0E781B14771B1F6E25C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C028762F0F77180F771A36A25644BF7B3BC17533C06F28BF6920BF
+        63429F689AC4AB97BAA696B9A593BAA54F9E722ABD6836C17040C1764AC17D4F
+        BE80379E5310781B10761728742DC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C6E6C713761A0C751A4FB56E57C28448C07F40C17636C07229BC6A23BF
+        684F956CE9F3EDE0DFE1D7D6D8BBC2BF5E91752DBD6A38C07240C0784AC07F50
+        BE8364C88E52B3700F771A13751BCDECCFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C01C70220C741C6DCD8D62C98C58C2874CC07D42C07839C07430C06D27BD
+        694F956DF1FBF5F8F8F8F0F1EFCCD1CF62927635BF713BC17541BF774AC17D51
+        BF8460C68C66C78F6CCD8D0C761D1A7022C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        629B6811781724853B69C88F62C88E5CC68B4EC08043C07A3CC27635C06F2EC0
+        6E569672F2FCF6F8F8F8F0F0F0CED1CF63907539BF733FBF7744C07A4CC07D53
+        BF8460C68C69C7906DC89023863E0F7718649868C0C0C0C0C0C0C0C0C0C0C0C0
+        1973200F771875CF946BC79267C88F5FC68C4DC18047C07C40C0783AC17535BF
+        71589573F1FBF5F8F8F8F0F0F0CCD1CF6390753FBF7842BF7948C17D4EC08057
+        C18660C78A67C88F6DC89173CD910F771818721FC0C0C0C0C0C0C0C0C0B4DAB6
+        11771810761E73CB966BC89167C88F5FC78A4EC08048C07F43C07840C0783BC0
+        775A9674F2F9F4F8F8F8F0F0F0CDD0CE66917642BF7A46C17D49C07C4EC08055
+        C18660C88965C8906CC99272CB930C741C127819A7D2ADC0C0C0C0C0C0307836
+        0F771825853875CA986DC79264B48556A57A4FA2754DA47249A36E47A16C48A1
+        6F58826BF5FAF8F9F9F9EFEFEFCDD2D06C89794B9F6F4DA3734EA37653A27655
+        A2765AA47A62AF836CC6916FC791278C3E0F77182C7636C0C0C0C0C0C01F7926
+        0E761737994D70C9976AC79080AD93BBCFC3B2C6BAAEBEB7ACBFB6ADC0B7B3C7
+        BBCED5D0F1F1F1F8F8F8F7F7F7E0E0E0C4CAC5B3C4B9AFC0B7AFC0B7AFBFB8B0
+        BEB8ACBDB48CB09F6DC49268C68F4FB4690F771A177020C0C0C0C0C0C012731C
+        0F771853B5696DC7926CC69193B19EEEF0F0E0E0E0E3E1E1E2DFE1E2DFE1E0E0
+        E0EAE7E9F8F8F8F8F8F8FAF8F8F0F0F0EAE7E9E0E0E0E0E0E0E2DFE1E2DFE1E2
+        DFE1C8C9C795AC9E6CC69169C79065C57F12791E13751BC0C0C0C0C0C00F761B
+        0F771A51B5696AC8926AC8928DB39DF4F9F7F8F8F8F8F8F8F8F8F8F8F8F8F9F9
+        F9F9F9F9F8F8F8F8F8F8F8F8F8F8F8F8F9F9F9F8F9F7F8F9F7F8F8F8F8F8F8F9
+        F9F9D0D0D094AE9E6DC79267C89065C48112782011751BC0C0C0C0C0C012761E
+        0E76174CB26462C98C61C68F8CB39EF4F9F7F8F8F8F8F8F8F7F7F7F8F8F8F7F7
+        F7F8F8F8F8F8F8F9F9F9F8F7F9F8F8F8F7F7F7F8F9F7F8F8F8F8F8F8FAF8F8F6
+        F8F8E6E8E89BB5A764C58D61C88E62C57F12782011751BC0C0C0C0C0C0187622
+        0F771A47AD6060C8895FC68C8BBEA2E8FEF2ECFDF2ECFDF4ECFDF4EDFCF4EDFC
+        F4F4F9F7F8F8F8F8F8F8FAF8F8F8F8F8F4F9F7F0FDF5EEFDF5EDFCF4EDFCF4EC
+        FDF4ECFDF4BAE1CC68C68F61C98861C47E11771F13741DC0C0C0C0C0C0277930
+        0F7718298F3E5AC18859C0865DBB855BAB7C64B18566B38767B1876EB38E76B2
+        90738D7DF6F9F7F8F8F8F1F1F1DEE0E08A9E927DB39574B28E74B18F70B38E67
+        B08865B2865EB58362C68A61C98A47AD600F771A196F21C0C0C0C0C0C04E8D55
+        0F78171078215AC08657C18656BF8656BF8662C98C68C9906AC79074C99780C8
+        9D7A9787F4F9F7F8F9F7F1F1F1D0D1CF7C928688C8A47FCA9E77C79873C89468
+        C68F65C8905FC78A60C8895BC1871F86350E7617347A3BC0C0C0C0C0C0C0C0C0
+        13741D0D771A61CB8957C18657C18659C18465C98F6AC79077C8997FC99F8CCB
+        A4819A8CF6F8F8F8F8F8EFEFEFD0D0D07F91848FC8A787C8A182CA9F77C79872
+        CA9565C89061C88B60C88964C98B0D761B0F7718B4DCB9C0C0C0C0C0C0C0C0C0
+        2B743010791857BC7854BF8157C0875AC08667C79172CA957AC79B87C8A193C7
+        A985988FF6F8F8F9F9F9F0F0F0CED1CF83938893C7A98AC7A384C7A07CC79B74
+        C89869C88F62C88E62C78967CB890E76191C7022C0C0C0C0C0C0C0C0C0C0C0C0
+        B7DDB913751B0C741F63CB8A59C0875BC18769C79076CB9982CAA08BC9A59BCA
+        B0899A91F6F8F8F9F9F9F0F0F0CED0D083928A99C9AD90C9A887C8A17FCA9E74
+        C89869C88F62C78F63CA8D167C2B12771B71A478C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C03075380D78182D974A5CC38663C78D6CC79078C99A83CBA18ECBA7A0CA
+        B1899890F7F9F9F9F9F9F9F9F9D6D8D88A99919CC9AE8FC8A789C8A17FC99F76
+        CA9A69C88F63C98F52BB720D771A1E6F26C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C018721F0E7617137B2862CC876CCA9178C99A83C69F8FC8A79DC7
+        B096AA9EE4E9E7E4E9E7E5EAE8E3EAE7A6B9B09CC8B18EC7A88AC9A27FCA9E73
+        CA9862C98C2C964911771815741DC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C08EC69316741D0E771608751F63C88A70CA9580CAA08CC9A59EC9
+        AEA8C6B3AFC6B8B2C6B9ADC7B9A8C5B5A0C6B099C8AE8DC9A782C89F76CB9964
+        C789137E2F0C771713761A509257C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C06CA67016741D0E7617258E3F62CB8860BE877BC69A97CC
+        AB9DC8ADA4C9B5A8C8B5A1C7B19EC9AE98C9AD8ECAA87EC89E63BD8862C9863A
+        A2550E761713751B2D7533C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C019711E1078190C761D2A93485FC88561BE
+        876BBA8E7CC29D85C5A281C49D78C2986ABB8E62BE8962CA893FA7600C741F0F
+        771A16731E5A9961C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C049854F18721F1178170F771A0D75
+        1D0F77221C8633278F3C288F3A278F3A147C270C771B0D771A0F781712741A34
+        7A3BC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0DEFBE2639B681C71211278
+        191079181078191079181079181078191079181177181773223E8045C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0A3CB
+        A86CA3723B80432D77352C79352E78365F996388B58EC0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
+        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+      Layout = blGlyphTop
+    end
   end
   inherited MMJPanel2: TMMJPanel
     Top = -62
     Align = alNone
   end
-  object GroupBox1: TGroupBox [10]
+  object GroupBox1: TGroupBox [9]
     Left = 0
     Top = 63
     Width = 489
@@ -1108,7 +1214,7 @@ inherited fVendas: TfVendas
     Cursor = crHandPoint
     Caption = 'Cliente'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clBlue
     Font.Height = -13
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsUnderline]
@@ -1307,7 +1413,7 @@ inherited fVendas: TfVendas
       OnKeyPress = edClienteCnpjKeyPress
     end
   end
-  object GroupBox2: TGroupBox [11]
+  object GroupBox2: TGroupBox [10]
     Left = 489
     Top = 63
     Width = 184
@@ -1334,7 +1440,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [12]
+  object GroupBox3: TGroupBox [11]
     Left = 674
     Top = 63
     Width = 109
@@ -1360,7 +1466,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [13]
+  object GroupBox4: TGroupBox [12]
     Left = 634
     Top = 253
     Width = 150
@@ -1369,9 +1475,9 @@ inherited fVendas: TfVendas
     PopupMenu = PopupMenu1
     TabOrder = 8
     object DBEdit4: TDBEdit
-      Left = 8
+      Left = 5
       Top = 24
-      Width = 134
+      Width = 139
       Height = 33
       TabStop = False
       BorderStyle = bsNone
@@ -1390,7 +1496,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox5: TGroupBox [14]
+  object GroupBox5: TGroupBox [13]
     Left = 634
     Top = 404
     Width = 150
@@ -1442,30 +1548,15 @@ inherited fVendas: TfVendas
       OnExit = edChassiExit
     end
   end
-  object DBMemo1: TDBMemo [15]
-    Left = 635
-    Top = 338
-    Width = 148
-    Height = 63
-    TabStop = False
-    BevelKind = bkFlat
-    BorderStyle = bsNone
-    Color = clInfoBk
-    DataField = 'OBSCLI'
-    DataSource = DtSrc
-    PopupMenu = PopupMenu1
-    ReadOnly = True
-    TabOrder = 10
-  end
-  object MMJPanel3: TMMJPanel [16]
+  object MMJPanel3: TMMJPanel [14]
     Left = 0
     Top = 539
-    Width = 789
+    Width = 786
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
-    TabOrder = 11
+    TabOrder = 10
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1487,7 +1578,7 @@ inherited fVendas: TfVendas
       Transparent = True
     end
   end
-  object DBEdit15: TDBEdit [17]
+  object DBEdit15: TDBEdit [15]
     Left = 51
     Top = 487
     Width = 78
@@ -1501,11 +1592,11 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 11
     OnExit = DBEdit15Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [18]
+  object DBEdit16: TDBEdit [16]
     Left = 206
     Top = 487
     Width = 387
@@ -1520,10 +1611,10 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object ComboBox2: TComboBox [19]
+  object ComboBox2: TComboBox [17]
     Left = 704
     Top = 513
     Width = 78
@@ -1536,11 +1627,11 @@ inherited fVendas: TfVendas
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 14
     Visible = False
     OnChange = ComboBox2Change
   end
-  object DBComboBox1: TDBComboBox [20]
+  object DBComboBox1: TDBComboBox [18]
     Left = 640
     Top = 182
     Width = 145
@@ -1561,7 +1652,7 @@ inherited fVendas: TfVendas
     OnExit = DBComboBox1Exit
     OnKeyPress = FormKeyPress
   end
-  object PageControl1: TPageControl [21]
+  object PageControl1: TPageControl [19]
     Left = 0
     Top = 112
     Width = 633
@@ -1579,7 +1670,7 @@ inherited fVendas: TfVendas
         Cursor = crHandPoint
         Caption = 'C'#243'digo'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        Font.Color = clBlue
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = [fsUnderline]
@@ -1592,6 +1683,13 @@ inherited fVendas: TfVendas
         Width = 36
         Height = 16
         Caption = 'CFOP'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        OnClick = Label4Click
       end
       object Label5: TLabel
         Left = 149
@@ -2364,7 +2462,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2418,7 +2516,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2447,7 +2545,7 @@ inherited fVendas: TfVendas
       end
     end
   end
-  object DBEdit1: TDBEdit [22]
+  object DBEdit1: TDBEdit [20]
     Left = 682
     Top = 142
     Width = 98
@@ -2462,16 +2560,16 @@ inherited fVendas: TfVendas
     Font.Style = []
     ParentFont = False
     PopupMenu = PopupMenu1
-    TabOrder = 16
+    TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object btVendedor: TBitBtn [23]
+  object btVendedor: TBitBtn [21]
     Left = 595
     Top = 487
     Width = 37
     Height = 37
     PopupMenu = PopupMenu1
-    TabOrder = 17
+    TabOrder = 16
     TabStop = False
     OnClick = SpeedButton1Click
     Glyph.Data = {
@@ -2542,7 +2640,7 @@ inherited fVendas: TfVendas
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
   end
-  object DBEdit13: TDBEdit [24]
+  object DBEdit13: TDBEdit [22]
     Left = 51
     Top = 512
     Width = 542
@@ -2557,19 +2655,19 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 14
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object BitBtn7: TBitBtn [25]
+  object BitBtn7: TBitBtn [23]
     Left = 501
     Top = 112
     Width = 132
     Height = 20
     Caption = 'Ver Mov. Produto'
-    TabOrder = 18
+    TabOrder = 17
     OnClick = BitBtn7Click
   end
-  object edCfop: TEdit [26]
+  object edCfop: TEdit [24]
     Left = 682
     Top = 114
     Width = 98
@@ -2580,10 +2678,10 @@ inherited fVendas: TfVendas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 19
+    TabOrder = 18
     OnExit = edCfopExit
   end
-  object GroupBox6: TGroupBox [27]
+  object GroupBox6: TGroupBox [25]
     Left = 634
     Top = 210
     Width = 150
@@ -2610,12 +2708,12 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object pnRelatorio: TPanel [28]
+  object pnRelatorio: TPanel [26]
     Left = 485
     Top = 58
     Width = 169
     Height = 97
-    TabOrder = 20
+    TabOrder = 19
     Visible = False
     object btnOrcWord: TBitBtn
       Left = 8
@@ -2643,6 +2741,31 @@ inherited fVendas: TfVendas
       Caption = 'Estoque Mat. Prima'
       TabOrder = 2
       OnClick = btnEstoqueMatPrimaClick
+    end
+  end
+  object GroupBox7: TGroupBox [27]
+    Left = 634
+    Top = 324
+    Width = 150
+    Height = 69
+    Caption = 'Obs.:'
+    PopupMenu = PopupMenu1
+    TabOrder = 20
+    object DBMemo1: TDBMemo
+      Left = 5
+      Top = 24
+      Width = 139
+      Height = 33
+      TabStop = False
+      Align = alCustom
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Color = clInfoBk
+      DataField = 'OBSCLI'
+      DataSource = DtSrc
+      PopupMenu = PopupMenu1
+      ReadOnly = True
+      TabOrder = 0
     end
   end
   inherited XPMenu1: TXPMenu
