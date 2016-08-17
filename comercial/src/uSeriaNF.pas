@@ -22,6 +22,8 @@ type
     DBEdit4: TDBEdit;
     Label6: TLabel;
     Memo1: TMemo;
+    DBEdit5: TDBEdit;
+    Label7: TLabel;
     procedure btnIncluirClick(Sender: TObject);
     procedure DBEdit2Exit(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);

@@ -41,7 +41,14 @@ inherited fSeriaNF: TfSeriaNF
     ParentFont = False
     OnClick = Label6Click
   end
-  object Memo1: TMemo [4]
+  object Label7: TLabel [4]
+    Left = 414
+    Top = 58
+    Width = 41
+    Height = 13
+    Caption = 'Empresa'
+  end
+  object Memo1: TMemo [5]
     Left = 8
     Top = 72
     Width = 481
@@ -156,7 +163,7 @@ inherited fSeriaNF: TfSeriaNF
       HotTrackFont.Style = []
     end
   end
-  object DBEdit1: TDBEdit [7]
+  object DBEdit1: TDBEdit [8]
     Left = 83
     Top = 74
     Width = 80
@@ -175,7 +182,7 @@ inherited fSeriaNF: TfSeriaNF
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [8]
+  object DBEdit2: TDBEdit [9]
     Left = 169
     Top = 74
     Width = 80
@@ -194,7 +201,7 @@ inherited fSeriaNF: TfSeriaNF
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [9]
+  object DBGrid1: TDBGrid [10]
     Left = 82
     Top = 101
     Width = 324
@@ -222,7 +229,7 @@ inherited fSeriaNF: TfSeriaNF
         Visible = True
       end>
   end
-  object DBNavigator1: TDBNavigator [10]
+  object DBNavigator1: TDBNavigator [11]
     Left = 86
     Top = 374
     Width = 316
@@ -232,7 +239,7 @@ inherited fSeriaNF: TfSeriaNF
     Flat = True
     TabOrder = 6
   end
-  object DBEdit3: TDBEdit [11]
+  object DBEdit3: TDBEdit [12]
     Left = 254
     Top = 74
     Width = 70
@@ -251,7 +258,7 @@ inherited fSeriaNF: TfSeriaNF
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [12]
+  object DBEdit4: TDBEdit [13]
     Left = 331
     Top = 74
     Width = 75
@@ -267,6 +274,25 @@ inherited fSeriaNF: TfSeriaNF
     Font.Style = []
     ParentFont = False
     TabOrder = 7
+    OnExit = DBEdit2Exit
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit5: TDBEdit [14]
+    Left = 411
+    Top = 74
+    Width = 75
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'CODSERIE'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 9
     OnExit = DBEdit2Exit
     OnKeyPress = FormKeyPress
   end
