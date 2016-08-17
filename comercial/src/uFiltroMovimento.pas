@@ -137,6 +137,7 @@ type
     btnDataEntregaLimpa: TBitBtn;
     sds_cnsHIST_MOV: TStringField;
     cds_cnsHIST_MOV: TStringField;
+    chkBusca: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -168,6 +169,7 @@ type
   private
     { Private declarations }
   public
+    fnf_ccusto: String;
     cod_mov : integer;
     ordenar : string ;
     { Public declarations }
@@ -192,7 +194,7 @@ begin
   //MMJPanel1.Background.StartColor := dm.corEnd;
   //MMJPanel2.Background.EndColor   := dm.corEnd;
   //MMJPanel2.Background.StartColor := dm.corStart;
-
+  fnf_ccusto := '';
   if (dm.moduloUsado = 'AUTOMOTIVA') then
     GroupBox5.Visible := True;
 
@@ -389,7 +391,7 @@ end;
 
 procedure TfFiltroMovimento.btnProcurarClick(Sender: TObject);
  Var
- SqlTexto, DataStr : String;
+ SqlTexto, DataStr, sql_buscaLimite : String;
 begin
 
   {if ((RadioGroup1.ItemIndex = 0) or (RadioGroup1.ItemIndex = 1)) then
@@ -412,7 +414,14 @@ begin
      cds_cns.Close;
   if (rbData.Checked) then
   begin
-    cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
+    if (chkBusca.Checked) then
+    begin
+      sql_buscaLimite := 'select FIRST 80 ' ;
+    end
+    else begin
+      sql_buscaLimite := 'select ';
+    end;
+    cds_cns.CommandText:= sql_buscaLimite + ' mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
@@ -426,7 +435,7 @@ begin
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
   end
   else begin
-    cds_cns.CommandText:= 'select  mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
+    cds_cns.CommandText:= sql_buscaLimite + ' mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
@@ -444,7 +453,7 @@ begin
   if (dm.moduloUsado = 'CITRUS') then
   begin
 
-   cds_cns.CommandText:= 'select mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO, ' +
+   cds_cns.CommandText:= sql_buscaLimite + ' mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO, ' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
       ' SUM((movd.QUANTIDADE * movd.PRECO)) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
@@ -531,8 +540,21 @@ begin
   //------------------------------------------------------------------------------
   if ComboBox1.Text<>'' then
   begin
-    fVendas.cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
-    Edit1.Text := fVendas.cds_ccustoCODIGO.AsString;
+    if (dm.tipoVenda = 'NF') then
+    begin
+      if (not dmnf.cds_ccusto.Active) then
+      begin
+        dmnf.cds_ccusto.Params[0].AsString := dm.dmCentroReceita;
+        dmnf.cds_ccusto.Open;
+      end;
+      dmnf.cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
+      Edit1.Text := dmnf.cds_ccustoCODIGO.AsString;
+    end
+    else begin
+      fVendas.cds_ccusto.Locate('NOME',ComboBox1.Text, [loCaseInsensitive]);
+      Edit1.Text := fVendas.cds_ccustoCODIGO.AsString;
+    end;
+
     if sqlTexto='' then
       sqlTexto := sqlTexto + ' where mov.CODALMOXARIFADO = '
     else
@@ -710,6 +732,8 @@ begin
   begin
     edit3.Text := '12';
     edit4.Text := 'NOTA FISCAL';
+    if (fnf_ccusto <> '') then
+      ComboBox1.Text := fnf_ccusto;
   end;
 
   if (DM.tipoVenda = 'CUPOM') then

@@ -12,7 +12,7 @@ object fFiltroMovimento: TfFiltroMovimento
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
-  Position = poScreenCenter
+  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -889,6 +889,20 @@ object fFiltroMovimento: TfFiltroMovimento
       HotTrackFont.Height = -29
       HotTrackFont.Name = 'Cooper Blk BT'
       HotTrackFont.Style = []
+    end
+    object chkBusca: TCheckBox
+      Left = 8
+      Top = 16
+      Width = 73
+      Height = 17
+      Caption = '80 linhas'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindow
+      Font.Height = -11
+      Font.Name = 'Comic Sans MS'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
     end
   end
   object MMJPanel2: TMMJPanel
@@ -2098,7 +2112,8 @@ object fFiltroMovimento: TfFiltroMovimento
       'edtNF.Text'
       'ComboBox2.Text'
       'meDta1.Text'
-      'meDta2.Text')
+      'meDta2.Text'
+      'chkBusca.Checked')
     StoredValues = <>
     Left = 440
     Top = 96
