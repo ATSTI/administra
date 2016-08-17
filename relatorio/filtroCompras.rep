@@ -15,12 +15,12 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'EMPRESA'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'select * from EMPRESA'
     end
     item
       Alias = 'VENDAS'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         ' select  mov.CODFORNECEDOR, forn.NOMEFORNECEDOR, mov.CODMOVIMENT' +
         'O, mov.CODNATUREZA, mov.DATAMOVIMENTO, '#13#10' mov.STATUS, nat.DESCNA' +
@@ -248,6 +248,12 @@ object TRpReport
       end
       item
         Component = TRpShape5
+      end
+      item
+        Component = TRpExpression19
+      end
+      item
+        Component = TRpLabel7
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -858,28 +864,6 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpExpression14: TRpExpression
-    Width = 804
-    Height = 204
-    PosX = 6902
-    PosY = 0
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.VALOR'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression16: TRpExpression
     Width = 918
     Height = 204
@@ -945,5 +929,67 @@ object TRpReport
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 915
+    Height = 210
+    PosX = 6900
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression19: TRpExpression
+    Width = 1140
+    Height = 225
+    PosX = 6675
+    PosY = 120
+    Type1Font = poHelvetica
+    Alignment = 2
+    DisplayFormat = ',##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR'
+    DisplayFormat = ',##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel7: TRpLabel
+    Width = 1950
+    Height = 225
+    PosX = 4605
+    PosY = 120
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Total Geral'
   end
 end
