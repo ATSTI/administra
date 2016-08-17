@@ -533,7 +533,6 @@ type
     GroupBox1: TGroupBox;
     Panel1: TPanel;
     sbtnGetCert: TSpeedButton;
-    Label4: TLabel;
     Label7: TLabel;
     Label6: TLabel;
     cbTipoNota: TRadioGroup;
@@ -542,7 +541,6 @@ type
     MemoResp: TMemo;
     edtNumSerie: TEdit;
     Edit1: TEdit;
-    edSerie: TEdit;
     GroupBox4: TGroupBox;
     Label2: TLabel;
     Label1: TLabel;
@@ -769,6 +767,64 @@ type
     cdsItensNFVFCPUFDEST: TFloatField;
     sdsItensNFCEST: TStringField;
     cdsItensNFCEST: TStringField;
+    sClienteTEM_IE: TStringField;
+    sdsNFIND_IEDEST: TStringField;
+    cdsNFIND_IEDEST: TStringField;
+    sEmpresaCONTADOR: TStringField;
+    sEmpresaCONTADOR_CRC: TStringField;
+    sEmpresaCONTADOR_CNPJ: TStringField;
+    sEmpresaCONTADOR_CPF: TStringField;
+    sEmpresaCONTADOR_CEP: TStringField;
+    sEmpresaCONTADOR_END: TStringField;
+    sEmpresaCONTADOR_NUMEND: TStringField;
+    sEmpresaCONTADOR_COMPL: TStringField;
+    sEmpresaCONTADOR_BAIRRO: TStringField;
+    sEmpresaCONTADOR_FONE: TStringField;
+    sEmpresaCONTADOR_FAX: TStringField;
+    sEmpresaCONTADOR_EMAIL: TStringField;
+    sEmpresaCONTADOR_COD_MUN: TStringField;
+    sEmpresaIM: TStringField;
+    sEmpresaTREGIME: TIntegerField;
+    sEmpresaCODINDTIPOCON: TSmallintField;
+    sEmpresaINDAPROCRED: TSmallintField;
+    sEmpresaCODINDINCTRIBUTARIA: TSmallintField;
+    sEmpresaINDICADORATIVIDADE: TSmallintField;
+    sEmpresaINDICADORNATUREZAPJ: TSmallintField;
+    sEmpresaINDCODINCIDENCIA: TSmallintField;
+    sEmpresaCODINDCRITESCRIT: TSmallintField;
+    sEmpresaINDESCRITURACAO: TSmallintField;
+    sEmpresaINDCTA: TSmallintField;
+    sEmpresaINDTIPCOOP: TSmallintField;
+    sEmpresaINDAJ: TSmallintField;
+    sEmpresaBASECALCULOCREDITO: TSmallintField;
+    sEmpresaCODAJ: TSmallintField;
+    sEmpresaINDNATREC: TSmallintField;
+    sEmpresaCODCRED: TSmallintField;
+    sEmpresaNATCREDDESC: TSmallintField;
+    sEmpresaINDCREDORI: TSmallintField;
+    sEmpresaINDREC: TSmallintField;
+    sEmpresaCODCONT: TSmallintField;
+    sEmpresaINDDESCCRED: TSmallintField;
+    sEmpresaINDORIGEMDIVERSAS: TSmallintField;
+    sEmpresaINDNATRETFONTE: TSmallintField;
+    sEmpresaINDTPOPERACAORECEITA: TSmallintField;
+    sEmpresaINDNATDEDUCAO: TSmallintField;
+    sEmpresaCNPJPREFEITURA: TStringField;
+    sEmpresaNOMEPREFEITURA: TStringField;
+    sEmpresaCHAVELIC: TStringField;
+    sEmpresaCHAVECONT: TStringField;
+    sEmpresaMODELOCUPOM: TStringField;
+    sEmpresaECFMOD: TStringField;
+    sEmpresaECFFAB: TStringField;
+    sEmpresaECFCX: TStringField;
+    sEmpresaCENTROCUSTO: TStringField;
+    sdsNFCCUSTO: TIntegerField;
+    cdsNFCCUSTO: TIntegerField;
+    Label4: TLabel;
+    edSerie: TEdit;
+    sqlTotal_tributos: TSQLQuery;
+    sdsItensNFCODMOVIMENTO: TIntegerField;
+    cdsItensNFCODMOVIMENTO: TIntegerField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -820,14 +876,22 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure cdsNFAfterOpen(DataSet: TDataSet);
     procedure BitBtn7Click(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
 
   private
+    infCplTrib: string;
+    diretorio : string;
     tpNFe : integer;
     numnf : WideString;
     envemail : string;
     TD: TTransactionDesc;
+    tot1: double;
+    tot2: double;
+    tot3: double;
     function validaNumNfe():Boolean;
     function validaNumNfeScan():Boolean;
+    procedure nfe_carregalogo();
+    procedure pegaTributos(codMov: Integer;codProd: Integer);
     procedure getCli_Fornec();
     procedure getEmpresa();
     procedure getItens(contador : integer);
@@ -872,80 +936,132 @@ end;
 procedure TfNFeletronica.btnListarClick(Sender: TObject);
 var str_nf: string;
 begin
+   if (not cds_ccusto.Active) then
+     cds_ccusto.Open;
+
    if (cdsNF.Active) then
      cdsNF.Close;
-
-   cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
-   cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
-   cdsNF.Params[2].Clear;
-   cdsNF.Params[3].Clear;
-   cdsNf.Params.ParamByName('ENV').Clear;
-   if (chkTodas.Checked) then
-     cdsNf.Params.ParamByName('ENV').AsString := 'TODAS';
-
-   if (edSerie.Text <> '') then
-     cdsNF.Params[2].AsString := edSerie.Text
-   else
-     cdsNF.Params[3].AsString := 'todasasseriesdenotaf';
    if (cbTipoNota.ItemIndex = 0) then
    begin
-    cdsNF.Params[4].AsSmallInt := 20;
-      str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
-      'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
-      'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
-      'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
-      'udf_left(nf.END_TRANSP,60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP, nf.UF_TRANSP, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, '+
-      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.CODTRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
-      'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
+     //cdsNF.Params[4].AsSmallInt := 20;
+     str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.IDCOMPLEMENTAR, ' +
+      ' nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, ' +
+      ' nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
+      'UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, ' +
+      'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+      'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
+      'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, ' +
+      'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, ' +
+      'nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
+      'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,  ' +
+      'nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  nf.INSCRICAOESTADUAL,' +
+      'udf_left(nf.END_TRANSP,60)as END_TRANSP, '+
+      'udf_left(nf.CIDADE_TRANSP, 60) as CIDADE_TRANSP, nf.UF_TRANSP, ' +
+      'UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, '+
+      'nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.CODTRANSP, nf.QUANTIDADE,  ' +
+      'nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
+      'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, ' +
+      'nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, ' +
       ' nf.NOMETRANSP TRANSP2, nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, ' +
       ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML  ' +
-      ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
+      ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE,'+
+      ' NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES, IND_IEDEST ' +
+      ' , NF.CCUSTO ' +
       '  from NOTAFISCAL nf ' +
       ' inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE ' +
       ' inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR ' +
-      '  left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA '+
-      ' where (nf.DTAEMISSAO between :dta1 and :dta2) ' +
-      '   and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-      '   and (endeforn.TIPOEND = 0) ' +
-      '   and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 21)) ' +
-      '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) ' ;
-      if (chkTodas.Checked = False) then
-        str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
-      str_nf := str_nf + ' order by nf.NOTASERIE DESC';
-      cdsNF.CommandText := str_nf;
-   end
-   else
-   begin
-    cdsNF.Params[4].AsSmallInt := 15;
-    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.CODTRANSP, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, ' +
-    'nf.CODVENDA, nf.fatura, nf.natureza, UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
-    'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, ' +
-    'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
-    'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE,   nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  '+
-    'nf.INSCRICAOESTADUAL, udf_left(nf.END_TRANSP, 60)as END_TRANSP,    udf_left(nf.CIDADE_TRANSP, 60)as CIDADE_TRANSP, ' +
-    'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE,  nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
+      '  left outer join COMPRA c on c.CODCOMPRA = nf.CODVENDA ';
+
+    str_nf := str_nf + ' where (nf.DTAEMISSAO between ' +
+      QuotedStr(formatdatetime('mm/dd/yy', JvDateEdit1.Date)) +
+      ' and ' + QuotedStr(formatdatetime('mm/dd/yy', JvDateEdit2.Date)) +') ';
+    if (edSerie.Text <> '') then
+      str_nf := str_nf + ' and (nf.SERIE = ' + QuotedStr(edSerie.text) + ')';
+    str_nf := str_nf + ' and (endeforn.TIPOEND = 0) ';
+    str_nf := str_nf + ' and ((NF.NATUREZA = 20) or (NF.NATUREZA = 21))';
+    if (chkTodas.Checked = False) then
+    begin
+      str_nf := str_nf + ' and (nf.PROTOCOLOENV IS NULL)';
+      str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
+    end;
+    str_nf := str_nf + ' order by nf.NOTASERIE DESC';
+    cdsNF.CommandText := str_nf;
+  end
+  else
+  begin
+    //cdsNF.Params[4].AsSmallInt := 15;
+    str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.CODTRANSP, ' +
+    'nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, '+
+    'nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, ' +
+    'nf.CODVENDA, nf.fatura, nf.natureza, UDF_ROUNDDEC(nf.BASE_ICMS, 2) as BASE_ICMS, ' +
+    'UDF_ROUNDDEC(nf.VALOR_ICMS, 2) as VALOR_ICMS, ' +
+    'UDF_ROUNDDEC(nf.BASE_ICMS_SUBST, 2) as BASE_ICMS_SUBST, ' +
+    'UDF_ROUNDDEC(nf.VALOR_ICMS_SUBST, 2) as VALOR_ICMS_SUBST, ' +
+    'UDF_ROUNDDEC(nf.II, 2) as II, UDF_ROUNDDEC(nf.BCII, 2) as BCII, ' +
+    'UDF_ROUNDDEC(nf.VALOR_PRODUTO, 2) as VALOR_PRODUTO, nf.VALOR_FRETE, ' +
+    'nf.VALOR_SEGURO, nf.OUTRAS_DESP, nf.VALOR_IPI,' +
+    'UDF_ROUNDDEC(nf.VALOR_TOTAL_NOTA, 2) as VALOR_TOTAL_NOTA,  nf.FRETE, ' +
+    'nf.CNPJ_CPF,  udf_left(nf.NOMETRANSP, 60)as NOMETRANSP,  '+
+    'nf.INSCRICAOESTADUAL, udf_left(nf.END_TRANSP, 60)as END_TRANSP, ' +
+    'udf_left(nf.CIDADE_TRANSP, 60)as CIDADE_TRANSP, ' +
+    'nf.UF_TRANSP, nf.PLACATRANSP, nf.UF_VEICULO_TRANSP, nf.QUANTIDADE, ' +
+    'nf.ESPECIE,  nf.MARCA, nf.NUMERO, nf.PESOLIQUIDO, nf.VALOR_DESCONTO, ' +
     'nf.PESOBRUTO, nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, ' +
     ' nf.PROTOCOLOENV, nf.NOMETRANSP TRANSP2, nf.NUMRECIBO, nf.PROTOCOLOCANC, ' +
     ' co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     ', nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) ' +
-    ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML   ' +
-    ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE, NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
+    ' as VLRTOT_TRIB, nf.STATUS, nf.NOMEXML, IND_IEDEST  ' +
+    ' , NFE_FINNFE, NFE_MODELO, NFE_VERSAO, NFE_DESTOPERACAO, NFE_FORMATODANFE,' +
+    ' NFE_TIPOEMISSAO, NFE_INDFINAL, NFE_INDPRES ' +
+    ' , NF.CCUSTO ' +
     '  from NOTAFISCAL nf ' +
     ' inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE ' +
     ' inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
-    '  left outer join VENDA co on co.CODVENDA = nf.CODVENDA  ' +
-    ' where (nf.DTAEMISSAO between :dta1 and :dta2) ' +
-    '   and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
-    '   and (ec.TIPOEND = 0) ' +
-    '   and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12) or (NF.NATUREZA = 16))' +
-    '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) ';
-      if (chkTodas.Checked = False) then
-        str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
-      str_nf := str_nf + ' order by nf.NOTASERIE DESC';
-     cdsNF.CommandText := str_nf;
-   end;
-   cdsNF.Open;
+    '  left outer join VENDA co on co.CODVENDA = nf.CODVENDA  ';
+    str_nf := str_nf + ' where (nf.DTAEMISSAO between ' +
+      QuotedStr(formatdatetime('mm/dd/yy', JvDateEdit1.Date)) +
+      ' and ' + QuotedStr(formatdatetime('mm/dd/yy', JvDateEdit2.Date)) +') ';
+    if (edSerie.Text <> '') then
+      str_nf := str_nf + ' and (nf.SERIE = ' + QuotedStr(edSerie.text) + ')';
+    str_nf := str_nf + ' and (ec.TIPOEND = 0) ';
+    str_nf := str_nf + ' and ((NF.NATUREZA = 15) or (NF.NATUREZA = 12) or (NF.NATUREZA = 16))';
+    if (chkTodas.Checked = False) then
+    begin
+      str_nf := str_nf + ' and (nf.PROTOCOLOENV IS NULL)';
+      str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
+    end;
+    if (ComboBox1.Text <> '') then
+    begin
+      cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+      str_nf := str_nf + ' and (nf.CCUSTO = ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ')';
+    end;
+    str_nf := str_nf + ' order by nf.NOTASERIE DESC';
+    cdsNF.CommandText := str_nf;
+    //cdsNF.FetchParams;
+    //cdsNF.Params[0].AsDate := StrToDate(JvDateEdit1.Text);
+    //cdsNF.Params[1].AsDate := StrToDate(JvDateEdit2.Text);
+    //cdsNF.Params[2].Clear;
+    //cdsNF.Params[3].Clear;
+    //cdsNf.Params.ParamByName('ENV').Clear;
+    //if (chkTodas.Checked) then
+    //  cdsNf.Params.ParamByName('ENV').AsString := 'TODAS';
+
+    //if (edSerie.Text <> '') then
+    //  cdsNF.Params[2].AsString := edSerie.Text
+    //else
+    //  cdsNF.Params[3].AsString := 'todasasseriesdenotaf';
+
+  end;
+  cdsNF.Open;
+
+  //Seleciona Empresa de acordo com o CCusto selecionado
+  if (sEmpresa.Active) then
+    sEmpresa.Close;
+  sEmpresa.Params[0].AsInteger := cdsNF.FieldByname('CCUSTO').AsInteger;
+  sEmpresa.Open;
+
+  fNFeletronica.Caption := sEmpresaEMPRESA.AsString;
 
   if (sMenorData.Active) then
      sMenorData.Close;
@@ -1057,6 +1173,9 @@ begin
    if(sEmpresa.IsEmpty) then
      MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
+   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;  
+   nfe_carregalogo;
+
    cdsNF.First;
    while not cdsNF.Eof do
    begin
@@ -1133,7 +1252,7 @@ begin
          end;
 
           ACBrNFe1.NotasFiscais.Clear;
-  
+
           with ACBrNFe1.NotasFiscais.Add.NFe do
           begin
             //infNFe.ID := 0 // Chave de acesso da NF-e precedida do literal NFe acrescentado a validação do formato 2.0
@@ -1145,7 +1264,6 @@ begin
             Ide.cUF       := sEstadoCODIGO.AsInteger; // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
             Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
-
             //Verifica tipo de Pagamento
             getPagamento;
 
@@ -1196,7 +1314,6 @@ begin
             Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
             Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
             Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
-            InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString;(usando para codigo pedido de compra)
 
             if (cdsNFNFE_FINNFE.AsString = 'fnAjuste') then
             begin
@@ -1277,8 +1394,31 @@ begin
               exit;
             getCLi_Fornec();
 
-            pegaItens(cbTipoNota.ItemIndex);
+            ide.indFinal := cfNao;
+            if (dm.vTipoFiscal = '9') then
+              ide.indFinal  := cfConsumidorFinal; //(cfNao, cfConsumidorFinal);
 
+            pegaItens(cbTipoNota.ItemIndex);
+            tot1 := 0;
+            tot2 := 0;
+            tot3 := 0;
+            infCplTrib := '';
+            //if ((cdsNFVLRTOT_TRIB.AsFloat > 0) and (dm.vTipoFiscal = '9'))  then
+            if (cdsNFVLRTOT_TRIB.AsFloat > 0)  then
+            begin
+              pegaTributos(cdsItensNFCODMOVIMENTO.AsInteger, 0);
+              infCplTrib := 'Trib aprox R$:' +
+                format('%8.2n', [sqlTotal_tributos.Fields[0].AsFloat]) + '-Fed, ' +
+                format('%8.2n', [sqlTotal_tributos.Fields[1].AsFloat]) + '-Est e ' +
+                format('%8.2n', [sqlTotal_tributos.Fields[2].AsFloat]) + '-Mun ';
+              infCplTrib := infCplTrib + 'Fonte: IBPT';//Fonte: IBPT/FECOMERCIO RJ Xe67eQ
+            end;
+            infCplTrib := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' +
+              cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' +
+              cdsNFCORPONF5.AsString + infCplTrib; // + ' ' + cdsNFCORPONF6.AsString;(usando para codigo pedido de compra)
+
+            InfAdic.infCpl := infCplTrib;
+                      
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
             begin
@@ -1358,6 +1498,11 @@ begin
             Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
             Total.ICMSTot.vDesc := cdsNFVALOR_DESCONTO.AsVariant;
             Total.ICMSTot.vII := cdsNFII.AsVariant;
+
+            Total.ICMSTot.vFCPUFDest := tot1;
+            total.ICMSTot.vICMSUFDest := tot2;
+            total.ICMSTot.vICMSUFRemet := tot3;
+
             if (cdsNFVALOR_IPI.IsNull) then
                 MessageDlg('Valor do IPI nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
@@ -1376,9 +1521,9 @@ begin
       end;
       cdsNF.Next;
    end;
-   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := sempresaDIVERSOS1.AsString;
+   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := Edit1.Text;
    ACBrNFe1.NotasFiscais.Items[0].GravarXML;
-   MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' +copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
+   //MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' +copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    dm.sqlsisAdimin.StartTransaction(TD);
    try
      str := 'UPDATE NOTAFISCAL SET ';
@@ -1395,7 +1540,7 @@ begin
    end;
    MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
 
-   lblMsgNfe.Caption := 'Enviando arquivo para a Receita Federal';   
+   lblMsgNfe.Caption := 'Enviando arquivo para a Receita Federal';
    //Gera Envio da Nota
    //ACBrNFeDANFERave1.Site := sEmpresaWEB.AsString;
    //ACBrNFeDANFERave1.Email := sEmpresaE_MAIL.AsString;
@@ -1480,9 +1625,9 @@ begin
    end
    else
    begin
-     try
+     //try  -- Retirei pois, alguns lugares estava dando erro e nao aparecia
        ACBrNFe1.Enviar(0);
-       AcbrNfe1.Configuracoes.Arquivos.PathSalvar := sempresaDIVERSOS1.AsString;
+       AcbrNfe1.Configuracoes.Arquivos.PathSalvar := Edit1.Text;
 
        ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
        ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
@@ -1528,13 +1673,13 @@ begin
        end;
 
        DecimalSeparator := ',';
-     except
-       on E : Exception do
-       begin
-         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-         exit;
-       end;
-     end;
+     //except
+     //  on E : Exception do
+     //  begin
+     //    ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+     //    exit;
+     //  end;
+     //end;
    end;
 
    btnListar.Click;
@@ -1544,10 +1689,22 @@ end;
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
 begin
   cdsNF.Edit;
-  if cdsNFSELECIONOU.AsString = 'S' then
-    cdsNFSELECIONOU.AsString := ''
+  if (cdsNFSELECIONOU.AsString = 'S') then
+  begin
+    cdsNFSELECIONOU.AsString := '';
+  end
   else begin
     cdsNFSELECIONOU.AsString := 'S';
+    edDadosXml.Text := cdsnfNFE_FINNFE.AsString + '-' + cdsnfNFE_MODELO.AsString + '-' + cdsnfNFE_VERSAO.AsString + '-' +
+    cdsnfNFE_DESTOPERACAO.AsString + '-' + cdsnfNFE_FORMATODANFE.AsString + '-' + cdsnfNFE_TIPOEMISSAO.AsString + '-' +
+    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString + '-' + cdsNFIND_IEDEST.AsString;
+
+    if (sEmpresa.Active) then
+      sEmpresa.Close;
+    sEmpresa.Params[0].AsInteger := cdsNFCCUSTO.AsInteger;
+    sEmpresa.Open;
+    fNFeletronica.Caption := sEmpresaEMPRESA.AsString;
+    ComboBox1.Items.IndexOf(sEmpresaCENTROCUSTO.AsString);
   end;
 end;
 
@@ -1613,7 +1770,6 @@ begin
 end;
 
 procedure TfNFeletronica.FormCreate(Sender: TObject);
-var diretorio : string;
 begin
   //  sCtrlResize.CtrlResize(TForm(fNFeletronica));
   if dm.cds_parametro.Active then
@@ -1956,6 +2112,11 @@ begin
 
       if not(InputQuery('WebServices Cancelamento', 'Justificativa', vAux)) then
         exit;
+      if (Length(vAux) < 15) then
+      begin
+        MessageDlg('Justificativa deve ter no mínimo 15 caracteres.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
       ACBrNFe1.EventoNFe.Evento.Clear;
       ACBrNFe1.EventoNFe.idLote := NumeroLote;
@@ -2139,7 +2300,6 @@ begin
   if (JvDateEdit1.Text = '  /  /    ') then
     JvDateEdit1.Text := DateToStr(Now);
   if (JvDateEdit2.Text = '  /  /    ') then
-    JvDateEdit2.Text := DateToStr(Now);
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -2157,6 +2317,8 @@ var
     sEmpresa.Close;
   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
   sEmpresa.Open;
+
+  nfe_carregalogo;
 
   //verifica se o CC foi selecionado caso não da mensagem avisando
   if(sEmpresa.IsEmpty) then
@@ -2261,6 +2423,8 @@ var
       Ide.tpEmis    := teSVCAN;
       Ide.serie     := 1;
     end;
+    //Carrega os itens da NF
+    pegaItens(cbTipoNota.ItemIndex);
 
     if( (cdsNFIDCOMPLEMENTAR.IsNull) or (cdsNFIDCOMPLEMENTAR.AsString = '')) then
       ide.finNFe    := fnNormal
@@ -2273,7 +2437,23 @@ var
     Ide.dEmi      := cdsNFDTAEMISSAO.AsDateTime;
     Ide.dSaiEnt   := cdsNFDTASAIDA.AsDateTime;
     Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
-    InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString(Usando para o cod pedido compra);
+    infCplTrib := '';
+    //if ((cdsNFVLRTOT_TRIB.AsFloat > 0) and (dm.vTipoFiscal = '9'))  then
+    if (cdsNFVLRTOT_TRIB.AsFloat > 0)  then
+    begin
+      pegaTributos(cdsItensNFCODMOVIMENTO.AsInteger, 0);
+      infCplTrib := 'Trib aprox R$:' +
+        format('%8.2n', [sqlTotal_tributos.Fields[0].AsFloat]) + '-Fed, ' +
+        format('%8.2n', [sqlTotal_tributos.Fields[1].AsFloat]) + '-Est e ' +
+        format('%8.2n', [sqlTotal_tributos.Fields[2].AsFloat]) + '-Mun ';
+      infCplTrib := infCplTrib + 'Fonte: IBPT';//Fonte: IBPT/FECOMERCIO RJ Xe67eQ
+    end;
+    infCplTrib := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' +
+      cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' +
+      cdsNFCORPONF5.AsString + infCplTrib; // + ' ' + cdsNFCORPONF6.AsString;(usando para codigo pedido de compra)
+
+    InfAdic.infCpl := infCplTrib;
+    //InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString; // + ' ' + cdsNFCORPONF6.AsString(Usando para o cod pedido compra);
 
     if (cdsNFCORPONF6.AsString <> '') then
     begin
@@ -2329,7 +2509,7 @@ var
     getCLi_Fornec();
 
     //Carrega os itens da NF
-    pegaItens(cbTipoNota.ItemIndex);
+    //pegaItens(cbTipoNota.ItemIndex);
 
     i := 1;
     while not cdsItensNF.Eof do // Escrevo os itens
@@ -2456,6 +2636,7 @@ procedure TfNFeletronica.getCLi_Fornec();
 var
   IERG : integer;
 begin
+  dm.vTipoFiscal := '';
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     //Carrega dados do Destinatário
@@ -2502,8 +2683,15 @@ begin
       Dest.EnderDest.Fone    := sFornecDDD.AsString + sFornecTELEFONE.AsString;
       IERG := 0;
       IERG := StrLen(PChar(RemoveChar(sFornecINSCESTADUAL.AsString)));
-      //if (sFornecTIPOFIRMA.AsInteger = 0) then
-      //  IERG := 0;
+      if ((sFornecTIPOFIRMA.AsInteger = 0) and (sFornecCODFISCAL.AsString = '9')) then
+      begin
+        IERG := 0;
+      end;
+      if (sFornecCODFISCAL.AsString = '9') then
+      begin
+        dm.vTipoFiscal := '9';
+      end;
+
       if (IERG = 0) then
       begin
         Dest.indIEDest := inNaoContribuinte;
@@ -2575,20 +2763,37 @@ begin
       Dest.EnderDest.Fone    := sClienteDDD.AsString + sClienteTELEFONE.AsString;
       if (sClienteINSCESTADUAL.AsString = 'ISENTO') then
       begin
-        Dest.indIEDest := inIsento;
+        //Dest.indIEDest := inIsento;
       end
       else begin
         IERG := 0;
         IERG := StrLen(PChar(RemoveChar(sClienteINSCESTADUAL.AsString)));
-        //if (sClienteTIPOFIRMA.AsInteger = 0) then
-        //  IERG := 0;
+        if ((sClienteTIPOFIRMA.AsInteger = 0)
+          and (sClienteCODFISCAL.AsString = '9')
+          and (sClienteTEM_IE.AsString <> 'S')) then
+        begin
+          IERG := 0;
+        end;
+        if (sClienteCODFISCAL.AsString = '9') then
+        begin
+          dm.vTipoFiscal := '9';
+        end;
 
         if (IERG = 0) then
         begin
-          Dest.indIEDest := inNaoContribuinte;
+          //Dest.indIEDest := inNaoContribuinte;
         end
         else begin
-          Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
+          { 20/07/16 fazendo nada
+          if (sClienteTem_IE.AsString = 'S') then
+          begin
+            //Dest.indIEDest := inNaoContribuinte;
+          end
+          else begin
+            //Dest.indIEDest := inContribuinte;
+          end;
+          //Dest.indIEDest := inContribuinte; //, inIsento, inNaoContribuinte
+          }
           if ((sClienteUF.AsString = 'SP') or (sClienteUF.AsString = 'MG')) then
           begin
             if (IERG > 11) then
@@ -2604,12 +2809,19 @@ begin
             end;
           end;
         end;
-      end;
-      if (sClienteUF.AsString = 'EX') then
-      begin
-        Dest.indIEDest := inNaoContribuinte;
-      end;
 
+
+      end;
+      //if (sClienteUF.AsString = 'EX') then
+      //begin
+      //  Dest.indIEDest := inNaoContribuinte;
+      //end;
+      if (cdsNFIND_IEDEST.AsString = 'inNaoContribuinte') then
+        Dest.indIEDest := inNaoContribuinte
+      else
+        Dest.indIEDest := inContribuinte;
+      if (cdsNFIND_IEDEST.AsString = 'inIsento') then
+        Dest.indIEDest := inIsento;
     end;
   end;
 end;
@@ -2648,9 +2860,11 @@ procedure TfNFeletronica.getItens(contador: integer);
 var
   BC, BCST, desc : Variant;
   cst_parte: String;
+  inf_add_prd: String;
+  nfe_itens_tottrib: String;
 begin
-   BC := 0;
-   BCST := 4;
+  BC := 0;
+  BCST := 4;
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     with Det.Add do
@@ -2691,9 +2905,23 @@ begin
       end;
       desc := StrLen(PChar(MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)));
       if ( desc > 0) then
-        infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
+        inf_add_prd := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
       else
-        infAdProd     := cdsItensNFOBS.AsString;
+        inf_add_prd := inf_add_prd + cdsItensNFOBS.AsString;
+      //if ((cdsItensNFVLRTOT_TRIB.AsFloat > 0) and (dm.vTipoFiscal = '9'))  then
+      if (cdsItensNFVLRTOT_TRIB.AsFloat > 0)  then
+      begin
+        pegaTributos(cdsItensNFCODMOVIMENTO.AsInteger, cdsItensNFCODPRODUTO.AsInteger);
+        nfe_itens_tottrib := 'Trib aprox R$:' +
+          format('%8.2n', [sqlTotal_tributos.Fields[1].AsFloat]) + '-Fed, ' +
+          format('%8.2n', [sqlTotal_tributos.Fields[2].AsFloat]) + '-Est e ' +
+          format('%8.2n', [sqlTotal_tributos.Fields[3].AsFloat]) + '-Mun ';
+        nfe_itens_tottrib := nfe_itens_tottrib + 'Fonte:'+
+          sqlTotal_tributos.Fields[7].AsString + '-' +
+          sqlTotal_tributos.Fields[8].AsString;//Fonte: IBPT/FECOMERCIO RJ Xe67eQ
+        inf_add_prd := inf_add_prd + ' ' + nfe_itens_tottrib;
+      end;
+      infAdProd := inf_add_prd;
       Prod.NCM      := sProdutosNCM.AsString;
       if (cdsItensNFCEST.AsString <> '') then
         Prod.CEST := cdsItensNFCEST.AsString;
@@ -2737,7 +2965,8 @@ begin
       with Imposto do
       begin
         Imposto.vTotTrib := cdsItensNFVLRTOT_TRIB.AsCurrency;
-        Imposto.IPI.cEnq := cdsItensNFCST_IPI_CENQ.AsString;
+
+        Imposto.IPI.cEnq := trim(cdsItensNFCST_IPI_CENQ.AsString);
         with IPI do
         begin
           if (cdsItensNFCSTIPI.AsString = '00') then
@@ -2794,6 +3023,7 @@ begin
           //900 - Outros - Classificam-se neste código as demais operações que não se enquadrem nos códigos 101, 102, 103, 201, 202, 203, 300, 400 e 500.
           if( sEmpresaCRT.AsInteger = 0) then
           begin
+            cst_parte := '00';
             if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
             begin
               CSOSN := csosnVazio;
@@ -3108,9 +3338,8 @@ begin
         if ((cdsNFNFE_MODELO.AsString = 'moNFe') and
           (cdsNFNFE_DESTOPERACAO.AsString = 'doInterestadual') and
           (cdsNFNFE_INDFINAL.AsString = 'cfConsumidorFinal') and
-          (cdsNFNFE_INDPRES.AsString = 'inNaoContribuinte') and
-          (cst_parte <> '10') and
-          (cst_parte <> '90')) then
+          (cdsNFIND_IEDEST.AsString = 'inNaoContribuinte') and
+          (cst_parte <> '10') and (cst_parte <> '90')) then
          begin
            with ICMSUFDest do
            begin
@@ -3120,8 +3349,11 @@ begin
              pICMSInter := cdsItensNFPICMSINTER.AsCurrency;
              pICMSInterPart := cdsItensNFPICMSINTERPART.AsCurrency;
              vFCPUFDest := cdsItensNFVFCPUFDEST.AsCurrency;
+             tot1 := tot1 + cdsItensNFVFCPUFDEST.AsCurrency;
              vICMSUFDest := cdsItensNFVICMSUFDEST.AsCurrency;
+             tot2 := tot2 + cdsItensNFVICMSUFDEST.AsCurrency;
              vICMSUFRemet := cdsItensNFVICMSUFREMET.AsCurrency;
+             tot3 := tot3 + cdsItensNFVICMSUFREMET.AsCurrency;
            end;
          end;
 
@@ -3388,6 +3620,7 @@ begin
       ' , md.VICMSUFREMET ' +
       ' , md.CST_IPI_CENQ ' +
       ' , md.CEST ' +
+      ' , cp.CODMOVIMENTO ' +
       ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -3414,6 +3647,7 @@ begin
       ' , md.VICMSUFREMET' +
       ' , md.CST_IPI_CENQ ' +
       ' , md.CEST ' +
+      ' , vd.CODMOVIMENTO ' +
       ' from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
@@ -3452,6 +3686,7 @@ procedure TfNFeletronica.BtnCCeClick(Sender: TObject);
 var protocolo, str, xCond :string;
     envio :TDateTime;
     NumeroLote : Integer;
+    tamanho: Integer;
     TD: TTransactionDesc;
     nfe_arquivo : String;
 begin
@@ -3460,9 +3695,25 @@ begin
     MessageDlg('Selecione o Certificado!',mtWarning,[mbOk],0);
     exit;
   end;
+  if(ComboBox2.Text = '') then
+  begin
+    MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+    exit;
+  end;
+
+  cds_ccusto.Locate('NOME', ComboBox2.Text,[loCaseInsensitive]);
+
+  //Seleciona Empresa de acordo com o CCusto selecionado
+  if (sEmpresa.Active) then
+   sEmpresa.Close;
+  sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+  sEmpresa.Open;
+
+  ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
+  nfe_carregalogo;
   envio := Now;
   NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
-  try
+  //try
     nfe_arquivo := edit3.text + '\' + cdsCCECHAVE.AsString + '-NFe.xml';
     if (not FilesExists(nfe_arquivo)) then
     begin
@@ -3471,12 +3722,14 @@ begin
          nfe_arquivo := OpenDialog1.FileName;
     end;
     ACBrNFe1.NotasFiscais.LoadFromFile(nfe_arquivo);
+    tamanho := Length(edit3.Text);
+    nfe_arquivo := RemoveChar(copy(nfe_arquivo, tamanho+1, length(nfe_arquivo)));
     ACBrNFe1.EventoNFe.Evento.Clear;
     //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
     with ACBrNFe1.EventoNFe.Evento.Add do
     begin
-      InfEvento.chNFe     := cdsCCeCHAVE.AsString;
-      InfEvento.CNPJ      := RemoveChar(Copy(cdsCCeCHAVE.AsString, 7, 14));
+      InfEvento.chNFe     := nfe_arquivo;
+      InfEvento.CNPJ      := RemoveChar(Copy(nfe_arquivo, 7, 14));
       InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
       InfEvento.versaoEvento := '1.0.00';
       InfEvento.dhEvento  := envio;
@@ -3513,7 +3766,7 @@ begin
       end;
     end;
 
-  finally
+  //finally
     protocolo := AcbrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
     if (StrLen(PAnsiChar(protocolo)) > 1) then
     begin
@@ -3549,7 +3802,7 @@ begin
         imprimiCCe(protocolo, envio, xCond );
       end;
     end;
-  end;
+  //end;
 
 end;
 
@@ -3669,6 +3922,11 @@ begin
         ACBrMail1.Password := sEmpresaSENHA.AsString;
         ACBrMail1.From := sEmpresaE_MAIL.AsString;
         ACBrMail1.FromName := sEmpresaEMPRESA.AsString;
+        ACBrMail1.AddAddress(sClienteE_MAIL.AsString);
+        if (dm.email_tls = 'S') then
+          ACBrMail1.SetTLS := True;
+        if (dm.email_ssl = 'S') then
+          ACBrMail1.SetSSL := True;
 
         //sPara, sAssunto: String; sMensagem: TStrings;
         //       EnviaPDF: Boolean; sCC: TStrings; Anexos: TStrings)
@@ -3884,7 +4142,7 @@ procedure TfNFeletronica.cdsNFAfterOpen(DataSet: TDataSet);
 begin
   edDadosXml.Text := cdsnfNFE_FINNFE.AsString + '-' + cdsnfNFE_MODELO.AsString + '-' + cdsnfNFE_VERSAO.AsString + '-' +
     cdsnfNFE_DESTOPERACAO.AsString + '-' + cdsnfNFE_FORMATODANFE.AsString + '-' + cdsnfNFE_TIPOEMISSAO.AsString + '-' +
-    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString;
+    cdsnfNFE_INDFINAL.AsString + '-' + cdsnfNFE_INDPRES.AsString + '-' + cdsNFIND_IEDEST.AsString;
 end;
 
 procedure TfNFeletronica.BitBtn7Click(Sender: TObject);
@@ -3933,5 +4191,77 @@ begin
 
 end;
 
+
+procedure TfNFeletronica.pegaTributos(codMov, codProd: Integer);
+var pegaTribSql : String;
+begin
+  pegaTribSql := 'SELECT CODPRODUTO ' +
+    ' , TRIB_FED ' +
+    ' , TRIB_EST ' +
+    ' , TRIB_MUN ' +
+    ' , TOT_TRIB_FED ' +
+    ' , TOT_TRIB_EST ' +
+    ' , TOT_TRIB_MUN ' +
+    ' , FONTE ' +
+    ' , CHAVE ' +
+    ' FROM TOTAL_TRIBUTOS(' +
+    IntToStr(codMov) + ')';
+  if (codProd > 0) then
+  begin
+    pegaTribSql := pegaTribSql +
+      ' WHERE CODPRODUTO = ' + IntToStr(codProd);
+  end;
+  if (codProd = 0) then
+  begin
+    pegaTribSql := 'SELECT ' +
+      ' SUM(TRIB_FED) ' +
+      ' , SUM(TRIB_EST) ' +
+      ' , SUM(TRIB_MUN) ' +
+      ' FROM TOTAL_TRIBUTOS(' +
+      IntToStr(codMov) + ')';
+  end;
+  if (sqlTotal_tributos.Active) then
+    sqlTotal_tributos.Close;
+  sqlTotal_tributos.SQL.Clear;
+  sqlTotal_tributos.SQL.Add(pegaTribSql);
+  sqlTotal_tributos.Open;
+end;
+
+procedure TfNFeletronica.nfe_carregalogo;
+var tem_logo: String;
+begin
+  tem_logo := '';
+  if (FilesExists(diretorio + '\logo_nfe.jpg')) then
+    tem_logo := 'S';
+  if (FilesExists(diretorio + '\logo.bmp')) then
+    tem_logo := 'S';
+
+  if (tem_logo = '') then
+  begin
+    if (FilesExists(diretorio + '\' +  sEmpresaDIVERSOS2.AsString)) then
+    begin
+      ACBrNFeDANFCeFortes1.Logo := diretorio + '\' +  sEmpresaDIVERSOS2.AsString;
+      ACBrNFeDANFeRL1.Logo := diretorio + '\' + sEmpresaDIVERSOS2.AsString;
+    end;
+  end;  
+end;
+
+procedure TfNFeletronica.ComboBox1Change(Sender: TObject);
+begin
+  // busca dados da empresa selecionada
+  if (ComboBox1.Text <> '') then
+  begin
+    if (not cds_ccusto.Active) then
+      cds_ccusto.Open;
+    cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+
+    //Seleciona Empresa de acordo com o CCusto selecionado
+    if (sEmpresa.Active) then
+      sEmpresa.Close;
+    sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+    sEmpresa.Open;
+    Edit1.Text := sEmpresaDIVERSOS1.AsString;
+  end;
+end;
 
 end.
