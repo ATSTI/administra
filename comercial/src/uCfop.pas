@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, FMTBcd, DBClient, Provider, DB, SqlExpr, Menus, XPMenu,
-  StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls, Grids, DBGrids;
+  StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls, Grids, DBGrids, DBXpress;
 
 type
   TfCfop = class(TfPai)
@@ -21,6 +21,8 @@ type
     cbFreteBC: TCheckBox;
     cbIpiBc: TCheckBox;
     rgFinalidade: TRadioGroup;
+    cb_Ind_Pres: TComboBox;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -103,6 +105,8 @@ begin
     rgFinalidade.ItemIndex := 1;
   if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
     rgFinalidade.ItemIndex := 2;
+  if (dm.cds_cfopTOTTRIB.AsString = 'T') then
+    cbTotalTributos.Checked := True;
 end;
 
 procedure TfCfop.BitBtn1Click(Sender: TObject);
@@ -142,7 +146,11 @@ end;
 
 procedure TfCfop.btnGravarClick(Sender: TObject);
 var atualizaCfop: String;
+   TD: TTransactionDesc;
 begin
+  inherited;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   atualizaCfop := 'UPDATE CFOP SET ';
   if (cbIpiBc.Checked) then
     atualizaCfop := atualizaCfop + ' IPIBC = ' + QuotedStr('T')
@@ -166,13 +174,22 @@ begin
   else
     atualizaCfop := atualizaCfop + ', TIPOMOVIMENTO = NULL ';
   end;
-
+  atualizaCfop := atualizaCfop + ', IND_PRES = ' + IntToSTr(cb_Ind_Pres.ItemIndex);
   atualizaCfop := atualizaCfop + ', CFNOME = ' + QuotedStr(dbEdit2.Text);
 
   atualizaCfop := atualizaCfop + ' WHERE  CFCOD = ' + QuotedStr(dm.cds_cfopCFCOD.AsString);
 
-  dm.sqlsisAdimin.ExecuteDirect(atualizaCfop);
-  inherited;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(atualizaCfop);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 procedure TfCfop.FreteBaseCalculo;
@@ -218,7 +235,8 @@ begin
     rgFinalidade.ItemIndex := 1;
   if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
     rgFinalidade.ItemIndex := 2;
-
+  if (dm.cds_cfopTOTTRIB.AsString = 'T') then
+    cbTotalTributos.Checked := True;
 end;
 
 procedure TfCfop.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -248,7 +266,7 @@ begin
     rgFinalidade.ItemIndex := 1;
   if (dm.cds_cfopTIPOMOVIMENTO.AsString = 'R') then
     rgFinalidade.ItemIndex := 2;
-
+  cb_Ind_Pres.ItemIndex := dm.cds_cfopInd_PREs.asInteger;
 end;
 
 procedure TfCfop.cbIpiBcClick(Sender: TObject);
