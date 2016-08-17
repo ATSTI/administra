@@ -410,6 +410,10 @@ type
     BitBtn50: TBitBtn;
     Memo1: TMemo;
     Label84: TLabel;
+    GroupBox47: TGroupBox;
+    Label85: TLabel;
+    BitBtn51: TBitBtn;
+    edCasas: TMaskEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -515,6 +519,7 @@ type
     procedure BitBtn48Click(Sender: TObject);
     procedure BitBtn49Click(Sender: TObject);
     procedure BitBtn50Click(Sender: TObject);
+    procedure BitBtn51Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -5934,6 +5939,50 @@ begin
   Finally
     fSat.Free;
   end;
+end;
+
+procedure TfParametro.BitBtn51Click(Sender: TObject);
+begin
+  inherited;
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'EMPRESA';
+  s_parametro.Open;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D4';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('EMPRESA') + ', ';
+    strSql := strSql + QuotedStr('EMPRESA') + ', ';
+    strSql := strSql + QuotedStr(edCasas.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET D4 = ';
+    strSql := strSql + QuotedStr(edCasas.Text);
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('EMPRESA');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
+    end;
+  end;
+
 end;
 
 end.

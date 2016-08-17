@@ -531,6 +531,7 @@ inherited fParametro: TfParametro
         ParentFont = False
       end
       object GroupBox32: TGroupBox
+      object GroupBox32: TGroupBox
         Left = 9
         Top = 61
         Width = 367
@@ -2176,6 +2177,38 @@ inherited fParametro: TfParametro
           Caption = 'Gravar'
           TabOrder = 1
           OnClick = BitBtn45Click
+        end
+      end
+      object GroupBox47: TGroupBox
+        Left = 9
+        Top = 440
+        Width = 769
+        Height = 41
+        Caption = 'Casas Decimais VENDAS, Valor'
+        TabOrder = 7
+        object Label85: TLabel
+          Left = 312
+          Top = 16
+          Width = 105
+          Height = 13
+          Caption = 'Casas Decimais Valor:'
+        end
+        object BitBtn51: TBitBtn
+          Left = 678
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn51Click
+        end
+        object edCasas: TMaskEdit
+          Left = 424
+          Top = 14
+          Width = 34
+          Height = 21
+          TabOrder = 1
+          Text = '2'
         end
       end
     end
