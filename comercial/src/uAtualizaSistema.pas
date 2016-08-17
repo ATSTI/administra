@@ -2498,9 +2498,17 @@ begin
 
     if (versaoSistema = '4.3.2.0') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '4.3.2.0', StrToDate('14/07/2016'));
+      //insereouatualizaScript('trg_calcula_icms_st.sql', '4.3.2.0', StrToDate('14/07/2016'));
       AtualizandoScript('4.3.2.1');
       mudaVersao('4.3.2.1');
+    end;
+
+    if (versaoSistema = '4.3.2.1') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '4.3.2.1', StrToDate('28/07/2016'));
+      insereouatualizaScript('total_tributos.sql', '4.3.2.1', StrToDate('28/07/2016'));      
+      AtualizandoScript('4.3.2.1');
+      mudaVersao('4.3.2.2');
     end;
 
     //try
