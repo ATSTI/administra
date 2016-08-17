@@ -5,14 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, StdCtrls,
-  DB, XPMenu, SqlExpr, Menus, DBClient, Provider;
+  DB, XPMenu, SqlExpr, Menus, DBClient, Provider, JvExControls, JvLabel;
 
 type
   TfEmpresaProcura = class(TForm)
     MMJPanel1: TMMJPanel;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
     sds: TSQLDataSet;
     XPMenu1: TXPMenu;
     DtSrc: TDataSource;
@@ -23,28 +20,31 @@ type
     cdsRAZAO: TStringField;
     cdsCNPJ_CPF: TStringField;
     PopupMenu1: TPopupMenu;
-    SQLDataSet1: TSQLDataSet;
     XPMenu2: TXPMenu;
     DataSource1: TDataSource;
-    DataSetProvider1: TDataSetProvider;
-    ClientDataSet1: TClientDataSet;
-    IntegerField1: TIntegerField;
-    StringField1: TStringField;
-    StringField2: TStringField;
-    StringField3: TStringField;
     PopupMenu2: TPopupMenu;
     Panel1: TPanel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label6: TLabel;
-    edtCodigo: TEdit;
-    edtNome: TEdit;
-    edtCNPJ: TEdit;
     DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    Label3: TLabel;
+    edtCodigo: TEdit;
+    Label4: TLabel;
+    edtNome: TEdit;
+    Label6: TLabel;
+    edtCNPJ: TEdit;
+    btnProcurar: TBitBtn;
+    BitBtn9: TBitBtn;
+    btnSair: TBitBtn;
+    Label10: TJvLabel;
     procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
+    filtrado : String;
     { Public declarations }
   end;
 
@@ -61,41 +61,71 @@ procedure TfEmpresaProcura.SpeedButton1Click(Sender: TObject);
 var
   sql, sql1 : string;
 begin
-    if sds.Active then
-      sds.Close;
-    sds.CommandText := '';
+  if (cds.Active) then
+    cds.Close;
+  cds.CommandText := '';
 
-   sql := 'Select * from Empresa ';
+  sql := 'Select * from Empresa ';
 
-   if edtCodigo.Text <> '' then
-    if sql1 = '' then
-       sql1 := sql1 + ' WHERE CODIGO = '
-    else
+  if (edtCodigo.Text <> '') then
+  begin
+    if (sql1 = '') then
+    begin
+      sql1 := sql1 + ' WHERE CODIGO = ';
+    end
+    else begin
       sql1 := sql1 + ' AND CODIGO = ';
-      sql1 := sql1 + edtCodigo.Text;
-
-   if edtNome.Text <> '' then
-    if sql1 = '' then
-       sql1 := sql1 + ' WHERE EMPRESA = '
-    else
-      sql1 := sql1 + ' AND EMPRESA = ';
-      sql1 := sql1 + edtNome.Text;
-
-   if edtCNPJ.Text <> '' then
-    if sql1 = '' then
-       sql1 := sql1 + ' WHERE CNPJ_CPF = '
-    else
+    end;
+    sql1 := sql1 + edtCodigo.Text;
+  end;
+  if (edtNome.Text <> '') then
+  begin
+    if (sql1 = '') then
+    begin
+       sql1 := sql1 + ' WHERE EMPRESA LIKE ';
+    end
+    else begin
+      sql1 := sql1 + ' AND EMPRESA LIKE ';
+    end;
+    sql1 := sql1 + QuotedStr('%'+edtNome.Text+'%');
+  end;
+  if (edtCNPJ.Text <> '') then
+  begin
+    if (sql1 = '') then
+    begin
+      sql1 := sql1 + ' WHERE CNPJ_CPF = ';
+    end
+    else begin
       sql1 := sql1 + ' AND CNPJ_CPF = ';
-      sql1 := sql1 + edtNome.Text;
+    end;
+    sql1 := sql1 + edtNome.Text;
+  end;
+  cds.CommandText := sql + sql1;
 
-    sds.CommandText := sql + sql1;
+  cds.Open;
+end;
 
-    sds.Open;
-    if cds.Active then
-      cds.Close;
-    cds.Open;  
+procedure TfEmpresaProcura.SpeedButton2Click(Sender: TObject);
+begin
+  filtrado := 'S';
+  Close;
+end;
 
+procedure TfEmpresaProcura.btnSairClick(Sender: TObject);
+begin
+  filtrado := '';
+  Close;
+end;
 
+procedure TfEmpresaProcura.FormShow(Sender: TObject);
+begin
+  filtrado := '';
+end;
+
+procedure TfEmpresaProcura.DBGrid1DblClick(Sender: TObject);
+begin
+  filtrado := 'S';
+  Close;
 end;
 
 end.
