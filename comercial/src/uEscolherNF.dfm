@@ -1,8 +1,8 @@
 object fEscolherNF: TfEscolherNF
-  Left = 448
-  Top = 227
-  Width = 275
-  Height = 346
+  Left = 236
+  Top = 185
+  Width = 481
+  Height = 257
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,10 +12,18 @@ object fEscolherNF: TfEscolherNF
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object dxButton8: TdxButton
+  object Label1: TLabel
     Left = 32
+    Top = 8
+    Width = 52
+    Height = 13
+    Caption = 'EMPRESA'
+  end
+  object dxButton8: TdxButton
+    Left = -300
     Top = 11
     Width = 195
     Height = 55
@@ -102,7 +110,7 @@ object fEscolherNF: TfEscolherNF
     TabOrder = 0
   end
   object dxButton1: TdxButton
-    Left = 32
+    Left = -300
     Top = 68
     Width = 195
     Height = 55
@@ -189,7 +197,7 @@ object fEscolherNF: TfEscolherNF
     TabOrder = 1
   end
   object dxButton2: TdxButton
-    Left = 32
+    Left = -300
     Top = 125
     Width = 195
     Height = 55
@@ -277,7 +285,7 @@ object fEscolherNF: TfEscolherNF
   end
   object dxButton3: TdxButton
     Left = 32
-    Top = 182
+    Top = 94
     Width = 195
     Height = 55
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -362,8 +370,8 @@ object fEscolherNF: TfEscolherNF
     TabOrder = 3
   end
   object dxButton4: TdxButton
-    Left = 33
-    Top = 239
+    Left = 233
+    Top = 95
     Width = 195
     Height = 55
     About = 'Design eXperience. '#169' 2002 M. Hoffmann'
@@ -446,5 +454,56 @@ object fEscolherNF: TfEscolherNF
       0707070707070707070707000000000000070707070707070707070707070707
       0707070707070707070707070707070707070707070707070707}
     TabOrder = 4
+  end
+  object dblkp_empresa: TDBLookupComboBox
+    Left = 32
+    Top = 32
+    Width = 401
+    Height = 21
+    KeyField = 'CCUSTO'
+    ListField = 'NOME'
+    ListFieldIndex = 1
+    ListSource = dsEmpresa
+    TabOrder = 5
+  end
+  object dsEmpresa: TDataSource
+    DataSet = cds_empresa
+    Left = 200
+    Top = 8
+  end
+  object cds_empresa: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dsp_empresa'
+    Left = 144
+    Top = 56
+    object cds_empresaEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Required = True
+      Size = 80
+    end
+    object cds_empresaCCUSTO: TIntegerField
+      FieldName = 'CCUSTO'
+    end
+    object cds_empresaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 200
+    end
+  end
+  object dsp_empresa: TDataSetProvider
+    DataSet = sds_Empresa
+    Left = 104
+    Top = 56
+  end
+  object sds_Empresa: TSQLDataSet
+    CommandText = 
+      'select emp.EMPRESA, emp.CCUSTO, pl.NOME from EMPRESA emp, PLANO ' +
+      'pl '#13#10' WHERE pl.CODIGO = emp.CCUSTO ORDER BY EMPRESA '
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 56
+    Top = 56
   end
 end

@@ -4,7 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, dxCore, dxButton;
+  Dialogs, dxCore, dxButton,
+  StdCtrls,
+  DB, DBCtrls,
+  FMTBcd, SqlExpr, Provider, DBClient;
 
 type
   TfEscolherNF = class(TForm)
@@ -13,11 +16,21 @@ type
     dxButton2: TdxButton;
     dxButton3: TdxButton;
     dxButton4: TdxButton;
+    dblkp_empresa: TDBLookupComboBox;
+    dsEmpresa: TDataSource;
+    Label1: TLabel;
+    cds_empresa: TClientDataSet;
+    dsp_empresa: TDataSetProvider;
+    sds_Empresa: TSQLDataSet;
+    cds_empresaEMPRESA: TStringField;
+    cds_empresaCCUSTO: TIntegerField;
+    cds_empresaNOME: TStringField;
     procedure dxButton8Click(Sender: TObject);
     procedure dxButton1Click(Sender: TObject);
     procedure dxButton2Click(Sender: TObject);
     procedure dxButton3Click(Sender: TObject);
     procedure dxButton4Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -73,12 +86,16 @@ begin
    fNotaf := TfNotaf.Create(Application);
    try
      fNotaf.codVendaFin := 0;
-     fNotaf.codMovFin := 0;     
+     fNotaf.codMovFin := 0;
+     fNotaf.nfe_ccusto_empresa := dblkp_empresa.KeyValue;
+     fNotaf.nfe_ccusto_emp_nome := dblkp_empresa.Text;
      DM.tipoVenda := 'NF';
      TipoNF := 'Cliente';
      DMNF.cds_venda.Params[0].Clear;
      DMNF.cds_venda.Params[1].Clear;     
      fNotaf.ShowModal;
+     if (not cds_empresa.Active) then
+       cds_empresa.open;
    finally
       fNotaf.Free;
    end;
@@ -94,6 +111,13 @@ begin
    finally
       fNotaFc.Free;
    end;
+end;
+
+procedure TfEscolherNF.FormShow(Sender: TObject);
+begin
+  if (not cds_empresa.Active) then
+    cds_empresa.open;
+  dblkp_empresa.KeyValue := cds_empresaCCUSTO.AsInteger;
 end;
 
 end.
