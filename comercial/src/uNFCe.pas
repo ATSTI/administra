@@ -6,13 +6,12 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrNFe, StdCtrls, FMTBcd, DBClient, Provider, DB, SqlExpr,
   ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils, DBXpress, ACBrDFe,
-  pcnConversaoNFe, pcnConversao,pcnNFe, ACBrUtil;
+  pcnConversaoNFe, pcnConversao,pcnNFe, ACBrUtil, ACBrNFeDANFEClass,
+  ACBrNFeDANFeRLClass, ComCtrls, Buttons;
 
 type
   TfNFCe = class(TForm)
-    Button1: TButton;
     ACBrNFe1: TACBrNFe;
-    memoDados: TMemo;
     edNFCe: TEdit;
     Label1: TLabel;
     SQLDataSet1: TSQLDataSet;
@@ -312,9 +311,32 @@ type
     cdsNFE_MAIL: TStringField;
     sdsNFCD_IBGE: TStringField;
     cdsNFCD_IBGE: TStringField;
+    ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    memoDados: TMemo;
+    MemoResp: TMemo;
+    Label3: TLabel;
+    Edit1: TEdit;
+    BitBtn1: TBitBtn;
+    edtNumSerie: TEdit;
+    sbtnGetCert: TSpeedButton;
+    Label4: TLabel;
+    edSerie: TEdit;
+    Label5: TLabel;
+    Label6: TLabel;
+    Edit2: TEdit;
+    btnSair: TBitBtn;
+    Label7: TLabel;
+    Edit3: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure sbtnGetCertClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
+    totalNFCe: Double;
     function RemoveChar(Const Texto:String):String;
     procedure GerarNFCe(NumNFe: String);
     procedure pegaItens;
@@ -342,25 +364,32 @@ var
  vAux, vNumLote, vSincrono : String;
  Sincrono : boolean;
 begin
+  if (edtNumSerie.Text = '') then
+  begin
+    MessageDlg('Informe o certificado.',mtError,[mbok],0);
+    exit;
+  end;
+
+
   vAux := edNFCe.Text;
+  //if not(InputQuery('WebServices Enviar', 'Numero da Nota', vAux)) then
+  //  exit;
 
-  if not(InputQuery('WebServices Enviar', 'Numero da Nota', vAux)) then
-    exit;
-
-  if not(InputQuery('WebServices Enviar', 'Numero do Lote', vNumLote)) then
-    exit;
+  //if not(InputQuery('WebServices Enviar', 'Numero do Lote', vNumLote)) then
+  //  exit;
 
   vSincrono := '1';
-  if not(InputQuery('WebServices Enviar', 'Envio Síncrono(1=Sim, 0=Não)', vSincrono)) then
-    exit;
+  Sincrono := True;
+  //if not(InputQuery('WebServices Enviar', 'Envio Síncrono(1=Sim, 0=Não)', vSincrono)) then
+  //  exit;
 
   vNumLote := '1';
 
   if Trim(vNumLote) = '' then
-   begin
-     MessageDlg('Número do Lote inválido.',mtError,[mbok],0);
-     exit;
-   end;
+  begin
+    MessageDlg('Número do Lote inválido.',mtError,[mbok],0);
+    exit;
+  end;
 
   if (Trim(vSincrono) <> '1') and
      (Trim(vSincrono) <> '0') then
@@ -369,25 +398,26 @@ begin
      exit;
    end;
 
-  if (Trim(vSincrono) = '1') then
-    Sincrono := True
-  else
-    Sincrono := False;
+  //if (Trim(vSincrono) = '1') then
+  //  Sincrono := True
+  //else
+  Sincrono := False;
 
   ACBrNFe1.NotasFiscais.Clear;
 
   // carlos 23/12/14
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
   ACBrNFe1.Configuracoes.Geral.VersaoDF := ve310;
-
   GerarNFCe(vAux);
 
-  { carlos 06/01/2015
+  AcbrNfe1.Configuracoes.Arquivos.PathSalvar := sempresaDIVERSOS1.AsString;
+  ACBrNFe1.NotasFiscais.Items[0].GravarXML;
+  // carlos 06/01/2015
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);
 
-  MemoResp.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS);
-  memoRespWS.Lines.Text := UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS);
-  LoadXML(MemoResp, WBResposta);
+  MemoResp.Lines.Add(UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS));
+  memoResp.Lines.Add(UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS));
+  //LoadXML(MemoResp, WBResposta);
 
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Envio NFe');
@@ -400,18 +430,19 @@ begin
   MemoDados.Lines.Add('xMsg: '+ ACBrNFe1.WebServices.Retorno.xMsg);
   MemoDados.Lines.Add('Recibo: '+ ACBrNFe1.WebServices.Retorno.Recibo);
   MemoDados.Lines.Add('Protocolo: '+ ACBrNFe1.WebServices.Retorno.Protocolo);
-// MemoDados.Lines.Add('cStat: '+ ACBrNFe1.WebServices.Retorno.NFeRetorno;
-   }
+  // MemoDados.Lines.Add('cStat: '+ ACBrNFe1.WebServices.Retorno.NFeRetorno;
 
-   { ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].tpAmb
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].verAplic
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].chNFe
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].dhRecbto
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].nProt
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].digVal
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].cStat
- ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].xMotivo }
 
+  { ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].tpAmb
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].verAplic
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].chNFe
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].dhRecbto
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].nProt
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].digVal
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].cStat
+  ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].xMotivo }
+
+  ACBrNFe1.NotasFiscais.Imprimir;
   ACBrNFe1.NotasFiscais.Clear;
 end;
 
@@ -466,7 +497,6 @@ begin
 
     //     Ide.dhCont := date;
     //     Ide.xJust  := 'Justificativa Contingencia';
-
     Emit.CNPJCPF           := RemoveChar(sEmpresaCNPJ_CPF.AsString);
     Emit.IE                := RemoveChar(sEmpresaIE_RG.AsString);
     Emit.xNome             := sEmpresaRAZAO.AsString;
@@ -494,9 +524,11 @@ begin
       2: Emit.CRT := crtRegimeNormal;
     end;
 
-    if (edtCliente.Text <> 'Consumidor') then
+    if (edit2.Text <> '') then
     begin
-      Dest.CNPJCPF           := cdsNFCNPJ.AsString;
+      Dest.CNPJCPF := edit2.Text;
+    end;
+    {
       //Dest.IE                := '687138770110'; //NFC-e não aceita IE
       Dest.ISUF              := cdsNFUF.AsString;
       Dest.xNome             := cdsNFRAZAOSOCIAL_1.AsString;
@@ -513,7 +545,7 @@ begin
       Dest.EnderDest.cPais   := 1058;
       Dest.EnderDest.xPais   := 'BRASIL';
     end;
-
+    }
     pegaItens;
 
 //Adicionando Serviços
@@ -555,11 +587,11 @@ begin
              end;
        end ;
 }
-      Total.ICMSTot.vBC     := 100;
-      Total.ICMSTot.vICMS   := 18;
+      Total.ICMSTot.vBC     := 0;
+      Total.ICMSTot.vICMS   := 0;
       Total.ICMSTot.vBCST   := 0;
       Total.ICMSTot.vST     := 0;
-      Total.ICMSTot.vProd   := 100;
+      Total.ICMSTot.vProd   := totalNFCe;
       Total.ICMSTot.vFrete  := 0;
       Total.ICMSTot.vSeg    := 0;
       Total.ICMSTot.vDesc   := 0;
@@ -568,7 +600,7 @@ begin
       Total.ICMSTot.vPIS    := 0;
       Total.ICMSTot.vCOFINS := 0;
       Total.ICMSTot.vOutro  := 0;
-      Total.ICMSTot.vNF     := 100;
+      Total.ICMSTot.vNF     := totalNFCe;
 
       Total.ISSQNtot.vServ   := 0;
       Total.ISSQNTot.vBC     := 0;
@@ -635,12 +667,14 @@ procedure TfNFCe.pegaItens;
 var contaItens :integer;
   desc, BC, BCST: variant;
 begin
-  with ACBrNFe1.NotasFiscais.Add.NFe do
+  totalNFCe := 0;
+  with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     //Adicionando Produtos
     contaItens := 0;
     while not cdsItensNF.Eof do
     begin
+      totalNFCe := totalNFCe + cdsItensNFVALTOTAL.AsFloat;
       contaItens := contaItens + 1;
       with Det.Add do
       begin
@@ -889,6 +923,7 @@ begin
           {end;}
         end;
       end ;
+      cdsItensNF.Next;
     end;
   end;  
 end;
@@ -915,11 +950,12 @@ var str_sql:string;
   NFCe_numNf: integer;
   TD: TTransactionDesc;
 begin
+  Edit2.Text := '';
   // abri a nota fiscal
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select v.CODVENDA' +
+  sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR' +
     '  from MOVIMENTO m, VENDA v ' +
     ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
     '   and (m.CODNATUREZA = 30) ' +
@@ -979,7 +1015,7 @@ begin
     end;
     sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select v.CODVENDA from MOVIMENTO m, VENDA v ' +
+    sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR from MOVIMENTO m, VENDA v ' +
       ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
       '   and (m.CODNATUREZA = 30) ' +
       '   and (m.CONTROLE = ' + QuotedStr(IntToStr(NFCe_codMov)) + ')');
@@ -995,6 +1031,63 @@ begin
   cdsItensNF.Open;
   edNFCe.Text := cdsNFNOTASERIE.AsString;
   edtCliente.Text := cdsNFNOMECLIENTE.AsString;
+  edit3.Text := 'R$ ' + FloatToStr(sqlBuscaNota.fieldByName('VALOR').AsFloat);
+end;
+
+procedure TfNFCe.FormCreate(Sender: TObject);
+begin
+  if (sEmpresa.Active) then
+    sEmpresa.Close;
+  sEmpresa.Params[0].AsInteger := 51; //Buscar de parametro
+  sEmpresa.Open;
+
+  if (not sEmpresa.IsEmpty) then
+  begin
+    edit1.Text := sEmpresaDIVERSOS1.AsString;
+    ACBrNFe1.Configuracoes.Arquivos.PathSalvar := sEmpresaDIVERSOS1.AsString;
+    if ( not DirectoryExists(sEmpresaDIVERSOS1.AsString)) then
+       CreateDir(sEmpresaDIVERSOS1.AsString);
+    if (sEmpresaTIPO.AsString = '1') then
+    begin
+      rgAmbiente.ItemIndex := 0;
+      ACBrNFe1.Configuracoes.WebServices.Ambiente := taProducao;
+    end
+    else begin
+      rgAmbiente.ItemIndex := 1;
+      ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
+    end;
+    if ( sEmpresaCRT.AsInteger = 0) Then
+    begin
+      ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT := crtSimplesNacional;
+      rgRegime.ItemIndex := 0;
+    end
+    else if ( sEmpresaCRT.AsInteger = 1) Then
+    begin
+      ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT := crtSimplesExcessoReceita;
+      rgRegime.ItemIndex := 1;
+    end
+    else if ( sEmpresaCRT.AsInteger = 2) Then
+    begin
+      rgRegime.ItemIndex := 2;
+      //ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT := crtRegimeNormal;
+    end;  
+  end;
+end;
+
+procedure TfNFCe.sbtnGetCertClick(Sender: TObject);
+begin
+   {$IFNDEF ACBrNFeOpenSSL}
+   edtNumSerie.Text := ACBrNFe1.SSL.SelecionarCertificado;
+   
+   {$ENDIF}
+   if ( ((ACBrNFe1.SSL.CertDataVenc - Now) < 30) and ((ACBrNFe1.SSL.CertDataVenc - Now) > 0)) then
+     MessageDlg( 'Seu certificado expira dia ' + DateToStr(ACBrNFe1.SSL.CertDataVenc) , mtInformation, [mbOK], 0);
+
+end;
+
+procedure TfNFCe.btnSairClick(Sender: TObject);
+begin
+  Close;
 end;
 
 end.
