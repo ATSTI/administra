@@ -8,7 +8,7 @@ uses
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
   JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress,
-  DBLocal, DBLocalS;
+  DBLocal, DBLocalS, uVendaCls, umovimento;
 
 type
   TfNotaf = class(TForm)
@@ -21,8 +21,6 @@ type
     btnCancelar: TBitBtn;
     btnExcluir: TBitBtn;
     btnImpNF: TBitBtn;
-    cbFinanceiro: TJvCheckBox;
-    cbEstoque: TJvCheckBox;
     dbeSerie: TDBEdit;
     dbeUsuario: TDBEdit;
     DataSource1: TDataSource;
@@ -439,6 +437,21 @@ type
     edtNFRef: TEdit;
     Label5: TLabel;
     DBEdit56: TDBEdit;
+    listaCliente1TIPOFIRMA: TSmallintField;
+    listaCliente1TEM_IE: TStringField;
+    sdsCFOPIND_PRES: TIntegerField;
+    GroupBox3: TGroupBox;
+    edFinNFe: TEdit;
+    edIndFinal: TEdit;
+    edIndPres: TEdit;
+    edIndIeDest: TEdit;
+    edDestinoOper: TEdit;
+    edTipo: TEdit;
+    listaCliente1NAOCONTRIBUINTE: TStringField;
+    cbFinanceiro: TJvCheckBox;
+    cbEstoque: TJvCheckBox;
+    btnDuplicar: TBitBtn;
+    sql_serie_nf: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -477,9 +490,11 @@ type
     procedure btnCrClick(Sender: TObject);
     procedure edtNFRefExit(Sender: TObject);
     procedure edtNFRefClick(Sender: TObject);
+    procedure btnDuplicarClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
+    statusNF: String;
     { Private declarations }
     procedure carregaDadosAdicionais(motivo:String);
     procedure incluiSAida;
@@ -494,7 +509,11 @@ type
     procedure gravamov_detalhe;
     procedure gravanotafiscal;
     procedure gravarDadosNFe310;
+    procedure carregarEmissao;
+    procedure carregarNFg;
   public
+    nfe_ccusto_emp_nome: String;
+    nfe_ccusto_empresa: Integer;
     vrr : double;
     codMovFin, codVendaFin, codCliFin : integer;
     parametroNF: string;
@@ -531,7 +550,7 @@ begin
   codMovFin := 0;
   codVendaFin := 0;
   parametroNF := '';
-
+  nfe_ccusto_empresa := 0;
   // Usado na DNZ
   if (not dm.parametro.Active) then
     dm.parametro.Open;
@@ -582,30 +601,53 @@ end;
 
 procedure TfNotaf.btnIncluirClick(Sender: TObject);
 var numNf: String;
+  e_multi: String;
 begin
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'SERIENFE';
-  dm.cds_parametro.Open;
-  if (dmnf.scds_serienfe.Active) then
-    dmnf.scds_serienfe.Close;
-  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
-  dmnf.scds_serienfe.Open;
-
-  if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+  statusNF := 'NOVO';
+  e_multi := 'NAO';
+  if (nfe_ccusto_empresa > 0) then
   begin
-    dbeSerie.Text := dm.cds_parametroD1.AsString;
-    numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
-    gravaSerie(StrToInt(numNf));
-  end
-  else begin
-    dbeSerie.Text := dm.cds_parametroD1.AsString;
-    numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
-    //numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
-  end;
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT SERIE, ULTIMO_NUMERO ' +
+      ', CODSERIE ' +
+      ', NOTAFISCAL' +
+      ', ICMS_DESTACADO ' +
+      ', MODELO FROM SERIES WHERE CODSERIE = ' +
+      IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
+    dm.cdsBusca.Open;
+    if (not dm.cdsBusca.IsEmpty) then
+    begin
+      e_multi := 'SIM';
+      dbeSerie.Text := dm.cdsBusca.fieldByName('SERIE').AsString;
+      numNf := IntToStr(dm.cdsBusca.fieldByName('ULTIMO_NUMERO').AsInteger + 1);
+    end;
+  end;  
+  if (e_multi = 'NAO') then
+  begin
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'SERIENFE';
+    dm.cds_parametro.Open;
+    if (dmnf.scds_serienfe.Active) then
+      dmnf.scds_serienfe.Close;
+    dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+    dmnf.scds_serienfe.Open;
 
-  if (not dm.cds_empresa.Active) then
-    dm.cds_empresa.open;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+    begin
+      dbeSerie.Text := dm.cds_parametroD1.AsString;
+      numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+      //gravaSerie(StrToInt(numNf));
+    end
+    else begin
+      dbeSerie.Text := dm.cds_parametroD1.AsString;
+      numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+      //numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
+    end;
+  end;
+  if (not dmnf.cds_empresa.Active) then
+    dmnf.cds_empresa.open;
   if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
   begin
     if(sdsTotal.Active) then
@@ -613,6 +655,8 @@ begin
     sdsTotal.params[0].AsInteger := codMovFin;
     sdsTotal.open;
     incluiNotaFiscal;
+    if (nfe_ccusto_empresa > 0) then
+      dmnf.cds_nfCCUSTO.AsInteger := nfe_ccusto_empresa;
     dmnf.cds_nfSERIE.AsString := dbeSerie.Text;
     dmnf.cds_nfNOTASERIE.AsString := numNf;
     dmnf.cds_nfVALOR_PRODUTO.AsFloat := sdsTotal.Fields[0].AsFloat;
@@ -774,9 +818,10 @@ end;
 
 procedure TfNotaf.FormShow(Sender: TObject);
 begin
+  statusNF := 'EDICAO';
   DecimalSeparator := ',';
-//  if (DM.videoW <> '1920') then
-    sCtrlResize.CtrlResize(TForm(fNotaf));
+  //  if (DM.videoW <> '1920') then
+  sCtrlResize.CtrlResize(TForm(fNotaf));
   JvPageControl1.ActivePage := TabNF;
   TabSheet1.TabVisible := False;
 
@@ -784,98 +829,29 @@ begin
   begin
     MMJPanel2.Background.StartColor := clNavy;
     MMJPanel2.Background.EndColor := clNavy;
-    cbEstoque.Font.Color := clWhite;
-    cbEstoque.Color := clNavy;
-    cbFinanceiro.Font.Color := clWhite;
-    cbFinanceiro.Color := clNavy;
+    //cbEstoque.Font.Color := clWhite;
+    //cbEstoque.Color := clNavy;
+    //cbFinanceiro.Font.Color := clWhite;
+    //cbFinanceiro.Color := clNavy;
     Caption := 'Nota Fiscal de Devolução';
   end
   else begin
     MMJPanel2.Background.StartColor := clTeal;
     MMJPanel2.Background.EndColor := clTeal;
-    cbEstoque.Font.Color := clWindowText;
-    cbEstoque.Color := clTeal;
-    cbFinanceiro.Font.Color := clWindowText;
-    cbFinanceiro.Color := clTeal;
+    //cbEstoque.Font.Color := clWindowText;
+    //cbEstoque.Color := clTeal;
+    //cbFinanceiro.Font.Color := clWindowText;
+    //cbFinanceiro.Color := clTeal;
     Caption := 'Nota Fiscal';
   end;
-
-  if (codMovFin > 0) then
+  if (nfe_ccusto_empresa > 0) then
   begin
-    dmnf.cds_Movimento.Close;
-    dmnf.cds_Movimento.Params[0].AsInteger := codMovFin;
-    dmnf.cds_Movimento.Open;
-
-    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
-    begin
-      cbFinanceiro.Checked := False;
-      cbEstoque.Checked := False;
-    end;
-    dmnf.cds_Mov_det.Close;
-    dmnf.cds_Mov_det.Params[0].Clear;
-    dmnf.cds_Mov_det.Params[1].AsInteger := codMovFin;
-    dmnf.cds_Mov_det.Open;
-
-     if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
-       calcman.Checked := True;
-           
-    //mostra venda
-    if (dmnf.cds_venda.Active) then
-      dmnf.cds_venda.Close;
-    dmnf.cds_venda.Params[0].Clear;
-    dmnf.cds_venda.Params[1].AsInteger := codMovFin;
-    dmnf.cds_venda.Open;
-    if (not dmnf.cds_venda.IsEmpty) then
-      codVendaFin := dmnf.cds_vendaCODVENDA.AsInteger;
-
-    if (scdsCr_proc.Active) then
-      scdsCr_proc.Close;
-
-    scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
-    scdsCr_proc.Open;
-
-    //Mostra NF
-    if (dmnf.cds_nf.Active) then
-      dmnf.cds_nf.Close;
-    dmnf.cds_nf.Params[0].Clear;
-    dmnf.cds_nf.Params[1].Clear;
-    dmnf.cds_nf.Params[1].AsInteger := codVendaFin;
-    dmnf.cds_nf.Open;
-
-    if (dmnf.cds_nfNFE_FINNFE.IsNull) then
-    begin
-      dmnf.cds_nf.Edit;
-      gravarDadosNFe310;
-      btnGravar.Click;
-    end;
-
-    if (dmnf.cds_nfIDCOMPLEMENTAR.AsString <> '') then
-      edtNFRef.Text := dmnf.cds_nfIDCOMPLEMENTAR.AsString;
-      
-    if (dmnf.cds_nfSTATUS.AsString = 'S') then
-      RadioGroup1.ItemIndex := 0
-    else
-      RadioGroup1.ItemIndex := 1;
-
-    if (DMNF.cds_nfFRETE.AsString <>  '') then
-      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);
-
-    if (not  dm.cds_empresa.Active) then
-      dm.cds_empresa.open;
-    if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
-    begin
-      if (dmnf.cds_nfNOTASERIE.AsString = '') then
-        btnIncluir.Click;
-    end;
-    if (dm.cds_parametro.Active) then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].asString := 'DATANF';
-    dm.cds_parametro.Open;
-
-    if (DM.cds_parametroCONFIGURADO.AsString = 'S') then
-      if not ( FormatDateTime('dd/mm/yyyy\',DMNF.cds_nfDTAEMISSAO.AsDateTime) = FormatDateTime('dd/mm/yyyy\',now)) then
-        MessageDlg('Data da Nota Fiscal difere da atual.', mtInformation, [mbOK], 0);
+    if (dmnf.cds_empresa.active) then
+      dmnf.cds_empresa.close;
+    dmnf.cds_empresa.Params[0].AsInteger := nfe_ccusto_empresa;
+    dmnf.cds_empresa.open;
   end;
+  carregarNFg;
 end;
 
 procedure TfNotaf.incluiMovimento;
@@ -891,6 +867,10 @@ begin
   DMNF.cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
   DMNF.cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
   DMNF.cds_MovimentoCOD_VEICULO.AsInteger := 0;
+  dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := 0;
+  if (nfe_ccusto_empresa > 0) then
+    dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := nfe_ccusto_empresa;
+
   if DMNF.cds_Mov_det.Active then
     DMNF.cds_Mov_det.Close;
   DMNF.cds_Mov_det.Params[0].Clear;
@@ -923,6 +903,8 @@ begin
   DMNF.cds_venda.Params[1].Clear;
   DMNF.DtSrcVenda.DataSet.Open;
   DMNF.DtSrcVenda.DataSet.Append;
+  if (nfe_ccusto_empresa > 0) then
+    dmnf.cds_vendaCODCCUSTO.AsInteger := nfe_ccusto_empresa;
 
   DMNF.cds_vendaDATASISTEMA.AsDateTime := Now;
   DMNF.cds_vendaDESCONTO.AsFloat := 0;
@@ -937,21 +919,24 @@ begin
   DMNF.cds_vendaSTATUS.AsInteger:=0;
   DMNF.cds_vendaDESCONTO.AsFloat := 0;
 
-  if (not Dm.parametro.Active) then
-    dm.parametro.Open;
-  if (RadioGroup1.ItemIndex = 1) then
+  if (nfe_ccusto_empresa = 0) then
   begin
-    if (dm.parametro.Locate('PARAMETRO', 'SERIENFE', [loCaseInsensitive])) then
-       dbeSerie.Text := dm.parametroD1.AsString;
-  end;
-  if (RadioGroup1.ItemIndex = 0) then
-  begin
-    if (dm.parametro.Locate('PARAMETRO', 'SERIENFSERV', [loCaseInsensitive])) then
+    if (not Dm.parametro.Active) then
+      dm.parametro.Open;
+    if (RadioGroup1.ItemIndex = 1) then
     begin
-      dbeSerie.Text := dm.parametroDADOS.AsString;
-      buscaserieNF;
+      if (dm.parametro.Locate('PARAMETRO', 'SERIENFE', [loCaseInsensitive])) then
+         dbeSerie.Text := dm.parametroD1.AsString;
     end;
-  end;
+    if (RadioGroup1.ItemIndex = 0) then
+    begin
+      if (dm.parametro.Locate('PARAMETRO', 'SERIENFSERV', [loCaseInsensitive])) then
+      begin
+        dbeSerie.Text := dm.parametroDADOS.AsString;
+        buscaserieNF;
+      end;
+    end;
+  end;  
   if (dbeSerie.Text = '') then
   begin
     dm.parametro.Locate('PARAMETRO', 'SERIEPADRAO', [loCaseInsensitive]);
@@ -1126,7 +1111,7 @@ end;
 
 procedure TfNotaf.btnSairClick(Sender: TObject);
 begin
-  dm.cds_empresa.Close;
+  dmnf.cds_empresa.Close;
   close;
 end;
 
@@ -1285,7 +1270,7 @@ begin
   DMNF.cds_venda.Cancel;
   DMNF.cds_Mov_det.Cancel;
   DMNF.cds_Movimento.Cancel;
-  DM.cds_empresa.cancel;
+  dmnf.cds_empresa.cancel;
   if(DMNF.cds_nfNUMNF.AsInteger = 0) then
   begin
     DMNF.cds_nf.Close;
@@ -1457,7 +1442,8 @@ begin
     end;
 
     // o bloco abaixo estava no grava Venda -- 04/06/2014
-    gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
+    if (statusNF = 'NOVO') then
+      gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
     if (scdsCr_proc.Active) then
       scdsCr_proc.Close;
     scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
@@ -1480,6 +1466,8 @@ begin
     dmnf.cds_nf.Params[1].AsInteger := codv;
     dmnf.cds_nf.Open;
 
+    carregarEmissao;
+    
     if (dmnf.cds_Movimento.Active) then
       dmnf.cds_Movimento.Close;
     dmnf.cds_Movimento.Params[0].AsInteger := codm;
@@ -1571,7 +1559,8 @@ begin
     dm.cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
     dm.cds_parametro.Open;
     if not dm.cds_parametro.IsEmpty then
-      dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
+      if (dmnf.cds_MovimentoCODALMOXARIFADO.asInteger = 0) then
+        dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger := strToint(dm.cds_parametroDADOS.AsString);
 
     dm.cds_parametro.Close;
     dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime := dmnf.cds_nfDTAEMISSAO.AsDateTime;
@@ -1719,13 +1708,25 @@ begin
        dmnf.listaCliente.Next;
     end;
 
-    if (not dmnf.cds_ccusto.Active) then
-        dmnf.cds_ccusto.Open;
-    dmnf.cds_ccusto.First;
-    while not dmnf.cds_ccusto.Eof do
+    if (nfe_ccusto_empresa = 0) then
     begin
-      fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
-      dmnf.cds_ccusto.Next;
+      if (not dmnf.cds_ccusto.Active) then
+      begin
+        dmnf.cds_ccusto.Params[0].AsString := dm.dmCentroReceita;
+          dmnf.cds_ccusto.Open;
+      end;
+      dmnf.cds_ccusto.First;
+      fFiltroMovimento.ComboBox1.Items.Clear;      
+      while not dmnf.cds_ccusto.Eof do
+      begin
+        fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
+        dmnf.cds_ccusto.Next;
+      end;
+    end
+    else begin
+      fFiltroMovimento.ComboBox1.Items.Clear;
+      fFiltroMovimento.fnf_ccusto := nfe_ccusto_emp_nome;
+      fFiltroMovimento.ComboBox1.Items.Add(nfe_ccusto_emp_nome);
     end;
     {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
     if dm.cds_parametro.Active then
@@ -1779,6 +1780,9 @@ begin
     dmnf.cds_nf.Params[0].Clear;
     dmnf.cds_nf.Params[1].AsInteger := dmnf.cds_vendaCODVENDA.asInteger;
     dmnf.cds_nf.Open;
+
+    carregarEmissao;
+
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
        RadioGroup1.ItemIndex := 0
     else
@@ -1787,8 +1791,8 @@ begin
     if (DMNF.cds_nfFRETE.AsString <>  '') then
       cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);
 
-    if (not  dm.cds_empresa.Active) then
-      dm.cds_empresa.open;
+    if (not  dmnf.cds_empresa.Active) then
+      dmnf.cds_empresa.open;
   if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
     ChkComp.Checked := True;
 end;
@@ -1823,6 +1827,7 @@ begin
     dm.c_6_genid.Close;
   end;
   dmnf.cds_nfCODVENDA.AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+  dmnf.cds_nfCCUSTO.AsInteger := dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger;
 
   if (parametroNF <> 'S') then
     alteraVlrVenda;
@@ -2361,6 +2366,7 @@ procedure TfNotaf.btnNotaFiscalClick(Sender: TObject);
 begin
   fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
   fNFeletronica.cbTipoNota.ItemIndex := 1;
+  fNFeletronica.ComboBox1.Text := nfe_ccusto_emp_nome;
   fNFeletronica.ShowModal;
 end;
 
@@ -2518,13 +2524,13 @@ var strS: String;
 begin
   if not dmnf.scds_serie_proc.Active then
   begin
-    dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+    dmnf.scds_serie_proc.Params[0].AsString := Trim(dbeSerie.Text);
     dmnf.scds_serie_proc.Open;
   end;
   if (not dmnf.scds_serie_proc.IsEmpty) then
   begin
     strS := 'SELECT MAX(CAST(NOTASERIE AS INTEGER)) NUMNF FROM NOTAFISCAL ' +
-            ' where SERIE = ' + QuotedStr(dbeSerie.Text);
+            ' where SERIE = ' + QuotedStr(trim(dbeSerie.Text));
     if (sqlBSerie.Active) then
       sqlBSerie.Close;
     sqlBSerie.SQL.Clear;
@@ -2538,9 +2544,21 @@ begin
     end;
     if (numero > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
     begin
-      dmnf.scds_serie_proc.Edit;
-      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := numero;
-      dmnf.scds_serie_proc.ApplyUpdates(0);
+      //dmnf.scds_serie_proc.Edit;
+      //dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := numero;
+      //dmnf.scds_serie_proc.ApplyUpdates(0);
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        strS := 'update SERIES set ULTIMO_NUMERO = ' + IntToStr(numero) +
+           ' where SERIE = ' +  QuotedStr(trim(dbeSerie.Text));
+        dm.sqlsisAdimin.ExecuteDirect(strS);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        end;
+      end;
     end;
     dmnf.scds_serie_proc.Close;
   end;
@@ -2555,6 +2573,15 @@ begin
   sdsCFOP.Params[0].AsString := dmnf.cds_nfCFOP.asString;
   sdsCFOP.Open;
   dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
+  //(pcNao, pcPresencial, pcInternet, pcTeleatendimento, pcEntregaDomicilio, pcOutros)
+  Case sdsCFOPIND_PRES.AsInteger of
+    0: dmnf.cds_nfNFE_INDPRES.AsString := 'pcNao';
+    1: dmnf.cds_nfNFE_INDPRES.AsString := 'pcPresencial';
+    2: dmnf.cds_nfNFE_INDPRES.AsString := 'pcInternet';
+    3: dmnf.cds_nfNFE_INDPRES.AsString := 'pcTeleatendimento';
+    4: dmnf.cds_nfNFE_INDPRES.AsString := 'pcEntregaDomicilio';
+    5: dmnf.cds_nfNFE_INDPRES.AsString := 'pcOutros';
+  end;
   //if (sdsCFOP.RecordCount > 0) then
   //begin
   dmnf.cds_nfNFE_FINNFE.AsString := 'fnNormal';
@@ -2590,11 +2617,28 @@ begin
   dmnf.cds_nfNFE_TIPOEMISSAO.AsString    := 'teNormal';
 
   //TpcnindIEDest = (inContribuinte, inIsento, inNaoContribuinte);
-  dmnf.cds_nfNFE_INDPRES.AsString := 'inContribuinte';
+  {dmnf.cds_nfNFE_INDPRES.AsString := 'inContribuinte';
   if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = 'ISENTO') then
     dmnf.cds_nfNFE_INDPRES.AsString := 'inIsento';
   if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = '') then
     dmnf.cds_nfNFE_INDPRES.AsString := 'inNaoContribuinte';
+
+  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = '') then
+    dmnf.cds_nfNFE_INDPRES.AsString := 'inNaoContribuinte';}
+
+  if (listaCliente1.Active) then
+    listaCliente1.Close;
+  listaCliente1.Params.ParamByName('pCodCli').AsInteger := DMNF.cds_nfCODCLIENTE.AsInteger;
+  listaCliente1.Open;
+  if (listaCliente1NAOCONTRIBUINTE.AsString = 'S') then
+  begin
+    dmnf.cds_nfIND_IEDEST.AsString := 'inNaoContribuinte';
+  end
+  else begin
+    dmnf.cds_nfIND_IEDEST.AsString := 'inContribuinte';
+  end;
+  if (dmnf.cds_nfINSCRICAOESTADUAL.AsString = 'ISENTO') then
+    dmnf.cds_nfIND_IEDEST.AsString := 'inIsento';
 
   //TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
   dmnf.cds_nfNFE_INDFINAL.AsString := 'cfNao';
@@ -2616,6 +2660,234 @@ procedure TfNotaf.edtNFRefClick(Sender: TObject);
 begin
   if (dmnf.cds_nf.State in [dsBrowse]) then
     dmnf.cds_nf.Edit;
+end;
+
+procedure TfNotaf.carregarEmissao;
+begin
+  edFinNFe.Text := dmnf.cds_nfNFE_FINNFE.AsString;
+  edIndFinal.Text := dmnf.cds_nfNFE_INDFINAL.AsString;
+  edIndPres.Text := dmnf.cds_nfNFE_INDPRES.AsString;
+  edIndIeDest.Text := dmnf.cds_nfIND_IEDEST.AsString;
+  edDestinoOper.Text := dmnf.cds_nfNFE_DESTOPERACAO.AsString;
+  edTipo.Text := dmnf.cds_nfNFE_TIPO.AsString;
+end;
+
+procedure TfNotaf.btnDuplicarClick(Sender: TObject);
+var   //FMov : TMovimento;
+      //fven : TVendaCls;
+   //codMov  : Integer;
+   s_nf_d  : Integer;
+      TDA  : TTransactionDesc;
+   str_sql : String;
+begin
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+
+  //try
+    {
+    FMov := TMovimento.Create;
+    fven := TVendaCls.Create;
+    Try
+      dm.sqlsisAdimin.StartTransaction(TDA);
+
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger;
+      FMov.CodCliente   := dmnf.cds_MovimentoCODCLIENTE.AsInteger;
+      FMov.CodNatureza := dmnf.cds_MovimentoCODNATUREZA.AsInteger;
+      FMov.Status      := dmnf.cds_MovimentoSTATUS.AsInteger;
+      FMov.CodUsuario  := usulog;
+      FMov.CodVendedor := dmnf.cds_MovimentoCODVENDEDOR.AsInteger;
+      FMov.DataMov     := dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime ;
+
+      FMov.Obs         := dmnf.cds_MovimentoOBS.AsString;
+      Fmov.CodPedido   := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
+      codMov           := FMov.inserirMovimento(0);
+
+      While not dmnf.cds_Mov_det.Eof do
+      begin
+        FMov.MovDetalhe.CodMov        := codMov;
+        FMov.MovDetalhe.CodProduto    := dmnf.cds_Mov_detCODPRODUTO.AsInteger;
+        Fmov.MovDetalhe.Descricao     := dmnf.cds_Mov_detDESCPRODUTO.AsString;
+        FMov.MovDetalhe.Qtde          := dmnf.cds_Mov_detQUANTIDADE.AsFloat;
+        FMov.MovDetalhe.Lote          := dmnf.cds_Mov_detLOTE.AsString;
+        Fmov.MovDetalhe.Preco         := dmnf.cds_Mov_detPRECO.AsFloat;
+        Fmov.MovDetalhe.Un            := dmnf.cds_Mov_detUN.AsString;
+        Fmov.MovDetalhe.Desconto      := dmnf.cds_Mov_detQTDE_ALT.AsFloat;
+        Fmov.MovDetalhe.Cfop          := dmnf.cds_Mov_detCFOP.AsString;
+        Fmov.MovDetalhe.Frete         := dmnf.cds_Mov_detFRETE.AsFloat;
+        FMov.MovDetalhe.inserirMovDet;
+        dmnf.cds_Mov_det.Next;
+      end;
+      }
+      sql_serie_nf.SQL.Add('select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL ' +
+        '  from SERIES ' +
+        ' where SERIE = ' + QuotedStr(trim(dmnf.cds_vendaSERIE.AsString)));
+      dbeSerie.Text := dmnf.cds_vendaSERIE.AsString;
+      sql_serie_nf.Open;
+      s_nf_d := sql_serie_nf.Fields[2].AsInteger + 1;
+      sql_serie_nf.Close;
+      {
+      fven.CodMov               := codMov;
+      fven.DataVenda            := dmnf.cds_vendaDATAVENDA.AsDateTime;
+      fven.DataVcto             := dmnf.cds_vendaDATAVENCIMENTO.AsDateTime;
+      fven.Serie                := dmnf.cds_vendaSERIE.AsString;
+      fven.NotaFiscal           := s_nf_d;
+      fven.CodCliente           := dmnf.cds_vendaCODCLIENTE.AsInteger;
+      fven.CodVendedor          := dmnf.cds_vendaCODVENDEDOR.AsInteger;
+      fven.CodCCusto            := dmnf.cds_vendaCODCCUSTO.AsInteger;
+      fven.ValorPagar           := dmnf.cds_vendaVALOR_PAGAR.AsFloat;
+      fven.NParcela             := dmnf.cds_vendaN_PARCELA.AsInteger;
+      fven.inserirVenda(0);
+      //dm.sqlsisAdimin.Commit(TDA);
+
+      //dm.sqlsisAdimin.StartTransaction(TD);
+      try
+      }
+     dm.sqlsisAdimin.StartTransaction(TDA);
+     try
+        str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+        str_sql := str_sql + IntToStr(dmnf.cds_vendaCODCLIENTE.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dmnf.cds_vendaDATAVENDA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dmnf.cds_vendaDATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(dmnf.cds_vendaSERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(IntToStr(s_nf_d));
+        str_sql := str_sql + ', ' + IntToStr(dmnf.cds_vendaCODMOVIMENTO.AsInteger);
+        str_sql := str_sql + ', ' + IntToStr(dmnf.cds_MovimentoCODNATUREZA.AsInteger) + ')';
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        //dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = ' +
+        //  QuotedStr(inttostr(s_nf_d) + '-' +
+        //    dmnf.cds_vendaSERIE.AsString) +
+        //  ' where CODMOVIMENTO = ' +  IntToStr(codMov));
+        dm.sqlsisAdimin.Commit(TDA);
+
+        gravaSerie(s_nf_d);
+ 
+        sql_serie_nf.SQL.Clear;
+        sql_serie_nf.SQL.Add('select CODMOVIMENTO ' +
+          '  from VENDA ' +
+          ' where SERIE = ' + QuotedStr(dmnf.cds_vendaSERIE.AsString) +
+          '   and NOTAFISCAL = ' + IntToStr(s_nf_d));
+        sql_serie_nf.Open;
+        codMovFin := sql_serie_nf.Fields[0].AsInteger;
+        sql_serie_nf.Close;
+
+        dm.sqlsisAdimin.StartTransaction(TDA);
+        dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTO SET CONTROLE = NULL ' +
+          ' , NFE = ' + QuotedStr(IntToStr(s_nf_d) +
+          '-' + dmnf.cds_vendaSERIE.AsString) + 
+          ' WHERE CODMOVIMENTO = ' + IntToStr(codMovFin));
+        dm.sqlsisAdimin.Commit(TDA);
+
+        carregarNFg;
+
+     { except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TDA);
+          Exit;
+        end;
+      end;
+     }
+
+      MessageDlg('NF duplicada com sucesso.', mtInformation,[mbOk], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+      end;
+    end;
+  {
+  finally
+    FMov.Free;
+    fVen.Free;
+  end;
+   }
+end;
+
+procedure TfNotaf.carregarNFg;
+begin
+
+  if (codMovFin > 0) then
+  begin
+    dmnf.cds_Movimento.Close;
+    dmnf.cds_Movimento.Params[0].AsInteger := codMovFin;
+    dmnf.cds_Movimento.Open;
+
+    if (dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
+    begin
+      cbFinanceiro.Checked := False;
+      cbEstoque.Checked := False;
+    end;
+    dmnf.cds_Mov_det.Close;
+    dmnf.cds_Mov_det.Params[0].Clear;
+    dmnf.cds_Mov_det.Params[1].AsInteger := codMovFin;
+    dmnf.cds_Mov_det.Open;
+
+    if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
+      calcman.Checked := True;
+
+    //mostra venda
+    if (dmnf.cds_venda.Active) then
+      dmnf.cds_venda.Close;
+    dmnf.cds_venda.Params[0].Clear;
+    dmnf.cds_venda.Params[1].AsInteger := codMovFin;
+    dmnf.cds_venda.Open;
+    if (not dmnf.cds_venda.IsEmpty) then
+      codVendaFin := dmnf.cds_vendaCODVENDA.AsInteger;
+
+    if (scdsCr_proc.Active) then
+      scdsCr_proc.Close;
+
+    scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
+    scdsCr_proc.Open;
+
+    //Mostra NF
+    if (dmnf.cds_nf.Active) then
+      dmnf.cds_nf.Close;
+    dmnf.cds_nf.Params[0].Clear;
+    dmnf.cds_nf.Params[1].Clear;
+    dmnf.cds_nf.Params[1].AsInteger := codVendaFin;
+    dmnf.cds_nf.Open;
+
+    carregarEmissao;
+
+    if (dmnf.cds_nfNFE_FINNFE.IsNull) then
+    begin
+      dmnf.cds_nf.Edit;
+      gravarDadosNFe310;
+      btnGravar.Click;
+    end;
+
+    if (dmnf.cds_nfIDCOMPLEMENTAR.AsString <> '') then
+      edtNFRef.Text := dmnf.cds_nfIDCOMPLEMENTAR.AsString;
+
+    if (dmnf.cds_nfSTATUS.AsString = 'S') then
+      RadioGroup1.ItemIndex := 0
+    else
+      RadioGroup1.ItemIndex := 1;
+
+    if (DMNF.cds_nfFRETE.AsString <>  '') then
+      cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.AsString);
+
+    if (not dmnf.cds_empresa.Active) then
+      dmnf.cds_empresa.open;
+    if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
+    begin
+      if (dmnf.cds_nfNOTASERIE.AsString = '') then
+        btnIncluir.Click;
+    end;
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'DATANF';
+    dm.cds_parametro.Open;
+
+    if (DM.cds_parametroCONFIGURADO.AsString = 'S') then
+      if not ( FormatDateTime('dd/mm/yyyy\',DMNF.cds_nfDTAEMISSAO.AsDateTime) = FormatDateTime('dd/mm/yyyy\',now)) then
+        MessageDlg('Data da Nota Fiscal difere da atual.', mtInformation, [mbOK], 0);
+  end;
+
 end;
 
 end.
