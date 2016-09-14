@@ -441,6 +441,12 @@ begin
    ACBrBoleto1.Cedente.Conta := s_bancoNUMERO_CONTA.AsString;
    ACBrBoleto1.Cedente.ContaDigito := s_bancoDIGITO_CONTA.AsString;
    ACBrBoleto1.Cedente.Nome := s_empresaRAZAO.AsString;
+   ACBrBoleto1.Cedente.Logradouro := s_empresaENDERECO.AsString;
+   ACBrBoleto1.Cedente.Complemento := s_empresaLOGRADOURO.AsString;
+   ACBrBoleto1.Cedente.NumeroRes := s_empresaNUMERO.AsString;
+   ACBrBoleto1.Cedente.Cidade := s_empresaCIDADE.AsString;
+   ACBrBoleto1.Cedente.UF := s_empresaUF.AsString;
+   ACBrBoleto1.Cedente.CEP := s_empresaCEP.AsString;
    if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
      ACBrBoleto1.Cedente.ResponEmissao := tbCliEmite
    else
@@ -632,8 +638,8 @@ begin
 
               if (s_bancoN_BANCO.AsString = '001') then
               begin
-                Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
-                ACBrBoleto1.Cedente.Modalidade := '19';
+                //Titulo.LocalPagamento :=  'PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO';
+                ACBrBoleto1.Cedente.Modalidade := s_bancoVARIACAO.AsString;
               end;
 
               if (s_bancoN_BANCO.AsString = '341') then
