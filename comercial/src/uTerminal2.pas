@@ -467,6 +467,7 @@ type
     DBEdit6: TDBEdit;
     edVendedor: TEdit;
     JvSpeedButton1: TJvSpeedButton;
+    lbl_imprime: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -516,6 +517,7 @@ type
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure DBEdit6Exit(Sender: TObject);
     procedure JvSpeedButton1Click(Sender: TObject);
+    procedure JvDBGrid1DblClick(Sender: TObject);
   private
     terminalCaixa: Integer;
     gradeVenda: String;
@@ -590,7 +592,7 @@ uses UDm, UDM_MOV, uFiltroMovimento, U_AlteraPedido, U_RelTerminal,
   uOsFinaliza, U_Entrada, U_MudaMesa, u_mesas, U_AUTORIZACAO,
   ufprocura_prod, U_AbreComanda, uProcurar_nf, UDMNF, uFiscalCls,
   uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa, uTroca,
-  uProcurar;
+  uProcurar, uDetalhe;
 
 {$R *.dfm}
 
@@ -1971,7 +1973,7 @@ begin
   s_parametro.Close;
 
   ModeloImpressora := StrToInt(DM.impressora_pc);
-
+  lbl_imprime.Caption := 'Impressora: ' + porta + ' - ' + DM.impressora_pc;
   //Configura o Modelo da Impressora
   iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
 
@@ -4925,6 +4927,16 @@ begin
       SaldoNegativo := 'TRUE';
       scds_produto_proc.Close;
     end;
+end;
+
+procedure TfTerminal2.JvDBGrid1DblClick(Sender: TObject);
+begin
+  fDetalhe := TfDetalhe.Create(Application);
+  try
+    fDetalhe.ShowModal;
+  finally
+    fDetalhe.Free;
+  end;
 end;
 
 end.

@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
   Left = 80
-  Top = 69
+  Top = 75
   Width = 913
   Height = 636
   AutoSize = True
@@ -33,6 +33,13 @@ object fTerminal2: TfTerminal2
     ParentBackground = False
     PopupMenu = PopupMenu1
     TabOrder = 0
+    object lbl_imprime: TLabel
+      Left = 416
+      Top = 8
+      Width = 3
+      Height = 13
+      Caption = '.'
+    end
     object JvProcurar: TJvBitBtn
       Left = 2
       Top = 1
@@ -1792,7 +1799,7 @@ object fTerminal2: TfTerminal2
       Top = 1
       Width = 471
       Height = 550
-      ActivePage = TabComanda
+      ActivePage = TabVenda
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0
@@ -2770,7 +2777,7 @@ object fTerminal2: TfTerminal2
             Left = 297
             Top = 25
             Width = 140
-            Height = 19
+            Height = 22
             BevelInner = bvLowered
             Color = clMenuBar
             Ctl3D = False
@@ -3545,6 +3552,7 @@ object fTerminal2: TfTerminal2
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnDblClick = JvDBGrid1DblClick
       BevelKind = bkFlat
       AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
@@ -3569,7 +3577,21 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 230
+          Width = 174
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CFOP'
+          Title.Color = clTeal
+          Width = 49
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CSOSN'
+          Title.Color = clTeal
+          Width = 55
           Visible = True
         end
         item
@@ -3587,7 +3609,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 36
+          Width = 27
           Visible = True
         end
         item
@@ -3605,7 +3627,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 71
+          Width = 54
           Visible = True
         end
         item
@@ -3623,7 +3645,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 89
+          Width = 67
           Visible = True
         end>
     end
