@@ -138,6 +138,11 @@ type
     sds_cnsHIST_MOV: TStringField;
     cds_cnsHIST_MOV: TStringField;
     chkBusca: TCheckBox;
+    cbSat: TCheckBox;
+    cbSatNao: TCheckBox;
+    lblNumReg: TLabel;
+    lblValorTotal: TLabel;
+    sqTotalFMov: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -207,7 +212,17 @@ begin
     sdsRegiao.Next;
   end;
   sdsRegiao.Close;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'SAT';
+  dm.cds_parametro.Open;
+  //se sim mostrar opção de filtro para o SAT
   
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    cbSAT.Visible := True;
+    cbSATNao.Visible := True;
+  end;
 end;
 
 procedure TfFiltroMovimento.FormKeyPress(Sender: TObject; var Key: Char);
@@ -383,6 +398,7 @@ begin
     fPdm.cds_Mov_det.Open;
     fPdm.dbeCliente.DataField := 'CODCLIENTE';
     fPdm.DBEdit4.DataField := 'NOMECLIENTE';
+    fPdm.JvLabel1.Caption := 'Cód. Movimento - ' + IntToStr(cds_cns.Fields[0].AsInteger);
     fPdm.ShowModal;
    finally
     fPdm.Free;
@@ -409,6 +425,9 @@ begin
      DBGrid1.Columns[8].Visible := True;
      DBGrid1.Columns[9].Visible := True;
   end;}
+  if (sqTotalFMov.Active) then
+    sqTotalFMov.Close;
+  sqTotalFMov.SQL.Clear;
 
   if cds_cns.Active then
      cds_cns.Close;
@@ -423,21 +442,27 @@ begin
     end;
     cds_cns.CommandText:= sql_buscaLimite + ' mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, mov.DATAMOVIMENTO, mov.STATUS, ' +
-      ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
+      ' SUM(COALESCE(movd.QUANTIDADE,0) * COALESCE(movd.VLR_BASE,0)) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, ' + QuotedStr('Fornecedor') +
       ' as NOMEFORNECEDOR, ven.NOTAFISCAL,' +
-      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
+      ' ven.SERIE, ven.VALOR, sum(ven.VALOR-ven.DESCONTO+'+
+      ' ven.VALOR_FRETE) APAGAR, ven.DATAVENDA  ' +
       ' , cli.BLOQUEIO, mov.DATA_ENTREGA, MOV.HIST_MOV  ' +
       ' from MOVIMENTO mov inner join CLIENTES cli on cli.CODCLIENTE = ' +
       ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
       ' = mov.CODNATUREZA left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
+    sqTotalFMov.SQL.Add('SELECT SUM(COALESCE(movd.QUANTIDADE,0) * COALESCE(movd.VLR_BASE,0)) ' +
+      ' from MOVIMENTO mov inner join CLIENTES cli on cli.CODCLIENTE = ' +
+      ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
+      ' = mov.CODNATUREZA left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
+      ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO');
   end
   else begin
     cds_cns.CommandText:= sql_buscaLimite + ' mov.CODCLIENTE, mov.CODMOVIMENTO, mov.CODPEDIDO,' +
       ' mov.CODNATUREZA, ven.DATAVENDA as DATAMOVIMENTO, mov.STATUS, ' +
-      ' SUM(movd.QUANTIDADE * movd.VLR_BASE) as PRECO, ' +
+      ' SUM(COALESCE(movd.QUANTIDADE,0) * COALESCE(movd.VLR_BASE,0)) as PRECO, ' +
       ' cli.NOMECLIENTE, mov.NFE, ' +
       ' nat.DESCNATUREZA, mov.CODFORNECEDOR, , ' + QuotedStr('Fornecedor') +
       ' as NOMEFORNECEDOR, ven.NOTAFISCAL, ' +
@@ -448,6 +473,12 @@ begin
       ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
       ' mov.CODFORNECEDOR left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
       ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO';
+    sqTotalFMov.SQL.Add('SELECT SUM(COALESCE(movd.QUANTIDADE,0) * COALESCE(movd.VLR_BASE,0)) ' +
+      ' from MOVIMENTO mov left outer join CLIENTES cli on cli.CODCLIENTE = ' +
+      ' mov.CODCLIENTE  inner join NATUREZAOPERACAO nat on nat.CODNATUREZA ' +
+      ' = mov.CODNATUREZA left outer join FORNECEDOR forn on forn.CODFORNECEDOR = ' +
+      ' mov.CODFORNECEDOR left outer join VENDA ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO ' +
+      ' left outer join MOVIMENTODETALHE movd on movd.CODMOVIMENTO = mov.CODMOVIMENTO');
   end;
 
   if (dm.moduloUsado = 'CITRUS') then
@@ -663,6 +694,24 @@ begin
      end;
     end;
   end;
+  if ((cbSat.Visible = True) and (cbSat.Checked)) then
+  begin
+    if (sqlTexto = '') then
+      sqlTexto := sqlTexto + ' where ven.STATUS1 = '
+    else
+      sqlTexto := sqlTexto + ' and ven.STATUS1 = ';
+      sqlTexto := sqlTexto + QuotedStr('E');
+  end;
+  if ((cbSat.Visible = True) and (cbSatNao.Checked)) then
+  begin
+    if (sqlTexto = '') then
+      sqlTexto := sqlTexto + ' where ((ven.STATUS1 = '
+    else
+      sqlTexto := sqlTexto + ' and ((ven.STATUS1 = ';
+      sqlTexto := sqlTexto + QuotedStr('T');
+    sqlTexto := sqlTexto + ' ) OR (ven.STATUS1 is null))';
+  end;
+  sqTotalFMov.SQL.Add(sqlTexto);
   sqlTexto := sqlTexto + ' group by mov.CODMOVIMENTO, mov.CODCLIENTE, mov.CODNATUREZA, ' +
       'mov.DATAMOVIMENTO, mov.STATUS, cli.NOMECLIENTE, nat.DESCNATUREZA, ' +
       'mov.CODFORNECEDOR, NOMEFORNECEDOR, ven.NOTAFISCAL, ven.SERIE, ' +
@@ -671,12 +720,18 @@ begin
   ordenar := '';
 
   SqlImprimi :=   cds_cns.CommandText + sqlTexto;
+
   sqlTexto := sqlTexto + ' order by mov.CODMOVIMENTO DESC ' ;
   cds_cns.CommandText := cds_cns.CommandText + sqlTexto;
  // SqlImprimi := cds_cns.CommandText;
   cds_cns.Open;
   if not cds_cns.IsEmpty then
+  begin
     BitBtn8.Enabled := True;
+    lblNumReg.Caption := 'Número de Registros : ' + IntToStr(cds_cns.RecordCount);
+    sqTotalFMov.Open;
+    lblValorTotal.Caption := 'Total : ' + Format('%-6.2n', [sqTotalFMov.Fields[0].AsFloat]);
+  end;
   DBGrid1.SetFocus;
 end;
 
@@ -722,6 +777,7 @@ end;
 
 procedure TfFiltroMovimento.FormShow(Sender: TObject);
 begin
+
   if (DM.tipoVenda = 'VENDA') then
   begin
     edit3.Text := '3';

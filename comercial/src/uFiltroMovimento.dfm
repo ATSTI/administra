@@ -2,7 +2,7 @@ object fFiltroMovimento: TfFiltroMovimento
   Left = 11
   Top = 1
   Width = 800
-  Height = 552
+  Height = 600
   Align = alCustom
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -702,7 +702,7 @@ object fFiltroMovimento: TfFiltroMovimento
       OnClick = RadioGroup1Click
     end
     object GroupBox5: TGroupBox
-      Left = 266
+      Left = 265
       Top = 3
       Width = 119
       Height = 41
@@ -852,6 +852,24 @@ object fFiltroMovimento: TfFiltroMovimento
       HotTrackFont.Name = 'MS Sans Serif'
       HotTrackFont.Style = []
     end
+    object cbSat: TCheckBox
+      Left = 269
+      Top = 6
+      Width = 97
+      Height = 17
+      Caption = 'Emitido SAT'
+      TabOrder = 20
+      Visible = False
+    end
+    object cbSatNao: TCheckBox
+      Left = 269
+      Top = 24
+      Width = 108
+      Height = 17
+      Caption = 'N'#227'o Emitido SAT'
+      TabOrder = 21
+      Visible = False
+    end
   end
   object MMJPanel1: TMMJPanel
     Left = 0
@@ -907,9 +925,9 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 479
+    Top = 512
     Width = 792
-    Height = 46
+    Height = 61
     Align = alBottom
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
@@ -920,9 +938,25 @@ object fFiltroMovimento: TfFiltroMovimento
     Background.StartColor = clSilver
     Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
+    object lblNumReg: TLabel
+      Left = 17
+      Top = 6
+      Width = 9
+      Height = 13
+      Caption = '...'
+      Transparent = True
+    end
+    object lblValorTotal: TLabel
+      Left = 545
+      Top = 6
+      Width = 9
+      Height = 13
+      Caption = '...'
+      Transparent = True
+    end
     object btnProcurar: TBitBtn
       Left = 253
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'F8-&Procurar'
@@ -989,7 +1023,7 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object btnSair: TBitBtn
       Left = 611
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'F9-Sair'
@@ -1104,7 +1138,7 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object BitBtn8: TBitBtn
       Left = 373
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'F6-Movimento'
@@ -1178,7 +1212,7 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object BitBtn9: TBitBtn
       Left = 492
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'F4-Confirma'
@@ -1256,7 +1290,7 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object BitBtn5: TBitBtn
       Left = 133
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'Romaneio'
@@ -1316,7 +1350,7 @@ object fFiltroMovimento: TfFiltroMovimento
     end
     object BitBtn12: TBitBtn
       Left = 15
-      Top = 6
+      Top = 23
       Width = 112
       Height = 34
       Caption = 'Imp.Consulta'
@@ -1341,7 +1375,7 @@ object fFiltroMovimento: TfFiltroMovimento
     Left = 0
     Top = 178
     Width = 792
-    Height = 301
+    Height = 334
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -2202,5 +2236,12 @@ object fFiltroMovimento: TfFiltroMovimento
     object scds_NaturezaProcuraBAIXAMOVIMENTO: TSmallintField
       FieldName = 'BAIXAMOVIMENTO'
     end
+  end
+  object sqTotalFMov: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 504
+    Top = 392
   end
 end
