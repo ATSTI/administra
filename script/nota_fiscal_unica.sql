@@ -1,0 +1,3 @@
+alter table NOTAFISCAL
+add constraint UNQ_NOTAFISCAL_EMPRESA
+unique (NOTASERIE, SERIE, CCUSTO)
