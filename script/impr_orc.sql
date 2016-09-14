@@ -1,0 +1,129 @@
+set term ^ ;
+CREATE or ALTER PROCEDURE  IMPR_ORC( PVMOV     INTEGER )
+RETURNS ( 
+          CLI                              VARCHAR( 80 )
+        , RAZAO                            VARCHAR( 60 )
+        , ENDERECO                         VARCHAR( 60 )
+        , BAIRRO                           VARCHAR( 60 )
+        , CIDADE                           VARCHAR( 60 )
+        , UF                               CHAR( 2 )
+        , CEP                              VARCHAR( 10 )
+        , DDD                              VARCHAR( 3 )
+        , FONE                             VARCHAR( 12 )
+        , DDD1                             VARCHAR( 3 )
+        , FONE1                            VARCHAR( 12 )
+        , DDD2                             VARCHAR( 3 )
+        , FONE2                            VARCHAR( 12 )
+        , DDD3                             VARCHAR( 3 )
+        , FAX                              VARCHAR( 12 )
+        , EMISSAO                          DATE
+        , DTAVENCIMENTO                    DATE
+        , CODPRO                           VARCHAR( 30 )
+        , VALORTOTAL                       DOUBLE PRECISION
+        , VALOR                            DOUBLE PRECISION
+        , PCO                              DOUBLE PRECISION
+        , TOTAL                            DOUBLE PRECISION
+        , SERIE                            VARCHAR( 20 )
+        , TITULO                           VARCHAR( 30 )
+        , NOTAFISCAL                       INTEGER
+        , PRODUTO                          VARCHAR( 300 )
+        , UN                               VARCHAR( 2 )
+        , QTDE                             DOUBLE PRECISION
+        , PRE_UN                           DOUBLE PRECISION
+        , PRE_TOT                          DOUBLE PRECISION
+        , VALOR_FRETE                      DOUBLE PRECISION
+        , DESCVENDA                        DOUBLE PRECISION
+        , CNPJ                             VARCHAR( 20 )
+        , CODMOV                           INTEGER
+        , PARC                             INTEGER
+        , OBS                              VARCHAR( 500 )
+        , VIA_IMPR                         INTEGER
+        , PRAZO                            VARCHAR( 40 )
+        , NFE                              VARCHAR( 10 )
+        , CODPRODUTO                       INTEGER
+        , NUMERO                           VARCHAR( 5 )
+        , NPROD                            INTEGER  
+        , CODVENDEDOR                      INTEGER,
+          
+controle varchar(30) )
+AS
+declare variable codmovdet integer;
+declare variable j integer = 0;
+declare variable n_copias integer;
+declare variable tipoprod char(7);
+declare variable vr double precision;
+declare variable n_linhas integer;
+BEGIN
+    N_COPIAS = 2;
+    via_impr = 1;
+    FOR SELECT CAST(m.CODCLIENTE AS VARCHAR(4)) || '-' || CLI.NOMECLIENTE as CLI , CLI.RAZAOSOCIAL, ENDE.LOGRADOURO,ENDE.NUMERO,
+	ENDE.BAIRRO, ENDE.CIDADE
+    , ENDE.UF, ENDE.CEP, ENDE.DDD, ENDE.TELEFONE , ENDE.DDD1, ENDE.TELEFONE1 , ENDE.DDD2, ENDE.TELEFONE2, ENDE.DDD3, ENDE.FAX, 
+    M.DATAMOVIMENTO
+    , CLI.CNPJ, m.CODMOVIMENTO
+    , m.NFE
+    , m.CODVENDEDOR, m.PRAZO_ENT
+    FROM MOVIMENTO m 
+    INNER JOIN CLIENTES CLI ON CLI.CODCLIENTE = m.CODCLIENTE
+    LEFT OUTER JOIN  ENDERECOCLIENTE ENDE ON ENDE.CODCLIENTE = CLI.CODCLIENTE
+    WHERE (m.CODMOVIMENTO = :PVMOV)
+      AND ENDE.TIPOEND = 0 
+    GROUP BY m.CODCLIENTE, CLI.NOMECLIENTE , CLI.RAZAOSOCIAL, ENDE.LOGRADOURO,ENDE.NUMERO , ENDE.BAIRRO, ENDE.CIDADE
+    , ENDE.UF, ENDE.CEP, ENDE.DDD, ENDE.TELEFONE, ENDE.DDD1, ENDE.TELEFONE1 , ENDE.DDD2, ENDE.TELEFONE2, ENDE.DDD3, ENDE.FAX,
+    M.datamovimento
+    , CLI.CNPJ, m.CODMOVIMENTO
+    ,m.NFE, m.CODVENDEDOR, m.PRAZO_ENT 
+    into :CLI, :RAZAO, :ENDERECO ,:NUMERO, :BAIRRO, :CIDADE 
+    , :UF, :CEP, :DDD, :FONE, :DDD1, :FONE1, :DDD2, :FONE2, :DDD3 , :FAX ,:EMISSAO
+    , :CNPJ, :CODMOV,  :NFE, :CODVENDEDOR, :PRAZO
+    DO BEGIN
+        total = 0;
+        J = 0;
+        WHILE (N_COPIAS > J) do
+        begin
+         NPROD = 0;
+         PRE_TOT = 0;
+         TOTAL = 0;
+          
+          for SELECT movd.CODDETALHE, movd.DESCPRODUTO, movd.QUANTIDADE, MOVd.VLR_BASE, (movd.QUANTIDADE * MOVd.VLR_BASE) AS TOT 
+          , prod.codproduto, m.CONTROLE, m.OBS, PROD.UNIDADEMEDIDA
+          FROM MOVIMENTO M, MOVIMENTODETALHE movd, PRODUTOS prod
+         where m.CODMOVIMENTO = movd.CODMOVIMENTO 
+           and prod.CODPRODUTO = movd.CODPRODUTO  
+           and movd.CODMOVIMENTO = :CODMOV
+          INTO :CODMOVDET,:PRODUTO, :QTDE, :PRE_UN, :TOTAL ,:CODPRODUTO, :CONTROLE, :OBS, :UN
+          DO BEGIN
+            PRE_TOT = PRE_TOT + TOTAL;
+            NPROD = NPROD + 1;
+            SUSPEND;  
+          END
+          if (nprod < 15) then 
+            n_linhas = 15;
+          else 
+            n_linhas = 40;  
+          WHILE (NPROD < n_linhas ) do
+          BEGIN
+            /* imprimi linhas vazias */
+            CODMOVDET = NULL;
+            PRODUTO = NULL;
+            CODPRODUTO = null;
+            QTDE = NULL;
+            PRE_UN = NULL;
+            TOTAL = NULL;
+            NPROD = NPROD + 1;           
+            SUSPEND;          
+          END
+          /*SUSPEND; */
+          via_impr = 2;
+          QTDE = 0;
+          PRE_UN = 0;
+          TOTAL = 0; 
+          J = J + 1; 
+        END
+    END
+  WHEN GDSCODE arith_except DO
+  BEGIN   
+    exception erro_proc ' ####  Erro no TITULO ****** ' || :TITULO || ' ******. ####';
+    exit; 
+  END    
+END
