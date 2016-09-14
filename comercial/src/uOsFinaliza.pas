@@ -180,6 +180,7 @@ type
     pm2: TPopupMenu;
     ImprimirPedido1: TMenuItem;
     ImprimirOrdemdeServio1: TMenuItem;
+    btnSAT: TBitBtn;
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure JvSairClick(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
@@ -204,6 +205,7 @@ type
     procedure btnCupomClick(Sender: TObject);
     procedure ImprimirPedido1Click(Sender: TObject);
     procedure ImprimirOrdemdeServio1Click(Sender: TObject);
+    procedure btnSATClick(Sender: TObject);
   private
     buffer, scomando: String;
     comando :Integer;
@@ -271,7 +273,7 @@ var
 implementation
 
 uses UDM_MOV, UDm, uNotaf, UDMNF, uProcurar, uProcurar_nf,
-  ufCrAltera, uTerminal_Delivery, uCarne, U_Entrada;
+  ufCrAltera, uTerminal_Delivery, uCarne, U_Entrada, uSat;
 
 {$R *.dfm}
 
@@ -1799,6 +1801,34 @@ begin
   VCLReport2.Preview := False;
   VCLReport2.ShowPrintDialog := False;
   VCLReport2.Execute;
+end;
+
+procedure TfOsFinaliza.btnSATClick(Sender: TObject);
+begin
+  if (scdsCr_proc.IsEmpty) then
+  begin
+    MessageDlg('Venda não finalizada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  // SAT
+  fSat := TfSat.Create(Application);
+  Try
+    fSat.PageControl1.Pages[1].TabVisible := False;
+    //fSat.TabSheet2.Enabled := False;
+    fSat.codVendaSAT := dm_mov.c_vendaCODVENDA.AsInteger;
+    fSat.MainMenu1.Items[0].Enabled := False;
+    fSat.MainMenu1.Items[1].Enabled := False;
+    fSat.MainMenu1.Items[2].Enabled := False;
+    fSat.MainMenu1.Items[3].Enabled := False;
+    fSat.MainMenu1.Items[4].Enabled := False;
+    fSat.MainMenu1.Items[5].Enabled := False;
+    fSat.MainMenu1.Items[6].Enabled := False;
+    fSat.PageControl1.TabIndex := 0;
+    fSat.ShowModal;
+  Finally
+    fSat.Free;
+  end;
+
 end;
 
 end.
