@@ -1,6 +1,6 @@
 object fNfeIcms: TfNfeIcms
-  Left = 2
-  Top = 2
+  Left = 215
+  Top = 135
   Width = 930
   Height = 614
   Caption = 'Sped Fiscal(ICMS)'
@@ -20,7 +20,7 @@ object fNfeIcms: TfNfeIcms
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 8
+    Left = 384
     Top = 136
     Width = 63
     Height = 13
@@ -30,7 +30,7 @@ object fNfeIcms: TfNfeIcms
     Transparent = True
   end
   object Label3: TLabel
-    Left = 8
+    Left = 384
     Top = 272
     Width = 74
     Height = 13
@@ -60,10 +60,10 @@ object fNfeIcms: TfNfeIcms
     Transparent = True
   end
   object btnTXT: TButton
-    Left = 360
-    Top = 504
-    Width = 217
-    Height = 49
+    Left = 610
+    Top = 527
+    Width = 150
+    Height = 40
     Caption = 'Gerar arquivo SPED ICMS'
     TabOrder = 0
     OnClick = btnTXTClick
@@ -82,7 +82,7 @@ object fNfeIcms: TfNfeIcms
       918
       109)
     object Label1: TLabel
-      Left = 22
+      Left = 19
       Top = 14
       Width = 82
       Height = 13
@@ -134,9 +134,9 @@ object fNfeIcms: TfNfeIcms
       Caption = 'Apura'#231'a'#245' IPI'
     end
     object edtFile: TEdit
-      Left = 22
+      Left = 17
       Top = 28
-      Width = 437
+      Width = 440
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
@@ -173,7 +173,7 @@ object fNfeIcms: TfNfeIcms
       Text = '10'
     end
     object GroupBox2: TGroupBox
-      Left = 24
+      Left = 14
       Top = 58
       Width = 476
       Height = 45
@@ -334,19 +334,19 @@ object fNfeIcms: TfNfeIcms
     end
   end
   object memoError: TMemo
-    Left = 8
+    Left = 384
     Top = 153
-    Width = 908
+    Width = 532
     Height = 112
     Anchors = [akLeft, akTop, akRight]
     ScrollBars = ssVertical
     TabOrder = 2
   end
   object memoTXT: TMemo
-    Left = 8
+    Left = 384
     Top = 288
-    Width = 908
-    Height = 201
+    Width = 532
+    Height = 217
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -384,8 +384,8 @@ object fNfeIcms: TfNfeIcms
     TabOrder = 6
   end
   object btnError: TButton
-    Left = 622
-    Top = 519
+    Left = 691
+    Top = 517
     Width = 100
     Height = 25
     Anchors = [akRight, akBottom]
@@ -393,6 +393,354 @@ object fNfeIcms: TfNfeIcms
     TabOrder = 7
     Visible = False
     OnClick = btnErrorClick
+  end
+  object PageControl1: TPageControl
+    Left = 16
+    Top = 144
+    Width = 361
+    Height = 361
+    ActivePage = TabSheet1
+    TabOrder = 8
+    object TabSheet1: TTabSheet
+      Caption = 'Difal'
+      object Label14: TLabel
+        Left = 32
+        Top = 8
+        Width = 70
+        Height = 13
+        Caption = 'Indicador (0/1)'
+      end
+      object Label15: TLabel
+        Left = 32
+        Top = 32
+        Width = 140
+        Height = 13
+        Caption = 'Saldo Credor per'#237'odo Anterior'
+      end
+      object Label16: TLabel
+        Left = 32
+        Top = 56
+        Width = 110
+        Height = 13
+        Caption = 'Valor Total dos D'#233'bitos'
+      end
+      object Label17: TLabel
+        Left = 32
+        Top = 80
+        Width = 108
+        Height = 13
+        Caption = 'Valor Total dos Ajustes'
+      end
+      object Label18: TLabel
+        Left = 32
+        Top = 104
+        Width = 133
+        Height = 13
+        Caption = 'Valor Total dos D'#233'bitos FCP'
+      end
+      object Label19: TLabel
+        Left = 32
+        Top = 128
+        Width = 112
+        Height = 13
+        Caption = 'Valor Total dos Cr'#233'ditos'
+      end
+      object Label20: TLabel
+        Left = 32
+        Top = 152
+        Width = 135
+        Height = 13
+        Caption = 'Valor Total dos Cr'#233'ditos FCP'
+      end
+      object Label21: TLabel
+        Left = 32
+        Top = 176
+        Width = 108
+        Height = 13
+        Caption = 'Valor Total dos Ajustes'
+      end
+      object Label22: TLabel
+        Left = 32
+        Top = 200
+        Width = 140
+        Height = 13
+        Caption = 'Valor Total do Saldo Devedor'
+      end
+      object Label23: TLabel
+        Left = 32
+        Top = 224
+        Width = 108
+        Height = 13
+        Caption = 'Valor Total dos Ajustes'
+      end
+      object Label24: TLabel
+        Left = 32
+        Top = 248
+        Width = 145
+        Height = 13
+        Caption = 'Valor Recolhido ou a Recolher'
+      end
+      object Label25: TLabel
+        Left = 32
+        Top = 272
+        Width = 127
+        Height = 13
+        Caption = 'Saldo Credor a Transportar'
+      end
+      object Label26: TLabel
+        Left = 32
+        Top = 296
+        Width = 140
+        Height = 13
+        Caption = 'Valor recolhidos ou a recolher'
+      end
+      object DBEdit1: TDBEdit
+        Left = 184
+        Top = 8
+        Width = 121
+        Height = 21
+        Hint = 
+          '0 - Sem opera'#231#245'es de ICMS com Diferencial de Aliquota'#13#10'1 - Com o' +
+          'pere'#231#245'es de ICMS com Diferencial de Aliquota'
+        DataField = 'IND_MOV_DIFAL'
+        DataSource = dsDifalCad
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+      end
+      object DBEdit2: TDBEdit
+        Left = 184
+        Top = 32
+        Width = 121
+        Height = 21
+        DataField = 'VL_SLD_CRED_ANT_DIFAL'
+        DataSource = dsDifalCad
+        TabOrder = 1
+      end
+      object DBEdit3: TDBEdit
+        Left = 184
+        Top = 56
+        Width = 121
+        Height = 21
+        DataField = 'VL_TOT_DEBITOS_DIFAL'
+        DataSource = dsDifalCad
+        TabOrder = 2
+      end
+      object DBEdit4: TDBEdit
+        Left = 184
+        Top = 80
+        Width = 121
+        Height = 21
+        Hint = 
+          'Valor total de Ajustes (Outros cr'#233'ditos ICMS Diferencial de'#13#10'Ali' +
+          'quota de UF de Origem/Destino e Estorno de cr'#233'ditos ICMS ...'
+        DataField = 'VL_OUT_DEB_DIFAL'
+        DataSource = dsDifalCad
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 3
+      end
+      object DBEdit5: TDBEdit
+        Left = 184
+        Top = 104
+        Width = 121
+        Height = 21
+        DataField = 'VL_TOT_DEB_FCP'
+        DataSource = dsDifalCad
+        TabOrder = 4
+      end
+      object DBEdit6: TDBEdit
+        Left = 184
+        Top = 128
+        Width = 121
+        Height = 21
+        DataField = 'VL_TOT_CREDITOS_DIFAL'
+        DataSource = dsDifalCad
+        TabOrder = 5
+      end
+      object DBEdit7: TDBEdit
+        Left = 184
+        Top = 152
+        Width = 121
+        Height = 21
+        DataField = 'VL_TOT_CRED_FCP'
+        DataSource = dsDifalCad
+        TabOrder = 6
+      end
+      object DBEdit8: TDBEdit
+        Left = 184
+        Top = 176
+        Width = 121
+        Height = 21
+        DataSource = dsDifalCad
+        TabOrder = 7
+      end
+      object DBEdit10: TDBEdit
+        Left = 184
+        Top = 200
+        Width = 121
+        Height = 21
+        DataSource = dsDifalCad
+        TabOrder = 8
+      end
+      object DBEdit11: TDBEdit
+        Left = 184
+        Top = 224
+        Width = 121
+        Height = 21
+        DataSource = dsDifalCad
+        TabOrder = 9
+      end
+      object DBEdit12: TDBEdit
+        Left = 184
+        Top = 248
+        Width = 121
+        Height = 21
+        DataSource = dsDifalCad
+        TabOrder = 10
+      end
+      object DBEdit13: TDBEdit
+        Left = 184
+        Top = 272
+        Width = 121
+        Height = 21
+        DataSource = dsDifalCad
+        TabOrder = 11
+      end
+      object DBEdit9: TDBEdit
+        Left = 184
+        Top = 296
+        Width = 121
+        Height = 21
+        Hint = 'Valor recolhidos ou a Recolher , extra apura'#231#227'o.'
+        DataSource = dsDifalCad
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 12
+      end
+    end
+  end
+  object Button1: TButton
+    Left = 457
+    Top = 527
+    Width = 150
+    Height = 40
+    Caption = 'Carregar Dados Difal'
+    TabOrder = 9
+    OnClick = Button1Click
+  end
+  object btnSair: TBitBtn
+    Left = 762
+    Top = 527
+    Width = 150
+    Height = 40
+    Caption = 'F9-Sair'
+    TabOrder = 10
+    Glyph.Data = {
+      E60C0000424DE60C0000000000003600000028000000250000001D0000000100
+      180000000000B00C0000120B0000120B00000000000000000000BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBF9F60606F3030BFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F60609F6060A06060A06060
+      6F3030BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F60609F60
+      60A06060B06060C06060CF6060B060606F3030BFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F60609F6060AF6F6FC06F6FCF6F6FCF6F6FCF606FCF606FB06060
+      6F3030AF60609F60609F60609F60609F60609F60609F60609F60609F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060D06F70D06F70D06F
+      6FD06F6FD06F6FD06F6FD06F6FB0606F6F3030FFA0A0FFAFAFFFAFB0FFB0B0FF
+      BFBFFFC0C0FFC0C0FFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060DF7070DF7070D07070D07070D06F70D06F6FD06F6FB06F6F
+      6F30305FB06030CF6030CF6030CF6030CF6030CF6030CF60FFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060DF7070DF7070DF70
+      70DF7070DF7070D07070D07070BF6F6F6F30305FB06030CF6030CF6030CF6030
+      CF6030CF6030CF60FFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060DF7F7FDF7F7FDF7F7FDF707FDF7070DF7070DF7070BF6F6F
+      6F30305FB06030CF6030CF6030CF6030CF6030CF6030CF60FFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060E07F7FE07F7FE07F
+      7FE07F7FDF7F7FDF7F7FDF707FBF6F6F6F30305FB06030CF6030CF6030CF6030
+      CF6030CF6030CF60FFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060E08080E07F80E07F7FE07F7FE07F7FE07F7FE07F7FBF7070
+      6F30305FB06030CF6030CF6030CF6030CF6030CF6030CF60FFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060EF8080EF8080E080
+      80E08080E0808FEFA0A0E07F7FBF70706F303070BF7030CF6030CF6030CF6030
+      CF6030CF6030CF60FFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060EF808FEF8080EF8080EF8080F0BFBFFFFFFFF0B0B0C07070
+      6F3030F0DFC0C0F0BF7FDF907FDF9060D08060D08060D080FFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060F08F8FEF8F8FEF8F
+      8FEF808FF0BFBFFFFFFFF0AFAFC070706F3030F0DFC0FFFFDFFFFFDFFFFFDFFF
+      FFDFE0FFCFE0FFCFFFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060F08F8FF08F8FF08F8FF08F8FEF8F8FF0A0A0EF808FC07070
+      6F3030F0DFC0FFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060F09090F09090F08F
+      90F08F8FF08F8FF08F8FF08F8FC07F7F6F3030F0DFC0FFFFDFFFFFDFFFFFDFFF
+      FFDFFFFFDFFFFFDFFFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060FF9090FF9090FF9090F09090F09090F08F90F08F8FC07F7F
+      6F3030F0DFC0FFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060FF909FFF9090FF90
+      90FF9090FF9090FF9090F09090CF7F7F6F3030F0DFC0FFFFDFFFFFDFFFFFDFFF
+      FFDFFFFFDFFFFFDFFFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060FF9F9FFF9F9FFF9F9FFF909FFF909FFF9090FF9090CF7F7F
+      6F3030F0DFC0FFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060FF9F9FFF9F9FFF9F
+      9FFF9F9FFF9F9FFF9F9FFF9F9FCF7F7F6F3030F0DFC0FFFFDFFFFFDFFFFFDFFF
+      FFDFFFFFDFFFFFDFFFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBF9F6060FF9090FF9F9FFF9F9FFF9F9FFF9F9FFF9F9FFF9F9FCF8080
+      6F3030F0DFC0FFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFFFDFFFC0C09F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F60609F6060C07F7FDF8F
+      8FFF9F9FFF9F9FFF9F9FFF9F9FCF80806F3030F0DFC0FFFFDFFFFFDFFFFFDFFF
+      FFDFFFFFDFFFFFDFFFC0C09F6060BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBF9F60609F6060A06F6FC07F7FF09090FF9F9FCF8080
+      6F3030A060609F60609F60609F60609F60609F60609F60609F60609F6060BFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBF9F60609F6060AF7070B070706F3030BFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF9F6060
+      6F3030BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00BFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+      BFBFBFBFBFBFBFBFBF00}
   end
   object sdsEmpresa: TSQLDataSet
     CommandText = 'SELECT * FROM EMPRESA'
@@ -2697,15 +3045,15 @@ object fNfeIcms: TfNfeIcms
   object dspMov: TDataSetProvider
     DataSet = sdsMov
     Options = [poAllowCommandText]
-    Left = 96
-    Top = 168
+    Left = 128
+    Top = 136
   end
   object cdsMov: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspMov'
-    Left = 96
-    Top = 200
+    Left = 160
+    Top = 136
   end
   object sdsCompra: TSQLDataSet
     CommandText = 
@@ -2754,8 +3102,8 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 200
-    Top = 136
+    Left = 432
+    Top = 328
     object sdsCompraDATACOMPRA: TDateField
       FieldName = 'DATACOMPRA'
       Required = True
@@ -2884,8 +3232,8 @@ object fNfeIcms: TfNfeIcms
   end
   object dspCompra: TDataSetProvider
     DataSet = sdsCompra
-    Left = 200
-    Top = 168
+    Left = 432
+    Top = 360
   end
   object cdsCompra: TClientDataSet
     Aggregates = <>
@@ -2911,8 +3259,8 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     ProviderName = 'dspCompra'
-    Left = 200
-    Top = 200
+    Left = 432
+    Top = 392
     object cdsCompraDATACOMPRA: TDateField
       FieldName = 'DATACOMPRA'
       Required = True
@@ -3625,8 +3973,8 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 232
-    Top = 136
+    Left = 464
+    Top = 328
     object DateField1: TDateField
       FieldName = 'DATACOMPRA'
       Required = True
@@ -3840,8 +4188,8 @@ object fNfeIcms: TfNfeIcms
   end
   object dspCompraDet: TDataSetProvider
     DataSet = sdsCompraDet
-    Left = 232
-    Top = 168
+    Left = 464
+    Top = 360
   end
   object cdsCompraDet: TClientDataSet
     Aggregates = <>
@@ -3852,8 +4200,8 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     ProviderName = 'dspCompraDet'
-    Left = 232
-    Top = 200
+    Left = 464
+    Top = 392
     object cdsCompraDetDATACOMPRA: TDateField
       FieldName = 'DATACOMPRA'
       Required = True
@@ -4140,13 +4488,13 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 264
-    Top = 136
+    Left = 496
+    Top = 328
   end
   object dspC190: TDataSetProvider
     DataSet = sdsC190
-    Left = 264
-    Top = 168
+    Left = 496
+    Top = 360
   end
   object cdsC190: TClientDataSet
     Aggregates = <>
@@ -4157,8 +4505,8 @@ object fNfeIcms: TfNfeIcms
         ParamType = ptInput
       end>
     ProviderName = 'dspC190'
-    Left = 264
-    Top = 200
+    Left = 496
+    Top = 392
     object cdsC190VLR_ICMS: TFloatField
       FieldName = 'VLR_ICMS'
       ReadOnly = True
@@ -5333,38 +5681,50 @@ object fNfeIcms: TfNfeIcms
   end
   object sdsDifal: TSQLDataSet
     CommandText = 
-      'SELECT  sum(VBCUFDEST) VBCUFDEST, sum(PFCPUFDEST) PFCPUFDEST, su' +
-      'm(PICMSUFDEST) PICMSUFDEST, sum(PICMSINTER) PICMSINTER, sum(PICM' +
-      'SINTERPART) PICMSINTERPART   , sum(VFCPUFDEST) VFCPUFDEST   ,sum' +
-      '( VICMSUFDEST) VICMSUFDEST, sum(VICMSUFREMET) VICMSUFREMET   '#13#10' ' +
-      '  FROM  MOVIMENTODETALHE '#13#10'WHERE  CODMOVIMENTO = :PMOV'
+      'SELECT  sum(MD.VBCUFDEST) VBCUFDEST, sum(MD.PFCPUFDEST) PFCPUFDE' +
+      'ST, sum(MD.PICMSUFDEST) PICMSUFDEST, sum(MD.PICMSINTER) PICMSINT' +
+      'ER, sum(MD.PICMSINTERPART) PICMSINTERPART   , sum(MD.VFCPUFDEST)' +
+      ' VFCPUFDEST   ,sum( MD.VICMSUFDEST) VICMSUFDEST, sum(MD.VICMSUFR' +
+      'EMET) VICMSUFREMET   '#13#10'   FROM  VENDA V, MOVIMENTODETALHE MD '#13#10'W' +
+      'HERE  md.CODMOVIMENTO = v.CODMOVIMENTO '#13#10'      AND v.DATAVENDA B' +
+      'ETWEEN :PDATA1 AND :PDATA2'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
-        Name = 'PMOV'
+        DataType = ftDate
+        Name = 'PDATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'PDATA2'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 64
-    Top = 352
+    Left = 440
+    Top = 440
   end
   object dspDifal: TDataSetProvider
     DataSet = sdsDifal
-    Left = 96
-    Top = 352
+    Left = 472
+    Top = 440
   end
   object cdsDifal: TClientDataSet
     Aggregates = <>
     Params = <
       item
-        DataType = ftInteger
-        Name = 'PMOV'
+        DataType = ftDate
+        Name = 'PDATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'PDATA2'
         ParamType = ptInput
       end>
     ProviderName = 'dspDifal'
-    Left = 129
-    Top = 352
+    Left = 505
+    Top = 440
     object cdsDifalVBCUFDEST: TFloatField
       FieldName = 'VBCUFDEST'
       ReadOnly = True
@@ -5397,5 +5757,97 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'VICMSUFREMET'
       ReadOnly = True
     end
+  end
+  object sdsDifalCad: TSQLDataSet
+    CommandText = 
+      'SELECT * FROM SPEDICMS WHERE DT_INI = :PDATA1 AND DT_FIM = :PDAT' +
+      'A2'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'PDATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'PDATA2'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 28
+    Top = 328
+  end
+  object dspDifalCad: TDataSetProvider
+    DataSet = sdsDifalCad
+    Left = 28
+    Top = 360
+  end
+  object cdsDifalCad: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftDate
+        Name = 'PDATA1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDate
+        Name = 'PDATA2'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspDifalCad'
+    Left = 28
+    Top = 392
+    object cdsDifalCadDT_INI: TDateField
+      FieldName = 'DT_INI'
+      Required = True
+    end
+    object cdsDifalCadIND_MOV_DIFAL: TStringField
+      FieldName = 'IND_MOV_DIFAL'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsDifalCadVL_SLD_CRED_ANT_DIFAL: TFloatField
+      FieldName = 'VL_SLD_CRED_ANT_DIFAL'
+    end
+    object cdsDifalCadVL_TOT_DEBITOS_DIFAL: TFloatField
+      FieldName = 'VL_TOT_DEBITOS_DIFAL'
+    end
+    object cdsDifalCadVL_OUT_DEB_DIFAL: TFloatField
+      FieldName = 'VL_OUT_DEB_DIFAL'
+    end
+    object cdsDifalCadVL_TOT_DEB_FCP: TFloatField
+      FieldName = 'VL_TOT_DEB_FCP'
+    end
+    object cdsDifalCadVL_TOT_CREDITOS_DIFAL: TFloatField
+      FieldName = 'VL_TOT_CREDITOS_DIFAL'
+    end
+    object cdsDifalCadVL_TOT_CRED_FCP: TFloatField
+      FieldName = 'VL_TOT_CRED_FCP'
+    end
+    object cdsDifalCadVL_OUT_CRED_DIFAL: TFloatField
+      FieldName = 'VL_OUT_CRED_DIFAL'
+    end
+    object cdsDifalCadVL_SLD_DEV_ANT_DIFAL: TFloatField
+      FieldName = 'VL_SLD_DEV_ANT_DIFAL'
+    end
+    object cdsDifalCadVL_DEDUCOES_DIFAL: TFloatField
+      FieldName = 'VL_DEDUCOES_DIFAL'
+    end
+    object cdsDifalCadVL_SLD_CRED_TRANSPORTAR: TFloatField
+      FieldName = 'VL_SLD_CRED_TRANSPORTAR'
+    end
+    object cdsDifalCadDEB_ESP_DIFAL: TFloatField
+      FieldName = 'DEB_ESP_DIFAL'
+    end
+    object cdsDifalCadDT_FIM: TDateField
+      FieldName = 'DT_FIM'
+    end
+  end
+  object dsDifalCad: TDataSource
+    DataSet = cdsDifalCad
+    Left = 28
+    Top = 424
   end
 end

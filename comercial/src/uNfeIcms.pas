@@ -8,7 +8,7 @@ uses
   JvProgressBar, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, FMTBcd,
   DBClient, Provider, DB, SqlExpr, uUtils, ACBrEFDBlocos, ACBrSpedFiscal,
-  MaskUtils, Buttons;
+  MaskUtils, Buttons, DBCtrls;
 
 type
   TfNfeIcms = class(TForm)
@@ -1139,6 +1139,54 @@ type
     sqlTotalSaidaVICMSUFDEST: TFloatField;
     sqlTotalSaidaVICMSUFREMET: TFloatField;
     cdsItensCST_IPI_CENQ: TStringField;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    DBEdit10: TDBEdit;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit13: TDBEdit;
+    DBEdit9: TDBEdit;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    Button1: TButton;
+    sdsDifalCad: TSQLDataSet;
+    dspDifalCad: TDataSetProvider;
+    cdsDifalCad: TClientDataSet;
+    dsDifalCad: TDataSource;
+    btnSair: TBitBtn;
+    cdsDifalCadDT_INI: TDateField;
+    cdsDifalCadIND_MOV_DIFAL: TStringField;
+    cdsDifalCadVL_SLD_CRED_ANT_DIFAL: TFloatField;
+    cdsDifalCadVL_TOT_DEBITOS_DIFAL: TFloatField;
+    cdsDifalCadVL_OUT_DEB_DIFAL: TFloatField;
+    cdsDifalCadVL_TOT_DEB_FCP: TFloatField;
+    cdsDifalCadVL_TOT_CREDITOS_DIFAL: TFloatField;
+    cdsDifalCadVL_TOT_CRED_FCP: TFloatField;
+    cdsDifalCadVL_OUT_CRED_DIFAL: TFloatField;
+    cdsDifalCadVL_SLD_DEV_ANT_DIFAL: TFloatField;
+    cdsDifalCadVL_DEDUCOES_DIFAL: TFloatField;
+    cdsDifalCadVL_SLD_CRED_TRANSPORTAR: TFloatField;
+    cdsDifalCadDEB_ESP_DIFAL: TFloatField;
+    cdsDifalCadDT_FIM: TDateField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1150,6 +1198,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     codFornEnergia: Integer;
     tipoLigacao: String;
@@ -2080,27 +2129,6 @@ begin
             VL_PIS_ST     := 0;
             VL_COFINS_ST  := 0;
             tem_ajuste := 'N';
-            {
-            if (cdsDifal.Active) then
-              cdsDifal.Close;
-            cdsDifal.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-            cdsDifal.Open;
-            while not cdsDifal.Eof do
-            begin
-              if ((cdsDifalVFCPUFDEST.AsFloat > 0) or
-                 (cdsDifalVICMSUFDEST.AsFloat > 0) or
-                 (cdsDifalVICMSUFREMET.AsFloat > 0)) then
-              begin
-                tem_ajuste := 'S';
-                with RegistroC101New do   //Inicio Adicionar os Itens:
-                begin
-                  VL_FCP_UF_DEST := cdsDifalVFCPUFDEST.AsFloat;
-                  VL_ICMS_UF_DEST := cdsDifalVICMSUFDEST.AsFloat;
-                  VL_ICMS_UF_REM := cdsDifalVICMSUFREMET.AsFloat;
-                end;
-              end;
-              cdsDifal.Next;
-            end;  }
 
             if (cdsItens.Active) then
               cdsItens.Close;
@@ -2760,6 +2788,28 @@ begin
     end;
 
     //GUIA PRÁTICO DA EFD - Versão 2.0.18
+
+    if (cdsDifal.Active) then
+      cdsDifal.Close;
+    cdsDifal.Params[0].AsDate := data_ini.date;
+    cdsDifal.Params[1].AsDate := data_fim.date;
+    cdsDifal.Open;
+    while not cdsDifal.Eof do
+    begin
+      if ((cdsDifalVFCPUFDEST.AsFloat > 0) or
+         (cdsDifalVICMSUFDEST.AsFloat > 0) or
+         (cdsDifalVICMSUFREMET.AsFloat > 0)) then
+      begin
+        {with RegistroC101New do   //Inicio Adicionar os Itens:
+        begin
+          VL_FCP_UF_DEST := cdsDifalVFCPUFDEST.AsFloat;
+          VL_ICMS_UF_DEST := cdsDifalVICMSUFDEST.AsFloat;
+          VL_ICMS_UF_REM := cdsDifalVICMSUFREMET.AsFloat;
+        end;}
+      end;
+      cdsDifal.Next;
+    end;
+
     //while not cdsDifal.Eof do
     //begin
     //  registroe300
@@ -3076,6 +3126,16 @@ begin
 
   if (cdsItens.Active) then
     cdsItens.Close;
+end;
+
+procedure TfNfeIcms.Button1Click(Sender: TObject);
+begin
+  if (cdsDifalCad.Active) then
+    cdsDifalCad.Close;
+  cdsDifalCad.Params[0].AsDate := data_ini.date;
+  cdsDifalCad.Params[1].AsDate := data_fim.date;
+  cdsDifalCad.Open;
+
 end;
 
 end.
