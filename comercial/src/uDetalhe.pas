@@ -101,7 +101,7 @@ var
 
 implementation
 
-uses UDm, UDMNF, ufprocura_prod, uCompra, uVendas;
+uses UDm, UDMNF, ufprocura_prod, uCompra, uVendas, UDM_MOV;
 
 {$R *.dfm}
 
@@ -150,7 +150,8 @@ begin
     ds1.DataSet := fCompra.DtSrc1.DataSet;
   if (fVendas.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
     ds1.DataSet := fVendas.DtSrc1.DataSet;
-
+  if (DM_MOV.d_movdet.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
+    ds1.DataSet := DM_MOV.d_movdet.DataSet;
 end;
 
 procedure TfDetalhe.dbeCodproExit(Sender: TObject);
