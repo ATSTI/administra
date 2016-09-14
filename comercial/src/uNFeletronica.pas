@@ -825,6 +825,41 @@ type
     sqlTotal_tributos: TSQLQuery;
     sdsItensNFCODMOVIMENTO: TIntegerField;
     cdsItensNFCODMOVIMENTO: TIntegerField;
+    sdsCfopNCM: TSQLDataSet;
+    sdsCfopNCMNCM: TStringField;
+    sdsCfopNCMCFOP: TStringField;
+    sdsCfopNCMUF: TStringField;
+    sdsCfopNCMCODFISCAL: TStringField;
+    sdsCfopNCMICMS_SUBST: TFloatField;
+    sdsCfopNCMICMS_SUBST_IC: TFloatField;
+    sdsCfopNCMICMS_SUBST_IND: TFloatField;
+    sdsCfopNCMICMS: TFloatField;
+    sdsCfopNCMICMS_BASE: TFloatField;
+    sdsCfopNCMCST: TStringField;
+    sdsCfopNCMIPI: TFloatField;
+    sdsCfopNCMCSOSN: TStringField;
+    sdsCfopNCMCSTIPI: TStringField;
+    sdsCfopNCMCSTPIS: TStringField;
+    sdsCfopNCMCSTCOFINS: TStringField;
+    sdsCfopNCMPIS: TFloatField;
+    sdsCfopNCMCOFINS: TFloatField;
+    sdsCfopNCMORIGEM: TIntegerField;
+    sdsCfopNCMDADOSADC1: TStringField;
+    sdsCfopNCMDADOSADC2: TStringField;
+    sdsCfopNCMDADOSADC3: TStringField;
+    sdsCfopNCMDADOSADC4: TStringField;
+    sdsCfopNCMDADOSADC5: TStringField;
+    sdsCfopNCMDADOSADC6: TStringField;
+    sdsCfopNCMALIQ_CUPOM: TStringField;
+    sdsCfopNCMVBCUFDEST: TFloatField;
+    sdsCfopNCMPFCPUFDEST: TFloatField;
+    sdsCfopNCMPICMSUFDEST: TFloatField;
+    sdsCfopNCMPICMSINTER: TFloatField;
+    sdsCfopNCMPICMSINTERPART: TFloatField;
+    sdsCfopNCMVFCPUFDEST: TFloatField;
+    sdsCfopNCMVICMSUFDEST: TFloatField;
+    sdsCfopNCMVICMSUFREMET: TFloatField;
+    sdsCfopNCMCST_IPI_CENQ: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1208,6 +1243,8 @@ begin
          { isto estava fora do IF}
          if (cbTipoNota.ItemIndex = 1) then
          begin
+           if (sFornec.Active) then
+             sFornec.close;
            if (sCliente.Active) then
              sCliente.Close;
            sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
@@ -1225,10 +1262,13 @@ begin
          end
          else
          begin
-          if (sFornec.Active) then
-            sFornec.Close;
-          sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
-          sFornec.Open;
+           if (sCliente.Active) then
+             sCliente.Close;
+
+           if (sFornec.Active) then
+             sFornec.Close;
+           sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+           sFornec.Open;
          end;
 
          if (sCFOP.Active) then
@@ -2300,6 +2340,23 @@ begin
   if (JvDateEdit1.Text = '  /  /    ') then
     JvDateEdit1.Text := DateToStr(Now);
   if (JvDateEdit2.Text = '  /  /    ') then
+    JvDateEdit2.Text := DateToStr(Now);
+    
+  if (ComboBox1.Text <> '') then
+  begin
+    if (not cds_ccusto.Active) then
+      cds_ccusto.Open;
+    cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+
+    //Seleciona Empresa de acordo com o CCusto selecionado
+    if (sEmpresa.Active) then
+      sEmpresa.Close;
+    sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+    sEmpresa.Open;
+
+    Edit1.Text := sEmpresaDIVERSOS1.AsString;
+    Edit3.Text := sEmpresaDIVERSOS1.AsString;
+  end;  
 end;
 
 procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
@@ -2338,6 +2395,9 @@ var
    { Isto estava fora do IF }
    if (cbTipoNota.ItemIndex = 1) then
    begin
+     if (sFornec.Active) then
+       sFornec.Close;
+
      if (sCliente.Active) then
        sCliente.Close;
      sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
@@ -2351,6 +2411,9 @@ var
    end
    else
    begin
+     if (sCliente.Active) then
+       sCliente.Close;
+
      if (sFornec.Active) then
        sFornec.Close;
      sFornec.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
@@ -3155,46 +3218,79 @@ begin
           vBCST := 0;
           if (not cdsItensNFICMS_SUBSTD.IsNull) then
             vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-          if (sdsCfopProd.Active) then
-            sdsCfopProd.Close;
-          sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-          if (cbTipoNota.ItemIndex = 0) then
-            sdsCfopProd.Params[1].AsString := sFornecUF.AsString
-          else
-            sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
-          sdsCfopProd.Params[2].AsString := cdsNFCFOP.AsString;
-          sdsCfopProd.Open;
 
-          if (not sdsCfopProd.IsEmpty) then
+          // ve se e tributado por NCM
+          if (sdsCfopNCM.Active) then
+            sdsCfopNCM.Close;
+          sdsCfopNCM.Params[0].AsString := sProdutosNCM.AsString;
+          if (cbTipoNota.ItemIndex = 0) then
+            sdsCfopNCM.Params[1].AsString := sFornecUF.AsString
+          else
+            sdsCfopNCM.Params[1].AsString := sClienteUF.AsString;
+          sdsCfopNCM.Params[2].AsString := cdsNFCFOP.AsString;
+          if (cbTipoNota.ItemIndex = 0) then
+            sdsCfopNCM.Params[3].AsString := sFornecCODFISCAL.AsString
+          else
+            sdsCfopNCM.Params[3].AsString := sClienteCODFISCAL.AsString;
+          sdsCfopNCM.Open;
+
+          if (not sdsCfopNCM.IsEmpty) then
           begin
-            if (sdsCfopProdICMS_SUBST.IsNull) then
+            if (sdsCfopNCMICMS_SUBST.IsNull) then
               pMVAST := 0
             else
-              pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            if (sdsCfopProdICMS_SUBST_IC.IsNull) then
+              pMVAST := sdsCfopNCMICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+            if (sdsCfopNCMICMS_SUBST_IC.IsNull) then
               pRedBCST := 0
             else
-              pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            if (sdsCfopProdICMS_SUBST_IND.IsNull) then
+              pRedBCST := sdsCfopNCMICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+            if (sdsCfopNCMICMS_SUBST_IND.IsNull) then
               pICMSST := 0
             else
-              pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+              pICMSST :=  sdsCfopNCMICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
           end
           else begin
-            if (sCFOPICMS_SUBSTRIB.IsNull) then
-              pMVAST := 0
+            // ve se e tributado no produto
+            if (sdsCfopProd.Active) then
+              sdsCfopProd.Close;
+            sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
+            if (cbTipoNota.ItemIndex = 0) then
+              sdsCfopProd.Params[1].AsString := sFornecUF.AsString
             else
-              pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
-            if (sCFOPICMS_SUBSTRIB_IC.IsNull) then
-              pRedBCST := 0
-            else
-              pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
-            if (sCFOPICMS_SUBSTRIB_IND.IsNull) then
-              pICMSST := 0
-            else
-              pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
-          end;
+              sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
+            sdsCfopProd.Params[2].AsString := cdsNFCFOP.AsString;
+            sdsCfopProd.Open;
 
+            if (not sdsCfopProd.IsEmpty) then
+            begin
+              if (sdsCfopProdICMS_SUBST.IsNull) then
+                pMVAST := 0
+              else
+                pMVAST := sdsCfopProdICMS_SUBST.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+              if (sdsCfopProdICMS_SUBST_IC.IsNull) then
+                pRedBCST := 0
+              else
+                pRedBCST := sdsCfopProdICMS_SUBST_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+              if (sdsCfopProdICMS_SUBST_IND.IsNull) then
+                pICMSST := 0
+              else
+                pICMSST :=  sdsCfopProdICMS_SUBST_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            end  // busca tributado cfop_uf
+            else begin
+              if (sCFOPICMS_SUBSTRIB.IsNull) then
+                pMVAST := 0
+              else
+                pMVAST :=   sCFOPICMS_SUBSTRIB.AsVariant;                //% MARGEM DE VALOR ADICIONADO DO ICMSST
+              if (sCFOPICMS_SUBSTRIB_IC.IsNull) then
+                pRedBCST := 0
+              else
+                pRedBCST := sCFOPICMS_SUBSTRIB_IC.AsVariant;                 //ALIQUOTA DA REDUÇÃO DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+              if (sCFOPICMS_SUBSTRIB_IND.IsNull) then
+                pICMSST := 0
+              else
+                pICMSST :=  sCFOPICMS_SUBSTRIB_IND.AsVariant;                    //ALIQUOTA DO ICMS DA SUBST. TRIBUTÁRIA
+            end;
+          end;
           if (sCFOPREDUCAO.IsNull) then
             pRedBC := 0
           else
@@ -4261,6 +4357,7 @@ begin
     sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
     sEmpresa.Open;
     Edit1.Text := sEmpresaDIVERSOS1.AsString;
+    Edit3.Text := sEmpresaDIVERSOS1.AsString;
   end;
 end;
 

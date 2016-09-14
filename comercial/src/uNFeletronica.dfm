@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
   Left = 251
-  Top = 92
+  Top = 96
   Width = 873
   Height = 607
   AutoSize = True
@@ -155,14 +155,14 @@ object fNFeletronica: TfNFeletronica
         end
         object edtNumSerie: TEdit
           Left = 221
-          Top = 102
+          Top = 99
           Width = 186
           Height = 21
           TabOrder = 3
         end
         object Edit1: TEdit
           Left = 75
-          Top = 101
+          Top = 100
           Width = 141
           Height = 21
           Color = cl3DLight
@@ -1567,7 +1567,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -5856,5 +5856,164 @@ object fNFeletronica: TfNFeletronica
     SQLConnection = DM.sqlsisAdimin
     Left = 60
     Top = 224
+  end
+  object sdsCfopNCM: TSQLDataSet
+    CommandText = 
+      'select *'#13#10'from CLASSIFICACAOFISCALNCM'#13#10'where NCM = :NCM '#13#10'and UF' +
+      ' = :ESTADO '#13#10'and CFOP = :codcfop'#13#10'and CODFISCAL = :CODFISCAL'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NCM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'ESTADO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'codcfop'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'CODFISCAL'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 326
+    Top = 443
+    object sdsCfopNCMNCM: TStringField
+      FieldName = 'NCM'
+      Required = True
+      Size = 8
+    end
+    object sdsCfopNCMCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object sdsCfopNCMUF: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsCfopNCMCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsCfopNCMICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sdsCfopNCMICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object sdsCfopNCMICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object sdsCfopNCMICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sdsCfopNCMICMS_BASE: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object sdsCfopNCMCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object sdsCfopNCMIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object sdsCfopNCMCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object sdsCfopNCMCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object sdsCfopNCMCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object sdsCfopNCMCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object sdsCfopNCMPIS: TFloatField
+      FieldName = 'PIS'
+    end
+    object sdsCfopNCMCOFINS: TFloatField
+      FieldName = 'COFINS'
+    end
+    object sdsCfopNCMORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+      Required = True
+    end
+    object sdsCfopNCMDADOSADC1: TStringField
+      FieldName = 'DADOSADC1'
+      Size = 200
+    end
+    object sdsCfopNCMDADOSADC2: TStringField
+      FieldName = 'DADOSADC2'
+      Size = 200
+    end
+    object sdsCfopNCMDADOSADC3: TStringField
+      FieldName = 'DADOSADC3'
+      Size = 200
+    end
+    object sdsCfopNCMDADOSADC4: TStringField
+      FieldName = 'DADOSADC4'
+      Size = 200
+    end
+    object sdsCfopNCMDADOSADC5: TStringField
+      FieldName = 'DADOSADC5'
+      Size = 200
+    end
+    object sdsCfopNCMDADOSADC6: TStringField
+      FieldName = 'DADOSADC6'
+      Size = 200
+    end
+    object sdsCfopNCMALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object sdsCfopNCMVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object sdsCfopNCMPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object sdsCfopNCMPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object sdsCfopNCMPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object sdsCfopNCMPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object sdsCfopNCMVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object sdsCfopNCMVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object sdsCfopNCMVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object sdsCfopNCMCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
   end
 end
