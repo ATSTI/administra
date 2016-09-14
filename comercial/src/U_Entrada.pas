@@ -188,6 +188,7 @@ type
     c_formaCAIXINHA: TFloatField;
     btnCupom: TJvBitBtn;
     sqlBuscaNota: TSQLQuery;
+    btnSAT: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -206,6 +207,7 @@ type
     procedure JvCaixinhaEnter(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnCupomClick(Sender: TObject);
+    procedure btnSATClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -300,7 +302,7 @@ var
 
 implementation
 
-uses UDm, UDM_MOV, UDMNF, uFiscalCls, uTerminal2, uTerminal_Delivery;
+uses UDm, UDM_MOV, UDMNF, uFiscalCls, uTerminal2, uTerminal_Delivery, uSat;
 
 {$R *.dfm}
 
@@ -1005,7 +1007,7 @@ begin
   fTerminal2.var_FINALIZOU := 'SIM';
   //Close;
   DecimalSeparator := ',';
-  //JvSair.Click;
+  JvSair.Click;
 end;
 
 procedure TF_Entrada.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1694,6 +1696,47 @@ begin
   VCLReport2.Preview := False;
   VCLReport2.ShowPrintDialog := False;
   VCLReport2.Execute;
+end;
+
+procedure TF_Entrada.btnSATClick(Sender: TObject);
+begin
+  if (c_forma.IsEmpty) then
+  begin
+    MessageDlg('Venda não finalizada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if (not DM_MOV.c_venda.Active) then
+  begin
+    DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    DM_MOV.c_venda.Open;
+  end;  
+
+  if (dm_mov.c_vendaCODVENDA.AsInteger = 0) then
+  begin
+    MessageDlg('Venda não Informada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  // SAT
+  fSat := TfSat.Create(Application);
+  Try
+    fSat.PageControl1.Pages[1].TabVisible := False;
+    //fSat.TabSheet2.Enabled := False;
+    fSat.codVendaSAT := dm_mov.c_vendaCODVENDA.AsInteger;
+    fSat.MainMenu1.Items[0].Enabled := False;
+    fSat.MainMenu1.Items[1].Enabled := False;
+    fSat.MainMenu1.Items[2].Enabled := False;
+    fSat.MainMenu1.Items[3].Enabled := False;
+    fSat.MainMenu1.Items[4].Enabled := False;
+    fSat.MainMenu1.Items[5].Enabled := False;
+    fSat.MainMenu1.Items[6].Enabled := False;
+    fSat.PageControl1.TabIndex := 0;
+    fSat.ShowModal;
+  Finally
+    fSat.Free;
+  end;
+
 end;
 
 end.
