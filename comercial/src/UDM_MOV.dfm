@@ -2,7 +2,7 @@ object DM_MOV: TDM_MOV
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 46
-  Top = 56
+  Top = 61
   Height = 530
   Width = 713
   object s_buscaMov: TSQLDataSet
@@ -727,6 +727,140 @@ object DM_MOV: TDM_MOV
       ProviderFlags = []
       Size = 300
     end
+    object c_movdetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object c_movdetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object c_movdetCODSOLICITACAO: TIntegerField
+      FieldName = 'CODSOLICITACAO'
+    end
+    object c_movdetII: TFloatField
+      FieldName = 'II'
+    end
+    object c_movdetBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object c_movdetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object c_movdetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object c_movdetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object c_movdetPPIS: TFloatField
+      FieldName = 'PPIS'
+    end
+    object c_movdetPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+    end
+    object c_movdetPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+    end
+    object c_movdetNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+    end
+    object c_movdetACRESCIMO: TFloatField
+      FieldName = 'ACRESCIMO'
+    end
+    object c_movdetCORTESIA: TStringField
+      FieldName = 'CORTESIA'
+      FixedChar = True
+      Size = 1
+    end
+    object c_movdetATENDENTE: TIntegerField
+      FieldName = 'ATENDENTE'
+    end
+    object c_movdetCOLABORADOR: TIntegerField
+      FieldName = 'COLABORADOR'
+    end
+    object c_movdetSUITE: TStringField
+      FieldName = 'SUITE'
+      Size = 40
+    end
+    object c_movdetFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object c_movdetPAGOU: TStringField
+      FieldName = 'PAGOU'
+      FixedChar = True
+      Size = 1
+    end
+    object c_movdetFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      Size = 5
+    end
+    object c_movdetDESCONTO_BC: TStringField
+      FieldName = 'DESCONTO_BC'
+      Size = 5
+    end
+    object c_movdetVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+    end
+    object c_movdetVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+    end
+    object c_movdetVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+    end
+    object c_movdetVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object c_movdetORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      FixedChar = True
+      Size = 2
+    end
+    object c_movdetNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object c_movdetALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object c_movdetVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object c_movdetPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object c_movdetPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object c_movdetPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object c_movdetPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object c_movdetVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object c_movdetVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object c_movdetVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object c_movdetCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object c_movdetCEST: TStringField
+      FieldName = 'CEST'
+      Size = 7
+    end
     object c_movdettotalpedido: TAggregateField
       FieldName = 'totalpedido'
       Active = True
@@ -1005,6 +1139,140 @@ object DM_MOV: TDM_MOV
       FieldName = 'PRODUTO'
       ProviderFlags = []
       Size = 300
+    end
+    object s_movdetVALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object s_movdetVALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object s_movdetCODSOLICITACAO: TIntegerField
+      FieldName = 'CODSOLICITACAO'
+    end
+    object s_movdetII: TFloatField
+      FieldName = 'II'
+    end
+    object s_movdetBCII: TFloatField
+      FieldName = 'BCII'
+    end
+    object s_movdetCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object s_movdetCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object s_movdetCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object s_movdetPPIS: TFloatField
+      FieldName = 'PPIS'
+    end
+    object s_movdetPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+    end
+    object s_movdetPEDIDO: TStringField
+      FieldName = 'PEDIDO'
+    end
+    object s_movdetNITEMPED: TIntegerField
+      FieldName = 'NITEMPED'
+    end
+    object s_movdetACRESCIMO: TFloatField
+      FieldName = 'ACRESCIMO'
+    end
+    object s_movdetCORTESIA: TStringField
+      FieldName = 'CORTESIA'
+      FixedChar = True
+      Size = 1
+    end
+    object s_movdetATENDENTE: TIntegerField
+      FieldName = 'ATENDENTE'
+    end
+    object s_movdetCOLABORADOR: TIntegerField
+      FieldName = 'COLABORADOR'
+    end
+    object s_movdetSUITE: TStringField
+      FieldName = 'SUITE'
+      Size = 40
+    end
+    object s_movdetFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      FixedChar = True
+      Size = 1
+    end
+    object s_movdetPAGOU: TStringField
+      FieldName = 'PAGOU'
+      FixedChar = True
+      Size = 1
+    end
+    object s_movdetFRETE_BC: TStringField
+      FieldName = 'FRETE_BC'
+      Size = 5
+    end
+    object s_movdetDESCONTO_BC: TStringField
+      FieldName = 'DESCONTO_BC'
+      Size = 5
+    end
+    object s_movdetVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+    end
+    object s_movdetVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+    end
+    object s_movdetVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+    end
+    object s_movdetVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+    end
+    object s_movdetORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      FixedChar = True
+      Size = 2
+    end
+    object s_movdetNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
+    object s_movdetALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object s_movdetVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object s_movdetPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object s_movdetPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object s_movdetPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object s_movdetPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object s_movdetVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object s_movdetVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object s_movdetVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object s_movdetCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object s_movdetCEST: TStringField
+      FieldName = 'CEST'
+      Size = 7
     end
   end
   object s_buscaProd: TSQLDataSet
