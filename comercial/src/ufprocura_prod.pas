@@ -198,6 +198,7 @@ type
     JvDBGrid1: TJvDBGrid;
     jvXmStorage: TJvAppXMLFileStorage;
     jvStorageF: TJvFormStorage;
+    Edit6: TEdit;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -241,6 +242,7 @@ type
     procedure edDescontoMargemKeyPress(Sender: TObject; var Key: Char);
     procedure EvDBFind1KeyPress(Sender: TObject; var Key: Char);
     procedure DefinirGrupos1Click(Sender: TObject);
+    procedure Edit6KeyPress(Sender: TObject; var Key: Char);
   private
     vlrUnitCusto: Double;
     vlrUnitVenda: Double;
@@ -2461,6 +2463,33 @@ begin
     bitbtn1.Click;
   finally
     fProdutoAgrupa.Free;
+  end;
+end;
+
+procedure TfProcura_prod.Edit6KeyPress(Sender: TObject; var Key: Char);
+var bp_sql: string;
+begin
+  // Busca produto
+  if ((key = #13) and (edit6.Text <> ''))  then
+  begin
+    bp_sql := 'select distinct CODPRODUTO, COD_BARRA, CODPRO, cast(PRODUTO as varchar(300)) as PRODUTO,  ' +
+      'PRECO_VENDA, PRECO_COMPRAULTIMO as PRECO_COMPRA, ' +
+      'QTDE_PCT, UNIDADEMEDIDA, ' +
+      'GRUPO, SUBGRUPO, MARCA, ' +
+      'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
+      'SUBGRUPO as CATEGORIA, PRECO_VENDA as VALOR_PRAZO, PESO_QTDE, ' +
+      'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS, ORIGEM, NCM ' +
+      'from LISTAPRODUTOCLI(0, ' + QuotedStr('TODOSPRODUTOS') +
+      ', ' + QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') +
+      ', ' + QuotedStr('TODASMARCAS') + ', 0, ' + QuotedStr('TODASAPLICACOES') + ', 0';
+    bp_sql := bp_sql + ') WHERE PRODUTO LIKE ' + QuotedStr('%' + Edit6.Text + '%') +
+    ' order by PRODUTO';
+    if cds_proc.Active then
+      cds_proc.Close;
+    cds_proc.CommandText := bp_sql;
+    cds_proc.Open;
+    Edit6.Text := '';
+    EvDBFind1.SetFocus;
   end;
 end;
 

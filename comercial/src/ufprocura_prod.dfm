@@ -298,8 +298,8 @@ object fProcura_prod: TfProcura_prod
     Visible = False
     OnClick = BitBtn1Click
     object Label11: TLabel
-      Left = 9
-      Top = 18
+      Left = 10
+      Top = 9
       Width = 103
       Height = 13
       Caption = 'Descri'#231#227'o do Produto'
@@ -307,7 +307,7 @@ object fProcura_prod: TfProcura_prod
     end
     object Label12: TLabel
       Left = 403
-      Top = 18
+      Top = 9
       Width = 55
       Height = 13
       Caption = 'Quantidade'
@@ -315,7 +315,7 @@ object fProcura_prod: TfProcura_prod
     end
     object Label13: TLabel
       Left = 474
-      Top = 18
+      Top = 9
       Width = 49
       Height = 13
       Caption = 'Valor Unit.'
@@ -323,14 +323,14 @@ object fProcura_prod: TfProcura_prod
     end
     object Label14: TLabel
       Left = 610
-      Top = 18
+      Top = 9
       Width = 51
       Height = 13
       Caption = 'Valor Total'
     end
     object lblCondicao1: TLabel
       Left = 8
-      Top = 64
+      Top = 56
       Width = 9
       Height = 13
       Caption = '...'
@@ -338,7 +338,7 @@ object fProcura_prod: TfProcura_prod
     end
     object lblCondicao2: TLabel
       Left = 288
-      Top = 64
+      Top = 57
       Width = 9
       Height = 13
       Caption = '...'
@@ -346,7 +346,7 @@ object fProcura_prod: TfProcura_prod
     end
     object lblCondicao3: TLabel
       Left = 560
-      Top = 64
+      Top = 58
       Width = 9
       Height = 13
       Caption = '...'
@@ -354,14 +354,14 @@ object fProcura_prod: TfProcura_prod
     end
     object Label15: TLabel
       Left = 536
-      Top = 18
+      Top = 9
       Width = 57
       Height = 13
       Caption = 'Desc/Marg.'
     end
     object EvDBFind1: TEvDBFind
       Left = 8
-      Top = 33
+      Top = 24
       Width = 391
       Height = 24
       DataField = 'PRODUTO'
@@ -379,7 +379,7 @@ object fProcura_prod: TfProcura_prod
     end
     object BitBtn4: TBitBtn
       Left = 682
-      Top = 33
+      Top = 24
       Width = 52
       Height = 25
       Caption = 'Adiciona'
@@ -389,7 +389,7 @@ object fProcura_prod: TfProcura_prod
     end
     object BitBtn5: TBitBtn
       Left = 734
-      Top = 33
+      Top = 24
       Width = 52
       Height = 25
       Caption = 'Novo'
@@ -400,7 +400,7 @@ object fProcura_prod: TfProcura_prod
     end
     object Edit4: TJvCalcEdit
       Left = 471
-      Top = 33
+      Top = 24
       Width = 64
       Height = 24
       DisplayFormat = ',##0.00'
@@ -418,7 +418,7 @@ object fProcura_prod: TfProcura_prod
     end
     object Edit2: TJvCalcEdit
       Left = 592
-      Top = 33
+      Top = 24
       Width = 90
       Height = 24
       DisplayFormat = ',##0.00'
@@ -435,7 +435,7 @@ object fProcura_prod: TfProcura_prod
     end
     object Edit3: TJvCalcEdit
       Left = 400
-      Top = 33
+      Top = 24
       Width = 70
       Height = 24
       DisplayFormat = ',##0.0'
@@ -453,7 +453,7 @@ object fProcura_prod: TfProcura_prod
     end
     object edCondicao1: TJvCalcEdit
       Left = 137
-      Top = 63
+      Top = 51
       Width = 121
       Height = 21
       Color = clHighlight
@@ -469,7 +469,7 @@ object fProcura_prod: TfProcura_prod
     end
     object edCondicao2: TJvCalcEdit
       Left = 407
-      Top = 63
+      Top = 51
       Width = 121
       Height = 21
       Color = clHighlight
@@ -485,7 +485,7 @@ object fProcura_prod: TfProcura_prod
     end
     object edCondicao3: TJvCalcEdit
       Left = 669
-      Top = 62
+      Top = 53
       Width = 121
       Height = 21
       Color = clHighlight
@@ -501,7 +501,7 @@ object fProcura_prod: TfProcura_prod
     end
     object edDescontoMargem: TJvCalcEdit
       Left = 537
-      Top = 33
+      Top = 24
       Width = 52
       Height = 24
       Hint = 
@@ -684,8 +684,8 @@ object fProcura_prod: TfProcura_prod
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object RadioButton1: TRadioButton
-      Left = 24
-      Top = 8
+      Left = 0
+      Top = 7
       Width = 113
       Height = 17
       Caption = 'Tipo 1'
@@ -694,9 +694,9 @@ object fProcura_prod: TfProcura_prod
       OnClick = RadioButton1Click
     end
     object RadioButton2: TRadioButton
-      Left = 24
-      Top = 26
-      Width = 113
+      Left = 102
+      Top = 7
+      Width = 74
       Height = 17
       Caption = 'Tipo 2'
       Color = clSilver
@@ -1426,7 +1426,7 @@ object fProcura_prod: TfProcura_prod
       Layout = blGlyphTop
     end
     object CheckBox1: TCheckBox
-      Left = 24
+      Left = 3
       Top = 9
       Width = 97
       Height = 13
@@ -1436,10 +1436,30 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 11
       OnClick = CheckBox1Click
     end
+    object Edit6: TEdit
+      Left = 2
+      Top = 28
+      Width = 175
+      Height = 24
+      Hint = 
+        'Busca o produto por qualquer parte da Descri'#231#227'o( use o ENTER par' +
+        'a executar a busca)'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      PopupMenu = PopupMenu1
+      ShowHint = True
+      TabOrder = 12
+      OnKeyPress = Edit6KeyPress
+    end
   end
   object Panel3: TPanel
-    Left = 176
-    Top = 209
+    Left = 352
+    Top = 185
     Width = 425
     Height = 289
     Caption = 'Panel3'
@@ -2064,8 +2084,8 @@ object fProcura_prod: TfProcura_prod
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 600
-    Top = 192
+    Left = 592
+    Top = 144
     object sds_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
@@ -2128,15 +2148,15 @@ object fProcura_prod: TfProcura_prod
   object dsp: TDataSetProvider
     DataSet = sds_parametro
     UpdateMode = upWhereKeyOnly
-    Left = 632
-    Top = 192
+    Left = 624
+    Top = 144
   end
   object cds_parametro: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp'
-    Left = 664
-    Top = 192
+    Left = 656
+    Top = 144
     object cds_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
