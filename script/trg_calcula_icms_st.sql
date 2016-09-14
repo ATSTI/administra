@@ -739,10 +739,13 @@ BEGIN
       if (new.vBCUFDest > 0) then 
       begin 
         -- DIFAL 
-        vBCUFDest = new.VBCUFDEST * ((:pICMSUFDest-:pICMSInter)/100);
-        new.vFCPUFDest = new.VBCUFDEST * (:pFCPUFDest/100);
-        new.vICMSUFDest = vBCUFDest * (:pICMSInterPart/100);
-        new.vICMSUFRemet = vBCUFDest * ((100-:pICMSInterPart)/100);
+        if (new.VBCUFDEST > 0) then
+        begin 
+          vBCUFDest = new.VBCUFDEST * ((:pICMSUFDest-:pICMSInter)/100);
+          new.vFCPUFDest = new.VBCUFDEST * (:pFCPUFDest/100);
+          new.vICMSUFDest = vBCUFDest * (:pICMSInterPart/100);
+          new.vICMSUFRemet = vBCUFDest * ((100-:pICMSInterPart)/100);
+        end  
       end
     end
     new.CST_IPI_CENQ = :CST_IPI_CENQ;
