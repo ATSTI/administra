@@ -2481,10 +2481,10 @@ begin
     impressora_pc := '0';
     if (cds_parametroD1.AsString = MICRO) then
       impressora_pc := cds_parametroD2.AsString;
-    cds_parametro.Next;
+    //cds_parametro.Next; -- 22/08/16
     if (cds_parametroD3.AsString = MICRO) then
       impressora_pc := cds_parametroD4.AsString;
-    cds_parametro.Next;
+    //cds_parametro.Next; -- 22/08/16
     if (cds_parametroD5.AsString = MICRO) then
       impressora_pc := cds_parametroD6.AsString;
   end;
