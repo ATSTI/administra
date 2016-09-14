@@ -137,7 +137,7 @@ begin
           if (EX = '') then
             EX := '0';
 
-          NCM := copy(ncm, 0, 7);
+          NCM := copy(ncm, 0, 8);
           DESCRICAO := copy(descricao,0,99);
           Memo1.Lines.Add('NCM - ' + NCM + ' ALIQ. NAC. - ' + ALIQNAC + ' ALIQ. IMP. - ' + ALIQIMP);
 
