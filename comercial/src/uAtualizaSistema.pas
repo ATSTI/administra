@@ -2510,6 +2510,12 @@ begin
       AtualizandoScript('4.3.2.1');
       mudaVersao('4.3.2.2');
     end;
+    if (versaoSistema = '4.3.2.2') then
+    begin
+      insereouatualizaScript('Insere_User.sql', '4.3.2.2', StrToDate('27/08/2016'));
+      AtualizandoScript('4.3.2.2');
+      mudaVersao('4.4.0.0');
+    end;
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
