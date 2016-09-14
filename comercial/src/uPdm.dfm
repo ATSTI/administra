@@ -745,14 +745,14 @@ object fPdm: TfPdm
       'select movd.CODDETALHE, movd.CODMOVIMENTO, movd.CODPRODUTO, movd' +
       '.ICMS, movd.VLR_BASE as PRECO, movd.QUANTIDADE, movd.QTDE_ALT, m' +
       'ovd.UN, movd.BAIXA, movd.CONTROLE,  movd.COD_COMISSAO, prod.CODP' +
-      'RO,prod.PRODUTO, prod.CODALMOXARIFADO, prod.VALORUNITARIOATUAL, ' +
-      #13#10'prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_DESPESA  , mserv.' +
-      'DESCRICAO , movd.STATUS , movd.LOTE'#13#10'from MOVIMENTODETALHE movd ' +
-      #13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10 +
-      'left outer join mov_detalhe_serv mserv on mserv.codmovimento = m' +
-      'ovd.coddetalhe '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODAL' +
-      'MOXARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.CODDETALHE=:CODDE' +
-      'TALHE or movd.CODMOVIMENTO=:pCODMOV'
+      'RO,  movd.DESCPRODUTO as PRODUTO, prod.CODALMOXARIFADO, prod.VAL' +
+      'ORUNITARIOATUAL, '#13#10'prod.QTDE_PCT, ccus.ALMOXARIFADO, prod.CONTA_' +
+      'DESPESA  , mserv.DESCRICAO , movd.STATUS , movd.LOTE'#13#10'from MOVIM' +
+      'ENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=m' +
+      'ovd.CODPRODUTO '#13#10'left outer join mov_detalhe_serv mserv on mserv' +
+      '.codmovimento = movd.coddetalhe '#13#10'left outer join ALMOXARIFADO c' +
+      'cus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'where movd.' +
+      'CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV'
     MaxBlobSize = -1
     Params = <
       item
