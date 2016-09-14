@@ -1983,7 +1983,7 @@ begin
       fNotaf.btnGravar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
       fNotaf.btnCancelar.Enabled:=DtSrc.State in [dsInsert,dsEdit];
       fNotaf.btnExcluir.Enabled:=DtSrc.State in [dsBrowse];
-      fNotaf.btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
+      //fNotaf.btnProcurar.Enabled := DtSrc.State in [dsBrowse,dsInactive];
       fNotaf.btnSair.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
 
       if DtSrc.State in [dsInsert, dsEdit] then
