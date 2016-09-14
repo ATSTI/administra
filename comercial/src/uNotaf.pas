@@ -491,6 +491,7 @@ type
     procedure edtNFRefExit(Sender: TObject);
     procedure edtNFRefClick(Sender: TObject);
     procedure btnDuplicarClick(Sender: TObject);
+    procedure JvDBDateEdit1Change(Sender: TObject);
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
@@ -622,7 +623,7 @@ begin
       dbeSerie.Text := dm.cdsBusca.fieldByName('SERIE').AsString;
       numNf := IntToStr(dm.cdsBusca.fieldByName('ULTIMO_NUMERO').AsInteger + 1);
     end;
-  end;  
+  end;
   if (e_multi = 'NAO') then
   begin
     if (dm.cds_parametro.Active) then
@@ -811,6 +812,24 @@ begin
   //Populo DBGrid com Produtos
   incluiMovimento;
   incluiVenda;
+  if (nfe_ccusto_empresa > 0) then
+  begin
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT SERIE, ULTIMO_NUMERO ' +
+      ', CODSERIE ' +
+      ', NOTAFISCAL' +
+      ', ICMS_DESTACADO ' +
+      ', MODELO FROM SERIES WHERE CODSERIE = ' +
+      IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
+    dm.cdsBusca.Open;
+    if (not dm.cdsBusca.IsEmpty) then
+    begin
+      dbeSerie.Text := dm.cdsBusca.fieldByName('SERIE').AsString;
+      //dmnf.cds_vendaNOTAFISCAL := dm.cdsBusca.fieldByName('ULTIMO_NUMERO').AsInteger + 1;
+    end;
+  end;
+
   incluiNotaFiscal;
   if (RadioGroup1.ItemIndex = 0) then
     cbCLiente1.SetFocus;
@@ -844,12 +863,14 @@ begin
     //cbFinanceiro.Color := clTeal;
     Caption := 'Nota Fiscal';
   end;
+  fNotaF.Caption := '';
   if (nfe_ccusto_empresa > 0) then
   begin
     if (dmnf.cds_empresa.active) then
       dmnf.cds_empresa.close;
     dmnf.cds_empresa.Params[0].AsInteger := nfe_ccusto_empresa;
     dmnf.cds_empresa.open;
+    fnotaF.Caption := dmnf.cds_empresaNOME.AsString;
   end;
   carregarNFg;
 end;
@@ -1585,6 +1606,7 @@ begin
   //*******************************************************************************
   dm.sqlsisAdimin.StartTransaction(TD);
   try
+    dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime := dmnf.cds_nfDTAEMISSAO.AsDateTime;
     dmnf.cds_Movimento.ApplyUpdates(0);
     dm.sqlsisAdimin.Commit(TD);
   except
@@ -1610,7 +1632,7 @@ begin
     DMNF.cds_vendaNOTAFISCAL.AsInteger := StrToint(DMNF.cds_nfNOTASERIE.AsString);
     DMNF.cds_vendaCODCLIENTE.AsInteger := DMNF.cds_MovimentoCODCLIENTE.AsInteger;
     DMNF.cds_vendaCODVENDEDOR.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
-    DMNF.cds_vendaDATAVENDA.AsDateTime := DMNF.cds_MovimentoDATAMOVIMENTO.AsDateTime;
+    DMNF.cds_vendaDATAVENDA.AsDateTime := DMNF.cds_nfDTAEMISSAO.AsDateTime;
     DMNF.cds_vendaCODCCUSTO.AsInteger := DMNF.cds_MovimentoCODALMOXARIFADO.AsInteger;
     dmnf.cds_vendaCODMOVIMENTO.AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
     dmnf.cds_vendaCODUSUARIO.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
@@ -1926,6 +1948,9 @@ begin
         IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
     end;
   end;
+  //if (JvDBDateEdit1.Date <> DMNF.cds_nfDTAEMISSAO.AsDateTime) then
+  //begin
+
   if (edtNFRef.Text <> '') then
   begin
     dm.sqlsisAdimin.StartTransaction(TD);
@@ -2719,10 +2744,16 @@ begin
         dmnf.cds_Mov_det.Next;
       end;
       }
-      sql_serie_nf.SQL.Add('select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL ' +
+      str_sql := 'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL ' +
         '  from SERIES ' +
-        ' where SERIE = ' + QuotedStr(trim(dmnf.cds_vendaSERIE.AsString)));
+        ' where SERIE = ' + QuotedStr(trim(dmnf.cds_vendaSERIE.AsString));
       dbeSerie.Text := dmnf.cds_vendaSERIE.AsString;
+      if (nfe_ccusto_empresa > 0) then
+      begin
+        str_sql := str_sql + ' AND CODSERIE = ' + QuotedStr(dmnf.cds_empresaCODIGO.AsString);
+      end;
+      sql_serie_nf.SQL.Clear;
+      sql_serie_nf.SQL.Add(str_sql);
       sql_serie_nf.Open;
       s_nf_d := sql_serie_nf.Fields[2].AsInteger + 1;
       sql_serie_nf.Close;
@@ -2804,6 +2835,7 @@ begin
     fVen.Free;
   end;
    }
+  btnProcurar.Enabled := True;
 end;
 
 procedure TfNotaf.carregarNFg;
@@ -2888,6 +2920,17 @@ begin
         MessageDlg('Data da Nota Fiscal difere da atual.', mtInformation, [mbOK], 0);
   end;
 
+end;
+
+procedure TfNotaf.JvDBDateEdit1Change(Sender: TObject);
+begin
+  if (dmnf.cds_nf.State in [dsEdit]) then
+  begin
+    if (dmnf.cds_Movimento.State in [dsBrowse]) then
+      dmnf.cds_Movimento.edit;
+    if (dmnf.cds_venda.State in [dsBrowse]) then
+      dmnf.cds_venda.edit;
+  end;    
 end;
 
 end.

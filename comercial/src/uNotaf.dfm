@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
-  Left = 322
-  Top = 181
+  Left = 323
+  Top = 163
   Width = 801
   Height = 614
   BorderIcons = [biSystemMenu, biMaximize]
@@ -286,6 +286,7 @@ object fNotaf: TfNotaf
           DefaultToday = True
           BevelKind = bkFlat
           TabOrder = 0
+          OnChange = JvDBDateEdit1Change
         end
       end
       object JvGroupBox11: TJvGroupBox
