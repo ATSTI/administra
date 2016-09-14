@@ -1475,6 +1475,7 @@ NNotas: Integer;
 BNotas: Integer;
 parametroVer: Integer;
 codParticip, progresso: Integer;
+cfop_piscofins:string;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -1699,7 +1700,6 @@ begin
             // Fiscal de Produtor (código 04) e NF-e (código 55)
             with RegistroC100New do
             begin
-              IND_OPER      := tpSaidaPrestacao; // 1-Saida
               IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
               COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
               COD_MOD       := '55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
@@ -1770,6 +1770,12 @@ begin
                 IItens := 1;
                 While not cdsItens.Eof do
                 begin
+                  //--- TRATAR AQUI PELO CFOP ********************
+                  cfop_piscofins := copy(trim(cdsItensCFOP.AsString),1,1);
+                  if ((cfop_piscofins = '1') or (cfop_piscofins = '2') or (cfop_piscofins = '3')) then
+                    IND_OPER := tpEntradaAquisicao
+                  else
+                    IND_OPER := tpSaidaPrestacao; // 1-Saida
                   //10 itens para cada nota...
                   //for IItens := 1 to 10 do
                   //begin
