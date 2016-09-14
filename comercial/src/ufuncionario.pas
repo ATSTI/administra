@@ -291,7 +291,9 @@ end;
 procedure TfFuncionario.btnGravarClick(Sender: TObject);
 VAR  str_sql: String;
      TD: TTransactionDesc;
+     fccomissao: integer;
 begin
+  fccomissao := 9;
   IF (cds_fun.State in [dsInsert]) then
   begin
     //Abre a c_genid para pegar o número do CODPAGAMENTO
@@ -302,7 +304,7 @@ begin
     cds_funCOD_FUNCIONARIO.AsInteger := dm.c_6_genid.fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-
+  fccomissao := DBRadioGroup1.ItemIndex;
        //QUANDO LANÇAR DATA DESLIGAMENTO ALTERAR STATUS PARA 0 NA TABELA USUARIO
 
    if(not cds_funDATA_DESLIGAMENTO.IsNull) then
@@ -318,6 +320,24 @@ begin
 
   cds_funRECEBE_COMISSAO.AsString := DBRadioGroup1.Value;
   inherited;
+  if(fccomissao < 9) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    str_sql := 'UPDATE FUNCIONARIO SET RECEBE_COMISSAO =  ';
+    Case fccomissao of
+      0: str_sql := str_sql + QuotedStr('V');
+      1: str_sql := str_sql + QuotedStr('C');
+      2: str_sql := str_sql + QuotedStr('A');
+    end;
+    str_sql := str_sql +  ' WHERE COD_FUNCIONARIO  = ' +
+      IntToStr(cds_funCOD_FUNCIONARIO.AsInteger) ;
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    dm.sqlsisAdimin.Commit(TD);
+    DBRadioGroup1.ItemIndex := fccomissao;
+  end;
+
 end;
 
 procedure TfFuncionario.FormClose(Sender: TObject;

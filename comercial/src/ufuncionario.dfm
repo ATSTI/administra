@@ -1,6 +1,6 @@
 inherited fFuncionario: TfFuncionario
   Left = 195
-  Top = 178
+  Top = 179
   Width = 690
   Height = 492
   Caption = 'Colaboradores'
