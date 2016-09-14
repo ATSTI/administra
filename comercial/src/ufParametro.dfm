@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
   Left = 211
-  Top = 128
+  Top = 129
   Width = 904
   Height = 611
   OldCreateOrder = True
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -452,6 +452,15 @@ inherited fParametro: TfParametro
         TabOrder = 6
         OnClick = rgEntSaiObgClick
       end
+      object BitBtn52: TBitBtn
+        Left = 680
+        Top = 432
+        Width = 131
+        Height = 25
+        Caption = 'Atualizar Base Dados'
+        TabOrder = 7
+        OnClick = BitBtn52Click
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Nota Fiscal'
@@ -530,7 +539,6 @@ inherited fParametro: TfParametro
         Font.Style = [fsBold]
         ParentFont = False
       end
-      object GroupBox32: TGroupBox
       object GroupBox32: TGroupBox
         Left = 9
         Top = 61
@@ -3977,6 +3985,7 @@ inherited fParametro: TfParametro
               Width = 59
               Height = 21
               TabOrder = 6
+              OnChange = Pc1Change
             end
             object Pc1: TEdit
               Left = 206
@@ -3986,7 +3995,7 @@ inherited fParametro: TfParametro
               BevelKind = bkFlat
               BorderStyle = bsNone
               TabOrder = 7
-              OnChange = edtModeloChange
+              OnChange = Pc1Change
             end
             object Pc3: TEdit
               Left = 334
@@ -3994,6 +4003,7 @@ inherited fParametro: TfParametro
               Width = 61
               Height = 21
               TabOrder = 8
+              OnChange = Pc1Change
             end
           end
           object rgEstoqueNegativo: TRadioGroup

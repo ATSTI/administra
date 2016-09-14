@@ -414,6 +414,7 @@ type
     Label85: TLabel;
     BitBtn51: TBitBtn;
     edCasas: TMaskEdit;
+    BitBtn52: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -520,6 +521,8 @@ type
     procedure BitBtn49Click(Sender: TObject);
     procedure BitBtn50Click(Sender: TObject);
     procedure BitBtn51Click(Sender: TObject);
+    procedure Pc1Change(Sender: TObject);
+    procedure BitBtn52Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -5983,6 +5986,169 @@ begin
     end;
   end;
 
+end;
+
+procedure TfParametro.Pc1Change(Sender: TObject);
+begin
+  if (PC1.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (PC1.Text <> s_parametroD1.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET ';
+          if (PC1.Text <> '') then
+            strSql := strSql + ' D1 = ' + QuotedStr(PC1.Text);
+          if (PC2.Text <> '') then
+             strSql := strSql + ' ,D3 = ' + QuotedStr(PC2.Text);
+          if (PC3.Text <> '') then
+             strSql := strSql + ' ,D5 = ' + QuotedStr(PC3.Text);
+
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('MODELOIMPRESSORA');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Modelo da impressora') + ', ';
+        strSql := strSql + QuotedStr('MODELOIMPRESSORA') + ', ';
+        strSql := strSql + QuotedStr(PC1.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
+end;
+
+procedure TfParametro.BitBtn52Click(Sender: TObject);
+var strInsere: String;
+  td: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE SPEDICMS( DT_INI DATE NOT NULL PRIMARY KEY)');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD DT_FIM DATE');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD IND_MOV_DIFAL CHAR(1)');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_CRED_ANT_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_DEBITOS_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_OUT_DEB_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_DEB_FCP DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_CREDITOS_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_CRED_FCP DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_OUT_CRED_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_DEV_ANT_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_DEDUCOES_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_CRED_TRANSPORTAR DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD DEB_ESP_DIFAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 end.
