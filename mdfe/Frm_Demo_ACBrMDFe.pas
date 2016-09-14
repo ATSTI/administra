@@ -7,9 +7,10 @@ interface
 uses IniFiles, ShellAPI,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, OleCtrls, SHDocVw, StdCtrls, Buttons, ExtCtrls,
-  pcnConversao, pmdfeConversao, ACBrMDFe, ACBrMDFeDAMDFeClass,
-  ACBrMDFeDAMDFEQRClass, FMTBcd, DB, SqlExpr, Mask, JvExMask, JvToolEdit,
-  JvBaseEdits, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbXpress;
+  pcnConversao, ACBrMDFe, ACBrMDFeDAMDFeClass,
+  FMTBcd, DB, SqlExpr, Mask, JvExMask, JvToolEdit,
+  JvBaseEdits, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbXpress,
+  ACBrBase, ACBrDFe, ACBrMDFeDAMDFeRLClass, pmdfeConversaoMDFe, ACBrMail;
 
 type
   TfACBrMDFe = class(TForm)
@@ -96,7 +97,6 @@ type
     MemoDados: TMemo;
     OpenDialog1: TOpenDialog;
     ACBrMDFe1: TACBrMDFe;
-    DAMDFE: TACBrMDFeDAMDFEQR;
     rgVersaoDF: TRadioGroup;
     btnImprimirEvento: TButton;
     btnEnviarEventoEmail: TButton;
@@ -238,6 +238,60 @@ type
     edNumMdfe: TEdit;
     Label78: TLabel;
     dtaMdfe: TJvDatePickerEdit;
+    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
+    ACBrMail1: TACBrMail;
+    TabSheet15: TTabSheet;
+    GroupBox11: TGroupBox;
+    Label79: TLabel;
+    edNFCnpj1: TEdit;
+    edNFUF1: TEdit;
+    Label80: TLabel;
+    edNFNum1: TEdit;
+    Label81: TLabel;
+    edNFSerie1: TEdit;
+    LblNFVl: TLabel;
+    edNFPin1: TEdit;
+    Label82: TLabel;
+    edNFValor1: TJvCalcEdit;
+    Label86: TLabel;
+    GroupBox12: TGroupBox;
+    Label87: TLabel;
+    edtUFCarregamento: TEdit;
+    Label85: TLabel;
+    edtMunCarregaIBGE: TEdit;
+    edtMunicipioCarrega: TEdit;
+    Label84: TLabel;
+    Label83: TLabel;
+    edtPathSchemas: TEdit;
+    TabSheet16: TTabSheet;
+    BitBtn1: TBitBtn;
+    GroupBox13: TGroupBox;
+    Label88: TLabel;
+    Label89: TLabel;
+    Label90: TLabel;
+    Label91: TLabel;
+    Label92: TLabel;
+    edNFCnpj2: TEdit;
+    edNFUF2: TEdit;
+    edNFNum2: TEdit;
+    edNFSerie2: TEdit;
+    edNFPin2: TEdit;
+    edNFValor2: TJvCalcEdit;
+    GroupBox14: TGroupBox;
+    Label93: TLabel;
+    Label94: TLabel;
+    Label95: TLabel;
+    Label96: TLabel;
+    Label97: TLabel;
+    edNFCnpj3: TEdit;
+    edNFUF3: TEdit;
+    edNFNum3: TEdit;
+    edNFSerie3: TEdit;
+    edNFPin3: TEdit;
+    edNFValor3: TJvCalcEdit;
+    dtNF1: TJvDatePickerEdit;
+    dtNF2: TJvDatePickerEdit;
+    dtNF3: TJvDatePickerEdit;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -265,6 +319,7 @@ type
     procedure btnEnviarMDFeEmailClick(Sender: TObject);
     procedure btnGerarPDFEventoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
@@ -298,7 +353,7 @@ implementation
 uses
  FileCtrl, DateUtils,
  ufrmStatus,
- ACBrMDFeManifestos, ACBrMDFeUtil, udm, pmdfeMDFe;
+ ACBrMDFeManifestos, udm, pmdfeMDFe;
 
 const
   SELDIRHELP = 1000;
@@ -479,7 +534,7 @@ begin
  // Configurações -> Arquivos
  ACBrMDFe1.Configuracoes.Arquivos.AdicionarLiteral := True;
  ACBrMDFe1.Configuracoes.Arquivos.EmissaoPathMDFe  := True;
- ACBrMDFe1.Configuracoes.Arquivos.PastaMensal      := True;
+ //ACBrMDFe1.Configuracoes.Arquivos.PastaMensal      := True;
  ACBrMDFe1.Configuracoes.Arquivos.PathMDFe         := Trim(edtPathLogs.Text);
  ACBrMDFe1.Configuracoes.Arquivos.Salvar           := True;
 
@@ -487,7 +542,7 @@ begin
 
  // Configurações -> Geral
  ACBrMDFe1.Configuracoes.Geral.FormaEmissao := StrToTpEmis(OK,IntToStr(rgFormaEmissao.ItemIndex+1));
- ACBrMDFe1.Configuracoes.Geral.PathSalvar   := PathMensal;
+ //ACBrMDFe1.Configuracoes.Geral.PathSalvar   := PathMensal;
  ACBrMDFe1.Configuracoes.Geral.Salvar       := ckSalvar.Checked;
  case rgVersaoDF.ItemIndex of
   0: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100;
@@ -512,7 +567,7 @@ begin
   begin
    ACBrMDFe1.DAMDFe.PathPDF           := PathMensal;
    ACBrMDFe1.DAMDFe.ExpandirLogoMarca := False;
-   ACBrMDFe1.DAMDFe.ImprimirDescPorc  := False;
+   //ACBrMDFe1.DAMDFe.ImprimirDescPorc  := False;
    ACBrMDFe1.DAMDFe.Logo              := edtLogoMarca.Text;
    ACBrMDFe1.DAMDFe.MostrarPreview    := True;
    ACBrMDFe1.DAMDFe.TipoDAMDFe        := StrToTpImp(OK, IntToStr(rgTipoDaMDFe.ItemIndex+1));
@@ -528,7 +583,13 @@ begin
 end;
 
 procedure TfACBrMDFe.GerarMDFe(NumMDFe: String);
+var qnf: integer;
 begin
+  qnf := 0;
+  case rgVersaoDF.ItemIndex of
+    0: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100;
+    1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100a;
+  end;
   if (edtEmitCodCidade.Text = '') then
   begin
     MessageDlg('Informe o Código do IBGE do múnicipio do Emitente', mtWarning, [mbOK], 0);
@@ -561,13 +622,13 @@ begin
     // TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
     Ide.procEmi := peAplicativoContribuinte;
     Ide.verProc := '1.0';
-    Ide.UFIni   := edtEmitUF.Text;
+    Ide.UFIni   := edtUFCarregamento.Text;
     Ide.UFFim   := edUFDescarga.Text;
-
+    
     with Ide.infMunCarrega.Add do
     begin
-      cMunCarrega := StrToInt(RemoveChar(edtEmitCodCidade.Text));
-      xMunCarrega := edtEmitCidade.Text;
+      cMunCarrega := StrToInt(RemoveChar(edtMunCarregaIBGE.Text));//edtEmitCodCidade.Text));
+      xMunCarrega := edtMunicipioCarrega.Text;//edtEmitCidade.Text;
     end;
 
     //
@@ -644,10 +705,96 @@ begin
       nCompra  := '789';
     end;
     }
+
     with infDoc.infMunDescarga.Add do
     begin
       cMunDescarga := StrToInt(edCodIbgeDescarga.Text);
       xMunDescarga := edMunicipioDescarga.Text;
+
+      if (edNFCnpj1.Text <> '') then
+      begin
+        qnf := qnf + 1;
+        with infNF.add do
+        begin
+          CNPJ := edNFCnpj1.Text;
+          UF := edNFUF1.Text;
+          dEmi := dtNF1.Date;
+          Try
+            nNF := StrToInt(edNFNum1.Text);
+            serie := StrToInt(edNFSerie1.Text);
+          except
+            MessageDlg('Número e Série da Nota precisa ser Números.', mtWarning, [mbOK], 0);
+            exit;
+          end;
+          vNF := edNFValor1.Value;
+          if (edNFPin1.Text <> '') then
+          begin
+            Try
+              PIN := StrToInt(edNFPin1.Text);
+            except
+              MessageDlg('PIN precisa ser Números.', mtWarning, [mbOK], 0);
+              exit;
+            end;
+          end;
+          //infNF.Add.infUnidTransp
+        end;
+      end;
+      if (edNFCnpj2.Text <> '') then
+      begin
+        qnf := qnf + 1;
+        with infNF.add do
+        begin
+          CNPJ := edNFCnpj2.Text;
+          UF := edNFUF2.Text;
+          dEmi := dtNF2.Date;
+          Try
+            nNF := StrToInt(edNFNum2.Text);
+            serie := StrToInt(edNFSerie2.Text);
+          except
+            MessageDlg('Número e Série da Nota precisa ser Números.', mtWarning, [mbOK], 0);
+            exit;
+          end;
+          vNF := edNFValor2.Value;
+          if (edNFPin2.Text <> '') then
+          begin
+            Try
+              PIN := StrToInt(edNFPin2.Text);
+            except
+              MessageDlg('PIN precisa ser Números.', mtWarning, [mbOK], 0);
+              exit;
+            end;
+          end;
+          //infNF.Add.infUnidTransp
+        end;
+      end;
+      if (edNFCnpj3.Text <> '') then
+      begin
+        qnf := qnf + 1;
+        with infNF.add do
+        begin
+          CNPJ := edNFCnpj3.Text;
+          UF := edNFUF3.Text;
+          dEmi := dtNF3.Date;
+          Try
+            nNF := StrToInt(edNFNum3.Text);
+            serie := StrToInt(edNFSerie3.Text);
+          except
+            MessageDlg('Número e Série da Nota precisa ser Números.', mtWarning, [mbOK], 0);
+            exit;
+          end;
+          vNF := edNFValor3.Value;
+          if (edNFPin3.Text <> '') then
+          begin
+            Try
+              PIN := StrToInt(edNFPin3.Text);
+            except
+              MessageDlg('PIN precisa ser Números.', mtWarning, [mbOK], 0);
+              exit;
+            end;
+          end;
+          //infNF.Add.infUnidTransp
+        end;
+      end;
 
       with infNFe.Add do
       begin
@@ -974,6 +1121,8 @@ begin
       end;
     end;
     tot.qNFe := StrToInt(edQtdeNF.Text);
+    if (qNf > 0) then
+      tot.qNF := qNF;
     tot.vCarga := edValorTotal.Value;
     // UnidMed = (,uKG, uTON, uUNIDADE, uLITROS);
     case cbUnidade.ItemIndex of
@@ -1012,7 +1161,7 @@ end;
 procedure TfACBrMDFe.sbtnGetCertClick(Sender: TObject);
 begin
  {$IFNDEF ACBrMDFeOpenSSL}
-  edtNumSerie.Text := ACBrMDFe1.Configuracoes.Certificados.SelecionarCertificado;
+  edtNumSerie.Text := ACBrMDFe1.SSL.SelecionarCertificado;
  {$ENDIF}
 end;
 
@@ -1043,7 +1192,7 @@ end;
 
 procedure TfACBrMDFe.FormCreate(Sender: TObject);
 begin
-  ACBrMDFe1.Configuracoes.Geral.PathSalvar := edtPathLogs.Text;
+  //ACBrMDFe1.Configuracoes.Geral.PathSalvar := edtPathLogs.Text;
   LerConfiguracao;
  //gravarMDFe;
 end;
@@ -1175,7 +1324,7 @@ begin
 
   ACBrMDFe1.Manifestos.Clear;
   GerarMDFe(vAux);
-  ACBrMDFe1.Manifestos.Items[0].SaveToFile('');
+  ACBrMDFe1.Manifestos.Items[0].GravarXML(IntToStr(codMDFe), edtPathLogs.Text);
 
   ShowMessage('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
   MemoDados.Lines.Add('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
@@ -1191,13 +1340,13 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute then
   begin
    ACBrMDFe1.Manifestos.Clear;
    ACBrMDFe1.Manifestos.LoadFromFile(OpenDialog1.FileName);
-   ACBrMDFe1.Manifestos.Valida;
+   ACBrMDFe1.Manifestos.Validar;
    showmessage('Manifesto Eletrônico de Documentos Fiscais Valido');
   end;
 end;
@@ -1279,7 +1428,7 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute then
   begin
@@ -1304,7 +1453,7 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute then
   begin
@@ -1328,7 +1477,7 @@ begin
      infEvento.detEvento.cMun  := ACBrMDFe1.Manifestos.Items[0].MDFe.infDoc.infMunDescarga.Items[0].cMunDescarga;
     end;
 
-   ACBrMDFe1.EnviarEventoMDFe( 1 ); // 1 = Numero do Lote
+   ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
 
    MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
    memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
@@ -1343,7 +1492,7 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute then
   begin
@@ -1367,7 +1516,7 @@ begin
      infEvento.detEvento.xJust := trim(vAux);
     end;
 
-   ACBrMDFe1.EnviarEventoMDFe( 1 ); // 1 = Numero do Lote
+   ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
 
    MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
    memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
@@ -1380,7 +1529,7 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute then
   begin
@@ -1395,7 +1544,7 @@ begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.xml)|*-MDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
- OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+ OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
  if OpenDialog1.Execute
   then begin
@@ -1416,28 +1565,28 @@ begin
   OpenDialog1.Title := 'Selecione o MDFe';
   OpenDialog1.DefaultExt := '*-mdfe.xml';
   OpenDialog1.Filter := 'Arquivos MDFe (*-mdfe.xml)|*-mdfe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   if OpenDialog1.Execute then
   begin
-   ACBrMDFe1.Manifestos.Clear;
-   ACBrMDFe1.Manifestos.LoadFromFile(OpenDialog1.FileName);
-   CC:=TstringList.Create;
-   CC.Add('email_1@provedor.com'); //especifique um email válido
-   CC.Add('email_2@provedor.com.br'); //especifique um email válido
-   ACBrMDFe1.Manifestos.Items[0].EnviarEmail(edtSmtpHost.Text
-                                             , edtSmtpPort.Text
-                                             , edtSmtpUser.Text
-                                             , edtSmtpPass.Text
-                                             , edtSmtpUser.Text
-                                             , Para
+    ACBrMDFe1.Manifestos.Clear;
+    ACBrMDFe1.Manifestos.LoadFromFile(OpenDialog1.FileName);
+    CC:=TstringList.Create;
+    //CC.Add('email_1@provedor.com'); //especifique um email válido
+    //CC.Add('email_2@provedor.com.br'); //especifique um email válido
+    ACBrMDFe1.MAIL.Host := edtSmtpHost.Text;
+    ACBrMDFe1.MAIL.Port := edtSmtpPort.Text;
+    ACBrMDFe1.MAIL.Username := edtSmtpUser.Text;
+    ACBrMDFe1.MAIL.Password := edtSmtpPass.Text;
+    ACBrMDFe1.MAIL.SetSSL   := cbEmailSSL.Checked;
+    ACBrMDFe1.MAIL.ReadingConfirmation := False;
+    ACBrMDFe1.Manifestos.Items[0].EnviarEmail(Para
                                              , edtEmailAssunto.Text
                                              , mmEmailMsg.Lines
-                                             , cbEmailSSL.Checked
                                              , False //Enviar PDF junto
                                              , nil //Lista com emails que serão enviado cópias - TStrings
                                              , nil // Lista de anexos - TStrings
-                                             , False ); //Pede confirmação de leitura do email
+                                              );
    CC.Free;
   end;
 end;
@@ -1447,7 +1596,7 @@ begin
   OpenDialog1.Title := 'Selecione o MDFe';
   OpenDialog1.DefaultExt := '*-mdfe.xml';
   OpenDialog1.Filter := 'Arquivos MDFe (*-mdfe.xml)|*-mdfe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   ACBrMDFe1.Manifestos.Clear;
   if OpenDialog1.Execute then
@@ -1458,7 +1607,7 @@ begin
   OpenDialog1.Title := 'Selecione o Evento';
   OpenDialog1.DefaultExt := '*-procEventoMDFe.xml';
   OpenDialog1.Filter := 'Arquivos Evento (*-procEventoMDFe.xml)|*-procEventoMDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   if OpenDialog1.Execute then
   begin
@@ -1473,7 +1622,7 @@ begin
   OpenDialog1.Title := 'Selecione o MDFe';
   OpenDialog1.DefaultExt := '*-mdfe.xml';
   OpenDialog1.Filter := 'Arquivos MDFe (*-mdfe.xml)|*-mdfe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   ACBrMDFe1.Manifestos.Clear;
   if OpenDialog1.Execute then
@@ -1484,7 +1633,7 @@ begin
   OpenDialog1.Title := 'Selecione o Evento';
   OpenDialog1.DefaultExt := '*-procEventoMDFe.xml';
   OpenDialog1.Filter := 'Arquivos Evento (*-procEventoMDFe.xml)|*-procEventoMDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   if OpenDialog1.Execute then
   begin
@@ -1505,7 +1654,7 @@ begin
   OpenDialog1.Title := 'Selecione o MDFe';
   OpenDialog1.DefaultExt := '*-mdfe.xml';
   OpenDialog1.Filter := 'Arquivos MDFe (*-mdfe.xml)|*-mdfe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   ACBrMDFe1.Manifestos.Clear;
   if OpenDialog1.Execute then
@@ -1516,7 +1665,7 @@ begin
   OpenDialog1.Title := 'Selecione o Evento';
   OpenDialog1.DefaultExt := '*-procEventoMDFe.xml';
   OpenDialog1.Filter := 'Arquivos Evento (*-procEventoMDFe.xml)|*-procEventoMDFe.xml|Arquivos XML (*.xml)|*.xml|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Geral.PathSalvar;
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
 
   if OpenDialog1.Execute then
   begin
@@ -1526,24 +1675,21 @@ begin
     ACBrMDFe1.EventoMDFe.Evento.Clear;
     ACBrMDFe1.EventoMDFe.LerXML(OpenDialog1.FileName);
     CC:=TstringList.Create;
-    CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
-    CC.Add('anfm@zipmail.com.br');    //especifique um email válido
-    ACBrMDFe1.EnviarEmailEvento(edtSmtpHost.Text
-                             , edtSmtpPort.Text
-                             , edtSmtpUser.Text
-                             , edtSmtpPass.Text
-                             , edtSmtpUser.Text
-                             , Para
-                             , edtEmailAssunto.Text
-                             , mmEmailMsg.Lines
-                             , cbEmailSSL.Checked // SSL - Conexão Segura
-                             , True //Enviar PDF junto
-                             , CC //Lista com emails que serão enviado cópias - TStrings
-                             , Evento // Lista de anexos - TStrings
-                             , False  //Pede confirmação de leitura do email
-                             , False  //Aguarda Envio do Email(não usa thread)
-                             , 'ACBrMDFe' // Nome do Rementente
-                             , cbEmailSSL.Checked ); // Auto TLS
+    //CC.Add('andrefmoraes@gmail.com'); //especifique um email válido
+    //CC.Add('anfm@zipmail.com.br');    //especifique um email válido
+    ACBrMDFe1.MAIL.Host := edtSmtpHost.Text;
+    ACBrMDFe1.MAIL.Port := edtSmtpPort.Text;
+    ACBrMDFe1.MAIL.Username := edtSmtpUser.Text;
+    ACBrMDFe1.MAIL.Password := edtSmtpPass.Text;
+    ACBrMDFe1.MAIL.SetSSL   := cbEmailSSL.Checked;
+    ACBrMDFe1.MAIL.ReadingConfirmation := False;
+    ACBrMDFe1.Manifestos.Items[0].EnviarEmail(Para
+                                           , edtEmailAssunto.Text
+                                           , mmEmailMsg.Lines
+                                           , False //Enviar PDF junto
+                                           , nil //Lista com emails que serão enviado cópias - TStrings
+                                           , nil // Lista de anexos - TStrings
+                                            );
     CC.Free;
     Evento.Free;
   end;
@@ -1563,13 +1709,18 @@ begin
       dm.sc.Commit(TD); {on success, commit the changes};
       modoAbertura := 'NOVO';
     except
-      MessageDlg('Erro para gravar a MDF-e.', mtError, [mbOK], 0);
-      dm.sc.Rollback(TD); {on failure, undo the changes};
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
     end;
   end;
 
   if (modoAbertura = 'NOVO') then
   begin
+    modoAbertura := 'EDITAR';
     DecimalSeparator := '.';
     strInsere := 'INSERT INTO MDFE (COD_MDFE, CODEMITENTE, ' +
       ' TIPOEMITENTE, MODELO, SERIE, NUMERO_MDF, ' +
@@ -1593,7 +1744,9 @@ begin
       ' PESO_VOLUME1, PESO_VOLUME2, ' +
       ' PESO_VOLUME3, PESO_VOLUME4, PESO_VOLUME5, ' +
       ' PESO_VOLUME6, PESO_VOLUME7, ' +
-      ' CHAVE_MDFE ' +
+      ' CHAVE_MDFE, NF1_CNPJ, NF1_NUM, NF1_SERIE, NF1_UF, NF1_PIN, NF1_VALOR' +
+      ' ,NF2_CNPJ, NF2_NUM, NF2_SERIE, NF2_UF, NF2_PIN, NF2_VALOR' +
+      ' ,NF3_CNPJ, NF3_NUM, NF3_SERIE, NF3_UF, NF3_PIN, NF3_VALOR' +
       ') VALUES ( ';
 
       {    ' REBOQUE_CINT, REBOQUE_PLACA, ' +
@@ -1696,6 +1849,95 @@ begin
       strInsere := strInsere + ', null ';
     end;
     strInsere := strInsere + ', ' + QuotedStr(chave_mdfe);
+    //NF1_CNPJ, NF1_NUM, NF1_SERIE, NF1_UF' +
+    if (edNFCnpj1.Text <> '') then
+    begin
+      if (edNFNum1.Text = '') then
+      begin
+        MessageDlg('Número da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFSerie1.Text = '') then
+      begin
+        MessageDlg('Série da nota não informada.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFUF1.Text = '') then
+      begin
+        MessageDlg('UF da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      strInsere := strInsere + ', ' + QuotedStr(edNFCnpj1.Text);
+      strInsere := strInsere + ', ' + edNFNum1.Text;
+      strInsere := strInsere + ', ' + edNFSerie1.Text;
+      strInsere := strInsere + ', ' + QuotedStr(edNFUF1.Text);
+      if (edNFPin1.Text = '')
+        then strInsere := strInsere + ', null '
+        else strInsere := strInsere + ', ' + edNFPin1.Text;
+      strInsere := strInsere + ', ' + Format('%8.2f', [edNFValor1.Value]);
+    end
+    else begin
+      strInsere := strInsere + ', null, null, null, null, null, null'
+    end;
+    if (edNFCnpj2.Text <> '') then
+    begin
+      if (edNFNum2.Text = '') then
+      begin
+        MessageDlg('Número da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFSerie2.Text = '') then
+      begin
+        MessageDlg('Série da nota não informada.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFUF2.Text = '') then
+      begin
+        MessageDlg('UF da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      strInsere := strInsere + ', ' + QuotedStr(edNFCnpj2.Text);
+      strInsere := strInsere + ', ' + edNFNum2.Text;
+      strInsere := strInsere + ', ' + edNFSerie2.Text;
+      strInsere := strInsere + ', ' + QuotedStr(edNFUF2.Text);
+      if (edNFPin2.Text = '')
+        then strInsere := strInsere + ', null '
+        else strInsere := strInsere + ', ' + edNFPin2.Text;
+      strInsere := strInsere + ', ' + Format('%8.2f', [edNFValor2.Value]);
+    end
+    else begin
+      strInsere := strInsere + ', null, null, null, null, null, null'
+    end;
+
+    if (edNFCnpj3.Text <> '') then
+    begin
+      if (edNFNum3.Text = '') then
+      begin
+        MessageDlg('Número da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFSerie3.Text = '') then
+      begin
+        MessageDlg('Série da nota não informada.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      if (edNFUF3.Text = '') then
+      begin
+        MessageDlg('UF da nota não informado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      strInsere := strInsere + ', ' + QuotedStr(edNFCnpj3.Text);
+      strInsere := strInsere + ', ' + edNFNum3.Text;
+      strInsere := strInsere + ', ' + edNFSerie3.Text;
+      strInsere := strInsere + ', ' + QuotedStr(edNFUF3.Text);
+      if (edNFPin3.Text = '')
+        then strInsere := strInsere + ', null '
+        else strInsere := strInsere + ', ' + edNFPin3.Text;
+      strInsere := strInsere + ', ' + Format('%8.2f', [edNFValor3.Value]);
+    end
+    else begin
+      strInsere := strInsere + ', null, null, null, null, null, null'
+    end;
 
     {rodo.veicTracao.tpRod := trTruck; //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
     rodo.veicTracao.tpCar := tcNaoAplicavel; // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
@@ -1709,8 +1951,12 @@ begin
       dm.sc.Commit(TD); {on success, commit the changes};
       MessageDlg('MDF-e Gravada com sucesso.', mtInformation, [mbOK], 0);
     except
-      MessageDlg('Erro para gravar a MDF-e.', mtError, [mbOK], 0);
-      dm.sc.Rollback(TD); {on failure, undo the changes};
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
     end;
   end;
 end;
@@ -1758,6 +2004,7 @@ begin
 end;
 
 procedure TfACBrMDFe.PreencherCampos;
+var Dir : string;
 begin
   if (modoAbertura = 'EDITAR') then
   begin
@@ -1768,10 +2015,10 @@ begin
     //strInsere := strInsere + ', ' + IntToStr(codMDFe) + ', ' + IntToStr(codMDFe) + ', 1';  // MODALIDADE :1-moRodoviario, 2-moAereo, moAquaviario, moFerroviario
     dtaMdfe.Date := dm.cds.FieldByName('DATA_MDF').AsDateTime;
     //strInsere := strInsere + ', 1,' + QuotedStr('1.01'); //TpcnTipoEmissao = (1-teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
-    edtEmitUF.Text    := dm.cds.FieldByName('UF_CARREGAMENTO').asString;
+    edtUFCarregamento.Text := dm.cds.FieldByName('UF_CARREGAMENTO').asString;
     edUFDescarga.Text := dm.cds.FieldByName('UF_DESCARREGAMENTO').AsString;
-    edtEmitCodCidade.Text := dm.cds.FieldByName('COD_MUNICIPIO_CARREG').AsString;
-    edtEmitCidade.Text := dm.cds.FieldByName('MUNICIPO_CARREG').AsString;
+    edtMunCarregaIBGE.Text := dm.cds.FieldByName('COD_MUNICIPIO_CARREG').AsString;
+    edtMunicipioCarrega.Text := dm.cds.FieldByName('MUNICIPO_CARREG').AsString;
     edCodIbgeDescarga.Text  := dm.cds.FieldByName('COD_MUNICIPIO_DESCARREG').AsString;
     edMunicipioDescarga.Text  := dm.cds.FieldByName('MUNICIPO_DESCARREG').AsString;
     edNFe1.Text := dm.cds.FieldByName('CHAVE_NFE1').AsString;
@@ -1818,6 +2065,33 @@ begin
     cbTipoRodado.ItemIndex := dm.cds.FieldByName('TIPO_RODADO').AsInteger - 1;// TIPO_RODADO
     cbTipoCarroceria.ItemIndex := dm.cds.FieldByName('TIPO_CARROCERIA').AsInteger - 1;// TIPO_CARROCERIA
     edUFLicVeiculo.Text := dm.cds.FieldByName('UF_VEICULO').AsString; // UF_VEICULO
+    //NF1_CNPJ, NF1_NUM, NF1_SERIE, NF1_UF, NF1_PIN, NF1_VALOR' +
+    edNFCnpj1.Text := dm.cds.FieldByName('NF1_CNPJ').AsString;
+    edNFNum1.Text := IntToStr(dm.cds.FieldByName('NF1_NUM').AsInteger);
+    edNFSerie1.Text := IntToStr(dm.cds.FieldByName('NF1_SERIE').AsInteger);
+    edNFUF1.Text := dm.cds.FieldByName('NF1_UF').AsString;
+    if (dm.cds.FieldByName('NF1_PIN').AsInteger = 0) then
+       edNFPin1.Text := ''
+    else edNFPin1.Text := IntToStr(dm.cds.FieldByName('NF1_PIN').AsInteger);
+    edNFValor1.Value := dm.cds.FieldByName('NF1_VALOR').AsFloat;
+    edNFCnpj2.Text := dm.cds.FieldByName('NF2_CNPJ').AsString;
+    edNFNum2.Text := IntToStr(dm.cds.FieldByName('NF2_NUM').AsInteger);
+    edNFSerie2.Text := IntToStr(dm.cds.FieldByName('NF2_SERIE').AsInteger);
+    edNFUF2.Text := dm.cds.FieldByName('NF2_UF').AsString;
+    if (dm.cds.FieldByName('NF2_PIN').AsInteger = 0) then
+       edNFPin2.Text := ''
+    else edNFPin2.Text := IntToStr(dm.cds.FieldByName('NF2_PIN').AsInteger);
+
+    edNFValor2.Value := dm.cds.FieldByName('NF2_VALOR').AsFloat;
+    edNFCnpj3.Text := dm.cds.FieldByName('NF3_CNPJ').AsString;
+    edNFNum3.Text := IntToStr(dm.cds.FieldByName('NF3_NUM').AsInteger);
+    edNFSerie3.Text := IntToStr(dm.cds.FieldByName('NF3_SERIE').AsInteger);
+    edNFUF3.Text := dm.cds.FieldByName('NF3_UF').AsString;
+    if (dm.cds.FieldByName('NF3_PIN').AsInteger = 0) then
+       edNFPin3.Text := ''
+    else edNFPin3.Text := IntToStr(dm.cds.FieldByName('NF3_PIN').AsInteger);
+
+    edNFValor3.Value := dm.cds.FieldByName('NF3_VALOR').AsFloat;
   end;
   if (modoAbertura = 'NOVO') then
   begin
@@ -1872,7 +2146,171 @@ begin
     edPesoVol5.Value := 0;
     edPesoVol6.Value := 0;
     edPesoVol7.Value := 0;
+    edNFCnpj1.Text := '';
+    edNFNum1.Text := '';
+    edNFSerie1.Text := '';
+    edNFUF1.Text := '';
+    edNFPin1.Text := '';
+    edNFValor1.Value := 0;
+    edNFCnpj2.Text := '';
+    edNFNum2.Text := '';
+    edNFSerie2.Text := '';
+    edNFUF2.Text := '';
+    edNFPin2.Text := '';
+    edNFValor2.Value := 0;
+    edNFCnpj3.Text := '';
+    edNFNum3.Text := '';
+    edNFSerie3.Text := '';
+    edNFUF3.Text := '';
+    edNFPin3.Text := '';
+    edNFValor3.Value := 0;
+
   end;
+  ACBrMDFe1.Configuracoes.Arquivos.PathSalvar := edtPathLogs.Text;
+  if Length(edtPathSchemas.Text) <= 0
+    then Dir := ExtractFileDir(application.ExeName)
+    else Dir := edtPathSchemas.Text;
+
+  //if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt],SELDIRHELP)
+  //  then edtPathSchemas.Text := Dir;
+end;
+
+procedure TfACBrMDFe.BitBtn1Click(Sender: TObject);
+var strInsere: String;
+  td: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_CNPJ VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_NUM INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_SERIE INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_UF CHAR(2)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_PIN INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF1_VALOR DOUBLE PRECISION');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_CNPJ VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_NUM INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_SERIE INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_UF CHAR(2)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_PIN INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF2_VALOR DOUBLE PRECISION');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  // nf3
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_CNPJ VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_NUM INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_SERIE INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_UF CHAR(2)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_PIN INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NF3_VALOR DOUBLE PRECISION');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 end.

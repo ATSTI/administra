@@ -92,6 +92,25 @@ type
     cdsPESO_VOLUME6: TFloatField;
     cdsPESO_VOLUME7: TFloatField;
     cdsCHAVE_MDFE: TStringField;
+    cdsPROTOCOLOENV: TStringField;
+    cdsNF1_CNPJ: TStringField;
+    cdsNF1_NUM: TIntegerField;
+    cdsNF1_SERIE: TIntegerField;
+    cdsNF1_UF: TStringField;
+    cdsNF1_PIN: TIntegerField;
+    cdsNF1_VALOR: TFloatField;
+    cdsNF2_CNPJ: TStringField;
+    cdsNF2_NUM: TIntegerField;
+    cdsNF2_SERIE: TIntegerField;
+    cdsNF2_UF: TStringField;
+    cdsNF2_PIN: TIntegerField;
+    cdsNF2_VALOR: TFloatField;
+    cdsNF3_CNPJ: TStringField;
+    cdsNF3_NUM: TIntegerField;
+    cdsNF3_SERIE: TIntegerField;
+    cdsNF3_UF: TStringField;
+    cdsNF3_PIN: TIntegerField;
+    cdsNF3_VALOR: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

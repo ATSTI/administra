@@ -54,7 +54,7 @@ begin
     strQ := 'SELECT FIRST 20 ';
   end;
   strQ := strQ + ' a.COD_MDFE, a.CODEMITENTE, a.TIPOEMITENTE,' +
-    '  a.MODELO, a.SERIE, a.NUMERO_MDF, a.CHAVE_MDF, ' +
+    '  a.MODELO, a.SERIE, a.NUMERO_MDF, a.CHAVE_MDF, PROTOCOLOENV,' +
     ' a.DIGITO_MDF, a.MODALIDADE, a.DATA_MDF, ' +
     ' a.FORMA_EMISSAO, a.VERSAO_APLICATIVO, ' +
     ' a.UF_CARREGAMENTO, a.UF_DESCARREGAMENTO, ' +
@@ -83,6 +83,9 @@ begin
     ' a.PESO_VOLUME2, a.PESO_VOLUME3, ' +
     ' a.PESO_VOLUME4, a.PESO_VOLUME5, ' +
     ' a.PESO_VOLUME6, a.PESO_VOLUME7, a.CHAVE_MDFE ' +
+    ' ,a.NF1_CNPJ, a.NF1_NUM, a.NF1_SERIE, a.NF1_UF, a.NF1_PIN, a.NF1_VALOR' +
+    ' ,a.NF2_CNPJ,a.NF2_NUM, a.NF2_SERIE, a.NF2_UF, a.NF2_PIN, a.NF2_VALOR' +
+    ' ,a.NF3_CNPJ,a.NF3_NUM, a.NF3_SERIE, a.NF3_UF, a.NF3_PIN, a.NF3_VALOR' +
     ' FROM MDFE a ';
 
   if (cbPeriodo.Checked) then

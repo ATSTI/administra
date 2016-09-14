@@ -1,6 +1,6 @@
 object fACBrMDFe: TfACBrMDFe
   Left = 373
-  Top = 151
+  Top = 169
   Width = 1031
   Height = 568
   Caption = 'ATS - ACBrMDFe 1.0'
@@ -37,6 +37,13 @@ object fACBrMDFe: TfACBrMDFe
       Height = 496
       Caption = 'Configura'#231#245'es'
       TabOrder = 0
+      object Label86: TLabel
+        Left = 8
+        Top = 472
+        Width = 24
+        Height = 13
+        Caption = 'Mun.'
+      end
       object PageControl1: TPageControl
         Left = 2
         Top = 15
@@ -51,200 +58,200 @@ object fACBrMDFe: TfACBrMDFe
           Caption = 'Emitente'
           ImageIndex = 3
           object GroupBox6: TGroupBox
-            Left = 32
-            Top = 16
-            Width = 265
-            Height = 321
+            Left = 3
+            Top = 5
+            Width = 326
+            Height = 292
             Caption = 'Empresa'
             TabOrder = 0
             object Label12: TLabel
               Left = 8
-              Top = 20
+              Top = 14
               Width = 27
               Height = 13
               Caption = 'CNPJ'
             end
             object Label13: TLabel
               Left = 136
-              Top = 20
+              Top = 14
               Width = 41
               Height = 13
               Caption = 'Insc.Est.'
             end
             object Label14: TLabel
               Left = 8
-              Top = 60
+              Top = 51
               Width = 63
               Height = 13
               Caption = 'Raz'#227'o Social'
             end
             object Label15: TLabel
               Left = 8
-              Top = 100
+              Top = 91
               Width = 40
               Height = 13
               Caption = 'Fantasia'
             end
             object Label24: TLabel
               Left = 8
-              Top = 140
+              Top = 130
               Width = 24
               Height = 13
               Caption = 'Fone'
             end
             object Label23: TLabel
-              Left = 136
-              Top = 140
+              Left = 103
+              Top = 131
               Width = 21
               Height = 13
               Caption = 'CEP'
             end
             object Label16: TLabel
               Left = 8
-              Top = 180
+              Top = 168
               Width = 54
               Height = 13
               Caption = 'Logradouro'
             end
             object Label17: TLabel
-              Left = 208
-              Top = 180
+              Left = 255
+              Top = 170
               Width = 37
               Height = 13
               Caption = 'N'#250'mero'
             end
             object Label18: TLabel
               Left = 8
-              Top = 220
+              Top = 207
               Width = 64
               Height = 13
               Caption = 'Complemento'
             end
             object Label19: TLabel
               Left = 136
-              Top = 220
+              Top = 207
               Width = 27
               Height = 13
               Caption = 'Bairro'
             end
             object Label20: TLabel
               Left = 8
-              Top = 260
-              Width = 61
+              Top = 245
+              Width = 52
               Height = 13
-              Caption = 'C'#243'd. Cidade '
+              Caption = 'C'#243'd. Mun. '
             end
             object Label21: TLabel
               Left = 76
-              Top = 260
+              Top = 245
               Width = 33
               Height = 13
               Caption = 'Cidade'
             end
             object Label22: TLabel
-              Left = 225
-              Top = 260
+              Left = 272
+              Top = 246
               Width = 14
               Height = 13
               Caption = 'UF'
             end
             object edtEmitIE: TEdit
               Left = 137
-              Top = 36
+              Top = 30
               Width = 123
               Height = 21
               TabOrder = 0
             end
             object edtEmitCNPJ: TEdit
               Left = 8
-              Top = 36
+              Top = 30
               Width = 123
               Height = 21
               TabOrder = 1
             end
             object edtEmitRazao: TEdit
               Left = 8
-              Top = 76
-              Width = 252
+              Top = 67
+              Width = 298
               Height = 21
               TabOrder = 2
             end
             object edtEmitFantasia: TEdit
               Left = 8
-              Top = 116
-              Width = 252
+              Top = 107
+              Width = 298
               Height = 21
               TabOrder = 3
             end
             object edtEmitFone: TEdit
               Left = 8
-              Top = 156
-              Width = 125
+              Top = 146
+              Width = 89
               Height = 21
               TabOrder = 4
             end
             object edtEmitCEP: TEdit
-              Left = 137
-              Top = 156
-              Width = 123
+              Left = 101
+              Top = 146
+              Width = 76
               Height = 21
               TabOrder = 5
             end
             object edtEmitNumero: TEdit
-              Left = 210
-              Top = 196
-              Width = 50
+              Left = 253
+              Top = 185
+              Width = 51
               Height = 21
               TabOrder = 6
             end
             object edtEmitLogradouro: TEdit
               Left = 8
-              Top = 196
-              Width = 196
+              Top = 184
+              Width = 240
               Height = 21
               TabOrder = 7
             end
             object edtEmitComp: TEdit
               Left = 8
-              Top = 236
+              Top = 223
               Width = 123
               Height = 21
               TabOrder = 8
             end
             object edtEmitBairro: TEdit
               Left = 137
-              Top = 236
-              Width = 123
+              Top = 223
+              Width = 168
               Height = 21
               TabOrder = 9
             end
             object edtEmitCodCidade: TEdit
               Left = 8
-              Top = 276
+              Top = 261
               Width = 61
               Height = 21
               TabOrder = 10
             end
             object edtEmitCidade: TEdit
               Left = 76
-              Top = 276
-              Width = 142
+              Top = 261
+              Width = 190
               Height = 21
               TabOrder = 11
             end
             object edtEmitUF: TEdit
-              Left = 225
-              Top = 276
+              Left = 270
+              Top = 261
               Width = 35
               Height = 21
               TabOrder = 12
             end
           end
           object GroupBox10: TGroupBox
-            Left = 32
-            Top = 344
-            Width = 265
-            Height = 81
+            Left = 3
+            Top = 366
+            Width = 326
+            Height = 49
             Caption = 'MDF-e'
             TabOrder = 1
             object Label77: TLabel
@@ -255,8 +262,8 @@ object fACBrMDFe: TfACBrMDFe
               Caption = 'N'#250'mero'
             end
             object Label78: TLabel
-              Left = 11
-              Top = 48
+              Left = 163
+              Top = 16
               Width = 23
               Height = 13
               Caption = 'Data'
@@ -264,24 +271,74 @@ object fACBrMDFe: TfACBrMDFe
             object edNumMdfe: TEdit
               Left = 68
               Top = 14
-              Width = 121
+              Width = 85
               Height = 21
               ReadOnly = True
               TabOrder = 0
             end
             object dtaMdfe: TJvDatePickerEdit
-              Left = 68
-              Top = 44
-              Width = 121
+              Left = 212
+              Top = 12
+              Width = 101
               Height = 21
               AllowNoDate = True
               Checked = True
               TabOrder = 1
             end
           end
+          object GroupBox12: TGroupBox
+            Left = 3
+            Top = 301
+            Width = 326
+            Height = 61
+            Caption = 'Carregamento'
+            TabOrder = 2
+            object Label87: TLabel
+              Left = 287
+              Top = 16
+              Width = 14
+              Height = 13
+              Caption = 'UF'
+            end
+            object Label85: TLabel
+              Left = 9
+              Top = 15
+              Width = 49
+              Height = 13
+              Caption = 'C'#243'd. Mun.'
+            end
+            object Label84: TLabel
+              Left = 71
+              Top = 16
+              Width = 47
+              Height = 13
+              Caption = 'Mun'#237'cipio'
+            end
+            object edtUFCarregamento: TEdit
+              Left = 284
+              Top = 31
+              Width = 29
+              Height = 21
+              TabOrder = 0
+            end
+            object edtMunCarregaIBGE: TEdit
+              Left = 9
+              Top = 31
+              Width = 57
+              Height = 21
+              TabOrder = 1
+            end
+            object edtMunicipioCarrega: TEdit
+              Left = 68
+              Top = 31
+              Width = 214
+              Height = 21
+              TabOrder = 2
+            end
+          end
         end
         object TabSheet12: TTabSheet
-          Caption = 'Notas Fiscais'
+          Caption = 'NFe'
           ImageIndex = 6
           object Label42: TLabel
             Left = 8
@@ -1246,7 +1303,7 @@ object fACBrMDFe: TfACBrMDFe
             Left = 30
             Top = 6
             Width = 265
-            Height = 245
+            Height = 277
             Caption = 'Geral'
             TabOrder = 0
             object Label7: TLabel
@@ -1297,6 +1354,13 @@ object fACBrMDFe: TfACBrMDFe
                 3BB33773333773333773B333333B3333333B7333333733333337}
               NumGlyphs = 2
               OnClick = sbtnPathSalvarClick
+            end
+            object Label83: TLabel
+              Left = 8
+              Top = 235
+              Width = 44
+              Height = 13
+              Caption = 'Schemas'
             end
             object edtLogoMarca: TEdit
               Left = 8
@@ -1354,10 +1418,18 @@ object fACBrMDFe: TfACBrMDFe
                 'Conting'#234'ncia')
               TabOrder = 4
             end
+            object edtPathSchemas: TEdit
+              Left = 8
+              Top = 251
+              Width = 228
+              Height = 21
+              TabOrder = 5
+              Text = 'c:\home'
+            end
           end
           object rgVersaoDF: TRadioGroup
             Left = 31
-            Top = 257
+            Top = 301
             Width = 265
             Height = 57
             Caption = 'Vers'#227'o do Documento Fiscal'
@@ -1641,6 +1713,310 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
         end
+        object TabSheet15: TTabSheet
+          Caption = 'NF'
+          ImageIndex = 9
+          object GroupBox11: TGroupBox
+            Left = 8
+            Top = 8
+            Width = 313
+            Height = 94
+            Caption = 'Nota Fiscal 1'
+            TabOrder = 0
+            object Label79: TLabel
+              Left = 9
+              Top = 16
+              Width = 27
+              Height = 13
+              Caption = 'CNPJ'
+            end
+            object Label80: TLabel
+              Left = 9
+              Top = 40
+              Width = 39
+              Height = 13
+              Caption = 'Emiss'#227'o'
+            end
+            object Label81: TLabel
+              Left = 10
+              Top = 66
+              Width = 49
+              Height = 13
+              Caption = 'Num./S'#233'r.'
+            end
+            object LblNFVl: TLabel
+              Left = 185
+              Top = 48
+              Width = 24
+              Height = 13
+              Caption = 'Valor'
+            end
+            object Label82: TLabel
+              Left = 181
+              Top = 18
+              Width = 18
+              Height = 13
+              Caption = 'PIN'
+            end
+            object edNFCnpj1: TEdit
+              Left = 40
+              Top = 16
+              Width = 129
+              Height = 21
+              TabOrder = 0
+            end
+            object edNFUF1: TEdit
+              Left = 133
+              Top = 40
+              Width = 34
+              Height = 21
+              Hint = 'UF'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 2
+            end
+            object edNFNum1: TEdit
+              Left = 64
+              Top = 64
+              Width = 67
+              Height = 21
+              TabOrder = 3
+            end
+            object edNFSerie1: TEdit
+              Left = 132
+              Top = 64
+              Width = 35
+              Height = 21
+              TabOrder = 4
+            end
+            object edNFPin1: TEdit
+              Left = 219
+              Top = 16
+              Width = 86
+              Height = 21
+              TabOrder = 5
+            end
+            object edNFValor1: TJvCalcEdit
+              Left = 182
+              Top = 64
+              Width = 123
+              Height = 21
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 6
+              DecimalPlacesAlwaysShown = False
+            end
+            object dtNF1: TJvDatePickerEdit
+              Left = 51
+              Top = 40
+              Width = 82
+              Height = 21
+              AllowNoDate = True
+              Checked = True
+              TabOrder = 1
+            end
+          end
+          object GroupBox13: TGroupBox
+            Left = 8
+            Top = 106
+            Width = 313
+            Height = 94
+            Caption = 'Nota Fiscal 2'
+            TabOrder = 1
+            object Label88: TLabel
+              Left = 9
+              Top = 16
+              Width = 27
+              Height = 13
+              Caption = 'CNPJ'
+            end
+            object Label89: TLabel
+              Left = 9
+              Top = 40
+              Width = 39
+              Height = 13
+              Caption = 'Emiss'#227'o'
+            end
+            object Label90: TLabel
+              Left = 10
+              Top = 66
+              Width = 49
+              Height = 13
+              Caption = 'Num./S'#233'r.'
+            end
+            object Label91: TLabel
+              Left = 185
+              Top = 48
+              Width = 24
+              Height = 13
+              Caption = 'Valor'
+            end
+            object Label92: TLabel
+              Left = 181
+              Top = 18
+              Width = 18
+              Height = 13
+              Caption = 'PIN'
+            end
+            object edNFCnpj2: TEdit
+              Left = 40
+              Top = 16
+              Width = 128
+              Height = 21
+              TabOrder = 0
+            end
+            object edNFUF2: TEdit
+              Left = 134
+              Top = 40
+              Width = 34
+              Height = 21
+              Hint = 'UF'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 2
+            end
+            object edNFNum2: TEdit
+              Left = 64
+              Top = 64
+              Width = 68
+              Height = 21
+              TabOrder = 3
+            end
+            object edNFSerie2: TEdit
+              Left = 134
+              Top = 64
+              Width = 34
+              Height = 21
+              TabOrder = 4
+            end
+            object edNFPin2: TEdit
+              Left = 219
+              Top = 16
+              Width = 86
+              Height = 21
+              TabOrder = 5
+            end
+            object edNFValor2: TJvCalcEdit
+              Left = 182
+              Top = 64
+              Width = 123
+              Height = 21
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 6
+              DecimalPlacesAlwaysShown = False
+            end
+            object dtNF2: TJvDatePickerEdit
+              Left = 51
+              Top = 40
+              Width = 82
+              Height = 21
+              AllowNoDate = True
+              Checked = True
+              TabOrder = 1
+            end
+          end
+          object GroupBox14: TGroupBox
+            Left = 8
+            Top = 210
+            Width = 313
+            Height = 94
+            Caption = 'Nota Fiscal 3'
+            TabOrder = 2
+            object Label93: TLabel
+              Left = 9
+              Top = 16
+              Width = 27
+              Height = 13
+              Caption = 'CNPJ'
+            end
+            object Label94: TLabel
+              Left = 9
+              Top = 40
+              Width = 39
+              Height = 13
+              Caption = 'Emiss'#227'o'
+            end
+            object Label95: TLabel
+              Left = 10
+              Top = 66
+              Width = 49
+              Height = 13
+              Caption = 'Num./S'#233'r.'
+            end
+            object Label96: TLabel
+              Left = 185
+              Top = 48
+              Width = 24
+              Height = 13
+              Caption = 'Valor'
+            end
+            object Label97: TLabel
+              Left = 181
+              Top = 18
+              Width = 18
+              Height = 13
+              Caption = 'PIN'
+            end
+            object edNFCnpj3: TEdit
+              Left = 40
+              Top = 16
+              Width = 129
+              Height = 21
+              TabOrder = 0
+            end
+            object edNFUF3: TEdit
+              Left = 134
+              Top = 40
+              Width = 34
+              Height = 21
+              Hint = 'UF'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 2
+            end
+            object edNFNum3: TEdit
+              Left = 64
+              Top = 64
+              Width = 67
+              Height = 21
+              TabOrder = 3
+            end
+            object edNFSerie3: TEdit
+              Left = 134
+              Top = 64
+              Width = 34
+              Height = 21
+              TabOrder = 4
+            end
+            object edNFPin3: TEdit
+              Left = 219
+              Top = 16
+              Width = 86
+              Height = 21
+              TabOrder = 5
+            end
+            object edNFValor3: TJvCalcEdit
+              Left = 182
+              Top = 64
+              Width = 123
+              Height = 21
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 6
+              DecimalPlacesAlwaysShown = False
+            end
+            object dtNF3: TJvDatePickerEdit
+              Left = 51
+              Top = 40
+              Width = 82
+              Height = 21
+              AllowNoDate = True
+              Checked = True
+              TabOrder = 1
+            end
+          end
+        end
       end
     end
     object btnSalvarConfig: TBitBtn
@@ -1910,10 +2286,26 @@ object fACBrMDFe: TfACBrMDFe
         object MemoDados: TMemo
           Left = 0
           Top = 0
-          Width = 548
-          Height = 364
+          Width = 660
+          Height = 335
           Align = alClient
           TabOrder = 0
+        end
+      end
+      object TabSheet16: TTabSheet
+        Caption = 'Outros'
+        ImageIndex = 6
+        object BitBtn1: TBitBtn
+          Left = 24
+          Top = 8
+          Width = 137
+          Height = 25
+          Hint = 'Adiciona a tabela MDF campos novos.'
+          Caption = 'Atualizar Banco de Dados'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          OnClick = BitBtn1Click
         end
       end
     end
@@ -1928,42 +2320,52 @@ object fACBrMDFe: TfACBrMDFe
     Top = 256
   end
   object ACBrMDFe1: TACBrMDFe
-    Configuracoes.Geral.PathSalvar = 'C:\home\'
-    Configuracoes.Geral.VersaoDF = ve100a
-    Configuracoes.Geral.ExibirErroSchema = True
+    MAIL = ACBrMail1
+    OnStatusChange = ACBrMDFe1StatusChange
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.VersaoDF = ve100a
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.IntervaloTentativas = 0
-    Configuracoes.WebServices.AjustaAguardaConsultaRet = False
-    OnStatusChange = ACBrMDFe1StatusChange
-    DAMDFe = DAMDFE
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    DAMDFE = ACBrMDFeDAMDFeRL1
     Left = 526
-    Top = 257
-  end
-  object DAMDFE: TACBrMDFeDAMDFEQR
-    ACBrMDFe = ACBrMDFe1
-    PathPDF = 'c:\home\'
-    ImprimirHoraSaida = False
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDAMDFe = tiRetrato
-    TamanhoPapel = tpA4
-    NumCopias = 1
-    ImprimirDescPorc = False
-    MargemInferior = 0.850000000000000000
-    MargemSuperior = 0.850000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    MDFeCancelada = False
-    Left = 574
     Top = 257
   end
   object sqlEmitente: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dm.sc
-    Left = 16
-    Top = 400
+    Left = 104
+    Top = 360
+  end
+  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
+    ACBrMDFe = ACBrMDFe1
+    ImprimirHoraSaida = False
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDAMDFe = tiSemGeracao
+    TamanhoPapel = tpA4
+    NumCopias = 1
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    MDFeCancelada = False
+    MDFeEncerrado = False
+    PrintDialog = True
+    Left = 614
+    Top = 265
+  end
+  object ACBrMail1: TACBrMail
+    Host = '127.0.0.1'
+    Port = '25'
+    SetSSL = False
+    SetTLS = False
+    Attempts = 3
+    DefaultCharset = UTF_8
+    IDECharset = CP1252
+    Left = 662
+    Top = 265
   end
 end

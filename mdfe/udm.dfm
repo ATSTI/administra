@@ -2,7 +2,7 @@ object dm: Tdm
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Left = 264
-  Top = 239
+  Top = 267
   Height = 254
   Width = 312
   object sc: TSQLConnection
@@ -38,26 +38,7 @@ object dm: Tdm
     Top = 24
   end
   object sds: TSQLDataSet
-    CommandText = 
-      'SELECT COD_MDFE, CODEMITENTE,'#13#10'    TIPOEMITENTE, MODELO, SERIE, ' +
-      'NUMERO_MDF,'#13#10'    CHAVE_MDF, DIGITO_MDF, MODALIDADE, DATA_MDF,'#13#10' ' +
-      '   FORMA_EMISSAO, VERSAO_APLICATIVO,'#13#10'    UF_CARREGAMENTO, UF_DE' +
-      'SCARREGAMENTO,'#13#10'    COD_MUNICIPIO_CARREG, MUNICIPO_CARREG,'#13#10'    ' +
-      'UF_PERCURSO, COD_MUNICIPIO_DESCARREG,'#13#10'    MUNICIPO_DESCARREG, C' +
-      'HAVE_NFE1, CHAVE_NFE2,'#13#10'    CHAVE_NFE3, CHAVE_NFE4, CHAVE_NFE5,'#13 +
-      #10'    CHAVE_NFE6, CHAVE_NFE7, TIPO_TRANSP,'#13#10'    UNID_TRANSP, TIPO' +
-      '_CARGA, UNID_CARGA,'#13#10'    IDENT_CARGA, QTDE_NFE, VALOR_CARGA, UNI' +
-      'D_PESO,'#13#10'    PESO_BRUTO, CNPJ_AUTORIZADO1,'#13#10'    CNPJ_AUTORIZADO2' +
-      ', INFO_ADIC_FISCO,'#13#10'    INFO_ADIC_CONTRIBUINTE, RNTRC, CIOT, CIN' +
-      'T,'#13#10'    PLACA, TARA, CAPKG, CAPM3, PROP_CNPJ,'#13#10'    PROP_RNTRC, P' +
-      'ROP_NOME, PROP_IE, PROP_UF,'#13#10'    PROP_TIPO, CONDUTOR_NOME, CONDU' +
-      'TOR_CPF,'#13#10'    TIPO_RODADO, TIPO_CARROCERIA, UF_VEICULO,'#13#10'    REB' +
-      'OQUE_CINT, REBOQUE_PLACA, REBOQUE_TARA,'#13#10'    REBOQUE_CAPKG, REBO' +
-      'QUE_CAPM3, REBOQUE_CPF,'#13#10'    REBOQUE_CNPJ, REBOQUE_RNTRC, REBOQU' +
-      'E_NOME,'#13#10'    REBOQUE_IE, REBOQUE_UF, REBOQUE_TIPOPROP,'#13#10'    REBO' +
-      'QUE_TIPOCARROCERIA, REBOQUE_UFVEICULO,'#13#10'    PESO_VOLUME1, PESO_V' +
-      'OLUME2, PESO_VOLUME3,'#13#10'    PESO_VOLUME4, PESO_VOLUME5, PESO_VOLU' +
-      'ME6,'#13#10'    PESO_VOLUME7, CHAVE_MDFE '#13#10#13#10'FROM MDFE'
+    CommandText = 'SELECT *'#13#10#13#10'FROM MDFE'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sc
@@ -355,6 +336,70 @@ object dm: Tdm
     object cdsCHAVE_MDFE: TStringField
       FieldName = 'CHAVE_MDFE'
       Size = 80
+    end
+    object cdsPROTOCOLOENV: TStringField
+      FieldName = 'PROTOCOLOENV'
+      Size = 100
+    end
+    object cdsNF1_CNPJ: TStringField
+      FieldName = 'NF1_CNPJ'
+    end
+    object cdsNF1_NUM: TIntegerField
+      FieldName = 'NF1_NUM'
+    end
+    object cdsNF1_SERIE: TIntegerField
+      FieldName = 'NF1_SERIE'
+    end
+    object cdsNF1_UF: TStringField
+      FieldName = 'NF1_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNF1_PIN: TIntegerField
+      FieldName = 'NF1_PIN'
+    end
+    object cdsNF1_VALOR: TFloatField
+      FieldName = 'NF1_VALOR'
+    end
+    object cdsNF2_CNPJ: TStringField
+      FieldName = 'NF2_CNPJ'
+    end
+    object cdsNF2_NUM: TIntegerField
+      FieldName = 'NF2_NUM'
+    end
+    object cdsNF2_SERIE: TIntegerField
+      FieldName = 'NF2_SERIE'
+    end
+    object cdsNF2_UF: TStringField
+      FieldName = 'NF2_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNF2_PIN: TIntegerField
+      FieldName = 'NF2_PIN'
+    end
+    object cdsNF2_VALOR: TFloatField
+      FieldName = 'NF2_VALOR'
+    end
+    object cdsNF3_CNPJ: TStringField
+      FieldName = 'NF3_CNPJ'
+    end
+    object cdsNF3_NUM: TIntegerField
+      FieldName = 'NF3_NUM'
+    end
+    object cdsNF3_SERIE: TIntegerField
+      FieldName = 'NF3_SERIE'
+    end
+    object cdsNF3_UF: TStringField
+      FieldName = 'NF3_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsNF3_PIN: TIntegerField
+      FieldName = 'NF3_PIN'
+    end
+    object cdsNF3_VALOR: TFloatField
+      FieldName = 'NF3_VALOR'
     end
   end
 end

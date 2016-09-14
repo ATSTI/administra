@@ -1,6 +1,6 @@
 object fProc: TfProc
   Left = 192
-  Top = 107
+  Top = 121
   Width = 1054
   Height = 534
   Caption = 'MDF-e'
