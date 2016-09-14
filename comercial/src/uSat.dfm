@@ -1,6 +1,6 @@
 object fSat: TfSat
-  Left = 174
-  Top = 140
+  Left = 175
+  Top = 157
   Width = 1001
   Height = 579
   Caption = 'S.A.T'
@@ -1300,7 +1300,7 @@ object fSat: TfSat
                 Height = 21
                 Style = csDropDownList
                 Anchors = [akLeft, akTop, akRight]
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 9
               end
               object cbxSalvarCFe: TCheckBox
@@ -1447,7 +1447,7 @@ object fSat: TfSat
                 Width = 130
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 4
               end
               object cbxIndRatISSQN: TComboBox
@@ -1456,7 +1456,7 @@ object fSat: TfSat
                 Width = 134
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 5
               end
               object cbxRegTributario: TComboBox
@@ -1465,7 +1465,7 @@ object fSat: TfSat
                 Width = 166
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 3
               end
             end
@@ -2088,7 +2088,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 2
                 end
                 object cbxPorta: TComboBox
@@ -2097,7 +2097,7 @@ object fSat: TfSat
                   Width = 138
                   Height = 21
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 3
                 end
                 object cbxPagCodigo: TComboBox
@@ -2107,7 +2107,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 4
                 end
                 object seColunas: TSpinEdit

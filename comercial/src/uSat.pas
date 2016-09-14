@@ -8,7 +8,7 @@ uses
   Menus, OleCtrls, SHDocVw, FMTBcd, DB, DBClient, Provider, SqlExpr, IniFiles,
   ACBrSATExtratoClass, ACBrSATExtratoESCPOS, pcnConversao, ACBrValidador,
   TypInfo, ACBrUtil, ACBrPosPrinter, ACBrDFe, ACBrNFe,
-  ACBrDANFCeFortesFrA4, ACBrNFeDANFEClass, ACBrDANFCeFortesFr,DBXpress;
+  ACBrNFeDANFEClass, DBXpress;
 
 const
   cAssinatura = '9d4c4eef8c515e2c1269c2e4fff0719d526c5096422bf1defa20df50ba06469'+
@@ -17,7 +17,7 @@ const
                 'ba226728fff1e2c6275ecc9b20129e1c1d2671a837aa1d265b36809501b519d'+
                 'bc08129e1c1d2671a837aa1d265b36809501b519dbc08129e1c1d2671a837aa'+
                 '1d265b36809501b519dbc08129e1c' ;
-type
+type                          
   TfSat = class(TForm)
     ACBrSAT1: TACBrSAT;
     PageControl1: TPageControl;
@@ -468,9 +468,9 @@ type
   private
     codConsumidorSat : integer;
     { Private declarations }
-    Function RemoveChar(Const Texto:String):String;
+    function RemoveChar(Const Texto:String):String;
+    function carregarVenda: String;
     procedure AjustaACBrSAT ;
-    procedure carregarVenda;
     procedure enviarSAT;
     procedure imprimirSat;
     procedure imprimirSatReduz;
@@ -806,11 +806,12 @@ begin
   carregarVenda;
 end;
 
-procedure TfSat.carregarVenda;
+function TfSat.carregarVenda: String;
 var
   TotalItem: Double;
   vTot12741: Double;
   A: Integer;
+  cvCFOP: String;
 begin
   //PageControl1.ActivePage := tsGerado;
 
@@ -856,15 +857,23 @@ begin
         begin
           Prod.cEAN := cdsItensNFCOD_BARRA.AsString;
         end;
+        cvCFOP := RemoveChar(cdsItensNFCFOP.AsString);
         Prod.xProd := cdsItensNFDESCPRODUTO.AsString;
         prod.NCM := RemoveChar(cdsItensNFNCM.AsString);
-        Prod.CFOP := RemoveChar(cdsItensNFCFOP.AsString);
+        Prod.CFOP := cvCFOP;
         Prod.uCom := cdsItensNFUNIDADEMEDIDA.AsString;
         Prod.qCom := cdsItensNFQUANTIDADE.AsFloat;
         Prod.vUnCom := cdsItensNFPRECO.AsFloat;
         Prod.indRegra := irArredondamento;
         Prod.vDesc := 0;
 
+        if ((cvCFOP <> '5101') and (cvCFOP <> '5102') and (cvCFOP <> '5405') and
+          (cvCFOP <> '6102') and (cvCFOP <> '6101') and (cvCFOP <> '6403')) then
+        begin
+          result := 'Produto - ' + cdsItensNFDESCPRODUTO.AsString +
+            ' com CFOP inválido';
+          exit;
+        end;
         {
         with Prod.obsFiscoDet.Add do
         begin
@@ -875,7 +884,12 @@ begin
         prod.vProd := (Prod.qCom * Prod.vUnCom);
         Imposto.vItem12741 := cdsItensNFVLRTOT_TRIB.AsFloat;
         vTot12741 := vTot12741 + cdsItensNFVLRTOT_TRIB.AsFloat;
-
+        if (trim(cdsItensNFORIGEM.AsString) = '') then
+        begin
+          result := 'Produto - ' + cdsItensNFDESCPRODUTO.AsString +
+            ' sem código de ORIGEM';
+          exit;
+        end;
         if (trim(cdsItensNFORIGEM.AsString) = '0') then
           Imposto.ICMS.orig := oeNacional;
         if (trim(cdsItensNFORIGEM.AsString) = '1') then
@@ -900,8 +914,10 @@ begin
         if ((Trim(cdsItensNFCST.AsString) = '') and (Trim(cdsItensNFCSOSN.AsString) = '')) then
         begin
           if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
-            MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
-          Exit;
+          begin
+            result := 'CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString;
+            exit;
+          end;  
         end;
 
         if( sEmpresaCRT.AsInteger = 0) then
@@ -913,11 +929,10 @@ begin
           end
           else if ( cdsItensNFCSOSN.AsString = '101') then
           begin
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
-
             Imposto.ICMS.CSOSN := csosn101;
             {if (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
             begin
@@ -933,14 +948,15 @@ begin
           else if ( cdsItensNFCSOSN.AsString = '103') then
           begin
             Imposto.ICMS.CSOSN := csosn103;
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ( cdsItensNFCSOSN.AsString = '201') then
           begin
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
@@ -956,29 +972,32 @@ begin
           end
           else if ( cdsItensNFCSOSN.AsString = '202') then
           begin
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
             Imposto.ICMS.CSOSN := csosn202;
+            exit;
           end
           else if ( cdsItensNFCSOSN.AsString = '203') then
           begin
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
             Imposto.ICMS.CSOSN := csosn203;
+            exit;
           end
           else if ( cdsItensNFCSOSN.AsString = '300') then
             Imposto.ICMS.CSOSN := csosn300
           else if ( cdsItensNFCSOSN.AsString = '400') then
           begin
-            MessageDlg('CSOSN inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CSOSN inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CSOSN inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
             Imposto.ICMS.CSOSN := csosn400;
+            exit;
           end
           else if ( cdsItensNFCSOSN.AsString = '500') then
             Imposto.ICMS.CSOSN := csosn500
@@ -995,20 +1014,22 @@ begin
           else if ((cdsItensNFCST.AsString = '010') or (cdsItensNFCST.AsString = '110') or (cdsItensNFCST.AsString = '210') or (cdsItensNFCST.AsString = '10')) then
           begin
             Imposto.ICMS.CST := cst10;
-            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CST inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CST inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ((cdsItensNFCST.AsString = '020') or (cdsItensNFCST.AsString = '120') or (cdsItensNFCST.AsString = '220') or (cdsItensNFCST.AsString = '20')) then
             Imposto.ICMS.CST := cst20
           else if ((cdsItensNFCST.AsString = '030') or (cdsItensNFCST.AsString = '130') or (cdsItensNFCST.AsString = '230') or (cdsItensNFCST.AsString = '30')) then
           begin
             Imposto.ICMS.CST := cst30;
-            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CST inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CST inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ((cdsItensNFCST.AsString = '040') or (cdsItensNFCST.AsString = '140') or (cdsItensNFCST.AsString = '240') or (cdsItensNFCST.AsString = '40')) then
             Imposto.ICMS.CST :=  cst40
@@ -1017,18 +1038,20 @@ begin
           else if ((cdsItensNFCST.AsString = '050') or (cdsItensNFCST.AsString = '150') or (cdsItensNFCST.AsString = '250') or (cdsItensNFCST.AsString = '50')) then
           begin
             Imposto.ICMS.CST :=  cst50;
-            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CST inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CST inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ((cdsItensNFCST.AsString = '051') or (cdsItensNFCST.AsString = '151') or (cdsItensNFCST.AsString = '251') or (cdsItensNFCST.AsString = '51')) then
           begin
             Imposto.ICMS.CST := cst51;
-            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CST inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CST inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ((cdsItensNFCST.AsString = '060') or (cdsItensNFCST.AsString = '160') or (cdsItensNFCST.AsString = '260') or (cdsItensNFCST.AsString = '60')) then
           begin
@@ -1037,10 +1060,11 @@ begin
           else if ((cdsItensNFCST.AsString = '070') or (cdsItensNFCST.AsString = '170') or (cdsItensNFCST.AsString = '270') or (cdsItensNFCST.AsString = '70')) then
           begin
             Imposto.ICMS.CST := cst70;
-            MessageDlg('CST inválido para emissão do CFe.', mtWarning, [mbOK], 0);
+            result := 'CST inválido para emissão do CFe.';
             mLog.Lines.Add('-------------------------------------------------');
             mLog.Lines.Add('CST inválido para emissão do CFe.');
             mLog.Lines.Add('-------------------------------------------------');
+            exit;
           end
           else if ((cdsItensNFCST.AsString = '090') or (cdsItensNFCST.AsString = '190') or (cdsItensNFCST.AsString = '290') or (cdsItensNFCST.AsString = '90')) then
             Imposto.ICMS.CST := cst90
@@ -1053,7 +1077,7 @@ begin
         if (Trim(cdsItensNFCSTPIS.AsString) = '') then
         begin
           if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
-            MessageDlg('CST do PIS em branco  no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            result := 'CST do PIS em branco  no item ' + cdsItensNFDESCPRODUTO.AsString;
           Exit;
         end
         else
@@ -1079,14 +1103,16 @@ begin
           else if (cdsItensNFCSTPIS.AsString = '49') then
             Imposto.PIS.CST   := pis49;
           Imposto.PIS.vBC := cdsItensNFVLRBC_PIS.AsFloat;
-          Imposto.PIS.pPIS := cdsItensNFPPIS.AsFloat;
+          Imposto.PIS.pPIS := 0;
+          if (cdsItensNFPPIS.AsFloat > 0) then
+            Imposto.PIS.pPIS := cdsItensNFPPIS.AsFloat/100;
         end;
 
 
         if (Trim(cdsItensNFCSTCOFINS.AsString) = '') then
         begin
           if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
-            MessageDlg('CST do COFINS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
+            result := 'CST do COFINS em branco no item ' + cdsItensNFDESCPRODUTO.AsString;
           Exit;
         end
         else
@@ -1112,7 +1138,9 @@ begin
           else if (cdsItensNFCSTCOFINS.AsString = '49') then
             Imposto.COFINS.CST   := cof49;
           Imposto.COFINS.vBC := cdsItensNFVLRBC_COFINS.AsFloat;
-          Imposto.COFINS.pCOFINS := cdsItensNFPCOFINS.AsFloat;
+          Imposto.COFINS.pCOFINS := 0;
+          if (cdsItensNFPCOFINS.AsFloat > 0) then
+            Imposto.COFINS.pCOFINS := cdsItensNFPCOFINS.AsFloat/100;
         end;
 
 
@@ -1163,13 +1191,14 @@ begin
   end;
 
   mVendaEnviar.Lines.Text := ACBrSAT1.CFe.GerarXML( True );    // True = Gera apenas as TAGs da aplicação
-
+  result := '';
   mLog.Lines.Add('Venda Processada');
 end;
 
 procedure TfSat.enviarSAT;
 var arquivosat: String;
 TD: TTransactionDesc;
+chave_sat: String;
 begin
   if (edtPastaXml.Text = '') then
   begin
@@ -1212,10 +1241,11 @@ begin
     end;
     dm.sqlsisAdimin.StartTransaction(TD);
     try
+      chave_sat := Copy(ACBrSAT1.cfe.infCFe.ID,23,29);
       dm.sqlsisAdimin.ExecuteDirect('UPDATE VENDA SET STATUS1 = ' +
         QuotedStr('E') + ', OBS = ' + QuotedStr(arquivosat) +
         ' ,N_DOCUMENTO = ' + QuotedStr(IntToStr(ACBrSAT1.CFe.ide.nCFe)) +
-        ' ,N_BOLETO = ' + QuotedStr(ACBrSAT1.CFe.ide.CNPJ) +
+        ' ,N_BOLETO = ' + QuotedStr(chave_sat) +
         ' WHERE CODVENDA = ' + IntToStr(codVendaSAT));
        dm.sqlsisAdimin.Commit(TD);
      except
@@ -1467,8 +1497,14 @@ begin
 end;
 
 procedure TfSat.BitBtn2Click(Sender: TObject);
+var result_cVenda: string;
 begin
-  carregarVenda;
+  result_cVenda := carregarVenda;
+  if (result_cVenda <> '') then
+  begin
+    MessageDlg(result_cVenda, mtWarning, [mbOK], 0);
+    exit;
+  end;
   ACBrSAT1.Inicializado := True;
   bInicializar.Caption := 'DesInicializar';
   enviarSAT;
