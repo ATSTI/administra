@@ -21,6 +21,8 @@ BEGIN
 
     select  CODUSUARIO from usuario WHERE NOMEUSUARIO = OLD.nome_funcionario
      into :cod;
+    select  CODUSUARIO from usuario WHERE CODUSUARIO = NEW.COD_FUNCIONARIO
+     into :cod;
 
     if (((NEW.RECEBE_COMISSAO = 'V') OR (NEW.RECEBE_COMISSAO = 'C') or (NEW.RECEBE_COMISSAO = 'A')) AND (cod IS NULL)) then
     BEGIN
