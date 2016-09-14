@@ -70,7 +70,8 @@ object TRpReport
   Params = <
     item
       Name = 'PFUN'
-      Value = '0'
+      Value = 3
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -93,7 +94,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39844d
+      Value = 42766d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -232,7 +233,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 4
-    DisplayFormat = '#0'
+    DisplayFormat = ',##0.00'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -244,7 +245,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'COMISSAO.VALOR_COMISSAO'
-    DisplayFormat = '#0'
+    DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''

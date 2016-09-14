@@ -20,21 +20,20 @@ object TRpReport
       SQL = 
         'select  rec.CODCLIENTE, rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOT' +
         'AFISCAL,        '#13#10'rec.CODUSUARIO, rec.CODVENDEDOR, sum(rec.VALOR' +
-        '-(coalesce(rec.desconto,0) - coalesce(rec.valor_ipi,0)-coalesce(' +
-        'rec.VALOR_frete,0))) as valor, rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10 +
-        'func.NOME_FUNCIONARIO,  func.valor_comissao, sum((rec.valor-rec.' +
-        'desconto-coalesce(rec.valor_ipi,0)-coalesce(rec.VALOR_frete,0)) ' +
-        '* (func.valor_comissao / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'in' +
-        'ner join movimento m on m.codmovimento = rec.codmovimento '#13#10'left' +
-        ' outer join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE '#13#10'le' +
-        'ft outer join FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUN' +
-        'CIONARIO '#13#10'where m.codnatureza = 3 and rec.DATAVENDA between :DA' +
-        'TA1 and :DATA2 and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  AND' +
-        ' REC.CODCLIENTE > 0'#13#10'group by rec.codVendedor,  rec.CODCLIENTE, ' +
-        'rec.DATAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,        '#13#10'rec.CO' +
-        'DUSUARIO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARI' +
-        'O,  func.valor_comissao'#13#10' order by  func.nome_funcionario, rec.D' +
-        'ATAVENDA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
+        '-rec.desconto - coalesce(rec.valor_ipi,0)) as valor, rec.CONTROL' +
+        'E, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARIO,  func.valor_comissa' +
+        'o, sum((rec.valor-rec.desconto-coalesce(rec.valor_ipi,0)) * (fun' +
+        'c.valor_comissao / 100)) as comissao'#13#10#13#10'from VENDA rec'#13#10'inner jo' +
+        'in movimento m on m.codmovimento = rec.codmovimento '#13#10'left outer' +
+        ' join CLIENTES cli on cli.CODCLIENTE = rec.CODCLIENTE '#13#10'left out' +
+        'er join FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONAR' +
+        'IO '#13#10'where m.codnatureza = 3 and rec.DATAVENDA between :DATA1 an' +
+        'd :DATA2 and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  AND REC.C' +
+        'ODCLIENTE > 0'#13#10'group by rec.codVendedor,  rec.CODCLIENTE, rec.DA' +
+        'TAVENDA, rec.CODMOVIMENTO, rec.NOTAFISCAL,        '#13#10'rec.CODUSUAR' +
+        'IO,  rec.CONTROLE, cli.RAZAOSOCIAL, '#13#10'func.NOME_FUNCIONARIO,  fu' +
+        'nc.valor_comissao'#13#10' order by  func.nome_funcionario, rec.DATAVEN' +
+        'DA,  rec.NOTAFISCAL,  cli.RAZAOSOCIAL'#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10#13#10
     end
     item
       Alias = 'EMPRESA'
@@ -80,7 +79,8 @@ object TRpReport
   Params = <
     item
       Name = 'PFUN'
-      Value = '0'
+      Value = 3
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -103,7 +103,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40939d
+      Value = 42766d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -284,7 +284,7 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 4
-    DisplayFormat = '#0'
+    DisplayFormat = ',##0.00'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -296,7 +296,7 @@ object TRpReport
     WFontName = 'Arial'
     LFontName = 'Helvetica'
     Expression = 'COMISSAO.VALOR_COMISSAO'
-    DisplayFormat = '#0'
+    DisplayFormat = ',##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''

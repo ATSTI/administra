@@ -17,20 +17,20 @@ object TRpReport
       Alias = 'COMISSAO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select UDF_STRZERO(p.CODPRO, 12) AS COD_P, rec.CODUSUARIO,rec.co' +
-        'dVendedor,func.NOME_FUNCIONARIO,  p.codpro, p.produto,'#13#10'  SUM(((' +
-        'case when md.qtde_alt is null then 1 when md.qtde_alt = 0 then 1' +
-        ' else (1-(md.qtde_alt/100))  end) * md.VALTOTAL)) AS VALOR, '#13#10' s' +
-        'um(md.QUANTIDADE) qtde,'#13#10' md.CODPRODUTO'#13#10'from VENDA rec'#13#10'inner j' +
-        'oin movimento m on m.codmovimento = rec.codmovimento '#13#10'inner joi' +
-        'n movimentodetalhe md on md.codmovimento = m.codmovimento '#13#10'inne' +
-        'r join produtos p on p.codproduto = md.codproduto '#13#10'left outer j' +
-        'oin FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO '#13 +
-        #10'where m.codnatureza = 3 '#13#10'  and rec.DATAVENDA between :DATA1 an' +
-        'd :DATA2 '#13#10'  and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  '#13#10' AN' +
-        'D REC.CODCLIENTE > 0 '#13#10'group by rec.codVendedor,  md.CODPRODUTO,' +
-        '        '#13#10'rec.CODUSUARIO,  func.NOME_FUNCIONARIO,    p.codpro, p' +
-        '.produto'#13#10' order by  3, 1'
+        'select UDF_STRZERO(p.CODPRO,4)  AS COD_P, rec.CODUSUARIO,rec.cod' +
+        'Vendedor,func.NOME_FUNCIONARIO,  p.codpro, p.produto,'#13#10'  SUM(((c' +
+        'ase when md.qtde_alt is null then 1 when md.qtde_alt = 0 then 1 ' +
+        'else (1-(md.qtde_alt/100))  end) * md.VALTOTAL)) AS VALOR, '#13#10' su' +
+        'm(md.QUANTIDADE) qtde,'#13#10' md.CODPRODUTO'#13#10'from VENDA rec'#13#10'inner jo' +
+        'in movimento m on m.codmovimento = rec.codmovimento '#13#10'inner join' +
+        ' movimentodetalhe md on md.codmovimento = m.codmovimento '#13#10'inner' +
+        ' join produtos p on p.codproduto = md.codproduto '#13#10'left outer jo' +
+        'in FUNCIONARIO func on rec.CODVENDEDOR = func.COD_FUNCIONARIO '#13#10 +
+        'where m.codnatureza = 3 '#13#10'  and rec.DATAVENDA between :DATA1 and' +
+        ' :DATA2 '#13#10'  and ((rec.CODVENDEDOR=:pfun) or (:pfun = 0))  '#13#10' AND' +
+        ' REC.CODCLIENTE > 0 '#13#10'group by rec.codVendedor,  md.CODPRODUTO, ' +
+        '       '#13#10'rec.CODUSUARIO,  func.NOME_FUNCIONARIO,    p.codpro, p.' +
+        'produto'#13#10' order by  3, 1'
     end
     item
       Alias = 'EMPRESA'
@@ -65,7 +65,8 @@ object TRpReport
   Params = <
     item
       Name = 'PFUN'
-      Value = '0'
+      Value = 3
+      ParamType = rpParamInteger
       Datasets.Strings = (
         'COMISSAO')
       Description = ''
@@ -76,7 +77,7 @@ object TRpReport
     end
     item
       Name = 'DATA1'
-      Value = 40695d
+      Value = 42156d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
@@ -88,7 +89,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 40724d
+      Value = 42916d
       ParamType = rpParamDate
       Datasets.Strings = (
         'COMISSAO')
