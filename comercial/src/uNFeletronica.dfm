@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
   Left = 251
-  Top = 96
+  Top = 97
   Width = 873
   Height = 607
   AutoSize = True
@@ -105,6 +105,20 @@ object fNFeletronica: TfNFeletronica
           Font.Style = [fsBold]
           ParentFont = False
           Transparent = True
+        end
+        object Label23: TLabel
+          Left = 8
+          Top = 192
+          Width = 95
+          Height = 13
+          Caption = 'S'#233'rie Emiss'#227'o NFe :'
+        end
+        object lblSerieNfe: TLabel
+          Left = 112
+          Top = 192
+          Width = 6
+          Height = 13
+          Caption = '1'
         end
         object cbTipoNota: TRadioGroup
           Left = 178
@@ -1567,7 +1581,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox

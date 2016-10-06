@@ -860,6 +860,8 @@ type
     sdsCfopNCMVICMSUFDEST: TFloatField;
     sdsCfopNCMVICMSUFREMET: TFloatField;
     sdsCfopNCMCST_IPI_CENQ: TStringField;
+    Label23: TLabel;
+    lblSerieNfe: TLabel;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1309,7 +1311,7 @@ begin
 
             Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
             Ide.modelo    := 55;
-            Ide.serie     := 1;
+            Ide.serie     := dm.nfe_serie_receita;
             if (tp_amb = 1) then
             begin
               Ide.tpEmis    := teNormal;
@@ -1343,7 +1345,7 @@ begin
             else if (tp_amb = 6) then
             begin
               Ide.tpEmis    := teSVCAN;
-              Ide.serie     := 1;
+              Ide.serie     := dm.nfe_serie_receita;
             end;
             if (cdsNFIDCOMPLEMENTAR.AsString <> '') then
             begin
@@ -1724,6 +1726,7 @@ begin
 
    btnListar.Click;
    ACBrNFe1.NotasFiscais.Items[0].GravarXML;
+   acbrnfe1.NotasFiscais.ImprimirPDF;
 end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
@@ -1880,6 +1883,7 @@ begin
   if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathEvento)) then
     CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathEvento);
   ACBrNFe1.Configuracoes.Arquivos.PathNFe := sEmpresa1DIVERSOS1.AsString;
+
   if ( not DirectoryExists(ACBrNFe1.Configuracoes.Arquivos.PathNFe)) then
     CreateDir(ACBrNFe1.Configuracoes.Arquivos.PathNFe);
   //ACBrNFeDANFERave1.PathPDF := sEmpresa1DIVERSOS1.AsString;
@@ -2337,6 +2341,7 @@ end;
 
 procedure TfNFeletronica.FormShow(Sender: TObject);
 begin
+  lblSerieNfe.Caption := IntToStr(dm.nfe_serie_receita);
   if (JvDateEdit1.Text = '  /  /    ') then
     JvDateEdit1.Text := DateToStr(Now);
   if (JvDateEdit2.Text = '  /  /    ') then
@@ -2458,13 +2463,13 @@ var
     Ide.modelo    := 55;
     if (tp_amb = 1) then
     begin
-      Ide.serie     := 1;
+      Ide.serie     := dm.nfe_serie_receita;
       Ide.tpEmis    := teNormal;
     end
     else if (tp_amb = 2) then
     begin
       Ide.tpEmis    := teContingencia;
-      Ide.serie     := 1;
+      Ide.serie     := dm.nfe_serie_receita;
     end
     else if (tp_amb = 3) then
     begin
@@ -2474,17 +2479,17 @@ var
     else if (tp_amb = 4) then
     begin
       Ide.tpEmis    := teDPEC;
-      Ide.serie     := 1;
+      Ide.serie     := dm.nfe_serie_receita;
     end
     else if (tp_amb = 5) then
     begin
       Ide.tpEmis    := teFSDA;
-      Ide.serie     := 1;
+      Ide.serie     := dm.nfe_serie_receita;
     end
     else if (tp_amb = 6) then
     begin
       Ide.tpEmis    := teSVCAN;
-      Ide.serie     := 1;
+      Ide.serie     := dm.nfe_serie_receita;
     end;
     //Carrega os itens da NF
     pegaItens(cbTipoNota.ItemIndex);
