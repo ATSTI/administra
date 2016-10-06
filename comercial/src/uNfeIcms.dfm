@@ -1,6 +1,6 @@
 object fNfeIcms: TfNfeIcms
-  Left = 215
-  Top = 135
+  Left = 326
+  Top = 132
   Width = 930
   Height = 614
   Caption = 'Sped Fiscal(ICMS)'
@@ -455,9 +455,9 @@ object fNfeIcms: TfNfeIcms
       object Label21: TLabel
         Left = 32
         Top = 176
-        Width = 108
+        Width = 123
         Height = 13
-        Caption = 'Valor Total dos Ajustes'
+        Caption = 'Valor Outros Cr'#233'ditos Difal'
       end
       object Label22: TLabel
         Left = 32
@@ -469,9 +469,9 @@ object fNfeIcms: TfNfeIcms
       object Label23: TLabel
         Left = 32
         Top = 224
-        Width = 108
+        Width = 100
         Height = 13
-        Caption = 'Valor Total dos Ajustes'
+        Caption = 'Valor Dedu'#231#245'es Difal'
       end
       object Label24: TLabel
         Left = 32
@@ -486,13 +486,6 @@ object fNfeIcms: TfNfeIcms
         Width = 127
         Height = 13
         Caption = 'Saldo Credor a Transportar'
-      end
-      object Label26: TLabel
-        Left = 32
-        Top = 296
-        Width = 140
-        Height = 13
-        Caption = 'Valor recolhidos ou a recolher'
       end
       object DBEdit1: TDBEdit
         Left = 184
@@ -572,6 +565,7 @@ object fNfeIcms: TfNfeIcms
         Top = 176
         Width = 121
         Height = 21
+        DataField = 'VL_OUT_CRED_DIFAL'
         DataSource = dsDifalCad
         TabOrder = 7
       end
@@ -580,6 +574,7 @@ object fNfeIcms: TfNfeIcms
         Top = 200
         Width = 121
         Height = 21
+        DataField = 'VL_SLD_DEV_ANT_DIFAL'
         DataSource = dsDifalCad
         TabOrder = 8
       end
@@ -588,6 +583,7 @@ object fNfeIcms: TfNfeIcms
         Top = 224
         Width = 121
         Height = 21
+        DataField = 'VL_DEDUCOES_DIFAL'
         DataSource = dsDifalCad
         TabOrder = 9
       end
@@ -596,6 +592,7 @@ object fNfeIcms: TfNfeIcms
         Top = 248
         Width = 121
         Height = 21
+        DataField = 'DEB_ESP_DIFAL'
         DataSource = dsDifalCad
         TabOrder = 10
       end
@@ -604,19 +601,9 @@ object fNfeIcms: TfNfeIcms
         Top = 272
         Width = 121
         Height = 21
+        DataField = 'VL_SLD_CRED_TRANSPORTAR'
         DataSource = dsDifalCad
         TabOrder = 11
-      end
-      object DBEdit9: TDBEdit
-        Left = 184
-        Top = 296
-        Width = 121
-        Height = 21
-        Hint = 'Valor recolhidos ou a Recolher , extra apura'#231#227'o.'
-        DataSource = dsDifalCad
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 12
       end
     end
   end
@@ -2816,9 +2803,12 @@ object fNfeIcms: TfNfeIcms
       'DET.VALOR_SEGURO, DET.VALOR_OUTROS, DET.OBS, DET.CODSOLICITACAO,' +
       ' DET.VALOR_PIS, DET.VALOR_COFINS, DET.II, DET.BCII, PRO.CODPRO, ' +
       'PRO.NCM, DET.CSTIPI, DET.CSTPIS, DET.CSTCOFINS, DET.CST_IPI_CENQ' +
-      ' '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WH' +
-      'ERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUT' +
-      'O     = DET.CODPRODUTO'#13#10'      AND MOV.CODMOVIMENTO = :PMOV'
+      ' '#13#10', DET.VBCUFDEST  '#13#10', DET.PFCPUFDEST '#13#10', DET.PICMSUFDEST '#13#10', D' +
+      'ET.PICMSINTER    '#13#10', DET.PICMSINTERPART '#13#10', DET.VFCPUFDEST  '#13#10', ' +
+      'DET.VICMSUFDEST '#13#10', DET.VICMSUFREMET '#13#10'   FROM MOVIMENTO MOV, MO' +
+      'VIMENTODETALHE DET, PRODUTOS PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.C' +
+      'ODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO     = DET.CODPRODUTO'#13#10'    ' +
+      '  AND MOV.CODMOVIMENTO = :PMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -3013,6 +3003,30 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+    object cdsItensVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object cdsItensPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object cdsItensPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object cdsItensPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object cdsItensPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object cdsItensVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object cdsItensVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object cdsItensVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
     end
   end
   object sdsUnimed: TSQLQuery
@@ -5849,5 +5863,77 @@ object fNfeIcms: TfNfeIcms
     DataSet = cdsDifalCad
     Left = 28
     Top = 424
+  end
+  object sdsItensDifal: TSQLDataSet
+    CommandText = 
+      'SELECT '#13#10' SUM(COALESCE(DET.VBCUFDEST, 0))  VBCUFDEST'#13#10', SUM(COAL' +
+      'ESCE(DET.PFCPUFDEST , 0)) PFCPUFDEST'#13#10', SUM(COALESCE(DET.PICMSUF' +
+      'DEST , 0)) PICMSUFDEST'#13#10', SUM(COALESCE(DET.PICMSINTER    , 0)) P' +
+      'ICMSINTER'#13#10', SUM(COALESCE(DET.PICMSINTERPART, 0))  PICMSINTERPAR' +
+      'T'#13#10', SUM(COALESCE(DET.VFCPUFDEST  , 0))  VFCPUFDEST'#13#10', SUM(COALE' +
+      'SCE(DET.VICMSUFDEST , 0))  VICMSUFDEST'#13#10', SUM(COALESCE(DET.VICMS' +
+      'UFREMET , 0)) VICMSUFREMET '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODET' +
+      'ALHE DET, PRODUTOS PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENT' +
+      'O'#13#10'      AND PRO.CODPRODUTO     = DET.CODPRODUTO'#13#10'      AND MOV.' +
+      'CODMOVIMENTO = :PMOV'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 392
+    Top = 216
+  end
+  object dspItensDifal: TDataSetProvider
+    DataSet = sdsItensDifal
+    Left = 424
+    Top = 216
+  end
+  object cdsItensDifal: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspItensDifal'
+    Left = 457
+    Top = 216
+    object cdsItensDifalVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensDifalPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensDifalPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensDifalPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+      ReadOnly = True
+    end
+    object cdsItensDifalPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+      ReadOnly = True
+    end
+    object cdsItensDifalVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensDifalVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+      ReadOnly = True
+    end
+    object cdsItensDifalVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+      ReadOnly = True
+    end
   end
 end

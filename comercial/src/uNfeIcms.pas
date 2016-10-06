@@ -1153,7 +1153,6 @@ type
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
     DBEdit13: TDBEdit;
-    DBEdit9: TDBEdit;
     Label14: TLabel;
     Label15: TLabel;
     Label16: TLabel;
@@ -1166,7 +1165,6 @@ type
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
-    Label26: TLabel;
     Button1: TButton;
     sdsDifalCad: TSQLDataSet;
     dspDifalCad: TDataSetProvider;
@@ -1187,6 +1185,25 @@ type
     cdsDifalCadVL_SLD_CRED_TRANSPORTAR: TFloatField;
     cdsDifalCadDEB_ESP_DIFAL: TFloatField;
     cdsDifalCadDT_FIM: TDateField;
+    cdsItensVBCUFDEST: TFloatField;
+    cdsItensPFCPUFDEST: TFloatField;
+    cdsItensPICMSUFDEST: TFloatField;
+    cdsItensPICMSINTER: TFloatField;
+    cdsItensPICMSINTERPART: TFloatField;
+    cdsItensVFCPUFDEST: TFloatField;
+    cdsItensVICMSUFDEST: TFloatField;
+    cdsItensVICMSUFREMET: TFloatField;
+    sdsItensDifal: TSQLDataSet;
+    dspItensDifal: TDataSetProvider;
+    cdsItensDifal: TClientDataSet;
+    cdsItensDifalVBCUFDEST: TFloatField;
+    cdsItensDifalPFCPUFDEST: TFloatField;
+    cdsItensDifalPICMSUFDEST: TFloatField;
+    cdsItensDifalPICMSINTER: TFloatField;
+    cdsItensDifalPICMSINTERPART: TFloatField;
+    cdsItensDifalVFCPUFDEST: TFloatField;
+    cdsItensDifalVICMSUFDEST: TFloatField;
+    cdsItensDifalVICMSUFREMET: TFloatField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -2129,6 +2146,21 @@ begin
             VL_PIS_ST     := 0;
             VL_COFINS_ST  := 0;
             tem_ajuste := 'N';
+            // DIFAL
+            if (cdsItensDifal.Active) then
+              cdsItensDifal.Close;
+            cdsItensDifal.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+            cdsItensDifal.Open;
+            while not cdsItensDifal.Eof do
+            begin
+              with RegistroC101New do   //Inicio Adicionar os Itens:
+              begin
+                VL_FCP_UF_DEST  := cdsItensDifalVFCPUFDEST.AsFloat;
+                VL_ICMS_UF_DEST := cdsItensDifalVICMSUFDEST.AsFloat;
+                VL_ICMS_UF_REM  := cdsItensDifalVICMSUFREMET.AsFloat;
+              end;
+              cdsItensDifal.Next;
+            end;
 
             if (cdsItens.Active) then
               cdsItens.Close;
@@ -2810,7 +2842,7 @@ begin
       cdsDifal.Next;
     end;
 
-    //while not cdsDifal.Eof do
+    while not cdsDifal.Eof do
     //begin
     //  registroe300
     //end;
