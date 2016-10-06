@@ -80,6 +80,7 @@ object fProc: TfProc
       MultiSelect = True
       MaxColumnWidth = 100
       MinColumnWidth = 20
+      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -90,458 +91,92 @@ object fProc: TfProc
         item
           Expanded = False
           FieldName = 'COD_MDFE'
-          Width = 50
+          Title.Caption = 'C'#243'd.'
+          Width = 28
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'NUMERO_MDF'
-          Width = 50
+          Title.Caption = 'N'#250'm.'
+          Width = 38
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'SERIE'
-          Width = 50
+          Title.Caption = 'S'#233'rie'
+          Width = 32
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'MODELO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_MDF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DIGITO_MDF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'MODALIDADE'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DATA_MDF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UF_CARREGAMENTO'
-          Title.Caption = 'UF_CAR'
-          Width = 25
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UF_DESCARREGAMENTO'
-          Title.Caption = 'UF_DES.'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'COD_MUNICIPIO_CARREG'
-          Title.Caption = 'COD_MUN.'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'MUNICIPO_CARREG'
-          Title.Caption = 'MUNICIPO'
-          Width = 80
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UF_PERCURSO'
-          Title.Caption = 'UF'
-          Width = 25
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'COD_MUNICIPIO_DESCARREG'
-          Title.Caption = 'COD_MUN'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'MUNICIPO_DESCARREG'
-          Title.Caption = 'MUNICIPO_DES.'
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE1'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE2'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE3'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE4'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE5'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE6'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CHAVE_NFE7'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TIPO_TRANSP'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UNID_TRANSP'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TIPO_CARGA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UNID_CARGA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'IDENT_CARGA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'QTDE_NFE'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'VALOR_CARGA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UNID_PESO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_BRUTO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CNPJ_AUTORIZADO1'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CNPJ_AUTORIZADO2'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'INFO_ADIC_FISCO'
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'INFO_ADIC_CONTRIBUINTE'
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'RNTRC'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CIOT'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CINT'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PLACA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TARA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CAPKG'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CAPM3'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_CNPJ'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_RNTRC'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_NOME'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_IE'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_UF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PROP_TIPO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CONDUTOR_NOME'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'CONDUTOR_CPF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TIPO_RODADO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'TIPO_CARROCERIA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'UF_VEICULO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_CINT'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_PLACA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_TARA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_CAPKG'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_CAPM3'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_CPF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_CNPJ'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_RNTRC'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_NOME'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_IE'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_UF'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_TIPOPROP'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_TIPOCARROCERIA'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'REBOQUE_UFVEICULO'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME1'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME2'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME3'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME4'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME5'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME6'
-          Width = 50
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'PESO_VOLUME7'
-          Width = 50
+          Title.Caption = 'Modelo'
+          Width = 45
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CHAVE_MDFE'
-          Width = 50
+          Title.Caption = 'Chave'
+          Width = 271
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATA_MDF'
+          Title.Caption = 'Data'
+          Width = 93
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOENV'
+          Title.Caption = 'Prot. Env.'
+          Width = 81
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOENC'
+          Title.Caption = 'Prot. Enc.'
+          Width = 91
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOCAN'
+          Title.Caption = 'Prot. Canc.'
+          Width = 91
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UF_DESCARREGAMENTO'
+          Title.Caption = 'UF-d'
+          Width = 35
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'UF_PERCURSO'
+          Title.Caption = 'UF-perc.'
+          Width = 32
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'COD_MUNICIPIO_DESCARREG'
+          Title.Caption = 'C.Mun.-d'
+          Width = 59
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MUNICIPO_DESCARREG'
+          Title.Caption = 'Munic'#237'pio-d'
+          Width = 119
           Visible = True
         end>
     end

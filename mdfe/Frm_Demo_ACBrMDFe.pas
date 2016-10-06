@@ -292,6 +292,7 @@ type
     dtNF1: TJvDatePickerEdit;
     dtNF2: TJvDatePickerEdit;
     dtNF3: TJvDatePickerEdit;
+    BitBtn2: TBitBtn;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -320,12 +321,14 @@ type
     procedure btnGerarPDFEventoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
     }
   private
     { Private declarations }
+    td: TTransactionDesc;
     codMdfe: Integer;
     codEmitente: integer;
     codigoUfEmitenteMDFe: Integer;
@@ -1200,6 +1203,7 @@ end;
 procedure TfACBrMDFe.btnSalvarConfigClick(Sender: TObject);
 begin
  GravarConfiguracao;
+ gravarMDFe;
  LerConfiguracao;
 end;
 
@@ -1300,31 +1304,16 @@ procedure TfACBrMDFe.btnGerarMDFeClick(Sender: TObject);
 var
  vAux : String;
 begin
-  if ((modoAbertura = 'NOVO') and (edNumMdfe.Text = ''))  then
-  begin
-    if (dm.sqlBusca.Active) then
-     dm.sqlBusca.Close;
-    dm.sqlBusca.sql.Clear;
-    dm.sqlBusca.sql.Add('SELECT MAX(COD_MDFE) COD FROM MDFE');
-    dm.sqlBusca.Open;
-    if (dm.sqlBusca.fieldByName('COD').asInteger > 0) then
-    begin
-     codMDFe := dm.sqlBusca.fieldByName('COD').asInteger + 1;
-    end
-    else
-     codMDFe := 1;
-    edNumMdfe.Text := IntToStr(codMdfe);
-  end;
   if (modoAbertura = 'EDITAR') then
   begin
-    codMdfe := dm.cds.FieldByName('COD_MDFE').asInteger;
-    edNumMdfe.Text := IntToStr(codMdfe);
+    //codMdfe := dm.cds.FieldByName('COD_MDFE').asInteger;
+    //edNumMdfe.Text := IntToStr(codMdfe);
   end;
-  vAux := IntToStr(codMDFe);
+  vAux := edNumMdfe.Text;
 
   ACBrMDFe1.Manifestos.Clear;
   GerarMDFe(vAux);
-  ACBrMDFe1.Manifestos.Items[0].GravarXML(IntToStr(codMDFe), edtPathLogs.Text);
+  ACBrMDFe1.Manifestos.Items[0].GravarXML(edNumMdfe.Text, edtPathLogs.Text);
 
   ShowMessage('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
   MemoDados.Lines.Add('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
@@ -1355,7 +1344,6 @@ procedure TfACBrMDFe.btnCriarEnviarClick(Sender: TObject);
 var
  vAux, vNumLote : String;
  vProtocoloEnv: String;
- td: TTransactionDesc;
  strInsere: String;
 begin
  {if not(InputQuery('WebServices Enviar', 'Numero do Manifesto', vAux))
@@ -1363,7 +1351,7 @@ begin
 
  if not(InputQuery('WebServices Enviar', 'Numero do Lote', vNumLote))
   then exit;}
- vAux := IntToStr(codMdfe);
+ vAux := edNumMdfe.Text;
  vNumLote := '1';
 
  ACBrMDFe1.Manifestos.Clear;
@@ -1396,7 +1384,7 @@ begin
       dm.sc.StartTransaction(TD);
       try
         dm.sc.ExecuteDirect('UPDATE MDFE SET PROTOCOLOENV = ' + QuotedStr(vProtocoloEnv) +
-          ' WHERE COD_MDFE = ' + IntToStr(codMdfe));
+          ' WHERE COD_MDFE = ' + edNumMdfe.Text);
         dm.sc.Commit(TD); {on success, commit the changes};
       except
         MessageDlg('Erro para gravar o Protocolo.', mtError, [mbOK], 0);
@@ -1449,6 +1437,7 @@ begin
 end;
 
 procedure TfACBrMDFe.btnEncerramentoClick(Sender: TObject);
+var sProtocolo: String;
 begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
@@ -1476,18 +1465,35 @@ begin
      infEvento.detEvento.cUF   := StrToInt(Copy(IntToStr(ACBrMDFe1.Manifestos.Items[0].MDFe.infDoc.infMunDescarga.Items[0].cMunDescarga),1,2));
      infEvento.detEvento.cMun  := ACBrMDFe1.Manifestos.Items[0].MDFe.infDoc.infMunDescarga.Items[0].cMunDescarga;
     end;
-
-   ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
-
-   MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
-   memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
-   LoadXML(MemoResp, WBResposta);
+    ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
+    sProtocolo := '';
+    sProtocolo := ACBrMDFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+    MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
+    memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
+    LoadXML(MemoResp, WBResposta);
+    if (sProtocolo <> '') then
+    begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      begin
+        dm.sc.StartTransaction(TD);
+        try
+          dm.sc.ExecuteDirect('UPDATE MDFE SET PROTOCOLOENC = ' + QuotedStr(sProtocolo) +
+            ' WHERE COD_MDFE = ' + edNumMdfe.Text);
+          dm.sc.Commit(TD); {on success, commit the changes};
+        except
+          MessageDlg('Erro para gravar o Protocolo.', mtError, [mbOK], 0);
+          dm.sc.Rollback(TD); {on failure, undo the changes};
+        end;
+      end;
+    end;
   end;
 end;
 
 procedure TfACBrMDFe.btnCancelamentoClick(Sender: TObject);
 var
  vAux : String;
+ sProtocolo: String;
 begin
  OpenDialog1.Title := 'Selecione o MDFe';
  OpenDialog1.DefaultExt := '*-MDFe.xml';
@@ -1516,7 +1522,26 @@ begin
      infEvento.detEvento.xJust := trim(vAux);
     end;
 
-   ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
+    ACBrMDFe1.EnviarEvento( 1 ); // 1 = Numero do Lote
+    sProtocolo := '';
+    sProtocolo := ACBrMDFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+
+    if (sProtocolo <> '') then
+    begin
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      begin
+        dm.sc.StartTransaction(TD);
+        try
+          dm.sc.ExecuteDirect('UPDATE MDFE SET PROTOCOLOENC = ' + QuotedStr(sProtocolo) +
+            ' WHERE COD_MDFE = ' + edNumMdfe.Text);
+          dm.sc.Commit(TD); {on success, commit the changes};
+        except
+          MessageDlg('Erro para gravar o Protocolo.', mtError, [mbOK], 0);
+          dm.sc.Rollback(TD); {on failure, undo the changes};
+        end;
+      end;
+    end;
 
    MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
    memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.EnvEvento.RetWS);
@@ -1705,7 +1730,8 @@ begin
   begin
     dm.sc.StartTransaction(TD);
     try
-      dm.sc.ExecuteDirect('DELETE FROM MDFE WHERE COD_MDFE = ' + IntToStr(codMdfe));
+      dm.sc.ExecuteDirect('DELETE FROM MDFE WHERE COD_MDFE = ' + edNumMdfe.Text +
+         ' and PROTOCOLOENV IS NULL');
       dm.sc.Commit(TD); {on success, commit the changes};
       modoAbertura := 'NOVO';
     except
@@ -1756,10 +1782,10 @@ begin
       ' REBOQUE_TIPOPROP, REBOQUE_TIPOCARROCERIA, ' +
       ' REBOQUE_UFVEICULO, ' +}
 
-    strInsere := strInsere + IntToStr(codMDFe);
+    strInsere := strInsere + edNumMDFe.Text;
     strInsere := strInsere + ', ' + IntToStr(codEmitente);
     strInsere := strInsere + ', ' + IntToStr(2) + ', 58, 1 ';   // 1-teTransportadora, 2-teTranspCargaPropria + Modelo e Serie
-    strInsere := strInsere + ', ' + IntToStr(codMDFe) + ', ' + IntToStr(codMDFe) + ', 1';  // MODALIDADE :1-moRodoviario, 2-moAereo, moAquaviario, moFerroviario
+    strInsere := strInsere + ', ' + edNumMdfe.Text + ', ' + edNumMdfe.Text + ', 1';  // MODALIDADE :1-moRodoviario, 2-moAereo, moAquaviario, moFerroviario
     strInsere := strInsere + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy hh:MM', now));
     strInsere := strInsere + ', 1,' + QuotedStr('1.01'); //TpcnTipoEmissao = (1-teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
     strInsere := strInsere + ', ' + QuotedStr(edtEmitUF.Text) + ', ' +  QuotedStr(edUFDescarga.Text);
@@ -2001,6 +2027,22 @@ end;
 procedure TfACBrMDFe.FormShow(Sender: TObject);
 begin
   PreencherCampos;
+  if ((modoAbertura = 'NOVO') and (edNumMdfe.Text = ''))  then
+  begin
+    if (dm.sqlBusca.Active) then
+     dm.sqlBusca.Close;
+    dm.sqlBusca.sql.Clear;
+    dm.sqlBusca.sql.Add('SELECT MAX(COD_MDFE) COD FROM MDFE');
+    dm.sqlBusca.Open;
+    if (dm.sqlBusca.fieldByName('COD').asInteger > 0) then
+    begin
+      codMDFe := dm.sqlBusca.fieldByName('COD').asInteger + 1;
+    end
+    else
+      codMDFe := 1;
+    edNumMdfe.Text := IntToStr(codMdfe);
+  end;
+
 end;
 
 procedure TfACBrMDFe.PreencherCampos;
@@ -2095,6 +2137,7 @@ begin
   end;
   if (modoAbertura = 'NOVO') then
   begin
+    edNumMdfe.Text := '';
     dtaMdfe.Date   := now;
     edtEmitUF.Text := '';
     edUFDescarga.Text := '';
@@ -2309,8 +2352,55 @@ begin
   except
     dm.sc.Rollback(TD); {on failure, undo the changes};
   end;
+  // Protocolo Encerramento
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD PROTOCOLOENC VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  // Protocolo Cancelamento
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD PROTOCOLOCAN VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
 
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
+end;
+
+procedure TfACBrMDFe.BitBtn2Click(Sender: TObject);
+var strInsere: String;
+  td: TTransactionDesc;
+begin
+  if (edNumMdfe.Text <> '0') then
+  begin
+    MessageDlg('Mude o número da MDFe para 0(ZERO), para poder excluí-la.', mtInformation, [mbOK], 0);
+    exit;
+  end;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  if (modoAbertura = 'EDITAR') then
+  begin
+    dm.sc.StartTransaction(TD);
+    try
+      dm.sc.ExecuteDirect('DELETE FROM MDFE WHERE COD_MDFE = ' + IntToStr(codMdfe) +
+        ' and PROTOCOLOENV IS NULL');
+      dm.sc.Commit(TD); {on success, commit the changes};
+      Close;
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+  end;
 end;
 
 end.

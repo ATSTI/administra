@@ -401,5 +401,11 @@ object dm: Tdm
     object cdsNF3_VALOR: TFloatField
       FieldName = 'NF3_VALOR'
     end
+    object cdsPROTOCOLOENC: TStringField
+      FieldName = 'PROTOCOLOENC'
+    end
+    object cdsPROTOCOLOCAN: TStringField
+      FieldName = 'PROTOCOLOCAN'
+    end
   end
 end

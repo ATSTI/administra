@@ -86,6 +86,7 @@ begin
     ' ,a.NF1_CNPJ, a.NF1_NUM, a.NF1_SERIE, a.NF1_UF, a.NF1_PIN, a.NF1_VALOR' +
     ' ,a.NF2_CNPJ,a.NF2_NUM, a.NF2_SERIE, a.NF2_UF, a.NF2_PIN, a.NF2_VALOR' +
     ' ,a.NF3_CNPJ,a.NF3_NUM, a.NF3_SERIE, a.NF3_UF, a.NF3_PIN, a.NF3_VALOR' +
+    ' ,a.PROTOCOLOENC, a.PROTOCOLOCAN ' +
     ' FROM MDFE a ';
 
   if (cbPeriodo.Checked) then

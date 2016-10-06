@@ -111,6 +111,8 @@ type
     cdsNF3_UF: TStringField;
     cdsNF3_PIN: TIntegerField;
     cdsNF3_VALOR: TFloatField;
+    cdsPROTOCOLOENC: TStringField;
+    cdsPROTOCOLOCAN: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

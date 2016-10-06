@@ -273,7 +273,6 @@ object fACBrMDFe: TfACBrMDFe
               Top = 14
               Width = 85
               Height = 21
-              ReadOnly = True
               TabOrder = 0
             end
             object dtaMdfe: TJvDatePickerEdit
@@ -2230,12 +2229,12 @@ object fACBrMDFe: TfACBrMDFe
         object WBResposta: TWebBrowser
           Left = 0
           Top = 0
-          Width = 548
-          Height = 364
+          Width = 660
+          Height = 335
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000A33800009F2500000000000000000000000000000000000000000000
+            4C00000037440000A02200000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126208000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -2306,6 +2305,18 @@ object fACBrMDFe: TfACBrMDFe
           ShowHint = True
           TabOrder = 0
           OnClick = BitBtn1Click
+        end
+        object BitBtn2: TBitBtn
+          Left = 24
+          Top = 40
+          Width = 137
+          Height = 25
+          Hint = 'Adiciona a tabela MDF campos novos.'
+          Caption = 'Excluir MDFe'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          OnClick = BitBtn2Click
         end
       end
     end
