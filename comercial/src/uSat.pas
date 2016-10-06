@@ -8,7 +8,7 @@ uses
   Menus, OleCtrls, SHDocVw, FMTBcd, DB, DBClient, Provider, SqlExpr, IniFiles,
   ACBrSATExtratoClass, ACBrSATExtratoESCPOS, pcnConversao, ACBrValidador,
   TypInfo, ACBrUtil, ACBrPosPrinter, ACBrDFe, ACBrNFe,
-  ACBrNFeDANFEClass, DBXpress;
+  ACBrNFeDANFEClass, DBXpress, Printers;
 
 const
   cAssinatura = '9d4c4eef8c515e2c1269c2e4fff0719d526c5096422bf1defa20df50ba06469'+
@@ -430,6 +430,7 @@ type
     RadioButton1: TRadioButton;
     sdsFaturaSTATUS: TStringField;
     cdsFaturaSTATUS: TStringField;
+    cbCortarPapel: TCheckBox;
     procedure btLerParamsClick(Sender: TObject);
     procedure btSalvarParamsClick(Sender: TObject);
     procedure bInicializarClick(Sender: TObject);
@@ -527,6 +528,7 @@ begin
     seColunas.Value := INI.ReadInteger('PosPrinter','Colunas',ACBrPosPrinter1.ColunasFonteNormal);
     seEspLinhas.Value := INI.ReadInteger('PosPrinter','EspacoLinhas',ACBrPosPrinter1.EspacoEntreLinhas);
     seLinhasPular.Value := INI.ReadInteger('PosPrinter','LinhasEntreCupons',ACBrPosPrinter1.LinhasEntreCupons);
+    cbCortarPapel.Checked := INI.ReadBool('PosPrinter','CortarPapel', True);
 
     edtEmitCNPJ.Text := INI.ReadString('Emit','CNPJ','');
     edtEmitIE.Text   := INI.ReadString('Emit','IE','');
@@ -608,6 +610,7 @@ begin
     INI.WriteInteger('PosPrinter','Colunas',seColunas.Value);
     INI.WriteInteger('PosPrinter','EspacoLinhas',seEspLinhas.Value);
     INI.WriteInteger('PosPrinter','LinhasEntreCupons',seLinhasPular.Value);
+    INI.WriteBool('PosPrinter','CortarPapel', cbCortarPapel.Checked);
 
     INI.WriteString('Emit','CNPJ',edtEmitCNPJ.Text);
     INI.WriteString('Emit','IE',edtEmitIE.Text);
@@ -697,8 +700,8 @@ end;
 
 procedure TfSat.bImpressoraClick(Sender: TObject);
 begin
-  //if PrintDialog1.Execute then
-  //  lImpressora.Caption := Printer.Printers[Printer.PrinterIndex];
+  if PrintDialog1.Execute then
+    lImpressora.Caption := Printer.Printers[Printer.PrinterIndex];
 
 end;
 
@@ -1286,12 +1289,14 @@ procedure TfSat.imprimirSat;
 begin
   PrepararImpressao;
   ACBrSAT1.ImprimirExtrato;
+  //ACBrSATExtratoESCPOS1.PosPrinter.CortarPapel(cbCortarPapel.Checked);
 end;
 
 procedure TfSat.imprimirSatReduz;
 begin
   PrepararImpressao;
   ACBrSAT1.ImprimirExtratoResumido;
+  //ACBrSATExtratoESCPOS1.PosPrinter.CortarPapel(cbCortarPapel.Checked);  
 end;
 
 procedure TfSat.mImprimirExtratoVendaClick(Sender: TObject);
@@ -1410,7 +1415,9 @@ var
   J : TpcnTipoAmbiente ;
   K : TpcnRegTribISSQN ;
   L : TpcnindRatISSQN ;
+  N: TACBrPosPrinterModelo;
   M : TpcnRegTrib ;
+  O: TACBrPosPaginaCodigo;
 begin
   cbxModelo.Items.Clear ;
   For I := Low(TACBrSATModelo) to High(TACBrSATModelo) do
@@ -1431,6 +1438,17 @@ begin
   cbxRegTributario.Items.Clear ;
   For M := Low(TpcnRegTrib) to High(TpcnRegTrib) do
      cbxRegTributario.Items.Add( GetEnumName(TypeInfo(TpcnRegTrib), integer(M) ) ) ;
+
+  cbxModeloPosPrinter.Items.Clear ;
+  For N := Low(TACBrPosPrinterModelo) to High(TACBrPosPrinterModelo) do
+     cbxModeloPosPrinter.Items.Add( GetEnumName(TypeInfo(TACBrPosPrinterModelo), integer(N) ) ) ;
+
+  cbxPagCodigo.Items.Clear ;
+  For O := Low(TACBrPosPaginaCodigo) to High(TACBrPosPaginaCodigo) do
+     cbxPagCodigo.Items.Add( GetEnumName(TypeInfo(TACBrPosPaginaCodigo), integer(O) ) ) ;
+
+  cbxPorta.Items.Clear;
+  ACBrPosPrinter1.Device.AcharPortasSeriais( cbxPorta.Items );
 
   Application.OnException := TrataErros;
 
@@ -1464,6 +1482,7 @@ begin
   ACBrPosPrinter1.EspacoEntreLinhas := seEspLinhas.Value;
   ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
   ACBrSATExtratoESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
+
   // 29/12/2015
   if ACBrSAT1.Extrato = ACBrSATExtratoESCPOS1 then
   begin

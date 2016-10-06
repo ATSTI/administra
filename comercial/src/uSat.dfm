@@ -1,6 +1,6 @@
 object fSat: TfSat
-  Left = 175
-  Top = 157
+  Left = 176
+  Top = 159
   Width = 1001
   Height = 579
   Caption = 'S.A.T'
@@ -312,7 +312,7 @@ object fSat: TfSat
         Layout = blGlyphTop
       end
       object btnImprimir: TBitBtn
-        Left = 669
+        Left = 749
         Top = 157
         Width = 77
         Height = 55
@@ -421,7 +421,7 @@ object fSat: TfSat
         Layout = blGlyphTop
       end
       object BitBtn3: TBitBtn
-        Left = 747
+        Left = 827
         Top = 157
         Width = 77
         Height = 55
@@ -639,8 +639,8 @@ object fSat: TfSat
         Layout = blGlyphTop
       end
       object BitBtn4: TBitBtn
-        Left = 512
-        Top = 157
+        Left = 821
+        Top = 8
         Width = 77
         Height = 55
         Caption = 'Cancelar'
@@ -748,8 +748,8 @@ object fSat: TfSat
         Layout = blGlyphTop
       end
       object BitBtn1: TBitBtn
-        Left = 591
-        Top = 157
+        Left = 900
+        Top = 8
         Width = 77
         Height = 55
         Hint = 'Imprimir Extrato Cancelamento'
@@ -875,7 +875,7 @@ object fSat: TfSat
         Text = 'ICMS a ser recolhido conforme LC 123/2006 - Simples Nacional'
       end
       object BitBtn5: TBitBtn
-        Left = 825
+        Left = 593
         Top = 157
         Width = 77
         Height = 55
@@ -1968,6 +1968,14 @@ object fSat: TfSat
                   Height = 19
                   Caption = 'Preview'
                   TabOrder = 7
+                end
+                object cbCortarPapel: TCheckBox
+                  Left = 240
+                  Top = 115
+                  Width = 90
+                  Height = 19
+                  Caption = 'Cortar Papel'
+                  TabOrder = 8
                 end
               end
               object GroupBox4: TGroupBox
@@ -3502,6 +3510,9 @@ object fSat: TfSat
     ACBrSAT = ACBrSAT1
     Mask_qCom = '0.0000'
     Mask_vUnCom = '0.000'
+    MostrarPreview = True
+    MostrarSetup = True
+    NomeArquivo = 'c:\home\'
     Filtro = fiPDF
     PosPrinter = ACBrPosPrinter1
     Left = 612
@@ -3523,8 +3534,8 @@ object fSat: TfSat
     ConfigQRCode.Tipo = 2
     ConfigQRCode.LarguraModulo = 4
     ConfigQRCode.ErrorLevel = 0
-    LinhasEntreCupons = 0
-    CortaPapel = False
+    LinhasEntreCupons = 5
+    CortaPapel = True
     Left = 657
     Top = 72
   end
