@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
-  Left = 80
-  Top = 75
+  Left = 81
+  Top = 79
   Width = 913
   Height = 636
   AutoSize = True
@@ -2574,9 +2574,9 @@ object fTerminal2: TfTerminal2
         end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 440
+          Top = 424
           Width = 463
-          Height = 84
+          Height = 100
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
           HotTrackFont.Height = -11
@@ -2646,7 +2646,7 @@ object fTerminal2: TfTerminal2
           end
           object JvSpeedButton3: TJvSpeedButton
             Left = 125
-            Top = 53
+            Top = 50
             Width = 32
             Height = 25
             Caption = '...'
@@ -2676,7 +2676,7 @@ object fTerminal2: TfTerminal2
           end
           object JvSpeedButton1: TJvSpeedButton
             Left = 264
-            Top = 25
+            Top = 22
             Width = 32
             Height = 25
             Caption = '...'
@@ -2689,9 +2689,24 @@ object fTerminal2: TfTerminal2
             Transparent = True
             OnClick = JvSpeedButton1Click
           end
+          object JvLabel10: TJvLabel
+            Left = 6
+            Top = 78
+            Width = 36
+            Height = 15
+            Caption = 'Local :'
+            ShadowSize = 2
+            Transparent = True
+            HintColor = clBlack
+            HotTrackFont.Charset = DEFAULT_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -13
+            HotTrackFont.Name = 'Cooper Blk BT'
+            HotTrackFont.Style = []
+          end
           object DBEdit1: TDBEdit
             Left = 5
-            Top = 25
+            Top = 22
             Width = 60
             Height = 25
             BevelKind = bkFlat
@@ -2705,7 +2720,7 @@ object fTerminal2: TfTerminal2
           end
           object DBEdit2: TDBEdit
             Left = 71
-            Top = 25
+            Top = 22
             Width = 82
             Height = 25
             BevelKind = bkFlat
@@ -2719,7 +2734,7 @@ object fTerminal2: TfTerminal2
           end
           object DBEdit3: TDBEdit
             Left = 158
-            Top = 25
+            Top = 22
             Width = 59
             Height = 25
             BevelKind = bkFlat
@@ -2733,7 +2748,7 @@ object fTerminal2: TfTerminal2
           end
           object DBEdit4: TDBEdit
             Left = 72
-            Top = 53
+            Top = 50
             Width = 53
             Height = 25
             BevelKind = bkFlat
@@ -2747,7 +2762,7 @@ object fTerminal2: TfTerminal2
           end
           object DBEdit5: TDBEdit
             Left = 159
-            Top = 53
+            Top = 50
             Width = 279
             Height = 25
             BevelKind = bkFlat
@@ -2761,7 +2776,7 @@ object fTerminal2: TfTerminal2
           end
           object DBEdit6: TDBEdit
             Left = 219
-            Top = 25
+            Top = 22
             Width = 45
             Height = 25
             BevelKind = bkFlat
@@ -2775,7 +2790,7 @@ object fTerminal2: TfTerminal2
           end
           object edVendedor: TEdit
             Left = 297
-            Top = 25
+            Top = 22
             Width = 140
             Height = 22
             BevelInner = bvLowered
@@ -2790,6 +2805,24 @@ object fTerminal2: TfTerminal2
             ParentFont = False
             ReadOnly = True
             TabOrder = 6
+          end
+          object edLocalestoque: TEdit
+            Left = 73
+            Top = 76
+            Width = 365
+            Height = 22
+            BevelInner = bvLowered
+            Color = clMenuBar
+            Ctl3D = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentCtl3D = False
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 7
           end
         end
         object btnProduto: TBitBtn
@@ -3552,6 +3585,7 @@ object fTerminal2: TfTerminal2
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = []
+      OnCellClick = JvDBGrid1CellClick
       OnDblClick = JvDBGrid1DblClick
       BevelKind = bkFlat
       AutoSizeColumns = True

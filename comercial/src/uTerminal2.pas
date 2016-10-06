@@ -468,6 +468,8 @@ type
     edVendedor: TEdit;
     JvSpeedButton1: TJvSpeedButton;
     lbl_imprime: TLabel;
+    JvLabel10: TJvLabel;
+    edLocalestoque: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -518,7 +520,9 @@ type
     procedure DBEdit6Exit(Sender: TObject);
     procedure JvSpeedButton1Click(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
   private
+    abrirFormProcProduto: String;
     terminalCaixa: Integer;
     gradeVenda: String;
     peditoTerminalFinalizado: String;
@@ -602,9 +606,19 @@ var
 //var i: integer;
 //  strPn : TObject;
 begin
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTO';
+  dm.cds_parametro.Open;
+  abrirFormProcProduto := '';
+  if not (dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroDADOS.AsString <> '') then
+      abrirFormProcProduto := dm.cds_parametroDADOS.AsString;
+  end;
   //------Pesquisando na tab Parametro se usa DELIVERY ---
   if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
+    dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'PDV';
   dm.cds_parametro.Open;
   TabVenda.TabVisible := False;
@@ -1402,9 +1416,13 @@ begin
     begin
       if (jvPageControl1.ActivePage = TabDelivery) then
         imprimeDeliveryTXT;
-      if (jvPageControl1.ActivePage = TabVenda) then
+      if ((jvPageControl1.ActivePage = TabVenda) and
+        (TabComanda.TabVisible = True)) then
         imprimecomandaTXT;
       if (jvPageControl1.ActivePage = TabComanda) then
+        imprimeCupom;
+      if ((jvPageControl1.ActivePage = TabVenda) and
+        (TabComanda.TabVisible = False)) then
         imprimeCupom;
     end;
   end;
@@ -2495,16 +2513,22 @@ begin
 
      Rewrite(IMPRESSORA);
      Writeln(Impressora, c10cpi + cIExpandido + Format('%-40s',[dm.cds_empresaRAZAO.Value]));
-     Writeln(Impressora, c10cpi + logradouro);
+     Writeln(Impressora, c17cpi + logradouro);
      Writeln(Impressora, cep);
      Writeln(Impressora, fone);
      Writeln(Impressora, c10cpi + Format('%-30s',['CNPJ :' + dm.cds_empresaCNPJ_CPF.Value]));
      Writeln(Impressora, cliente);
-     Writeln(Impressora, c10cpi, texto);
+  {   Writeln(Impressora, c10cpi, texto);
      Writeln(Impressora, c10cpi, texto1);
      Writeln(Impressora, c10cpi, texto2);
      Writeln(Impressora, c10cpi, texto3);
-     Writeln(Impressora, c10cpi, texto4);
+     Writeln(Impressora, c10cpi, texto4);}
+  Writeln(Impressora, c17cpi, texto);
+  Writeln(Impressora, c17cpi, texto1);
+  Writeln(Impressora, c17cpi, texto2);
+  Writeln(Impressora, c17cpi, texto3);
+  Writeln(Impressora, c17cpi, texto4);
+
   {-----------------------------------------------------------}
   {-------------------Imprimi itens do boleto-----------------}
    try
@@ -2518,12 +2542,12 @@ begin
      begin
        cds_iMovdet.RecordCount;
        // imprime
-       Writeln(Impressora, c10cpi + Format('%-24s',[Copy(cds_iMovdetDESCPRODUTO.Value,0,StrToInt(dm.linhaDescItem))]));
+       Writeln(Impressora, c17cpi + Format('%-24s',[Copy(cds_iMovdetDESCPRODUTO.Value,0,StrToInt(dm.linhaDescItem))]));
        //Write(Impressora, c10cpi, Format('%-4s',[cds_iMovdetCOD_BARRA.Value]));
-       Write(Impressora, c10cpi + Format(dm.linhaItemUn ,[cds_iMovdetUN.Value]));
-       Write(Impressora, c10cpi + Format(dm.linhaItemQtde,[cds_imovdetQTDE.AsFloat]));
-       Write(Impressora, c10cpi + Format(dm.linhaItemVlUnit,[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
-       Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[cds_imovdetVALTOTAL.asFloat]));
+       Write(Impressora, c17cpi + Format(dm.linhaItemUn ,[cds_iMovdetUN.Value]));
+       Write(Impressora, c17cpi + Format(dm.linhaItemQtde,[cds_imovdetQTDE.AsFloat]));
+       Write(Impressora, c17cpi + Format(dm.linhaItemVlUnit,[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
+       Writeln(Impressora, c17cpi + Format(dm.linhaItemVlTotal,[cds_imovdetVALTOTAL.asFloat]));
 
        with Printer.Canvas do
        begin
@@ -2533,10 +2557,10 @@ begin
        cds_imovdet.next;
      end;
      total := DM_MOV.c_movdettotalpedido.Value;
-     Writeln(Impressora, c10cpi, texto);
+     Writeln(Impressora, c17cpi, texto);
      Texto5 := '  Total : R$ ';
-     Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
-     Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
+     Write(Impressora, c17cpi + Format(dm.linhaTotal,[texto5]));
+     Writeln(Impressora, c17cpi + Format(dm.linhaItemVlTotal,[total]));
 
 
      s_parametro.Close;
@@ -2549,20 +2573,20 @@ begin
        if (JvComissao.Value > 0) then
        begin
          Texto5 := '  % : R$ ';
-         Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
+         Write(Impressora, c17cpi + Format(dm.linhaTotal,[texto5]));
          porc    := JvComissao.Value / 100;
          porc    := porc * JvTotal.Value;
-         Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[porc]));
+         Writeln(Impressora, c17cpi + Format(dm.linhaItemVlTotal,[porc]));
          total   := total + porc;
          Texto5 := 'Total + perc:R$ ';
-         Write(Impressora, c10cpi + Format(dm.linhaTotal,[texto5]));
-         Writeln(Impressora, c10cpi + Format(dm.linhaItemVlTotal,[total]));
+         Write(Impressora, c17cpi + Format(dm.linhaTotal,[texto5]));
+         Writeln(Impressora, c17cpi + Format(dm.linhaItemVlTotal,[total]));
        end;
      end;
      s_parametro.Close;
 
      Writeln(IMPRESSORA);
-     Write(Impressora, c10cpi, DM.Mensagem);
+     Write(Impressora, c17cpi, DM.Mensagem);
      for i := 0 to StrToInt(dm.qntespacos) do
      begin
        Writeln(IMPRESSORA);
@@ -3567,18 +3591,32 @@ begin
 end;
 
 procedure TfTerminal2.buscaProduto;
+var tamanho_codbarra: Integer;
 begin
   RETORNO := '';
   tipo_busca := '1'; //CODBARRA
+  tamanho_codbarra := 0;
   {------Verifico se a busca sera efetuada pelo CODPRO ou pelo CODBARRA ---------}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
   dm.cds_parametro.Open;
   if not dm.cds_parametro.IsEmpty then
+  begin
     tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+    if (dm.cds_parametroD1.AsString <> '') then
+    begin
+      try
+        tamanho_codbarra := StrToInt(dm.cds_parametroD1.AsString);
+      except
+        tamanho_codbarra := 0;
+      end;
+    end;
+  end;
   dm.cds_parametro.Close;
 
+  // nmuito lento Cometa 20-09-2016
+  {
   str_sql := ' select CODPRODUTO, COD_BARRA' +
     ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
     QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
@@ -3590,6 +3628,14 @@ begin
     QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
     QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', 0)' +
     ' where ';
+   }
+  str_sql := ' select CODPRODUTO, COD_BARRA' +
+    ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO, ' +
+    QuotedStr('ALMOXARIFADO') + ' AS ALMOXARIFADO ' +
+    ', VALORUNITARIOATUAL,  VALOR_PRAZO' +
+    ', TIPO, COALESCE(ESTOQUEATUAL,0) ESTOQUEATUAL, ESTOQUEATUAL SALDOESTOQUE, LOCALIZACAO, LOTES LOTE ,  PRECOMEDIO,' +
+    ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM, DATAGRAV MESANO ' +
+    ' from PRODUTOS where ';
 
   if scds_produto_proc.Active then
     scds_produto_proc.Close;
@@ -3602,7 +3648,15 @@ begin
   else begin
     if (tipo_busca = 'CODBARRA') then
     begin
-      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + '''';
+      if (tamanho_codbarra = 0) then
+      begin
+        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' +
+          QuotedStr(EdtCodBarra1.Text);
+      end
+      else begin
+        scds_produto_proc.CommandText := str_sql + ' COD_BARRA Like ' +
+          QuotedStr(copy(EdtCodBarra1.Text,0,tamanho_codbarra) + '%');
+      end;
     end
     else begin
       str_sql := ' select CODPRODUTO, COD_BARRA' +
@@ -3622,7 +3676,17 @@ begin
 
   if (scds_produto_proc.IsEmpty) then
   begin
-    BuscaLote;
+    if (codLote <> '0') then
+      BuscaLote
+    else begin
+      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' +
+        QuotedStr(EdtCodBarra1.Text);
+      if scds_produto_proc.Active then
+        scds_produto_proc.Close;
+      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' +
+         QuotedStr(EdtCodBarra1.Text);
+      scds_produto_proc.open;   
+    end;
     if (scds_produto_proc.IsEmpty) then
     begin
       RETORNO := 'FALSO';
@@ -3631,6 +3695,7 @@ begin
   end
   else begin
     lblEstoque.Caption := Format('%10.1n', [scds_produto_procESTOQUEATUAL.AsFloat]);
+    edLocalestoque.Text := scds_produto_procLOCALIZACAO.AsString;
   end;
 
   if ((estoque_negativo = 'TRUE') and (retorno = 'FALSO')) then // nao permito venda com saldo negativo
@@ -4213,7 +4278,13 @@ begin
    fProcura_prod.Edit2.TabStop := False;
    // Define busca pelos produtos de venda
    fProcura_prod.cbTipo.ItemIndex := 2;
-   fProcura_prod.BitBtn1.Click;
+   if (abrirFormProcProduto <> 'SEMBUSCA') then
+     fProcura_prod.BitBtn1.Click;
+   if (abrirFormProcProduto = 'SEMBUSCA') then
+   begin
+     fProcura_prod.Panel1.Visible := True;
+     fProcura_prod.Panel2.Visible := True;
+   end;
    fProcura_prod.ShowModal;
 
    if (jvPageControl1.ActivePage = TabDelivery) then
@@ -4937,6 +5008,11 @@ begin
   finally
     fDetalhe.Free;
   end;
+end;
+
+procedure TfTerminal2.JvDBGrid1CellClick(Column: TColumn);
+begin
+  edLocalestoque.Text := DM_MOV.c_movdetLOCALIZACAO.AsString;
 end;
 
 end.

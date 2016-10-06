@@ -1,6 +1,6 @@
 object fNFeMail: TfNFeMail
   Left = 194
-  Top = 103
+  Top = 105
   Width = 403
   Height = 346
   Caption = 'Envio de Nf-e para email Cliente/Fornecedor'
