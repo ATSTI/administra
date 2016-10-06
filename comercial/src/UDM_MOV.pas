@@ -715,6 +715,8 @@ type
     c_movdetVICMSUFREMET: TFloatField;
     c_movdetCST_IPI_CENQ: TStringField;
     c_movdetCEST: TStringField;
+    s_movdetLOCALIZACAO: TStringField;
+    c_movdetLOCALIZACAO: TStringField;
     procedure c_movdetCalcFields(DataSet: TDataSet);
     procedure DataModuleCreate(Sender: TObject);
   private

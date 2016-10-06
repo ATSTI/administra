@@ -1,8 +1,8 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 46
-  Top = 61
+  Left = 47
+  Top = 65
   Height = 530
   Width = 713
   object s_buscaMov: TSQLDataSet
@@ -861,6 +861,11 @@ object DM_MOV: TDM_MOV
       FieldName = 'CEST'
       Size = 7
     end
+    object c_movdetLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
+    end
     object c_movdettotalpedido: TAggregateField
       FieldName = 'totalpedido'
       Active = True
@@ -882,9 +887,9 @@ object DM_MOV: TDM_MOV
   object s_movdet: TSQLDataSet
     CommandText = 
       'select md.*,'#13#10'           pr.CODPRO,'#13#10'           pr.COD_BARRA,'#13#10' ' +
-      '          pr.PRODUTO  '#13#10' from MOVIMENTODETALHE md '#13#10' left outer ' +
-      'join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO '#13#10'where md.COD' +
-      'MOVIMENTO = :id_mov'
+      '          pr.PRODUTO , pr.LOCALIZACAO  '#13#10' from MOVIMENTODETALHE ' +
+      'md '#13#10' left outer join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODU' +
+      'TO '#13#10'where md.CODMOVIMENTO = :id_mov'
     MaxBlobSize = -1
     Params = <
       item
@@ -1273,6 +1278,11 @@ object DM_MOV: TDM_MOV
     object s_movdetCEST: TStringField
       FieldName = 'CEST'
       Size = 7
+    end
+    object s_movdetLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
     end
   end
   object s_buscaProd: TSQLDataSet
