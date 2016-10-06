@@ -8,7 +8,7 @@ uses
   StdCtrls, ExtCtrls, XPMenu, Buttons, MMJPanel, DBLocal, DBLocalS, Mask,
   JvFormPlacement, JvComponentBase, JvAppStorage, JvAppXMLStorage,
   rpcompobase, rpvclreport, JvExDBGrids, JvDBGrid, JvExControls, JvLabel,
-  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress;
+  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress, DateUtils;
 
 type
   TfFiltroMovimento = class(TForm)
@@ -801,6 +801,11 @@ begin
   begin
     edit3.Text := '10';
     edit4.Text := 'DEVOLUCAO';
+  end;
+  if (meDta1.Date = 0) then
+  begin
+    meDta1.Date := Today;
+    meDta2.Date := Today;
   end;
   btnProcurar.Click;
 end;
