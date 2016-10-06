@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=4
 MinorVer=4
 Release=0
-Build=5
+Build=10
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=ATS-Admin - 2016
-FileVersion=4.4.0.5
+FileVersion=4.4.0.10
 InternalName=ATS-Admin
 LegalCopyright=ATS Solucoes
 LegalTrademarks=ATSTI

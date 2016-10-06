@@ -1198,6 +1198,8 @@ begin
 
     if (versaoSistema = '1.0.0.98') then
     begin
+      // comentei 19/09/2016
+      {
       try
         executaSql('UPDATE OS_DET set CODPRODUTO = 390 WHERE CODPRODUTO = 0');
         executaSql(UpperCase('alter table OS_DET ' +
@@ -1208,7 +1210,7 @@ begin
           'on delete NO ACTION'));
       except
 
-      end;
+      end;}
       mudaVersao('1.0.0.99');
     end;// Fim Atualizacao Versao 1.0.0.98
 
@@ -2391,13 +2393,19 @@ begin
 
     if (versaoSistema = '4.0.0.1') then
     begin
-      dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE TAB_CEST (' +
-        ' CEST VARCHAR(7) NOT NULL,' +
-        ' NCM VARCHAR(8),          ' +
-        ' DESCRICAO VARCHAR(512) )');
-      executaDDL('PRODUTOS', 'CEST', 'VARCHAR(7)');
-      executaDDL('NCM', 'CEST', 'VARCHAR(7)');
-      executaDDL('MOVIMENTODETALHE', 'CEST', 'VARCHAR(7)');
+      try
+        dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE TAB_CEST (' +
+          ' CEST VARCHAR(7) NOT NULL,' +
+          ' NCM VARCHAR(8),          ' +
+          ' DESCRICAO VARCHAR(512) )');
+      except
+      end;
+      try
+        executaDDL('PRODUTOS', 'CEST', 'VARCHAR(7)');
+        executaDDL('NCM', 'CEST', 'VARCHAR(7)');
+        executaDDL('MOVIMENTODETALHE', 'CEST', 'VARCHAR(7)');
+      except
+      end;
       AtualizandoScript('4.0.0.1');
       mudaVersao('4.0.0.10');
     end;
@@ -2478,7 +2486,6 @@ begin
         executaDDL('NCM', 'estadual', 'DOUBLE PRECISION');
         executaDDL('NCM', 'municipal', 'DOUBLE PRECISION');
       except
-        exit;
       end;
       AtualizandoScript('4.3.1.0');
       mudaVersao('4.3.1.0');
@@ -2490,7 +2497,6 @@ begin
         executaDDL('CFOP', 'IND_PRES', 'INTEGER');
         executaDDL('NOTAFISCAL', 'IND_IEDEST', 'VARCHAR(30)');
       except
-        exit;
       end;
       AtualizandoScript('4.3.2.0');
       mudaVersao('4.3.2.0');
