@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3541,7 +3541,7 @@ inherited fParametro: TfParametro
         Top = 0
         Width = 881
         Height = 485
-        ActivePage = ts1
+        ActivePage = ts2
         Align = alClient
         TabOrder = 0
         object ts1: TTabSheet
@@ -4131,6 +4131,21 @@ inherited fParametro: TfParametro
             Caption = 
               'Veja o parametro LISTARCAIXA informe em DADOS a conta PAI dos CA' +
               'ixas , geralmente 8.'
+          end
+          object Label86: TLabel
+            Left = 8
+            Top = 368
+            Width = 747
+            Height = 13
+            Caption = 
+              'Agilizar a BUSCA PRODUTO quando existe muitos Itens Cadastrados ' +
+              ', coloque no Parametro PRODUTO  em DADOS :  SEMBUSCA'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
           end
           object edt1: TEdit
             Left = 9

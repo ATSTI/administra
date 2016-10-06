@@ -415,6 +415,7 @@ type
     BitBtn51: TBitBtn;
     edCasas: TMaskEdit;
     BitBtn52: TBitBtn;
+    Label86: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
