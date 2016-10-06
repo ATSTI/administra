@@ -2057,6 +2057,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    nfe_serie_receita: Integer;
     dmCentroReceita: String;
     tipo_nfe: String;
     cupom_msg1: String;
@@ -2149,6 +2150,7 @@ procedure TDM.DataModuleCreate(Sender: TObject);
 var index, I: integer;
   s, sqlT : String;
   ImpressoraDet: TIniFile;
+  nao_testa_data: String;
 begin
   dmCentroReceita := '';
   vTipoFiscal := '';
@@ -2158,7 +2160,6 @@ begin
   sistemaLiberado := 'S';
   danfeDec := 2;
   MICRO := NomeComputador;
-  dm.dataComputador := StrToDate('20/07/2013');
   // LOGADO := '';
   conectado := True;
   try
@@ -2236,17 +2237,21 @@ begin
   finally
     ImpressoraDet.Free;
   end;
-
+  nao_testa_data := '';
+  nfe_serie_receita := 1;
   // SAT - Número de Série do equipamento SAT
   ImpressoraDet := TIniFile.Create( path_executavel + 'prjAtsAdmin.ini' );
   try
     SatNumSerie   := ImpressoraDet.ReadString('SAT','NumSerie','0');
     email_tls     := ImpressoraDet.ReadString('EMAIL','TLS','N');
     email_ssl     := ImpressoraDet.ReadString('EMAIL','SSL','N');
+    nao_testa_data := ImpressoraDet.ReadString('SISTEMA','DATA','N');
+    nfe_serie_receita := ImpressoraDet.ReadInteger('SISTEMA','SERIERECEITA',1);
   finally
     ImpressoraDet.Free;
   end;
-
+  if (nao_testa_data = '') then
+    dm.dataComputador := StrToDate('01/07/12');
   cds_parametro.Params[0].AsString := 'TIPO_NF';
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
