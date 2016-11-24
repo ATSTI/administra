@@ -4313,6 +4313,11 @@ object fTerminal2: TfTerminal2
       Caption = 'Fazer Troca'
       OnClick = FazerTroca1Click
     end
+    object CadProdutos1: TMenuItem
+      Caption = 'Cad. Produtos'
+      ShortCut = 16464
+      OnClick = CadProdutos1Click
+    end
   end
   object pmImp: TPopupMenu
     Left = 646
