@@ -1216,6 +1216,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     codFornEnergia: Integer;
     tipoLigacao: String;
@@ -2088,7 +2089,13 @@ begin
 
           with RegistroC100New do
           begin
-            IND_OPER      := tpSaidaPrestacao; // 1-Saida
+            if (cdsNFVendaNFE_TIPO.AsString = 'tnEntrada') then
+            begin
+              IND_OPER      := tpEntradaAquisicao; // 0-Entrada
+            end
+            else begin
+              IND_OPER      := tpSaidaPrestacao; // 1-Saida
+            end;
             IND_EMIT      := edEmissaoPropria;   // 0 - Emissão própria // 1 - Terceiro
             COD_PART      := FormatFloat('200000',cdsNFVendaCODCLIENTE.asInteger);
             if (Length(cdsNFVendaMODELO.AsString) = 1) then
@@ -2153,11 +2160,14 @@ begin
             cdsItensDifal.Open;
             while not cdsItensDifal.Eof do
             begin
-              with RegistroC101New do   //Inicio Adicionar os Itens:
+              if ((cdsItensDifalVFCPUFDEST.AsFloat > 0) and (cdsNFVendaNFE_FINNFE.AsString <> 'fnDenegado')) then
               begin
-                VL_FCP_UF_DEST  := cdsItensDifalVFCPUFDEST.AsFloat;
-                VL_ICMS_UF_DEST := cdsItensDifalVICMSUFDEST.AsFloat;
-                VL_ICMS_UF_REM  := cdsItensDifalVICMSUFREMET.AsFloat;
+                with RegistroC101New do   //Inicio Adicionar os Itens:
+                begin
+                  VL_FCP_UF_DEST  := cdsItensDifalVFCPUFDEST.AsFloat;
+                  VL_ICMS_UF_DEST := cdsItensDifalVICMSUFDEST.AsFloat;
+                  VL_ICMS_UF_REM  := cdsItensDifalVICMSUFREMET.AsFloat;
+                end;
               end;
               cdsItensDifal.Next;
             end;
@@ -2177,7 +2187,7 @@ begin
             ajustes de documento fiscais determinados por legislação estadual (tabela 5.3
             do Ato COTEPE ICMS 09/08)
             *****************************************************************************}
-            if (tem_ajuste = 'S') then
+            if ((tem_ajuste = 'S') and (cdsNFVendaNFE_FINNFE.AsString <> 'fnDenegado')) then
             begin
               // Para NF de SAIDA nao precisa registro C170
               While not cdsItens.Eof do
@@ -2236,34 +2246,36 @@ begin
                 cdsItens.Next;
               end;
             end;
-
-            // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
-            if (cdsVC190.Active) then
-              cdsVC190.Close;
-            cdsVC190.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
-            //cdsVC190.Params[1].AsInteger := codMovMaxV;
-            //cdsVC190.Params[2].AsDate    := data_ini.Date;
-            //cdsVC190.Params[3].AsDate    := data_fim.Date;
-            cdsVC190.Open;
-            while not cdsVC190.eof do
+            if (cdsNFVendaNFE_FINNFE.AsString <> 'fnDenegado') then
             begin
-              with RegistroC190New do
+              // REGISTRO C190: REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
+              if (cdsVC190.Active) then
+                cdsVC190.Close;
+              cdsVC190.Params[0].AsInteger := cdsNFVendaCODMOVIMENTO.AsInteger;
+              //cdsVC190.Params[1].AsInteger := codMovMaxV;
+              //cdsVC190.Params[2].AsDate    := data_ini.Date;
+              //cdsVC190.Params[3].AsDate    := data_fim.Date;
+              cdsVC190.Open;
+              while not cdsVC190.eof do
               begin
-                CST_ICMS      := cdsVC190CST.AsString;
-                CFOP          := cdsVC190CFOP.AsString;
-                ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
-                VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
-                VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
-                VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
-                VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
-                VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
-                VL_RED_BC     := 0;
-                VL_IPI        := cdsVC190VLR_IPI.AsFloat;
-                COD_OBS       := '';
+                with RegistroC190New do
+                begin
+                  CST_ICMS      := cdsVC190CST.AsString;
+                  CFOP          := cdsVC190CFOP.AsString;
+                  ALIQ_ICMS     := cdsVC190ICMS.AsFloat;
+                  VL_OPR        := cdsVC190VLR_OPERACAO.AsFloat;
+                  VL_BC_ICMS    := cdsVC190VLR_BASE_ICMS.AsFloat;
+                  VL_ICMS       := cdsVC190VLR_ICMS.AsFloat;
+                  VL_BC_ICMS_ST := cdsVC190VLR_BASE_ICMS_ST.AsFloat;
+                  VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
+                  VL_RED_BC     := 0;
+                  VL_IPI        := cdsVC190VLR_IPI.AsFloat;
+                  COD_OBS       := '';
+                end;
+                cdsVC190.next;
               end;
-              cdsVC190.next;
-            end;
-          end;  
+            end;  
+          end;
           codParticip := cdsNFVendaCODCLIENTE.AsInteger;
           cdsNFVenda.Next;
         end; // FIM DO WHILE DE VENDAS
@@ -3168,6 +3180,11 @@ begin
   cdsDifalCad.Params[1].AsDate := data_fim.date;
   cdsDifalCad.Open;
 
+end;
+
+procedure TfNfeIcms.btnSairClick(Sender: TObject);
+begin
+  Close;
 end;
 
 end.

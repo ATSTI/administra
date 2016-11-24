@@ -623,6 +623,7 @@ object fNfeIcms: TfNfeIcms
     Height = 40
     Caption = 'F9-Sair'
     TabOrder = 10
+    OnClick = btnSairClick
     Glyph.Data = {
       E60C0000424DE60C0000000000003600000028000000250000001D0000000100
       180000000000B00C0000120B0000120B00000000000000000000BFBFBFBFBFBF
@@ -4737,6 +4738,8 @@ object fNfeIcms: TfNfeIcms
       '     AND M.CODMOVIMENTO = v.CODMOVIMENTO '
       '     AND m.CODMOVIMENTO = r.CODMOVIMENTO'
       '     AND m.CODNATUREZA in (12, 15)'
+      '     AND NF.NFE_FINNFE <> '#39'fnDenegado'#39
+      '     AND NF.NFE_TIPO = '#39'tnSaida'#39' '
       '     AND NF.PROTOCOLOCANC IS NULL '
       '     AND NF.DTAEMISSAO BETWEEN :dta1 AND :dta2')
     SQLConnection = DM.sqlsisAdimin
