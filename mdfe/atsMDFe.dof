@@ -135,6 +135,7 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\RLBoletoD7.bpl=RLBoleto (by Produsys Sistemas e Internet
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components

@@ -1,9 +1,9 @@
 object fACBrMDFe: TfACBrMDFe
-  Left = 373
-  Top = 169
+  Left = 105
+  Top = 137
   Width = 1031
   Height = 568
-  Caption = 'ATS - ACBrMDFe 1.0'
+  Caption = 'ATS - ACBrMDFe 2.0'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,14 +26,14 @@ object fACBrMDFe: TfACBrMDFe
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 353
+    Width = 385
     Height = 541
     Align = alLeft
     TabOrder = 0
     object GroupBox1: TGroupBox
       Left = 4
       Top = 3
-      Width = 344
+      Width = 381
       Height = 496
       Caption = 'Configura'#231#245'es'
       TabOrder = 0
@@ -47,7 +47,7 @@ object fACBrMDFe: TfACBrMDFe
       object PageControl1: TPageControl
         Left = 2
         Top = 15
-        Width = 340
+        Width = 377
         Height = 479
         ActivePage = TabSheet4
         Align = alClient
@@ -142,14 +142,14 @@ object fACBrMDFe: TfACBrMDFe
               Caption = 'C'#243'd. Mun. '
             end
             object Label21: TLabel
-              Left = 76
-              Top = 245
+              Left = 70
+              Top = 246
               Width = 33
               Height = 13
               Caption = 'Cidade'
             end
             object Label22: TLabel
-              Left = 272
+              Left = 282
               Top = 246
               Width = 14
               Height = 13
@@ -226,25 +226,39 @@ object fACBrMDFe: TfACBrMDFe
               TabOrder = 9
             end
             object edtEmitCodCidade: TEdit
-              Left = 8
+              Left = 9
               Top = 261
-              Width = 61
+              Width = 57
               Height = 21
               TabOrder = 10
             end
             object edtEmitCidade: TEdit
-              Left = 76
+              Left = 68
               Top = 261
-              Width = 190
+              Width = 187
               Height = 21
               TabOrder = 11
             end
             object edtEmitUF: TEdit
-              Left = 270
+              Left = 279
               Top = 261
-              Width = 35
+              Width = 27
               Height = 21
               TabOrder = 12
+            end
+            object BitBtn3: TBitBtn
+              Left = 255
+              Top = 261
+              Width = 23
+              Height = 20
+              Hint = 
+                'Digite parte do Nome da Cidade para busca (Ex.: Campinas, Hol, e' +
+                'tc...)'
+              Caption = '...'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 13
+              OnClick = BitBtn3Click
             end
           end
           object GroupBox10: TGroupBox
@@ -293,7 +307,7 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Carregamento'
             TabOrder = 2
             object Label87: TLabel
-              Left = 287
+              Left = 284
               Top = 16
               Width = 14
               Height = 13
@@ -314,9 +328,9 @@ object fACBrMDFe: TfACBrMDFe
               Caption = 'Mun'#237'cipio'
             end
             object edtUFCarregamento: TEdit
-              Left = 284
+              Left = 279
               Top = 31
-              Width = 29
+              Width = 27
               Height = 21
               TabOrder = 0
             end
@@ -330,9 +344,23 @@ object fACBrMDFe: TfACBrMDFe
             object edtMunicipioCarrega: TEdit
               Left = 68
               Top = 31
-              Width = 214
+              Width = 187
               Height = 21
               TabOrder = 2
+            end
+            object BitBtn4: TBitBtn
+              Left = 255
+              Top = 31
+              Width = 23
+              Height = 20
+              Hint = 
+                'Digite parte do Nome da Cidade para busca (Ex.: Campinas, Hol, e' +
+                'tc...)'
+              Caption = '...'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 3
+              OnClick = BitBtn4Click
             end
           end
         end
@@ -340,25 +368,11 @@ object fACBrMDFe: TfACBrMDFe
           Caption = 'NFe'
           ImageIndex = 6
           object Label42: TLabel
-            Left = 8
-            Top = 13
-            Width = 69
+            Left = 4
+            Top = 31
+            Width = 54
             Height = 13
-            Caption = 'Chave NFe - 1'
-          end
-          object Label46: TLabel
-            Left = 8
-            Top = 64
-            Width = 69
-            Height = 13
-            Caption = 'Chave NFe - 2'
-          end
-          object Label47: TLabel
-            Left = 8
-            Top = 112
-            Width = 69
-            Height = 13
-            Caption = 'Chave NFe - 3'
+            Caption = 'Chave NFe'
           end
           object Label48: TLabel
             Left = 8
@@ -417,22 +431,8 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Peso Bruto'
           end
           object Label58: TLabel
-            Left = 110
-            Top = 10
-            Width = 65
-            Height = 13
-            Caption = 'Peso, Volume'
-          end
-          object Label59: TLabel
-            Left = 110
-            Top = 61
-            Width = 65
-            Height = 13
-            Caption = 'Peso, Volume'
-          end
-          object Label60: TLabel
-            Left = 110
-            Top = 109
+            Left = 3
+            Top = 70
             Width = 65
             Height = 13
             Caption = 'Peso, Volume'
@@ -465,26 +465,19 @@ object fACBrMDFe: TfACBrMDFe
             Height = 13
             Caption = 'Peso, Volume'
           end
+          object Label98: TLabel
+            Left = 166
+            Top = 72
+            Width = 24
+            Height = 13
+            Caption = 'Valor'
+          end
           object edNFe1: TEdit
-            Left = 8
-            Top = 29
-            Width = 305
+            Left = 2
+            Top = 45
+            Width = 290
             Height = 21
-            TabOrder = 1
-          end
-          object edNFe2: TEdit
-            Left = 8
-            Top = 80
-            Width = 305
-            Height = 21
-            TabOrder = 3
-          end
-          object edNFe3: TEdit
-            Left = 8
-            Top = 128
-            Width = 305
-            Height = 21
-            TabOrder = 5
+            TabOrder = 0
           end
           object edNFe4: TEdit
             Left = 8
@@ -547,42 +540,17 @@ object fACBrMDFe: TfACBrMDFe
             DecimalPlacesAlwaysShown = False
           end
           object edPesoVol1: TJvCalcEdit
-            Left = 190
-            Top = 7
-            Width = 123
+            Left = 76
+            Top = 70
+            Width = 80
             Height = 21
             Hint = 
               'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
               'e 2 decimais.'
             ParentShowHint = False
+            ShowButton = False
             ShowHint = True
-            TabOrder = 0
-            DecimalPlacesAlwaysShown = False
-          end
-          object edPesoVol2: TJvCalcEdit
-            Left = 190
-            Top = 58
-            Width = 123
-            Height = 21
-            Hint = 
-              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
-              'e 2 decimais.'
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 2
-            DecimalPlacesAlwaysShown = False
-          end
-          object edPesoVol3: TJvCalcEdit
-            Left = 190
-            Top = 106
-            Width = 123
-            Height = 21
-            Hint = 
-              'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
-              'e 2 decimais.'
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 4
+            TabOrder = 1
             DecimalPlacesAlwaysShown = False
           end
           object edPesoVol4: TJvCalcEdit
@@ -651,6 +619,194 @@ object fACBrMDFe: TfACBrMDFe
               'UNIDADE'
               'LITROS'
               'MMBTU')
+          end
+          object JvDBUltimGrid1: TJvDBUltimGrid
+            Left = 6
+            Top = 95
+            Width = 363
+            Height = 260
+            DataSource = dsMdfeDocs
+            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+            TabOrder = 18
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+            OnCellClick = JvDBUltimGrid1CellClick
+            SelectColumnsDialogStrings.Caption = 'Select columns'
+            SelectColumnsDialogStrings.OK = '&OK'
+            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+            EditControls = <>
+            RowsHeight = 17
+            TitleRowHeight = 17
+            Columns = <
+              item
+                Expanded = False
+                FieldName = 'MDFE'
+                Title.Caption = 'C'#243'd.'
+                Width = 30
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'CHAVE_NFE'
+                Title.Caption = 'Chave'
+                Width = 180
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'PESO_VOLUME'
+                Title.Caption = 'Peso/Vol.'
+                Width = 60
+                Visible = True
+              end
+              item
+                Expanded = False
+                FieldName = 'VALOR_NF'
+                Title.Caption = 'Valor'
+                Width = 60
+                Visible = True
+              end>
+          end
+          object BitBtn5: TBitBtn
+            Left = 318
+            Top = 45
+            Width = 25
+            Height = 22
+            Hint = 'Gravar'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 4
+            OnClick = BitBtn5Click
+            Glyph.Data = {
+              36030000424D3603000000000000360000002800000010000000100000000100
+              18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF848284848284FFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFF848284840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF84000084000084000084000084
+              8284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              848284840000840000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFF848284840000840000FF000084000084000084
+              0000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF840000
+              840000FF0000FFFFFFFF0000840000840000848284FFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000840000FFFFFFFFFFFFFFFFFFFF000084
+              0000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FF0000FFFFFFFFFFFFFFFFFFFFFFFFFF0000840000840000848284FFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFF840000840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400008400008482
+              84FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFF0000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400
+              00848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFF0000840000848284FFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+              00840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+          end
+          object BitBtn6: TBitBtn
+            Left = 344
+            Top = 45
+            Width = 25
+            Height = 22
+            Hint = 'Remover NFe'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 5
+            OnClick = BitBtn6Click
+            Glyph.Data = {
+              36060000424D3606000000000000360000002800000020000000100000000100
+              18000000000000060000120B0000120B00000000000000000000008080008080
+              0080800000000000000000000000000000000000000000000000000000000080
+              800080800080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F
+              7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF008080FFFFFF00
+              8080FFFFFF008080FFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+              80008080008080008080008080008080FFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080FFFFFF008080008080000000
+              00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+              800000000080800080800080807F7F7F0080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F7F7F008080008080008080008080
+              00000000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000000
+              000080800080800080800080800080807F7F7F7F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7F7F7F7F008080008080008080008080008080
+              00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+              0080800000007F7F7F0000007F7F7F0000007F7F7F00000000FFFF0000000080
+              800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+              7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFFFFFFFF008080008080008080008080
+              0000000000000000000000000000000000000000000000000000000000000000
+              000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+              7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080
+              00000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000
+              000080800080800080800080800080807F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF
+              FFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF008080008080008080008080
+              0000000000000000000000000000000000000000000000000000000000000000
+              000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+              7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F008080008080008080008080008080
+              0080800080800080800000007F7F7F7F7F7F7F7F7F0000000080800080800080
+              800080800080800080800080800080800080800080800080807F7F7FFFFFFFFF
+              FFFFFFFFFF7F7F7FFFFFFF008080008080008080008080008080008080008080
+              0080800080800080800000000000000000000000000000000080800080800080
+              800080800080800080800080800080800080800080800080807F7F7F7F7F7F7F
+              7F7F7F7F7F7F7F7F008080008080008080008080008080008080}
+            NumGlyphs = 2
+          end
+          object edValorNFe1: TJvCalcEdit
+            Left = 193
+            Top = 70
+            Width = 96
+            Height = 21
+            Hint = 'Valor Nota Fiscal'
+            ParentShowHint = False
+            ShowButton = False
+            ShowHint = True
+            TabOrder = 2
+            DecimalPlacesAlwaysShown = False
+          end
+          object rgOrigemNFe: TRadioGroup
+            Left = 8
+            Top = -2
+            Width = 313
+            Height = 30
+            Caption = 'Origem NFe'
+            Columns = 2
+            ItemIndex = 0
+            Items.Strings = (
+              'Pr'#243'pria (N'#250'mero da NFe)'
+              'Terceiros')
+            TabOrder = 19
+          end
+          object BitBtn7: TBitBtn
+            Left = 293
+            Top = 45
+            Width = 25
+            Height = 22
+            Hint = 'Nova NFe'
+            Caption = '+'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 3
+            OnClick = BitBtn7Click
           end
         end
         object TabSheet11: TTabSheet
@@ -887,7 +1043,6 @@ object fACBrMDFe: TfACBrMDFe
             Top = 255
             Width = 304
             Height = 21
-            CharCase = ecUpperCase
             TabOrder = 13
           end
           object rgTipoUnidCarga: TRadioGroup
@@ -975,10 +1130,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 279
             Width = 63
             Height = 21
-            EditMask = '0000000;1;_'
-            MaxLength = 7
             TabOrder = 14
-            Text = '0000000'
           end
           object cbTipoRodado: TComboBox
             Left = 8
@@ -1014,6 +1166,20 @@ object fACBrMDFe: TfACBrMDFe
               '03-Granelera'
               '04-Porta Container'
               '05-Sider')
+          end
+          object BitBtn8: TBitBtn
+            Left = 142
+            Top = 279
+            Width = 23
+            Height = 20
+            Hint = 
+              'Digite parte do Nome da Cidade para busca (Ex.: Campinas, Hol, e' +
+              'tc...)'
+            Caption = '...'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 20
+            OnClick = BitBtn8Click
           end
         end
         object TabSheet14: TTabSheet
@@ -2019,10 +2185,10 @@ object fACBrMDFe: TfACBrMDFe
       end
     end
     object btnSalvarConfig: TBitBtn
-      Left = 102
-      Top = 504
+      Left = 108
+      Top = 501
       Width = 153
-      Height = 25
+      Height = 38
       Caption = 'Salvar Configura'#231#245'es'
       TabOrder = 1
       OnClick = btnSalvarConfigClick
@@ -2041,23 +2207,53 @@ object fACBrMDFe: TfACBrMDFe
         93337FFFF7737777733300000033333333337777773333333333}
       NumGlyphs = 2
     end
+    object BitBtn9: TBitBtn
+      Left = 261
+      Top = 501
+      Width = 83
+      Height = 38
+      Caption = 'Fechar'
+      TabOrder = 2
+      OnClick = BitBtn9Click
+      Glyph.Data = {
+        76020000424D7602000000000000760000002800000020000000200000000100
+        0400000000000002000000000000000000001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888887788877
+        88877888000887788888888788877888778887780EE088877888888877888778
+        887788870EE607888778877888778887788877880EE660778887888778887788
+        877888770EE666007788878887788877888778880EE666600077800000000000
+        008887780EE666660000888888888888807788870EE666660778888888888888
+        800077880EE666660778888888888887800000000EE666660778888888888807
+        707777770EE666660778888888888800707777770EE666660778888888888806
+        007777770EE666660778888888888806607777770EE60066077888888777770E
+        660777770EE07066077888887777770EE66077770EE0F066077888800000000E
+        EE6607770EE60066077888066666666EEEE660770EE666660778880EEEEEEEEE
+        EEEE66070EE666660778880EEFFFFFFFFFFEE6070EE666660778880EEEEEEEEE
+        EFEE60770EE66666077888800000000EFEE607770EE66666077888888888880E
+        EE6077770EE66666077888888888880EE60777770EE66666077888888888880E
+        607777770EE6666607788888888888060077777770EE66660778888888888800
+        80777777770EE6660778888888888888807777777770EE660778888888888888
+        8077777777770EE6077888888888888880777777777770EE0788888888888888
+        8000000000000000088888888888888888888888888888888888}
+    end
   end
   object Panel2: TPanel
-    Left = 353
+    Left = 385
     Top = 0
-    Width = 670
+    Width = 638
     Height = 541
     Align = alClient
     TabOrder = 1
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 668
+      Width = 636
       Height = 176
       Align = alTop
       TabOrder = 0
       object btnImprimir: TButton
-        Left = 8
+        Left = 39
         Top = 104
         Width = 177
         Height = 25
@@ -2066,7 +2262,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnImprimirClick
       end
       object btnConsultar: TButton
-        Left = 376
+        Left = 407
         Top = 40
         Width = 177
         Height = 25
@@ -2075,7 +2271,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnConsultarClick
       end
       object btnValidarXML: TButton
-        Left = 376
+        Left = 407
         Top = 8
         Width = 177
         Height = 25
@@ -2090,7 +2286,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnValidarXMLClick
       end
       object btnStatusServ: TButton
-        Left = 8
+        Left = 39
         Top = 8
         Width = 177
         Height = 25
@@ -2099,7 +2295,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnStatusServClick
       end
       object btnCancelamento: TButton
-        Left = 376
+        Left = 407
         Top = 72
         Width = 177
         Height = 25
@@ -2108,7 +2304,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnCancelamentoClick
       end
       object btnCriarEnviar: TButton
-        Left = 8
+        Left = 39
         Top = 40
         Width = 177
         Height = 25
@@ -2117,7 +2313,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnCriarEnviarClick
       end
       object btnGerarMDFe: TButton
-        Left = 192
+        Left = 223
         Top = 8
         Width = 177
         Height = 25
@@ -2132,7 +2328,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnGerarMDFeClick
       end
       object btnGerarPDF: TButton
-        Left = 192
+        Left = 223
         Top = 104
         Width = 177
         Height = 25
@@ -2141,7 +2337,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnGerarPDFClick
       end
       object btnConsultarRecibo: TButton
-        Left = 192
+        Left = 223
         Top = 40
         Width = 177
         Height = 25
@@ -2150,7 +2346,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnConsultarReciboClick
       end
       object btnConsultarChave: TButton
-        Left = 8
+        Left = 39
         Top = 72
         Width = 177
         Height = 25
@@ -2159,7 +2355,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnConsultarChaveClick
       end
       object btnEncerramento: TButton
-        Left = 192
+        Left = 223
         Top = 72
         Width = 177
         Height = 25
@@ -2168,7 +2364,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnEncerramentoClick
       end
       object btnImprimirEvento: TButton
-        Left = 8
+        Left = 39
         Top = 135
         Width = 177
         Height = 25
@@ -2177,7 +2373,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnImprimirEventoClick
       end
       object btnEnviarEventoEmail: TButton
-        Left = 376
+        Left = 407
         Top = 135
         Width = 177
         Height = 25
@@ -2186,7 +2382,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnEnviarEventoEmailClick
       end
       object btnEnviarMDFeEmail: TButton
-        Left = 376
+        Left = 407
         Top = 103
         Width = 177
         Height = 25
@@ -2195,7 +2391,7 @@ object fACBrMDFe: TfACBrMDFe
         OnClick = btnEnviarMDFeEmailClick
       end
       object btnGerarPDFEvento: TButton
-        Left = 192
+        Left = 223
         Top = 136
         Width = 177
         Height = 25
@@ -2207,7 +2403,7 @@ object fACBrMDFe: TfACBrMDFe
     object PageControl2: TPageControl
       Left = 1
       Top = 177
-      Width = 668
+      Width = 636
       Height = 363
       ActivePage = TabSheet5
       Align = alClient
@@ -2217,7 +2413,7 @@ object fACBrMDFe: TfACBrMDFe
         object MemoResp: TMemo
           Left = 0
           Top = 0
-          Width = 660
+          Width = 628
           Height = 335
           Align = alClient
           TabOrder = 0
@@ -2260,7 +2456,7 @@ object fACBrMDFe: TfACBrMDFe
         object trvwMDFe: TTreeView
           Left = 0
           Top = 0
-          Width = 660
+          Width = 628
           Height = 335
           Align = alClient
           Indent = 19
@@ -2378,5 +2574,95 @@ object fACBrMDFe: TfACBrMDFe
     IDECharset = CP1252
     Left = 662
     Top = 265
+  end
+  object sqlProc: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO '
+      '       from TB_IBGE ')
+    SQLConnection = dm.sc
+    Left = 534
+    Top = 353
+    object sqlProcNM_LOCALIDADE: TStringField
+      FieldName = 'NM_LOCALIDADE'
+      Required = True
+      Size = 40
+    end
+    object sqlProcCD_UF: TStringField
+      FieldName = 'CD_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object sqlProcCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Required = True
+      Size = 10
+    end
+    object sqlProcNM_MUNICIPIO: TStringField
+      FieldName = 'NM_MUNICIPIO'
+      Size = 40
+    end
+  end
+  object sdsMdfeDocs: TSQLDataSet
+    CommandText = 'SELECT * FROM MDFE_DOCS WHERE MDFE = :MDFE'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'MDFE'
+        ParamType = ptInput
+      end>
+    SQLConnection = dm.sc
+    Left = 406
+    Top = 409
+  end
+  object dspMdfeDocs: TDataSetProvider
+    DataSet = sdsMdfeDocs
+    Left = 438
+    Top = 409
+  end
+  object cdsMdfeDocs: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'MDFE'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspMdfeDocs'
+    Left = 470
+    Top = 409
+    object cdsMdfeDocsMDFE: TIntegerField
+      FieldName = 'MDFE'
+    end
+    object cdsMdfeDocsCHAVE_NFE: TStringField
+      FieldName = 'CHAVE_NFE'
+      Size = 60
+    end
+    object cdsMdfeDocsPESO_VOLUME: TFloatField
+      FieldName = 'PESO_VOLUME'
+      DisplayFormat = ',##0.0'
+    end
+    object cdsMdfeDocsVALOR_NF: TFloatField
+      FieldName = 'VALOR_NF'
+      DisplayFormat = ',##0.00'
+    end
+  end
+  object dsMdfeDocs: TDataSource
+    DataSet = cdsMdfeDocs
+    Left = 502
+    Top = 409
+  end
+  object OpenDialog2: TOpenDialog
+    Left = 218
+    Top = 69
+  end
+  object sqlProcNfe: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = dm.sc
+    Left = 446
+    Top = 353
   end
 end

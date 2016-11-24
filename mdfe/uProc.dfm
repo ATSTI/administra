@@ -1,6 +1,6 @@
 object fProc: TfProc
-  Left = 192
-  Top = 121
+  Left = 124
+  Top = 120
   Width = 1054
   Height = 534
   Caption = 'MDF-e'
@@ -11,6 +11,7 @@ object fProc: TfProc
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
