@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr,
-  ExtCtrls, ACBrNFe, ComCtrls;
+  ExtCtrls, ACBrNFe, ComCtrls, ACBrBase, ACBrDFe, Menus, Mask, JvExMask,
+  JvToolEdit, JvBaseEdits;
 
 type
   TfImporta_XML = class(TForm)
@@ -88,6 +89,25 @@ type
     TabSheet2: TTabSheet;
     memLista: TMemo;
     Label2: TLabel;
+    chkFornec: TCheckBox;
+    BitBtn1: TBitBtn;
+    Panel4: TPanel;
+    Label5: TLabel;
+    Label7: TLabel;
+    edUni: TEdit;
+    edProdUni: TEdit;
+    BitBtn2: TBitBtn;
+    PopupMenu1: TPopupMenu;
+    ConferirBancodeDados1: TMenuItem;
+    ConversoUnidade1: TMenuItem;
+    cdsNFItemUN_CONV: TStringField;
+    cdsNFItemQTDE_CONV: TFloatField;
+    Label6: TLabel;
+    BitBtn3: TBitBtn;
+    edConv: TJvCalcEdit;
+    ProcurarProduto1: TMenuItem;
+    cdsNFItemVLR_CONV: TFloatField;
+    rgTipoConv: TRadioGroup;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -112,6 +132,11 @@ type
     procedure cdsNFItemReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure ConferirBancodeDados1Click(Sender: TObject);
+    procedure ConversoUnidade1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     diretorioXml: String;
     TD: TTransactionDesc;
@@ -183,7 +208,8 @@ begin
     ' r.NUM_ITEM,  r.CODPRODUTO, r.CODPRODUTO_ATS, ' +
     ' r.CODPRO_ATS, r.PRODUTO, r.PRODUTO_ATS, r.NCM,' +
     ' r.CFOP, r.UN, r.QTDE, r.VLR_UNIT, r.VLR_TOTAL,' +
-    ' r.ICMS, r.PIS, r.COFINS, r.IPI, r.COD_BARRA ' +
+    ' r.ICMS, r.PIS, r.COFINS, r.IPI, r.COD_BARRA, ' +
+    ' r.QTDE_CONV, r.UN_CONV, r.VLR_CONV ' +
     ' FROM NOTAFISCAL_PROD_IMPORTA r ' +
 
     ' WHERE r.NOTAFISCAL = ' + IntToSTr(cdsNFNOTAFISCAL.AsInteger) +
@@ -274,7 +300,7 @@ end;
 procedure TfImporta_XML.faltandoProduto;
 var strFaltaProd: String;
 begin
-  strFaltaProd := 'SELECT pf.CODPRODUTO, p.CODPRO ' +
+  strFaltaProd := 'SELECT pf.CODPRODUTO, p.CODPRO, p.QTDE_PCT, p.UNIDADEMEDIDA ' +
     '  FROM  produto_fornecedor pf ' +
     ' LEFT OUTER JOIN produtos p on p.CODPRODUTO = pf.CODPRODUTO ' +
     ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger) +
@@ -335,9 +361,11 @@ end;
 procedure TfImporta_XML.btnExisteProdutoFornecClick(Sender: TObject);
 var insereCodPro: String;
   linhaNF: Integer;
+  vlr_conv  : Double;
 begin
   if (cdsNF.Active) then
   begin
+    DecimalSeparator := '.';
     linhaNF := cdsNF.RecNo;
     cdsNF.First;
     while not cdsNF.Eof do
@@ -348,9 +376,17 @@ begin
         faltandoProduto;
         if (not sqlFaltaProd.IsEmpty) then
         begin
+          vlr_conv := cdsNFItemVLR_UNIT.AsFloat;
+          if (sqlFaltaProd.fieldbyname('QTDE_PCT').AsFloat > 0) then
+          begin
+            vlr_conv := cdsNFItemVLR_UNIT.AsFloat*sqlFaltaProd.fieldbyname('QTDE_PCT').AsFloat;
+          end;
           insereCodPro := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
             ' CODPRODUTO_ATS = ' +  IntToStr(sqlFaltaProd.fieldbyname('CODPRODUTO').asInteger) +
             ' ,CODPRO_ATS = ' + QuotedStr(sqlFaltaProd.fieldbyname('CODPRO').AsString) +
+            ' ,QTDE_CONV = ' + FloatToStr(sqlFaltaProd.fieldbyname('QTDE_PCT').AsFloat) +
+            ' ,UN_CONV = ' + QuotedStr(sqlFaltaProd.fieldbyname('UNIDADEMEDIDA').AsString) +
+            ' ,VLR_CONV = ' + FloatToStr(vlr_conv) +
             ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
             '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
             '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
@@ -371,9 +407,17 @@ begin
           procuraCadastroProduto;
           if (not sqlBusca.IsEmpty) then
           begin
+            vlr_conv := cdsNFItemVLR_UNIT.AsFloat;
+            if (sqlBusca.fieldbyname('QTDE_PCT').AsFloat > 0) then
+            begin
+              vlr_conv := cdsNFItemVLR_UNIT.AsFloat*sqlBusca.fieldbyname('QTDE_PCT').AsFloat;
+            end;
             insereCodPro := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
               ' CODPRODUTO_ATS = ' +  IntToStr(sqlBusca.fieldbyname('CODPRODUTO').asInteger) +
               ' ,CODPRO_ATS = ' + QuotedStr(sqlBusca.fieldbyname('CODPRO').AsString) +
+              ' ,QTDE_CONV = ' + FloatToStr(sqlBusca.fieldbyname('QTDE_PCT').AsFloat) +
+              ' ,UN_CONV = ' + QuotedStr(sqlBusca.fieldbyname('UNIDADEMEDIDA').AsString) +
+              ' ,VLR_CONV = ' + FloatToStr(vlr_conv) + 
               ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
               '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
               '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
@@ -395,6 +439,7 @@ begin
       end;
       cdsNF.Next;
     end;
+    DecimalSeparator := ',';
     cdsNF.RecNo := linhaNF;
     abreNFItem;
     btnExisteProdutoFornec.Font.Color := clWindowText;
@@ -510,29 +555,54 @@ end;
 procedure TfImporta_XML.procuraCadastroProduto;
 var strBusca: String;
 begin
-  strBusca := 'SELECT CODPRODUTO, CODPRO ' +
+  strBusca := 'SELECT CODPRODUTO, CODPRO, QTDE_PCT, UNIDADEMEDIDA ' +
     '  FROM produtos ' ;
   if (chkCodBarra.Checked) then
   begin
     strBusca := strBusca + ' where COD_BARRA = ';
     strBusca := strBusca + QuotedStr(retornaCodBarra);
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
-  //end  13/12/2015
-  // nao posso fazer esta busca pois, pega o codigo do fornecedor e procura no meus produtos
-  // tem que procurar na tabela de relatiocnamento
-  {
-  else begin
+    //end  13/12/2015
+    // nao posso fazer esta busca pois, pega o codigo do fornecedor e procura no meus produtos
+    // tem que procurar na tabela de relatiocnamento
+    // 13/10/2016 - adicionei isto para o cometa
+  end;
+  if (chkFornec.Checked) then
+  begin
     strBusca := strBusca + ' where CODPRO = ' + QuotedStr(retornaCodPro);
     strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
   end;
-  }
-  if (sqlBusca.Active) then
-    sqlBusca.Close;
-  sqlBusca.SQL.Clear;
-  sqlBusca.SQL.Add(strBusca);
-  sqlBusca.Open;
 
+  if ((chkCodBarra.Checked) or (chkFornec.Checked)) then
+  begin
+    if (sqlBusca.Active) then
+      sqlBusca.Close;
+    sqlBusca.SQL.Clear;
+    sqlBusca.SQL.Add(strBusca);
+    sqlBusca.Open;
   end;
+  {
+  if (chkFornec.Checked) then
+  begin
+    // Inserir no PRODUTO_FORNECEDOR, caso esteja marcado o chekbox
+    strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
+              'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
+              IntToStr(varCodProduto) +
+              ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
+              strInsereItemF := strInsereItemF + ', ' + QuotedStr(retornaCodPro) + ')';
+            sqlConn.StartTransaction(TD);
+            try
+              sqlConn.ExecuteDirect(strInsereItem);
+              sqlConn.ExecuteDirect(strInsereItemF);
+              sqlConn.Commit(TD);
+            except
+              on E : Exception do
+              begin
+                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+                sqlConn.Rollback(TD); //on failure, undo the changes
+              end;
+            end;
+            }
 end;
 
 procedure TfImporta_XML.FormShow(Sender: TObject);
@@ -622,14 +692,32 @@ begin
               MessageDlg('Existe Produto sem o Código no sistema.', mtWarning, [mbOK], 0);
               exit;
             end;
-
             fMov.MovDetalhe.CodMov     := codMov;
             fMov.MovDetalhe.CodProduto := cdsNFItemCODPRODUTO_ATS.AsInteger;
-            fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
-            fMov.MovDetalhe.Preco      := cdsNFItemVLR_UNIT.AsFloat;
+            if (cdsNFItemQTDE_CONV.AsFloat > 0) then
+            begin
+              //if (rgTipoConv.ItemIndex = 1) then
+              //begin
+              //  fMov.MovDetalhe.Qtde := cdsNFItemQTDE.AsFloat/cdsNFItemQTDE_CONV.AsFloat;
+              //  fMov.MovDetalhe.Preco:= cdsNFItemVLR_CONV.AsFloat;
+              //end;
+              //if (rgTipoConv.ItemIndex = 0) then
+              //begin
+                fMov.MovDetalhe.Qtde := cdsNFItemQTDE.AsFloat/cdsNFItemQTDE_CONV.AsFloat;
+                if (cdsNFItemVLR_CONV.AsFloat > 0) then
+                   fMov.MovDetalhe.Preco := cdsNFItemVLR_CONV.AsFloat
+                else
+                   fMov.MovDetalhe.Preco := cdsNFItemVLR_UNIT.AsFloat;
+              //end;
+              fMov.MovDetalhe.Un := trim(copy(cdsNFItemUN_CONV.AsString,1,2));
+            end
+            else begin
+              fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
+              fMov.MovDetalhe.Preco      := cdsNFItemVLR_UNIT.AsFloat;
+              fMov.MovDetalhe.Un         := trim(copy(cdsNFItemUN.AsString,1,2));
+            end;
             fMov.MovDetalhe.Descricao  := trim(cdsNFItemPRODUTO.AsString);
             fMov.MovDetalhe.Desconto   := 0;
-            fMov.MovDetalhe.Un         := trim(copy(cdsNFItemUN.AsString,1,2));
             fMov.MovDetalhe.Lote       := '0';//cdsB.FieldByName('LOTE').AsString;
             fMov.MovDetalhe.inserirMovDet;
             cdsNFItem.Next;
@@ -978,7 +1066,7 @@ begin
           stql := 'INSERT INTO NOTAFISCAL_PROD_IMPORTA (NOTAFISCAL, ' +
             ' SERIE, CNPJ_EMITENTE, NUM_ITEM, ' +
             ' CODPRODUTO, PRODUTO, NCM, UN, QTDE, VLR_UNIT,' +
-            ' VLR_TOTAL, COD_BARRA' +
+            ' VLR_TOTAL, COD_BARRA, QTDE_CONV, VLR_CONV' +
             ' ) VALUES (';
           stql := stql +  IntToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Ide.nNF);
           stql := stql + ',';
@@ -1004,7 +1092,7 @@ begin
           stql := stql +  FloatToStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.vProd);
           stql := stql + ',';
           stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cEAN);
-          stql := stql + ')';
+          stql := stql + ',0, 0)';
           //stql := stql +  QuotedStr();
           //stql := stql + ',';
           sqlConn.ExecuteDirect(stql);
@@ -1107,6 +1195,93 @@ begin
   while Copy(Numero,1,1) = '0' do
     delete(numero,1,1);
   result := numero;
+end;
+
+procedure TfImporta_XML.BitBtn2Click(Sender: TObject);
+begin
+  Panel4.Visible := False;
+end;
+
+procedure TfImporta_XML.BitBtn1Click(Sender: TObject);
+begin
+  edProdUni.Text := cdsNFItemPRODUTO.AsString;
+  edUni.Text := cdsNFItemUN_CONV.AsString;
+  edConv.Value := cdsNFItemQTDE_CONV.AsFloat;
+  Panel4.Visible := True;
+  edUni.SetFocus;
+end;
+
+procedure TfImporta_XML.ConferirBancodeDados1Click(Sender: TObject);
+var strInsere: String;
+  td: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ADD UN_CONV VARCHAR(2)');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ADD QTDE_CONV DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL_PROD_IMPORTA ADD VLR_CONV DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  MessageDlg('Banco de Dados atualizado com sucesso.', mtWarning, [mbOK], 0);
+end;
+
+procedure TfImporta_XML.ConversoUnidade1Click(Sender: TObject);
+begin
+  BitBtn1.Click;
+end;
+
+procedure TfImporta_XML.BitBtn3Click(Sender: TObject);
+var
+  TDm: TTransactionDesc;
+  strInsereItem : String;
+  vlr_unit_conv: Double;
+begin
+  if (edConv.Value > 0) then
+  begin
+    //if (rgTipoConv.ItemIndex = 0) then
+    //begin
+      vlr_unit_conv := cdsNFItemVLR_UNIT.AsFloat*edConv.Value;
+    //end;
+    //if (rgTipoConv.ItemIndex = 1) then
+    //begin
+    //  vlr_unit_conv := cdsNFItemVLR_UNIT.AsFloat/edConv.Value;
+    //end;
+  end;
+  DecimalSeparator := '.';
+  strInsereItem := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
+    ' QTDE_CONV = ' +  FloatToStr(edConv.Value) +
+    ' ,UN_CONV = ' + QuotedStr(edUni.Text) +
+    ' ,VLR_CONV = ' +  FloatToStr(vlr_unit_conv) +
+    ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
+    '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
+    '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
+    '   AND NUM_ITEM = ' + IntToStr(cdsNFItemNUM_ITEM.AsInteger);
+  sqlConn.StartTransaction(TD);
+  try
+    sqlConn.ExecuteDirect(strInsereItem);
+    sqlConn.Commit(TD);
+    cdsNFItem.Close;
+    cdsNFItem.Open;
+    DecimalSeparator := ',';
+  except
+    on E : Exception do
+    begin
+      DecimalSeparator := ',';
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      sqlConn.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+  Panel4.Visible := False;
 end;
 
 end.

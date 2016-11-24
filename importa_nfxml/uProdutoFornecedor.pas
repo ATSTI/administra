@@ -34,6 +34,8 @@ type
     cdsProdutoFornecCODPRO: TStringField;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure edCodProdutoExit(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -42,6 +44,8 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure JvDBUltimGrid1DblClick(Sender: TObject);
     procedure edCodProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -215,6 +219,17 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;   
+end;
+
+procedure TfProdutoFornec.BitBtn4Click(Sender: TObject);
+begin
+  btnInsere.Click;
+  Close;
+end;
+
+procedure TfProdutoFornec.BitBtn5Click(Sender: TObject);
+begin
+  Close;
 end;
 
 end.

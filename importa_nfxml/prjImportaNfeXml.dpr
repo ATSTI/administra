@@ -9,7 +9,8 @@ uses
   uMovimento in '..\comercial\src\uMovimento.pas',
   UDm in '..\comercial\src\UDm.pas' {DM: TDataModule},
   md5 in '..\comercial\src\md5.pas',
-  uMovimentoDetalhe in '..\comercial\src\uMovimentoDetalhe.pas';
+  uMovimentoDetalhe in '..\comercial\src\uMovimentoDetalhe.pas',
+  uEstoqueAtualiza in '..\comercial\src\uEstoqueAtualiza.pas';
 
 {$R *.res}
 

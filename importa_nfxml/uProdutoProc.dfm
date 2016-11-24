@@ -1,8 +1,8 @@
 object fProdutoProc: TfProdutoProc
-  Left = 174
-  Top = 108
-  Width = 621
-  Height = 552
+  Left = 370
+  Top = 177
+  Width = 639
+  Height = 554
   Caption = 'Produto'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

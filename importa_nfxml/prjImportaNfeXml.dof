@@ -91,13 +91,13 @@ ImageBase=4194304
 ExeDescription=
 [Directories]
 OutputDir=C:\Home\sisadmin
-UnitOutputDir=c:\tmp
-PackageDLLOutputDir=c:\tmp
-PackageDCPOutputDir=c:\tmp
-SearchPath=c:\tmp
+UnitOutputDir=C:\TMP\importaxml
+PackageDLLOutputDir=C:\TMP\importaxml
+PackageDCPOutputDir=C:\TMP\importaxml
+SearchPath=C:\TMP\importaxml
 Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;TCFLib70;TCFDsg70;rppack_del;rppackvcl_del;rppackdesignvcl_del;rppackv_del;rppackdesign_del;FlatStyle_D6;RLibWinD7vcl;gbCob7;qrpt;VDOPrint;RLBoletoD7;Tiss;fac;mmjp;xpm;zpm
 Conditionals=
-DebugSourceDirs=c:\tmp
+DebugSourceDirs=C:\TMP\importaxml
 UsePackages=0
 [Parameters]
 RunParams=
@@ -135,6 +135,7 @@ ProductName=
 ProductVersion=1.0.0.0
 Comments=
 [Excluded Packages]
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\RLBoletoD7.bpl=RLBoleto (by Produsys Sistemas e Internet
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\RBuilder\Lib\dclRBC77.bpl=ReportBuilder TeeChart 4.04 Components
@@ -151,23 +152,28 @@ c:\arquivos de programas\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl
 Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=c:\tmp
+Count=2
+Item0=C:\TMP\importaxml
+Item1=c:\tmp
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=1
-Item0=c:\tmp
+Count=2
+Item0=C:\TMP\importaxml
+Item1=c:\tmp
 [HistoryLists\hlUnitOutputDirectory]
-Count=1
-Item0=c:\tmp
+Count=2
+Item0=C:\TMP\importaxml
+Item1=c:\tmp
 [HistoryLists\hlOutputDirectorry]
 Count=1
 Item0=C:\Home\sisadmin
 [HistoryLists\hlBPLOutput]
-Count=1
-Item0=c:\tmp
+Count=2
+Item0=C:\TMP\importaxml
+Item1=c:\tmp
 [HistoryLists\hlDCPOutput]
-Count=1
-Item0=c:\tmp
+Count=2
+Item0=C:\TMP\importaxml
+Item1=c:\tmp
