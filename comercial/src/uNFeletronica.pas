@@ -1563,7 +1563,7 @@ begin
       end;
       cdsNF.Next;
    end;
-   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := Edit1.Text;
+   AcbrNfe1.Configuracoes.Arquivos.PathNFe := Edit1.Text;
    ACBrNFe1.NotasFiscais.Items[0].GravarXML;
    //MemoResp.Lines.LoadFromFile(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' +copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID, (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
    dm.sqlsisAdimin.StartTransaction(TD);
@@ -1669,7 +1669,7 @@ begin
    begin
      //try  -- Retirei pois, alguns lugares estava dando erro e nao aparecia
        ACBrNFe1.Enviar(0);
-       AcbrNfe1.Configuracoes.Arquivos.PathSalvar := Edit1.Text;
+       AcbrNfe1.Configuracoes.Arquivos.PathNFe := Edit1.Text;
 
        ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
        ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
@@ -1866,7 +1866,7 @@ begin
     label8.Font.Color := clRed;
     Label8.Caption :=  'HOMOLOGAÇÃO.';
   end;
-  ACBrNFe1.Configuracoes.Arquivos.PathSalvar := sEmpresa1DIVERSOS1.AsString;
+  ACBrNFe1.Configuracoes.Arquivos.PathNFe := sEmpresa1DIVERSOS1.AsString;
   if ( not DirectoryExists(sEmpresa1DIVERSOS1.AsString)) then
      CreateDir(sEmpresa1DIVERSOS1.AsString);
   ACBrNFe1.Configuracoes.Arquivos.PathEvento := sEmpresa1DIVERSOS1.AsString + 'Canceladas\';
@@ -1935,15 +1935,16 @@ begin
   begin
     if (cdsNFSELECIONOU.AsString = 'S') then
     begin
-      if FileExists(ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' + cdsNFNOMEXML.AsString) then
+      nfe_carregalogo;
+      if FileExists(ACBrNFe1.Configuracoes.Arquivos.PathNFe+'\' + cdsNFNOMEXML.AsString) then
       begin
-        arquivx := ACBrNFe1.Configuracoes.Arquivos.PathSalvar+'\' + cdsNFNOMEXML.AsString;
+        arquivx := ACBrNFe1.Configuracoes.Arquivos.PathNFe+'\' + cdsNFNOMEXML.AsString;
       end
       else begin
         OpenDialog1.Title := 'Selecione a NFE';
         OpenDialog1.DefaultExt := '*-nfe.XML';
         OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-        OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+        OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathNFe;
         if OpenDialog1.Execute then
         begin
           arquivx := OpenDialog1.FileName;
@@ -2051,7 +2052,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathNFe;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -2241,7 +2242,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathNFe;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -2280,7 +2281,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathNFe;
   if OpenDialog1.Execute then
   begin
     ACBrNFe1.NotasFiscais.Clear;
@@ -3674,7 +3675,7 @@ begin
   OpenDialog1.Title := 'Selecione a NFE';
   OpenDialog1.DefaultExt := '*-nfe.XML';
   OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
-  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathSalvar;
+  OpenDialog1.InitialDir := ACBrNFe1.Configuracoes.Arquivos.PathNFe;
   if OpenDialog1.Execute then
   begin
   ACBrNFe1.NotasFiscais.Clear;

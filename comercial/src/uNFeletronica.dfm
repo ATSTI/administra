@@ -1581,7 +1581,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
