@@ -1760,7 +1760,7 @@ end;
 
 procedure TfAtsAdmin.NotaFiscalEletrnica1Click(Sender: TObject);
 begin
-      fNFeletronica.ShowModal;
+  fNFeletronica.ShowModal;
 end;
 
 procedure TfAtsAdmin.CidadesIBGE1Click(Sender: TObject);
