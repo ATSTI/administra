@@ -772,6 +772,13 @@ begin
     sdsRegiao.Close;
     VCLReport1.Report.Params.ParamByName('REG').Value := StrToInt(Edit5.Text);
   end;
+  if (ComboBox1.Text = '') then
+  begin
+    VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := 'TOTAL GERAL EMPRESA';
+  end
+  else begin
+    VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
+  end;
   VCLReport1.Execute;
 end;
 
@@ -850,10 +857,10 @@ begin
   VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + ' order by mov.CODMOVIMENTO DESC'
   end else
   VCLReport1.Report.DataInfo.Items[0].SQL:= SqlImprimi + ' order by '+ ordenar ;
-  //if (ComboBox1.Text <> '') then
-  ///begin
-  //  VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
-  //end;
+  if (ComboBox1.Text <> '') then
+  begin
+    VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
+  end;
   VCLReport1.Execute;
 end;
 
