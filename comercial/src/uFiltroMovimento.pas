@@ -586,11 +586,14 @@ begin
       Edit1.Text := fVendas.cds_ccustoCODIGO.AsString;
     end;
 
-    if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where mov.CODALMOXARIFADO = '
-    else
-      sqlTexto := sqlTexto + ' and mov.CODALMOXARIFADO = ';
+    if (Edit1.Text <> '') then
+    begin
+      if (sqlTexto='') then
+        sqlTexto := sqlTexto + ' where mov.CODALMOXARIFADO = '
+      else
+        sqlTexto := sqlTexto + ' and mov.CODALMOXARIFADO = ';
       sqlTexto := sqlTexto + '' + Edit1.Text + '';
+    end;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
