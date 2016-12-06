@@ -84,8 +84,6 @@ begin
   inherited;
   cdsAdicADIC_CODDI.AsInteger  := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
   cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
-  cdsMov_Det.Params[0].AsInteger := DMNF.cds_MovimentoCODMOVIMENTO.AsInteger;
-  cdsMov_Det.Open;
   dbEdit1.SetFocus;
 end;
 
@@ -112,6 +110,8 @@ end;
 procedure TfDIAdicao.FormShow(Sender: TObject);
 begin
   //  inherited;
+  cdsMov_Det.Params[0].AsInteger := DMNF.cds_MovimentoCODMOVIMENTO.AsInteger;
+  cdsMov_Det.Open;
   //cdsMov_Det.Open;
 end;
 
