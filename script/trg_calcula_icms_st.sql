@@ -1,4 +1,3 @@
-set term ^ ;
 ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -55,8 +54,8 @@ AS
  DECLARE VARIABLE vICMSUFRemet DOUBLE PRECISION = 0;
  DECLARE VARIABLE CST_IPI_CENQ CHAR(3) = '999';
  DECLARE VARIABLE CEST CHAR(7) = '';
-
-
+ DECLARE VARIABLE arrend_txt CHAR(7) = '';
+ DECLARE VARIABLE origem_p integer;
 BEGIN
 
   -- versao 3.0.0.16
@@ -65,8 +64,10 @@ BEGIN
   new.SUITE = ''; 
   new.Aliq_CUPOM = 'II';
    
-  select cast(d4 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
-    into :arredondar;
+  select d4  from PARAMETRO where PARAMETRO = 'EMPRESA' -- CASAS DECIMAIS VENDA
+    into :arrend_txt;
+  if (arrend_txt <> '') then   
+    arredondar = cast(arrend_txt as Integer);
         
   if (arredondar is null) then 
 	arredondar = 2;
@@ -106,10 +107,13 @@ BEGIN
 	end  
 	
 	--buscar o Cest pelo NCM 
-	select p.NCM, COALESCE(p.CEST, COALESCE(ncm.CEST, '')) from produtos p 
+	select p.NCM, COALESCE(p.CEST, COALESCE(ncm.CEST, '')), p.origem from produtos p 
 	 inner join ncm on ncm.NCM = p.NCM  
 	 where p.CODPRODUTO = new.CODPRODUTO
-	  into :NCM_P, :CEST;  
+	  into :NCM_P, :CEST, :origem_p;
+ 
+       if (new.ORIGEM is null) then  
+          new.origem = cast(:origem_p as char(2));
   
        if (CEST <> '') then
           new.CEST = :CEST;
@@ -739,7 +743,7 @@ BEGIN
       if (new.vBCUFDest > 0) then 
       begin 
         -- DIFAL 
-        if (new.VBCUFDEST > 0) then
+        if ((new.VBCUFDEST > 0) and  (picmsUFDest > 0)) then
         begin 
           vBCUFDest = new.VBCUFDEST * ((:pICMSUFDest-:pICMSInter)/100);
           new.vFCPUFDest = new.VBCUFDEST * (:pFCPUFDest/100);
