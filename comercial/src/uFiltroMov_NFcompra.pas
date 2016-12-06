@@ -110,6 +110,7 @@ type
   private
     { Private declarations }
   public
+     fnf_ccusto: String;
      codigo, SqlTexto : string;
      varCodCompra , cod_mov : integer;
     { Public declarations }
@@ -190,11 +191,12 @@ begin
   //------------------------------------------------------------------------------
   //Status
   //------------------------------------------------------------------------------
-  if sqlTexto='' then
-     sqlTexto := sqlTexto + ' where mov.STATUS = '
-  else
-    sqlTexto := sqlTexto + ' and mov.STATUS = ';
-    sqlTexto := sqlTexto + IntToStr(rgStatus.ItemIndex);
+  // comentei aqui nao achei este statsu = 4 06/12/2016
+  //if sqlTexto='' then
+  //   sqlTexto := sqlTexto + ' where mov.STATUS = 4 '
+  //else
+  //  sqlTexto := sqlTexto + ' and mov.STATUS = 4 ';
+  //  sqlTexto := sqlTexto + IntToStr(rgStatus.ItemIndex);
   //==============================================================================
   //------------------------------------------------------------------------------
   //Natureza da operação
@@ -308,6 +310,8 @@ begin
       if (dm.parametroD2.AsString <> '') then
         meDta2.Text := dm.parametroD2.AsString;
     end;
+    if (fnf_ccusto <> '') then
+      ComboBox1.Text := fnf_ccusto;    
     btnProcurar.Click;
 end;
 
@@ -500,6 +504,7 @@ end;
 
 procedure TfFiltroMov_NFcompra.FormCreate(Sender: TObject);
 begin
+  fnf_ccusto := '';
   //sCtrlResize.CtrlResize(TForm(fFiltroMov_NFcompra));
 end;
 

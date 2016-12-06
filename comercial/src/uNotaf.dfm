@@ -108,14 +108,14 @@ object fNotaf: TfNotaf
         object DBText1: TDBText
           Left = 5
           Top = 18
-          Width = 70
-          Height = 20
+          Width = 50
+          Height = 13
           AutoSize = True
           DataField = 'CNPJ_CPF'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
-          Font.Height = -16
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False
@@ -131,14 +131,14 @@ object fNotaf: TfNotaf
         object DBText2: TDBText
           Left = 5
           Top = 18
-          Width = 70
-          Height = 20
+          Width = 50
+          Height = 13
           AutoSize = True
           DataField = 'IE_RG'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlue
-          Font.Height = -16
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           ParentFont = False

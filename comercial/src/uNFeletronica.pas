@@ -1022,6 +1022,11 @@ begin
       str_nf := str_nf + ' and (nf.PROTOCOLOENV IS NULL)';
       str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
     end;
+    if (ComboBox1.Text <> '') then
+    begin
+      cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+      str_nf := str_nf + ' and (nf.CCUSTO = ' + IntToStr(cds_ccustoCODIGO.AsInteger) + ')';
+    end;
     str_nf := str_nf + ' order by nf.NOTASERIE DESC';
     cdsNF.CommandText := str_nf;
   end

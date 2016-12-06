@@ -106,6 +106,8 @@ begin
    fNotaFc := TfNotaFc.Create(Application);
    try
       TipoNF := 'Fornecedor';
+      fNotaFc.nfec_ccusto_empresa := dblkp_empresa.KeyValue;
+      fNotaFc.nfec_ccusto_emp_nome := dblkp_empresa.Text;
       //fNotaFc.RadioGroup1.Visible := False;
       fNotaFc.ShowModal;
    finally
