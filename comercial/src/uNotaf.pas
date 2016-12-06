@@ -1815,8 +1815,9 @@ begin
 
     if (not  dmnf.cds_empresa.Active) then
       dmnf.cds_empresa.open;
-  if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
-    ChkComp.Checked := True;
+  //if(not dmnf.cds_nfIDCOMPLEMENTAR.IsNull) then
+    if(dmnf.cds_nfNFE_FINNFE.AsString = 'fnComplementar') then
+      ChkComp.Checked := True;
 end;
 
 procedure TfNotaf.gravanotafiscal;
