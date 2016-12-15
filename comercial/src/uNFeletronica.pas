@@ -1215,7 +1215,7 @@ begin
    if(sEmpresa.IsEmpty) then
      MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
-   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;  
+   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
    nfe_carregalogo;
 
    cdsNF.First;
@@ -1935,6 +1935,29 @@ procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
 var strAtualizaNota, nProtCanc: String;
 arquivx: String;
 begin
+   if (not cds_ccusto.Active) then
+     cds_ccusto.Open;
+
+   if (PageControl1.ActivePageIndex = 0) then
+   begin
+     cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+     if(ComboBox1.Text = '') then
+     begin
+       MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+       exit;
+     end;
+   end;
+   //Seleciona Empresa de acordo com o CCusto selecionado
+   if (sEmpresa.Active) then
+     sEmpresa.Close;
+   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+   sEmpresa.Open;
+
+   //verifica se o CC foi selecionado caso não da mensagem avisando
+   if(sEmpresa.IsEmpty) then
+     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+
+  ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
   cdsNF.First;
   while not cdsNF.Eof do
   begin
@@ -2109,6 +2132,26 @@ var
   notaFCancela: String;
   //numnf : WideString;
 begin
+   if (not cds_ccusto.Active) then
+     cds_ccusto.Open;
+
+   if (PageControl1.ActivePageIndex = 0) then
+   begin
+     cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+     if(ComboBox1.Text = '') then
+     begin
+       MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+       exit;
+     end;
+   end;
+   //Seleciona Empresa de acordo com o CCusto selecionado
+   if (sEmpresa.Active) then
+     sEmpresa.Close;
+   sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+   sEmpresa.Open;
+
+  ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
+
   Protocolo := '';
   if (edNFCancelar.Text = '') then
   begin
@@ -2465,7 +2508,11 @@ var
     Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
          //Verifica tipo de Pagamento
     getPagamento;
-    Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
+    try
+      Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
+    except
+      MessageDlg('Codigo do IBGE do Emitente não informado(Cadastro Empresa)', mtError, [mbOK], 0);
+    end;
     Ide.modelo    := 55;
     if (tp_amb = 1) then
     begin
