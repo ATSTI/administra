@@ -2713,10 +2713,10 @@ object fSat: TfSat
       'IS, md.CSTCOFINS, md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, m' +
       'd.PEDIDO, MD.VLRBC_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS' +
       ', md.VLRTOT_TRIB, pr.COD_BARRA'#13#10'          , pr.NCM '#13#10'          ,' +
-      ' md.ORIGEM, vd.STATUS1 , vd.OBS obs_venda '#13#10'from VENDA vd '#13#10'inne' +
-      'r join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO' +
-      ' '#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'wh' +
-      'ere vd.CODVENDA = :id'
+      ' COALESCE(md.ORIGEM, pr.ORIGEM) ORIGEM , vd.STATUS1 , vd.OBS obs' +
+      '_venda '#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.C' +
+      'ODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join PRODUTOS pr on '#13#10'pr.C' +
+      'ODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
