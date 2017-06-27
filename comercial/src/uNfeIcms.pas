@@ -1165,7 +1165,7 @@ type
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
-    Button1: TButton;
+    btnDifal: TButton;
     sdsDifalCad: TSQLDataSet;
     dspDifalCad: TDataSetProvider;
     cdsDifalCad: TClientDataSet;
@@ -1204,6 +1204,11 @@ type
     cdsItensDifalVFCPUFDEST: TFloatField;
     cdsItensDifalVICMSUFDEST: TFloatField;
     cdsItensDifalVICMSUFREMET: TFloatField;
+    sdsProdutoUNIDADEMEDIDA: TStringField;
+    cdsProdutoUNIDADEMEDIDA: TStringField;
+    sdsProdutoUN_CONV: TFloatField;
+    cdsProdutoUN_CONV: TFloatField;
+    cdsDifalUF: TStringField;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1215,7 +1220,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure btnDifalClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
   private
     codFornEnergia: Integer;
@@ -1254,7 +1259,7 @@ implementation
 
 uses UDm, ACBrEPCBloco_0, ACBrEPCBloco_0_Class, Math, ACBrEFDBloco_E_Class,
   ACBrEFDBloco_E, ACBrEFDBloco_1, ACBrEFDBloco_C, ACBrEFDBloco_H_Class,
-  ACBrEFDBloco_H, ACBrSped, ACBrEFDBloco_C_Class;
+  ACBrEFDBloco_H, ACBrSped, ACBrEFDBloco_C_Class, ACBrEFDBloco_0;
 
 {$R *.dfm}
 
@@ -1306,7 +1311,8 @@ var
   int0190: integer;
   int0500: Integer;
   int0600: Integer;
-
+  un_nova: String;
+  prod_novo: String;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco 0.
@@ -1326,7 +1332,11 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao109;
+      COD_VER          := vlVersao110;
+      if (data_ini.Date < StrToDate('01/01/2017')) then
+      begin
+        COD_VER          := vlVersao109;
+      end;
       if (data_ini.Date < StrToDate('01/01/2016')) then
       begin
         COD_VER          := vlVersao108;
@@ -1506,8 +1516,8 @@ begin
            with Registro0190New do
            begin
              UNID  := Trim(sdsUnimed.Fields[0].AsString);
-             if (Trim(sdsUnimed.Fields[0].AsString) = 'PÇ') then
-                 UNID := 'PC';
+             //if (Trim(sdsUnimed.Fields[0].AsString) = 'PÇ') then
+             //    UNID := 'PC';
              DESCR := Trim(sdsUnimed.Fields[1].AsString);
            end;
            sdsUnimed.Next;
@@ -1631,7 +1641,8 @@ begin
              cdsProduto.Close;
 
            cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, ' +
-           ' PRO.NCM, PRO.PRODUTO, DET.UN  , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
+           ' PRO.NCM, PRO.PRODUTO, pro.UNIDADEMEDIDA as UN  , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
+           ' , pro.UNIDADEMEDIDA , det.UN_CONV  ' +
            ' FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
            ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
            ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
@@ -1651,8 +1662,12 @@ begin
            '   AND ss.MODELO <> ' + QuotedStr('55') +
            '   AND V.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +}
+           prod_novo := '';
            While (not cdsProduto.Eof) do
            begin
+             if (prod_novo <> IntToStr(cdsProdutoCODPRODUTO.AsInteger)) then
+             begin
+                prod_novo := IntToStr(cdsProdutoCODPRODUTO.AsInteger);
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
@@ -1664,8 +1679,9 @@ begin
                DESCR_ITEM   := Trim(cdsProdutOPRODUTO.AsString);
                COD_BARRA    := '';
                UNID_INV     := Trim(cdsProdutoUN.AsString);
-               if (Trim(cdsProdutoUN.AsString) = 'PÇ') then
-                  UNID_INV     := 'PC';
+
+               //if (Trim(cdsProdutoUN.AsString) = 'PÇ') then
+               //   UNID_INV     := 'PC';
 
                 {tiMercadoriaRevenda,    // 00 – Mercadoria para Revenda
                  tiMateriaPrima,         // 01 – Matéria-Prima;
@@ -1719,6 +1735,7 @@ begin
                COD_NCM      := Trim(cdsProdutoNCM.AsString);
                COD_GEN      := '';
                ALIQ_ICMS    := 18;
+               end; // teste pra ver se mudou o produto
              end;
              cdsProduto.Next;
            end;
@@ -1726,9 +1743,48 @@ begin
            if (cdsProduto.Active) then
              cdsProduto.Close;
 
+           cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, ' +
+           ' PRO.NCM, PRO.PRODUTO, DET.UN  , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
+           ' , pro.UNIDADEMEDIDA , det.UN_CONV  ' +
+           ' FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO ' +
+           ' WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO ' +
+           ' AND PRO.CODPRODUTO     = DET.CODPRODUTO ' +
+           ' AND (MOV.CODNATUREZA IN (4, 12, 15 )) ' +
+           ' AND ((EXISTS (SELECT C.CODMOVIMENTO FROM COMPRA C ' +
+           ' WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO  ' +
+           '   AND (COALESCE(C.MODELO, ' + QuotedStr('') + ') <> ' + QuotedStr('') + ')' +
+           '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+           ' )) ' +
+           ') ORDER BY DET.UN';
+           cdsProduto.Open;
+           un_nova := '';
+           While (not cdsProduto.Eof) do
+           begin
+             if (un_nova <> Trim(cdsProdutoUN.AsString)) then
+             begin
+               // 0220 - Unidade Medida Diferente no Reg 200
+               if (Trim(cdsProdutoUN.AsString) <> Trim(cdsProdutoUNIDADEMEDIDA.AsString)) then
+               begin
+                 with Registro0220New do
+                 begin
+                   UNID_CONV := Trim(cdsProdutoUN.AsString);
+                   FAT_CONV := cdsProdutoUN_CONV.AsFloat;
+                 end;
+               end;
+             end;
+             un_nova := Trim(cdsProdutoUN.AsString);
+             cdsProduto.Next;
+           end;
+
+
+           if (cdsProduto.Active) then
+             cdsProduto.Close;
+
            // INVENTARIO
            cdsProduto.CommandText := 'SELECT DISTINCT P.CODPRODUTO, P.CODPRO, ' +
              ' P.NCM, P.PRODUTO, P.UNIDADEMEDIDA UN , UDF_LEFT(P.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
+             ' , p.UNIDADEMEDIDA , EM.QTDEDEVCOMPRA as UN_CONV  ' +
              '  FROM ESTOQUEMES EM, PRODUTOS P       ' +
              ' WHERE EM.CODPRODUTO = P.CODPRODUTO    ' +
              '   AND ( not exists (SELECT DISTINCT DETC.CODPRODUTO ' +
@@ -1851,6 +1907,9 @@ serie_NF_sai: String;
 ch_sat: string;
 tam_ch_sat: integer;
 tem_ajuste: string;
+td1: Double;
+td2: Double;
+td3: Double;
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -2082,6 +2141,9 @@ begin
       if (not cdsNFVenda.IsEmpty) then
       begin
         IND_MOV := imComDados;
+        td1 := 0;
+        td2 := 0;
+        td3 := 0;
         While not cdsNFVenda.Eof do
         begin
           progressBar1.Step := progresso;
@@ -2112,6 +2174,8 @@ begin
             else
               SER           := serie_NF_sai; //04	SER	Série do documento fiscal	C	003	-
             NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
+            if cdsNFVendaNOTAFISCAL.AsInteger = 9518 then
+               td1 := 0;
             CHV_NFE       := Trim(copy(cdsNFVendaNOMEXML.AsString,0,44));
             DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
             DT_E_S        := cdsNFVendaDTASAIDA.AsDateTime;
@@ -2160,10 +2224,13 @@ begin
             cdsItensDifal.Open;
             while not cdsItensDifal.Eof do
             begin
-              if ((cdsItensDifalVFCPUFDEST.AsFloat > 0) and (cdsNFVendaNFE_FINNFE.AsString <> 'fnDenegado')) then
+              if ((cdsItensDifalVICMSUFDEST.AsFloat > 0) and (cdsNFVendaNFE_FINNFE.AsString <> 'fnDenegado')) then
               begin
                 with RegistroC101New do   //Inicio Adicionar os Itens:
                 begin
+                  td1 := td1 + cdsItensDifalVFCPUFDEST.AsFloat;
+                  td2 := td2 + cdsItensDifalVICMSUFDEST.AsFloat;
+                  td3 := td3 + cdsItensDifalVICMSUFREMET.AsFloat;
                   VL_FCP_UF_DEST  := cdsItensDifalVFCPUFDEST.AsFloat;
                   VL_ICMS_UF_DEST := cdsItensDifalVICMSUFDEST.AsFloat;
                   VL_ICMS_UF_REM  := cdsItensDifalVICMSUFREMET.AsFloat;
@@ -2282,6 +2349,15 @@ begin
         // FIM BLOCO VENDAS #######################
       end;
 
+      // DIFAL REG E110
+      {
+      if (not cdsDifalCad.Active) then
+        btnDifal.Click;
+      if (not cdsDifalCad.State in ['dsInsert', 'dsEdit']) then
+        cdsDifalCad.Edit;
+      cdsDifalCadVL_TOT_CRED_FCP.AsFloat := td1;
+      cdsDifalCadVL_OUT_DEB_DIFAL
+      }
 
       abrirTabelasVendaSAT;
       // BLOCO VENDAS  SAT   ###########################
@@ -2496,6 +2572,8 @@ end;
 
 procedure TfNfeIcms.btnTXTClick(Sender: TObject);
 begin
+  if (not cdsDifalCad.Active) then
+    btnDifal.Click;
   if (edtFile.Text = '') then
   begin
     SaveDialog1.Execute;
@@ -2782,7 +2860,13 @@ begin
 end;
 
 procedure TfNfeIcms.bloco_E;
+var tdifal1: Double;
+    tdifal2: Double;
+    tdifal3: Double;
 begin
+  tDifal1 := 0;
+  tDifal2 := 0;
+  tDifal3 := 0;
   with ACBrSPEDFiscal1.Bloco_E do
   begin
     with RegistroE001New do
@@ -2844,18 +2928,38 @@ begin
          (cdsDifalVICMSUFDEST.AsFloat > 0) or
          (cdsDifalVICMSUFREMET.AsFloat > 0)) then
       begin
-        {with RegistroC101New do   //Inicio Adicionar os Itens:
+        tDifal1 := tDifal1 + cdsDifalVFCPUFDEST.AsFloat;
+        tDifal2 := tDifal2 + cdsDifalVICMSUFDEST.AsFloat;
+        tDifal3 := tDifal3 + cdsDifalVICMSUFREMET.AsFloat;
+        with RegistroE300New do
         begin
-          VL_FCP_UF_DEST := cdsDifalVFCPUFDEST.AsFloat;
-          VL_ICMS_UF_DEST := cdsDifalVICMSUFDEST.AsFloat;
-          VL_ICMS_UF_REM := cdsDifalVICMSUFREMET.AsFloat;
-        end;}
+           UF := cdsDifalUF.AsString;
+           DT_INI := data_ini.date;
+           DT_FIN := data_fim.date;
+        end;
+        with RegistroE310New do
+        begin
+          // Indicador de movimento:
+          // 0 – Sem operações com ICMS Diferencial de
+          //    Alíquota da UF de Origem/Destino
+          // 1 – Com operações de ICMS Diferencial de
+          //    Alíquota da UF de Origem/Destino
+          if ((tDifal1 > 0) or
+             (tDifal2 > 0) or
+             (tDifal3 > 0)) then
+          begin
+            IND_MOV_DIFAL := mDifalComOperacaoICMS;
+          end
+          else begin
+            IND_MOV_DIFAL := mDifalSemOperacaoICMS;
+          end;
+          VL_SLD_CRED_ANT_DIF := 0;
+          VL_TOT_DEBITOS_DIFAL := tDifal2;
+          VL_OUT_DEB_DIFAL := 0;
+        end;
       end;
       cdsDifal.Next;
     end;
-
-    while not cdsDifal.Eof do
-    //begin
     //  registroe300
     //end;
     // E300
@@ -2864,27 +2968,8 @@ begin
     // D101 for maior que zero; ou VL_ICMS_UF_REM for maior que zero;
     // ou VL_FCP_UF_DEST dos registros C101 e D101
     // for maior que zero ou ainda se houver um registro 0015 para a UF
-    {
-    with RegistroE300New do
-    begin
-       UF := 'SP'
-       DT_INI := '';
-       DT_FIN := '';
-    end;
 
-    with RegistroE310New do
-    begin
-      // Indicador de movimento:
-      // 0 – Sem operações com ICMS Diferencial de
-      //    Alíquota da UF de Origem/Destino
-      // 1 – Com operações de ICMS Diferencial de
-      //    Alíquota da UF de Origem/Destino
-      IND_MOV_DIFAL := 1;
-      VL_SLD_CRED_ANT_DIF := 0;
-      VL_TOT_DEBITOS_DIFAL := 0;
-      VL_OUT_DEB_DIFAL := 0;
-    end;}
-  end;
+   end;
 
 end;
 
@@ -3172,7 +3257,7 @@ begin
     cdsItens.Close;
 end;
 
-procedure TfNfeIcms.Button1Click(Sender: TObject);
+procedure TfNfeIcms.btnDifalClick(Sender: TObject);
 begin
   if (cdsDifalCad.Active) then
     cdsDifalCad.Close;

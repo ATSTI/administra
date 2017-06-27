@@ -1,6 +1,6 @@
 object fNfeIcms: TfNfeIcms
-  Left = 326
-  Top = 132
+  Left = 282
+  Top = 127
   Width = 930
   Height = 614
   Caption = 'Sped Fiscal(ICMS)'
@@ -607,14 +607,14 @@ object fNfeIcms: TfNfeIcms
       end
     end
   end
-  object Button1: TButton
+  object btnDifal: TButton
     Left = 457
     Top = 527
     Width = 150
     Height = 40
     Caption = 'Carregar Dados Difal'
     TabOrder = 9
-    OnClick = Button1Click
+    OnClick = btnDifalClick
   end
   object btnSair: TBitBtn
     Left = 762
@@ -3886,10 +3886,11 @@ object fNfeIcms: TfNfeIcms
     CommandText = 
       'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, PRO.NCM, PRO.PRODUTO' +
       ', DET.UN , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2)  AS CLASS_FISCAL '#13#10 +
-      '   FROM COMPRA C,MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS P' +
-      'RO'#13#10'WHERE C.CODMOVIMENTO = MOV.CODMOVIMENTO'#13#10'      AND MOV.CODMO' +
-      'VIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPRODUTO     = DET.C' +
-      'ODPRODUTO'#13#10'      AND (MOV.CODNATUREZA = 4)'
+      ', pro.UNIDADEMEDIDA , det.UN_CONV '#13#10'   FROM COMPRA C,MOVIMENTO M' +
+      'OV, MOVIMENTODETALHE DET, PRODUTOS PRO'#13#10'WHERE C.CODMOVIMENTO = M' +
+      'OV.CODMOVIMENTO'#13#10'      AND MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10 +
+      '      AND PRO.CODPRODUTO     = DET.CODPRODUTO'#13#10'      AND (MOV.CO' +
+      'DNATUREZA = 4)'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -3920,6 +3921,16 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CLASS_FISCAL'
       ReadOnly = True
       Size = 254
+    end
+    object sdsProdutoUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object sdsProdutoUN_CONV: TFloatField
+      FieldName = 'UN_CONV'
+      ReadOnly = True
     end
   end
   object dspProduto: TDataSetProvider
@@ -3959,6 +3970,16 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'CLASS_FISCAL'
       ReadOnly = True
       Size = 254
+    end
+    object cdsProdutoUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsProdutoUN_CONV: TFloatField
+      FieldName = 'UN_CONV'
+      ReadOnly = True
     end
   end
   object sdsCompraDet: TSQLDataSet
@@ -5702,19 +5723,21 @@ object fNfeIcms: TfNfeIcms
       'ST, sum(MD.PICMSUFDEST) PICMSUFDEST, sum(MD.PICMSINTER) PICMSINT' +
       'ER, sum(MD.PICMSINTERPART) PICMSINTERPART   , sum(MD.VFCPUFDEST)' +
       ' VFCPUFDEST   ,sum( MD.VICMSUFDEST) VICMSUFDEST, sum(MD.VICMSUFR' +
-      'EMET) VICMSUFREMET   '#13#10'   FROM  VENDA V, MOVIMENTODETALHE MD '#13#10'W' +
-      'HERE  md.CODMOVIMENTO = v.CODMOVIMENTO '#13#10'      AND v.DATAVENDA B' +
-      'ETWEEN :PDATA1 AND :PDATA2'
+      'EMET) VICMSUFREMET, NF.UF   '#13#10'   FROM  NOTAFISCAL NF , VENDA V, ' +
+      'MOVIMENTODETALHE MD '#13#10'WHERE  V.CODVENDA = NF.CODVENDA'#13#10'     AND ' +
+      'md.CODMOVIMENTO = v.CODMOVIMENTO '#13#10'      AND NF.DTAEMISSAO BETWE' +
+      'EN :PDTA1 AND :PDTA2'#13#10'      AND NF.PROTOCOLOCANC IS NULL '#13#10'     ' +
+      ' AND NF.STATUS IS NOT NULL '#13#10'GROUP BY NF.UF '
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftDate
-        Name = 'PDATA1'
+        Name = 'PDTA1'
         ParamType = ptInput
       end
       item
         DataType = ftDate
-        Name = 'PDATA2'
+        Name = 'PDTA2'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -5731,12 +5754,12 @@ object fNfeIcms: TfNfeIcms
     Params = <
       item
         DataType = ftDate
-        Name = 'PDATA1'
+        Name = 'PDTA1'
         ParamType = ptInput
       end
       item
         DataType = ftDate
-        Name = 'PDATA2'
+        Name = 'PDTA2'
         ParamType = ptInput
       end>
     ProviderName = 'dspDifal'
@@ -5773,6 +5796,12 @@ object fNfeIcms: TfNfeIcms
     object cdsDifalVICMSUFREMET: TFloatField
       FieldName = 'VICMSUFREMET'
       ReadOnly = True
+    end
+    object cdsDifalUF: TStringField
+      FieldName = 'UF'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
     end
   end
   object sdsDifalCad: TSQLDataSet
