@@ -468,6 +468,11 @@ type
     cds_Mov_detORIGEM: TStringField;
     sds_Mov_DetCEST: TStringField;
     cds_Mov_detCEST: TStringField;
+    Label23: TLabel;
+    DBEdit20: TDBEdit;
+    Label24: TLabel;
+    sds_Mov_DetUN_CONV: TFloatField;
+    cds_Mov_detUN_CONV: TFloatField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1134,6 +1139,7 @@ begin
     cds_Mov_detFRETE.AsFloat := 0;
   if (not (cds_Mov_detCFOP.AsString = '')) then
     cds_Mov_detCFOP.AsString := edCFOP.Text;
+  cds_Mov_detUN_CONV.AsFloat := 1.0;
 end;
 
 procedure TfCompra.btnExcluirClick(Sender: TObject);
