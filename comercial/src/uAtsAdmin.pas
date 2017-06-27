@@ -237,6 +237,13 @@ type
     Memo1: TMemo;
     Panel1: TPanel;
     BitBtn1: TBitBtn;
+    sPermissao: TSQLDataSet;
+    sPermissaoUCIDUSER: TIntegerField;
+    sPermissaoUCUSERNAME: TStringField;
+    sPermissaoUCLOGIN: TStringField;
+    sPermissaoUCPASSWORD: TStringField;
+    sPermissaoUCPROFILE: TIntegerField;
+    sPermissaoUCPRIVILEGED: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -925,6 +932,11 @@ begin
   end;
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
+  //dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
+  sPermissao.Close;
+  sPermissao.Params[0].AsInteger := usulog;
+  sPermissao.Open;
+  dm.usu_tipovendedor := sPermissaoUCPRIVILEGED.AsInteger;
 end;
 
 procedure TfAtsAdmin.ListadeCompras1Click(Sender: TObject);
@@ -2369,6 +2381,7 @@ end;
 procedure TfAtsAdmin.UserControlComercialAfterLogin(Sender: TObject);
 begin
   Dm.varLogado := UserControlComercial.CurrentUser.UserLogin;
+  
 end;
 
 procedure TfAtsAdmin.CadastrarSemanas1Click(Sender: TObject);

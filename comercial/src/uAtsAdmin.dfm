@@ -4418,4 +4418,40 @@ object fAtsAdmin: TfAtsAdmin
     Left = 144
     Top = 215
   end
+  object sPermissao: TSQLDataSet
+    CommandText = 
+      'select UCIDUSER, UCUSERNAME, UCLOGIN,  UCPASSWORD,UCPROFILE, UCP' +
+      'RIVILEGED from UCTABUSERS '#13#10'where UCIDUSER = :login'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'login'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 48
+    Top = 40
+    object sPermissaoUCIDUSER: TIntegerField
+      FieldName = 'UCIDUSER'
+    end
+    object sPermissaoUCUSERNAME: TStringField
+      FieldName = 'UCUSERNAME'
+      Size = 30
+    end
+    object sPermissaoUCLOGIN: TStringField
+      FieldName = 'UCLOGIN'
+      Size = 30
+    end
+    object sPermissaoUCPASSWORD: TStringField
+      FieldName = 'UCPASSWORD'
+      Size = 250
+    end
+    object sPermissaoUCPROFILE: TIntegerField
+      FieldName = 'UCPROFILE'
+    end
+    object sPermissaoUCPRIVILEGED: TIntegerField
+      FieldName = 'UCPRIVILEGED'
+    end
+  end
 end

@@ -1,6 +1,6 @@
 object fCCe: TfCCe
-  Left = 203
-  Top = 109
+  Left = 272
+  Top = 110
   Width = 851
   Height = 663
   Caption = 'Carta de Corre'#231#227'o Eletr'#244'nica'

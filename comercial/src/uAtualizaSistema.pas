@@ -2098,7 +2098,7 @@ begin
       insereouatualizaScript('calcula_icms.sql', '3.0.0.3', StrToDate('01/09/2014'));
 
       //insereouatualizaScript('trg_calcula_icms_st.sql', '3.0.0.3', StrToDate('01/09/2014'));
-      insereouatualizaScript('spEstoqueFiltro.sql', '3.0.0.3', StrToDate('01/09/2014'));
+      insereouatualizaScript('listaSpEstoqueFiltro.sql', '3.0.0.3', StrToDate('01/09/2014'));
       //insereouatualizaScript('', '3.0.0.3', StrToDate('01/09/2014'));
       AtualizandoScript('3.0.0.3');
       mudaVersao('3.0.0.4');
@@ -2106,6 +2106,7 @@ begin
 
     if (versaoSistema = '3.0.0.4') then
     begin
+      insereouatualizaScript('spEstoqueFiltro.sql', '3.0.0.4', StrToDate('01/09/2014'));    
       insereouatualizaScript('view_venda.sql', '3.0.0.4', StrToDate('01/09/2014'));
       insereouatualizaScript('view_estoquelote.sql', '3.0.0.4', StrToDate('01/09/2014'));
       insereouatualizaScript('estoque_view_custo.sql', '3.0.0.4', StrToDate('01/11/2014'));
@@ -2522,6 +2523,14 @@ begin
       AtualizandoScript('4.3.2.2');
       mudaVersao('4.4.0.0');
     end;
+
+    if (versaoSistema = '4.4.0.0') then
+    begin
+      EXECUTADDL('MOVIMENTODETALHE', 'UN_CONV', 'DOUBLE PRECISION');
+      EXECUTADDL('PRODUTOS', 'EMBALAGEM', 'VARCHAR(40)');      
+      mudaVersao('4.4.1.0');
+    end;
+
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
