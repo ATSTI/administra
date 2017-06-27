@@ -1,5 +1,5 @@
 object fNFeletronica: TfNFeletronica
-  Left = 251
+  Left = 253
   Top = 97
   Width = 873
   Height = 607
@@ -1581,7 +1581,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -1759,10 +1759,10 @@ object fNFeletronica: TfNFeletronica
         end
       end
       object JvDBGrid2: TJvDBGrid
-        Left = 8
+        Left = 0
         Top = 112
-        Width = 849
-        Height = 409
+        Width = 857
+        Height = 425
         DataSource = DtSrcCCe
         TabOrder = 1
         TitleFont.Charset = DEFAULT_CHARSET
@@ -4785,9 +4785,12 @@ object fNFeletronica: TfNFeletronica
     Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.Arquivos.SepararPorModelo = True
     Configuracoes.Arquivos.SepararPorMes = True
+    Configuracoes.Arquivos.SalvarEvento = True
     Configuracoes.Arquivos.PathNFe = 'C:\Home\NFe\Notas Enviadas\'
     Configuracoes.Arquivos.PathInu = 'C:\Home\NFe\Inutilizadas\'
+    Configuracoes.Arquivos.PathEvento = 'C:\Home\NFe\Eventos\'
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 10000
     Configuracoes.WebServices.IntervaloTentativas = 10000
@@ -6028,6 +6031,155 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+  end
+  object sdsProd_Comb: TSQLDataSet
+    CommandText = 
+      'select p.cProdANP, PMIXGN, VALIQPROD  from PRODUTOS p '#13#10'where p.' +
+      'CODPRODUTO = :Codpro and p.CPRODANP is not null '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'Codpro'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 392
+    Top = 443
+    object sdsProd_CombCPRODANP: TStringField
+      FieldName = 'CPRODANP'
+    end
+    object sdsProd_CombPMIXGN: TFloatField
+      FieldName = 'PMIXGN'
+    end
+    object sdsProd_CombVALIQPROD: TFloatField
+      FieldName = 'VALIQPROD'
+    end
+  end
+  object sdsEndEntrega: TSQLDataSet
+    CommandText = 
+      'select * from enderecocliente where tipoend = 2 '#13#10'and codcliente' +
+      ' = :cli'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'cli'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 112
+    Top = 350
+  end
+  object dspEndEntrega: TDataSetProvider
+    DataSet = sdsEndEntrega
+    Left = 144
+    Top = 350
+  end
+  object cdsEndEntrega: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'cli'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspEndEntrega'
+    Left = 176
+    Top = 350
+    object cdsEndEntregaCODENDERECO: TIntegerField
+      FieldName = 'CODENDERECO'
+      Required = True
+    end
+    object cdsEndEntregaCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cdsEndEntregaLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object cdsEndEntregaBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object cdsEndEntregaCOMPLEMENTO: TStringField
+      FieldName = 'COMPLEMENTO'
+      Size = 30
+    end
+    object cdsEndEntregaCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object cdsEndEntregaUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsEndEntregaCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object cdsEndEntregaTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 12
+    end
+    object cdsEndEntregaTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 12
+    end
+    object cdsEndEntregaTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 12
+    end
+    object cdsEndEntregaFAX: TStringField
+      FieldName = 'FAX'
+      Size = 9
+    end
+    object cdsEndEntregaE_MAIL: TStringField
+      FieldName = 'E_MAIL'
+      Size = 256
+    end
+    object cdsEndEntregaRAMAL: TStringField
+      FieldName = 'RAMAL'
+      Size = 5
+    end
+    object cdsEndEntregaTIPOEND: TSmallintField
+      FieldName = 'TIPOEND'
+      Required = True
+    end
+    object cdsEndEntregaDADOSADICIONAIS: TStringField
+      FieldName = 'DADOSADICIONAIS'
+      Size = 200
+    end
+    object cdsEndEntregaDDD: TStringField
+      FieldName = 'DDD'
+      Size = 3
+    end
+    object cdsEndEntregaDDD1: TStringField
+      FieldName = 'DDD1'
+      Size = 3
+    end
+    object cdsEndEntregaDDD2: TStringField
+      FieldName = 'DDD2'
+      Size = 3
+    end
+    object cdsEndEntregaDDD3: TStringField
+      FieldName = 'DDD3'
+      Size = 3
+    end
+    object cdsEndEntregaNUMERO: TStringField
+      FieldName = 'NUMERO'
+      Size = 5
+    end
+    object cdsEndEntregaCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
+    end
+    object cdsEndEntregaPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
     end
   end
 end

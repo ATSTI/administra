@@ -155,13 +155,13 @@ begin
   //verifica se o CC foi selecionado caso não da mensagem avisando
   if(sEmpresa.IsEmpty) then
     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
-  try
-    fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
-    MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
-  finally
-    protocoloInutilizacao := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
-    MessageDlg('Protocolo de Inutilização: ' + protocoloInutilizacao, mtInformation, [mbOK], 0);
-  end;
+  //try
+  fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
+  MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
+  //finally
+  protocoloInutilizacao := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
+  MessageDlg('Protocolo de Inutilização: ' + protocoloInutilizacao, mtInformation, [mbOK], 0);
+  //end;
 
   if (protocoloInutilizacao <> '111111111111') then
   begin

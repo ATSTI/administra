@@ -862,6 +862,36 @@ type
     sdsCfopNCMCST_IPI_CENQ: TStringField;
     Label23: TLabel;
     lblSerieNfe: TLabel;
+    sdsProd_Comb: TSQLDataSet;
+    sdsProd_CombCPRODANP: TStringField;
+    sdsProd_CombPMIXGN: TFloatField;
+    sdsProd_CombVALIQPROD: TFloatField;
+    sdsEndEntrega: TSQLDataSet;
+    dspEndEntrega: TDataSetProvider;
+    cdsEndEntrega: TClientDataSet;
+    cdsEndEntregaCODENDERECO: TIntegerField;
+    cdsEndEntregaCODCLIENTE: TIntegerField;
+    cdsEndEntregaLOGRADOURO: TStringField;
+    cdsEndEntregaBAIRRO: TStringField;
+    cdsEndEntregaCOMPLEMENTO: TStringField;
+    cdsEndEntregaCIDADE: TStringField;
+    cdsEndEntregaUF: TStringField;
+    cdsEndEntregaCEP: TStringField;
+    cdsEndEntregaTELEFONE: TStringField;
+    cdsEndEntregaTELEFONE1: TStringField;
+    cdsEndEntregaTELEFONE2: TStringField;
+    cdsEndEntregaFAX: TStringField;
+    cdsEndEntregaE_MAIL: TStringField;
+    cdsEndEntregaRAMAL: TStringField;
+    cdsEndEntregaTIPOEND: TSmallintField;
+    cdsEndEntregaDADOSADICIONAIS: TStringField;
+    cdsEndEntregaDDD: TStringField;
+    cdsEndEntregaDDD1: TStringField;
+    cdsEndEntregaDDD2: TStringField;
+    cdsEndEntregaDDD3: TStringField;
+    cdsEndEntregaNUMERO: TStringField;
+    cdsEndEntregaCD_IBGE: TStringField;
+    cdsEndEntregaPAIS: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -925,6 +955,7 @@ type
     tot1: double;
     tot2: double;
     tot3: double;
+    ufDest: String;
     function validaNumNfe():Boolean;
     function validaNumNfeScan():Boolean;
     procedure nfe_carregalogo();
@@ -1285,11 +1316,13 @@ begin
          begin
           sCFOP.Params[1].AsString := sClienteUF.AsString;
           sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+          ufDest := sClienteUF.AsString;
          end
          else
          begin
           sCFOP.Params[1].AsString := sFornecUF.AsString;
           sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
+          ufDest := sFornecUF.AsString;
          end;
          sCFOP.Open;
          if (sCFOP.IsEmpty) then
@@ -2679,9 +2712,21 @@ var
     Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
-    Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
-    Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
-    Total.ICMSTot.vDesc   := cdsNFVALOR_DESCONTO.AsVariant;
+    try
+      Total.ICMSTot.vFrete := cdsNFVALOR_FRETE.AsVariant;
+    except
+      Total.ICMSTot.vFrete := 0;
+    end;
+    try
+      Total.ICMSTot.vSeg := cdsNFVALOR_SEGURO.AsVariant;
+    except
+      Total.ICMSTot.vSeg := 0;
+    end;
+    try
+      Total.ICMSTot.vDesc := cdsNFVALOR_DESCONTO.AsVariant;
+    except
+      Total.ICMSTot.vDesc := 0;
+    end;  
     Total.ICMSTot.vIPI := cdsNFVALOR_IPI.AsVariant;
     if ( (cdsNFVALOR_PIS.AsFloat <> 0 )or (cdsNFVALOR_PIS.AsFloat <> null )) then
       Total.ICMSTot.vPIS := cdsNFVALOR_PIS.AsFloat;
@@ -2943,6 +2988,30 @@ begin
         Dest.indIEDest := inContribuinte;
       if (cdsNFIND_IEDEST.AsString = 'inIsento') then
         Dest.indIEDest := inIsento;
+
+      // ENDERECO ENTREGA
+      if dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'NFE_END_ENTREGA';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      begin
+        if (cdsEndEntrega.Active) then
+          cdsEndEntrega.Close;
+        cdsEndEntrega.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
+        cdsEndEntrega.Open;
+        if not cdsEndEntrega.IsEmpty then
+        begin
+          Entrega.CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
+          Entrega.xLgr := cdsEndEntregaLOGRADOURO.AsString;
+          Entrega.nro := cdsEndEntregaNUMERO.AsString;
+          Entrega.xBairro := cdsEndEntregaBAIRRO.AsString;
+          Entrega.cMun := StrToInt(RemoveChar(sClienteCD_IBGE.AsString));
+          Entrega.xMun := cdsEndEntregaCIDADE.AsString;
+          Entrega.UF := cdsEndEntregaUF.AsString;
+        end;
+      end;
+
     end;
   end;
 end;
@@ -3080,6 +3149,29 @@ begin
             end;
           end;
         end;
+
+        if (sdsProd_Comb.Active) then
+          sdsProd_Comb.Close;
+        sdsProd_Comb.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
+        sdsProd_Comb.Open;
+
+        if (not sdsProd_Comb.IsEmpty) then
+        begin
+          with prod.comb do
+          begin
+            try
+              cProdANP := StrToInt(sdsProd_CombCPRODANP.AsString);
+            except
+              MessageDlg('O Código tem que ser Númerico.', mtWarning, [mbOK], 0);
+              exit;
+            end;
+            pMixGN := sdsProd_CombPMIXGN.AsFloat;
+            UFcons := ufDest;
+            CODIF := '0';
+            qTemp := cdsItensNFQUANTIDADE.AsFloat;
+          end;
+        end;
+
       //Prod.genero   := sProdutosGENERO.AsInteger;
       //IMPOSTOS Do Produto
 
@@ -3844,6 +3936,7 @@ var protocolo, str, xCond :string;
     TD: TTransactionDesc;
     nfe_arquivo : String;
 begin
+  ACBrNFe1.Configuracoes.Arquivos.SalvarEvento := True;
   if (edtNumSerie2.Text = '') then
   begin
     MessageDlg('Selecione o Certificado!',mtWarning,[mbOk],0);
@@ -3866,22 +3959,26 @@ begin
   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
   nfe_carregalogo;
   envio := Now;
+  AcbrNfe1.Configuracoes.Arquivos.PathNFe := edit3.Text;
   NumeroLote := StrToInt(FormatDateTime('yymmddhhmm', NOW));
   //try
-    nfe_arquivo := edit3.text + '\' + cdsCCECHAVE.AsString + '-NFe.xml';
-    if (not FilesExists(nfe_arquivo)) then
-    begin
-      MessageDlg('Arquivo XML não localizado.', mtWarning, [mbOK], 0);
-      if OpenDialog1.Execute then
-         nfe_arquivo := OpenDialog1.FileName;
-    end;
-    ACBrNFe1.NotasFiscais.LoadFromFile(nfe_arquivo);
-    tamanho := Length(edit3.Text);
-    nfe_arquivo := RemoveChar(copy(nfe_arquivo, tamanho+1, length(nfe_arquivo)));
-    ACBrNFe1.EventoNFe.Evento.Clear;
-    //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
-    with ACBrNFe1.EventoNFe.Evento.Add do
-    begin
+  nfe_arquivo := AcbrNfe1.Configuracoes.Arquivos.PathNFe  + cdsCCECHAVE.AsString + '-NFe.xml';
+  //  if (not FilesExists(nfe_arquivo)) then
+  //  begin
+  //    MessageDlg('Arquivo XML não localizado.', mtWarning, [mbOK], 0);
+  OpenDialog1.InitialDir := edit3.Text;
+  if OpenDialog1.Execute then
+  begin
+    nfe_arquivo := OpenDialog1.FileName;
+  end;
+  ACBrNFe1.NotasFiscais.LoadFromFile(nfe_arquivo);
+  //tamanho := Length(edit3.Text);
+  //  nfe_arquivo := RemoveChar(copy(nfe_arquivo, tamanho+1, length(nfe_arquivo)));
+  nfe_arquivo := ExtractFileName(nfe_arquivo);
+  ACBrNFe1.EventoNFe.Evento.Clear;
+  //  ACBrNFe1.EnvEvento.EnvEventoNFe..idLote := StrToInt(NumeroLote) ;
+  with ACBrNFe1.EventoNFe.Evento.Add do
+  begin
       InfEvento.chNFe     := nfe_arquivo;
       InfEvento.CNPJ      := RemoveChar(Copy(nfe_arquivo, 7, 14));
       InfEvento.cOrgao    := cdsCCeORGAO.AsInteger;
@@ -3922,6 +4019,7 @@ begin
 
   //finally
     protocolo := AcbrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
+    //cce_arquivo := AcbrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.XML
     if (StrLen(PAnsiChar(protocolo)) > 1) then
     begin
       TD.TransactionID := 1;
@@ -3957,7 +4055,7 @@ begin
       end;
     end;
   //end;
-
+  ACBrNFe1.Configuracoes.Arquivos.SalvarEvento := False;
 end;
 
 procedure TfNFeletronica.JvDBGrid2CellClick(Column: TColumn);
