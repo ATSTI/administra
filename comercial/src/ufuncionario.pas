@@ -304,8 +304,9 @@ begin
     cds_funCOD_FUNCIONARIO.AsInteger := dm.c_6_genid.fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  fccomissao := DBRadioGroup1.ItemIndex;
-       //QUANDO LANÇAR DATA DESLIGAMENTO ALTERAR STATUS PARA 0 NA TABELA USUARIO
+  if (DBRadioGroup1.ItemIndex <> -1) then
+    fccomissao := DBRadioGroup1.ItemIndex;
+  //QUANDO LANÇAR DATA DESLIGAMENTO ALTERAR STATUS PARA 0 NA TABELA USUARIO
 
    if(not cds_funDATA_DESLIGAMENTO.IsNull) then
    begin
