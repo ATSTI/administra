@@ -4219,7 +4219,7 @@ begin
     precolista;
     exit;
   end;
-  if (dm.codBarra = 'N') then
+  if ((dm.codBarra = 'N') or (dm.codBarra = '')) then
   begin
     if (dtSrc1.State in [dsInsert, dsEdit]) then
     begin
