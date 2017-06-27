@@ -12,7 +12,6 @@ object fFiltroMov_compra: TfFiltroMov_compra
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
-  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
