@@ -123,6 +123,15 @@ type
     chk_grade: TCheckBox;
     AgruparItens1: TMenuItem;
     BitBtn7: TBitBtn;
+    Label35: TLabel;
+    DBEdit30: TDBEdit;
+    TabSheet4: TTabSheet;
+    Label36: TLabel;
+    Label37: TLabel;
+    lblAliquota: TLabel;
+    edtCodAnp: TEdit;
+    EdtMisturaGlp: TEdit;
+    edtAliquotaComb: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -162,7 +171,9 @@ type
     procedure DBEdit22Exit(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
+    procedure edtCodAnpChange(Sender: TObject);
   private
+    combustivel : String;
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
     { Private declarations }
@@ -192,6 +203,19 @@ begin
 
 //*****************************************************
 // abre as tabelas Marca, familia e comissão
+
+  combustivel := 'NAO';
+  JvPageControl1.Pages[3].TabVisible := False;
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTOCADASTRO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD4.AsString = 'COMBUSTIVEL') then
+  begin
+    combustivel := 'SIM';
+    JvPageControl1.Pages[3].TabVisible := True;
+    //TabSheet4.Visible := True;
+  end;
 
   if (not DM.cds_Marca.Active) then
     DM.cds_Marca.Open;
@@ -487,6 +511,16 @@ begin
   end;
   inherited;
 
+  if (dm.cds_parametroD4.AsString = 'COMBUSTIVEL') then
+  begin
+    if (edtCodAnp.Text <> '') then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE PRODUTOS SET  ' +
+        ' CPRODANP = ' + edtCodAnp.Text +
+        ' WHERE CODPRODUTO = ' + IntToStr(dm.cds_produtoCODPRODUTO.AsInteger));
+      end;
+  end;
+
   if (tipoProd = 0) then
   begin
     // se usa lista de preco incluir nas listas
@@ -521,6 +555,8 @@ begin
 {  if varForm = 'Procura' then
      fProcura.editProc.Text := dm.cds_produtoPRODUTO.AsString;
 }
+
+
 
 end;
 
@@ -586,6 +622,7 @@ begin
       chk_grade.Checked := True
     else
       chk_grade.Checked := False;
+
   end;
 
   if (not dm.cds_familia.Active) then
@@ -605,6 +642,24 @@ begin
     DBEdit19.Enabled := False;
     DBEdit19.Color := clMenuBar;
   end;
+
+  if (combustivel = 'SIM') then
+  begin
+    if (dm.cdsBusca.Active) then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT CPRODANP, COALESCE(PMIXGN,0) PMIXGN,' +
+      ' COALESCE(VALIQPROD, 0) VALIQPROD ' +
+      '  FROM PRODUTOS ' +
+      ' WHERE CODPRODUTO =  ' + IntToStr(dm.cds_produtoCODPRODUTO.AsInteger);
+    dm.cdsBusca.Open;
+    if (dm.cdsBusca.FieldByName('CPRODANP').AsString <> '') then
+      edtCodAnp.Text := dm.cdsBusca.FieldByName('CPRODANP').AsString;
+    //if (dm.cdsBusca.FieldByName('VALIQPRODPMIXGN').AsFloat > 0) then
+    //  edtCodAnp.Text := dm.cdsBusca.FieldByName('PMIXGN').AsString;
+    //if (dm.cdsBusca.FieldByName('VALIQPROD').AsFloat > 0) then
+    //  edtCodAnp.Text := FloatToStrdm.cdsBusca.FieldByName('VALIQPROD').AsString;
+  end;
+
 
   calculaPrecoVenda;
 end;
@@ -1232,6 +1287,12 @@ begin
     fCest.Free;
   end;
 
+end;
+
+procedure TfProdutoCadastro.edtCodAnpChange(Sender: TObject);
+begin
+    if (DM.cds_produto.State in [dsBrowse]) then
+      DM.cds_produto.Edit;
 end;
 
 end.

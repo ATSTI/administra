@@ -328,6 +328,13 @@ begin
         exit;
       end;
 
+      if (Length(IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) > 6) then
+      begin
+        MessageDlg('O Número utilizado na Série ' + dm.cds_parametroD1.AsString +
+        ', é maior que 6 digitos. ' , mtWarning, [mbOK], 0);
+        exit;
+      end;
+
       // Nota Fiscal
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
