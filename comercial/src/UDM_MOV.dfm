@@ -1,8 +1,8 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 47
-  Top = 65
+  Left = 53
+  Top = 63
   Height = 530
   Width = 713
   object s_buscaMov: TSQLDataSet

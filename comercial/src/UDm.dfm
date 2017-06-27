@@ -1,8 +1,11 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 776
-  Width = 1280
+  OnDestroy = DataModuleDestroy
+  Left = 4
+  Top = 2
+  Height = 766
+  Width = 1022
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -14,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_gh'
+      'Database=192.168.6.100:sge_floragemnorte'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -26,7 +29,7 @@ object DM: TDM
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Left = 112
+    Left = 120
     Top = 8
   end
   object sds_parametro: TSQLDataSet
@@ -1695,6 +1698,10 @@ object DM: TDM
       EditMask = '00\.000\.00;0;_'
       Size = 7
     end
+    object cds_produtoEMBALAGEM: TStringField
+      FieldName = 'EMBALAGEM'
+      Size = 40
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1976,6 +1983,10 @@ object DM: TDM
     object sds_produtoCEST: TStringField
       FieldName = 'CEST'
       Size = 7
+    end
+    object sds_produtoEMBALAGEM: TStringField
+      FieldName = 'EMBALAGEM'
+      Size = 40
     end
   end
   object sds_cm: TSQLDataSet
@@ -10457,5 +10468,10 @@ object DM: TDM
       ReadOnly = True
       BlobType = ftMemo
     end
+  end
+  object XMLDocument1: TXMLDocument
+    Left = 672
+    Top = 8
+    DOMVendorDesc = 'MSXML'
   end
 end

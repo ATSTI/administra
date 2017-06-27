@@ -1,9 +1,8 @@
 object DMNF: TDMNF
   OldCreateOrder = False
-  Left = 3
   Top = 2
   Height = 628
-  Width = 1030
+  Width = 1024
   object sCliente: TSQLDataSet
     CommandText = 
       'select CODCLIENTE, NOMECLIENTE from CLIENTES '#13#10'order by NOMECLIE' +
@@ -694,7 +693,7 @@ object DMNF: TDMNF
     object cds_Mov_detPRECO: TFloatField
       FieldName = 'PRECO'
       ProviderFlags = [pfInUpdate]
-      DisplayFormat = ',#.000000'
+      DisplayFormat = ',#.0000000000'
       currency = True
     end
     object cds_Mov_detQUANTIDADE: TFloatField
