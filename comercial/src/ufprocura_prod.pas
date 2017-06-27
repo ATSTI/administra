@@ -544,6 +544,10 @@ begin
       4 : Edit3.DecimalPlaces :=  4;
       5 : Edit3.DecimalPlaces :=  5;
       6 : Edit3.DecimalPlaces :=  6;
+      7 : Edit3.DecimalPlaces :=  7;
+      8 : Edit3.DecimalPlaces :=  8;
+      9 : Edit3.DecimalPlaces :=  9;
+      10 : Edit3.DecimalPlaces := 10;
     end;
   end;
 
@@ -555,6 +559,10 @@ begin
       4 : Edit4.DecimalPlaces :=  4;
       5 : Edit4.DecimalPlaces :=  5;
       6 : Edit4.DecimalPlaces :=  6;
+      7 : Edit4.DecimalPlaces :=  7;
+      8 : Edit4.DecimalPlaces :=  8;
+      9 : Edit4.DecimalPlaces :=  9;
+      10 : Edit4.DecimalPlaces := 10;
     end;
   end;
 
@@ -566,6 +574,10 @@ begin
       4 : Edit3.DisplayFormat :=  ',##0.0000';
       5 : Edit3.DisplayFormat :=  ',##0.00000';
       6 : Edit3.DisplayFormat :=  ',##0.000000';
+      7 : Edit3.DisplayFormat :=  ',##0.0000000';
+      8 : Edit3.DisplayFormat :=  ',##0.00000000';
+      9 : Edit3.DisplayFormat :=  ',##0.000000000';
+     10 : Edit3.DisplayFormat :=  ',##0.0000000000';
     end;
   end;
 
@@ -577,6 +589,10 @@ begin
       4 : Edit4.DisplayFormat :=  ',##0.0000';
       5 : Edit4.DisplayFormat :=  ',##0.00000';
       6 : Edit4.DisplayFormat :=  ',##0.000000';
+      7 : Edit4.DisplayFormat :=  ',##0.0000000';
+      8 : Edit4.DisplayFormat :=  ',##0.00000000';
+      9 : Edit4.DisplayFormat :=  ',##0.000000000';
+     10 : Edit4.DisplayFormat :=  ',##0.0000000000';
     end;
   end;
 
@@ -1461,7 +1477,8 @@ begin
     dmnf.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
     dmnf.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
     dmnf.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
-    dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    //dmnf.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    dmnf.cds_Mov_detPRECO.AsFloat := Edit4.Value;
     dmnf.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
     dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
