@@ -1,8 +1,8 @@
 object fClienteFiltro: TfClienteFiltro
   Left = 196
   Top = 93
-  Width = 612
-  Height = 471
+  Width = 670
+  Height = 506
   Caption = 'Filtro Cliente'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox2: TGroupBox
     Left = 0
     Top = 144
-    Width = 604
+    Width = 662
     Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
@@ -76,8 +76,8 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 380
-    Width = 604
+    Top = 415
+    Width = 662
     Height = 64
     Align = alBottom
     TabOrder = 3
@@ -375,7 +375,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 604
+    Width = 662
     Height = 48
     Align = alTop
     TabOrder = 0
@@ -543,7 +543,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 199
-    Width = 604
+    Width = 662
     Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -649,7 +649,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox3: TGroupBox
     Left = 0
     Top = 48
-    Width = 604
+    Width = 662
     Height = 96
     Align = alTop
     Caption = 'CLIENTE'
