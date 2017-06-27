@@ -6,7 +6,7 @@ uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
   Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
-  XmlRpcClient, XmlRpcTypes, IniFiles;
+  XmlRpcClient, XmlRpcTypes, IniFiles, xmldom, XMLIntf, msxmldom, XMLDoc;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -1992,6 +1992,9 @@ type
     sds_cfopIND_PRES: TIntegerField;
     cds_cfopCFNOTA: TMemoField;
     cds_cfopIND_PRES: TIntegerField;
+    sds_produtoEMBALAGEM: TStringField;
+    cds_produtoEMBALAGEM: TStringField;
+    XMLDocument1: TXMLDocument;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2046,9 +2049,12 @@ type
     procedure cdsTranspReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
       var Action: TReconcileAction);
+    procedure DataModuleDestroy(Sender: TObject);
   private
     memoLic : String;
     { Private declarations }
+    FRpcCaller: TRpcCaller;
+    FRpcFunction: IRpcFunction;    
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
     procedure verificaMensagemInicial;
@@ -2057,6 +2063,8 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    usu_tipovendedor : Integer;
+    somente_sua_venda: String;
     nfe_serie_receita: Integer;
     dmCentroReceita: String;
     tipo_nfe: String;
@@ -2319,7 +2327,11 @@ begin
       '0, 0, 0, 0,' +
       QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
       QuotedStr('00') + ')';
-      sqlsisAdimin.ExecuteDirect(sqlT);
+      try
+        sqlsisAdimin.ExecuteDirect(sqlT);
+      except
+        MessageDlg('Erro inserindo CONFIGURACAO FISCAL : ' + sqlT, mtWarning, [mbOK], 0);
+      end;
     end;
     cfopEntrada  := cds_parametroD2.AsString;
     if (validaCfop(cds_parametroD3.AsString) = False) then
@@ -2327,12 +2339,16 @@ begin
       sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
       ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
       ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
-      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD3.AsString) +
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS, CODFISCAL)  VALUES (' + QuotedStr(cds_parametroD3.AsString) +
       ', 0, 0, 0, 0, 0, 0,' +
       '0, 0, 0, 0,' +
       QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
-      QuotedStr('00') + ')';
-      sqlsisAdimin.ExecuteDirect(sqlT);
+      QuotedStr('00') + ',' + QuotedStr('J')  + ')';
+      try
+        sqlsisAdimin.ExecuteDirect(sqlT);
+      except
+        MessageDlg('Erro inserindo CONFIGURACAO FISCAL : ' + sqlT, mtWarning, [mbOK], 0);
+      end;
     end;
     cfopEntradaF := cds_parametroD3.AsString;
     if (validaCfop(cds_parametroDADOS.AsString) = False) then
@@ -2340,12 +2356,16 @@ begin
       sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
       ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
       ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
-      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroDADOS.AsString) +
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS, CODFISCAL)  VALUES (' + QuotedStr(cds_parametroDADOS.AsString) +
       ',0, 0, 0, 0, 0, 0,' +
       '0, 0, 0, 0,' +
       QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
-      QuotedStr('00') + ')';
-      sqlsisAdimin.ExecuteDirect(sqlT);
+      QuotedStr('00') + ',' + QuotedStr('J') + ')';
+      try
+        sqlsisAdimin.ExecuteDirect(sqlT);
+      except
+        MessageDlg('Erro inserindo CONFIGURACAO FISCAL : ' + sqlT, mtWarning, [mbOK], 0);
+      end;
     end;
     cfopSaida    := cds_parametroDADOS.AsString;
     if (validaCfop(cds_parametroD1.AsString) = False) then
@@ -2353,12 +2373,16 @@ begin
       sqlT := 'INSERT INTO ESTADO_ICMS (CFOP, ' +
       ' ICMS, REDUCAO, SUBST_TRIB,     IPI,  ICMS_SUBSTRIB, ICMS_SUBSTRIB_IC,' +
       ' ICMS_SUBSTRIB_IND, PIS, COFINS, CSOSN, '+
-      ' CST, CSTIPI, CSTPIS, CSTCOFINS)  VALUES (' + QuotedStr(cds_parametroD1.AsString) +
+      ' CST, CSTIPI, CSTPIS, CSTCOFINS, CODFISCAL)  VALUES (' + QuotedStr(cds_parametroD1.AsString) +
       ', 0, 0, 0, 0, 0, 0,' +
       '0, 0, 0, 0,' +
       QuotedStr('00') + ', ' + QuotedStr('00') + ', ' + QuotedStr('00') + ', ' +
-      QuotedStr('00') + ')';
-      sqlsisAdimin.ExecuteDirect(sqlT);
+      QuotedStr('00') + ',' + QuotedStr('J') + ')';
+      try
+        sqlsisAdimin.ExecuteDirect(sqlT);
+      except
+        MessageDlg('Erro inserindo CONFIGURACAO FISCAL : ' + sqlT, mtWarning, [mbOK], 0);
+      end;
     end;
     cfopSaidaF   := cds_parametroD1.AsString;
   end;
@@ -2423,6 +2447,13 @@ begin
   cds_parametro.Open;
   if (not cds_parametro.IsEmpty) then
     BlVendaCadImcomp := cds_parametroCONFIGURADO.AsString;
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'SOMENTE_SUA_VENDA'; // O Vendedor so pode ver sua venda
+  cds_parametro.Open;
+  somente_sua_venda := 'N';
+  if (not cds_parametro.IsEmpty) then
+    somente_sua_venda := cds_parametroCONFIGURADO.AsString;
 
   prdPrecoCustoFixo := 'N';
   if cds_parametro.Active then
@@ -2525,14 +2556,15 @@ begin
   end;
 
   S := '';
+  { // No wordpress passava cnpj sem ponto ...
   for I := 1 To Length(cds_empresaCNPJ_CPF.AsString) Do
   begin
     if (cds_empresaCNPJ_CPF.AsString[I] in ['0'..'9']) then
     begin
      S := S + Copy(cds_empresaCNPJ_CPF.AsString, I, 1);
     end;
-  end;
-  empresa := S;
+  end;}
+  empresa := cds_empresaCNPJ_CPF.AsString;
 
   LicencaUso;
 
@@ -3292,16 +3324,20 @@ var
   i1, i2: Integer;
 begin
   achei := '0';
+  s:= '';
   i2 := -1;
   conexaoXmlRpc;
   s := memoLic;
-  i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
-  if (i1 > 0) then
+  //i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
+  //if (i1 > 0) then
+  if s <> '' then
   begin
-    achei := Copy(s, i1, 17);
+    //achei := Copy(s, i1, 17);
+    achei := dm.empresa + '-' + s;
     valor := MD5Print(MD5String(achei));
     dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
       QuotedStr(valor) + ' WHERE CODIGO = 1');
+    dm.mensagemInicial := valor;  
   end
   else begin
     valor := MD5Print(MD5String(dm.empresa + '-00'));
@@ -3317,6 +3353,87 @@ end;
 
 procedure TDM.conexaoXmlRpc;
 var
+  RpcResult: IRpcResult;
+  busca,busca2 : String;
+  //lista : TStringList;
+  I : Integer;
+  r: IXmlNode;
+  node, no: IXMLNode;
+  meuArray, arr2, fields : TRpcArray;
+  msg_cnx : String;
+begin
+  FRpcFunction := TRpcFunction.Create;
+  FRpcCaller := TRpcCaller.Create;
+
+  FRpcCaller.HostName := 'ats.atsti.com.br';
+  FRpcCaller.HostPort := 49069;
+  FRpcCaller.EndPoint := '/xmlrpc/2/object';
+
+  meuArray := TRpcArray.Create;
+  Arr2 := TRpcArray.Create;
+  fields := TRpcArray.Create;
+  meuArray.AddItem('cnpj_cpf');
+  meuArray.AddItem('=');
+  meuArray.AddItem(empresa);
+  Arr2.AddItem(meuArray);
+  fields.AddItem('ref');
+
+  FRpcFunction.Clear;
+  FRpcFunction.ObjectMethod := 'execute';
+  FRpcFunction.AddItem('ats_atsti_com_br');
+  FRpcFunction.AddItem('1');
+  FRpcFunction.AddItem('a2t00s7');
+  FRpcFunction.AddItem('res.partner');
+  FRpcFunction.AddItem('search_read');
+  FRpcFunction.AddItem(Arr2);
+  FRpcFunction.AddItem(fields);
+
+  try
+    RpcResult := FRpcCaller.Execute(FRpcFunction);
+    if RpcResult.IsError then
+      msg_cnx := Format('Error: (%d) %s',
+          [RpcResult.ErrorCode, RpcResult.ErrorMsg])
+    else
+      if RpcResult.IsArray then
+         busca := '<?xml version="1.0" encoding="ISo-8859-1"?>' + RpcResult.AsArray.GetAsXML;
+         XMLDocument1.XML.Text := busca;
+         XMLDocument1.Active := True;
+
+         r := XMLDocument1.DocumentElement.ChildNodes.FindNode('array');
+         no := r.ChildNodes.FindNode('data');
+         no := no.ChildNodes.FindNode('value');
+     		 no := no.ChildNodes.FindNode('struct');
+
+         for I := 0 to no.ChildNodes.Count -1 do
+         begin
+            node := no.ChildNodes[I];
+            //msg_cnx := node.ChildNodes['name'].Text;
+            if node.ChildNodes['name'].text = 'id' then
+            begin
+              node := node.ChildNodes.FindNode('value');
+              if node <> nil then
+              begin
+                Msg_cnx := node.ChildNodes['int'].Text;
+              end;
+            end
+            else
+            begin
+              node := node.ChildNodes.FindNode('value');
+              if node <> nil then
+              begin
+                memoLic := node.ChildNodes['string'].Text;
+              end;
+            end;
+         end;
+  except
+    on E: Exception do
+      Msg_cnx := StringReplace(E.Message, #13#10, ': ', [rfReplaceAll]);
+  end;
+
+
+
+{
+var
   RpcCaller: TRpcCaller;
   RpcResult: IRpcResult;
   RpcFunction: IRpcFunction;
@@ -3327,7 +3444,8 @@ begin
 
   RpcCaller := TRpcCaller.Create;
   try
-    RpcCaller.HostName := Trim('www.atsti.com.br');
+
+    RpcCaller.HostName := Trim('atsadmin.atsti.com.br');
     RpcCaller.HostPort := StrToInt(Trim('80'));
     RpcCaller.EndPoint := Trim('/xmlrpc.php');
 
@@ -3370,7 +3488,7 @@ begin
   finally
     RpcCaller.Free;
   end;
-
+}
 end;
 
 procedure TDM.gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
@@ -3743,6 +3861,11 @@ end;
 procedure TDM.EstoqueAtualizaSemThread(codMovimento: integer);
 begin
 
+end;
+
+procedure TDM.DataModuleDestroy(Sender: TObject);
+begin
+  FRpcCaller.Free;
 end;
 
 end.
