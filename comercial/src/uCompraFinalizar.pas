@@ -1532,6 +1532,8 @@ begin
 
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
+    fNotaFc.nfec_ccusto_empresa := dm.cds_empresaCCUSTO.AsInteger;
+    fNotaFc.nfec_ccusto_emp_nome := dm.cds_empresaEMPRESA.AsString;  
     fNotafc.ShowModal;
   finally
     fNotafc.Free;
