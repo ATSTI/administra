@@ -1852,6 +1852,7 @@ begin
   dmnf.cds_nfCODVENDA.AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
   dmnf.cds_nfCCUSTO.AsInteger := dmnf.cds_MovimentoCODALMOXARIFADO.AsInteger;
 
+
   if (parametroNF <> 'S') then
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then

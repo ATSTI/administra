@@ -1,6 +1,6 @@
 object fNotafc: TfNotafc
-  Left = 214
-  Top = 114
+  Left = 286
+  Top = 115
   Width = 799
   Height = 604
   BorderIcons = [biSystemMenu, biMaximize]

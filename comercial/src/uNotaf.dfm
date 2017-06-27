@@ -940,7 +940,7 @@ object fNotaf: TfNotaf
         Top = 291
         Width = 784
         Height = 204
-        ActivePage = tsTrib
+        ActivePage = tsDadosAdic
         TabOrder = 19
         object tsTrib: TTabSheet
           Caption = 'Totais'

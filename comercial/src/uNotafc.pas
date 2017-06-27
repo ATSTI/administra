@@ -2139,9 +2139,9 @@ procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
     fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
     fNFeletronica.cbTipoNota.ItemIndex := 0;
-    fNFeletronica.ComboBox1.Clear;
-    fNFeletronica.ComboBox1.Items.Add(nfec_ccusto_emp_nome);
-    fNFeletronica.ComboBox1.Text := nfec_ccusto_emp_nome;
+    //fNFeletronica.ComboBox1.Clear;
+    //fNFeletronica.ComboBox1.Items.Add(nfec_ccusto_emp_nome);
+    //fNFeletronica.ComboBox1.Text := nfec_ccusto_emp_nome;
     fNFeletronica.ShowModal;
 end;
 
