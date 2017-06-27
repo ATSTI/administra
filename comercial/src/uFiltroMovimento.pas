@@ -671,6 +671,21 @@ begin
   end;
 
   //==============================================================================
+  if (dm.somente_sua_venda = 'S') then
+  begin
+    if (dm.usu_tipovendedor > 1) then
+    begin
+      if sqlTexto='' then
+      begin
+        sqlTexto := sqlTexto + ' where ((ven.CODVENDEDOR = ' + IntToStr(usulog) +
+          ') or (mov.CODVENDEDOR = ' + IntToStr(usulog) + '))';
+      end
+      else begin
+        sqlTexto := sqlTexto + ' and ((ven.CODVENDEDOR = ' + IntToStr(usulog) +
+          ') or (mov.CODVENDEDOR = ' + IntToStr(usulog) + '))';
+      end;
+    end;
+  end;
   //------------------------------------------------------------------------------
   //Busca por Placa
   //------------------------------------------------------------------------------
