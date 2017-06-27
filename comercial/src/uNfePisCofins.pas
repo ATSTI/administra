@@ -1707,20 +1707,20 @@ begin
               if (cdsNFVendaSTATUS.AsString = 'C') then
               begin
                 COD_SIT       := sdCancelado;
-                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
                 NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
                 CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
               end;
               if (cdsNFVendaSTATUS.AsString = 'D') then
               begin
                 COD_SIT       := sdDoctoDenegado;
-                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
                 NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
                 CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
               end;
               if ((cdsNFVendaSTATUS.AsString <> 'C') and (cdsNFVendaSTATUS.AsString <> 'D')) then
               begin
-                SER           := '1'; //cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
+                SER           := cdsNFVendaSERIE.AsString; //04	SER	Série do documento fiscal	C	003	-
                 NUM_DOC       := IntToStr(cdsNFVendaNOTAFISCAL.AsInteger);
                 CHV_NFE       := copy(cdsNFVendaNOMEXML.AsString, 0, 44);
                 DT_DOC        := cdsNFVendaDTAEMISSAO.AsDateTime;
