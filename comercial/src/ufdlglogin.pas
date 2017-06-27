@@ -87,6 +87,7 @@ begin
    sPermissao.Params[0].AsString := EdtLogin.Text;
    sPermissao.Open;
    usuautorizacao := sPermissaoUCIDUSER.AsInteger;
+   dm.usu_tipovendedor := sPermissaoUCProfile.AsInteger;
    sPermissao.Close;
    close;
   end
