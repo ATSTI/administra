@@ -668,6 +668,7 @@ type
     CheckBox2: TCheckBox;
     Panel2: TPanel;
     Memo1: TMemo;
+    BitBtn35: TBitBtn;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -740,6 +741,7 @@ type
     procedure CheckBox1Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
+    procedure BitBtn35Click(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -2954,6 +2956,15 @@ begin
     panel2.Visible := False
   else
     panel2.Visible := True;
+end;
+
+procedure TfClienteCadastro.BitBtn35Click(Sender: TObject);
+begin
+  //inherited;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_cli.Edit;
+  DBLookupComboBox2.KeyValue := -1;
+  cds_cliCOD_TRANPORTADORA.Clear;
 end;
 
 end.
