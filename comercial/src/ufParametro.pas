@@ -416,6 +416,10 @@ type
     edCasas: TMaskEdit;
     BitBtn52: TBitBtn;
     Label86: TLabel;
+    Label87: TLabel;
+    GroupBox48: TGroupBox;
+    BitBtn53: TBitBtn;
+    rbEndEntrega: TRadioButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -524,6 +528,7 @@ type
     procedure BitBtn51Click(Sender: TObject);
     procedure Pc1Change(Sender: TObject);
     procedure BitBtn52Click(Sender: TObject);
+    procedure BitBtn53Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -6149,7 +6154,86 @@ begin
     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
   end;
 
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD CPRODANP VARCHAR(20)');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD PMIXGN DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD VALIQPROD DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD UN_CONV DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
+end;
+
+procedure TfParametro.BitBtn53Click(Sender: TObject);
+var strSql : String;
+begin
+  inherited;
+  if (s_parametro.Active) then
+     s_parametro.Close;
+   s_parametro.Params[0].AsString := 'NFE_END_ENTREGA';
+   s_parametro.Open;
+   if (not s_parametro.Eof) then
+   begin
+     strSql := 'UPDATE PARAMETRO SET ';
+     if (rbEndEntrega.Checked) then
+        strSql := strSql + ' CONFIGURADO = ' + QuotedStr('S')
+     else
+        strSql := strSql + ' CONFIGURADO = ' + QuotedStr('N');
+     strSql := strSql + ' where PARAMETRO = ' + QuotedStr('NFE_END_ENTREGA');
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.ExecuteDirect(strSql);
+     Try
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+            [mbOk], 0);
+     end;
+   end
+   else
+   begin
+      strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+      strSql := strSql + ') VALUES (';
+      strSql := strSql + QuotedStr('Imprime Endereco Entrega em Dados Adicionais') + ', ';
+      strSql := strSql + QuotedStr('NFE_END_ENTREGA') + ', ';
+     if (rbEndEntrega.Checked) then
+        strSql := strSql + QuotedStr('S')
+     else
+        strSql := strSql + QuotedStr('N');
+      strSql := strSql + ')';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+   end;
+
 end;
 
 end.

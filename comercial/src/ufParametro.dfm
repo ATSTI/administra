@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
-  Left = 211
-  Top = 129
+  Left = 266
+  Top = 133
   Width = 904
   Height = 611
   OldCreateOrder = True
@@ -539,6 +539,19 @@ inherited fParametro: TfParametro
         Font.Style = [fsBold]
         ParentFont = False
       end
+      object Label87: TLabel
+        Left = 18
+        Top = 471
+        Width = 425
+        Height = 13
+        Caption = 'COMBUSTIVEL : Parametro PRODUTOCADASTRO , D4 = '#39'COMBUSTIVEL'#39
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object GroupBox32: TGroupBox
         Left = 9
         Top = 61
@@ -867,6 +880,31 @@ inherited fParametro: TfParametro
           Caption = 'Gravar'
           TabOrder = 1
           OnClick = BitBtn48Click
+        end
+      end
+      object GroupBox48: TGroupBox
+        Left = 401
+        Top = 335
+        Width = 336
+        Height = 36
+        Caption = 'Endere'#231'o de Entrega'
+        TabOrder = 12
+        object BitBtn53: TBitBtn
+          Left = 251
+          Top = 8
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn53Click
+        end
+        object rbEndEntrega: TRadioButton
+          Left = 24
+          Top = 16
+          Width = 201
+          Height = 17
+          Caption = 'Imprimir em Dados Adicionais'
+          TabOrder = 1
         end
       end
     end
@@ -3541,7 +3579,7 @@ inherited fParametro: TfParametro
         Top = 0
         Width = 881
         Height = 485
-        ActivePage = ts2
+        ActivePage = ts1
         Align = alClient
         TabOrder = 0
         object ts1: TTabSheet
