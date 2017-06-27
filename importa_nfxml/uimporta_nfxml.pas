@@ -158,6 +158,7 @@ type
     function retornaCodPro(): String;    
     function eDiretorio(attr, val: Integer):Boolean;
     function tirazeros(numero: string):string;
+    function removeCaracteres(Texto: string):string;
     { Private declarations }
   public
     { Public declarations }
@@ -628,6 +629,8 @@ begin
   end
   else begin
     Edit1.Text := dm.cds_parametroDADOS.AsString;
+    if (dm.cds_parametroD1.AsString <> '') then
+       edMargem.Text := dm.cds_parametroD1.AsString;
   end;
 end;
 
@@ -864,17 +867,23 @@ function TfImporta_XML.retornaCodBarra: String;
 var retornoCodBarra:String;
 begin
   retornoCodBarra := '';
+  if (trim(cdsNFItemCOD_BARRA.AsString) <> '') then
+  begin
+    retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
+    retornoCodBarra := removeCaracteres(retornoCodBarra);
+  end;
   //if (chkCodBarra.Checked) then
   //begin
-    if (trim(cdsNFItemCOD_BARRA.AsString) = '') then
+    if (retornoCodBarra = '') then
     begin
-      if (Length(cdsNFItemCODPRODUTO.AsString)<12) then
-        retornoCodBarra := trim(copy(completaCodBarra(cdsNFItemCODPRODUTO.AsString + IntToStr(cdsNFCodCliente_ats.asInteger),'0',12),1,15))
+      retornoCodBarra := removeCaracteres(cdsNFItemCODPRODUTO.AsString);
+      if (Length(retornoCodBarra)<12) then
+        retornoCodBarra := trim(copy(completaCodBarra(retornoCodBarra + IntToStr(cdsNFCodCliente_ats.asInteger),'0',12),1,15))
       else
-        retornoCodBarra := trim(copy(completaCodBarra(cdsNFItemCODPRODUTO.AsString,'0',12),1,15));
+        retornoCodBarra := trim(copy(completaCodBarra(retornoCodBarra,'0',12),1,15));
     end
     else begin
-      retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
+      //retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
       if (Length(retornoCodBarra)>15) then
         retornoCodBarra := copy(retornoCodBarra,1,15);
     end;
@@ -1176,6 +1185,7 @@ begin
   retornoCodPro := '';
   //removendo zeros a esquerda
   CodProd := tirazeros(trim(cdsNFItemCODPRODUTO.AsString));
+  CodProd := removeCaracteres(CodProd);
 
   if (codProd <> '0') then
     retornoCodPro := codProd
@@ -1282,6 +1292,14 @@ begin
     end;
   end;
   Panel4.Visible := False;
+end;
+
+function TfImporta_XML.removeCaracteres(Texto: string): string;
+begin
+   Texto := StringReplace(Texto, '.', '', [rfReplaceAll]);
+   Texto := StringReplace(Texto, '/', '', [rfReplaceAll]);
+   Texto := StringReplace(Texto, '-', '', [rfReplaceAll]);
+   Result := Texto;
 end;
 
 end.

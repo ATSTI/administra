@@ -49,7 +49,7 @@ object fImporta_XML: TfImporta_XML
       Top = 582
       Width = 78
       Height = 13
-      Caption = 'V. 1.3 - 10/2016'
+      Caption = 'V. 1.5 - 06/2017'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -11
