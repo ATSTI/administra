@@ -1,6 +1,6 @@
 object fNFCompra: TfNFCompra
-  Left = 250
-  Top = 122
+  Left = 334
+  Top = 123
   Width = 781
   Height = 590
   Color = clBtnFace

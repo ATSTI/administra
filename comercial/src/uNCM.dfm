@@ -211,39 +211,39 @@ inherited fNCM: TfNCM
       item
         Expanded = False
         FieldName = 'NCM'
-        Width = 109
+        Width = 107
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQNAC'
         Title.Caption = 'Aliquota Nacional'
-        Width = 117
+        Width = 115
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQIMP'
         Title.Caption = 'Al'#237'quota importa'#231#227'o'
-        Width = 134
+        Width = 131
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEST'
-        Width = 154
+        Width = 151
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTADUAL'
-        Width = 74
+        Width = 72
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MUNICIPAL'
-        Width = 187
+        Width = 183
         Visible = True
       end>
   end
