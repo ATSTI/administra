@@ -84,6 +84,11 @@ begin
   inherited;
   cdsAdicADIC_CODDI.AsInteger  := fDadosImportacao.cdsDIDI_CODDI.AsInteger;
   cdsAdicADIC_CODDET.AsInteger := cdsMov_DetCODDETALHE.AsInteger;
+  dbedit1.ReadOnly := False;
+  dbedit2.ReadOnly := False;
+  dbedit3.ReadOnly := False;
+  dbedit4.ReadOnly := False;
+  dbedit5.ReadOnly := False;
   dbEdit1.SetFocus;
 end;
 
@@ -112,6 +117,15 @@ begin
   //  inherited;
   cdsMov_Det.Params[0].AsInteger := DMNF.cds_MovimentoCODMOVIMENTO.AsInteger;
   cdsMov_Det.Open;
+
+  if (fDadosImportacao.dtsrcDI.DataSet.IsEmpty) then
+  begin
+    dbedit1.ReadOnly := True;
+    dbedit2.ReadOnly := True;
+    dbedit3.ReadOnly := True;
+    dbedit4.ReadOnly := True;
+    dbedit5.ReadOnly := True;
+  end;
   //cdsMov_Det.Open;
 end;
 

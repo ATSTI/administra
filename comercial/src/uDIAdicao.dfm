@@ -1,6 +1,6 @@
 inherited fDIAdicao: TfDIAdicao
-  Left = 229
-  Top = 225
+  Left = 214
+  Top = 226
   Width = 890
   Height = 465
   OldCreateOrder = True

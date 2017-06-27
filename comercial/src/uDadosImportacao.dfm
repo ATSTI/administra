@@ -1,6 +1,6 @@
 object fDadosImportacao: TfDadosImportacao
-  Left = 190
-  Top = 107
+  Left = 0
+  Top = 108
   Width = 1024
   Height = 600
   Color = clBtnFace
