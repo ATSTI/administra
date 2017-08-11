@@ -2835,6 +2835,73 @@ object fTerminal2: TfTerminal2
           Visible = False
           OnClick = btnProdutoClick
         end
+        object JvDBGrid3: TJvDBGrid
+          Left = 0
+          Top = 384
+          Width = 463
+          Height = 40
+          Align = alBottom
+          BorderStyle = bsNone
+          DataSource = d_movdet
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+          TabOrder = 2
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -11
+          TitleFont.Name = 'MS Sans Serif'
+          TitleFont.Style = []
+          Visible = False
+          BevelKind = bkFlat
+          AutoSizeColumns = True
+          SelectColumnsDialogStrings.Caption = 'Select columns'
+          SelectColumnsDialogStrings.OK = '&OK'
+          SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+          EditControls = <>
+          RowsHeight = 17
+          TitleRowHeight = 17
+          Columns = <
+            item
+              Expanded = False
+              FieldName = 'CODPRO'
+              Title.Caption = 'C'#243'digo'
+              Width = 57
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PRODUTO'
+              Title.Caption = 'Desc. Produto'
+              Width = 126
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'MARCA'
+              Width = 84
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'VALORUNITARIOATUAL'
+              Title.Caption = 'R$ Custo'
+              Width = 57
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'MARGEM'
+              Title.Caption = '  %'
+              Width = 42
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'PRECO'
+              Title.Caption = 'R$ Venda'
+              Width = 75
+              Visible = True
+            end>
+        end
       end
       object TabComanda: TTabSheet
         Caption = 'Mesas'
@@ -5425,5 +5492,306 @@ object fTerminal2: TfTerminal2
     Active = False
     Left = 520
     Top = 32
+  end
+  object d_movdet: TDataSource
+    DataSet = ds_movdet
+    Left = 796
+    Top = 253
+  end
+  object ds_movdet: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'p_movdet'
+    Left = 760
+    Top = 252
+    object ds_movdetCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object ds_movdetCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object ds_movdetCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetICMS: TFloatField
+      FieldName = 'ICMS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object ds_movdetQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetUN: TStringField
+      FieldName = 'UN'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 2
+    end
+    object ds_movdetBAIXA: TStringField
+      FieldName = 'BAIXA'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object ds_movdetCONTROLE: TSmallintField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.00'
+    end
+    object ds_movdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object ds_movdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Size = 300
+    end
+    object ds_movdetCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object ds_movdetVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+      ProviderFlags = []
+      DisplayFormat = ',##0.0'
+    end
+    object ds_movdetQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+      ProviderFlags = []
+    end
+    object ds_movdetALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object ds_movdetCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ProviderFlags = []
+      Size = 15
+    end
+    object ds_movdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+      ProviderFlags = []
+    end
+    object ds_movdetLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
+    end
+    object ds_movdetESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+      ProviderFlags = []
+    end
+    object ds_movdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 300
+    end
+    object ds_movdetPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.0'
+      Precision = 9
+      Size = 2
+    end
+    object ds_movdetMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.0'
+    end
+    object ds_movdetMARCA: TStringField
+      FieldName = 'MARCA'
+      ProviderFlags = []
+      Size = 30
+    end
+    object ds_movdettotal: TAggregateField
+      Alignment = taRightJustify
+      FieldName = 'total'
+      ProviderFlags = []
+      Active = True
+      currency = True
+      DisplayFormat = ',##0.00'
+      Expression = 'SUM(VALTOTAL)'
+    end
+  end
+  object p_movdet: TDataSetProvider
+    DataSet = s_movdet
+    UpdateMode = upWhereKeyOnly
+    Left = 725
+    Top = 252
+  end
+  object s_movdet: TSQLDataSet
+    CommandText = 
+      'select movd.CODDETALHE'#13#10'        , movd.CODMOVIMENTO'#13#10'        , m' +
+      'ovd.CODPRODUTO'#13#10'        , movd.ICMS'#13#10'        , movd.PRECO'#13#10'     ' +
+      '   , movd.QUANTIDADE'#13#10'        , movd.QTDE_ALT'#13#10'        , movd.UN' +
+      #13#10'        , movd.BAIXA'#13#10'        , movd.CONTROLE'#13#10'        , movd.' +
+      'COD_COMISSAO '#13#10'        , movd.VALTOTAL'#13#10'        , movd.DESCPRODU' +
+      'TO'#13#10'        , prod.CODPRO'#13#10'        , prod.PRODUTO'#13#10'        , pro' +
+      'd.CODALMOXARIFADO'#13#10'        , prod.VALORUNITARIOATUAL'#13#10'        , ' +
+      'prod.QTDE_PCT'#13#10'        , ccus.ALMOXARIFADO'#13#10'        , prod.CONTA' +
+      '_DESPESA  '#13#10'        , prod.COD_BARRA '#13#10'        , prod.LOCALIZACA' +
+      'O '#13#10'        , prod.ESTOQUEATUAL'#13#10'        , prod.PRECOMEDIO'#13#10'    ' +
+      '    , prod.MARGEM'#13#10'        , prod.MARCA '#13#10'from MOVIMENTODETALHE ' +
+      'movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODU' +
+      'TO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO =' +
+      ' prod.CODALMOXARIFADO '#13#10'where  movd.CODMOVIMENTO=:pCODMOV '#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 690
+    Top = 253
+    object s_movdetCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object s_movdetCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object s_movdetCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetICMS: TFloatField
+      FieldName = 'ICMS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetPRECO: TFloatField
+      FieldName = 'PRECO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetUN: TStringField
+      FieldName = 'UN'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 2
+    end
+    object s_movdetBAIXA: TStringField
+      FieldName = 'BAIXA'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object s_movdetCONTROLE: TSmallintField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetVALTOTAL: TFloatField
+      FieldName = 'VALTOTAL'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object s_movdetPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Size = 300
+    end
+    object s_movdetCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+      ProviderFlags = []
+    end
+    object s_movdetQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+      ProviderFlags = []
+    end
+    object s_movdetALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object s_movdetCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ProviderFlags = []
+      Size = 15
+    end
+    object s_movdetCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+      ProviderFlags = []
+    end
+    object s_movdetLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      ProviderFlags = []
+      Size = 50
+    end
+    object s_movdetESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+      ProviderFlags = []
+    end
+    object s_movdetDESCPRODUTO: TStringField
+      FieldName = 'DESCPRODUTO'
+      ProviderFlags = [pfInUpdate]
+      Size = 300
+    end
+    object s_movdetPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      ProviderFlags = [pfInUpdate]
+      Precision = 9
+      Size = 2
+    end
+    object s_movdetMARGEM: TFloatField
+      FieldName = 'MARGEM'
+      ProviderFlags = [pfInUpdate]
+    end
+    object s_movdetMARCA: TStringField
+      FieldName = 'MARCA'
+      ProviderFlags = []
+      Size = 30
+    end
   end
 end

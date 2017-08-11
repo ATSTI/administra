@@ -471,6 +471,64 @@ type
     JvLabel10: TJvLabel;
     edLocalestoque: TEdit;
     CadProdutos1: TMenuItem;
+    JvDBGrid3: TJvDBGrid;
+    d_movdet: TDataSource;
+    ds_movdet: TClientDataSet;
+    ds_movdetCODDETALHE: TIntegerField;
+    ds_movdetCODMOVIMENTO: TIntegerField;
+    ds_movdetCODPRODUTO: TIntegerField;
+    ds_movdetICMS: TFloatField;
+    ds_movdetPRECO: TFloatField;
+    ds_movdetQUANTIDADE: TFloatField;
+    ds_movdetQTDE_ALT: TFloatField;
+    ds_movdetUN: TStringField;
+    ds_movdetBAIXA: TStringField;
+    ds_movdetCONTROLE: TSmallintField;
+    ds_movdetCOD_COMISSAO: TIntegerField;
+    ds_movdetVALTOTAL: TFloatField;
+    ds_movdetCODPRO: TStringField;
+    ds_movdetPRODUTO: TStringField;
+    ds_movdetCODALMOXARIFADO: TIntegerField;
+    ds_movdetVALORUNITARIOATUAL: TFloatField;
+    ds_movdetQTDE_PCT: TFloatField;
+    ds_movdetALMOXARIFADO: TStringField;
+    ds_movdetCONTA_DESPESA: TStringField;
+    ds_movdetCOD_BARRA: TStringField;
+    ds_movdetLOCALIZACAO: TStringField;
+    ds_movdetESTOQUEATUAL: TFloatField;
+    ds_movdetDESCPRODUTO: TStringField;
+    ds_movdetPRECOMEDIO: TBCDField;
+    ds_movdetMARGEM: TFloatField;
+    ds_movdetMARCA: TStringField;
+    ds_movdettotal: TAggregateField;
+    p_movdet: TDataSetProvider;
+    s_movdet: TSQLDataSet;
+    s_movdetCODDETALHE: TIntegerField;
+    s_movdetCODMOVIMENTO: TIntegerField;
+    s_movdetCODPRODUTO: TIntegerField;
+    s_movdetICMS: TFloatField;
+    s_movdetPRECO: TFloatField;
+    s_movdetQUANTIDADE: TFloatField;
+    s_movdetQTDE_ALT: TFloatField;
+    s_movdetUN: TStringField;
+    s_movdetBAIXA: TStringField;
+    s_movdetCONTROLE: TSmallintField;
+    s_movdetCOD_COMISSAO: TIntegerField;
+    s_movdetVALTOTAL: TFloatField;
+    s_movdetCODPRO: TStringField;
+    s_movdetPRODUTO: TStringField;
+    s_movdetCODALMOXARIFADO: TIntegerField;
+    s_movdetVALORUNITARIOATUAL: TFloatField;
+    s_movdetQTDE_PCT: TFloatField;
+    s_movdetALMOXARIFADO: TStringField;
+    s_movdetCONTA_DESPESA: TStringField;
+    s_movdetCOD_BARRA: TStringField;
+    s_movdetLOCALIZACAO: TStringField;
+    s_movdetESTOQUEATUAL: TFloatField;
+    s_movdetDESCPRODUTO: TStringField;
+    s_movdetPRECOMEDIO: TBCDField;
+    s_movdetMARGEM: TFloatField;
+    s_movdetMARCA: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -3307,6 +3365,13 @@ begin
   end;
   if (tipo_busca = 'CODBARRA') then
     EdtCodBarra1.SetFocus;
+
+    if ds_movdet.Active then
+      ds_movdet.Close;
+    ds_movdet.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+    ds_movdet.Open;
+    ds_movdet.last;
+
 end;
 
 procedure TfTerminal2.EdtCodBarra1Enter(Sender: TObject);
@@ -4203,6 +4268,11 @@ begin
      end;
   end;
   codCliente := 0;
+
+  if (dm.moduloUsado = 'SEMBUSCA') then
+  begin
+    JvDBGrid3.Visible := True; ;
+  end;
 end;
 
 procedure TfTerminal2.FormClose(Sender: TObject; var Action: TCloseAction);
