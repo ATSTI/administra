@@ -2622,7 +2622,10 @@ begin
   dmnf.cds_nfNFE_MODELO.AsString       := 'moNFe';
   dmnf.cds_nfNFE_VERSAO.AsString       := 've310';
 
-  tipoNota := trim(dmnf.cds_nfCFOP.AsString)[1];
+  if (dmnf.cds_nfCFOP.AsString <>  '') then
+    tipoNota := trim(dmnf.cds_nfCFOP.AsString)[1]
+  else
+    tipoNota := '5';
 
   if (tipoNota in ['1','2','3']) then
   begin

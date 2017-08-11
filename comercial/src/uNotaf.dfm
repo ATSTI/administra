@@ -940,7 +940,7 @@ object fNotaf: TfNotaf
         Top = 291
         Width = 784
         Height = 204
-        ActivePage = tsDadosAdic
+        ActivePage = tsTransp
         TabOrder = 19
         object tsTrib: TTabSheet
           Caption = 'Totais'
@@ -1367,7 +1367,7 @@ object fNotaf: TfNotaf
               OnChange = cboFreteChange
               Items.Strings = (
                 '0 - Emitente'
-                '1 - Dest/Rem'
+                '1 - Destinatario'
                 '2 - Terceiros'
                 '9 - Sem Frete')
             end
