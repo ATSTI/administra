@@ -6183,6 +6183,29 @@ begin
   except
     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
   end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE CLASSIFICACAOFISCALNCM ADD REDBASEPIS DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE CLASSIFICACAOFISCALNCM ADD REDBASECOFINS DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE CLASSIFICACAOFISCALNCM ADD REDBASEIPI DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
