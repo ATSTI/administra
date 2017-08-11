@@ -1,5 +1,5 @@
 object fPai: TfPai
-  Left = 5
+  Left = 8
   Top = 10
   Width = 638
   Height = 448
