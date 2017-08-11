@@ -1,7 +1,7 @@
 object DmCitrus: TDmCitrus
   OldCreateOrder = False
-  Left = 190
-  Top = 124
+  Left = 274
+  Top = 109
   Height = 514
   Width = 525
   object cdsProdutor: TClientDataSet

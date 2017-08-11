@@ -2512,8 +2512,7 @@ begin
 
     if (versaoSistema = '4.3.2.1') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '4.3.2.1', StrToDate('28/07/2016'));
-      insereouatualizaScript('total_tributos.sql', '4.3.2.1', StrToDate('28/07/2016'));      
+      insereouatualizaScript('total_tributos.sql', '4.3.2.1', StrToDate('28/07/2016'));
       AtualizandoScript('4.3.2.1');
       mudaVersao('4.3.2.2');
     end;
@@ -2527,10 +2526,153 @@ begin
     if (versaoSistema = '4.4.0.0') then
     begin
       EXECUTADDL('MOVIMENTODETALHE', 'UN_CONV', 'DOUBLE PRECISION');
-      EXECUTADDL('PRODUTOS', 'EMBALAGEM', 'VARCHAR(40)');      
+      EXECUTADDL('PRODUTOS', 'EMBALAGEM', 'VARCHAR(40)');
       mudaVersao('4.4.1.0');
     end;
 
+    if (versaoSistema = '4.4.1.0') then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE SPEDICMS( DT_INI DATE NOT NULL PRIMARY KEY)');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD DT_FIM DATE');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD IND_MOV_DIFAL CHAR(1)');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_CRED_ANT_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_DEBITOS_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_OUT_DEB_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_DEB_FCP DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_CREDITOS_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_TOT_CRED_FCP DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_OUT_CRED_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_DEV_ANT_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_DEDUCOES_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD VL_SLD_CRED_TRANSPORTAR DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE SPEDICMS ADD DEB_ESP_DIFAL DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD CPRODANP VARCHAR(20)');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD PMIXGN DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD VALIQPROD DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD UN_CONV DOUBLE PRECISION');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'REDBASEPIS', 'DOUBLE PRECISION');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'REDBASECOFINS', 'DOUBLE PRECISION');
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'REDBASEIPI', 'DOUBLE PRECISION');
+      mudaVersao('4.5.0.0');
+    end;
+    if (versaoSistema = '4.5.0.0') then
+    begin
+      insereouatualizaScript('trg_calcula_icms_st.sql', '4.5.0.0', StrToDate('10/08/2017'));
+      AtualizandoScript('4.5.0.0');
+      mudaVersao('4.6.0.0');
+    end;
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

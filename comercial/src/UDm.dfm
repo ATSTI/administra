@@ -2,7 +2,7 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 4
+  Left = 6
   Top = 2
   Height = 766
   Width = 1022
@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_floragemnorte'
+      'Database=192.168.6.100:sge_vitton'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
