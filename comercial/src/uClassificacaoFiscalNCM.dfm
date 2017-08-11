@@ -1,16 +1,24 @@
 inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
-  Left = 276
-  Top = 131
-  Width = 866
-  Height = 662
+  Left = 242
+  Top = 35
+  Width = 882
+  Height = 677
   Caption = 'Classifica'#231#227'o Fiscal dos NCMs'
   OldCreateOrder = True
   OnCreate = nil
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label26: TLabel [0]
+    Left = 623
+    Top = 133
+    Width = 82
+    Height = 13
+    Caption = 'Red. Base Cofins'
+    FocusControl = DBEdit26
+  end
   inherited MMJPanel1: TMMJPanel
-    Width = 858
+    Width = 874
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
@@ -18,7 +26,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = 111
+      Width = 127
       Height = 36
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
@@ -35,18 +43,18 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 584
-    Width = 858
+    Top = 599
+    Width = 874
     TabOrder = 0
     inherited btnProcurar: TBitBtn
       Visible = False
     end
   end
-  object DBGrid1: TDBGrid [2]
+  object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 346
-    Width = 858
-    Height = 238
+    Width = 874
+    Height = 253
     Align = alClient
     DataSource = DtSrc
     TabOrder = 4
@@ -163,7 +171,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         Visible = True
       end>
   end
-  object gbProduto: TGroupBox [3]
+  object gbProduto: TGroupBox [4]
     Left = 248
     Top = 146
     Width = 161
@@ -200,10 +208,10 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 0
     end
   end
-  object GroupBox1: TGroupBox [4]
+  object GroupBox1: TGroupBox [5]
     Left = 0
     Top = 185
-    Width = 858
+    Width = 874
     Height = 161
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -215,10 +223,10 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ParentFont = False
     TabOrder = 2
     DesignSize = (
-      858
+      874
       161)
     object Label17: TLabel
-      Left = 6
+      Left = 7
       Top = 21
       Width = 83
       Height = 16
@@ -236,7 +244,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label17Click
     end
     object DBEdit18: TDBEdit
-      Left = 100
+      Left = 108
       Top = 18
       Width = 627
       Height = 21
@@ -256,7 +264,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 100
+      Left = 108
       Top = 40
       Width = 627
       Height = 21
@@ -276,7 +284,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 100
+      Left = 108
       Top = 62
       Width = 627
       Height = 22
@@ -296,7 +304,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit21: TDBEdit
-      Left = 100
+      Left = 108
       Top = 85
       Width = 627
       Height = 22
@@ -316,7 +324,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit22: TDBEdit
-      Left = 100
+      Left = 108
       Top = 108
       Width = 627
       Height = 22
@@ -336,7 +344,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit23: TDBEdit
-      Left = 100
+      Left = 108
       Top = 131
       Width = 627
       Height = 22
@@ -356,15 +364,15 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
   end
-  object Panel1: TPanel [5]
+  object Panel1: TPanel [6]
     Left = 0
     Top = 51
-    Width = 858
+    Width = 874
     Height = 134
     Align = alTop
     TabOrder = 1
     DesignSize = (
-      858
+      874
       134)
     object Label1: TLabel
       Left = 3
@@ -502,7 +510,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
     end
     object Label21: TLabel
-      Left = 574
+      Left = 585
       Top = 1
       Width = 27
       Height = 16
@@ -522,7 +530,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label21Click
     end
     object Label10: TLabel
-      Left = 638
+      Left = 650
       Top = 1
       Width = 46
       Height = 16
@@ -543,7 +551,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label10Click
     end
     object Label12: TLabel
-      Left = 706
+      Left = 720
       Top = 1
       Width = 45
       Height = 16
@@ -560,7 +568,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label12Click
     end
     object Label13: TLabel
-      Left = 6
+      Left = 7
       Top = 44
       Width = 77
       Height = 16
@@ -577,7 +585,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label13Click
     end
     object Label15: TLabel
-      Left = 142
+      Left = 145
       Top = 45
       Width = 50
       Height = 16
@@ -684,6 +692,30 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Font.Style = []
       ParentFont = False
       Transparent = True
+    end
+    object Label24: TLabel
+      Left = 439
+      Top = 84
+      Width = 67
+      Height = 13
+      Caption = 'Red. Base Pis'
+      FocusControl = DBEdit26
+    end
+    object Label25: TLabel
+      Left = 525
+      Top = 84
+      Width = 82
+      Height = 13
+      Caption = 'Red. Base Cofins'
+      FocusControl = DBEdit26
+    end
+    object Label27: TLabel
+      Left = 615
+      Top = 84
+      Width = 66
+      Height = 13
+      Caption = 'Red. Base IPI'
+      FocusControl = DBEdit26
     end
     object DBEdit1: TDBEdit
       Left = 3
@@ -831,7 +863,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object BitBtn1: TBitBtn
       Left = 572
-      Top = 39
+      Top = 41
       Width = 107
       Height = 42
       Hint = 'Copiar configura'#231#227'o de outro Produto'
@@ -950,7 +982,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 407
-      Top = 58
+      Top = 59
       Width = 162
       Height = 24
       BevelKind = bkFlat
@@ -1181,10 +1213,55 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
       TabOrder = 25
     end
+    object DBEdit26: TDBEdit
+      Left = 437
+      Top = 98
+      Width = 78
+      Height = 24
+      DataField = 'REDBASEPIS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 26
+    end
+    object DBEdit27: TDBEdit
+      Left = 525
+      Top = 98
+      Width = 78
+      Height = 24
+      DataField = 'REDBASECOFINS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 27
+    end
+    object DBEdit28: TDBEdit
+      Left = 613
+      Top = 98
+      Width = 78
+      Height = 24
+      DataField = 'REDBASEIPI'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 28
+    end
   end
-  object panelAjuda: TPanel [6]
-    Left = 200
-    Top = 168
+  object panelAjuda: TPanel [7]
+    Left = 160
+    Top = 200
     Width = 602
     Height = 396
     TabOrder = 6
@@ -1213,11 +1290,11 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   object sdsClassFisc: TSQLDataSet
     CommandText = 
       'select cfn.* from CLASSIFICACAOFISCALNCM cfn'#13#10'where cfn.NCM = :p' +
-      'NCM'
+      'NCM order by ncm, cfop, uf, codfiscal'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftString
+        DataType = ftUnknown
         Name = 'pNCM'
         ParamType = ptInput
       end>
@@ -1351,6 +1428,15 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+    object sdsClassFiscREDBASEIPI: TFloatField
+      FieldName = 'REDBASEIPI'
+    end
+    object sdsClassFiscREDBASEPIS: TFloatField
+      FieldName = 'REDBASEPIS'
+    end
+    object sdsClassFiscREDBASECOFINS: TFloatField
+      FieldName = 'REDBASECOFINS'
     end
   end
   object cdsClassFisc: TClientDataSet
@@ -1492,6 +1578,15 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+    object cdsClassFiscREDBASEIPI: TFloatField
+      FieldName = 'REDBASEIPI'
+    end
+    object cdsClassFiscREDBASEPIS: TFloatField
+      FieldName = 'REDBASEPIS'
+    end
+    object cdsClassFiscREDBASECOFINS: TFloatField
+      FieldName = 'REDBASECOFINS'
     end
   end
   object dspClassFisc: TDataSetProvider

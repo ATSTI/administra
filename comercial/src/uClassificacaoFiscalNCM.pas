@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai_new, FMTBcd, Provider, DBClient, DB, SqlExpr, Menus,
   XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Grids, DBGrids, Mask,
-  DBCtrls, dxCore, dxButton;
+  DBCtrls, dxCore, dxButton, dbxpress;
 
 type
   TfClassificacaoFiscalNCM = class(TfPai_new)
@@ -211,6 +211,19 @@ type
     DBEdit35: TDBEdit;
     DBEdit36: TDBEdit;
     DBEdit25: TDBEdit;
+    DBEdit26: TDBEdit;
+    Label24: TLabel;
+    Label25: TLabel;
+    DBEdit27: TDBEdit;
+    Label26: TLabel;
+    sdsClassFiscREDBASEIPI: TFloatField;
+    sdsClassFiscREDBASEPIS: TFloatField;
+    sdsClassFiscREDBASECOFINS: TFloatField;
+    cdsClassFiscREDBASEIPI: TFloatField;
+    cdsClassFiscREDBASEPIS: TFloatField;
+    cdsClassFiscREDBASECOFINS: TFloatField;
+    Label27: TLabel;
+    DBEdit28: TDBEdit;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -270,49 +283,82 @@ end;
 
 procedure TfClassificacaoFiscalNCM.btnGravarClick(Sender: TObject);
 var str:string;
+  TDA: TTransactionDesc;
+  Save_Cursor:TCursor;
 begin
-  DecimalSeparator := '.';
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
+    TDA.TransactionID  := 1;
+    TDA.IsolationLevel := xilREADCOMMITTED;
+    DecimalSeparator := '.';
     if (cdsClassFisc.State in [dsEdit]) then
     Begin
-      str := 'Update ClassificacaoFiscalNCM set';
-      str := str + ' CFOP = ' + QuotedStr(cdsClassFiscCFOP.AsString);
-      str := str + ', UF = ' + QuotedStr(cdsClassFiscUF.AsString);
-      str := str + ', ICMS_SUBST = ' + FloatToStr(cdsClassFiscICMS_SUBST.AsFloat);
-      str := str + ', ICMS_SUBST_IC = ' + FloatToStr(cdsClassFiscICMS_SUBST_IC.AsFloat);
-      str := str + ', ICMS_SUBST_IND = ' + FloatToStr(cdsClassFiscICMS_SUBST_IND.AsFloat);
-      str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
-      str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
-      str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
-      str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
-      str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
-      str := str + ', CSTIPI = ' + QuotedStr(cdsClassFiscCSTIPI.AsString);
-      str := str + ', CSTPIS = ' + QuotedStr(cdsClassFiscCSTPIS.AsString);
-      str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
-      str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
-      str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
-      str := str + ', CODFISCAL = ' + QuotedStr(cdsClassFiscCODFISCAL.AsString);
-      str := str + ', ALIQ_CUPOM = ' + QuotedStr(cdsClassFiscALIQ_CUPOM.AsString);
-      str := str + ', DADOSADC1 = ' + QuotedStr(cdsClassFiscDADOSADC1.AsString);
-      str := str + ', DADOSADC2 = ' + QuotedStr(cdsClassFiscDADOSADC2.AsString);
-      str := str + ', DADOSADC3 = ' + QuotedStr(cdsClassFiscDADOSADC3.AsString);
-      str := str + ', DADOSADC4 = ' + QuotedStr(cdsClassFiscDADOSADC4.AsString);
-      str := str + ', DADOSADC5 = ' + QuotedStr(cdsClassFiscDADOSADC5.AsString);
-      str := str + ', DADOSADC6 = ' + QuotedStr(cdsClassFiscDADOSADC6.AsString);
-      str := str + ', ORIGEM = ' + IntToStr(cdsClassFiscORIGEM.AsInteger);
-      str := str + ', CST_IPI_CENQ = ' + QuotedStr(cdsClassFiscCST_IPI_CENQ.AsString);
-      str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
-      str := str + ' AND CFOP = ' + QuotedStr(CFOP);
-      str := str + ' AND UF = ' + QuotedStr(UF);
-      str := str + ' AND CODFISCAL = ' + QuotedStr(tipofiscal);
-      dm.sqlsisAdimin.ExecuteDirect(str);
-      DecimalSeparator := ',';
-      inherited;
+      dm.sqlsisAdimin.StartTransaction(TDA);
+      try
+        str := 'Update ClassificacaoFiscalNCM set';
+        str := str + ' CFOP = ' + QuotedStr(cdsClassFiscCFOP.AsString);
+        str := str + ', UF = ' + QuotedStr(cdsClassFiscUF.AsString);
+        str := str + ', ICMS_SUBST = ' + FloatToStr(cdsClassFiscICMS_SUBST.AsFloat);
+        str := str + ', ICMS_SUBST_IC = ' + FloatToStr(cdsClassFiscICMS_SUBST_IC.AsFloat);
+        str := str + ', ICMS_SUBST_IND = ' + FloatToStr(cdsClassFiscICMS_SUBST_IND.AsFloat);
+        str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
+        str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
+        str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
+        str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
+        str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
+        str := str + ', CSTIPI = ' + QuotedStr(cdsClassFiscCSTIPI.AsString);
+        str := str + ', CSTPIS = ' + QuotedStr(cdsClassFiscCSTPIS.AsString);
+        str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
+        str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
+        str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
+        str := str + ', CODFISCAL = ' + QuotedStr(cdsClassFiscCODFISCAL.AsString);
+        str := str + ', ALIQ_CUPOM = ' + QuotedStr(cdsClassFiscALIQ_CUPOM.AsString);
+        str := str + ', DADOSADC1 = ' + QuotedStr(cdsClassFiscDADOSADC1.AsString);
+        str := str + ', DADOSADC2 = ' + QuotedStr(cdsClassFiscDADOSADC2.AsString);
+        str := str + ', DADOSADC3 = ' + QuotedStr(cdsClassFiscDADOSADC3.AsString);
+        str := str + ', DADOSADC4 = ' + QuotedStr(cdsClassFiscDADOSADC4.AsString);
+        str := str + ', DADOSADC5 = ' + QuotedStr(cdsClassFiscDADOSADC5.AsString);
+        str := str + ', DADOSADC6 = ' + QuotedStr(cdsClassFiscDADOSADC6.AsString);
+        str := str + ', ORIGEM = ' + IntToStr(cdsClassFiscORIGEM.AsInteger);
+        str := str + ', CST_IPI_CENQ = ' + QuotedStr(cdsClassFiscCST_IPI_CENQ.AsString);
+        str := str + ', VBCUFDEST = ' + FloatToStr(cdsClassFiscVBCUFDEST.AsFloat);
+        str := str + ', PFCPUFDEST = ' + FloatToStr(cdsClassFiscPFCPUFDEST.AsFloat);
+        str := str + ', PICMSUFDEST = ' + FloatToStr(cdsClassFiscPICMSUFDEST.AsFloat);
+        str := str + ', PICMSINTER = ' + FloatToStr(cdsClassFiscPICMSINTER.AsFloat);
+        str := str + ', PICMSINTERPART = ' + FloatToStr(cdsClassFiscPICMSINTERPART.AsFloat);
+        str := str + ', VFCPUFDEST = ' + FloatToStr(cdsClassFiscVFCPUFDEST.AsFloat);
+        str := str + ', VICMSUFDEST = ' + FloatToStr(cdsClassFiscVICMSUFDEST.AsFloat);
+        str := str + ', VICMSUFREMET = ' + FloatToStr(cdsClassFiscVICMSUFREMET.AsFloat);
+        str := str + ', REDBASEPIS = ' + FloatToStr(cdsClassFiscREDBASEPIS.AsFloat);
+        str := str + ', REDBASECOFINS = ' + FloatToStr(cdsClassFiscREDBASECOFINS.AsFloat);
+        str := str + ', REDBASEIPI = ' + FloatToStr(cdsClassFiscREDBASEIPI.AsFloat);
+        str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
+        str := str + ' AND CFOP = ' + QuotedStr(CFOP);
+        str := str + ' AND UF = ' + QuotedStr(UF);
+        str := str + ' AND CODFISCAL = ' + QuotedStr(tipofiscal);
+        dm.sqlsisAdimin.ExecuteDirect(str);
+        DecimalSeparator := ',';
+        dm.sqlsisAdimin.Commit(TDA);
+        if (cdsTFiscal.Active) then
+          cdsTFiscal.Close;
+        cdsTFiscal.Open;
+        if(cdsClassFisc.Active) then
+          cdsClassFisc.Close;
+        cdsClassFisc.Params.ParamByName('pNCM').AsString := ncm;
+        cdsClassFisc.open;
+      except
+        on E : Exception do
+        begin
+          DecimalSeparator := ',';
+          dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+        end;
+      end;
     end
-    else
-      inherited;
+  else
+    inherited;
   finally
-    DecimalSeparator := ',';
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
   end;
 end;
 

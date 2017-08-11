@@ -4,6 +4,7 @@ inherited fNCM: TfNCM
   Width = 807
   Height = 523
   OldCreateOrder = True
+  PrintScale = poNone
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
@@ -211,39 +212,39 @@ inherited fNCM: TfNCM
       item
         Expanded = False
         FieldName = 'NCM'
-        Width = 107
+        Width = 109
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQNAC'
         Title.Caption = 'Aliquota Nacional'
-        Width = 115
+        Width = 117
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQIMP'
         Title.Caption = 'Al'#237'quota importa'#231#227'o'
-        Width = 131
+        Width = 134
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEST'
-        Width = 151
+        Width = 154
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTADUAL'
-        Width = 72
+        Width = 74
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MUNICIPAL'
-        Width = 183
+        Width = 187
         Visible = True
       end>
   end
@@ -546,7 +547,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Exce'#231#227'o Fiscal da NCM'
       DataField = 'EX'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
@@ -558,7 +559,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = '0:NCM, 1:LBS ou 2:LC116'
       DataField = 'TIPO'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
@@ -570,7 +571,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = '0:NCM, 1:LBS ou 2:LC116'
       DataField = 'DESCRICAO'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 2
@@ -584,7 +585,7 @@ inherited fNCM: TfNCM
         'Carga Tribut'#225'ria Federal para Produtos com CST iniciando em 0,3,' +
         '4,5.'
       DataField = 'IMP_FEDERAL'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 3
@@ -598,7 +599,7 @@ inherited fNCM: TfNCM
         'Carga Tribut'#225'ria Federal para Produtos importados, com CST inici' +
         'ando com n'#250'meros diferentes de 0,3,4,5.'
       DataField = 'IMP_FERERAL_IMP'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 4
@@ -609,8 +610,8 @@ inherited fNCM: TfNCM
       Width = 48
       Height = 21
       Hint = 'Carga Tribut'#225'ria Estadual'
-      DataField = 'ESTADUAL'
-      DataSource = DtSrc
+      DataField = 'IMP_ESTADUAL'
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 5
@@ -621,8 +622,8 @@ inherited fNCM: TfNCM
       Width = 48
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
-      DataField = 'MUNICIPAL'
-      DataSource = DtSrc
+      DataField = 'IMP_MUNICIPAL'
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 6
@@ -634,7 +635,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
       DataField = 'VIGENCIAINICIO'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 7
@@ -646,7 +647,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
       DataField = 'VIGENCIAFIM'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 8
@@ -658,7 +659,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
       DataField = 'CHAVE'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 9
@@ -670,7 +671,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
       DataField = 'VERSAO'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 10
@@ -682,7 +683,7 @@ inherited fNCM: TfNCM
       Height = 21
       Hint = 'Carga Tribut'#225'ria Municipal'
       DataField = 'FONTE'
-      DataSource = DtSrc
+      DataSource = dsIBPT
       ParentShowHint = False
       ShowHint = True
       TabOrder = 11
@@ -702,6 +703,7 @@ inherited fNCM: TfNCM
     Aggregates = <>
     Params = <>
     ProviderName = 'dspNCM'
+    AfterOpen = cdsNCMAfterOpen
     Left = 344
     Top = 8
     object cdsNCMNCM: TStringField
@@ -717,7 +719,6 @@ inherited fNCM: TfNCM
     end
     object cdsNCMCEST: TStringField
       FieldName = 'CEST'
-      EditMask = '00\.000\.00;0;_'
       Size = 7
     end
     object cdsNCMESTADUAL: TFloatField
@@ -725,46 +726,6 @@ inherited fNCM: TfNCM
     end
     object cdsNCMMUNICIPAL: TFloatField
       FieldName = 'MUNICIPAL'
-    end
-    object cdsNCMIMP_FEDERAL: TFloatField
-      FieldName = 'IMP_FEDERAL'
-    end
-    object cdsNCMIMP_FERERAL_IMP: TFloatField
-      FieldName = 'IMP_FERERAL_IMP'
-    end
-    object cdsNCMTIPO: TStringField
-      FieldName = 'TIPO'
-      FixedChar = True
-      Size = 1
-    end
-    object cdsNCMEX: TIntegerField
-      FieldName = 'EX'
-    end
-    object cdsNCMDESCRICAO: TStringField
-      FieldName = 'DESCRICAO'
-      Size = 100
-    end
-    object cdsNCMIMP_ESTADUAL: TFloatField
-      FieldName = 'IMP_ESTADUAL'
-    end
-    object cdsNCMIMP_MUNICIPAL: TFloatField
-      FieldName = 'IMP_MUNICIPAL'
-    end
-    object cdsNCMVIGENCIAINICIO: TDateField
-      FieldName = 'VIGENCIAINICIO'
-    end
-    object cdsNCMVIGENCIAFIM: TDateField
-      FieldName = 'VIGENCIAFIM'
-    end
-    object cdsNCMCHAVE: TStringField
-      FieldName = 'CHAVE'
-    end
-    object cdsNCMVERSAO: TStringField
-      FieldName = 'VERSAO'
-    end
-    object cdsNCMFONTE: TStringField
-      FieldName = 'FONTE'
-      Size = 60
     end
   end
   object dspNCM: TDataSetProvider
@@ -775,77 +736,91 @@ inherited fNCM: TfNCM
   object sdsNCM: TSQLDataSet
     CommandText = 
       'Select n.NCM '#13#10', n.ALIQNAC '#13#10', n.ALIQIMP     '#13#10', n.CEST   '#13#10', n.' +
-      'ESTADUAL '#13#10', n.MUNICIPAL'#13#10#13#10', i.ALIQNAC  as IMP_FEDERAL '#13#10', i.AL' +
-      'IQIMP as IMP_FERERAL_IMP'#13#10', i.TIPO '#13#10', i.EX '#13#10', i.DESCRICAO '#13#10', ' +
-      'i.ESTADUAL  as IMP_ESTADUAL '#13#10', i.MUNICIPAL  as IMP_MUNICIPAL'#13#10',' +
-      ' i.VIGENCIAINICIO '#13#10', i.VIGENCIAFIM       '#13#10', i.CHAVE '#13#10', i.VERS' +
-      'AO  '#13#10', i.FONTE '#13#10' from NCM n'#13#10'left outer join IBPT i on i.NCM =' +
-      ' n.NCM '
+      'ESTADUAL '#13#10', n.MUNICIPAL'#13#10' from NCM n'#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 280
     Top = 8
-    object sdsNCMNCM: TStringField
-      FieldName = 'NCM'
-      Required = True
-      Size = 8
-    end
-    object sdsNCMALIQNAC: TFloatField
-      FieldName = 'ALIQNAC'
-    end
-    object sdsNCMALIQIMP: TFloatField
-      FieldName = 'ALIQIMP'
-    end
-    object sdsNCMCEST: TStringField
-      FieldName = 'CEST'
-      Size = 7
-    end
-    object sdsNCMESTADUAL: TFloatField
-      FieldName = 'ESTADUAL'
-    end
-    object sdsNCMMUNICIPAL: TFloatField
-      FieldName = 'MUNICIPAL'
-    end
-    object sdsNCMIMP_FEDERAL: TFloatField
+  end
+  object SQLDataSet1: TSQLDataSet
+    CommandText = 
+      'Select '#13#10' i.ALIQNAC  as IMP_FEDERAL '#13#10', i.ALIQIMP as IMP_FERERAL' +
+      '_IMP'#13#10', i.TIPO '#13#10', i.EX '#13#10', i.DESCRICAO '#13#10', i.ESTADUAL  as IMP_E' +
+      'STADUAL '#13#10', i.MUNICIPAL  as IMP_MUNICIPAL'#13#10', i.VIGENCIAINICIO '#13#10 +
+      ', i.VIGENCIAFIM       '#13#10', i.CHAVE '#13#10', i.VERSAO  '#13#10', i.FONTE '#13#10' f' +
+      'rom IBPT i  WHERE i.NCM = :NCM'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NCM'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 280
+    Top = 40
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = SQLDataSet1
+    Left = 312
+    Top = 40
+  end
+  object cds_ibpt: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NCM'
+        ParamType = ptInput
+      end>
+    ProviderName = 'DataSetProvider1'
+    Left = 344
+    Top = 40
+    object cds_ibptIMP_FEDERAL: TFloatField
       FieldName = 'IMP_FEDERAL'
     end
-    object sdsNCMIMP_FERERAL_IMP: TFloatField
+    object cds_ibptIMP_FERERAL_IMP: TFloatField
       FieldName = 'IMP_FERERAL_IMP'
     end
-    object sdsNCMTIPO: TStringField
+    object cds_ibptTIPO: TStringField
       FieldName = 'TIPO'
       FixedChar = True
       Size = 1
     end
-    object sdsNCMEX: TIntegerField
+    object cds_ibptEX: TIntegerField
       FieldName = 'EX'
     end
-    object sdsNCMDESCRICAO: TStringField
+    object cds_ibptDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
     end
-    object sdsNCMIMP_ESTADUAL: TFloatField
+    object cds_ibptIMP_ESTADUAL: TFloatField
       FieldName = 'IMP_ESTADUAL'
     end
-    object sdsNCMIMP_MUNICIPAL: TFloatField
+    object cds_ibptIMP_MUNICIPAL: TFloatField
       FieldName = 'IMP_MUNICIPAL'
     end
-    object sdsNCMVIGENCIAINICIO: TDateField
+    object cds_ibptVIGENCIAINICIO: TDateField
       FieldName = 'VIGENCIAINICIO'
     end
-    object sdsNCMVIGENCIAFIM: TDateField
+    object cds_ibptVIGENCIAFIM: TDateField
       FieldName = 'VIGENCIAFIM'
     end
-    object sdsNCMCHAVE: TStringField
+    object cds_ibptCHAVE: TStringField
       FieldName = 'CHAVE'
     end
-    object sdsNCMVERSAO: TStringField
+    object cds_ibptVERSAO: TStringField
       FieldName = 'VERSAO'
     end
-    object sdsNCMFONTE: TStringField
+    object cds_ibptFONTE: TStringField
       FieldName = 'FONTE'
       Size = 60
     end
+  end
+  object dsIBPT: TDataSource
+    DataSet = cds_ibpt
+    Left = 432
+    Top = 16
   end
 end

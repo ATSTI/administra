@@ -19,23 +19,11 @@ type
     cdsNCM: TClientDataSet;
     dspNCM: TDataSetProvider;
     sdsNCM: TSQLDataSet;
-    sdsNCMNCM: TStringField;
-    sdsNCMALIQNAC: TFloatField;
-    sdsNCMALIQIMP: TFloatField;
-    cdsNCMNCM: TStringField;
-    cdsNCMALIQNAC: TFloatField;
-    cdsNCMALIQIMP: TFloatField;
     JvDBUltimGrid1: TJvDBUltimGrid;
-    sdsNCMCEST: TStringField;
-    cdsNCMCEST: TStringField;
     Label6: TLabel;
     DBEdit4: TDBEdit;
     BitBtn7: TBitBtn;
     btnProcNCM: TBitBtn;
-    sdsNCMESTADUAL: TFloatField;
-    sdsNCMMUNICIPAL: TFloatField;
-    cdsNCMESTADUAL: TFloatField;
-    cdsNCMMUNICIPAL: TFloatField;
     DBEdit5: TDBEdit;
     DBEdit6: TDBEdit;
     Label7: TLabel;
@@ -65,30 +53,28 @@ type
     Label18: TLabel;
     Label19: TLabel;
     Label20: TLabel;
-    sdsNCMIMP_FEDERAL: TFloatField;
-    sdsNCMIMP_FERERAL_IMP: TFloatField;
-    sdsNCMTIPO: TStringField;
-    sdsNCMEX: TIntegerField;
-    sdsNCMDESCRICAO: TStringField;
-    sdsNCMIMP_ESTADUAL: TFloatField;
-    sdsNCMIMP_MUNICIPAL: TFloatField;
-    sdsNCMVIGENCIAINICIO: TDateField;
-    sdsNCMVIGENCIAFIM: TDateField;
-    sdsNCMCHAVE: TStringField;
-    sdsNCMVERSAO: TStringField;
-    sdsNCMFONTE: TStringField;
-    cdsNCMIMP_FEDERAL: TFloatField;
-    cdsNCMIMP_FERERAL_IMP: TFloatField;
-    cdsNCMTIPO: TStringField;
-    cdsNCMEX: TIntegerField;
-    cdsNCMDESCRICAO: TStringField;
-    cdsNCMIMP_ESTADUAL: TFloatField;
-    cdsNCMIMP_MUNICIPAL: TFloatField;
-    cdsNCMVIGENCIAINICIO: TDateField;
-    cdsNCMVIGENCIAFIM: TDateField;
-    cdsNCMCHAVE: TStringField;
-    cdsNCMVERSAO: TStringField;
-    cdsNCMFONTE: TStringField;
+    SQLDataSet1: TSQLDataSet;
+    DataSetProvider1: TDataSetProvider;
+    cds_ibpt: TClientDataSet;
+    cdsNCMNCM: TStringField;
+    cdsNCMALIQNAC: TFloatField;
+    cdsNCMALIQIMP: TFloatField;
+    cdsNCMCEST: TStringField;
+    cdsNCMESTADUAL: TFloatField;
+    cdsNCMMUNICIPAL: TFloatField;
+    cds_ibptIMP_FEDERAL: TFloatField;
+    cds_ibptIMP_FERERAL_IMP: TFloatField;
+    cds_ibptTIPO: TStringField;
+    cds_ibptEX: TIntegerField;
+    cds_ibptDESCRICAO: TStringField;
+    cds_ibptIMP_ESTADUAL: TFloatField;
+    cds_ibptIMP_MUNICIPAL: TFloatField;
+    cds_ibptVIGENCIAINICIO: TDateField;
+    cds_ibptVIGENCIAFIM: TDateField;
+    cds_ibptCHAVE: TStringField;
+    cds_ibptVERSAO: TStringField;
+    cds_ibptFONTE: TStringField;
+    dsIBPT: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -98,6 +84,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn7Click(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure cdsNCMAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -235,6 +222,15 @@ begin
     end;
   end;
 
+end;
+
+procedure TfNCM.cdsNCMAfterOpen(DataSet: TDataSet);
+begin
+  inherited;
+  if (cds_ibpt.Active) then
+    cds_ibpt.Close;
+  cds_ibpt.Params[0].AsString := cdsNCMNCM.AsString;
+  cds_ibpt.Open;  
 end;
 
 end.
