@@ -2452,6 +2452,7 @@ var
   valida, codFisc : String;
   tipoNota: Char;
 begin
+
   if (not cds_ccusto.Active) then
     cds_ccusto.Open;
   cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
@@ -3360,9 +3361,15 @@ begin
           //Não carregar ICMS para Simples Nacional
           if not ((ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) and (cdsItensNFCSOSN.AsString <> '900')) then
           begin
-            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
-            pICMS := cdsItensNFICMS.AsVariant;                     //ALIQUOTA DO ICMS
-            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+            try
+              vBC := cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
+              pICMS := cdsItensNFICMS.AsVariant;                     //ALIQUOTA DO ICMS
+              vICMS := cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+            except
+              vBc := 0;
+              pICMS := 0;
+              vICMS := 0;
+            end;
           end;
           modBCST :=  BCST;                                         //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
           vBCST := 0;
