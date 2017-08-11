@@ -879,7 +879,7 @@ object fImporta_XML: TfImporta_XML
     Top = 552
   end
   object sdsNFItem: TSQLDataSet
-    CommandText = 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA '#13#10
+    CommandText = 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA ORDER BY NUM_ITEM'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlConn
