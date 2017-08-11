@@ -1,6 +1,6 @@
 object fSat: TfSat
-  Left = 176
-  Top = 159
+  Left = 254
+  Top = 140
   Width = 1001
   Height = 579
   Caption = 'S.A.T'
@@ -1300,7 +1300,7 @@ object fSat: TfSat
                 Height = 21
                 Style = csDropDownList
                 Anchors = [akLeft, akTop, akRight]
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 9
               end
               object cbxSalvarCFe: TCheckBox
@@ -1447,7 +1447,7 @@ object fSat: TfSat
                 Width = 130
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 4
               end
               object cbxIndRatISSQN: TComboBox
@@ -1456,7 +1456,7 @@ object fSat: TfSat
                 Width = 134
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 5
               end
               object cbxRegTributario: TComboBox
@@ -1465,7 +1465,7 @@ object fSat: TfSat
                 Width = 166
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 3
               end
             end
@@ -3508,7 +3508,7 @@ object fSat: TfSat
   end
   object ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS
     ACBrSAT = ACBrSAT1
-    Mask_qCom = '0.0000'
+    Mask_qCom = '0.000'
     Mask_vUnCom = '0.000'
     MostrarPreview = True
     MostrarSetup = True

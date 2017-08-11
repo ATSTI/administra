@@ -1288,6 +1288,7 @@ end;
 procedure TfSat.imprimirSat;
 begin
   PrepararImpressao;
+  
   ACBrSAT1.ImprimirExtrato;
   //ACBrSATExtratoESCPOS1.PosPrinter.CortarPapel(cbCortarPapel.Checked);
 end;
