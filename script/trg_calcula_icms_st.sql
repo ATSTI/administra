@@ -56,6 +56,9 @@ AS
  DECLARE VARIABLE CEST CHAR(7) = '';
  DECLARE VARIABLE arrend_txt CHAR(7) = '';
  DECLARE VARIABLE origem_p integer;
+ DECLARE VARIABLE redBasePIS DOUBLE PRECISION = 0;
+ DECLARE VARIABLE redBaseCofins DOUBLE PRECISION = 0;
+ DECLARE VARIABLE redBaseIPI DOUBLE PRECISION = 0;
 BEGIN
 
   -- versao 3.0.0.16
@@ -70,10 +73,10 @@ BEGIN
     arredondar = cast(arrend_txt as Integer);
         
   if (arredondar is null) then 
-	arredondar = 2;
+	arredondar = 8;
 			
   if (UDF_LEFt(new.cfop,1) = '1') then 
-    arredondar = 6;  
+    arredondar = 10;  
   
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
   begin 
@@ -337,13 +340,16 @@ BEGIN
             COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
 	     COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999') 
 	     , COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) 
+	     , COALESCE(cfn.REDBASEPIS,0)
+	     , COALESCE(cfn.REDBASECOFINS,0)
+	     , COALESCE(cfn.REDBASEIPI,0)
             from CLASSIFICACAOFISCALNCM cfn, PRODUTOS p, ncm n, CFOP c
             where p.NCM = cfn.NCM and p.ORIGEM = cfn.ORIGEM and cfn.CFOP = new.CFOP and c.CFCOD = new.CFOP and cfn.UF = :UF and cfn.CODFISCAL = :PESSOA
             and n.NCM = p.NCM and p.CODPRODUTO = new.CODPRODUTO
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
             :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB, :aliq_cupom,
             :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet
-            , :CST_IPI_CENQ, :aliq_est, :aliq_mun;
+            , :CST_IPI_CENQ, :aliq_est, :aliq_mun, :redBasePIS, :redBaseCOFINS, :redBaseIPI;
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin
@@ -355,12 +361,27 @@ BEGIN
                 new.CSTIPI = :CSTIPI;
                 new.icms = :cicms;
                 new.Aliq_cupom = :aliq_cupom;
+
+                if (redBasePIS <= 0) then
+				  redBasePis = 1;
+                if (redBasePis > 1 )then
+                  redBasePis = redBasePis/100;
+
+                if (redBaseCOFINS <= 0) then
+				  redBaseCOFINS = 1;
+                if (redBaseCOFINS > 1 )then
+                  redBaseCOFINS = redBaseCOFINS/100;
+
+                if (redBaseIPI <= 0) then
+				  redBaseIPI = 1;
+                if (redBaseIPI > 1 )then
+                  redBaseIPI = redBaseIPI/100;
         
                 --CALCULO DE IPI
                 if (IND_IPI > 0) then
                 begin
-                    new.VLRBC_IPI = UDF_ROUNDDEC(TOTALITENS , :arredondar);
-                    new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+                    new.VLRBC_IPI = UDF_ROUNDDEC(TOTALITENS * redBaseIPI , :arredondar);
+                    new.VIPI = UDF_ROUNDDEC((((new.VLR_BASE*new.QUANTIDADE)*redBaseIPI) * IND_IPI/100), :arredondar);
                     new.PIPI = IND_IPI;
                 end
                 else
@@ -373,7 +394,7 @@ BEGIN
                 --CALCULO DE PIS
                 if (PIS > 0) then
                 begin
-                    new.VLRBC_PIS = UDF_ROUNDDEC(TOTALITENS, :arredondar);
+                    new.VLRBC_PIS = UDF_ROUNDDEC((TOTALITENS * redBasePis), :arredondar);
                     new.PPIS = :PIS;
                     new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
                 end
@@ -387,7 +408,7 @@ BEGIN
                 --CALCULO DO COFINS
                 if (cofins > 0) then
                 begin
-                    new.VLRBC_COFINS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
+                    new.VLRBC_COFINS = UDF_ROUNDDEC((TOTALITENS * redBaseCofins), :arredondar);
                     new.PCOFINS = :cofins;	
                     new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
                 end
