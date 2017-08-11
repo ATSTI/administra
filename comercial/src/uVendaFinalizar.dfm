@@ -1,5 +1,5 @@
 inherited fVendaFinalizar: TfVendaFinalizar
-  Left = 2
+  Left = 3
   Top = 2
   Width = 791
   Height = 562
@@ -2263,8 +2263,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object pnlMotivoCancelamento: TGroupBox
-      Left = 192
-      Top = 24
+      Left = 224
+      Top = 16
       Width = 337
       Height = 89
       BiDiMode = bdRightToLeft

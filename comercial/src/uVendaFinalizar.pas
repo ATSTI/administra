@@ -1445,10 +1445,7 @@ end;
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
 var nfe :string;
 begin
-  if (dm.validaClienteParaNF(fVendas.cds_MovimentoCODCLIENTE.AsInteger) = False) then
-  begin
-    exit;
-  end;
+
   if DtSrc.State in [dsInsert] then
   begin
     btnGravar.Click;
@@ -1457,13 +1454,14 @@ begin
     dm.EstoqueAtualiza(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger);
 
   nfe := 'S';
-  if (dm.tipo_nfe = 'NFCe') then
-  begin
-    nfe := 'NFCe';
-  end;
+
 
   if (nfe = 'S' ) then
   begin
+    if (dm.validaClienteParaNF(fVendas.cds_MovimentoCODCLIENTE.AsInteger) = False) then
+    begin
+      exit;
+    end;
     fatura_NF := '';
     tipo_form := 'VENDA';
     if scdsCr_proc.State in [dsEdit, dsBrowse] then
@@ -1509,14 +1507,6 @@ begin
       end;
     end;
     notaFiscal;
-  end;
-  if (nfe = 'NFCe' ) then
-  begin
-    fNFCe.NFCe_codMov     := cdsCODMOVIMENTO.AsInteger;
-    fNFCe.NFCe_codCliente := cdsCODCLIENTE.AsInteger;
-    fNFCe.NFCe_dataVenda  := cdsDATAVENDA.AsDateTime;
-    fNFCe.NFCe_dataVencimento := cdsDATAVENCIMENTO.AsDateTime;
-    fNFCe.ShowModal;
   end;
 end;
 
@@ -3829,31 +3819,56 @@ begin
 end;
 
 procedure TfVendaFinalizar.btnSATClick(Sender: TObject);
+var nfe :string;
 begin
   inherited;
+
+  nfe := 'S';
+  if (dm.tipo_nfe = 'NFCe') then
+  begin
+    nfe := 'NFCe';
+  end;
+
   if (scdsCr_proc.IsEmpty) then
   begin
     MessageDlg('Venda não finalizada.', mtWarning, [mbOK], 0);
     exit;
   end;
-  // SAT
-  fSat := TfSat.Create(Application);
-  Try
-    fSat.PageControl1.Pages[1].TabVisible := False;
-    //fSat.TabSheet2.Enabled := False;
-    fSat.codVendaSAT := cdsCODVENDA.AsInteger;
-    fSat.MainMenu1.Items[0].Enabled := False;
-    fSat.MainMenu1.Items[1].Enabled := False;
-    fSat.MainMenu1.Items[2].Enabled := False;
-    fSat.MainMenu1.Items[3].Enabled := False;
-    fSat.MainMenu1.Items[4].Enabled := False;
-    fSat.MainMenu1.Items[5].Enabled := False;
-    fSat.MainMenu1.Items[6].Enabled := False;
-    fSat.PageControl1.TabIndex := 0;
-    fSat.ShowModal;
-  Finally
-    fSat.Free;
+
+  if (nfe = 'S' ) then
+  begin
+    // SAT
+    fSat := TfSat.Create(Application);
+    Try
+      fSat.PageControl1.Pages[1].TabVisible := False;
+      //fSat.TabSheet2.Enabled := False;
+      fSat.codVendaSAT := cdsCODVENDA.AsInteger;
+      fSat.MainMenu1.Items[0].Enabled := False;
+      fSat.MainMenu1.Items[1].Enabled := False;
+      fSat.MainMenu1.Items[2].Enabled := False;
+      fSat.MainMenu1.Items[3].Enabled := False;
+      fSat.MainMenu1.Items[4].Enabled := False;
+      fSat.MainMenu1.Items[5].Enabled := False;
+      fSat.MainMenu1.Items[6].Enabled := False;
+      fSat.PageControl1.TabIndex := 0;
+      fSat.ShowModal;
+    Finally
+      fSat.Free;
+    end;
   end;
+  if (nfe = 'NFCe' ) then
+  begin
+    fNFCe.NFCe_codMov     := cdsCODMOVIMENTO.AsInteger;
+    fNFCe.NFCe_codCliente := cdsCODCLIENTE.AsInteger;
+    fNFCe.NFCe_dataVenda  := cdsDATAVENDA.AsDateTime;
+    fNFCe.edNFCe.Text := IntToStr(cdsNOTAFISCAL.asInteger);
+    fNFCe.NFCe_serieNF := cdsSERIE.AsString;
+    fNFCe.NFCe_dataVencimento := cdsDATAVENCIMENTO.AsDateTime;
+    fNFCe.edtRecebimento.Text := ComboBox1.Text;
+    fNFCe.NFCe_codNF := cdsNOTAFISCAL.AsInteger;
+    fNFCe.ShowModal;
+  end;
+
 end;
 
 end.
