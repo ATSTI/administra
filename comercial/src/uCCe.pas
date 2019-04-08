@@ -98,7 +98,7 @@ var
 
 implementation
 
-uses pcnCCeNFe, uNFeletronica;
+uses uDm;
 
 {$R *.dfm}
 
@@ -214,8 +214,11 @@ end;
 
 procedure TfCCe.btnCCeClick(Sender: TObject);
 begin
-  fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
-  fNFeletronica.ShowModal;
+  //fNFeletronica.PageControl1.ActivePage := fNFeletronica.CCe;
+  //fNFeletronica.ShowModal;
+  //jvPageControl1.ActivePage := TabSheet6;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 procedure TfCCe.JvDBGrid1DblClick(Sender: TObject);
