@@ -1,8 +1,8 @@
 inherited fLotes: TfLotes
-  Left = 181
-  Top = 76
-  Width = 808
-  Height = 512
+  Left = 244
+  Top = 78
+  Width = 838
+  Height = 561
   Caption = 'Lotes'
   OldCreateOrder = True
   OnShow = FormShow
@@ -73,16 +73,27 @@ inherited fLotes: TfLotes
     Visible = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 431
-    Width = 800
+    Top = 480
+    Width = 830
     TabOrder = 6
+    inherited btnGravar: TBitBtn
+      Visible = False
+    end
+    inherited btnIncluir: TBitBtn
+      Left = 259
+      Visible = False
+    end
+    inherited btnExcluir: TBitBtn
+      Visible = False
+    end
     inherited btnProcurar: TBitBtn
       Enabled = False
+      Visible = False
       OnClick = btnProcurarClick
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 800
+    Width = 830
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -37
@@ -104,7 +115,7 @@ inherited fLotes: TfLotes
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 798
+      Width = 828
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -281,7 +292,7 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'SALDOLOTE'
+    DataField = 'ESTOQUE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -351,10 +362,11 @@ inherited fLotes: TfLotes
     OnKeyPress = FormKeyPress
   end
   object DBGrid1: TDBGrid [19]
-    Left = 8
-    Top = 64
-    Width = 769
-    Height = 337
+    Left = 0
+    Top = 54
+    Width = 830
+    Height = 426
+    Align = alClient
     DataSource = DtSrc
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 11
@@ -363,6 +375,7 @@ inherited fLotes: TfLotes
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
     Columns = <
       item
         Expanded = False
@@ -382,14 +395,20 @@ inherited fLotes: TfLotes
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Produto'
-        Width = 400
+        Width = 350
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'SALDOLOTE'
+        FieldName = 'ESTOQUE'
         Title.Caption = 'Estoque'
         Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAFABRICACAO'
+        Title.Caption = 'Data Lote'
         Visible = True
       end>
   end
@@ -400,12 +419,24 @@ inherited fLotes: TfLotes
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT r.CODPRO, r.CODPRODUTO, r.PRODUTO, r.LOTE, r.ENTRADA, r.S' +
-      'AIDA, SUM(r.ENTRADA - r.SAIDA) SALDOLOTE'#13#10'FROM VIEW_ESTOQUELOTE ' +
-      'r'#13#10' where (r.entrada - r.saida) > 0'#13#10'GROUP BY r.CODPRO, r.CODPRO' +
-      'DUTO, r.PRODUTO, r.LOTE, r.ENTRADA, r.SAIDA'#13#10#13#10
+      'SELECT l.CODLOTE, l.CODPRODUTO, l.DATAFABRICACAO, l.DATAVENCIMEN' +
+      'TO, l.ESTOQUE, l.LOTE,  '#13#10'p.CODPRO, p.PRODUTO , p.UNIDADEMEDIDA,' +
+      ' p.VALOR_PRAZO '#13#10'FROM LOTES L, PRODUTOS p'#13#10' where (p.CODPRODUTO ' +
+      '= L.CODPRODUTO) '#13#10'   and  (L.ESTOQUE > 0) '#13#10'   and (L.LOTE <> '#39'0' +
+      #39')'#13#10'   and ((L.CODPRODUTO = :PCODPROD) OR (:PCODPROD = 0))'#13#10'ORDE' +
+      'R BY P.CODPRO, L.LOTE'#13#10#13#10
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PCODPROD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PCODPROD'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 72
     Top = 24
@@ -419,34 +450,58 @@ inherited fLotes: TfLotes
   end
   object cdslotes: TClientDataSet
     Aggregates = <>
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'PCODPROD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PCODPROD'
+        ParamType = ptInput
+      end>
     ProviderName = 'dsplotes'
     Left = 136
     Top = 24
+    object cdslotesCODLOTE: TIntegerField
+      FieldName = 'CODLOTE'
+      Required = True
+    end
+    object cdslotesLOTE: TStringField
+      FieldName = 'LOTE'
+      Required = True
+      Size = 200
+    end
+    object cdslotesCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object cdslotesDATAFABRICACAO: TDateField
+      FieldName = 'DATAFABRICACAO'
+    end
+    object cdslotesDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+    end
+    object cdslotesESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+    end
     object cdslotesCODPRO: TStringField
       FieldName = 'CODPRO'
       Size = 15
     end
-    object cdslotesCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-    end
     object cdslotesPRODUTO: TStringField
       FieldName = 'PRODUTO'
+      Required = True
       Size = 300
     end
-    object cdslotesLOTE: TStringField
-      FieldName = 'LOTE'
-      Size = 60
+    object cdslotesUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
     end
-    object cdslotesENTRADA: TFloatField
-      FieldName = 'ENTRADA'
-    end
-    object cdslotesSAIDA: TFloatField
-      FieldName = 'SAIDA'
-    end
-    object cdslotesSALDOLOTE: TFloatField
-      FieldName = 'SALDOLOTE'
-      ReadOnly = True
+    object cdslotesVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
     end
   end
   object scds_produto_proc: TSQLDataSet

@@ -75,13 +75,16 @@ type
     scds_produto_procLOCALIZACAO: TStringField;
     scds_produto_procTIPOPRECOVENDA: TStringField;
     DBGrid1: TDBGrid;
-    cdslotesCODPRO: TStringField;
-    cdslotesCODPRODUTO: TIntegerField;
-    cdslotesPRODUTO: TStringField;
+    cdslotesCODLOTE: TIntegerField;
     cdslotesLOTE: TStringField;
-    cdslotesENTRADA: TFloatField;
-    cdslotesSAIDA: TFloatField;
-    cdslotesSALDOLOTE: TFloatField;
+    cdslotesCODPRODUTO: TIntegerField;
+    cdslotesDATAFABRICACAO: TDateField;
+    cdslotesDATAVENCIMENTO: TDateField;
+    cdslotesESTOQUE: TFloatField;
+    cdslotesCODPRO: TStringField;
+    cdslotesPRODUTO: TStringField;
+    cdslotesUNIDADEMEDIDA: TStringField;
+    cdslotesVALOR_PRAZO: TFloatField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -91,11 +94,13 @@ type
     procedure DBEdit1Exit(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
     codProdutoLt: Integer;
     codCCustoLt : Integer;
+    lote_selec: String;
     { Public declarations }
   end;
 
@@ -139,7 +144,7 @@ begin
   begin
     IF (cdslotes.Active) then
       cdsLotes.Close;
-    cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
+    cdslotes.Params[0].AsInteger := codProdutoLt; //fProcura_prod.cds_procCODPRODUTO.AsInteger;
     cdsLotes.Open;
   end;
 end;
@@ -212,6 +217,7 @@ procedure TfLotes.btnSairClick(Sender: TObject);
 begin
   //dm.LOTENF := cdslotesLOTES.AsString;
   //dm.LOTEQTDE := cdslotesSALDOFIMACUM.Value;
+  dm.estoq := cdslotesESTOQUE.AsFloat;
   inherited;
   close;
 
@@ -219,7 +225,8 @@ end;
 
 procedure TfLotes.btnIncluirClick(Sender: TObject);
 begin
-  inherited;
+  //inherited;
+  {
   if var_F = 'venda' then
   begin
     cdslotesCODPRODUTO.AsInteger := fVendas.cds_Mov_detCODPRODUTO.AsInteger;
@@ -246,17 +253,27 @@ begin
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
   end;
-
+  }
   if var_F = 'estoque' then
   begin
-    cdslotesCODPRODUTO.AsInteger := fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger;
-    cdslotesCODPRO.AsString := fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString;
-    cdslotesPRODUTO.Value := fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value;
+    //cdslotesCODPRODUTO.AsInteger := fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger;
+    //cdslotesCODPRO.AsString := fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString;
+    //cdslotesPRODUTO.Value := fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value;
+    fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString := cdslotesCODPRO.AsString;
+    fEntra_Sai_estoque.cds_Mov_detQUANTIDADE.AsFloat := cdslotesESTOQUE.AsFloat;
+    fEntra_Sai_estoque.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
+    fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger := cdslotesCODPRODUTO.AsInteger;
+    fEntra_Sai_estoque.cds_Mov_detPRODUTO.AsString := cdslotesPRODUTO.AsString;
+    //fEntra_Sai_estoque.cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
+    fEntra_Sai_estoque.cds_Mov_detQTDE_PCT.AsFloat := 1;
+    fEntra_Sai_estoque.cds_Mov_detUN.AsString := cdsLotesUNIDADEMEDIDA.AsString;
+    fEntra_Sai_estoque.cds_Mov_detPRECOCUSTO.AsFloat := cdslotesVALOR_PRAZO.AsFloat;
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
   end;
-
-  DBEdit1.SetFocus;
+  Close;
+  //DBEdit1.SetFocus;
+  
 end;
 
 procedure TfLotes.DBEdit1Exit(Sender: TObject);
@@ -291,12 +308,16 @@ end;
 procedure TfLotes.FormShow(Sender: TObject);
 begin
   //inherited;
-  sCtrlResize.CtrlResize(TForm(fLotes));
+  //sCtrlResize.CtrlResize(TForm(fLotes));
+  {
   cdsLotes.CommandText := 'SELECT r.CODPRO, r.CODPRODUTO, r.PRODUTO, ' +
     ' r.LOTE, r.ENTRADA, r.SAIDA, r.SALDO AS SALDOLOTE ' +
     ' FROM VIEW_ESTOQUELOTE(' + IntToStr(codProdutoLt) + ', ' + QuotedStr('0') + ') r ' +
     ' WHERE (r.SALDO > 0) ' +
-    ' ORDER BY r.LOTE ';
+    ' ORDER BY r.LOTE ';}
+  IF (cdslotes.Active) then
+    cdsLotes.Close;
+  cdslotes.Params[0].AsInteger := codProdutoLt; //fProcura_prod.cds_procCODPRODUTO.AsInteger;
   cdsLotes.Open;
   if not cdslotes.IsEmpty then
     DBGrid1.SetFocus;
@@ -304,12 +325,13 @@ end;
 
 procedure TfLotes.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  {
   if var_F = 'venda' then
   IF (fVendas.cds_Mov_det.State in [dsInsert, dsEdit]) then
   begin
     if var_F = 'venda' then
     begin
-      if (cdslotesSALDOLOTE.AsFloat > 0) then
+      if (cdslotesESTOQUE.AsFloat > 0) then
       begin
        fVendas.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
        //fVendas.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
@@ -423,6 +445,13 @@ begin
       end;
     end;
   inherited;
+  }
+end;
+
+procedure TfLotes.DBGrid1DblClick(Sender: TObject);
+begin
+  inherited;
+  lote_selec := cdslotesLOTE.AsString;
 end;
 
 end.

@@ -376,6 +376,16 @@ object fLotes_Produtos: TfLotes_Produtos
       TabOrder = 7
       OnKeyPress = DBEdit2KeyPress
     end
+    object chLoteUnidade: TCheckBox
+      Left = 9
+      Top = 148
+      Width = 82
+      Height = 17
+      Caption = 'Lote por Unidade'
+      Color = clSilver
+      ParentColor = False
+      TabOrder = 8
+    end
   end
   object sqlGrade: TSQLQuery
     MaxBlobSize = -1
