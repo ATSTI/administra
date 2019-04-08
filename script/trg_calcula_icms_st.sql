@@ -1,3 +1,4 @@
+set term ^ ;
 ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -64,6 +65,9 @@ BEGIN
   -- versao 3.0.0.16
   -- versao 4.0.0.0  04/01/2016
   -- versao 4.0.0.10 15/03/2016 - acrescentado o CEST
+  -- versao 5.0.0.0  11/07/2018 , arrumado calculo DIFAL 
+  -- suspendo linha abaixo, muito complexo e tem o CFOP 
+  -- 05-04-2019 acrescentei regra produto CST - usando o ESTADO_ICMS CST e  o CST DO PRODUTO 
   new.SUITE = ''; 
   new.Aliq_CUPOM = 'II';
    
@@ -78,7 +82,7 @@ BEGIN
   if (UDF_LEFt(new.cfop,1) = '1') then 
     arredondar = 10;  
   
-  IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
+  IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Se nao for Calculo manual 
   begin 
   
     select first 1 emp.UF from EMPRESA emp
@@ -121,7 +125,7 @@ BEGIN
        if (CEST <> '') then
           new.CEST = :CEST;
 
-	if ((new.cfop = '') or (new.CFOP is null)) then
+    if ((new.cfop = '') or (new.CFOP is null)) then
 	begin
       select first 1 bc.CFOP_MOV from busca_cfop(:UF, :UF_EMPRESA, :NATUREZA, :NCM_P, new.CODPRODUTO, :PESSOA) bc
         into :cfop_mov;        
@@ -180,7 +184,7 @@ BEGIN
 		, COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) 
 		from CLASSIFICACAOFISCALPRODUTO cfp
 		inner join PRODUTOS p on p.CODPRODUTO = cfp.COD_PROD
-		inner join CFOP c on c.CFCOD = new.CFOP
+		inner join CFOP c on c.CFCOD = cfp.CFOP 
 		left outer join NCM n on n.NCM = p.NCM
         where cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.cod_prod = new.CODPRODUTO
         into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :NCM_P, :ALIQIMP, 
@@ -299,7 +303,7 @@ BEGIN
 			if ( new.ICMS_SUBSTD > 0) then
 			begin
 				VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
-				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(:VALOR_SUBDESC), :arredondar);
+				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(new.VALOR_ICMS), :arredondar);
 			end     
 			else	
 				new.ICMS_SUBST = 0;
@@ -471,7 +475,7 @@ BEGIN
                 if ( new.ICMS_SUBSTD > 0) then
                 begin
                     VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
-                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(:VALOR_SUBDESC), :arredondar);
+                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(new.VALOR_ICMS), :arredondar);
                 end     
                 else	
                     new.ICMS_SUBST = 0;
@@ -499,7 +503,16 @@ BEGIN
 		---------------------------------------------------------------------------------
             if (new.SUITE = '') then 
             begin
+                select COALESCE(n.ALIQIMP,0), COALESCE(n.ALIQNAC,0), p.ORIGEM, 
+                  COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0), p.CST from NCM n, PRODUTOS p 
+                where p.CODPRODUTO = new.CODPRODUTO 
+                and n.NCM = p.NCM
+                into :aliqimp, :aliqnac, :origem, :aliq_est, :aliq_mun, :CST_P;
+
                 --CALCULO PELA ESTADO_ICMS
+                -- suspendo linha abaixo, muito complexo e tem o CFOP
+                -- 05-04-2019 acrescentei regra produto CST
+                /*
                 select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
                 , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB
                 , ei.ALIQ_CUPOM,
@@ -507,16 +520,24 @@ BEGIN
                 COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
                 from ESTADO_ICMS ei, CFOP c
                 where ei.CFOP = new.CFOP and ei.UF = :UF and ei.CODFISCAL = :PESSOA and c.CFCOD = new.CFOP
+                  and ei.CST = :CST_P
                 into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
                 :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, :aliq_cupom,
                 :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
-            
-                select COALESCE(n.ALIQIMP,0), COALESCE(n.ALIQNAC,0), p.ORIGEM, 
-                  COALESCE(n.ESTADUAL,0), COALESCE(n.MUNICIPAL,0) from NCM n, PRODUTOS p 
-                where p.CODPRODUTO = new.CODPRODUTO 
-                and n.NCM = p.NCM
-                into :aliqimp, :aliqnac, :origem, :aliq_est, :aliq_mun;
-                
+
+                if (:CICMS IS NULL) then -- Vou Buscar so pelo TIPOFISCAL, CFOP e UF
+                */
+                  select first 1 COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0), COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
+                  , ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0), COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, c.TOTTRIB
+                  , ei.ALIQ_CUPOM,
+                  COALESCE(vBCUFDest, 0), COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0),
+                  COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
+                  from ESTADO_ICMS ei, CFOP c
+                  where ei.CFOP = new.CFOP and ei.UF = :UF and ei.CODFISCAL = :PESSOA and c.CFCOD = new.CFOP
+                  into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
+                  :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :CALCTRIB, :aliq_cupom,
+                  :vBCUFDest, :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart, :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ;
+                            
                 new.SUITE = 'Trib. CFOP-UF';
                 new.Aliq_cupom = aliq_cupom;
                 
@@ -651,6 +672,7 @@ BEGIN
                         CICMS_SUBST_IND = CICMS_SUBST_IND / 100;
             
                     --CORRECAO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
+                    /*
                     if ( CRT <> 0) then
                     begin
                         if (CICMS_SUBST_IC <> CICMS_SUBST_IND)  then
@@ -661,9 +683,10 @@ BEGIN
                     end
                     else 
                         CICMS_SUBST = CICMS_SUBST ;
+                    */    
                     new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
                     VALOR_SUBDesc = TOTALITENS  * CICMS_SUBST_IND; 
-                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - :Valor_SubDesc, :arredondar);
+                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - new.VALOR_ICMS, :arredondar);
                 end
 				
 				--TOTAIS TRIBUTOS ITEM
@@ -748,13 +771,14 @@ BEGIN
       --new.obs = ' f:' || cast(new.frete as char(10)) || ' d:' || cast(new.VALOR_DESCONTO as char(10)) || ' i:' || cast(new.vipi as char(10));
       if (new.VLR_BASEICMS > 0) then 
       begin
-        if (new.VBCUFDest = 0) then   
-          new.vBCUFDest = UDF_ROUNDDEC(((TOTALITENS - :vd) - new.VALOR_ICMS), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
+        -- 11/07/2018 - comentei aqui, nao atualizava qdo ja existia valor 
+        --if (new.VBCUFDest = 0) then   
+        new.vBCUFDest = UDF_ROUNDDEC((((TOTALITENS - :vd))* ind_reduzicms), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
       end 
       else begin -- simples não tem base de calculo, tudo zerado
         if (new.VIPI is null) then 
           new.VIPI = 0;
-        new.VBCUFDEST = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI - new.VALOR_ICMS), :arredondar);
+        new.VBCUFDEST = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI), :arredondar);
       end   
       
       new.pFCPUFDest = :pFCPUFDest;

@@ -18,6 +18,7 @@ DECLARE VARIABLE imp DOUBLE PRECISION;
 DECLARE VARIABLE mun DOUBLE PRECISION; 
 DECLARE VARIABLE est DOUBLE PRECISION; 
 DECLARE VARIABLE ncm varchar(10);
+DECLARE VARIABLE origem char(2);
 BEGIN
   /* Calcula os tributos da NF */ 
   tot_trib_fed = 0;
@@ -30,11 +31,13 @@ BEGIN
      coalesce(ncm.MUNICIPAL,0), coalesce(ncm.ESTADUAL,0)
     , md.CODPRODUTO
     , md.NCM 
-    from MOVIMENTODETALHE md , CFOP cf, NCM
+    , p.ORIGEM 
+    from MOVIMENTODETALHE md , CFOP cf, NCM, PRODUTOS p
    where md.CODMOVIMENTO = :codMovimento
      and cf.CFCOD = md.CFOP 
      and NCM.NCM = md.NCM 
-   into :valor, :nac, :imp, :mun, :est, :codProduto, :ncm
+     and p.CODPRODUTO = md.CODPRODUTO
+   into :valor, :nac, :imp, :mun, :est, :codProduto, :ncm, :origem
    do begin
      select FIRST 1 fonte, chave from IBPT 
       where (ncm = :ncm)
@@ -45,10 +48,10 @@ BEGIN
         fonte = 'IBPT';
       if (chave is null) then 
         chave = '';   
-	  IF (nac > 0) then
+	  IF (origem = '0') then
         trib_fed = valor * (nac/100);
       ELSE
-        trib_fed = 0;
+        trib_fed = valor * (imp/100);
       IF (est > 0) then   
         trib_est = valor * (est/100);
       ELSE

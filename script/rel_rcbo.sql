@@ -55,7 +55,7 @@ BEGIN
             inner join VENDA vd on vd.CODVENDA = ven.CODVENDA 
             LEFT OUTER JOIN  ENDERECOCLIENTE ENDE ON ENDE.CODCLIENTE = CLI.CODCLIENTE 
             WHERE ((VEN.CODVENDA = :CODVDA) OR (:CODVDA = 0))
-            and ((CLI.codcliente = :codid)or (:codid = 9999999 )) and ((CLI.GERAAVISO <> 'N') OR (CLI.GERAAVISO IS NULL)) 
+            and ((CLI.codcliente = :codid)or (:codid = 9999999 ))
                  AND ENDE.TIPOEND = 0 AND VEN.STATUS = :STATUS  AND VEN.DP = 1 GROUP BY            
                    VEN.CODCLIENTE
                     ,CLI.NOMECLIENTE

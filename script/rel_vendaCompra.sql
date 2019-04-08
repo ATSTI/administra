@@ -136,8 +136,11 @@ BEGIN
 
      if (vlrCustoTotal is null) then 
      begin 
-       select coalesce(p.VALORUNITARIOATUAL,0) from produtos p where p.CODPRODUTO = :pro 
+       select coalesce(p.PRECOMEDIO,0) from produtos p where p.CODPRODUTO = :pro 
        into :vlrCustoTotal;
+       /* 
+       select coalesce(p.VALORUNITARIOATUAL,0) from produtos p where p.CODPRODUTO = :pro 
+       into :vlrCustoTotal;*/
      end 
 
     /* Valores de Venda */

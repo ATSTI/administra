@@ -2,7 +2,7 @@ CREATE OR ALTER PROCEDURE SP_MOV_CAIXA_ORDEMC (
     DTAINI Date,
     DTAFIM Date,
     COD_CAIXA Smallint,
-    CCUSTO Smallint )
+    CCUSTO Smallint,  FORMAPAG CHAR(1) )
 RETURNS (
     DTAPAGTO Date,
     ORDEM Smallint,
@@ -22,7 +22,7 @@ declare variable uso char(1);
 BEGIN 
 
     SELECT FIRST 1 VALOR FROM SP_MOV_CAIXAC(:DTAINI, :DTAFIM, :COD_CAIXA, :CCUSTO)
-      INTO :VALOR;
+     INTO :VALOR;
   
     FOR SELECT DTAPAGTO, ORDEM, DESCRICAO, VALORC, VALORD, CONTACONTABIL, CAIXA, CODCONTA, FORMA, N_DOC, COMPENSADO
       FROM SP_MOV_CAIXAC(:DTAINI, :DTAFIM, :COD_CAIXA, :CCUSTO) ORDER BY DTAPAGTO, ORDEM, N_DOC 
@@ -32,7 +32,7 @@ BEGIN
       VALOR = VALOR + VALORD - VALORC;
       if ((valord = 0) and (valorc = 0)) then
       begin
-        /*não imprimir quando os 2 são Zero */
+        /*nao imprimir quando os 2 sao Zero */
       end
       else 
         SUSPEND;
