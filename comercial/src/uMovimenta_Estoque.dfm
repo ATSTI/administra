@@ -1,6 +1,6 @@
 object fMovimenta_Estoque: TfMovimenta_Estoque
-  Left = 215
-  Top = 106
+  Left = 184
+  Top = 103
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
