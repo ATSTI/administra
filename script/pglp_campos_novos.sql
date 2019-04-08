@@ -1,0 +1,1 @@
+alter table produtos add pGLP  DOUBLE PRECISION, add pGNn  DOUBLE PRECISION, add vPart DOUBLE PRECISION , add pGNi  DOUBLE PRECISION ;
