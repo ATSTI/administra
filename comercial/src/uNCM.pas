@@ -117,6 +117,7 @@ end;
 
 procedure TfNCM.FormShow(Sender: TObject);
 begin
+  inherited;
   dbedit1.Enabled := True;
   dbedit2.Enabled := True;
   if (vrNCM <> '') then

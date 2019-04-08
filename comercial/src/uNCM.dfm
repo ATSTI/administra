@@ -1,8 +1,8 @@
 inherited fNCM: TfNCM
   Left = 263
   Top = 181
-  Width = 807
-  Height = 523
+  Width = 800
+  Height = 500
   OldCreateOrder = True
   PrintScale = poNone
   OnDestroy = FormDestroy
@@ -88,8 +88,9 @@ inherited fNCM: TfNCM
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 442
-    Width = 799
+    Top = 382
+    Width = 785
+    Align = alNone
     TabOrder = 7
     inherited btnGravar: TBitBtn
       Left = 243
@@ -119,8 +120,9 @@ inherited fNCM: TfNCM
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 799
+    Width = 785
     Height = 49
+    Align = alNone
     TabOrder = 8
     inherited Label1: TLabel
       Left = 107
@@ -190,10 +192,10 @@ inherited fNCM: TfNCM
     OnKeyPress = FormKeyPress
   end
   object JvDBUltimGrid1: TJvDBUltimGrid [11]
-    Left = 1
+    Left = 0
     Top = 152
-    Width = 797
-    Height = 290
+    Width = 779
+    Height = 217
     DataSource = DtSrc
     TabOrder = 9
     TitleFont.Charset = DEFAULT_CHARSET
@@ -212,39 +214,39 @@ inherited fNCM: TfNCM
       item
         Expanded = False
         FieldName = 'NCM'
-        Width = 109
+        Width = 106
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQNAC'
         Title.Caption = 'Aliquota Nacional'
-        Width = 117
+        Width = 114
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ALIQIMP'
         Title.Caption = 'Al'#237'quota importa'#231#227'o'
-        Width = 134
+        Width = 131
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CEST'
-        Width = 154
+        Width = 151
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ESTADUAL'
-        Width = 74
+        Width = 72
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'MUNICIPAL'
-        Width = 187
+        Width = 183
         Visible = True
       end>
   end
@@ -452,7 +454,7 @@ inherited fNCM: TfNCM
   object GroupBox1: TGroupBox [17]
     Left = 2
     Top = 88
-    Width = 791
+    Width = 775
     Height = 60
     Caption = 'IBPT'
     TabOrder = 6
@@ -471,49 +473,49 @@ inherited fNCM: TfNCM
       Caption = 'Tipo'
     end
     object Label11: TLabel
-      Left = 280
+      Left = 264
       Top = 16
       Width = 53
       Height = 13
       Caption = 'Fed. - Nac.'
     end
     object Label12: TLabel
-      Left = 338
+      Left = 323
       Top = 16
       Width = 50
       Height = 13
       Caption = 'Fed. - Imp.'
     end
     object Label13: TLabel
-      Left = 405
+      Left = 390
       Top = 16
       Width = 41
       Height = 13
       Caption = 'Estadual'
     end
     object Label14: TLabel
-      Left = 453
+      Left = 438
       Top = 16
       Width = 45
       Height = 13
       Caption = 'Municipal'
     end
     object Label15: TLabel
-      Left = 730
+      Left = 716
       Top = 16
       Width = 27
       Height = 13
       Caption = 'Fonte'
     end
     object Label16: TLabel
-      Left = 671
+      Left = 657
       Top = 16
       Width = 33
       Height = 13
       Caption = 'Vers'#227'o'
     end
     object Label17: TLabel
-      Left = 623
+      Left = 609
       Top = 16
       Width = 31
       Height = 13
@@ -527,14 +529,14 @@ inherited fNCM: TfNCM
       Caption = 'Descri'#231#227'o'
     end
     object Label19: TLabel
-      Left = 504
+      Left = 489
       Top = 16
       Width = 46
       Height = 13
       Caption = 'Vig. Inicio'
     end
     object Label20: TLabel
-      Left = 565
+      Left = 550
       Top = 16
       Width = 37
       Height = 13
@@ -567,7 +569,7 @@ inherited fNCM: TfNCM
     object DBEdit9: TDBEdit
       Left = 98
       Top = 30
-      Width = 178
+      Width = 159
       Height = 21
       Hint = '0:NCM, 1:LBS ou 2:LC116'
       DataField = 'DESCRICAO'
@@ -577,7 +579,7 @@ inherited fNCM: TfNCM
       TabOrder = 2
     end
     object DBEdit10: TDBEdit
-      Left = 278
+      Left = 262
       Top = 30
       Width = 56
       Height = 21
@@ -591,7 +593,7 @@ inherited fNCM: TfNCM
       TabOrder = 3
     end
     object DBEdit11: TDBEdit
-      Left = 336
+      Left = 320
       Top = 30
       Width = 66
       Height = 21
@@ -605,7 +607,7 @@ inherited fNCM: TfNCM
       TabOrder = 4
     end
     object DBEdit12: TDBEdit
-      Left = 403
+      Left = 387
       Top = 30
       Width = 48
       Height = 21
@@ -617,7 +619,7 @@ inherited fNCM: TfNCM
       TabOrder = 5
     end
     object DBEdit13: TDBEdit
-      Left = 452
+      Left = 436
       Top = 30
       Width = 48
       Height = 21
@@ -629,7 +631,7 @@ inherited fNCM: TfNCM
       TabOrder = 6
     end
     object DBEdit14: TDBEdit
-      Left = 502
+      Left = 486
       Top = 30
       Width = 59
       Height = 21
@@ -641,7 +643,7 @@ inherited fNCM: TfNCM
       TabOrder = 7
     end
     object DBEdit15: TDBEdit
-      Left = 563
+      Left = 547
       Top = 30
       Width = 55
       Height = 21
@@ -653,7 +655,7 @@ inherited fNCM: TfNCM
       TabOrder = 8
     end
     object DBEdit16: TDBEdit
-      Left = 620
+      Left = 603
       Top = 30
       Width = 47
       Height = 21
@@ -665,7 +667,7 @@ inherited fNCM: TfNCM
       TabOrder = 9
     end
     object DBEdit17: TDBEdit
-      Left = 669
+      Left = 652
       Top = 30
       Width = 57
       Height = 21
@@ -677,7 +679,7 @@ inherited fNCM: TfNCM
       TabOrder = 10
     end
     object DBEdit18: TDBEdit
-      Left = 728
+      Left = 711
       Top = 30
       Width = 58
       Height = 21
