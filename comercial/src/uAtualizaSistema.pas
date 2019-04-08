@@ -2669,10 +2669,99 @@ begin
     end;
     if (versaoSistema = '4.5.0.0') then
     begin
-      insereouatualizaScript('trg_calcula_icms_st.sql', '4.5.0.0', StrToDate('10/08/2017'));
+      //insereouatualizaScript('trg_calcula_icms_st.sql', '4.5.0.0', StrToDate('10/08/2017'));
       AtualizandoScript('4.5.0.0');
       mudaVersao('4.6.0.0');
     end;
+    if (versaoSistema = '4.6.0.0') then
+    begin
+      insereouatualizaScript('gera_nf_compra.sql', '4.6.0.1', StrToDate('12/09/2017'));
+      EXECUTADDL('CLASSIFICACAOFISCALNCM', 'II_PERCENTUAL', 'DOUBLE PRECISION');
+      AtualizandoScript('4.6.0.0');
+      mudaVersao('4.6.0.2');
+    end;
+    if (versaoSistema = '4.6.0.2') then
+    begin
+      EXECUTADDL('CLASSIFICACAOFISCALPRODUTO', 'CODFISCAL', 'CHAR(1)');
+      mudaVersao('4.6.0.3');
+    end;
+    if (versaoSistema = '4.6.0.3') then
+    begin
+      insereouatualizaScript('busca_cfop.sql', '4.6.0.3', StrToDate('01/11/2017'));
+      AtualizandoScript('4.6.0.3');
+      mudaVersao('4.6.0.4');
+    end;
+
+    if (versaoSistema = '4.6.0.4') then
+    begin
+      insereouatualizaScript('gera_nf_venda.sql', '4.6.0.4', StrToDate('01/06/2018'));
+      AtualizandoScript('4.6.0.4');
+      mudaVersao('4.6.0.9');
+    end;
+    if (versaoSistema = '4.6.0.9') then
+    begin
+      AtualizandoScript('4.6.0.9');
+      EXECUTADDL('EMPRESA', 'CERTIFICADO', 'VARCHAR(50)');
+      insereouatualizaScript('nfe_fatura.sql', '4.6.0.9', StrToDate('25/07/2018'));
+      mudaVersao('4.6.0.10');
+    end;
+    // coloquei isso para o sistema rodar atualizacoes
+    mudaVersao('4.6.0.10');    
+
+    if (versaoSistema = '4.6.0.10') then
+    begin
+      AtualizandoScript('4.6.0.10');
+      EXECUTADDL('COMPRA', 'MUN_ORIGEM', 'VARCHAR(12)');
+      EXECUTADDL('COMPRA', 'MUN_DESTINO', 'VARCHAR(12)');
+      mudaVersao('4.6.0.11');
+    end;
+    if (versaoSistema = '4.6.0.11') then
+    begin
+      AtualizandoScript('4.6.0.11');
+      EXECUTADDL('EMPRESA', 'GIAF1', 'CHAR(1)');
+      EXECUTADDL('EMPRESA', 'GIAF3', 'CHAR(1)');
+      EXECUTADDL('EMPRESA', 'GIAF4', 'CHAR(1)');      
+      mudaVersao('4.6.0.12');
+    end;
+    if (versaoSistema = '4.6.0.12') then
+    begin
+      AtualizandoScript('4.6.0.12');
+      EXECUTADDL('PRODUTOS', 'PGLP', 'DOUBLE PRECISION');
+      EXECUTADDL('PRODUTOS', 'PGNN', 'DOUBLE PRECISION');
+      EXECUTADDL('PRODUTOS', 'PGNI', 'DOUBLE PRECISION');
+      EXECUTADDL('PRODUTOS', 'VPART', 'DOUBLE PRECISION');
+      mudaVersao('4.6.0.40');
+    end;
+    mudaVersao('4.6.0.46');
+
+    if (versaoSistema = '4.6.0.46') then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('CREATE TABLE TABRETORNOITAU ( ' +
+           ' ID                     CHAR( 2 ) ' +
+           ', TITULO                 CHAR( 5 ) ' +
+           ', VALOR                  CHAR( 11 )' +
+           ', CENTAVOS               CHAR( 2 ) ' +
+           ', VALORPG                CHAR( 11 )' +           ', CENTAVOSPG             CHAR( 2 )' +
+           ', DATA                   VARCHAR( 8 )' +
+           ', VALOR_JUROS            CHAR( 11 )' +
+           ', CENTAVOS_JUROS         CHAR( 2 )' +
+           ', VALOR_COM_JUROS        CHAR( 14 )' +
+           ', VALPG                  CHAR( 14 )' +
+           ', VALOR_MULTA            CHAR( 11 )' +
+           ', CENTAVOS_MULTA         CHAR( 2 )' +
+           ', VALOR_COM_MULTA        CHAR( 14 )' +
+           ', BAIXADO                CHAR( 1 )' +
+           ', N_BOLETO               VARCHAR( 30 )' +
+           ', NOMECLIENTE            VARCHAR( 60 ))');
+        dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+      except
+        dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      end;
+    end;
+    mudaVersao('4.6.0.47');
+
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
