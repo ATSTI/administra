@@ -54,7 +54,7 @@ var
 
 implementation
 
-uses UDm, UDmSaude, ufDlgLogin, uUtils;
+uses UDm, uUtils;
 
 {$R *.dfm}
 

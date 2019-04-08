@@ -1,6 +1,6 @@
 object fPai: TfPai
-  Left = 8
-  Top = 10
+  Left = 35
+  Top = 16
   Width = 638
   Height = 448
   BorderIcons = [biSystemMenu]
