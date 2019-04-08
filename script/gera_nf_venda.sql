@@ -33,6 +33,15 @@ AS
   declare variable vFreteT DOUBLE PRECISION;
   declare variable vSeguroT DOUBLE PRECISION;
   declare variable vIcmsT DOUBLE PRECISION;
+  declare variable vCOFINS DOUBLE PRECISION;
+  declare variable vPIS DOUBLE PRECISION;
+  declare variable vIPI DOUBLE PRECISION;
+  declare variable bcIPI DOUBLE PRECISION;
+  declare variable bcPIS DOUBLE PRECISION;
+  declare variable bcCOFINS DOUBLE PRECISION;
+  declare variable pIPI DOUBLE PRECISION;
+  declare variable pPIS DOUBLE PRECISION;
+  declare variable pCOFINS DOUBLE PRECISION;
   declare variable vIcmsSubst DOUBLE PRECISION;
   declare variable vOutrosT DOUBLE PRECISION;
   declare variable pesoUn DOUBLE PRECISION;
@@ -42,9 +51,13 @@ AS
   declare variable un char(2);
   declare variable uf char(2);
   declare variable cst char(5);
+  declare variable cstIPI char(5);
+  declare variable cstPIS char(5);
+  declare variable cstCOFINS char(5);
   declare variable cstProd char(5);
   declare variable descP varchar(300);
   declare variable obsP varchar(300);
+  declare variable pLote varchar(30);
   declare variable cfop varchar(30);
   declare variable cfop_outros varchar(30);
   declare variable cfop_ varchar(30);  
@@ -87,6 +100,8 @@ AS
   declare variable rPARCELAS integer;
   declare variable rDATAVENCIMENTO date; 
   declare variable rDATARECEBIMENTO date;
+  declare variable pDATAFAB date;
+  declare variable pDATAVCTO date;
   declare variable rCAIXA smallint;
   declare variable suframa smallint;
   declare variable rVIA char(4);
@@ -100,6 +115,7 @@ AS
   declare variable vDescontoProd   double precision;
   declare variable vVendaTotal   double precision;
   declare variable levaDesc char(1);
+  declare variable calc_manual char(1);
   declare variable arredondar DOUBLE PRECISION;
 begin 
   -- versao 3.0
@@ -169,12 +185,12 @@ begin
     -- insiro o Movimento   
     for Select mov.CODALMOXARIFADO, mov.CODUSUARIO, mov.CODVENDEDOR, ven.N_PARCELA, ven.PRAZO, 
                ven.VALOR_FRETE, mov.CODTRANSP, mov.TPFRETE, ven.ENTRADA, mov.CODPEDIDO, ven.CODVENDA
-               ,ven.DESCONTO, (ven.VALOR + ven.DESCONTO) TOT, ven.VALOR_SEGURO, ven.OUTRAS_DESP
+               ,ven.DESCONTO, (ven.VALOR + ven.DESCONTO) TOT, ven.VALOR_SEGURO, ven.OUTRAS_DESP, ven.FORMARECEBIMENTO 
           from movimento mov 
          inner join venda ven on ven.CODMOVIMENTO = mov.CODMOVIMENTO 
          where mov.CODMOVIMENTO = :codMov
           into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped
-          , :rcodven , :vDesconto, :vVendaTotal, :vSeguroT, :vOutrosT
+          , :rcodven , :vDesconto, :vVendaTotal, :vSeguroT, :vOutrosT, :rFORMARECEBIMENTO 
     do begin 
       if (vSeguroT is null) then 
         vSeguroT = 0;
@@ -193,11 +209,17 @@ begin
       vVendaTotal = 0;
     -- localiza o mov. detalhe
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base, prod.NCM
+      , md.ICMS, md.VLR_BASEICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base
+      , prod.NCM, md.VALOR_ICMS, md.PAGOU, md.CST, md.CSTPIS, md.CSTCOFINS, md.CSTIPI, md.VIPI, md.VALOR_PIS
+      , md.VALOR_COFINS, md.VLRBC_IPI, md.VLRBC_PIS, md.VLRBC_COFINS, md.PIPI, md.PPIS, md.PCOFINS, md.LOTE
+      , md.DTAFAB, md.DTAVCTO
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :pesoLiq, :cstProd, :obsp, :cfop, :vlr_base, :ncm
+    into :desconto, :codProduto, :qtde, :un, :preco, :descP
+       , :icms, :baseIcms, :pesoUn, :pesoLiq, :cstProd, :obsp, :cfop, :vlr_base
+       , :ncm, :valoricms, :calc_manual, :cst, :cstPIS, :cstCOFINS, :cstIPI, :vIPI, :vPIS, :vCOFINS
+       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO
     do begin 
       nitemped = nitemped + 1;
       if (ncm_dadosadicionais is null) then 
@@ -262,10 +284,13 @@ begin
       
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO, CFOP
-       , frete, valor_seguro, valor_outros
+       , frete, valor_seguro, valor_outros, pagou, VLR_BASEICMS, ICMS_SUBSTD, ICMS_SUBST, CSTPIS, CSTCOFINS, CSTIPI,
+       VIPI, VALOR_PIS, VALOR_COFINS, VLRBC_IPI, VLRBC_PIS, VLRBC_COFINS, PIPI, PPIS, PCOFINS, LOTE, DTAFAB, DTAVCTO 
         ) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, :vDescontoProd, :vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop, 0, 0,0);  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, :vDescontoProd, :vlr_base, 0, 0, :obsp, :nitemped, :xped
+       , :cfop, 0, 0, 0, :calc_manual, :baseIcms, 0, 0, :CSTPIS, :CSTCOFINS, :CSTIPI, :vIPI, :vPIS, :vCOFINS
+       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO);  
       total = total + (qtde * :vlr_base);
       totalIcms = totalIcms + :valoricms;
     
@@ -286,7 +311,7 @@ begin
      , MULTA_JUROS, APAGAR, VALOR_PAGAR, ENTRADA, VALOR_ICMS, VALOR_FRETE
      , VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, STATUS, Banco, CODUSUARIO, CODVENDEDOR, DataSistema, PRAZO)
      VALUES (:codVen, :codMovNovo, :Cliente, :dtEmissao, :dtVcto
-     , :total, :numero, :serie, 0, :codCCusto, :np, 1,  0, 0, :total, :entrada, :vIcmsT, :vFreteT
+     , :total, :numero, :serie, 0, :codCCusto, :np, :rFORMARECEBIMENTO,  0, 0, :total, :entrada, :vIcmsT, :vFreteT
      ,:vSeguroT, :vOutrosT, :vIpiT, 0, 1, :codUser, :codVendedor, CURRENT_DATE, :PRAZO);
 
     if (tBaseIcms = 0) then 
