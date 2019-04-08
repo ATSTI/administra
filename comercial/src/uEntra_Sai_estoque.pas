@@ -388,6 +388,30 @@ type
     cdsPRECO_COMPRA: TFloatField;
     dbEdit4: TJvDBDatePickerEdit;
     dbEdit5: TJvDBDatePickerEdit;
+    BitBtn1: TBitBtn;
+    sqBProd: TSQLQuery;
+    sqBProdCODPRODUTO: TIntegerField;
+    sqBProdCODPRO: TStringField;
+    sqBProdPRODUTO: TStringField;
+    sqBProdUNIDADEMEDIDA: TStringField;
+    sqBProdQTDE_PCT: TFloatField;
+    sqBProdICMS: TFloatField;
+    sqBProdCODALMOXARIFADO: TIntegerField;
+    sqBProdVALORUNITARIOATUAL: TFloatField;
+    sqBProdVALOR_PRAZO: TFloatField;
+    sqBProdTIPO: TStringField;
+    sqBProdESTOQUEATUAL: TFloatField;
+    sqBProdLOCALIZACAO: TStringField;
+    sqBProdLOTES: TStringField;
+    sqBProdPRECOMEDIO: TBCDField;
+    sqBProdPESO_QTDE: TFloatField;
+    sqBProdCOD_COMISSAO: TIntegerField;
+    sqBProdRATEIO: TStringField;
+    sqBProdCONTA_DESPESA: TStringField;
+    sqBProdIPI: TFloatField;
+    sqBProdOBS: TStringField;
+    sqBProdORIGEM: TIntegerField;
+    sqBProdNCM: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -435,10 +459,14 @@ type
     procedure DBEdit5Exit(Sender: TObject);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure DBEdit3KeyPress(Sender: TObject; var Key: Char);
+    procedure HabilitaControles(habilita: boolean);
+    procedure BitBtn1Click(Sender: TObject);
   private
     loteant : string;
+    produto_localizado: String;
     { Private declarations }
     procedure busca_produto;
+    procedure buscaProdutoCodBarra;
   public
     cod_cli, cod_mov, cod_ven :integer;
     dt_mov: TDateTime;
@@ -467,6 +495,7 @@ uses UDm, ufprocura_prod, uProdutoLote, uEnt_Sai_Lote, uFiltroEstoque,
 
 procedure TfEntra_Sai_estoque.btnIncluirClick(Sender: TObject);
 begin
+  HabilitaControles(True);
   cbCodigo.Text := '';
   cbNome.Text := '';
   loteant := '';
@@ -486,7 +515,7 @@ begin
 
   if (DBEdit1.Visible = True) then
   begin
-    dbEdit1.Enabled := True;
+    //dbEdit1.Enabled := True;
     DBEdit1.SetFocus;
   end
   else
@@ -504,7 +533,7 @@ begin
   dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
   dm.cds_parametro.Open;
 
-  if not (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+  if (dm.cds_parametroCONFIGURADO.AsString <> 'N') then
   begin
     if (dm.cds_parametroD1.AsString <> 'SEMSERIE') then
     begin
@@ -556,8 +585,6 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.FormShow(Sender: TObject);
-var
-icompA: integer;
 begin
    sCtrlResize.CtrlResize(TForm(fEntra_Sai_estoque));
 
@@ -613,15 +640,9 @@ begin
       cod_vendedor_padrao := 1;
       nome_vendedor_padrao := '..'
     end;
-
-  for icompA:=0 to ComponentCount - 1 do
-  if (Components[icompA] is TDbEdit) then
+  HabilitaControles(False);
+  if (dm.emppadrao <> '') then
   begin
-    (Components[icompA] as TDbEdit).Enabled := False;
-  end;
-
-  if (dm.emppadrao <> '') then
-  begin
     ComboBox1.Text := dm.emppadrao;
     ComboBox2.Text := dm.emppadrao;
     ComboBox1.Enabled := False;
@@ -671,12 +692,12 @@ begin
       else
         MessageBox(0, 'Código de Entrada obrigatório.', '', MB_ICONWARNING or MB_OK);
       Exit;
-    end
-    else if (cds_Mov_detLOTE.AsString = '')then
-    begin
-      MessageBox(0, 'Lote obrigatório.', '', MB_ICONWARNING or MB_OK);
-      Exit;
     end;
+    //else if (cds_Mov_detLOTE.AsString = '')then
+    //begin
+    //  MessageBox(0, 'Lote obrigatório.', '', MB_ICONWARNING or MB_OK);
+    //  Exit;
+    //end;
   end;
 
 
@@ -886,8 +907,11 @@ begin
         dm.c_6_genid.Open;
         cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
         dm.c_6_genid.Close;
-        {if (edit2.text <> '') then
-          cds_Mov_detLOTE.AsString := edit2.text;}
+        // inclui para o EstoqueAdm
+        if (edit1.text <> '') then
+          cds_Mov_detLOTE.AsString := edit1.text;
+        if (edit2.text <> '') then
+          cds_Mov_detLOTE.AsString := edit2.text;
         cds_Mov_det.Post;
         cds_Mov_det.Next;
       end;
@@ -952,10 +976,13 @@ begin
       sql_sp := sql_sp + ',' + IntToStr(dm.cds_ccustoCODIGO.AsInteger); //CodCentroCusto - Entrada para o Estoque nao precisa
       sql_sp := sql_sp + ',''' + serie + ''',' ;
       if (Edit2.Text = '') then
-        sql_sp := sql_sp + ' null, null)'
+        sql_sp := sql_sp + ' null'
       else
-        sql_sp := sql_sp + edit2.Text + ', null)';
-
+        sql_sp := sql_sp + edit2.Text;
+      if (Edit1.Text = '') then
+        sql_sp := sql_sp + ', null)'
+      else
+        sql_sp := sql_sp + ', ' + edit1.Text + ')';
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
 
       // Gravando o Estoque
@@ -1157,7 +1184,7 @@ end;
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
 begin
   loteant := cds_Mov_detLOTE.AsString;
-  try
+  //try
     if DtSrc1.State in [dsInsert] then
     begin
       DtSrc1.DataSet.Post;
@@ -1173,11 +1200,11 @@ begin
     if (dm.codBarra = 'S') then
     begin
       cds_Mov_detLOTE.AsString := '';
-      dbEdit3.SetFocus;
+      dbeProduto.SetFocus;
     end;
-  except
-    MessageDlg('Erro ao gravar !', mtError, [mbOK], 0);
-  end;
+  //except
+  //  MessageDlg('Erro ao gravar !', mtError, [mbOK], 0);
+  //end;
 end;
 
 procedure TfEntra_Sai_estoque.BitBtn8Click(Sender: TObject);
@@ -1214,6 +1241,7 @@ procedure TfEntra_Sai_estoque.dbeProdutoExit(Sender: TObject);
 begin
   varonde := 'compra';
   if dbeProduto.Text='' then exit;
+  if Length(dbeProduto.Text) > 10 then exit;  
   if dbeProduto.Field.OldValue<>dbeProduto.Field.NewValue then
   begin
     if dm.scds_produto_proc.Active then
@@ -1227,6 +1255,7 @@ begin
       btnProdutoProcura.Click;
       exit;
     end;
+    produto_localizado := 'S';
     cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
     cds_Mov_detCODPRO.AsString := dm.scds_produto_procCODPRO.AsString;
     cds_Mov_detPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
@@ -1380,7 +1409,10 @@ begin
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   if (maskEdit1.Checked) then
+  begin
     cds_Mov_detDTAFAB.AsDateTime := MaskEdit1.Date;
+    cds_Mov_detDTAVCTO.AsDateTime := MaskEdit1.Date;
+  end;
 end;
 
 procedure TfEntra_Sai_estoque.cds_Mov_detCalcFields(DataSet: TDataSet);
@@ -2036,12 +2068,17 @@ procedure TfEntra_Sai_estoque.dbeProdutoKeyPress(Sender: TObject;
   var Key: Char);
   var str_sql: string;
 begin
+  produto_localizado := 'N';
   if (key = #13) then
   begin
     key:= #0;
     SelectNext((Sender as TwinControl),True,True);
     if (dbeProduto.Text = '') then
-      btnProdutoProcura.Click
+      btnProdutoProcura.Click;
+    if (produto_localizado = 'N') then
+    begin
+      buscaProdutoCodBarra;
+    end;
   end;
 end;
 
@@ -2082,6 +2119,124 @@ begin
         end;
       end;
     end;
+  end;
+end;
+
+procedure TfEntra_Sai_estoque.HabilitaControles(habilita: boolean);
+var
+  icompA: integer;
+begin
+  for icompA:=0 to ComponentCount - 1 do
+  begin
+    if (Components[icompA] is TDbEdit) then
+    begin
+      (Components[icompA] as TDbEdit).Enabled := habilita;
+    end;
+    if (Components[icompA] is TJvDBDatePickerEdit) then
+    begin
+      (Components[icompA] as TJvDBDatePickerEdit).Enabled := habilita;
+    end;
+    if (Components[icompA] is TComboBox) then
+    begin
+      (Components[icompA] as TComboBox).Enabled := habilita;
+    end;
+  end;
+
+end;
+
+procedure TfEntra_Sai_estoque.BitBtn1Click(Sender: TObject);
+begin
+  // Escolher Lote para Baixar
+  fLotes := TfLotes.Create(Application);
+  try
+    {if fLotes.cdslotes.Active then
+      fLotes.cdslotes.Close;
+    //fLotes.cdslotes.Params[0].AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
+    fLotes.cdslotes.Open;
+    while (not fLotes.cdslotes.Eof) do
+    begin
+      ComboBox4.Items.Add(fLotes.cdslotesLOTE.AsString);
+      ComboBox3.Items.Add(fLotes.cdslotesLOTE.AsString);
+      fLotes.cdslotes.Next;
+    end;
+    fLotes.cdslotes.First;
+    fLotes.btnProdutoProcura.Enabled := False;}
+    var_F := 'estoque';
+    fLotes.ShowModal;
+  finally
+    fLotes.Free;
+  end;
+end;
+
+procedure TfEntra_Sai_estoque.buscaProdutoCodBarra;
+var sql: String;
+begin
+  if (DtSrc1.DataSet.State in [dsInsert]) then
+  begin
+    if (dm.codBarra = 'S') then // usa codigo de barra
+    begin
+      // busca pelo código de barra
+      if sqBProd.Active then
+        sqBProd.Close;
+      sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+         ', ICMS, CODALMOXARIFADO, VALORUNITARIOATUAL ' +
+         ', VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+         ', LOTES  , PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+         ', RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM '  +
+         ' from PRODUTOS ';
+
+      sqBProd.SQL.Text := sql + ' WHERE COD_BARRA = ' +
+        QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
+      sqBProd.Open;
+      if sqBProd.IsEmpty then
+      begin
+         MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        [mbOk], 0);
+        btnProdutoProcura.Click;
+        exit;
+      end;
+      cds_Mov_detQUANTIDADE.AsFloat   := 1;
+      cds_Mov_detPRECO.AsFloat        := sqBProdVALORUNITARIOATUAL.asFloat;
+      cds_Mov_detCODPRODUTO.AsInteger := sqBProdCODPRODUTO.asInteger;
+      cds_Mov_detPRODUTO.Value        := sqBProdPRODUTO.AsString;
+      cds_Mov_detUN.AsString          := sqBProdUNIDADEMEDIDA.AsString;
+      cds_Mov_detDTAVCTO.AsDateTime   := cds_Mov_detDTAFAB.AsDateTime;
+      btnNovo.Click;
+    end
+    else begin
+      // busca pelo código de barra
+      if dm.scds_produto_proc.Active then
+        dm.scds_produto_proc.Close;
+      sql := 'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT' +
+         ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
+         ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
+         ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
+         ', RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM '  +
+         ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
+         ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
+         ', ' + QuotedStr('TODASAPLICACOES') + ', ' ;
+      sql := sql + '0)';
+      dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
+        QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
+      dm.scds_produto_proc.Params[0].AsInteger := 0;
+      dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+      dm.scds_produto_proc.Open;
+      if dm.scds_produto_proc.IsEmpty then
+      begin
+         MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+        [mbOk], 0);
+        btnProdutoProcura.Click;
+        exit;
+      end;
+      cds_Mov_detQUANTIDADE.AsFloat   := 1;
+      cds_Mov_detPRECO.AsFloat        := dm.scds_produto_procVALORUNITARIOATUAL.asFloat;
+      cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.asInteger;
+      cds_Mov_detPRODUTO.Value        := dm.scds_produto_procPRODUTO.AsString;
+      cds_Mov_detUN.AsString          := dm.scds_produto_procUNIDADEMEDIDA.AsString;
+    end;
+    //dbeProduto.Text := dm.sqlBusca.FieldByName('CODPRO').AsString;
+
+
   end;
 end;
 

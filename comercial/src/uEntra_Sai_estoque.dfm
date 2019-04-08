@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 350
-  Top = 137
+  Left = 400
+  Top = 135
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -134,7 +134,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Caption = 'Obs'
   end
   object Label18: TLabel
-    Left = 79
+    Left = 11
     Top = 223
     Width = 21
     Height = 13
@@ -1493,7 +1493,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     OnKeyPress = FormKeyPress
   end
   object DBEdit3: TDBEdit
-    Left = 104
+    Left = 40
     Top = 222
     Width = 202
     Height = 21
@@ -1544,29 +1544,63 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     OnExit = DBEdit5Exit
     OnKeyPress = FormKeyPress
   end
+  object BitBtn1: TBitBtn
+    Left = 243
+    Top = 220
+    Width = 62
+    Height = 26
+    TabOrder = 25
+    OnClick = BitBtn1Click
+    Glyph.Data = {
+      06030000424D06030000000000003600000028000000100000000F0000000100
+      180000000000D0020000C40E0000C40E00000000000000000000FF0033FF0033
+      FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF00
+      33FF0033FF0033FF0033FF003366666666666666666655555555555546464646
+      46463D3D3D333333333333FF0033FF0033FF0033FF0033FF0033FF00336F6E70
+      EFEFEFF7F7F7F7F7F7F7F7F7FFFFFFFFFFFFFFFFFFFFFFFF333333FF0033FF00
+      33FF0033FF0033FF0033FF00336F6E70EFEFEF99999999999999999999999999
+      9999999999FFFFFF333333FF0033FF0033FF0033FF0033FF0033FF0033767677
+      E4E4E4E4E4E4EFEFEFEFEFEFEFEFEFF7F7F7F7F7F7F7F7F7333333FF0033FF00
+      33FF0033FF0033FF0033FF00337C7B7CDEDEDF99999999999999999999999999
+      9999999999F7F7F73D3D3DFF0033FF0033FF0033FF0033FF0033FF0033838284
+      D8D8D8D8D8D8DEDEDF000000000000000000EFEFEFEFEFEF464646FF0033FF00
+      33FF0033FF0033FF0033FF00338B8B8CD8D8D899999999999933336699CCFF99
+      CCFF003366EFEFEF464646FF0033FF0033FF0033FF0033FF0033FF00338B8B8C
+      CCCCCCCCCCCCD8D8D833336699CCFF99CCFF0066CC003366555555FF0033FF00
+      33FF0033FF0033FF0033FF0033999999CCCCCC9999999999999999990033CCCC
+      FFFF00CCFF0066CC003366FF0033FF0033FF0033FF0033FF0033FF0033A5A5A6
+      CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC0033CCCCFFFF00CCFF0066CC222222FF00
+      33FF0033FF0033FF0033FF0033A5A5A6CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+      CCCC0033CCCCFFFF666666DEDEDF222222FF0033FF0033FF0033FF0033ACABAC
+      A5A5A6A5A5A69999999999998B8B8C8382847C7B7C666666DEDEDF6666669966
+      CC333366FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF
+      0033FF0033FF0033666666CCCCFF9999CC333366FF0033FF0033FF0033FF0033
+      FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF0033FF00333333663333
+      66FF0033FF0033FF0033}
+  end
   object DataSource1: TDataSource
     DataSet = DM.cds_ccusto
-    Left = 576
-    Top = 48
+    Left = 240
+    Top = 8
   end
   object sds_s: TSQLDataSet
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 544
-    Top = 48
+    Left = 192
+    Top = 8
   end
   object DtSrc1: TDataSource
     DataSet = cds_Mov_det
     OnStateChange = DtSrc1StateChange
-    Left = 620
-    Top = 48
+    Left = 276
+    Top = 8
   end
   object DtSrc: TDataSource
     DataSet = cds_Movimento
     OnStateChange = DtSrcStateChange
-    Left = 576
-    Top = 97
+    Left = 320
+    Top = 9
   end
   object sds_Movimento: TSQLDataSet
     CommandText = 
@@ -3262,5 +3296,102 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Title = 'Untitled'
     Left = 640
     Top = 368
+  end
+  object sqBProd: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT '
+      '         , ICMS, CODALMOXARIFADO, VALORUNITARIOATUAL '
+      '         , VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO '
+      '         , LOTES  , PRECOMEDIO, PESO_QTDE, COD_COMISSAO '
+      '         , RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM  '
+      '          from PRODUTOS ')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 24
+    Top = 112
+    object sqBProdCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object sqBProdCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sqBProdPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 300
+    end
+    object sqBProdUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      FixedChar = True
+      Size = 2
+    end
+    object sqBProdQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object sqBProdICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sqBProdCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object sqBProdVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object sqBProdVALOR_PRAZO: TFloatField
+      FieldName = 'VALOR_PRAZO'
+    end
+    object sqBProdTIPO: TStringField
+      FieldName = 'TIPO'
+      Size = 10
+    end
+    object sqBProdESTOQUEATUAL: TFloatField
+      FieldName = 'ESTOQUEATUAL'
+    end
+    object sqBProdLOCALIZACAO: TStringField
+      FieldName = 'LOCALIZACAO'
+      Size = 50
+    end
+    object sqBProdLOTES: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object sqBProdPRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      Precision = 9
+      Size = 2
+    end
+    object sqBProdPESO_QTDE: TFloatField
+      FieldName = 'PESO_QTDE'
+    end
+    object sqBProdCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object sqBProdRATEIO: TStringField
+      FieldName = 'RATEIO'
+      FixedChar = True
+      Size = 1
+    end
+    object sqBProdCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object sqBProdIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object sqBProdOBS: TStringField
+      FieldName = 'OBS'
+      Size = 300
+    end
+    object sqBProdORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
+    object sqBProdNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
+    end
   end
 end
