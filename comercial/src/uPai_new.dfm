@@ -1,5 +1,5 @@
 object fPai_new: TfPai_new
-  Left = 5
+  Left = 8
   Top = 4
   Width = 638
   Height = 450
