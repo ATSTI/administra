@@ -1,3 +1,4 @@
+set term ^; 
 CREATE OR ALTER TRIGGER ALTERA_REC FOR VENDA ACTIVE
 AFTER UPDATE POSITION 0
 as
@@ -28,8 +29,9 @@ begin
   if (NEW.STATUS <> 3) THEN
   begin
   /* Se o STATUS da Tab RECEBIMENTO for igaul a '7-', não é permitido fazer alteração */
-  IF (EXISTS(SELECT STATUS FROM RECEBIMENTO WHERE CODVENDA = OLD.CODVENDA AND STATUS = '7-')) THEN
+  IF ((NEW.XMLNFE = old.XMLNFE) and (EXISTS(SELECT STATUS FROM RECEBIMENTO WHERE CODVENDA = OLD.CODVENDA AND STATUS = '7-'))) THEN
   begin
+    
     if (new.numerobordero is null) then
       EXCEPTION altera_venda_n_permitido;
   end
