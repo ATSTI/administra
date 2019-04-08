@@ -36,12 +36,14 @@ BEGIN
   for select codproduto from produtos where usa is null or usa = 'S'
    into :codp 
   do begin  
-     select * from  ESTOQUE_VIEW (:pdta1,:codp,:pccusto,
+    for select * from  ESTOQUE_VIEW (:pdta1,:codp,:pccusto,
     'TODOS OS LOTES CADASTRADOS NO SISTEMA')
     into :CODPROD, :MESANO, :CODPRODUTO, :PRODUTO, :GRUPO, :SUBGRUPOPROD, :SALDOINIACUM, :ENTRADA, :SAIDA, :SALDOFIMACUM,
-    :ESTOQUE_MES, :PRECOUNIT, :PRECOCUSTO, :VALORESTOQUE, :VALORVENDA, :PRECOCOMPRA, :PRECOVENDA, :LOTES, :CCUSTOS;
-    if (not codProd is null) then
+    :ESTOQUE_MES, :PRECOUNIT, :PRECOCUSTO, :VALORESTOQUE, :VALORVENDA, :PRECOCOMPRA, :PRECOVENDA, :LOTES, :CCUSTOS
+    do begin
+      if (saldofimacum > 0) then
        suspend;
+    end   
   end
 END^
 

@@ -6,11 +6,17 @@ AS
 BEGIN 
   select first 1 em.MESANO from estoquemes em order by em.MESANO desc 
   	into :data_estoque;
-  if (deleting)	then 
+  if (DELETING or UPDATING)	then 
     data_venda = old.DATAVENDA;
   else   
     data_venda = new.DATAVENDA;
      
-  if (data_venda <= data_estoque) then 
+  if (data_venda <= data_estoque) then
     exception ESTOQUEFECHADO; 	 
+  if (UPDATING)	then 
+    data_venda = new.DATAVENDA;
+  if (data_venda <= data_estoque) then
+    exception ESTOQUEFECHADO; 	 
+    
+
 END

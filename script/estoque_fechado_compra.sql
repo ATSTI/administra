@@ -21,12 +21,7 @@ BEGIN
     codmov = new.CODMOVIMENTO;
     if (data_compra <= data_estoque) then    
     begin 
-       for select md.QUANTIDADE from MOVIMENTODETALHE md where md.CODMOVIMENTO = :codMov
-       into :qtde
-       do begin 
-         if (qtde > 0) then  
-           exception ESTOQUEFECHADO; 	 
-       end
+      exception ESTOQUEFECHADO; 	 
     end 
   end    
   if (UPDATING)	then 
