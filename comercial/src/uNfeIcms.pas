@@ -8,7 +8,7 @@ uses
   JvProgressBar, Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, FMTBcd,
   DBClient, Provider, DB, SqlExpr, uUtils, ACBrEFDBlocos, ACBrSpedFiscal,
-  MaskUtils, Buttons, DBCtrls;
+  MaskUtils, Buttons, DBCtrls, ACBrBase, rpcompobase, rpvclreport;
 
 type
   TfNfeIcms = class(TForm)
@@ -39,83 +39,6 @@ type
     btnError: TButton;
     cbTipo: TComboBox;
     Label11: TLabel;
-    sdsEmpresa: TSQLDataSet;
-    dspEmpresa: TDataSetProvider;
-    cdsEmpresa: TClientDataSet;
-    cdsEmpresaEMPRESA: TStringField;
-    cdsEmpresaRAZAO: TStringField;
-    cdsEmpresaCNPJ_CPF: TStringField;
-    cdsEmpresaENDERECO: TStringField;
-    cdsEmpresaLOGRADOURO: TStringField;
-    cdsEmpresaBAIRRO: TStringField;
-    cdsEmpresaCIDADE: TStringField;
-    cdsEmpresaUF: TStringField;
-    cdsEmpresaCEP: TStringField;
-    cdsEmpresaDDD: TStringField;
-    cdsEmpresaFONE: TStringField;
-    cdsEmpresaFONE_1: TStringField;
-    cdsEmpresaFONE_2: TStringField;
-    cdsEmpresaFAX: TStringField;
-    cdsEmpresaE_MAIL: TStringField;
-    cdsEmpresaWEB: TStringField;
-    cdsEmpresaLOGOTIPO: TGraphicField;
-    cdsEmpresaCODIGO: TIntegerField;
-    cdsEmpresaTIPO: TStringField;
-    cdsEmpresaIE_RG: TStringField;
-    cdsEmpresaSLOGAN: TStringField;
-    cdsEmpresaOUTRAS_INFO: TStringField;
-    cdsEmpresaCODIGO_CONTA: TIntegerField;
-    cdsEmpresaDIVERSOS1: TStringField;
-    cdsEmpresaDIVERSOS2: TStringField;
-    cdsEmpresaDIVERSOS3: TStringField;
-    cdsEmpresaANOLETIVO: TIntegerField;
-    cdsEmpresaMEDIA_ESCOLA: TFloatField;
-    cdsEmpresaPORTA: TIntegerField;
-    cdsEmpresaSMTP: TStringField;
-    cdsEmpresaSENHA: TStringField;
-    cdsEmpresaCCUSTO: TIntegerField;
-    cdsEmpresaNUMERO: TStringField;
-    cdsEmpresaCD_IBGE: TStringField;
-    cdsEmpresaCRT: TIntegerField;
-    cdsEmpresaTREGIME: TIntegerField;
-    cdsEmpresaIM: TStringField;
-    cdsEmpresaCONTADOR: TStringField;
-    cdsEmpresaCONTADOR_CRC: TStringField;
-    cdsEmpresaCONTADOR_CNPJ: TStringField;
-    cdsEmpresaCONTADOR_CPF: TStringField;
-    cdsEmpresaCONTADOR_CEP: TStringField;
-    cdsEmpresaCONTADOR_END: TStringField;
-    cdsEmpresaCONTADOR_NUMEND: TStringField;
-    cdsEmpresaCONTADOR_COMPL: TStringField;
-    cdsEmpresaCONTADOR_BAIRRO: TStringField;
-    cdsEmpresaCONTADOR_FONE: TStringField;
-    cdsEmpresaCONTADOR_FAX: TStringField;
-    cdsEmpresaCONTADOR_EMAIL: TStringField;
-    cdsEmpresaCONTADOR_COD_MUN: TStringField;
-    cdsEmpresaINDICADORNATUREZAPJ: TSmallintField;
-    cdsEmpresaINDICADORATIVIDADE: TSmallintField;
-    cdsEmpresaCODINDINCTRIBUTARIA: TSmallintField;
-    cdsEmpresaINDAPROCRED: TSmallintField;
-    cdsEmpresaCODINDTIPOCON: TSmallintField;
-    cdsEmpresaCODINDCRITESCRIT: TSmallintField;
-    cdsEmpresaINDCODINCIDENCIA: TSmallintField;
-    cdsEmpresaINDCTA: TSmallintField;
-    cdsEmpresaINDESCRITURACAO: TSmallintField;
-    cdsEmpresaBASECALCULOCREDITO: TSmallintField;
-    cdsEmpresaINDAJ: TSmallintField;
-    cdsEmpresaCODAJ: TSmallintField;
-    cdsEmpresaINDNATREC: TSmallintField;
-    cdsEmpresaNATCREDDESC: TSmallintField;
-    cdsEmpresaCODCRED: TSmallintField;
-    cdsEmpresaINDTIPCOOP: TSmallintField;
-    cdsEmpresaINDCREDORI: TSmallintField;
-    cdsEmpresaINDREC: TSmallintField;
-    cdsEmpresaINDDESCCRED: TSmallintField;
-    cdsEmpresaCODCONT: TSmallintField;
-    cdsEmpresaINDNATRETFONTE: TSmallintField;
-    cdsEmpresaINDORIGEMDIVERSAS: TSmallintField;
-    cdsEmpresaINDNATDEDUCAO: TSmallintField;
-    cdsEmpresaINDTPOPERACAORECEITA: TSmallintField;
     sdsNFVenda: TSQLDataSet;
     dspNFVenda: TDataSetProvider;
     cdsNFVenda: TClientDataSet;
@@ -1209,6 +1132,16 @@ type
     sdsProdutoUN_CONV: TFloatField;
     cdsProdutoUN_CONV: TFloatField;
     cdsDifalUF: TStringField;
+    sdsCompraDATA_ENTREGA: TDateField;
+    cdsCompraDATA_ENTREGA: TDateField;
+    sdsCompraDESCONTO: TFloatField;
+    cdsCompraDESCONTO: TFloatField;
+    sdsCompraMUN_ORIGEM: TStringField;
+    sdsCompraMUN_DESTINO: TStringField;
+    cdsCompraMUN_ORIGEM: TStringField;
+    cdsCompraMUN_DESTINO: TStringField;
+    SpeedButton1: TBitBtn;
+    vcReportEstoque: TVCLReport;
     procedure cbMesChange(Sender: TObject);
     procedure edtFileChange(Sender: TObject);
     procedure edtFileExit(Sender: TObject);
@@ -1222,11 +1155,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnDifalClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     codFornEnergia: Integer;
     tipoLigacao: String;
     util : Tutils;
     tipo: String;
+    tipoEmpresa : String;
     temCompra, temVenda: String;
     function validaCodMunicipio(cod: String; quem: String):String;
     function tipoDocumentoFiscal(finalidade: String):TACBrCodSit;
@@ -1235,10 +1170,12 @@ type
     procedure blocoO;
     procedure bloco1;
     procedure blocoA;
+    procedure blocoB;
     procedure blocoC;
     procedure blocoD;
     procedure blocoF;
     procedure blocoH;
+    procedure blocoK;
     procedure blocoM;
     procedure abrirTabelasCompra;
     procedure abrirTabelasVenda;
@@ -1259,7 +1196,9 @@ implementation
 
 uses UDm, ACBrEPCBloco_0, ACBrEPCBloco_0_Class, Math, ACBrEFDBloco_E_Class,
   ACBrEFDBloco_E, ACBrEFDBloco_1, ACBrEFDBloco_C, ACBrEFDBloco_H_Class,
-  ACBrEFDBloco_H, ACBrSped, ACBrEFDBloco_C_Class, ACBrEFDBloco_0;
+  ACBrEFDBloco_H, ACBrSped, ACBrEFDBloco_C_Class, ACBrEFDBloco_0,
+  ACBrEFDBloco_B_Class, StrUtils, ACBrEFDBloco_K_Class, ACBrEFDBloco_K,
+  ACBrEFDBloco_D_Class, ACBrEFDBloco_D;
 
 {$R *.dfm}
 
@@ -1288,6 +1227,15 @@ begin
       IND_CART  := 'N';
       IND_FORM  := 'N';
       IND_AER   := 'N';
+      IND_GIAF1 := 'N';
+      if (dm.cds_empresaGIAF1.AsString = 'S') then
+        IND_GIAF1 := 'S';
+      IND_GIAF3 := 'N';
+      if (dm.cds_empresaGIAF3.AsString = 'S') then
+        IND_GIAF3 := 'S';
+      IND_GIAF4 := 'N';
+      if (dm.cds_empresaGIAF4.AsString = 'S') then
+        IND_GIAF4 := 'S';
     end;
   end;
 
@@ -1332,7 +1280,15 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao110;
+      COD_VER          := vlVersao112;
+      if (data_ini.Date < StrToDate('01/01/2019')) then
+      begin
+        COD_VER          := vlVersao111;
+      end;
+      if (data_ini.Date < StrToDate('01/01/2018')) then
+      begin
+        COD_VER          := vlVersao110;
+      end;
       if (data_ini.Date < StrToDate('01/01/2017')) then
       begin
         COD_VER          := vlVersao109;
@@ -1358,14 +1314,18 @@ begin
       if (cbTipo.ItemIndex = 1) then
         COD_FIN          := raSubstituto;
 
-      NOME             := cdsEmpresaRAZAO.AsString;
-      CNPJ             := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
-      IE               := util.RemoveChar(cdsEmpresaIE_RG.AsString);
-      UF               := cdsEmpresaUF.AsString;
-      COD_MUN          := StrToInt(validaCodMunicipio(cdsEmpresaCD_IBGE.AsString, cdsEmpresaRAZAO.AsString));
+      NOME             := dm.cds_EmpresaRAZAO.AsString;
+      CNPJ             := util.RemoveChar(dm.cds_EmpresaCNPJ_CPF.AsString);
+      IE               := util.RemoveChar(dm.cds_EmpresaIE_RG.AsString);
+      UF               := dm.cds_EmpresaUF.AsString;
+      COD_MUN          := StrToInt(validaCodMunicipio(dm.cds_EmpresaCD_IBGE.AsString,
+                            dm.cds_EmpresaRAZAO.AsString));
       SUFRAMA          := '';
       IND_PERFIL       := pfPerfilA;
-      IND_ATIV         := TAcbrAtividade(1);
+      if (dm.cds_EmpresaINDICADORATIVIDADE.AsInteger = 0) then
+        IND_ATIV := TAcbrAtividade(0)
+      else
+        IND_ATIV := TAcbrAtividade(1);
 
       with Registro0001New do
       begin
@@ -1374,36 +1334,36 @@ begin
         // FILHO - Dados Complementar da Empresa.
         with Registro0005New do
         begin
-          FANTASIA := cdsEmpresaEMPRESA.AsString;
-          CEP      := util.RemoveChar(cdsEmpresaCEP.AsString);
-          ENDERECO := cdsEmpresaENDERECO.AsString;
-          NUM      := cdsEmpresaNUMERO.AsString;
-          COMPL    := cdsEmpresaLOGRADOURO.AsString;
-          BAIRRO   := cdsEmpresaBAIRRO.AsString;
-          FONE     := util.RemoveChar(cdsEmpresaDDD.AsString) + util.RemoveChar(cdsEmpresaFONE.AsString);
-          FAX      := util.RemoveChar(cdsEmpresaDDD.AsString) + util.RemoveChar(cdsEmpresaFAX.AsString);
-          EMAIL    := cdsEmpresaE_MAIL.AsString;
+          FANTASIA := dm.cds_EmpresaEMPRESA.AsString;
+          CEP      := util.RemoveChar(dm.cds_EmpresaCEP.AsString);
+          ENDERECO := dm.cds_EmpresaENDERECO.AsString;
+          NUM      := dm.cds_EmpresaNUMERO.AsString;
+          COMPL    := dm.cds_EmpresaLOGRADOURO.AsString;
+          BAIRRO   := dm.cds_EmpresaBAIRRO.AsString;
+          FONE     := util.RemoveChar(dm.cds_EmpresaDDD.AsString) + util.RemoveChar(dm.cds_EmpresaFONE.AsString);
+          FAX      := util.RemoveChar(dm.cds_EmpresaDDD.AsString) + util.RemoveChar(dm.cds_EmpresaFAX.AsString);
+          EMAIL    := dm.cds_EmpresaE_MAIL.AsString;
         end;
 
 
          // FILHO - Dados Contador
          with Registro0100New do
          begin
-           if (cdsEmpresaCONTADOR.AsString <> '') then
+           if (dm.cds_EmpresaCONTADOR.AsString <> '') then
            begin
-            NOME       := cdsEmpresaCONTADOR.AsString;
-            CPF        := util.RemoveChar(cdsEmpresaCONTADOR_CPF.AsString);
-            CRC        := util.RemoveChar(cdsEmpresaCONTADOR_CRC.AsString);
-            CNPJ       := util.RemoveChar(cdsEmpresaCONTADOR_CNPJ.AsString);
-            CEP        := util.RemoveChar(cdsEmpresaCONTADOR_CEP.AsString);
-            ENDERECO   := cdsEmpresaCONTADOR_END.AsString;
-            NUM        := util.RemoveChar(cdsEmpresaCONTADOR_NUMEND.AsString);
-            COMPL      := cdsEmpresaCONTADOR_COMPL.AsString;
-            BAIRRO     := cdsEmpresaCONTADOR_BAIRRO.AsString;
-            FONE       := util.RemoveChar(cdsEmpresaCONTADOR_FONE.AsString);
-            FAX        := util.RemoveChar(cdsEmpresaCONTADOR_FAX.AsString);
-            EMAIL      := cdsEmpresaCONTADOR_EMAIL.AsString;
-            COD_MUN    := StrToInt(validaCodMunicipio(cdsEmpresaCONTADOR_COD_MUN.AsString, 'Contador: ' + cdsEmpresaCONTADOR.AsString));
+            NOME       := dm.cds_EmpresaCONTADOR.AsString;
+            CPF        := util.RemoveChar(dm.cds_EmpresaCONTADOR_CPF.AsString);
+            CRC        := util.RemoveChar(dm.cds_EmpresaCONTADOR_CRC.AsString);
+            CNPJ       := util.RemoveChar(dm.cds_EmpresaCONTADOR_CNPJ.AsString);
+            CEP        := util.RemoveChar(dm.cds_EmpresaCONTADOR_CEP.AsString);
+            ENDERECO   := dm.cds_EmpresaCONTADOR_END.AsString;
+            NUM        := util.RemoveChar(dm.cds_EmpresaCONTADOR_NUMEND.AsString);
+            COMPL      := dm.cds_EmpresaCONTADOR_COMPL.AsString;
+            BAIRRO     := dm.cds_EmpresaCONTADOR_BAIRRO.AsString;
+            FONE       := util.RemoveChar(dm.cds_EmpresaCONTADOR_FONE.AsString);
+            FAX        := util.RemoveChar(dm.cds_EmpresaCONTADOR_FAX.AsString);
+            EMAIL      := dm.cds_EmpresaCONTADOR_EMAIL.AsString;
+            COD_MUN    := StrToInt(validaCodMunicipio(dm.cds_EmpresaCONTADOR_COD_MUN.AsString, 'Contador: ' + dm.cds_EmpresaCONTADOR.AsString));
            end;
          end;
 
@@ -1499,6 +1459,7 @@ begin
 
          // UNIDADE COMPRA
          sdsUnimed.SQL.Clear;
+         {
          sdsUnimed.SQL.Add('SELECT DISTINCT UN.CODUN, UN.DESCRICAO  ' +
           '  FROM UNIDADEMEDIDA UN, COMPRA C, MOVIMENTO mov, MOVIMENTODETALHE DET ' +
           ' WHERE UN.CODUN = DET.UN ' +
@@ -1507,6 +1468,33 @@ begin
           '   AND (MOV.CODNATUREZA = 4) ' +
           '   AND C.DATACOMPRA  BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)));
+         }
+         sdsUnimed.SQL.Add('SELECT  UN.CODUN, UN.DESCRICAO '+
+            ' FROM VIEW_ESTOQUE_SPED(' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+            ') VS, UNIDADEMEDIDA UN ' +
+            ' WHERE vs.UNIDADEMEDIDA = UN.CODUN   '+
+            '  AND vs.ESTOQUE > 0    ' +
+            ' UNION  ' +
+            ' SELECT UN.CODUN, UN.DESCRICAO  FROM COMPRA C, MOVIMENTODETALHE MDC, ' +
+            ' UNIDADEMEDIDA UN ' +
+            ' WHERE MDC.CODMOVIMENTO = c.CODMOVIMENTO  ' +
+            '  AND MDC.UN = UN.CODUN ' +
+            '  AND ((C.MODELO = ' + QuotedStr('55') + ') OR (C.MODELO = ' + QuotedStr('1') + '))' +
+            '   AND C.DATACOMPRA  BETWEEN ' +
+               QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)));
+         if (chkInventario.Checked) then
+         begin
+           sdsUnimed.SQL.Add(' UNION ' +
+                 ' SELECT p.UNIDADEMEDIDA, UN.DESCRICAO  FROM produtos p,  ESTOQUEMES EV  ' +
+                 ' , UNIDADEMEDIDA UN ' +
+                 ' where  EV.CODPRODUTO  = p.CODPRODUTO  ' +
+                 ' AND  p.UNIDADEMEDIDA =  UN.CODUN ' +
+                 ' AND ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ' +
+                 ' AND ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) '  +
+                 ' AND EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+                 ' AND EV.CENTROCUSTO = 51  AND EV.SALDOESTOQUE > 0');
+         end;
 
          sdsUnimed.Open;
 
@@ -1561,8 +1549,8 @@ begin
            sdsUnimed.Next;
          end;
          }
-
-         // UNIDADE INVENTARIO
+         {
+         // UNIDADE INVENTARIO  / Bloco K
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
 
@@ -1571,14 +1559,17 @@ begin
            '  FROM ESTOQUEMES EM, PRODUTOS P, UNIDADEMEDIDA UN ' +
            ' WHERE EM.CODPRODUTO = p.CODPRODUTO ' +
            '   AND P.UNIDADEMEDIDA = UN.CODUN ' +
-           '   AND em.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+           '   AND em.MESANO <= ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
            '   AND EM.SALDOESTOQUE > 0 ' +
            '   AND NOT EXISTS (SELECT MDC.UN FROM COMPRA C, MOVIMENTODETALHE MDC ' +
            ' WHERE MDC.CODMOVIMENTO = c.CODMOVIMENTO ' +
            '   AND MDC.UN           = UN.CODUN ' +
            '   AND C.DATACOMPRA  BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
-           ' ) ' +
+           ' ) ');
+           }
+           // se nao preciso declarar itens venda .. 19/02/19
+           {
            '   AND NOT EXISTS (SELECT MDV.UN FROM VENDA V, SERIES ss, MOVIMENTO M, MOVIMENTODETALHE MDV ' +
            ' WHERE V.SERIE = ss.SERIE ' +
            '   AND V.CODMOVIMENTO = M.CODMOVIMENTO ' +
@@ -1587,8 +1578,8 @@ begin
            '   AND M.CODNATUREZA IN (12, 15) ' +
            '   AND MDV.UN           = UN.CODUN ' +
            '   AND V.DATAVENDA      BETWEEN ' +  QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
-           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')');
-
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')');}
+        {
          sdsUnimed.Open;
 
          while (not sdsUnimed.Eof) do
@@ -1605,41 +1596,15 @@ begin
          end;
 
 
-
+         }
          // ITENS  #################
          if (cdsProduto.Active) then
            cdsProduto.Close;
 
-         //if (codMovMin < codMovMinV) then
-         //cdsProduto.Params[0].AsInteger := codMovMin;
-         //else
-         // cdsProduto.Params[0].AsInteger := codMovMinV;
-         //if (codMovMax > codMovMaxV) then
-     {    cdsProduto.Params[1].AsInteger := codMovMax;
-         cdsProduto.Params[2].AsDate    := data_ini.Date;
-         cdsProduto.Params[3].AsDate    := data_fim.Date;
-         //else
-         //  cdsProduto.Params[1].AsInteger := codMovMaxV;
-         cdsProduto.Open;
-         While (not cdsProduto.Eof) do
-         begin
-           // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
-           with Registro0200New do
-           begin
-             COD_ITEM     := FormatFloat('000000',cdsProdutoCODPRODUTO.AsInteger);
-             DESCR_ITEM   := Trim(cdsProdutoPRODUTO.AsString);
-             COD_BARRA    := '';
-             UNID_INV     := Trim(cdsProdutoUN.AsString);
-             TIPO_ITEM    := tiMercadoriaRevenda;
-             COD_NCM      := Trim(cdsProdutoNCM.AsString);
-             COD_GEN      := '';
-             ALIQ_ICMS    := 0;
-           end;
-           cdsProduto.Next;
-         end;     }
+
            if (cdsProduto.Active) then
              cdsProduto.Close;
-
+           {
            cdsProduto.CommandText := 'SELECT DISTINCT DET.CODPRODUTO, PRO.CODPRO, ' +
            ' PRO.NCM, PRO.PRODUTO, pro.UNIDADEMEDIDA as UN  , UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
            ' , pro.UNIDADEMEDIDA , det.UN_CONV  ' +
@@ -1653,21 +1618,52 @@ begin
            '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
            ' )) ' +
-           ')';
+           ')';}
+
+           // coloquei estoqueminimo no UN_CONV somente pra trazer algo 19/02/2019
+           // nao preciso de itens de vendas  so compras e estoque
+
+           // tirei isto do Where abaixo, a DNZ
+           // tem este tipo de item em compras, que nao
+           // quer controlar estoque PRO.TIPO <> ' + QuotedStr('SERV')
+
+           cdsProduto.CommandText := 'SELECT PRO.CODPRODUTO, PRO.CODPRO, ' +
+             ' PRO.NCM, PRO.PRODUTO, pro.UNIDADEMEDIDA as UN  , ' +
+             ' UDF_LEFT(PRO.CLASSIFIC_FISCAL, 2) CLASS_FISCAL ' +
+             ' , pro.UNIDADEMEDIDA , pro.ESTOQUEMINIMO as UN_CONV  ' +
+             ' FROM PRODUTOS PRO ' +
+             ' WHERE PRO.CODPRODUTO IN ('+
+             ' select md.codproduto from movimento m ' +
+             ' inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = m.CODMOVIMENTO ' +
+             ' inner join COMPRA c on c.CODMOVIMENTO = m.CODMOVIMENTO ' +
+             ' where m.CODNATUREZA in (4,12,15,20) and ' +
+             ' (c.DATACOMPRA between ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
+             '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')' +
+             '  AND ((C.MODELO = ' + QuotedStr('55') + ') OR (C.MODELO = ' + QuotedStr('1') + '))' +
+             ' UNION ' +
+             ' select CODPRODUTO from VIEW_ESTOQUE_SPED(' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+             ') where  estoque > 0 ';
+           if (chkInventario.Checked) then
+           begin
+               cdsProduto.CommandText := cdsProduto.CommandText + ' UNION ' +
+                 ' SELECT p.CODPRODUTO FROM produtos p,  ESTOQUEMES EV  ' +
+                 ' where  EV.CODPRODUTO  = p.CODPRODUTO  ' +
+                 ' AND ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ' +
+                 ' AND ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) '  +
+                 ' AND EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+                 ' AND EV.CENTROCUSTO = 51 AND EV.SALDOESTOQUE > 0';
+           end;
+           cdsProduto.CommandText := cdsProduto.CommandText + ' )';
+
            cdsProduto.Open;
-           {  SPED ICMS NAO PRECISO
-                     '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V, SERIES ss ' +
-           ' WHERE ss.SERIE = V.SERIE ' +
-           '   AND V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
-           '   AND ss.MODELO <> ' + QuotedStr('55') +
-           '   AND V.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
-           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +}
+
            prod_novo := '';
            While (not cdsProduto.Eof) do
            begin
-             if (prod_novo <> IntToStr(cdsProdutoCODPRODUTO.AsInteger)) then
-             begin
-                prod_novo := IntToStr(cdsProdutoCODPRODUTO.AsInteger);
+             // nao preciso o union acima resolve 19/02/19
+             //if (prod_novo <> IntToStr(cdsProdutoCODPRODUTO.AsInteger)) then
+             //begin
+             //   prod_novo := IntToStr(cdsProdutoCODPRODUTO.AsInteger);
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
              with Registro0200New do
              begin
@@ -1735,11 +1731,13 @@ begin
                COD_NCM      := Trim(cdsProdutoNCM.AsString);
                COD_GEN      := '';
                ALIQ_ICMS    := 18;
-               end; // teste pra ver se mudou o produto
+               //end; // teste pra ver se mudou o produto
              end;
              cdsProduto.Next;
            end;
 
+           // o union acima pega todos produtos  19/02/19 nao preciso abaixo
+           {
            if (cdsProduto.Active) then
              cdsProduto.Close;
 
@@ -1831,7 +1829,7 @@ begin
              end;
              cdsProduto.Next;
            end;
-
+           }
 
 
          if (temVenda = 'S') then
@@ -1910,6 +1908,7 @@ tem_ajuste: string;
 td1: Double;
 td2: Double;
 td3: Double;
+const serie_valida = ['1','2','3','4','5','6','7','8','9'];
 begin
   // Alimenta o componente com informações para gerar todos os registros do
   // Bloco C.
@@ -1954,6 +1953,8 @@ begin
           //begin
           //C100 - Documento - Nota Fiscal (código 01), Nota Fiscal Avulsa (código 1B), Nota
           // Fiscal de Produtor (código 04) e NF-e (código 55)
+          if ((cdsCompraMODELO.AsString = '55') or (cdsCompraMODELO.AsString = '1')) then
+          begin
           with RegistroC100New do
           begin
             IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
@@ -1972,6 +1973,14 @@ begin
             begin
               IND_FRT := tfPorContaTerceiros;     // 2 - Por conta de terceiros
             end
+            else  if (cdsCompraOPERACAO.AsString = '3') then
+            begin
+              IND_FRT := tfProprioPorContaRemetente;
+            end
+            else  if (cdsCompraOPERACAO.AsString = '4') then
+            begin
+              IND_FRT := tfProprioPorContaDestinatario;
+            end
             else if (cdsCompraOPERACAO.AsString = '9') then
             begin
               IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
@@ -1981,7 +1990,7 @@ begin
             if (Length(cdsCompraMODELO.AsString) = 1) then
               COD_MOD       := trim('0' + cdsCompraMODELO.AsString)
             else
-              COD_MOD       := cdsCompraMODELO.AsString; //'55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
+              COD_MOD       := '55'; //cdsCompraMODELO.AsString; //'55'; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
             if (cdsCompraSERIE.AsString = '1A') then
               COD_MOD       := '01';
             COD_SIT       := sdRegular;
@@ -1994,10 +2003,16 @@ begin
             NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
             CHV_NFE       := Trim(copy(cdsCompraCHAVENF.AsString,0,44));
             DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
-            DT_E_S        := cdsCompraDATACOMPRA.AsDateTime;
-            VL_DOC        := cdsCompraVALOR.AsFloat;
+            if (cdsCompraDATA_ENTREGA.AsDateTime = 0) then
+            begin
+              DT_E_S := cdsCompraDATACOMPRA.AsDateTime;
+            end
+            else begin
+              DT_E_S := cdsCompraDATA_ENTREGA.AsDateTime;
+            end;
+            VL_DOC        := cdsCompraVALOR.AsFloat-cdsCompraDESCONTO.AsFloat;
+            VL_DESC       := cdsCompraDESCONTO.AsFloat;
             IND_PGTO      := tpPrazo;
-            VL_DESC       := 0;
             VL_ABAT_NT    := 0;
             VL_MERC       := cdsCompraVALOR.AsFloat;
             //IND_FRT       := tfSemCobrancaFrete;
@@ -2009,6 +2024,8 @@ begin
             VL_BC_ICMS_ST := cdsCompraICMS_BASE_ST.AsFloat;
             VL_ICMS_ST    := cdsCompraICMS_ST.AsFloat;
             VL_IPI        := cdsCompraIPI.AsFloat;
+            if (dm.cds_empresaCRT.AsInteger = 1) then
+              VL_IPI := 0;
             VL_PIS        := cdsCompraPIS.AsFloat;
             VL_COFINS     := cdsCompraCOFINS.AsFloat;
             VL_PIS_ST     := 0;
@@ -2041,7 +2058,8 @@ begin
                 //UNID             := Trim(cdsCompraDetUN.AsString);
 
                 VL_ITEM          := SimpleRoundTo((cdsCompraDetPRECO.AsFloat*cdsCompraDetQUANTIDADE.AsFloat),(-2));
-                VL_DESC          := 0;
+                if ((cdsCompraDetPRECO.AsFloat-cdsCompraDetVLR_BASE.AsFloat) > 0) then
+                  VL_DESC          := SimpleRoundTo(((cdsCompraDetPRECO.AsFloat-cdsCompraDetVLR_BASE.AsFloat)*cdsCompraDetQUANTIDADE.AsFloat),(-2));
                 IND_MOV          := mfSim;
                 CST_ICMS         := cdsCompraDetCST.AsString;
                 CFOP             := cdsCompraDetCFOP.AsString;
@@ -2065,6 +2083,12 @@ begin
                 if (cdsCompraDetVLR_BASEICMS.AsFloat > 0) then
                   ALIQ_IPI       := SimpleRoundTo(((cdsCompraDetVIPI.AsFloat/cdsCompraDetVLR_BASEICMS.AsFloat)*100),(-2));
                 VL_IPI           := cdsCompraDetVIPI.AsFloat;
+                if (dm.cds_empresaCRT.AsInteger = 1) then
+                begin
+                  VL_IPI := 0;
+                  ALIQ_IPI := 0;
+                  VL_BC_IPI := 0;
+                end;
                 CST_PIS          := cdsCompraDetCSTPIS.AsString; //  stpisOutrasOperacoesSaida;  // #########
                 VL_PIS           := cdsCompraDetVALOR_PIS.AsFloat;
                 VL_BC_PIS        := cdsCompraDetVLR_BASEICMS.AsFloat;
@@ -2084,6 +2108,7 @@ begin
                 ALIQ_COFINS_R    := 0;
                 VL_COFINS        := 0;
                 COD_CTA          := '';
+                VL_ABAT_NT       := 0;
               end; //Fim dos Itens;
               IItens := IItens + 1;
                // end;
@@ -2121,16 +2146,43 @@ begin
                 VL_ICMS_ST    := cdsC190ICMS_ST.AsFloat;
                 VL_RED_BC     := 0;
                 VL_IPI        := cdsC190VLR_IPI.AsFloat;
+                if (dm.cds_empresaCRT.AsInteger = 1) then
+                begin
+                  VL_IPI := 0;
+                end;
                 COD_OBS       := '';
               end;
+              if ((cdsCompraMODELO.AsString = '55')) then
+              begin
+              with RegistroC191New do
+              begin
+                VL_FCP_OP := 0;
+                if (AnsiIndexText(Copy(cdsC190CST.AsString,2,2),['00','10','20','51','70']) > -1) then
+                begin
+                  VL_FCP_OP := 0;// TODO colocar aqui total FCP PRoprio
+                end;
+                VL_FCP_ST := 0;
+                if ((AnsiIndexText(Copy(cdsC190CST.AsString,2,2),['10','30','70','90']) > -1) OR
+                  (AnsiIndexText(cdsC190CST.AsString,['201','202','203','900']) > -1)) then
+                begin
+                  VL_FCP_ST := 0; // TODO colocar total
+                end;
+                VL_FCP_RET := 0;
+                if ((Copy(cdsC190CST.AsString,2,2) = '60') OR
+                  (cdsC190CST.AsString = '500')) then
+                begin
+                  VL_FCP_RET := 0; // TODO colocar TOTAL
+                end;
+              end;
+              end;
               cdsC190.next;
-
             end;
 
             codParticip := cdsCompraCODFORNECEDOR.AsInteger;
-            cdsCompra.Next;
-          end; // FIM DO WHILE DE COMPRAS
-        end;
+          end;
+          end;
+          cdsCompra.Next;
+        end;   // FIM DO WHILE DE COMPRAS
       end;
       // FIM BLOCO COMPRAS ######################
 
@@ -2166,7 +2218,8 @@ begin
               COD_MOD       := cdsNFVendaMODELO.AsString; //COD_MOD	Código do modelo do documento fiscal, conforme a Tabela 4.1.1 (Código 02 – Nota Fiscal de Venda a Consumidor)	C	002*
 
             COD_SIT       := tipoDocumentoFiscal(cdsNFVendaNFE_FINNFE.AsString);
-            serie_NF_sai  := trim(cdsNFVendaSERIE.AsString);
+            serie_NF_sai  := IntToStr(dm.nfe_serie_receita); // 19/02/19 trim(cdsNFVendaSERIE.AsString);
+
             if (Length(serie_NF_sai) = 1) then
               SER         := trim('00' + serie_NF_sai) //04	SER	Série do documento fiscal	C	003	-
             else if (Length(serie_NF_sai) = 2) then
@@ -2184,6 +2237,7 @@ begin
             VL_DESC       := cdsNFVendaDESCONTO.AsFloat;
             VL_ABAT_NT    := 0;
             VL_MERC       := cdsNFVendaVALOR_PRODUTO.AsFloat;
+
             if (cdsNFVendaFRETE.AsString = '0') then
             begin
               IND_FRT := tfPorContaEmitente;     // 0 - Por conta de terceiros
@@ -2198,12 +2252,21 @@ begin
             end
             else if (cdsNFVendaFRETE.AsString = '3') then
             begin
+              IND_FRT := tfProprioPorContaRemetente;
+            end
+            else if (cdsNFVendaFRETE.AsString = '4') then
+            begin
+              IND_FRT := tfProprioPorContaDestinatario;
+            end
+            else if (cdsNFVendaFRETE.AsString = '9') then
+            begin
               IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
             end
             else
             begin
               IND_FRT := tfNenhum;                 // Preencher vazio
             end;
+
             VL_FRT        := cdsNFVendaVALOR_FRETE.AsFloat;
             VL_SEG        := cdsNFVendaVALOR_SEGURO.AsFloat;
             VL_OUT_DA     := 0;
@@ -2212,6 +2275,10 @@ begin
             VL_BC_ICMS_ST := cdsNFVendaBASE_ICMS_SUBST.AsFloat;
             VL_ICMS_ST    := cdsNFVendaVALOR_ICMS_SUBST.AsFloat;
             VL_IPI        := cdsNFVendaVALOR_IPI.AsFloat;
+            if (dm.cds_empresaCRT.AsInteger = 1) then
+            begin
+              VL_IPI := 0;
+            end;
             VL_PIS        := cdsNFVendaVALOR_PIS.AsFloat;
             VL_COFINS     := cdsNFVendaVALOR_COFINS.AsFloat;
             VL_PIS_ST     := 0;
@@ -2290,6 +2357,12 @@ begin
                   if (VL_BC_IPI > 0) then
                     ALIQ_IPI       := SimpleRoundTo(((cdsItensVIPI.AsFloat/VL_BC_IPI)*100),(-2));
                   VL_IPI           := cdsItensVIPI.AsFloat;
+                  if (dm.cds_empresaCRT.AsInteger = 1) then
+                  begin
+                    VL_IPI := 0;
+                    ALIQ_IPI := 0;
+                    VL_BC_IPI := 0;
+                  end;
                   CST_PIS          := cdsItensCSTPIS.AsString; //  stpisOutrasOperacoesSaida;  // #########
                   VL_BC_PIS        := cdsItensVLR_BASEICMS.AsFloat;
                   VL_PIS           := cdsItensVALOR_PIS.AsFloat;
@@ -2337,6 +2410,10 @@ begin
                   VL_ICMS_ST    := cdsVC190ICMS_ST.AsFloat;
                   VL_RED_BC     := 0;
                   VL_IPI        := cdsVC190VLR_IPI.AsFloat;
+                  if (dm.cds_empresaCRT.AsInteger = 1) then
+                  begin
+                    VL_IPI := 0;
+                  end;
                   COD_OBS       := '';
                 end;
                 cdsVC190.next;
@@ -2539,8 +2616,145 @@ begin
 end;
 
 procedure TfNfeIcms.blocoD;
+var
+  tem_dados: String;
 begin
+  // Alimenta o componente com informações para gerar todos os registros do
+  // Bloco D
+  //Primeiro as NFs de Entrada
+  if (cdsCompra.Active) then
+    cdsCompra.Close;
+  cdsCompra.Params[0].AsInteger := codMovMin;
+  cdsCompra.Params[1].AsInteger := codMovMax;
+  cdsCompra.Params[2].AsDate    := data_ini.Date;
+  cdsCompra.Params[3].AsDate    := data_fim.Date;
+  cdsCompra.Open;
+  tem_dados := 'N';
+  While not cdsCompra.Eof do
+  begin
+    if (cdsCompraMODELO.AsString = '57') then
+    begin
+      tem_dados := 'S';
+    end;
+    cdsCompra.Next;
+  end;
+  cdsCompra.First;
+  with ACBrSPEDFiscal1.Bloco_D do
+  begin
+    with RegistroD001New do
+    begin
+      if (tem_dados = 'N') then
+      begin
+        IND_MOV := imSemDados;
+      end
+      else begin
+        IND_MOV := imComDados;
+        // INICIO BLOCO COMPRAS  ######################
+        if (not cdsCompra.IsEmpty) then
+        begin
+          While not cdsCompra.Eof do
+          begin
+            if (cdsCompraMODELO.AsString = '57') then
+            begin
+              with RegistroD100.New do
+              begin
+                IND_OPER      := tpEntradaAquisicao; // tpEntradaAquisicao, // 0 - Entrada
+                IND_EMIT      := edTerceiros;   // 0 - Emissão própria // 1 - Terceiro
 
+                COD_PART      := FormatFloat('100000', cdsCompraCODFORNECEDOR.asInteger);
+                COD_MOD       := '57';
+                COD_SIT       := sdRegular;
+                if (Length(cdsCompraSERIE.AsString) = 1) then
+                  SER           := trim('00' + Trim(cdsCompraSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+                else if (Length(cdsCompraSERIE.AsString) = 2) then
+                  SER           := trim('0' + Trim(cdsCompraSERIE.AsString)) //04	SER	Série do documento fiscal	C	003	-
+                else
+                  SER           := Trim(cdsCompraSERIE.AsString); //04	SER	Série do documento fiscal	C	003	-
+                NUM_DOC       := IntToStr(cdsCompraNOTAFISCAL.AsInteger);
+                CHV_CTE       := Trim(copy(cdsCompraCHAVENF.AsString,0,44));
+                DT_DOC        := cdsCompraDATACOMPRA.AsDateTime;
+                if (cdsCompraDATA_ENTREGA.AsDateTime = 0) then
+                begin
+                  DT_A_P := cdsCompraDATACOMPRA.AsDateTime;
+                end
+                else begin
+                  DT_A_P := cdsCompraDATA_ENTREGA.AsDateTime;
+                end;
+                TP_CT_e  := '0';   // 0 - CT-e Normal; 1 - CT-e de Complemento de Valores; 2 - CT-e de Anulação; 3 - CT-e ...
+                VL_DOC        := cdsCompraVALOR.AsFloat-cdsCompraDESCONTO.AsFloat;
+                VL_DESC       := cdsCompraDESCONTO.AsFloat;
+                if (cdsNFVendaFRETE.AsString = '0') then
+                begin
+                  IND_FRT := tfPorContaEmitente;     // 0 - Por conta de terceiros
+                end
+                else if (cdsNFVendaFRETE.AsString = '1') then
+                begin
+                  IND_FRT := tfPorContaDestinatario;      // 1 - Por conta do emitente
+                end
+                else if (cdsNFVendaFRETE.AsString = '2') then
+                begin
+                  IND_FRT := tfPorContaTerceiros;  // 2 - Por conta do destinatário
+                end
+                else if (cdsNFVendaFRETE.AsString = '3') then
+                begin
+                  IND_FRT := tfProprioPorContaRemetente;
+                end
+                else if (cdsNFVendaFRETE.AsString = '4') then
+                begin
+                  IND_FRT := tfProprioPorContaDestinatario;
+                end
+                else if (cdsNFVendaFRETE.AsString = '9') then
+                begin
+                  IND_FRT := tfSemCobrancaFrete;      // 9 - Sem cobrança de frete
+                end
+                else
+                begin
+                  IND_FRT := tfNenhum;                 // Preencher vazio
+                end;
+
+                VL_SERV    :=  cdsCompraVALOR.AsFloat-cdsCompraDESCONTO.AsFloat;
+                VL_BC_ICMS := cdsCompraBASE_ICMS.AsFloat;
+                VL_ICMS       := cdsCompraVALOR_ICMS.AsFloat;
+                VL_NT         := 0;
+                if ((cdsCompraMUN_ORIGEM.AsString = '') OR (cdsCompraMUN_DESTINO.AsString = '')) then
+                begin
+                  ShowMessage('CTe sem municipio informado : ' + IntToStr(cdsCompraNOTAFISCAL.AsInteger));
+                end;
+                COD_MUN_ORIG := util.RemoveChar(cdsCompraMUN_ORIGEM.AsString);
+                COD_MUN_DEST := util.RemoveChar(cdsCompraMUN_DESTINO.AsString);
+              end;
+              // d190
+              if (cdsC190.Active) then
+                cdsC190.Close;
+              cdsC190.Params[0].AsInteger := cdsCompraCODMOVIMENTO.AsInteger;
+                //cdsC190.Params[1].AsInteger := codMovMax;
+                //cdsC190.Params[2].AsDate    := data_ini.Date;
+                //cdsC190.Params[3].AsDate    := data_fim.Date;
+              cdsC190.Open;
+              while not cdsC190.eof do
+              begin
+                with RegistroD190New do
+                begin
+                  CST_ICMS      := cdsC190CST.AsString;
+                  CFOP          := cdsC190CFOP.AsString;
+                  ALIQ_ICMS     := cdsC190ICMS.AsFloat;
+                  VL_OPR        := cdsC190VLR_OPERACAO.AsFloat;
+                  VL_BC_ICMS    := cdsC190VLR_BASE_ICMS.AsFloat;
+                  VL_ICMS       := cdsC190VLR_ICMS.AsFloat;
+                  VL_RED_BC     := 0;
+                  COD_OBS       := '';
+                end;
+                cdsC190.Next;
+              end;
+              // fim d 190
+            end;
+            cdsCompra.Next;
+          end; // FIM DO WHILE DE COMPRAS
+        end;
+      end; // com dados
+      // FIM BLOCO COMPRAS ######################
+    end;
+  end;
 end;
 
 procedure TfNfeIcms.blocoF;
@@ -2598,7 +2812,7 @@ begin
   bloco1;
   //blocoA; // DOCUMENTOS FISCAIS - SERVIÇOS (NÃO SUJEITOS AO ICMS)
   blocoC;  // Linha do exemplo 430
-  //blocoD;  // DOCUMENTOS FISCAIS - SERVIÇOS (ICMS)
+  blocoD;  // DOCUMENTOS FISCAIS - SERVIÇOS (ICMS)
 
   //bloco E - Apuração do ICMS e do IPI
   bloco_E;
@@ -2609,6 +2823,8 @@ begin
   //bloco H - Inventário Físico
   if (chkInventario.Checked) then
     blocoH;
+
+  blocoK;
 
   // Método que gera o arquivo TXT.
   ACBrSPEDFiscal1.SaveFileTXT ;
@@ -2667,9 +2883,6 @@ begin
   cdsMov.Open;
   codMovMin := cdsMov.Fields[0].asInteger;
   codMovMax := cdsMov.Fields[1].asInteger;
-
-  if (not cdsEmpresa.Active) then
-    cdsEmpresa.Open;
 
   cdsMov.Close;
   cdsMov.CommandText := 'SELECT CODMOVIMENTO, CODNATUREZA ' +
@@ -2991,6 +3204,8 @@ begin
     MessageDlg('O Parametro FORNECEDORENERGIA não está correto, tem que ser o Código do Fornecedor.', mtWarning, [mbOK], 0);
     Exit;
   end;
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;  
 end;
 
 procedure TfNfeIcms.blocoH;
@@ -3012,14 +3227,10 @@ begin
     end;
     if (chkInventario.Checked) then
     begin
-      s := 'select  DISTINCT p.CODPRODUTO, (select SUM(EV.PRECOCUSTO * EV.SALDOESTOQUE) from ESTOQUEMES EV ';
-      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
-      s := s + '   AND EV.CENTROCUSTO = 51 ';
-      s := s + ') VALORESTOQUE ';
-      s := s + ' from produtos p ';
-      s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
-      s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+      s := 'select CODPRODUTO, (PRECO_CUSTO * ESTOQUE) AS VALORESTOQUE';
+      s := s + ' FROM VIEW_ESTOQUE_SPED(' +
+        QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+      s := s + ')';
       if (sqlInventario.Active) then
         sqlInventario.Close;
       sqlInventario.SQL.Clear;
@@ -3029,7 +3240,8 @@ begin
       total := 0;
       while not sqlInventario.Eof do
       begin
-        if (not sqlInventario.FieldByName('VALORESTOQUE').IsNull) then
+        if ((not sqlInventario.FieldByName('VALORESTOQUE').IsNull) and
+          (sqlInventario.FieldByName('VALORESTOQUE').asFloat > 0)) then
           total := total + sqlInventario.FieldByName('VALORESTOQUE').AsFloat;
         sqlInventario.Next;
       end;
@@ -3041,20 +3253,12 @@ begin
         //DT_FIN := edDataInventario.Date;
         VL_INV := total; // Valor do Inventario
       end;
-      s := 'select DISTINCT p.CODPRODUTO, (select FIRST 1 EV.PRECOCUSTO from ESTOQUEMES EV ';
-      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
-      s := s + '   AND EV.CENTROCUSTO = 51 ';
-      s := s + ') PRECOCUSTO ';
-      s := s + ' , (select FIRST 1 EV.SALDOESTOQUE from ESTOQUEMES EV ';
-      s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
-      s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
-      s := s + '   AND EV.CENTROCUSTO = 51 ';
-      s := s + ') ESTOQUE ';
-      s := s + ', p.UNIDADEMEDIDA, p.CODPRO ';
-      s := s + ' from produtos p ';
-      s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
-      s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+      s := 'select CODPRODUTO, PRECO_CUSTO AS PRECOCUSTO ';
+      s := s + ', ESTOQUE ';
+      s := s + ', UNIDADEMEDIDA, CODPRO ';
+      s := s + ' FROM VIEW_ESTOQUE_SPED(' +
+        QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+      s := s + ')';
       if (sqlInventario.Active) then
         sqlInventario.Close;
       sqlInventario.SQL.Clear;
@@ -3122,7 +3326,8 @@ var ipi_entrada, ipi_saida: Double;
 begin
   ipi_entrada := 0;
   ipi_saida := 0;
-
+  if (dm.cds_empresaCRT.AsInteger = 1) then // empresa Simples com excedente receita nao apresenta este bloco
+    exit;
   with ACBrSPEDFiscal1.Bloco_E do
   begin
     with RegistroE500New do
@@ -3183,7 +3388,7 @@ begin
       begin
         MessageDlg('CST do Ipi incorreto, no registro com CFOP : ' + cdsTotIpiSaidaCFOP.AsString, mtWarning, [mbOK], 0);
       end;
-      
+
       with RegistroE510New do
       begin
         CFOP        := cdsTotIpiSaidaCFOP.AsString;
@@ -3270,6 +3475,123 @@ end;
 procedure TfNfeIcms.btnSairClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfNfeIcms.blocoB;
+begin
+  // Bloco H
+  with ACBrSPEDFiscal1.Bloco_B do
+  begin
+    with RegistroB001New do
+    begin
+      IND_MOV := imSemDados; // Sem dados
+    end;
+  end;  
+end;
+
+procedure TfNfeIcms.blocoK;
+var s:string;
+begin
+  //Bloco K
+  with ACBrSPEDFiscal1.Bloco_K do
+  begin
+    with RegistroK001New do
+    begin
+      IND_MOV := imComDados; // Com Dados
+      //IND_MOV := imSemDados; // Sem dados
+    end;
+    {
+    s := 'select  DISTINCT p.CODPRODUTO, (select SUM(EV.PRECOCUSTO * EV.SALDOESTOQUE) from ESTOQUEMES EV ';
+    s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date));
+    s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+    s := s + '   AND EV.CENTROCUSTO = 51 ';
+    s := s + ') VALORESTOQUE ';
+    s := s + ' from produtos p ';
+    s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
+    s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+    if (sqlInventario.Active) then
+      sqlInventario.Close;
+    sqlInventario.SQL.Clear;
+    sqlInventario.SQL.Add(s);
+    sqlInventario.Open;
+
+    total := 0;
+    while not sqlInventario.Eof do
+    begin
+        if (not sqlInventario.FieldByName('VALORESTOQUE').IsNull) then
+          total := total + sqlInventario.FieldByName('VALORESTOQUE').AsFloat;
+        sqlInventario.Next;
+    end;
+    }
+    with RegistroK100New do
+    begin
+      DT_INI := data_ini.Date;
+      DT_FIN := data_fim.Date;
+    end;
+    {
+    s := 'select DISTINCT p.CODPRODUTO, (select FIRST 1 EV.PRECOCUSTO from ESTOQUEMES EV ';
+    s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+    s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+    s := s + '   AND EV.CENTROCUSTO = 51 ';
+    s := s + ') PRECOCUSTO ';
+    s := s + ' , (select FIRST 1 EV.SALDOESTOQUE from ESTOQUEMES EV ';
+    s := s + ' WHERE EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date));
+    s := s + '   AND EV.CODPRODUTO  = p.CODPRODUTO ' ;
+    s := s + '   AND EV.CENTROCUSTO = 51 ';
+    s := s + ') ESTOQUE ';
+    s := s + ', p.UNIDADEMEDIDA, p.CODPRO ';
+    s := s + ' from produtos p ';
+    s := s + ' where ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ';
+    s := s + ' and ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) ';
+    s := s + ' and (UDF_LEFT(p.CLASSIFIC_FISCAL,2) in (' + QuotedStr('00') + ', ';
+    s := s + QuotedStr('01') + ', ';
+    s := s + QuotedStr('02') + ', ';
+    s := s + QuotedStr('03') + ', ';
+    s := s + QuotedStr('04') + ', ';
+    s := s + QuotedStr('05') + ', ';
+    s := s + QuotedStr('06') + ', ';
+    s := s + QuotedStr('10') + '))';}
+    s := 'SELECT * FROM  VIEW_ESTOQUE_SPED (' +
+      QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')';
+
+    if (sqlInventario.Active) then
+      sqlInventario.Close;
+    sqlInventario.SQL.Clear;
+    sqlInventario.SQL.Add(s);
+    sqlInventario.Open;
+    While not sqlInventario.Eof do
+    begin
+      if (sqlInventario.FieldByName('ESTOQUE').AsFloat > 0) then
+      begin
+        with RegistroK200New do
+        begin
+          DT_EST := data_fim.Date;
+          if (dm.mascaraProduto <> '') then
+            COD_ITEM := FormatMaskText(dm.mascaraProduto+';0;_',
+              sqlInventario.FieldByName('CODPRO').AsString)
+          else
+            COD_ITEM     := FormatFloat('000000',
+              sqlInventario.FieldByName('CODPRODUTO').AsInteger); // Nao usa mascara fica como era
+          //COD_ITEM := sqlInventario.FieldByName('CODPRO').AsString;
+          if (sqlInventario.FieldByName('ESTOQUE').IsNull) then
+            QTD := 0
+          else
+            QTD := sqlInventario.FieldByName('ESTOQUE').AsFloat;
+          IND_EST := estPropInformantePoder; //  0- Item de propriedade do informante e em seu poder;
+        end;
+      end;
+      sqlInventario.Next;
+    end; // Fim K200
+  end; // Fim Blco K
+
+end;
+
+procedure TfNfeIcms.SpeedButton1Click(Sender: TObject);
+begin
+  vcReportEstoque.FileName := str_relatorio + 'estoque_sped.rep';
+  vcReportEstoque.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  vcReportEstoque.Report.Params.ParamByName('PDATA').Value := data_fim.Date;
+  vcReportEstoque.Execute;
 end;
 
 end.
