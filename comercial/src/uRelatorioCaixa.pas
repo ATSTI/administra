@@ -33,6 +33,8 @@ type
     ComboBox2: TComboBox;
     GroupBox4: TGroupBox;
     edCodCCusto: TComboBox;
+    BitBtn6: TBitBtn;
+    SaveDialog1: TSaveDialog;
     procedure FormShow(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -43,6 +45,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure cbMesChange(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
   private
     util: TUtils;
     { Private declarations }
@@ -327,6 +330,113 @@ end;
 procedure TfRelatorioCaixa.FormDestroy(Sender: TObject);
 begin
   util.Destroy;
+end;
+
+procedure TfRelatorioCaixa.BitBtn6Click(Sender: TObject);
+var arquivo:TextFile;
+  sql_r : String;
+  cod: String;
+  nPos: Integer;
+  linha: String;
+  valor : Double;
+  contadeb: String;
+  contacred: String;
+begin
+  // criar arquivo integracao
+  sql_r := 'select * from SP_mov_caixa_ordem(' +
+    QuotedStr(formatdatetime('mm/dd/yy', StrToDate(maskedit1.Text))) + ' ,' +
+    QuotedStr(formatdatetime('mm/dd/yy', StrToDate(maskedit2.Text)));
+  if ComboBox1.Text <> '' then
+  begin
+    if (not dm.cds_7_contas.Active) then
+       dm.cds_7_contas.Open;
+    dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+    sql_r := sql_r + ', ' + IntToStr(dm.cds_7_contasCODIGO.asInteger) + ')';
+  end
+  else begin
+    sql_r := sql_r + ', 0)';
+  end;
+  if dm.sqlBusca.Active then
+    dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add(sql_r);
+  dm.sqlBusca.Open;
+  if (dm.sqlBusca.IsEmpty) then
+  begin
+    ShowMessage('Sem dados no periodo informado.');
+    exit;
+  end;
+  SaveDialog1.Execute;
+  AssignFile(arquivo, SaveDialog1.FileName);
+  try
+    Rewrite(arquivo);
+    while not dm.sqlBusca.Eof do
+    begin
+      linha := '';
+      valor := 0;
+      contadeb := '1.1.01.0001';
+      //if dm.cdsProc.Active then
+      //  dm.cdsProc.Close;
+      //dm.cdsProc.CommandText := 'SELECT CONTA FROM PLANO ' +
+      //  ' WHERE CODREDUZIDO = ' +
+      //  QuotedStr(dm.sqlBusca.FieldByName('CONTA').AsString);
+      //dm.cdsProc.Open;
+      if (dm.sqlBusca.FieldByName('VALORC').AsFloat > 0) then
+      begin
+        valor := dm.sqlBusca.FieldByName('VALORC').AsFloat;
+        contacred := '2.1.01.0001';
+        // Fornecedor
+        cod := Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,6);
+        nPos := Pos('-',cod);
+        if (nPos > 0) then
+        begin
+          // codigo do fornecedor
+          cod := Copy(cod, 0, nPos -1);
+          //busca cnpj
+          if dm.cdsProc.Active then
+             dm.cdsProc.Close;
+          dm.cdsProc.CommandText := 'SELECT CNPJ FROM FORNECEDOR ' +
+            ' WHERE CODFORNECEDOR = ' + cod;
+          dm.cdsProc.Open;
+          linha := dm.cdsProc.fieldByName('CNPJ').AsString;
+          linha := linha + ',' + cod;
+        end;
+      end;
+      if (dm.sqlBusca.FieldByName('VALORD').AsFloat > 0) then
+      begin
+        valor := dm.sqlBusca.FieldByName('VALORD').AsFloat;
+        contacred := '1.1.02.0001';
+        // Cliente
+        cod := Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,6);
+        nPos := Pos('-',cod);
+        if (nPos > 0) then
+        begin
+          if dm.cdsProc.Active then
+             dm.cdsProc.Close;
+          dm.cdsProc.CommandText := 'SELECT CNPJ FROM CLIENTES ' +
+            ' WHERE CODCLIENTE = ' + cod;
+          dm.cdsProc.Open;
+          linha := dm.cdsProc.fieldByName('CNPJ').AsString;
+          linha := linha + ',' + cod;
+        end;
+      end;
+      if (linha = '') then
+        linha := '00.000.000/0000-00' + ',' + '000';
+      linha := linha + ',000'; // codigo do historico padrao
+      linha := linha + ',' + contadeb;// conta devedora
+      linha := linha + ',' + contacred;// conta credora
+      linha := linha + ',' + dm.sqlBusca.FieldByName('DESCRICAO').AsString; // descricao do historico
+      linha := linha + ',' + dm.sqlBusca.FieldByName('DTAPAGTO').AsString; // data lancamento
+      DecimalSeparator := '.';
+      linha := linha + ',' + FloatToStr(valor);
+      DecimalSeparator := ',';
+      linha := linha + ',' + QuotedStr('');
+      Writeln(arquivo, linha);
+      dm.sqlBusca.Next;
+    end;
+  finally
+    CloseFile(arquivo);
+  end;
 end;
 
 end.
