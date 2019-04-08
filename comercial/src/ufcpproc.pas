@@ -257,6 +257,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     procedure ChkDBGridDrawColumnCell(DBGrid: TDBGrid;
       const Rect: TRect; DataCol: Integer; Column: TColumn;
@@ -1171,9 +1172,26 @@ begin
 end;
 
 procedure TfCpProc.FormShow(Sender: TObject);
+var varsql: String;
 begin
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fCpProc));
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FP-'+micro;
+  dm.cds_parametro.Open;
+  if dm.cds_parametro.IsEmpty then
+  begin
+    varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1) ' ;
+    varsql := varsql + ' values (' + QuotedStr('FP-'+Micro);
+    varsql := varsql + ',' + QuotedStr('S') + ',' + QuotedStr('RegFiltroPagar');
+    varsql := varsql + ',' + QuotedStr('2') + ')';
+    dm.sqlsisAdimin.executedirect(varsql);
+  end;
+  if (dm.parametroCONFIGURADO.AsString = 'S') then
+  begin
+    cbStatus.ItemIndex := StrToInt(dm.cds_parametroD1.AsString);
+  end;
 end;
 
 procedure TfCpProc.BitBtn5Click(Sender: TObject);
@@ -1215,6 +1233,20 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(str_sql);
     dm.sqlsisAdimin.Commit(TD);
+  end;
+end;
+
+procedure TfCpProc.FormClose(Sender: TObject; var Action: TCloseAction);
+  var str_sql: string;
+begin
+  //inherited;
+  str_sql := 'UPDATE PARAMETRO SET D1 = ';
+  str_sql := str_sql + QuotedStr(IntToStr(cbStatus.ItemIndex));
+  str_sql := str_sql + ' where PARAMETRO = ' + QuotedStr('FP-'+Micro);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+  except
+    exit;
   end;
 end;
 
