@@ -22,25 +22,26 @@ object TRpReport
       Alias = 'VENDAS'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select rec.CODCLIENTE,'#13#10'cli.NOMECLIENTE, SUM((CASE WHEN rec.VALO' +
-        'R IS NULL THEN 0 ELSE rec.VALOR END  - CASE WHEN rec.VALOR_ICMS ' +
-        ' IS NULL THEN 0 ELSE rec.VALOR_ICMS END - CASE WHEN rec.VALOR_FR' +
-        'ETE  IS NULL THEN 0 ELSE rec.VALOR_FRETE END - CASE WHEN rec.VAL' +
-        'OR_SEGURO IS NULL THEN 0 ELSE rec.VALOR_SEGURO END  -  CASE WHEN' +
-        ' OUTRAS_DESP IS NULL THEN 0 ELSE OUTRAS_DESP END - CASE WHEN rec' +
-        '.VALOR_IPI IS NULL THEN 0 ELSE  rec.VALOR_IPI END)  - rec.DESCON' +
-        'TO)'#13#10',SUM(  CASE WHEN rec.VALOR_ICMS  IS NULL THEN 0 ELSE rec.VA' +
-        'LOR_ICMS END + CASE WHEN rec.VALOR_FRETE  IS NULL THEN 0 ELSE re' +
-        'c.VALOR_FRETE END + CASE WHEN rec.VALOR_SEGURO IS NULL THEN 0 EL' +
-        'SE rec.VALOR_SEGURO END  +  CASE WHEN OUTRAS_DESP IS NULL THEN 0' +
-        ' ELSE OUTRAS_DESP END + CASE WHEN rec.VALOR_IPI IS NULL THEN 0 E' +
-        'LSE  rec.VALOR_IPI END) AS OUTRASRECEITAS'#13#10'from VENDA rec'#13#10'inner' +
-        ' join CLIENTES cli on cli.codCliente = rec.codcliente '#13#10'inner jo' +
-        'in movimento m on m.codmovimento = rec.codmovimento'#13#10'where m.cod' +
-        'natureza = 3 and rec.DATAVENDA between :DATA1 and :DATA2  and re' +
-        'c.codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PRO1) or (:PRO1 = 999' +
-        '9999)) '#13#10'GROUP by cli.NOMECLIENTE, rec.CODCLIENTE  order by 3 de' +
-        'sc'
+        'select  UDF_MONTH(rec.datavenda) as mes, UDF_YEAR(rec.datavenda)' +
+        ' as ANO,  UDF_MONTH(rec.datavenda) || UDF_YEAR(rec.datavenda) as' +
+        ' MESANO '#13#10', SUM((CASE WHEN rec.VALOR IS NULL THEN 0 ELSE rec.VAL' +
+        'OR END  - CASE WHEN rec.VALOR_ICMS  IS NULL THEN 0 ELSE rec.VALO' +
+        'R_ICMS END - CASE WHEN rec.VALOR_FRETE  IS NULL THEN 0 ELSE rec.' +
+        'VALOR_FRETE END - CASE WHEN rec.VALOR_SEGURO IS NULL THEN 0 ELSE' +
+        ' rec.VALOR_SEGURO END  -  CASE WHEN OUTRAS_DESP IS NULL THEN 0 E' +
+        'LSE OUTRAS_DESP END - CASE WHEN rec.VALOR_IPI IS NULL THEN 0 ELS' +
+        'E  rec.VALOR_IPI END)  - rec.DESCONTO)'#13#10',SUM(  CASE WHEN rec.VAL' +
+        'OR_ICMS  IS NULL THEN 0 ELSE rec.VALOR_ICMS END + CASE WHEN rec.' +
+        'VALOR_FRETE  IS NULL THEN 0 ELSE rec.VALOR_FRETE END + CASE WHEN' +
+        ' rec.VALOR_SEGURO IS NULL THEN 0 ELSE rec.VALOR_SEGURO END  +  C' +
+        'ASE WHEN OUTRAS_DESP IS NULL THEN 0 ELSE OUTRAS_DESP END + CASE ' +
+        'WHEN rec.VALOR_IPI IS NULL THEN 0 ELSE  rec.VALOR_IPI END) AS OU' +
+        'TRASRECEITAS'#13#10#13#10'from VENDA rec'#13#10'inner join CLIENTES cli on cli.c' +
+        'odCliente = rec.codcliente '#13#10'inner join movimento m on m.codmovi' +
+        'mento = rec.codmovimento'#13#10'where m.codnatureza = 3 and rec.DATAVE' +
+        'NDA between :DATA1 and :DATA2  and rec.codcliente > 0 '#13#10'and ((re' +
+        'c.CODCLIENTE = :PRO1) or (:PRO1 = 9999999)) '#13#10'GROUP by ano, mes ' +
+        ' order by 2, 1'
     end>
   DatabaseInfo = <
     item
@@ -141,9 +142,6 @@ object TRpReport
         Component = TRpExpression8
       end
       item
-        Component = TRpExpression0
-      end
-      item
         Component = TRpExpression2
       end
       item
@@ -214,9 +212,6 @@ object TRpReport
       end
       item
         Component = TRpExpression10
-      end
-      item
-        Component = TRpLabel3
       end
       item
         Component = TRpLabel4
@@ -501,9 +496,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
+    ChangeExpression = ''
     BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
+    ChangeExpression = ''
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -528,9 +523,9 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
+    ChangeExpression = ''
     BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
+    ChangeExpression = ''
     SkipExpreV = ''
     SkipExpreH = ''
     SkipToPageExpre = ''
@@ -655,31 +650,18 @@ object TRpReport
     DoBeforePrint = ''
     DoAfterPrint = ''
   end
-  object TRpLabel3: TRpLabel
-    Width = 915
-    Height = 300
-    PosX = 0
-    PosY = 1720
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'C'#243'digo'
-  end
   object TRpLabel5: TRpLabel
     Width = 2640
     Height = 300
-    PosX = 915
-    PosY = 1720
+    PosX = 225
+    PosY = 1725
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'Cliente'
+    WideText = 'Mes / Ano'
   end
   object TRpShape0: TRpShape
     Width = 10694
@@ -715,30 +697,8 @@ object TRpReport
     DoBeforePrint = ''
     DoAfterPrint = ''
   end
-  object TRpExpression0: TRpExpression
-    Width = 6450
-    Height = 225
-    PosX = 795
-    PosY = 0
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.NOMECLIENTE'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
   object TRpExpression2: TRpExpression
-    Width = 810
+    Width = 3450
     Height = 225
     PosX = 0
     PosY = 0
@@ -753,7 +713,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.CODCLIENTE'
+    Expression = 'VENDAS.MES + '#39'/'#39' , VENDAS.ANO'
     DisplayFormat = ''
     ExportDisplayFormat = ''
     AgIniValue = '0'
