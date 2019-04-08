@@ -420,6 +420,7 @@ type
     GroupBox48: TGroupBox;
     BitBtn53: TBitBtn;
     rbEndEntrega: TRadioButton;
+    Label88: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -6204,7 +6205,71 @@ begin
   except
     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
   end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE CLASSIFICACAOFISCALNCM ADD II_PERCENTUAL DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE CLASSIFICACAOFISCALPRODUTO ADD CODFISCAL CHAR(1)');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
 
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD PERCIPIDEVOL  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VALORIPIDEVOL  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD ICMS_PST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_B_FCP  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_FCP  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD P_FCP  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_B_FCPST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_FCPST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD P_FCPST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_B_FCPSTRET  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD V_FCPSTRET  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD P_FCPSTRET  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VBCSTRET DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VICMSSTRET DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VBCSTDEST DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VICMSSTDEST DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE MOVIMENTODETALHE ADD VBFCPUFDEST DOUBLE PRECISION');
+
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL ADD V_B_FCPUFDEST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL ADD V_FCP  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL ADD V_FCPST  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL ADD V_FCPSTRET  DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE NOTAFISCAL ADD V_IPI_DEVOL  DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE UCTABUSERSLOGGED ADD CODEMPRESA INTEGER');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE UCTABUSERSLOGGED ADD NOMEEMPRESA VARCHAR(80)');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE UCTABUSERSLOGGED ADD TIPONOTA INTEGER');    
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD pGLP DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD pGNN DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD pGNI DOUBLE PRECISION');
+    dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE PRODUTOS ADD vPART DOUBLE PRECISION');
+    dm.sqlsisAdimin.Commit(TD); {on success, commit the changes};
+  except
+    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  end;
 
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;

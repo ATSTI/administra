@@ -3626,6 +3626,19 @@ inherited fParametro: TfParametro
             Height = 13
             Caption = '% Comiss'#227'o'
           end
+          object Label88: TLabel
+            Left = 9
+            Top = 434
+            Width = 333
+            Height = 13
+            Caption = 'PDV novo: PARAMETRO :  EMPRESA - CAMPO D1 = PDV'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
           object chkImpUmRecibo: TCheckBox
             Left = 11
             Top = 385
