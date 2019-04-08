@@ -20,6 +20,7 @@ BEGIN
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO 
          and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '3'
+         and cfp.CODFISCAL = :codFiscal
          and cfp.UF = :UF
         into :cfop_mov;
     end 
@@ -28,6 +29,7 @@ BEGIN
        where cfp.COD_PROD = :CODPRODUTO 
          and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '1'
          and cfp.UF = :UF
+         and cfp.CODFISCAL = :codFiscal
         into :cfop_mov;
     end    
     if (cfop_mov is null) then 
@@ -80,17 +82,29 @@ BEGIN
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO 
          and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '5'
+         and cfp.CODFISCAL = :codFiscal
          and cfp.UF = :UF
         into :cfop_mov;
       log = log || ' venda por produto';
     end 
     if ((:UF <> :UF_EMPRESA) and (:UF <> 'EX')) then 
 	begin
-      select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
-       where cfp.COD_PROD = :CODPRODUTO 
-         and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
-         and cfp.UF = :UF
-        into :cfop_mov;
+        select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
+         where cfp.COD_PROD = :CODPRODUTO 
+           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and cfp.UF = :UF
+           and cfp.CODFISCAL = :codFiscal
+          into :cfop_mov;
+	  	  
+	  if (cfop_mov is null) then 
+	  begin 
+        select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
+         where cfp.COD_PROD = :CODPRODUTO 
+           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and cfp.UF = :UF
+           and cfp.CODFISCAL = :codFiscal
+          into :cfop_mov;
+      end    
     end    
 	if (:UF = 'EX') then 
 	begin
@@ -98,6 +112,7 @@ BEGIN
        where cfp.COD_PROD = :CODPRODUTO
          and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '7'
          and cfp.UF = :UF
+         and cfp.CODFISCAL = :codFiscal
         into :cfop_mov;
     end    
 

@@ -43,7 +43,7 @@ declare variable nat SMALLINT;
 declare variable PESSOA SMALLINT;
 DECLARE VARIABLE PercStr varchar(32);
 DECLARE VARIABLE ICMS_DESTACADO DOUBLE PRECISION;
-DECLARE VARIABLE ICMS_DESTACADO_DESC VARCHAR(60);
+DECLARE VARIABLE ICMS_DESTACADO_DESC VARCHAR(150);
 DECLARE VARIABLE ICMS_DESTACADO_DESC2 VARCHAR(100); 
 DECLARE VARIABLE VlrStr varchar(32);
 DECLARE VARIABLE PIS DOUBLE PRECISION;
@@ -76,24 +76,7 @@ begin
   if (icms_destacado is null) then
     icms_destacado = 0;
 
-  --==============================================================--
-  --Preenchimento DADOS ADICIONAIS ICMS DESTACADO
-  if (icms_destacado > 0) then
-  begin
-    select * from FU_FORMATAR(:TOTAL_PROD, '########.##0,00')
-      into :VlrStr;
-
-    select * from FU_FORMATAR((:TOTAL_PROD * (:icms_destacado/100)), '########.##0,00')
-      into :PercStr;
-
-    if (icms_destacado > 0) then
-    begin
-      ICMS_DESTACADO_DESC = 'Base Calculo ICMS = ' || :VlrStr;
-      ICMS_DESTACADO_DESC2 = 'Aliquota = ' || cast(:icms_destacado as varchar(5)) || '% - Icms = ' || :PercStr;
-    end
-	UPDATE NOTAFISCAL SET  CORPONF5 = :ICMS_DESTACADO_DESC, CORPONF6 = :ICMS_DESTACADO_DESC2 where NUMNF = :NUMERO_NF;	
-  end
-  --==============================================================--
+  
 
     select v.codmovimento, v.NOTAFISCAL, v.SERIE, v.CODVENDA, v.prazo, n.NATUREZA, n.VALOR_FRETE, n.OUTRAS_DESP, n.VALOR_SEGURO, n.VALOR_DESCONTO from venda v
         inner join notafiscal n on n.CODVENDA = v.CODVENDA where n.NUMNF = :numero_nf and (n.NATUREZA = 12 or n.NATUREZA = 15 or n.NATUREZA = 16)
@@ -113,9 +96,30 @@ begin
     where md.CODMOVIMENTO = :cod
     into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD, :DESCONTO, :VSEGURO, :OUTRAS, :VFRETE, :PIS, :COFINS, :TOTII, :TOTBCII, :BCCOFINS, :BCIPI, :BCPIS, :VTOTTRIB;
     
+--==============================================================--
+  --Preenchimento DADOS ADICIONAIS ICMS DESTACADO
+ICMS_DESTACADO_DESC = 'Null';
+  if (icms_destacado > 0) then
+  begin
+    select * from FU_FORMATAR(:TOTBASEICMS, '########.##0,00')
+      into :VlrStr;
+
+    select * from FU_FORMATAR(:TOTICMS, '########.##0,00')
+      into :PercStr;
+
+    if (icms_destacado > 0) then
+    begin
+      ICMS_DESTACADO_DESC = 'Base Calc. ICMS=' || :VlrStr ||  ' Aliq.=' || cast(:icms_destacado as varchar(5)) || '% - Icms=' || :PercStr;
+      --ICMS_DESTACADO_DESC2 =
+    end
+	--UPDATE NOTAFISCAL SET  CORPONF5 = :ICMS_DESTACADO_DESC where NUMNF = :NUMERO_NF;	
+  end
+  --==============================================================--
+
+
 
     UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST , VALOR_ICMS_SUBST = :TOTST , VALOR_IPI = :TOTIPI, VALOR_ICMS = :TOTICMS , BASE_ICMS = :TOTBASEICMS ,
       VALOR_TOTAL_NOTA = :TOTPROD + :TOTST + :TOTIPI + :VSEGURO - :DESCONTO + :OUTRAS  + :VFRETE, VALOR_PIS = :PIS, VALOR_COFINS = :COFINS
-      , II = :TOTII, BCII = :TOTBCII, VALOR_PRODUTO = :TOTPROD, VALOR_DESCONTO = :DESCONTO, VLRTOT_TRIB = :VTOTTRIB
+      , II = :TOTII, BCII = :TOTBCII, VALOR_PRODUTO = :TOTPROD, VALOR_DESCONTO = :DESCONTO, VLRTOT_TRIB = :VTOTTRIB, CORPONF5 = :ICMS_DESTACADO_DESC
       where NUMNF = :numero_nf;
 end
