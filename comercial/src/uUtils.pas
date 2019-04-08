@@ -51,7 +51,7 @@ Type
 
 implementation
 
-uses UDm, ufDlgLogin, uAtsAdmin, md5;
+uses UDm, uAtsAdmin, ufDlgLogin, md5;
 
 { TUtils }
 
@@ -268,7 +268,11 @@ begin
   forma.Add('20-MASTER CRÉDITO');
   forma.Add('21-MASTER DÉBITO');
   forma.Add('22-DINERS');
-
+  forma.Add('23-CRÉDITO LOJA');
+  forma.Add('24-VALE ALIMENTAÇÃO');
+  forma.Add('25-VALE REFEIÇÃO');
+  forma.Add('26-VALE COMBUSTIVEL');
+  forma.Add('27-SEM PAGAMENTO');
   result := forma;
 end;
 
@@ -365,6 +369,18 @@ begin
 
   if (forma = '22-DINERS') then
     result := 'M';
+
+  // nfE 4.0
+  if (forma = '23-CRÉDITO LOJA') then
+    result := 'N';
+  if (forma = '24-VALE ALIMENTAÇÃO') then
+    result := 'O';
+  if (forma = '25-VALE REFEIÇÃO') then
+    result := 'P';
+  if (forma = '26-VALE COMBUSTIVEL') then
+    result := 'Q';
+  if (forma = '27-SEM PAGAMENTO') then
+    result := 'R';
 end;
 
 function TUtils.retornaForma(forma: String): Integer;
@@ -434,6 +450,19 @@ begin
 
   if (forma = 'M') then
      result := 21;
+  // NFE 4.0
+
+  if (forma = 'N') then
+     result := 22;
+  if (forma = 'O') then
+     result := 23;
+  if (forma = 'P') then
+     result := 24;
+  if (forma = 'Q') then
+     result := 25;
+  if (forma = 'R') then
+     result := 26;
+
 
 end;
 
