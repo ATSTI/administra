@@ -110,10 +110,10 @@ ActiveLang=
 ProjectLang=
 RootDir=C:\Arquivos de programas\Borland\Delphi7\Bin\
 [Version Info]
-IncludeVerInfo=0
+IncludeVerInfo=1
 AutoIncBuild=0
-MajorVer=1
-MinorVer=0
+MajorVer=2
+MinorVer=2
 Release=0
 Build=0
 Debug=0
@@ -124,15 +124,15 @@ DLL=0
 Locale=1046
 CodePage=1252
 [Version Info Keys]
-CompanyName=
-FileDescription=
-FileVersion=1.0.0.0
-InternalName=
-LegalCopyright=
+CompanyName=ATS ti Soluções
+FileDescription=MDFe ATSti
+FileVersion=2.2.0.0
+InternalName=MDFe_ATSti
+LegalCopyright=ATSti
 LegalTrademarks=
 OriginalFilename=
-ProductName=
-ProductVersion=1.0.0.0
+ProductName=MDFe - ATSti
+ProductVersion=2.2.0.0
 Comments=
 [Excluded Packages]
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\RLBoletoD7.bpl=RLBoleto (by Produsys Sistemas e Internet

@@ -11,7 +11,8 @@ uses IniFiles, ShellAPI,
   FMTBcd, DB, SqlExpr, Mask, JvExMask, JvToolEdit,
   JvBaseEdits, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbXpress,
   ACBrBase, ACBrDFe, ACBrMDFeDAMDFeRLClass, pmdfeConversaoMDFe, ACBrMail,
-  DBClient, Provider, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid;
+  DBClient, Provider, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
+  ACBrNFe;
 
 type
   TfACBrMDFe = class(TForm)
@@ -97,7 +98,6 @@ type
     Dados: TTabSheet;
     MemoDados: TMemo;
     OpenDialog1: TOpenDialog;
-    ACBrMDFe1: TACBrMDFe;
     rgVersaoDF: TRadioGroup;
     btnImprimirEvento: TButton;
     btnEnviarEventoEmail: TButton;
@@ -231,7 +231,6 @@ type
     edNumMdfe: TEdit;
     Label78: TLabel;
     dtaMdfe: TJvDatePickerEdit;
-    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     ACBrMail1: TACBrMail;
     TabSheet15: TTabSheet;
     GroupBox11: TGroupBox;
@@ -312,6 +311,59 @@ type
     BitBtn7: TBitBtn;
     BitBtn8: TBitBtn;
     BitBtn9: TBitBtn;
+    GroupBox15: TGroupBox;
+    edUFPercuso: TEdit;
+    edUFPercuso2: TEdit;
+    edUFPercuso3: TEdit;
+    edUFPercuso4: TEdit;
+    edUFPercuso5: TEdit;
+    edUFPercuso6: TEdit;
+    edPlacaMDFE: TEdit;
+    Label46: TLabel;
+    Label47: TLabel;
+    edLacreMDFE: TEdit;
+    edUnidCargaMDFE: TEdit;
+    lblidunid: TLabel;
+    Label59: TLabel;
+    edLacreCargaMDFE: TEdit;
+    Label60: TLabel;
+    edMunNfe: TEdit;
+    edxMunNfe: TEdit;
+    Label99: TLabel;
+    cdsMdfeDocsCD_IBGE: TIntegerField;
+    cdsMdfeDocsMUNICIPIO: TStringField;
+    ACBrNFe1: TACBrNFe;
+    ACBrMDFe1: TACBrMDFe;
+    sqlMDFEMun: TSQLDataSet;
+    dspMun: TDataSetProvider;
+    cdsMun: TClientDataSet;
+    cdsMunMUNICIPIO: TStringField;
+    cdsMunCD_IBGE: TIntegerField;
+    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
+    cbTipoEmit: TComboBox;
+    BitBtn10: TBitBtn;
+    cdsProc: TClientDataSet;
+    dsProc: TDataSource;
+    DataSetProvider1: TDataSetProvider;
+    Label106: TLabel;
+    cdsMdfeDocsTIPO_DOC: TIntegerField;
+    pnCity: TPanel;
+    BitBtn11: TBitBtn;
+    DBGrid1: TDBGrid;
+    edCnpjCpfContratante: TEdit;
+    Label107: TLabel;
+    Label100: TLabel;
+    cbSegResp: TComboBox;
+    Label104: TLabel;
+    edSegCNPJCPF: TEdit;
+    Label101: TLabel;
+    Label105: TLabel;
+    Label102: TLabel;
+    Label103: TLabel;
+    edSeguradora: TEdit;
+    edSegCnpj: TEdit;
+    edApolice: TEdit;
+    edAverba: TEdit;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -349,6 +401,9 @@ type
     procedure BitBtn7Click(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
+    procedure cbSegRespChange(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
@@ -370,6 +425,7 @@ type
     procedure LoadXML(MyMemo: TMemo; MyWebBrowser: TWebBrowser);
     procedure GerarMDFe(NumMDFe : String);
     procedure PreencherCampos;
+    procedure BuscaCidade;
   public
     modoAbertura: String;
     { Public declarations }
@@ -383,7 +439,7 @@ implementation
 uses
  FileCtrl, DateUtils,
  ufrmStatus,
- ACBrMDFeManifestos, udm, pmdfeMDFe;
+ ACBrMDFeManifestos, udm, pmdfeMDFe, pcnNFe, ufMunicipios;
 
 const
   SELDIRHELP = 1000;
@@ -420,6 +476,7 @@ begin
   Ini.WriteString( 'Geral','LogoMarca'    , edtLogoMarca.Text);
   Ini.WriteBool(   'Geral','Salvar'       , ckSalvar.Checked);
   Ini.WriteString( 'Geral','PathSalvar'   , edtPathLogs.Text);
+  Ini.WriteString( 'Geral','PathSchema'   , edtPathSchemas.Text);
   Ini.WriteInteger( 'Geral','VersaoDF'    , rgVersaoDF.ItemIndex);
 
   Ini.WriteString( 'WebService','UF'        , cbUF.Text);
@@ -494,7 +551,8 @@ begin
 
     rgFormaEmissao.ItemIndex := Ini.ReadInteger('Geral','FormaEmissao', 0);
     ckSalvar.Checked         := Ini.ReadBool(   'Geral','Salvar'      , True);
-    edtPathLogs.Text         := Ini.ReadString( 'Geral','PathSalvar'  , '');
+    edtPathLogs.Text         := Ini.ReadString( 'Geral','PathSalvar' , '');
+    edtPathSchemas.Text      := Ini.ReadString( 'Geral','PathSchema' , '');
 
     cbUF.ItemIndex       := cbUF.Items.IndexOf(Ini.ReadString('WebService','UF', 'SP'));
     rgTipoAmb.ItemIndex  := Ini.ReadInteger('WebService','Ambiente'  , 0);
@@ -573,12 +631,13 @@ begin
  // Configurações -> Geral
  ACBrMDFe1.Configuracoes.Geral.FormaEmissao := StrToTpEmis(OK,IntToStr(rgFormaEmissao.ItemIndex+1));
  //ACBrMDFe1.Configuracoes.Geral.PathSalvar   := PathMensal;
+ ACBrMDFe1.Configuracoes.Arquivos.PathSalvar :=  Trim(edtPathLogs.Text);
  ACBrMDFe1.Configuracoes.Geral.Salvar       := ckSalvar.Checked;
  case rgVersaoDF.ItemIndex of
   0: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100;
-  1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100a;
+  //1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100a;
+  1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve300;
  end;
-
  // Configurações -> WebServices
  ACBrMDFe1.Configuracoes.WebServices.AguardarConsultaRet      := 0;
  ACBrMDFe1.Configuracoes.WebServices.AjustaAguardaConsultaRet := False;
@@ -614,11 +673,16 @@ end;
 
 procedure TfACBrMDFe.GerarMDFe(NumMDFe: String);
 var qnf: integer;
+  cod_mun: integer;
+  tot_nf: integer;
+  tot_cte: integer;
 begin
   qnf := 0;
+  tot_nf := 0;
+  tot_cte := 0;
   case rgVersaoDF.ItemIndex of
     0: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100;
-    1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100a;
+    1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve300;
   end;
   if (edtEmitCodCidade.Text = '') then
   begin
@@ -639,7 +703,28 @@ begin
     end;
 
     // TMDFeTpEmitente = ( teTransportadora, teTranspCargaPropria );
-    Ide.tpEmit  := teTranspCargaPropria;
+    //teTransportadora, teTranspCargaPropria,
+    //                 teTranspCTeGlobalizado
+    if (cbTipoEmit.ItemIndex = 0) then
+      Ide.tpEmit  := teTranspCargaPropria;
+    if (cbTipoEmit.ItemIndex = 1) then
+    begin
+      Ide.tpEmit  := teTransportadora;
+      {
+      With Seg.Add do
+      begin
+         respSeg := rsEmitente;
+         xSeg    := edSeguradora.Text;
+         nApol   := edApolice.Text;
+         aver.Add.nAver := edAverba.Text;
+         if edSegCNPJCPF.Text <> '' then
+           CNPJCPF := edSegCNPJCPF.Text;
+         if edSegCNPJ.Text <> '' then
+           CNPJ := edSegCNPJ.Text;
+      end;}      
+    end;
+
+
     Ide.modelo  := '58';
     Ide.serie   := 1;
     Ide.nMDF    := StrToIntDef(NumMDFe, 0);
@@ -660,7 +745,38 @@ begin
       cMunCarrega := StrToInt(RemoveChar(edtMunCarregaIBGE.Text));//edtEmitCodCidade.Text));
       xMunCarrega := edtMunicipioCarrega.Text;//edtEmitCidade.Text;
     end;
-
+    if (edUFPercuso.Text <> '') then
+    begin
+      with Ide.infPercurso.Add do
+      begin
+        UFPer := edUFPercuso.Text;
+      end;
+      if (edUFPercuso2.Text <> '') then
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := edUFPercuso2.Text;
+        end;
+      if (edUFPercuso3.Text <> '') then
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := edUFPercuso3.Text;
+        end;
+      if (edUFPercuso4.Text <> '') then
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := edUFPercuso4.Text;
+        end;
+      if (edUFPercuso5.Text <> '') then
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := edUFPercuso5.Text;
+        end;
+      if (edUFPercuso6.Text <> '') then
+        with Ide.infPercurso.Add do
+        begin
+          UFPer := edUFPercuso6.Text;
+        end;
+    end;
     //
     // Dados do Emitente
     //
@@ -687,6 +803,7 @@ begin
 
     rodo.RNTRC := edRntrc.Text;
     rodo.CIOT  := edCIOT.Text;
+    rodo.infANTT.infContratante.Add.CNPJCPF := edCnpjCpfContratante.Text;
 
     rodo.veicTracao.cInt  := edCINT.Text;
     rodo.veicTracao.placa := edPlaca.Text;
@@ -756,16 +873,23 @@ begin
     end;
     }
 
-    with infDoc.infMunDescarga.Add do
+    with infDoc do
     begin
-      try
-        cMunDescarga := StrToInt(RemoveChar(edCodIbgeDescarga.Text));
-      except
-        MessageDlg('Faltando Cód. Cidade Descarga.', mtWarning, [mbOK], 0);
-        Exit;
-      end;
-      xMunDescarga := edMunicipioDescarga.Text;
-
+      if (cdsMun.Active) then
+        cdsMun.Close;
+      cdsMun.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+      cdsMun.Open;
+      if (cdsMun.IsEmpty) then
+      begin
+        with infMunDescarga.Add do
+        begin
+          try
+            cMunDescarga := StrToInt(RemoveChar(edCodIbgeDescarga.Text));
+          except
+            MessageDlg('Faltando Cód. Cidade Descarga.', mtWarning, [mbOK], 0);
+            Exit;
+          end;
+            xMunDescarga := edMunicipioDescarga.Text;
       if (edNFCnpj1.Text <> '') then
       begin
         qnf := qnf + 1;
@@ -850,55 +974,139 @@ begin
           //infNF.Add.infUnidTransp
         end;
       end;
-
-      if (cdsMdfeDocs.Active) then
-        cdsMdfeDocs.Close;
-      cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
-      cdsMdfeDocs.Open;
-      while not cdsMdfeDocs.Eof do
+      end;
+      end; // nao tem cdsMdfeDocs
+      cod_mun := 0;
+      while not cdsMun.Eof do
       begin
-        with infNFe.Add do
+        with infMunDescarga.Add do
         begin
-          chNFe := cdsMdfeDocsCHAVE_NFE.AsString;
-          // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
-          with infUnidTransp.Add do
+          cMunDescarga := cdsMunCD_IBGE.AsInteger;
+          xMunDescarga := cdsMunMUNICIPIO.AsString;
+          if (cdsMdfeDocs.Active) then
+            cdsMdfeDocs.Close;
+          cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+          cdsMdfeDocs.Params[1].AsInteger := cdsMunCD_IBGE.AsInteger;
+          cdsMdfeDocs.Open;
+          while not cdsMdfeDocs.Eof do
           begin
-            //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
-            case cbTransporte.ItemIndex of
-              0 : tpUnidTransp := utRodoTracao;
-              1 : tpUnidTransp := utRodoReboque;
-              2 : tpUnidTransp := utNavio;
-              3 : tpUnidTransp := utBalsa;
-              4 : tpUnidTransp := utAeronave;
-              5 : tpUnidTransp := utVagao;
-              6 : tpUnidTransp := utOutros;
-            end;
-            idUnidTransp := edPlaca.Text;
-            {with lacUnidTransp.Add do
+            if (cdsMdfeDocsTIPO_DOC.AsInteger = 2) then
             begin
-              nLacre := '123';
-            end;}
-            // Informações das Unidades de carga (Containeres/ULD/Outros)
-            with infUnidCarga.Add do
-            begin
-              // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
-              case rgTipoUnidCarga.ItemIndex of
-                0: tpUnidCarga := ucContainer;
-                1: tpUnidCarga := ucULD;
-                2: tpUnidCarga := ucPallet;
-                3: tpUnidCarga := ucOutros;
-              end;
-              idUnidCarga := edIdentUnidCarga.Text;
-              {with lacUnidCarga.Add do
+              if (cbTipoEmit.ItemIndex = 0) then
+                 MessageDlg('O Emitente não é Transportadora, CTe nao irá aparecer no MDFe.', mtWarning, [mbOK], 0);
+              tot_cte := tot_cte + 1;
+              with infCTe.Add do
               begin
-                 nLacre := '123';
-              end;}
-              qtdRat := 1.0;
+                chCTe := cdsMdfeDocsCHAVE_NFE.AsString;
+
+                with infUnidTransp.Add do
+                begin
+                  tpUnidTransp := utRodoTracao;
+                  idUnidTransp := edPlaca.Text;
+                  {
+                  with lacUnidTransp.Add do
+                  begin
+                    nLacre := edLacreMdfe.Text;
+                  end; }
+                  with infUnidCarga.Add do
+                  begin
+                    // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+                    case rgTipoUnidCarga.ItemIndex of
+                      0: tpUnidCarga := ucContainer;
+                      1: tpUnidCarga := ucULD;
+                      2: tpUnidCarga := ucPallet;
+                      3: tpUnidCarga := ucOutros;
+                    end;
+                    idUnidCarga  := edIdentUnidCarga.Text;
+                    qtdRat := 1.0;
+                  end;
+                  //idUnidCarga
+                  if (edLacreCargaMDFE.Text <> '') then
+                  begin
+                    {
+                    with lacUnidCarga.Add do
+                    begin
+                       nLacre := '123';
+                    end;}
+                    with lacres.Add do
+                    begin
+                      nLacre := edLacreCargaMDFE.Text;
+                    end;
+                  end;
+                  qtdRat := 1.0;
+                end;
+
+              end;
             end;
-            qtdRat := 1.0;
+            if (cdsMdfeDocsTIPO_DOC.AsInteger = 0) then
+            begin
+              tot_nf := tot_nf + 1;
+              with infNFe.Add do
+              begin
+                chNFe := cdsMdfeDocsCHAVE_NFE.AsString;
+                // Informações das Unidades de Transporte (Carreta/Reboque/Vagão)
+                with infUnidTransp.Add do
+                begin
+                  //TpcnUnidTransp = ( utRodoTracao, utRodoReboque, utNavio, utBalsa, utAeronave, utVagao, utOutros );
+                  case cbTransporte.ItemIndex of
+                    0 : tpUnidTransp := utRodoTracao;
+                    1 : tpUnidTransp := utRodoReboque;
+                    2 : tpUnidTransp := utNavio;
+                    3 : tpUnidTransp := utBalsa;
+                    4 : tpUnidTransp := utAeronave;
+                    5 : tpUnidTransp := utVagao;
+                    6 : tpUnidTransp := utOutros;
+                  end;
+                  idUnidTransp := edPlaca.Text;
+                  {with lacUnidTransp.Add do
+                  begin
+                    nLacre := '123';
+                  end;}
+                  // Informações das Unidades de carga (Containeres/ULD/Outros)
+                  with infUnidCarga.Add do
+                  begin
+                    // TpcnUnidCarga  = ( ucContainer, ucULD, ucPallet, ucOutros );
+                    case rgTipoUnidCarga.ItemIndex of
+                      0: tpUnidCarga := ucContainer;
+                      1: tpUnidCarga := ucULD;
+                      2: tpUnidCarga := ucPallet;
+                      3: tpUnidCarga := ucOutros;
+                    end;
+                    idUnidCarga := edIdentUnidCarga.Text;
+                    {with lacUnidCarga.Add do
+                    begin
+                       nLacre := '123';
+                    end;}
+                    qtdRat := 1.0;
+                  end;
+                  qtdRat := 1.0;
+                end;
+              end; // fim do with NFe1
+
+            end;
+            cdsMdfeDocs.Next;
+          end;// fim while mdfeDocs
+        end; // fim with municipio
+        cdsMun.Next;
+      end;
+      if (edSeguradora.Text <> '') then
+      begin
+        with seg.Add do
+        begin
+          if cbSegResp.ItemIndex = 0 then
+            respSeg := rsEmitente
+          else
+            respSeg := rsTomadorServico;
+          xSeg := edSeguradora.Text;
+          CNPJ := edSegCnpj.Text;
+          if edSegCNPJCPF.Text <> '' then
+            CNPJCPF := edSegCNPJCPF.Text;
+          nApol := edApolice.Text;
+          With aver.Add do
+          begin
+            nAver := edAverba.Text;
           end;
-        end; // fim do with NFe1
-        cdsMdfeDocs.Next;
+        end;
       end;
       {
       if (edNFe2.Text <> '') then
@@ -1140,18 +1348,22 @@ begin
         end; // fim do with NFe7
       end;}
     end;
-    tot.qNFe := StrToInt(edQtdeNF.Text);
+    if (tot_cte > 0) then
+      tot.qCTe := tot_cte;
+    if (tot_nf > 0) then
+      tot.qNFe := tot_nf;
+
     if (qNf > 0) then
       tot.qNF := qNF;
     tot.vCarga := edValorTotal.Value;
     // UnidMed = (,uKG, uTON, uUNIDADE, uLITROS);
     case cbUnidade.ItemIndex of
-      0: tot.cUnid := uM3;
-      1: tot.cUnid := uKG;
-      2: tot.cUnid := uTON;
-      3: tot.cUnid := uUNIDADE;
-      4: tot.cUnid := uLITROS;
-      5: tot.cUnid := uMMBTU;
+      //0: tot.cUnid := uM3;
+      0: tot.cUnid := uKG;
+      1: tot.cUnid := uTON;
+      //3: tot.cUnid := uUNIDADE;
+      //4: tot.cUnid := uLITROS;
+      //5: tot.cUnid := uMMBTU;
     end;
 
     tot.qCarga := edPesoBruto.Value;
@@ -1220,7 +1432,7 @@ end;
 procedure TfACBrMDFe.btnSalvarConfigClick(Sender: TObject);
 begin
  GravarConfiguracao;
- gravarMDFe;
+ //gravarMDFe;
  LerConfiguracao;
 end;
 
@@ -1330,7 +1542,8 @@ begin
 
   ACBrMDFe1.Manifestos.Clear;
   GerarMDFe(vAux);
-  ACBrMDFe1.Manifestos.Items[0].GravarXML(edNumMdfe.Text, edtPathLogs.Text);
+  //ACBrMDFe1.Manifestos.Items[0].GravarXML(edNumMdfe.Text, edtPathLogs.Text);
+  ACBrMDFe1.Manifestos.Items[0].GravarXML('', '');
 
   ShowMessage('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
   MemoDados.Lines.Add('Arquivo gerado em: '+ACBrMDFe1.Manifestos.Items[0].NomeArq);
@@ -1352,6 +1565,7 @@ begin
   begin
    ACBrMDFe1.Manifestos.Clear;
    ACBrMDFe1.Manifestos.LoadFromFile(OpenDialog1.FileName);
+   ACBrMDFe1.Manifestos.Assinar;
    ACBrMDFe1.Manifestos.Validar;
    showmessage('Manifesto Eletrônico de Documentos Fiscais Valido');
   end;
@@ -1741,6 +1955,7 @@ procedure TfACBrMDFe.gravarMDFe;
 var strInsere: String;
   td: TTransactionDesc;
 begin
+  //edPlaca.Text
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   if (modoAbertura = 'EDITAR') then
@@ -1771,7 +1986,7 @@ begin
       ' FORMA_EMISSAO, VERSAO_APLICATIVO, ' +
       ' UF_CARREGAMENTO, UF_DESCARREGAMENTO, ' +
       ' COD_MUNICIPIO_CARREG, MUNICIPO_CARREG, ' +
-      ' UF_PERCURSO, COD_MUNICIPIO_DESCARREG, ' +
+      ' COD_MUNICIPIO_DESCARREG, ' +
       ' MUNICIPO_DESCARREG, CHAVE_NFE1, CHAVE_NFE2, ' +
       ' CHAVE_NFE3, CHAVE_NFE4, CHAVE_NFE5, ' +
       ' CHAVE_NFE6, CHAVE_NFE7, ' +
@@ -1788,8 +2003,13 @@ begin
       ' CHAVE_MDFE, NF1_CNPJ, NF1_NUM, NF1_SERIE, NF1_UF, NF1_PIN, NF1_VALOR' +
       ' ,NF2_CNPJ, NF2_NUM, NF2_SERIE, NF2_UF, NF2_PIN, NF2_VALOR' +
       ' ,NF3_CNPJ, NF3_NUM, NF3_SERIE, NF3_UF, NF3_PIN, NF3_VALOR' +
-      ') VALUES ( ';
+      ' ,UF_PERCURSO ,UF_PERCURSO2 ,UF_PERCURSO3 ,UF_PERCURSO4 '+
+      ' ,UF_PERCURSO5 ,UF_PERCURSO6 , TIPO_EMITENTE' +
+      ' ,SEG_RESP ' +
+      ' ,SEG_CNPJ_EMITENTE, SEG_SEGURADORA, SEG_CNPJ_SEGURADORA' +
+      ' ,SEG_APOLICE, SEG_AVERBA ' +
 
+      ') VALUES ( ';
       //' PESO_VOLUME3, PESO_VOLUME4, PESO_VOLUME5, ' +
       //' PESO_VOLUME6, PESO_VOLUME7, ' +
 
@@ -1808,8 +2028,9 @@ begin
     strInsere := strInsere + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy hh:MM', now));
     strInsere := strInsere + ', 1,' + QuotedStr('1.01'); //TpcnTipoEmissao = (1-teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
     strInsere := strInsere + ', ' + QuotedStr(edtEmitUF.Text) + ', ' +  QuotedStr(edUFDescarga.Text);
-    strInsere := strInsere + ', ' + QuotedStr(edtEmitCodCidade.Text) + ', ' + QuotedStr(edtEmitCidade.Text);
-    strInsere := strInsere + ', ' + QuotedStr('') + ', ' + RemoveChar(edCodIbgeDescarga.Text);
+    //strInsere := strInsere + ', ' + QuotedStr(edtEmitCodCidade.Text) + ', ' + QuotedStr(edtEmitCidade.Text);
+    strInsere := strInsere + ', ' + QuotedStr(edtMunCarregaIBGE.Text) + ', ' + QuotedStr(edtMunicipioCarrega.Text);
+    strInsere := strInsere + ', ' + RemoveChar(edCodIbgeDescarga.Text);
     strInsere := strInsere + ', ' + QuotedStr(edMunicipioDescarga.Text) + ', ' + QuotedStr(edNFe1.Text);
     strInsere := strInsere + ', Null'; //editParaSql('S',edNFe2.Text);
     strInsere := strInsere + ', Null'; // + editParaSql('S',edNFe3.Text);
@@ -1985,6 +2206,61 @@ begin
     else begin
       strInsere := strInsere + ', null, null, null, null, null, null'
     end;
+    if (edUFPercuso.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso.Text)
+    else
+      strInsere := strInsere + ', null';
+    if (edUFPercuso2.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso2.Text)
+    else
+      strInsere := strInsere + ', null';
+    if (edUFPercuso3.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso3.Text)
+    else
+      strInsere := strInsere + ', null';
+    if (edUFPercuso4.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso4.Text)
+    else
+      strInsere := strInsere + ', null';
+    if (edUFPercuso5.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso5.Text)
+    else
+      strInsere := strInsere + ', null';
+    if (edUFPercuso6.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edUFPercuso6.Text)
+    else
+      strInsere := strInsere + ', null';
+
+    strInsere := strInsere + ', ' + IntToStr(cbTipoEmit.ItemIndex);
+
+    //    ' ,a.SEG_RESP, a.SEG_CNPJ_EMITENTE, a.SEG_SEGURADORA, a.SEG_CNPJ_SEGURADORA' +
+    //' ,a.SEG_APOLICE, a.SEG_AVERBA ' +
+
+    if (cbSegResp.ItemIndex > -1) then
+      strInsere := strInsere + ', ' + IntToStr(cbSegResp.ItemIndex)
+    else
+      strInsere := strInsere + ', 99';
+    if (edSegCNPJCPF.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edSegCNPJCPF.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edSeguradora.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edSeguradora.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edSegCNPJ.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edSegCNPJ.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edApolice.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edApolice.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edAverba.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edAverba.Text)
+    else
+      strInsere := strInsere + ', NULL';
+
 
     {rodo.veicTracao.tpRod := trTruck; //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
     rodo.veicTracao.tpCar := tcNaoAplicavel; // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
@@ -2155,27 +2431,54 @@ begin
     else edNFPin3.Text := IntToStr(dm.cds.FieldByName('NF3_PIN').AsInteger);
 
     edNFValor3.Value := dm.cds.FieldByName('NF3_VALOR').AsFloat;
+    edUFPercuso.Text := dm.cds.FieldByName('UF_PERCURSO').AsString;
+    edUFPercuso2.Text := dm.cds.FieldByName('UF_PERCURSO2').AsString;
+    edUFPercuso3.Text := dm.cds.FieldByName('UF_PERCURSO3').AsString;
+    edUFPercuso4.Text := dm.cds.FieldByName('UF_PERCURSO4').AsString;
+    edUFPercuso5.Text := dm.cds.FieldByName('UF_PERCURSO5').AsString;
+    edUFPercuso6.Text := dm.cds.FieldByName('UF_PERCURSO6').AsString;
+    // Seguro
+    if dm.cds.FieldByName('SEG_RESP').AsInteger < 99 then
+      cbSegResp.ItemIndex := dm.cds.FieldByName('SEG_RESP').AsInteger;
+    edSegCNPJCPF.Text := dm.cds.FieldByName('SEG_CNPJ_EMITENTE').AsString;
+    edSeguradora.Text := dm.cds.FieldByName('SEG_SEGURADORA').AsString;
+    edSegCnpj.Text := dm.cds.FieldByName('SEG_CNPJ_SEGURADORA').AsString;
+    edApolice.Text := dm.cds.FieldByName('SEG_APOLICE').AsString;
+    edAverba.Text := dm.cds.FieldByName('SEG_AVERBA').AsString;
+
+    cbTipoEmit.ItemIndex := dm.cds.FieldByName('TIPO_EMITENTE').AsInteger;
+    if (cdsMun.Active) then
+      cdsMun.Close;
+    cdsMun.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+    cdsMun.Open;
+
     if (cdsMdfeDocs.Active) then
       cdsMdfeDocs.Close;
     cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+    cdsMdfeDocs.Params[1].AsInteger := 0;
     cdsMdfeDocs.Open;
     if (cdsMdfeDocs.RecNo > 0) then
     begin
       edNFe1.Text := cdsMdfeDocsCHAVE_NFE.AsString;
       edPesoVol1.Value := cdsMdfeDocsPESO_VOLUME.Value;
       edValorNFe1.Value := cdsMdfeDocsVALOR_NF.Value;
+      rgOrigemNFe.ItemIndex := cdsMdfeDocsTIPO_DOC.AsInteger;
+      edMunNfe.Text := IntToStr(cdsMdfeDocsCD_IBGE.AsInteger);
+      edxMunNfe.Text := cdsMdfeDocsMUNICIPIO.AsString;
     end;
   end;
   if (modoAbertura = 'NOVO') then
   begin
     edNumMdfe.Text := '';
     dtaMdfe.Date   := now;
-    edtEmitUF.Text := '';
+    //edtEmitUF.Text := '';
     edUFDescarga.Text := '';
-    edtEmitCodCidade.Text := '';
-    edtEmitCidade.Text := '';
+    //edtEmitCodCidade.Text := '';
+    //edtEmitCidade.Text := '';
     edCodIbgeDescarga.Text := '';
     edMunicipioDescarga.Text := '';
+    edMunNfe.Text := '';
+    edxMunNfe.Text := '';
     edNFe1.Text := '';
     {edNFe2.Text := '';
     edNFe3.Text := '';
@@ -2241,6 +2544,7 @@ begin
 
   end;
   ACBrMDFe1.Configuracoes.Arquivos.PathSalvar := edtPathLogs.Text;
+  ACBrMDFe1.Configuracoes.Arquivos.PathSchemas := edtPathSchemas.Text;
   if Length(edtPathSchemas.Text) <= 0
     then Dir := ExtractFileDir(application.ExeName)
     else Dir := edtPathSchemas.Text;
@@ -2409,13 +2713,61 @@ begin
        ', CHAVE_NFE VARCHAR(60)' +
        ', PESO_VOLUME DOUBLE PRECISION ' +
        ', VALOR_NF DOUBLE PRECISION ' +
-       ', PRIMARY KEY MDFE, CHAVE_NFE ' +
+       ', PRIMARY KEY (MDFE, CHAVE_NFE) ' +
        ')');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    //MessageDlg('Erro pra criar a tabela MDF_DOCS', mtError, [mbOK], 0);
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  // Protocolo Cancelamento
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD UF_PERCURSO2 CHAR(2)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD UF_PERCURSO3 CHAR(2)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD UF_PERCURSO4 CHAR(2)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD UF_PERCURSO5 CHAR(2)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD UF_PERCURSO6 CHAR(2)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE_DOCS ADD CD_IBGE INTEGER');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE_DOCS ADD MUNICIPIO VARCHAR(50)');    
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD TIPO_EMITENTE INTEGER');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE_DOCS ADD TIPO_DOC Integer');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_RESP INTEGER');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_CNPJ_EMITENTE VARCHAR(20)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_SEGURADORA VARCHAR(100)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_CNPJ_SEGURADORA VARCHAR(20)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_APOLICE VARCHAR(60)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD SEG_AVERBA VARCHAR(60)');        
     dm.sc.Commit(TD); {on success, commit the changes};
   except
     dm.sc.Rollback(TD); {on failure, undo the changes};
   end;
 
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD CNPJ_CONTRATANTE VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
@@ -2474,6 +2826,7 @@ end;
 
 procedure TfACBrMDFe.BitBtn4Click(Sender: TObject);
 begin
+  {
   if (edtMunicipioCarrega.Text <> '') then
   begin
     if (sqlProc.Active) then
@@ -2492,7 +2845,13 @@ begin
     else begin
       MessageDlg('Cidade não localizada.', mtWarning, [mbOK], 0);
     end;
-  end;
+  end;  }
+  if edxMunNfe.Text <> '' then
+    fBuscaMun.edMun.Text := edtMunicipioCarrega.Text;
+  fBuscaMun.ShowModal;
+  edtMunicipioCarrega.Text := fBuscaMun.varMun;
+  edtMunCarregaIBGE.Text := fBuscaMun.varIBGE;
+  edtUFCarregamento.Text := fBuscaMun.varUF;
 end;
 
 procedure TfACBrMDFe.BitBtn5Click(Sender: TObject);
@@ -2501,19 +2860,24 @@ var
 begin
   //if (modoAbertura = 'NOVO') then
   //  gravarMDFe();
-  if (rgOrigemNFe.ItemIndex = 0) then
+  if ((rgOrigemNFe.ItemIndex = 0) or (rgOrigemNFe.ItemIndex = 2)) then
   begin
     if (sqlProcNfe.Active) then
       sqlProcNfe.Close;
     sqlProcNFe.SQL.Clear;
-    sqlProcNfe.SQL.Add('SELECT NOMEXML, VALOR_TOTAL_NOTA, PESOBRUTO FROM NOTAFISCAL ' +
-      ' WHERE NOTASERIE = ' + QuotedStr(edNfe1.Text));
+    sqlProcNfe.SQL.Add('SELECT NF.NOMEXML, NF.VALOR_TOTAL_NOTA, NF.PESOBRUTO, EC.CD_IBGE ' +
+      ' , EC.CIDADE ' +
+      ' FROM NOTAFISCAL NF ' +
+      ' LEFT OUTER JOIN ENDERECOCLIENTE EC on EC.CODCLIENTE = NF.CODCLIENTE ' +
+      ' WHERE NF.NOTASERIE = ' + QuotedStr(edNfe1.Text));
     sqlProcNFe.Open;
     if (not sqlProcNFe.IsEmpty) then
     begin
       edNFe1.Text := Copy(sqlProcNfe.fieldByName('NOMEXML').AsString,0,44);
       edPesoVol1.Value := sqlProcNfe.fieldByName('PESOBRUTO').AsFloat;
       edValorNFe1.Value := sqlProcNfe.fieldByName('VALOR_TOTAL_NOTA').AsFloat;
+      edMunNfe.Text := RemoveChar(sqlProcNfe.fieldByName('CD_IBGE').AsString);
+      edxMunNfe.Text := sqlProcNfe.fieldByName('CIDADE').AsString;
     end;
   end;
   if (edNFe1.Text = '') then
@@ -2525,6 +2889,33 @@ begin
     if OpenDialog2.Execute then
     begin
       edNFe1.Text := Copy(ExtractFileName(OpenDialog2.FileName),0,44);
+      ACBrNFe1.NotasFiscais.Clear;
+      ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog2.FileName);
+      With ACBrNFe1.NotasFiscais.Items[0].NFe do
+      begin
+         if Length(infNFe.ID) > 44 then
+           edNFe1.Text := Copy(infNFe.ID,4,44)
+         else
+           edNFe1.Text := infNFe.ID;
+         edPesoVol1.Value := Transp.Vol.Items[0].pesoB;
+         edValorNFe1.Value := Total.ICMSTot.vNF;
+         edMunNfe.Text := IntToStr(Dest.EnderDest.cMun);
+         edxMunNfe.Text := Dest.EnderDest.xMun;
+         {
+         if (sqlProc.Active) then
+           sqlProc.Close;
+         sqlProc.SQL.Clear;
+         sqlProc.SQL.Add('select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO ' +
+           ' from TB_IBGE where NM_MUNICIPIO = ' +
+           QuotedStr(Dest.EnderDest.xMun) +
+           ' and CD_UF = ' + QuotedStr(Dest.EnderDest.UF));
+         sqlProc.Open;
+         if (not sqlProc.IsEmpty) then
+         begin
+           edMunNfe.Text := sqlProcCD_IBGE.AsString;
+           edxMunNfe.Text := Dest.EnderDest.xMun;
+         end; }
+      end;
     end;
   end;
   if ((edNFe1.Text = '') or (Length(edNFe1.Text) > 8)) then
@@ -2532,11 +2923,16 @@ begin
     if (sqlProcNFe.Active) then
       sqlProcNFe.Close;
     sqlProcNFe.SQL.Clear;
-    sqlProcNfe.SQL.Add('SELECT CHAVE_NFE FROM MDFE_DOCS WHERE CHAVE_NFE = ' +
+    sqlProcNfe.SQL.Add('SELECT CHAVE_NFE, MDFE FROM MDFE_DOCS WHERE CHAVE_NFE = ' +
       QuotedStr(edNFe1.Text));
     sqlProcNFe.Open;
     if (not sqlProcNfe.IsEmpty) then
     begin
+      if (sqlProcNfe.fieldByName('MDFE').AsInteger <> StrToInt(edNumMdfe.Text)) then
+      begin
+        MessageDlg('Já existe esta NFe em outra MDFE.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
       dm.sc.StartTransaction(TD);
@@ -2545,11 +2941,20 @@ begin
         dm.sc.ExecuteDirect('UPDATE MDFE_DOCS SET ' +
           ' PESO_VOLUME = ' + FloatToStr(edPesoVol1.Value) +
           ' ,VALOR_NF = ' + FloatToStr(edValorNFe1.Value) +
+          ' ,CD_IBGE = ' + RemoveChar(edMunNfe.Text) +
+          ' ,MUNICIPIO = ' + QuotedStr(edxMunNfe.Text) +
+          ' ,TIPO_DOC = ' + IntToStr(rgOrigemNFe.ItemIndex) + 
           ' WHERE CHAVE_NFE = ' + QuotedStr(edNFe1.Text));
         dm.sc.Commit(TD); {on success, commit the changes};
+        if (cdsMun.Active) then
+          cdsMun.Close;
+        cdsMun.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+        cdsMun.Open;
+
         if (cdsMdfeDocs.Active) then
           cdsMdfeDocs.Close;
         cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+        cdsMdfeDocs.Params[1].AsInteger := 0;
         cdsMdfeDocs.Open;
         DecimalSeparator := ',';
       except
@@ -2567,12 +2972,21 @@ begin
       TD.IsolationLevel := xilREADCOMMITTED;
       dm.sc.StartTransaction(TD);
       try
+        if ((edMunNfe.Text = '') or (edxMunNfe.Text = '')) then
+        begin
+           MessageDlg('Informe o Código IBGE do Mun./Nome Municipio.', mtWarning, [mbOK], 0);
+           exit;
+        end;
         DecimalSeparator := '.';
         dm.sc.ExecuteDirect('INSERT INTO MDFE_DOCS (MDFE, CHAVE_NFE, PESO_VOLUME, ' +
-          'VALOR_NF) VALUES (' +
+          'VALOR_NF, CD_IBGE, MUNICIPIO, TIPO_DOC) VALUES (' +
           edNumMdfe.Text + ', ' + QuotedStr(edNFe1.Text) +
           ', ' + FloatToStr(edPesoVol1.Value) +
-          ', ' + FloatToStr(edValorNFe1.Value) + ')');
+          ', ' + FloatToStr(edValorNFe1.Value) +
+          ', ' + RemoveChar(edMunNfe.Text) +
+          ', ' + QuotedStr(edxMunNfe.Text) +
+          ', ' + IntToStr(rgOrigemNFe.ItemIndex) + 
+          ')');
         //             MDFE WHERE COD_MDFE = ' + IntToStr(codMdfe) +
 
         dm.sc.Commit(TD); {on success, commit the changes};
@@ -2588,9 +3002,15 @@ begin
       end;
     end;
   end;
+  if (cdsMun.Active) then
+    cdsMun.Close;
+  cdsMun.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+  cdsMun.Open;
+
   if (cdsMdfeDocs.Active) then
     cdsMdfeDocs.Close;
   cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+  cdsMdfeDocs.Params[1].AsInteger := 0;
   cdsMdfeDocs.Open;
   cdsMdfeDocs.DisableControls;
   edValorTotal.Value := 0;
@@ -2617,9 +3037,11 @@ begin
         ' WHERE MDFE = ' + IntToStr(cdsMdfeDocsMDFE.AsInteger) +
         '   AND CHAVE_NFE = ' + QuotedStr(cdsMdfeDocsCHAVE_NFE.AsString));
       dm.sc.Commit(TD); {on success, commit the changes};
+
       if (cdsMdfeDocs.Active) then
         cdsMdfeDocs.Close;
       cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+      cdsMdfeDocs.Params[1].AsInteger := 0;
       cdsMdfeDocs.Open;
     except
       on E : Exception do
@@ -2632,6 +3054,7 @@ begin
     if (cdsMdfeDocs.Active) then
       cdsMdfeDocs.Close;
     cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
+    cdsMdfeDocs.Params[1].AsInteger := 0;
     cdsMdfeDocs.Open;
     cdsMdfeDocs.DisableControls;
     edValorTotal.Value := 0;
@@ -2652,6 +3075,8 @@ begin
   edNFe1.Text := cdsMdfeDocsCHAVE_NFE.AsString;
   edPesoVol1.Value := cdsMdfeDocsPESO_VOLUME.Value;
   edValorNFe1.Value := cdsMdfeDocsVALOR_NF.Value;
+  edMunNfe.Text := IntToStr(cdsMdfeDocsCD_IBGE.AsInteger);
+  edxMunNfe.Text := cdsMdfeDocsMUNICIPIO.AsString;
 end;
 
 procedure TfACBrMDFe.BitBtn7Click(Sender: TObject);
@@ -2659,10 +3084,12 @@ begin
   edNFe1.Text := '';
   edPesoVol1.Text := '';
   edValorNFe1.Text := '';
+  edNFe1.SetFocus;
 end;
 
 procedure TfACBrMDFe.BitBtn8Click(Sender: TObject);
 begin
+  {
   if (edMunicipioDescarga.Text <> '') then
   begin
     if (sqlProc.Active) then
@@ -2682,11 +3109,66 @@ begin
       MessageDlg('Cidade não localizada.', mtWarning, [mbOK], 0);
     end;
   end;
+  }
+  if edxMunNfe.Text <> '' then
+    fBuscaMun.edMun.Text := edMunicipioDescarga.Text;
+  fBuscaMun.ShowModal;
+  edMunicipioDescarga.Text := fBuscaMun.varMun;
+  edCodIbgeDescarga.Text := fBuscaMun.varIBGE;
+  edUFDescarga.Text := fBuscaMun.varUF;
 end;
 
 procedure TfACBrMDFe.BitBtn9Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfACBrMDFe.BitBtn10Click(Sender: TObject);
+begin
+  {
+  if (edxMunNfe.Text <> '') then
+  begin
+    if (sqlProc.Active) then
+      sqlProc.Close;
+    sqlProc.SQL.Clear;
+    sqlProc.SQL.Add('select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO ' +
+      ' from TB_IBGE where NM_MUNICIPIO LIKE ' +
+      QuotedStr('%' + edxMunNfe.Text + '%'));
+    sqlProc.Open;
+    if (not sqlProc.IsEmpty) then
+    begin
+      edxMunNfe.Text := sqlProcNM_MUNICIPIO.AsString;
+      edMunNfe.text := sqlProcCD_IBGE.AsString;
+    end
+    else begin
+      MessageDlg('Cidade não localizada.', mtWarning, [mbOK], 0);
+    end;
+  end;    }
+  if edxMunNfe.Text <> '' then
+    fBuscaMun.edMun.Text := edxMunNfe.Text;
+  fBuscaMun.ShowModal;
+  edxMunNfe.Text := fBuscaMun.varMun;
+  edMunNfe.Text := fBuscaMun.varIBGE;
+end;
+
+procedure TfACBrMDFe.BitBtn11Click(Sender: TObject);
+begin
+  pnCity.Visible := False;
+end;
+
+procedure TfACBrMDFe.BuscaCidade;
+begin
+  //DBGrid1.Columns.Add := 'CD_IBGE';
+  pnCity.Visible := True;
+end;
+
+procedure TfACBrMDFe.cbSegRespChange(Sender: TObject);
+begin
+
+  if (cbSegResp.ItemIndex = 0) then
+  begin
+    edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
+  end;
 end;
 
 end.

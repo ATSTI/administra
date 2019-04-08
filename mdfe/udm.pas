@@ -113,11 +113,25 @@ type
     cdsNF3_VALOR: TFloatField;
     cdsPROTOCOLOENC: TStringField;
     cdsPROTOCOLOCAN: TStringField;
+    cdsUF_PERCURSO2: TStringField;
+    cdsUF_PERCURSO3: TStringField;
+    cdsUF_PERCURSO4: TStringField;
+    cdsUF_PERCURSO5: TStringField;
+    cdsUF_PERCURSO6: TStringField;
+    cdsTIPO_EMITENTE: TIntegerField;
+    cdsSEG_RESP: TIntegerField;
+    cdsSEG_CNPJ_EMITENTE: TStringField;
+    cdsSEG_SEGURADORA: TStringField;
+    cdsSEG_CNPJ_SEGURADORA: TStringField;
+    cdsSEG_APOLICE: TStringField;
+    cdsSEG_AVERBA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    varLogado: String;
+    NomeComputador: String;
   end;
 
 var

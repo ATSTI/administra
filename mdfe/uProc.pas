@@ -9,7 +9,7 @@ uses
   Mask, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit;
 
-type
+type                                  
   TfProc = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
@@ -24,11 +24,14 @@ type
     dtaProcura: TJvDatePickerEdit;
     dtaProcura2: TJvDatePickerEdit;
     cbPeriodo: TCheckBox;
+    Label1: TLabel;
+    BitBtn5: TBitBtn;
     procedure BitBtn4Click(Sender: TObject);
     procedure JvDBUltimGrid1TitleClick(Column: TColumn);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -87,6 +90,10 @@ begin
     ' ,a.NF2_CNPJ,a.NF2_NUM, a.NF2_SERIE, a.NF2_UF, a.NF2_PIN, a.NF2_VALOR' +
     ' ,a.NF3_CNPJ,a.NF3_NUM, a.NF3_SERIE, a.NF3_UF, a.NF3_PIN, a.NF3_VALOR' +
     ' ,a.PROTOCOLOENC, a.PROTOCOLOCAN ' +
+    ' ,a.UF_PERCURSO, a.UF_PERCURSO2, a.UF_PERCURSO3, a.UF_PERCURSO4 ' +
+    ' ,a.UF_PERCURSO5, a.UF_PERCURSO6, a.TIPO_EMITENTE' +
+    ' ,a.SEG_RESP, a.SEG_CNPJ_EMITENTE, a.SEG_SEGURADORA, a.SEG_CNPJ_SEGURADORA' +
+    ' ,a.SEG_APOLICE, a.SEG_AVERBA ' +
     ' FROM MDFE a ';
 
   if (cbPeriodo.Checked) then
@@ -120,6 +127,24 @@ end;
 procedure TfProc.BitBtn3Click(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfProc.BitBtn5Click(Sender: TObject);
+begin
+  if not dm.cds.Active then
+  begin
+    MessageDlg('Selecione a MDFe a ser duplicada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  try
+    dm.sc.ExecuteDirect('EXECUTE PROCEDURE MDFE_DUPLICA(' + IntToStr(
+      dm.cdsCOD_MDFE.AsInteger) + ')');
+    MessageDlg('MDFe duplicada com sucesso.', mtWarning, [mbOK], 0);
+  except
+    MessageDlg('Erro, MDFe não foi duplicada.', mtWarning, [mbOK], 0);
+  end;
+  dm.cds.Close;
+  dm.cds.Open;
 end;
 
 end.

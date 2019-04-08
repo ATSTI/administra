@@ -3,7 +3,7 @@ object fACBrMDFe: TfACBrMDFe
   Top = 137
   Width = 1031
   Height = 568
-  Caption = 'ATS - ACBrMDFe 2.0'
+  Caption = 'ATS - ACBrMDFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -49,7 +49,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 15
         Width = 377
         Height = 479
-        ActivePage = TabSheet4
+        ActivePage = TabSheet12
         Align = alClient
         MultiLine = True
         Style = tsButtons
@@ -72,7 +72,7 @@ object fACBrMDFe: TfACBrMDFe
               Caption = 'CNPJ'
             end
             object Label13: TLabel
-              Left = 136
+              Left = 104
               Top = 14
               Width = 41
               Height = 13
@@ -155,17 +155,24 @@ object fACBrMDFe: TfACBrMDFe
               Height = 13
               Caption = 'UF'
             end
+            object Label106: TLabel
+              Left = 198
+              Top = 15
+              Width = 41
+              Height = 13
+              Caption = 'Emitente'
+            end
             object edtEmitIE: TEdit
-              Left = 137
+              Left = 105
               Top = 30
-              Width = 123
+              Width = 88
               Height = 21
               TabOrder = 0
             end
             object edtEmitCNPJ: TEdit
               Left = 8
               Top = 30
-              Width = 123
+              Width = 97
               Height = 21
               TabOrder = 1
             end
@@ -260,6 +267,19 @@ object fACBrMDFe: TfACBrMDFe
               TabOrder = 13
               OnClick = BitBtn3Click
             end
+            object cbTipoEmit: TComboBox
+              Left = 196
+              Top = 30
+              Width = 112
+              Height = 21
+              ItemHeight = 13
+              ItemIndex = 0
+              TabOrder = 14
+              Text = 'Carga Propria'
+              Items.Strings = (
+                'Carga Propria'
+                'Transportadora')
+            end
           end
           object GroupBox10: TGroupBox
             Left = 3
@@ -332,6 +352,7 @@ object fACBrMDFe: TfACBrMDFe
               Top = 31
               Width = 27
               Height = 21
+              Color = clInfoBk
               TabOrder = 0
             end
             object edtMunCarregaIBGE: TEdit
@@ -339,6 +360,7 @@ object fACBrMDFe: TfACBrMDFe
               Top = 31
               Width = 57
               Height = 21
+              Color = clInfoBk
               TabOrder = 1
             end
             object edtMunicipioCarrega: TEdit
@@ -346,6 +368,7 @@ object fACBrMDFe: TfACBrMDFe
               Top = 31
               Width = 187
               Height = 21
+              Color = clInfoBk
               TabOrder = 2
             end
             object BitBtn4: TBitBtn
@@ -466,17 +489,32 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Peso, Volume'
           end
           object Label98: TLabel
-            Left = 166
+            Left = 142
             Top = 72
             Width = 24
             Height = 13
             Caption = 'Valor'
+          end
+          object Label60: TLabel
+            Left = 5
+            Top = 96
+            Width = 45
+            Height = 13
+            Caption = 'Municipio'
+          end
+          object Label99: TLabel
+            Left = 256
+            Top = 72
+            Width = 25
+            Height = 13
+            Caption = 'IBGE'
           end
           object edNFe1: TEdit
             Left = 2
             Top = 45
             Width = 290
             Height = 21
+            Color = clInfoBk
             TabOrder = 0
           end
           object edNFe4: TEdit
@@ -542,7 +580,7 @@ object fACBrMDFe: TfACBrMDFe
           object edPesoVol1: TJvCalcEdit
             Left = 76
             Top = 70
-            Width = 80
+            Width = 61
             Height = 21
             Hint = 
               'Quantidade rateada (Peso,Volume) '#13#10'5 posi'#231#245'es, sendo 3 inteiras ' +
@@ -613,18 +651,14 @@ object fACBrMDFe: TfACBrMDFe
             ItemHeight = 13
             TabOrder = 16
             Items.Strings = (
-              'M3'
               'KG'
-              'TON'
-              'UNIDADE'
-              'LITROS'
-              'MMBTU')
+              'TON')
           end
           object JvDBUltimGrid1: TJvDBUltimGrid
             Left = 6
-            Top = 95
+            Top = 119
             Width = 363
-            Height = 260
+            Height = 240
             DataSource = dsMdfeDocs
             Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
             TabOrder = 18
@@ -772,9 +806,9 @@ object fACBrMDFe: TfACBrMDFe
             NumGlyphs = 2
           end
           object edValorNFe1: TJvCalcEdit
-            Left = 193
+            Left = 169
             Top = 70
-            Width = 96
+            Width = 80
             Height = 21
             Hint = 'Valor Nota Fiscal'
             ParentShowHint = False
@@ -785,15 +819,16 @@ object fACBrMDFe: TfACBrMDFe
           end
           object rgOrigemNFe: TRadioGroup
             Left = 8
-            Top = -2
-            Width = 313
+            Top = 0
+            Width = 345
             Height = 30
             Caption = 'Origem NFe'
-            Columns = 2
+            Columns = 3
             ItemIndex = 0
             Items.Strings = (
               'Pr'#243'pria (N'#250'mero da NFe)'
-              'Terceiros')
+              'Terceiros'
+              'CTe')
             TabOrder = 19
           end
           object BitBtn7: TBitBtn
@@ -807,6 +842,36 @@ object fACBrMDFe: TfACBrMDFe
             ShowHint = True
             TabOrder = 3
             OnClick = BitBtn7Click
+          end
+          object edMunNfe: TEdit
+            Left = 284
+            Top = 70
+            Width = 69
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 20
+          end
+          object edxMunNfe: TEdit
+            Left = 76
+            Top = 94
+            Width = 253
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 21
+          end
+          object BitBtn10: TBitBtn
+            Left = 329
+            Top = 95
+            Width = 23
+            Height = 20
+            Hint = 
+              'Digite parte do Nome da Cidade para busca (Ex.: Campinas, Hol, e' +
+              'tc...)'
+            Caption = '...'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 22
+            OnClick = BitBtn10Click
           end
         end
         object TabSheet11: TTabSheet
@@ -980,6 +1045,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 96
             Width = 97
             Height = 21
+            Color = clInfoBk
             TabOrder = 5
           end
           object edCapKg: TEdit
@@ -987,6 +1053,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 96
             Width = 97
             Height = 21
+            Color = clInfoBk
             TabOrder = 6
           end
           object edCapM3: TEdit
@@ -994,6 +1061,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 96
             Width = 92
             Height = 21
+            Color = clInfoBk
             TabOrder = 7
           end
           object edPlaca: TEdit
@@ -1002,6 +1070,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 80
             Height = 21
             CharCase = ecUpperCase
+            Color = clInfoBk
             TabOrder = 3
           end
           object edRNTRCProp: TEdit
@@ -1027,6 +1096,7 @@ object fACBrMDFe: TfACBrMDFe
               'opriet'#225'rios do Ve'#237'culo. S'#243' preenchido '#13#10'   quando o ve'#237'culo n'#227'o ' +
               'pertencer '#224' '#13#10'      empresa emitente do MDF-e '
             CharCase = ecUpperCase
+            Color = clInfoBk
             ParentShowHint = False
             ShowHint = True
             TabOrder = 11
@@ -1036,6 +1106,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 219
             Width = 224
             Height = 21
+            Color = clInfoBk
             TabOrder = 12
           end
           object edMunicipioDescarga: TEdit
@@ -1043,6 +1114,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 255
             Width = 304
             Height = 21
+            Color = clInfoBk
             TabOrder = 13
           end
           object rgTipoUnidCarga: TRadioGroup
@@ -1088,6 +1160,7 @@ object fACBrMDFe: TfACBrMDFe
               'te.'#13#10'Por exemplo: para rodovi'#225'rio tra'#231#227'o ou reboque'#13#10'dever'#225' pree' +
               'ncher com a placa do ve'#237'culo.'
             CharCase = ecUpperCase
+            Color = clInfoBk
             ParentShowHint = False
             ShowHint = True
             TabOrder = 17
@@ -1102,6 +1175,7 @@ object fACBrMDFe: TfACBrMDFe
               'Informar a identifica'#231#227'o da unidade de carga,'#13#10'por exemplo: n'#250'me' +
               'ro do container.'
             CharCase = ecUpperCase
+            Color = clInfoBk
             ParentShowHint = False
             ShowHint = True
             TabOrder = 19
@@ -1112,6 +1186,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 34
             Height = 21
             CharCase = ecUpperCase
+            Color = clInfoBk
             TabOrder = 15
           end
           object edUFLicVeiculo: TEdit
@@ -1121,6 +1196,7 @@ object fACBrMDFe: TfACBrMDFe
             Height = 21
             Hint = 'UF em que ve'#237'culo est'#225' licenciado '
             CharCase = ecUpperCase
+            Color = clInfoBk
             ParentShowHint = False
             ShowHint = True
             TabOrder = 4
@@ -1130,6 +1206,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 279
             Width = 63
             Height = 21
+            Color = clInfoBk
             TabOrder = 14
           end
           object cbTipoRodado: TComboBox
@@ -1229,35 +1306,35 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Propriet'#225'rio Ve'#237'culo (qdo n'#227'o pertencer a empresa emitente)'
             TabOrder = 1
             object Label69: TLabel
-              Left = 8
-              Top = 16
+              Left = 26
+              Top = 19
               Width = 52
               Height = 13
               Caption = 'CPF/CNPJ'
             end
             object Label70: TLabel
-              Left = 8
-              Top = 94
+              Left = 37
+              Top = 95
               Width = 41
               Height = 13
               Caption = 'RNTRC '
             end
             object Label71: TLabel
-              Left = 8
+              Left = 56
               Top = 119
               Width = 21
               Height = 13
               Caption = 'Tipo'
             end
             object Label72: TLabel
-              Left = 8
-              Top = 68
+              Left = 50
+              Top = 70
               Width = 28
               Height = 13
               Caption = 'Nome'
             end
             object Label73: TLabel
-              Left = 8
+              Left = 11
               Top = 42
               Width = 67
               Height = 13
@@ -1319,12 +1396,154 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
           object GroupBox9: TGroupBox
-            Left = 8
-            Top = 248
-            Width = 321
-            Height = 161
-            Caption = 'Reboque'
+            Left = 0
+            Top = 288
+            Width = 329
+            Height = 137
+            Caption = 'Seguro'
             TabOrder = 2
+            object Label100: TLabel
+              Left = 8
+              Top = 12
+              Width = 59
+              Height = 13
+              Caption = 'Res. Seguro'
+            end
+            object Label104: TLabel
+              Left = 161
+              Top = 12
+              Width = 120
+              Height = 13
+              Caption = 'CNPJ/CPF Resp. Seguro'
+            end
+            object Label101: TLabel
+              Left = 37
+              Top = 53
+              Width = 55
+              Height = 13
+              Caption = 'Seguradora'
+            end
+            object Label105: TLabel
+              Left = 7
+              Top = 73
+              Width = 85
+              Height = 13
+              Caption = 'CNPJ Seguradora'
+            end
+            object Label102: TLabel
+              Left = 57
+              Top = 94
+              Width = 35
+              Height = 13
+              Caption = 'Apolice'
+            end
+            object Label103: TLabel
+              Left = 58
+              Top = 115
+              Width = 34
+              Height = 13
+              Caption = 'Averba'
+            end
+            object cbSegResp: TComboBox
+              Left = 8
+              Top = 28
+              Width = 145
+              Height = 21
+              ItemHeight = 13
+              TabOrder = 0
+              OnChange = cbSegRespChange
+              Items.Strings = (
+                '1- Emitente do MDF-e'
+                '22 - Resp. contrat. transporte')
+            end
+            object edSegCNPJCPF: TEdit
+              Left = 160
+              Top = 28
+              Width = 161
+              Height = 21
+              Hint = 'Cnpj/Cpf - Respons'#225'vel pelo Seguro'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 1
+            end
+            object edSeguradora: TEdit
+              Left = 94
+              Top = 50
+              Width = 227
+              Height = 21
+              TabOrder = 2
+            end
+            object edSegCnpj: TEdit
+              Left = 94
+              Top = 71
+              Width = 147
+              Height = 21
+              TabOrder = 3
+            end
+            object edApolice: TEdit
+              Left = 94
+              Top = 92
+              Width = 147
+              Height = 21
+              TabOrder = 4
+            end
+            object edAverba: TEdit
+              Left = 94
+              Top = 113
+              Width = 147
+              Height = 21
+              TabOrder = 5
+            end
+          end
+          object GroupBox15: TGroupBox
+            Left = 0
+            Top = 232
+            Width = 329
+            Height = 57
+            Caption = 'UF Percurso'
+            TabOrder = 3
+            object edUFPercuso: TEdit
+              Left = 8
+              Top = 16
+              Width = 49
+              Height = 21
+              TabOrder = 0
+            end
+            object edUFPercuso2: TEdit
+              Left = 61
+              Top = 16
+              Width = 49
+              Height = 21
+              TabOrder = 1
+            end
+            object edUFPercuso3: TEdit
+              Left = 114
+              Top = 16
+              Width = 49
+              Height = 21
+              TabOrder = 2
+            end
+            object edUFPercuso4: TEdit
+              Left = 167
+              Top = 16
+              Width = 49
+              Height = 21
+              TabOrder = 3
+            end
+            object edUFPercuso5: TEdit
+              Left = 221
+              Top = 16
+              Width = 49
+              Height = 21
+              TabOrder = 4
+            end
+            object edUFPercuso6: TEdit
+              Left = 273
+              Top = 16
+              Width = 47
+              Height = 21
+              TabOrder = 5
+            end
           end
         end
         object TabSheet13: TTabSheet
@@ -1602,7 +1821,7 @@ object fACBrMDFe: TfACBrMDFe
             ItemIndex = 1
             Items.Strings = (
               '1.00'
-              '1.00a')
+              '3.00')
             TabOrder = 1
           end
         end
@@ -2317,7 +2536,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 8
         Width = 177
         Height = 25
-        Caption = '1-Gerar MDFe'
+        Caption = '1-GRAVAR/Gerar MDFe'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clRed
         Font.Height = -11
@@ -2469,8 +2688,8 @@ object fACBrMDFe: TfACBrMDFe
         object memoRespWS: TMemo
           Left = 0
           Top = 0
-          Width = 548
-          Height = 364
+          Width = 628
+          Height = 335
           Align = alClient
           TabOrder = 0
         end
@@ -2481,15 +2700,80 @@ object fACBrMDFe: TfACBrMDFe
         object MemoDados: TMemo
           Left = 0
           Top = 0
-          Width = 660
+          Width = 628
           Height = 335
           Align = alClient
           TabOrder = 0
+        end
+        object pnCity: TPanel
+          Left = 8
+          Top = 0
+          Width = 617
+          Height = 329
+          TabOrder = 1
+          Visible = False
+          object BitBtn11: TBitBtn
+            Left = 528
+            Top = 280
+            Width = 75
+            Height = 41
+            Caption = 'Fechar'
+            TabOrder = 0
+            OnClick = BitBtn11Click
+          end
+          object DBGrid1: TDBGrid
+            Left = 8
+            Top = 32
+            Width = 585
+            Height = 241
+            DataSource = dsProc
+            TabOrder = 1
+            TitleFont.Charset = DEFAULT_CHARSET
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            TitleFont.Style = []
+          end
         end
       end
       object TabSheet16: TTabSheet
         Caption = 'Outros'
         ImageIndex = 6
+        object Label46: TLabel
+          Left = 256
+          Top = 24
+          Width = 30
+          Height = 13
+          Caption = 'Placa '
+        end
+        object Label47: TLabel
+          Left = 224
+          Top = 128
+          Width = 58
+          Height = 13
+          Caption = 'Lacre Carga'
+        end
+        object lblidunid: TLabel
+          Left = 256
+          Top = 90
+          Width = 28
+          Height = 13
+          Caption = 'Carga'
+        end
+        object Label59: TLabel
+          Left = 232
+          Top = 56
+          Width = 66
+          Height = 13
+          Caption = 'Lacre Transp.'
+        end
+        object Label107: TLabel
+          Left = 464
+          Top = 8
+          Width = 110
+          Height = 13
+          Caption = 'CNPJ/CPF Contratante'
+        end
         object BitBtn1: TBitBtn
           Left = 24
           Top = 8
@@ -2514,6 +2798,41 @@ object fACBrMDFe: TfACBrMDFe
           TabOrder = 1
           OnClick = BitBtn2Click
         end
+        object edPlacaMDFE: TEdit
+          Left = 304
+          Top = 24
+          Width = 121
+          Height = 21
+          TabOrder = 2
+        end
+        object edLacreMDFE: TEdit
+          Left = 304
+          Top = 56
+          Width = 121
+          Height = 21
+          TabOrder = 3
+        end
+        object edUnidCargaMDFE: TEdit
+          Left = 304
+          Top = 88
+          Width = 121
+          Height = 21
+          TabOrder = 4
+        end
+        object edLacreCargaMDFE: TEdit
+          Left = 304
+          Top = 120
+          Width = 121
+          Height = 21
+          TabOrder = 5
+        end
+        object edCnpjCpfContratante: TEdit
+          Left = 464
+          Top = 24
+          Width = 161
+          Height = 21
+          TabOrder = 6
+        end
       end
     end
   end
@@ -2526,43 +2845,12 @@ object fACBrMDFe: TfACBrMDFe
     Left = 480
     Top = 256
   end
-  object ACBrMDFe1: TACBrMDFe
-    MAIL = ACBrMail1
-    OnStatusChange = ACBrMDFe1StatusChange
-    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
-    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoDF = ve100a
-    Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.QuebradeLinha = '|'
-    DAMDFE = ACBrMDFeDAMDFeRL1
-    Left = 526
-    Top = 257
-  end
   object sqlEmitente: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dm.sc
     Left = 104
     Top = 360
-  end
-  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
-    ACBrMDFe = ACBrMDFe1
-    ImprimirHoraSaida = False
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDAMDFe = tiSemGeracao
-    TamanhoPapel = tpA4
-    NumCopias = 1
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    MDFeCancelada = False
-    MDFeEncerrado = False
-    PrintDialog = True
-    Left = 614
-    Top = 265
   end
   object ACBrMail1: TACBrMail
     Host = '127.0.0.1'
@@ -2605,12 +2893,24 @@ object fACBrMDFe: TfACBrMDFe
     end
   end
   object sdsMdfeDocs: TSQLDataSet
-    CommandText = 'SELECT * FROM MDFE_DOCS WHERE MDFE = :MDFE'
+    CommandText = 
+      'SELECT * FROM MDFE_DOCS WHERE MDFE = :MDFE '#13#10'AND ((CD_IBGE = :PI' +
+      'BGE) OR (:PIBGE = 0))'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'MDFE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PIBGE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PIBGE'
         ParamType = ptInput
       end>
     SQLConnection = dm.sc
@@ -2628,6 +2928,16 @@ object fACBrMDFe: TfACBrMDFe
       item
         DataType = ftInteger
         Name = 'MDFE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PIBGE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'PIBGE'
         ParamType = ptInput
       end>
     ProviderName = 'dspMdfeDocs'
@@ -2648,6 +2958,16 @@ object fACBrMDFe: TfACBrMDFe
       FieldName = 'VALOR_NF'
       DisplayFormat = ',##0.00'
     end
+    object cdsMdfeDocsCD_IBGE: TIntegerField
+      FieldName = 'CD_IBGE'
+    end
+    object cdsMdfeDocsMUNICIPIO: TStringField
+      FieldName = 'MUNICIPIO'
+      Size = 50
+    end
+    object cdsMdfeDocsTIPO_DOC: TIntegerField
+      FieldName = 'TIPO_DOC'
+    end
   end
   object dsMdfeDocs: TDataSource
     DataSet = cdsMdfeDocs
@@ -2655,8 +2975,8 @@ object fACBrMDFe: TfACBrMDFe
     Top = 409
   end
   object OpenDialog2: TOpenDialog
-    Left = 218
-    Top = 69
+    Left = 234
+    Top = 53
   end
   object sqlProcNfe: TSQLQuery
     MaxBlobSize = -1
@@ -2664,5 +2984,108 @@ object fACBrMDFe: TfACBrMDFe
     SQLConnection = dm.sc
     Left = 446
     Top = 353
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.VersaoDF = ve400
+    Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Left = 614
+    Top = 265
+  end
+  object ACBrMDFe1: TACBrMDFe
+    Configuracoes.Geral.SSLLib = libWinCrypt
+    Configuracoes.Geral.SSLCryptLib = cryWinCrypt
+    Configuracoes.Geral.SSLHttpLib = httpWinHttp
+    Configuracoes.Geral.SSLXmlSignLib = xsLibXml2
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    DAMDFE = ACBrMDFeDAMDFeRL1
+    Left = 574
+    Top = 273
+  end
+  object sqlMDFEMun: TSQLDataSet
+    CommandText = 
+      'SELECT DISTINCT udf_collatebr(udf_upper(MUNICIPIO)) as MUNICIPIO' +
+      ', CD_IBGE FROM MDFE_DOCS WHERE MDFE = :MDFE ORDER BY MUNICIPIO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'MDFE'
+        ParamType = ptInput
+      end>
+    SQLConnection = dm.sc
+    Left = 406
+    Top = 441
+  end
+  object dspMun: TDataSetProvider
+    DataSet = sqlMDFEMun
+    Left = 438
+    Top = 441
+  end
+  object cdsMun: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'MDFE'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspMun'
+    Left = 470
+    Top = 441
+    object cdsMunMUNICIPIO: TStringField
+      FieldName = 'MUNICIPIO'
+      Size = 50
+    end
+    object cdsMunCD_IBGE: TIntegerField
+      FieldName = 'CD_IBGE'
+    end
+  end
+  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
+    ACBrMDFe = ACBrMDFe1
+    ImprimirHoraSaida = False
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDAMDFe = tiSemGeracao
+    TamanhoPapel = tpA4
+    NumCopias = 1
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    MDFeCancelada = False
+    MDFeEncerrado = False
+    PrintDialog = True
+    Left = 590
+    Top = 337
+  end
+  object cdsProc: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider1'
+    Left = 394
+    Top = 89
+  end
+  object dsProc: TDataSource
+    DataSet = cdsProc
+    Left = 394
+    Top = 121
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = sqlProc
+    Left = 394
+    Top = 57
   end
 end
