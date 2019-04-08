@@ -2621,6 +2621,14 @@ object fNotaf1: TfNotaf1
       end
     end
   end
+  object Panel1: TPanel
+    Left = 56
+    Top = 152
+    Width = 681
+    Height = 369
+    TabOrder = 2
+    Visible = False
+  end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
     Left = 591

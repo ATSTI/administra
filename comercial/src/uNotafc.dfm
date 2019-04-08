@@ -19,6 +19,13 @@ object fNotafc: TfNotafc
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Panel1: TPanel
+    Left = 376
+    Top = 80
+    Width = 345
+    Height = 225
+    TabOrder = 4
+  end
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
@@ -648,6 +655,26 @@ object fNotafc: TfNotafc
             DataField = 'CORPONF6'
             DataSource = DMNF.DtSrc_NF1
             TabOrder = 2
+            OnKeyPress = FormKeyPress
+          end
+        end
+        object TabSheet4: TTabSheet
+          Caption = 'Fatura'
+          ImageIndex = 2
+          object Label24: TLabel
+            Left = 13
+            Top = 16
+            Width = 89
+            Height = 13
+            Caption = 'Forma Pagamento:'
+          end
+          object ComboBox1: TComboBox
+            Left = 13
+            Top = 31
+            Width = 180
+            Height = 21
+            ItemHeight = 0
+            TabOrder = 0
             OnKeyPress = FormKeyPress
           end
         end
@@ -2269,16 +2296,19 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox25: TJvGroupBox
-        Left = 132
+        Left = 100
         Top = 92
-        Width = 125
+        Width = 101
         Height = 41
-        Caption = 'Outras Desp. Acessor.'
+        Hint = 'Outras Despesas  Acessorias'
+        Caption = 'Outras Desp. Ac.'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 13
         object DBEdit17: TDBEdit
           Left = 5
           Top = 14
-          Width = 115
+          Width = 92
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2292,14 +2322,14 @@ object fNotafc: TfNotafc
       object JvGroupBox24: TJvGroupBox
         Left = 2
         Top = 92
-        Width = 125
+        Width = 95
         Height = 41
         Caption = 'Valor do Seguro'
         TabOrder = 12
         object DBEdit16: TDBEdit
           Left = 4
           Top = 14
-          Width = 115
+          Width = 85
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2311,16 +2341,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox17: TJvGroupBox
-        Left = 262
+        Left = 302
         Top = 92
-        Width = 110
+        Width = 94
         Height = 41
         Caption = 'Base Calculo II'
         TabOrder = 14
         object DBEdit9: TDBEdit
           Left = 5
           Top = 14
-          Width = 100
+          Width = 84
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2332,16 +2362,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox56: TJvGroupBox
-        Left = 376
+        Left = 398
         Top = 92
-        Width = 110
+        Width = 101
         Height = 41
         Caption = 'Valor I. Importa'#231#227'o'
         TabOrder = 15
         object DBEdit48: TDBEdit
           Left = 5
           Top = 14
-          Width = 100
+          Width = 92
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2353,16 +2383,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox22: TJvGroupBox
-        Left = 490
+        Left = 501
         Top = 92
-        Width = 120
+        Width = 111
         Height = 41
         Caption = 'Valor Total Produtos'
         TabOrder = 16
         object DBEdit14: TDBEdit
           Left = 7
           Top = 14
-          Width = 106
+          Width = 100
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2407,6 +2437,27 @@ object fNotafc: TfNotafc
         TabOrder = 18
         OnClick = calcmanClick
       end
+      object JvGroupBox62: TJvGroupBox
+        Left = 204
+        Top = 92
+        Width = 94
+        Height = 41
+        Caption = 'Vlr. IPI Devol.'
+        TabOrder = 19
+        object DBEdit63: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 84
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BCII'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
     end
     object tsFrete: TTabSheet
       Caption = 'Transportadora'
@@ -2414,14 +2465,14 @@ object fNotafc: TfNotafc
       object JvGroupBox29: TJvGroupBox
         Left = 8
         Top = 4
-        Width = 307
+        Width = 289
         Height = 41
         Caption = 'Nome da Transportadora / Raz'#227'o Social'
         TabOrder = 0
         object cbTransportadora: TDBComboBox
           Left = 7
           Top = 14
-          Width = 258
+          Width = 242
           Height = 21
           BevelKind = bkFlat
           DataField = 'NOMETRANSP'
@@ -2432,7 +2483,7 @@ object fNotafc: TfNotafc
           OnKeyPress = FormKeyPress
         end
         object BitBtn2: TBitBtn
-          Left = 268
+          Left = 252
           Top = 11
           Width = 32
           Height = 25
@@ -2442,38 +2493,40 @@ object fNotafc: TfNotafc
         end
       end
       object GroupBox1: TGroupBox
-        Left = 319
+        Left = 299
         Top = 4
-        Width = 92
+        Width = 159
         Height = 41
         Caption = 'Frete'
         TabOrder = 1
         object cboFrete: TComboBox
           Left = 7
           Top = 15
-          Width = 78
+          Width = 147
           Height = 21
           ItemHeight = 13
           TabOrder = 0
           OnChange = cboFreteChange
           Items.Strings = (
-            '0 - Emitente'
-            '1 - Dest/Rem'
-            '2 - Terceiros'
-            '9 - Sem Frete')
+            '0 = Contrata'#231#227'o do Frete por conta do Remetente (CIF);'
+            '1 = Contrata'#231#227'o do Frete por conta do Destinat'#225'rio (FOB);'
+            '2 = Contrata'#231#227'o do Frete por conta de Terceiros;'
+            '3 = Transporte Pr'#243'prio por conta do Remetente;'
+            '4 = Transporte Pr'#243'prio por conta do Destinat'#225'rio;'
+            '9 = Sem Ocorr'#234'ncia de Transporte.')
         end
       end
       object JvGroupBox30: TJvGroupBox
-        Left = 416
+        Left = 461
         Top = 4
-        Width = 104
+        Width = 94
         Height = 41
         Caption = 'Placa'
         TabOrder = 2
         object DBEdit20: TDBEdit
           Left = 5
           Top = 14
-          Width = 93
+          Width = 84
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2484,16 +2537,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox31: TJvGroupBox
-        Left = 522
+        Left = 556
         Top = 4
-        Width = 40
+        Width = 34
         Height = 41
         Caption = 'UF'
         TabOrder = 3
         object DBEdit21: TDBEdit
           Left = 5
           Top = 14
-          Width = 29
+          Width = 23
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone
@@ -2504,16 +2557,16 @@ object fNotafc: TfNotafc
         end
       end
       object JvGroupBox32: TJvGroupBox
-        Left = 565
+        Left = 592
         Top = 4
-        Width = 161
+        Width = 134
         Height = 41
         Caption = 'C.N.P.J.'
         TabOrder = 4
         object DBEdit22: TDBEdit
           Left = 5
           Top = 14
-          Width = 148
+          Width = 124
           Height = 21
           BevelKind = bkFlat
           BorderStyle = bsNone

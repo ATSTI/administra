@@ -214,6 +214,7 @@ type
     ExcluirItemNF1: TMenuItem;
     dbeSerie: TDBEdit;
     btnNotaFiscal: TBitBtn;
+    Panel1: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -285,8 +286,7 @@ implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
   ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math,
-  uFornecedorCadastro, uFiltroMov_compra, uFiltroMov_NFcompra,
-  uNFeletronica;
+  uFornecedorCadastro, uFiltroMov_compra, uFiltroMov_NFcompra;
 
 {$R *.dfm}
 
@@ -1643,8 +1643,8 @@ end;
 
 procedure TfNotaf1.btnNotaFiscalClick(Sender: TObject);
 begin
-    fNFeletronica.cbTipoNota.ItemIndex := 0;
-    fNFeletronica.ShowModal;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 end.

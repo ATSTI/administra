@@ -7,7 +7,8 @@ uses
   Dialogs, StdCtrls, DBCtrls, JvExStdCtrls, JvGroupBox, ComCtrls,
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
-  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress;
+  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider,
+  DBXpress, uUtils;
 
 type
   TfNotaFc = class(TForm)
@@ -279,6 +280,12 @@ type
     btnDuplicar: TBitBtn;
     sql_serie_nf: TSQLQuery;
     sqlBSerie: TSQLQuery;
+    JvGroupBox62: TJvGroupBox;
+    DBEdit63: TDBEdit;
+    TabSheet4: TTabSheet;
+    Label24: TLabel;
+    ComboBox1: TComboBox;
+    Panel1: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -363,13 +370,23 @@ var
 implementation
 
 uses UDm, UDMNF, sCtrlResize, uProcurar, uProcurar_nf, uClienteCadastro,
-  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math, uFiltroMov_compra, uFiltroMov_NFcompra,
-  uNFeletronica, uDetalheNF, uDadosImportacao;
+  ufprocura_prod, uftransp, uFiltroMovimento, unitExclusao, Math, uFiltroMov_compra,
+  uFiltroMov_NFcompra, uDetalheNF, uDadosImportacao, ufNFeExe;
 
 {$R *.dfm}
 
 procedure TfNotaFc.FormCreate(Sender: TObject);
+var unf_util : Tutils;
+  j : integer;
+  i : integer;
 begin
+  unf_util := Tutils.Create;
+  // Popula Status
+  j := unf_util.Forma.Count;
+  for i := 0 to j - 1 do
+  begin
+    combobox1.Items.Add(unf_util.Forma.Strings[i]);
+  end;
   codMovFin := 0;
   codVendaFin := 0;
   parametroNF := '';
@@ -434,6 +451,8 @@ end;
 procedure TfNotaFc.btnIncluirClick(Sender: TObject);
 var varsql: string;
 begin
+  combobox1.Text := '';
+  
   codVendaFin := 0;
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
@@ -615,7 +634,9 @@ begin
 end;
 
 procedure TfNotaFc.FormShow(Sender: TObject);
+var  unf_forma : Tutils;
 begin
+  combobox1.Text := '';
   codNatNotafc := 0;
   sCtrlResize.CtrlResize(TForm(fNotaFc));
   JvPageControl1.ActivePage := TabNF;
@@ -662,7 +683,14 @@ begin
     dmnf.cds_compra.Params[1].AsInteger := codMovFin;
     dmnf.cds_compra.Open;
     if (not dmnf.cds_compra.IsEmpty) then
+    begin
       codVendaFin := dmnf.cds_compraCODCOMPRA.AsInteger;
+      if (dmnf.cds_compraFORMAPAGAMENTO.asString <> '') then
+      begin
+        unf_forma := Tutils.Create;
+        ComboBox1.ItemIndex := unf_forma.retornaForma(dmnf.cds_compraFORMAPAGAMENTO.asString);
+      end;
+    end;
     //Mostra NF
     if (dmnf.cds_nf1.Active) then
       dmnf.cds_nf1.Close;
@@ -1220,6 +1248,17 @@ procedure TfNotaFc.btnGravarClick(Sender: TObject);
 var cm : string;
 var TD: TTransactionDesc;
 begin
+  if (DBEdit33.Text = '0') then
+  begin
+    MessageDlg('Informe o n. da Nota Fiscal', mtError, [mbOK], 0);
+    DBEdit33.SetFocus;
+    exit;
+  end;
+  if (combobox1.Text = '') then
+  begin
+    MessageDlg('Informe a forma de Pagamento (aba FATURA)', mtError, [mbOK], 0);
+    exit;
+  end;
   if DMNF.DtSrc_NF.State in [dsBrowse] then
     DMNF.DtSrc_NF.DataSet.Edit;
   TD.TransactionID := 1;
@@ -1416,15 +1455,15 @@ end;
 
 procedure TfNotaFc.gravavenda;
 var  TD: TTransactionDesc;
+ utilcrtitulo : Tutils;
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-  if (DBEdit33.Text = '0') then
-  begin
-    MessageDlg('Informe o n. da Nota Fiscal', mtError, [mbOK], 0);
-    DBEdit33.SetFocus;
-    exit;
-  end;
+
+
+  utilcrtitulo := Tutils.Create;
+  dmnf.cds_compraFORMAPAGAMENTO.AsString := utilcrtitulo.pegaForma(ComboBox1.Text);
+
     dmnf.cds_compraNOTAFISCAL.AsInteger := StrToint(dmnf.cds_nf1NOTASERIE.AsString);
     dmnf.cds_compraCODFORNECEDOR.AsInteger := DMNF.cds_MovimentoCODFORNECEDOR.AsInteger;
     dmnf.cds_compraCODUSUARIO.AsInteger := dmnf.cds_MovimentoCODUSUARIO.AsInteger;
@@ -1516,6 +1555,7 @@ end;
 
 procedure TfNotaFc.btnProcurarClick(Sender: TObject);
 var varsql:string;
+ unf_forma : Tutils;
 begin
  	fFiltroMov_NFcompra := TfFiltroMov_NFcompra.Create(Application);
 	try
@@ -1569,6 +1609,11 @@ begin
      dmnf.cds_Compra.Params[0].Clear;
      dmnf.cds_Compra.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
      dmnf.cds_Compra.Open;
+    if (dmnf.cds_compraFORMAPAGAMENTO.asString <> '') then
+    begin
+      unf_forma := Tutils.Create;
+      ComboBox1.ItemIndex := unf_forma.retornaForma(dmnf.cds_compraFORMAPAGAMENTO.asString);
+    end;
 
      //Mostra NF
      if (dmnf.cds_nf1.Active) then
@@ -2137,12 +2182,20 @@ end;
 
 procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
-    fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
-    fNFeletronica.cbTipoNota.ItemIndex := 0;
-    //fNFeletronica.ComboBox1.Clear;
-    //fNFeletronica.ComboBox1.Items.Add(nfec_ccusto_emp_nome);
-    //fNFeletronica.ComboBox1.Text := nfec_ccusto_emp_nome;
-    fNFeletronica.ShowModal;
+  // fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
+  // fNFeletronica.cbTipoNota.ItemIndex := 0;
+  //fNFeletronica.ComboBox1.Clear;
+  //fNFeletronica.ComboBox1.Items.Add(nfec_ccusto_emp_nome);
+  //fNFeletronica.ComboBox1.Text := nfec_ccusto_emp_nome;
+  // fNFeletronica.ShowModal;
+  //fNfeExe := TfNfeExe.Create(Application);
+  //try
+  //  fNfeExe.ShowModal;
+  //finally
+  //  fNfeExe.Free;
+  //end;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 Procedure TfNotaFc.carregaDadosAdicionais(motivo:String);
@@ -2269,9 +2322,16 @@ end;
 
 procedure TfNotaFc.cboFreteChange(Sender: TObject);
 begin
- if DMNF.DtSrc_NF1.State in [dsBrowse] then
-      DMNF.DtSrc_NF1.DataSet.Edit;
-    DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+  if DMNF.DtSrc_NF1.State in [dsBrowse] then
+    DMNF.DtSrc_NF1.DataSet.Edit;
+  case cboFrete.ItemIndex of
+    0: DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+    1: DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+    2: DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+    3: DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+    4: DMNF.cds_nf1FRETE.AsString := IntToStr(cboFrete.ItemIndex);
+    5: DMNF.cds_nf1FRETE.AsString := '9';
+  end;  
 end;
 
 procedure TfNotaFc.edtNFRefExit(Sender: TObject);
