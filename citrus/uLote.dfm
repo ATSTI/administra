@@ -1,5 +1,8 @@
 inherited fLote: TfLote
-  Width = 670
+  Left = 242
+  Top = 86
+  Width = 678
+  Height = 558
   Caption = 'Lote'
   OldCreateOrder = True
   OnShow = FormShow
@@ -62,7 +65,7 @@ inherited fLote: TfLote
     Caption = 'Produto'
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 662
+    Width = 670
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -37
@@ -71,7 +74,7 @@ inherited fLote: TfLote
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 660
+      Width = 668
       Height = 49
       Align = alClient
       Alignment = taCenter
@@ -89,7 +92,8 @@ inherited fLote: TfLote
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 662
+    Top = 480
+    Width = 670
     inherited btnGravar: TBitBtn
       Left = 216
     end
