@@ -1392,7 +1392,7 @@ procedure TfProcura_prod.formcompra;
 begin
     fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fCompra.cds_Mov_detCODPRO.AsString      := cds_procCODPRO.AsString;
-    fCompra.cds_Mov_detDESCPRODUTO.Value    := cds_procPRODUTO.Value;
+    fCompra.cds_Mov_detDESCPRODUTO.AsString := cds_procPRODUTO.AsString;
     fCompra.cds_Mov_detQUANTIDADE.AsFloat   := StrToFloat(Edit3.Text);
     fCompra.cds_Mov_detPRECO.AsFloat        := vlr;
     fCompra.cds_Mov_detUN.AsString          := cds_procUNIDADEMEDIDA.AsString;
@@ -1424,6 +1424,7 @@ begin
         //fLotes_Produtos := TfLotes_Produtos.Create(Application);
         //try
           fCompra.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+          fLotes_produtos.TIPO := 'COMPRA';
           fLotes_Produtos.ShowModal;
         //finally
           fCompra.cds_Mov_detDTAFAB.AsDateTime := fCompra.cds_MovimentoDATAMOVIMENTO.AsDateTime;
@@ -1512,18 +1513,22 @@ begin
         fLotes.btnProcurar.Enabled := False;
         var_F := 'procura_venda';
         fLotes.ShowModal;
+        fVendas.cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
+        fVendas.cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
+        fVendas.cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
       finally
         fLotes.Free;
       end;
       var_F := 'venda';
     end;
     if fProcura_prod.cds_procLOTES.AsString = 'S' then
-    if (dm.estoq < StrToFloat(Edit3.Text)) then
     begin
-      MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
-      exit;
+      if (dm.estoq < StrToFloat(Edit3.Text)) then
+      begin
+        MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
+        exit;
+      end;
     end;
-
     if (fVendas.estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
       if (cds_procESTOQUEATUAL.Value <= 0) then
       begin
