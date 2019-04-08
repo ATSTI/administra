@@ -119,20 +119,24 @@ begin
     values (:codMovNovo, 0,  :FORNECEDOR, :codCCusto, :codUser 
         , :codVendedor, :dtEmissao, 0, 20, :codMov);  
   end 
+    if (vFreteT is null) then
+      vFreteT = 0;
+   
     pesoTotal = 0;
     /* localiza o mov. detalhe */
     for select  md.QTDE_ALT, md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
       , md.ICMS, prod.BASE_ICMS, prod.PESO_QTDE , prod.CST   , 
-      md.CFOP
+      md.CFOP, md.VALOR_OUTROS 
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :un, :preco, :descP, :icms, :baseIcms, :pesoUn, :cstProd
-      ,:cfop
+      ,:cfop, :vOutros
     do begin 
      if (pesoUn is null) then 
         pesoUn = 0;
       pesoTotal = pesoTotal + (:pesoUn * :qtde);
+      vOutrosT = :vOutrosT + :vOutros;
       /*if (:icms > 0) then 
         tBaseIcms = tBaseIcms + (preco * qtde);
       
@@ -183,9 +187,9 @@ begin
       end */ 
           
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
-       , preco, un, descProduto, qtde_alt, bcii, ii, cfop) 
+       , preco, un, descProduto, qtde_alt, bcii, ii, cfop, valor_outros) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :preco, :un, :descP, :desconto, 0, 0, :cfop);  
+       , :preco, :un, :descP, :desconto, 0, 0, :cfop, :vOutros);  
       total = total + (qtde * (:preco*(1-(:desconto/100))));/*((:PRECO/:np) * :desconto)); --((:PRECO/:np) * :desconto) */
       --totalIcms = totalIcms + :valoricms;
     end 
@@ -193,6 +197,11 @@ begin
 
   /* Buscando a numeracao da duplicata */
   preco = total;
+  if (vSeguroT  is null) then
+    vSeguroT =  0;
+  if (vOutrosT  is null) then
+    vOutrosT =  0;
+
   total = total + vSeguroT + vOutrosT + vIpiT + vIcmsT + vFreteT; 
 
   select GEN_ID(GEN_COD_COMPRA, 1) from RDB$DATABASE
@@ -231,14 +240,14 @@ begin
     , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP
     , CIDADE_TRANSP, UF_VEICULO_TRANSP, UF_TRANSP, FRETE, INSCRICAOESTADUAL
     , CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5, CORPONF6, PESOBRUTO, PESOLIQUIDO 
-    ,SERIE, UF, VALOR_DESCONTO, II, BCII)
+    ,SERIE, UF, VALOR_DESCONTO, II, BCII,CCUSTO)
     VALUES (:numero, :codNF, 20, :codVen, :FORNECEDOR, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :FRETE, :INSCRICAOESTADUAL
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoTotal
-    , :serie, :UF, 0, 0, 0);
+    , :serie, :UF, 0, 0, 0, :codCCusto);
  
    /* Faco um select para saber o valor gerado da nf, pois, existe uma trigger q muda o vlr */
    /* da nf qdo esta e parcelada (dnz) */
