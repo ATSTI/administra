@@ -17,6 +17,14 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Caption = 'Red. Base Cofins'
     FocusControl = DBEdit26
   end
+  object Label28: TLabel [1]
+    Left = 694
+    Top = 135
+    Width = 66
+    Height = 13
+    Caption = 'Red. Base IPI'
+    FocusControl = DBEdit26
+  end
   inherited MMJPanel1: TMMJPanel
     Width = 874
     Font.Charset = ANSI_CHARSET
@@ -26,7 +34,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object Label9: TLabel
       Left = 9
       Top = 7
-      Width = 127
+      Width = 111
       Height = 36
       Anchors = [akLeft, akRight]
       Caption = 'Label9'
@@ -50,7 +58,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Visible = False
     end
   end
-  object DBGrid1: TDBGrid [3]
+  object DBGrid1: TDBGrid [4]
     Left = 0
     Top = 346
     Width = 874
@@ -171,7 +179,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         Visible = True
       end>
   end
-  object gbProduto: TGroupBox [4]
+  object gbProduto: TGroupBox [5]
     Left = 248
     Top = 146
     Width = 161
@@ -208,7 +216,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 0
     end
   end
-  object GroupBox1: TGroupBox [5]
+  object GroupBox1: TGroupBox [6]
     Left = 0
     Top = 185
     Width = 874
@@ -364,7 +372,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
   end
-  object Panel1: TPanel [6]
+  object Panel1: TPanel [7]
     Left = 0
     Top = 51
     Width = 874
@@ -715,6 +723,14 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Width = 66
       Height = 13
       Caption = 'Red. Base IPI'
+      FocusControl = DBEdit26
+    end
+    object Label29: TLabel
+      Left = 694
+      Top = 84
+      Width = 60
+      Height = 13
+      Caption = 'Percentual II'
       FocusControl = DBEdit26
     end
     object DBEdit1: TDBEdit
@@ -1258,8 +1274,23 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ParentFont = False
       TabOrder = 28
     end
+    object DBEdit29: TDBEdit
+      Left = 692
+      Top = 98
+      Width = 78
+      Height = 24
+      DataField = 'II_PERCENTUAL'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 29
+    end
   end
-  object panelAjuda: TPanel [7]
+  object panelAjuda: TPanel [8]
     Left = 160
     Top = 200
     Width = 602
@@ -1294,7 +1325,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftString
         Name = 'pNCM'
         ParamType = ptInput
       end>
@@ -1437,6 +1468,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object sdsClassFiscREDBASECOFINS: TFloatField
       FieldName = 'REDBASECOFINS'
+    end
+    object sdsClassFiscII_PERCENTUAL: TFloatField
+      FieldName = 'II_PERCENTUAL'
     end
   end
   object cdsClassFisc: TClientDataSet
@@ -1587,6 +1621,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object cdsClassFiscREDBASECOFINS: TFloatField
       FieldName = 'REDBASECOFINS'
+    end
+    object cdsClassFiscII_PERCENTUAL: TFloatField
+      FieldName = 'II_PERCENTUAL'
     end
   end
   object dspClassFisc: TDataSetProvider

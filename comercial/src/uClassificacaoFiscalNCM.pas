@@ -224,6 +224,11 @@ type
     cdsClassFiscREDBASECOFINS: TFloatField;
     Label27: TLabel;
     DBEdit28: TDBEdit;
+    Label28: TLabel;
+    DBEdit29: TDBEdit;
+    Label29: TLabel;
+    sdsClassFiscII_PERCENTUAL: TFloatField;
+    cdsClassFiscII_PERCENTUAL: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -333,6 +338,7 @@ begin
         str := str + ', REDBASEPIS = ' + FloatToStr(cdsClassFiscREDBASEPIS.AsFloat);
         str := str + ', REDBASECOFINS = ' + FloatToStr(cdsClassFiscREDBASECOFINS.AsFloat);
         str := str + ', REDBASEIPI = ' + FloatToStr(cdsClassFiscREDBASEIPI.AsFloat);
+        str := str + ', II_PERCENTUAL = ' + FloatToStr(cdsClassFiscII_PERCENTUAL.AsFloat);
         str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
         str := str + ' AND CFOP = ' + QuotedStr(CFOP);
         str := str + ' AND UF = ' + QuotedStr(UF);
