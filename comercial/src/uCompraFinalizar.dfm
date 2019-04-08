@@ -1,6 +1,6 @@
 inherited fCompraFinalizar: TfCompraFinalizar
-  Left = 227
-  Top = 106
+  Left = 230
+  Top = 108
   Width = 789
   Height = 545
   Caption = 'Compras Finalizar'
@@ -1041,6 +1041,69 @@ inherited fCompraFinalizar: TfCompraFinalizar
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object pnCte: TPanel
+      Left = 168
+      Top = 0
+      Width = 225
+      Height = 145
+      TabOrder = 3
+      Visible = False
+      object Label43: TLabel
+        Left = 26
+        Top = 14
+        Width = 123
+        Height = 16
+        Caption = 'C'#243'd. M'#250'n. Origem'
+      end
+      object Label44: TLabel
+        Left = 24
+        Top = 60
+        Width = 109
+        Height = 16
+        Caption = 'C'#243'd. Mun. Dest.'
+      end
+      object edMunOrigem: TEdit
+        Left = 24
+        Top = 32
+        Width = 121
+        Height = 24
+        TabOrder = 0
+      end
+      object edMunDestino: TEdit
+        Left = 24
+        Top = 80
+        Width = 121
+        Height = 24
+        TabOrder = 1
+      end
+      object BitBtn3: TBitBtn
+        Left = 150
+        Top = 112
+        Width = 64
+        Height = 25
+        Caption = 'Fechar'
+        TabOrder = 2
+        OnClick = BitBtn3Click
+      end
+      object BitBtn4: TBitBtn
+        Left = 146
+        Top = 32
+        Width = 33
+        Height = 25
+        Caption = '...'
+        TabOrder = 3
+        OnClick = BitBtn4Click
+      end
+      object BitBtn5: TBitBtn
+        Left = 146
+        Top = 79
+        Width = 33
+        Height = 25
+        Caption = '...'
+        TabOrder = 4
+        OnClick = BitBtn5Click
+      end
+    end
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
@@ -1889,7 +1952,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 129
+      Left = 113
       Top = 92
       Width = 78
       Height = 13
@@ -1993,7 +2056,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label41: TLabel
-      Left = 128
+      Left = 112
       Top = 130
       Width = 35
       Height = 13
@@ -2107,7 +2170,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object DBEdit1: TDBEdit
       Left = 4
       Top = 107
-      Width = 115
+      Width = 101
       Height = 24
       DataField = 'VALOR_FRETE'
       DataSource = DtSrc
@@ -2121,9 +2184,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit13: TDBEdit
-      Left = 127
+      Left = 112
       Top = 107
-      Width = 115
+      Width = 130
       Height = 24
       DataField = 'VALOR_SEGURO'
       DataSource = DtSrc
@@ -2301,7 +2364,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object DBEdit18: TDBEdit
       Left = 4
       Top = 144
-      Width = 115
+      Width = 101
       Height = 24
       DataField = 'ICMS_ST'
       DataSource = DtSrc
@@ -2315,9 +2378,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 125
+      Left = 109
       Top = 144
-      Width = 52
+      Width = 44
       Height = 24
       DataField = 'MODELO'
       DataSource = DtSrc
@@ -2348,6 +2411,21 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ShowHint = True
       TabOrder = 17
       OnKeyPress = FormKeyPress
+    end
+    object BitBtn6: TBitBtn
+      Left = 154
+      Top = 141
+      Width = 26
+      Height = 27
+      Caption = '...'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 23
+      OnClick = BitBtn6Click
     end
   end
   object GroupBox4: TGroupBox [6]
@@ -2509,8 +2587,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited DtSrc: TDataSource
     DataSet = cds_compra
-    Left = 320
-    Top = 377
+    Left = 328
+    Top = 441
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_7_contas
@@ -2895,7 +2973,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 229
-    Top = 377
+    Top = 441
     object sds_compraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3084,12 +3162,23 @@ inherited fCompraFinalizar: TfCompraFinalizar
       FieldName = 'MODELO'
       Size = 2
     end
+    object sds_compraCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object sds_compraMUN_ORIGEM: TStringField
+      FieldName = 'MUN_ORIGEM'
+      Size = 12
+    end
+    object sds_compraMUN_DESTINO: TStringField
+      FieldName = 'MUN_DESTINO'
+      Size = 12
+    end
   end
   object dsp_compra: TDataSetProvider
     DataSet = sds_compra
     UpdateMode = upWhereKeyOnly
     Left = 259
-    Top = 377
+    Top = 441
   end
   object cds_compra: TClientDataSet
     Aggregates = <>
@@ -3110,7 +3199,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     OnNewRecord = cds_compraNewRecord
     OnReconcileError = cds_compraReconcileError
     Left = 289
-    Top = 377
+    Top = 441
     object cds_compraCODCOMPRA: TIntegerField
       FieldName = 'CODCOMPRA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -3320,6 +3409,17 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cds_compraMODELO: TStringField
       FieldName = 'MODELO'
       Size = 2
+    end
+    object cds_compraCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+    object cds_compraMUN_ORIGEM: TStringField
+      FieldName = 'MUN_ORIGEM'
+      Size = 12
+    end
+    object cds_compraMUN_DESTINO: TStringField
+      FieldName = 'MUN_DESTINO'
+      Size = 12
     end
   end
   object VCLReport1: TVCLReport
@@ -3713,6 +3813,46 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cdsPRAZO: TStringField
       FieldName = 'PRAZO'
       Size = 40
+    end
+  end
+  object procIBGE: TSQLClientDataSet
+    CommandText = 
+      'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO from TB_IBGE' +
+      ' where NM_LOCALIDADE LIKE :NOME'#13#10'order by NM_LOCALIDADE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 32
+    Top = 328
+    object procIBGENM_LOCALIDADE2: TStringField
+      DisplayLabel = 'Cidade/Vila'
+      FieldName = 'NM_LOCALIDADE'
+      Required = True
+      Size = 40
+    end
+    object procIBGECD_UF: TStringField
+      DisplayLabel = 'UF'
+      FieldName = 'CD_UF'
+      FixedChar = True
+      Size = 2
+    end
+    object procIBGENM_MUNICIPIO: TStringField
+      DisplayLabel = 'Nome Munic'#237'pio'
+      FieldName = 'NM_MUNICIPIO'
+      Size = 40
+    end
+    object procIBGECD_IBGE: TStringField
+      DisplayLabel = 'C'#243'digo IBGE'
+      FieldName = 'CD_IBGE'
+      Required = True
+      Size = 10
     end
   end
 end

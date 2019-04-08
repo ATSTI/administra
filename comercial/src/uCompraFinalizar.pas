@@ -344,6 +344,26 @@ type
     scds_serie_procMODELO: TStringField;
     Label42: TLabel;
     DBEdit20: TDBEdit;
+    pnCte: TPanel;
+    Label43: TLabel;
+    edMunOrigem: TEdit;
+    Label44: TLabel;
+    edMunDestino: TEdit;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
+    procIBGE: TSQLClientDataSet;
+    procIBGENM_LOCALIDADE2: TStringField;
+    procIBGECD_UF: TStringField;
+    procIBGENM_MUNICIPIO: TStringField;
+    procIBGECD_IBGE: TStringField;
+    sds_compraCODORIGEM: TIntegerField;
+    sds_compraMUN_ORIGEM: TStringField;
+    sds_compraMUN_DESTINO: TStringField;
+    cds_compraCODORIGEM: TIntegerField;
+    cds_compraMUN_ORIGEM: TStringField;
+    cds_compraMUN_DESTINO: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -384,6 +404,10 @@ type
     procedure btnSairClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure ValidaNFe();
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure notafiscal ;
@@ -406,13 +430,14 @@ implementation
 
 uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
   uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
-  uAtsAdmin, uEstoque, uNFeletronica, pcnProcNFe;
+  uAtsAdmin, uEstoque, pcnProcNFe;
 
 {$R *.dfm}
 
 procedure TfCompraFinalizar.btnIncluirClick(Sender: TObject);
 begin
   inherited;
+  
   dbeUsuario.SetFocus;
 end;
 
@@ -581,6 +606,16 @@ begin
   end;
   if DtSrc.State in [dsInsert, dsEdit] then
   begin
+    if ((edMunOrigem.Text <> '') and (edMunDestino.Text <> '')) then
+    begin
+     {
+      strSql := 'UPDATE COMPRA set MUN_ORIGEM =  ' + QuotedStr(edMunOrigem.Text) +
+        ' , MUN_DESTINO = ' + QuotedStr(edMunDestino.Text) +
+        ' WHERE CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);}
+      cds_compraMUN_ORIGEM.AsString := edMunOrigem.Text;
+      cds_compraMUN_DESTINO.AsString := edMunDestino.Text;
+    end;
     // Inserindo FRETE + SEGURO + OUTROS + IPI + ST
     cds_compraVALOR.AsFloat := cds_compraVALOR.AsFloat + cds_compraVALOR_FRETE.AsFloat + cds_compraVALOR_SEGURO.AsFloat +
       cds_compraOUTRAS_DESP.AsFloat + cds_compraVALOR_IPI.AsFloat + cds_compraICMS_ST.AsFloat;
@@ -612,6 +647,7 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
+       cds_Compra.ApplyUpdates(0);
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -644,25 +680,6 @@ begin
       Exit;
     end;
   end;}
-
-  if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
-  begin
-    strSql := 'UPDATE MOVIMENTO set STATUS = 4 ' +
-      ' WHERE CODMOVIMENTO = ' + IntToStr(cds_compraCODMOVIMENTO.AsInteger);
-    dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(strSql);
-    Try
-       cds_Compra.ApplyUpdates(0);
-       dm.sqlsisAdimin.Commit(TD);
-    except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD);
-        Exit;
-      end;
-    end;
-  end;
 
   if (dm.moduloUsado = 'CITRUS') then
   begin
@@ -726,6 +743,25 @@ begin
     grava.Destroy;
   end;
 
+
+  if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
+  begin
+    strSql := 'UPDATE MOVIMENTO set STATUS = 4 ' +
+      ' WHERE CODMOVIMENTO = ' + IntToStr(cds_compraCODMOVIMENTO.AsInteger);
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       cds_Compra.ApplyUpdates(0);
+       dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+        Exit;
+      end;
+    end;
+  end;
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cod_id;
   scdsCr_proc.Open;
@@ -740,7 +776,7 @@ begin
        scds_serie_proc.Params[0].AsString := dbeSerie.Text;
        scds_serie_proc.Open;
     end;
-    if (scds_serie_procMODELO.AsString <> '55') then
+    //if (scds_serie_procMODELO.AsString <> '55') then
     begin
       if (cds_compraNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
       begin
@@ -902,6 +938,8 @@ end;
 procedure TfCompraFinalizar.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
+  edMunOrigem.Text := '';
+  edMunDestino.Text := '';
   DecimalSeparator := ',';
   if (DM.tipoCompra = 'DEVOLUCAO') then
   begin
@@ -1012,6 +1050,11 @@ begin
         cbConta.Text := dm.cds_7_contasNOME.Text
       else
         cbConta.Text := '';
+    end;
+    if (cds_compraMUN_ORIGEM.AsString <> '') then
+    begin
+      edMunOrigem.Text := cds_compraMUN_ORIGEM.AsString;
+      edMunDestino.Text := cds_compraMUN_DESTINO.AsString;
     end;
 
     if (dm.moduloUsado = 'CITRUS') then
@@ -1220,7 +1263,8 @@ begin
     cds_compraOUTRAS_DESP.AsFloat := 0;
     cds_compraVALOR_ICMS.AsFloat := 0;
     cds_compraVALOR_IPI.AsFloat := 0;
-    cds_compraOUTRAS_DESP.AsFloat := 0;    
+    cds_compraOUTRAS_DESP.AsFloat := 0;
+    cds_compraOPERACAO.AsString := '0';
     fCompra.cds_Mov_det.First;
     while not fCompra.cds_Mov_det.Eof do
     begin
@@ -1314,7 +1358,11 @@ end;
 procedure TfCompraFinalizar.btnNotaFiscalClick(Sender: TObject);
 begin
   inherited;
-
+  if (combobox1.Text = '') then
+  begin
+    MessageDlg('Forma de Pagamento é obrigatório',mtInformation,[mbOk],0);
+    Exit;
+  end;
   if DtSrc.State in [dsInsert] then
   begin
     btnGravar.Click;
@@ -1466,7 +1514,41 @@ var
   TD: TTransactionDesc;
   Save_Cursor:TCursor;
   str_sql : string;
+  dia, mes,ano :word;
+  numero_ano,numero_mes, numero_dia : string;
+  str_sql_user: String;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  DecodeDate(Now,ano,mes,dia);
+  numero_ano := copy(IntToStr(ano),3,2);
+  if (mes < 10) then
+    numero_mes := '0' + IntToStr(mes)
+  else
+    numero_mes := IntToStr(mes);
+  if (dia < 10) then
+    numero_dia := '0' + IntToStr(dia)
+  else
+    numero_dia := IntToStr(dia);
+
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    str_sql_user := 'UPDATE UCTABUSERSLOGGED SET ' +
+      ' TIPONOTA = 0 ' + 
+      ' WHERE UCIDUSER = ' + IntToStr(usulog) +
+      ' AND UCDATA LIKE ' + QuotedStr(numero_dia + '/' + numero_mes  + '/' + numero_ano + '%');
+    dm.sqlsisAdimin.ExecuteDirect(str_sql_user);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
+    end;
+  end;
+
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
@@ -1878,10 +1960,9 @@ end;
 
 procedure TfCompraFinalizar.ValidaNFe();
 begin
-  {$IFNDEF ACBrNFeOpenSSL}
+  {
     if( fNFeletronica.ACBrNFe1.Configuracoes.Certificados.NumeroSerie = '') then
     fNFeletronica.ACBrNFe1.SSL.SelecionarCertificado;
-  {$ENDIF}
   try
     try
       cds_compraCHAVENF.AsString := fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
@@ -1900,6 +1981,53 @@ begin
       cds_compra.ApplyUpdates(0);
     end;
   end
+  }
+end;
+
+procedure TfCompraFinalizar.BitBtn4Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+   fProcurar.BtnProcurar.Click;
+   fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
+   if fProcurar.ShowModal=mrOk then
+   begin
+     edMunOrigem.Text  := procIBGECD_IBGE.AsString;
+   end;
+   finally
+    procIBGE.Close;
+    fProcurar.Free;
+   end;
+end;
+
+procedure TfCompraFinalizar.BitBtn5Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,procIBGE);
+  try
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'NM_LOCALIDADE';
+    if fProcurar.ShowModal=mrOk then
+    begin
+      edMunDestino.Text  := procIBGECD_IBGE.AsString;
+    end;
+  finally
+    procIBGE.Close;
+    fProcurar.Free;
+  end;
+end;
+
+procedure TfCompraFinalizar.BitBtn6Click(Sender: TObject);
+begin
+  inherited;
+  PnCte.Visible := True;
+end;
+
+procedure TfCompraFinalizar.BitBtn3Click(Sender: TObject);
+begin
+  inherited;
+  pnCte.Visible := False;
 end;
 
 end.
