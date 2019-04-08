@@ -1,7 +1,7 @@
 object fNfePisCofins: TfNfePisCofins
-  Left = 1
+  Left = 0
   Top = 1
-  Width = 1112
+  Width = 1024
   Height = 605
   Caption = 'Sped Pis Cofins'
   Color = clBtnFace
@@ -14,7 +14,7 @@ object fNfePisCofins: TfNfePisCofins
   Position = poScreenCenter
   OnCreate = FormCreate
   DesignSize = (
-    1104
+    1016
     578)
   PixelsPerInch = 96
   TextHeight = 13
@@ -54,6 +54,16 @@ object fNfePisCofins: TfNfePisCofins
     Color = clBtnFace
     ParentColor = False
   end
+  object Label12: TLabel
+    Left = 16
+    Top = 560
+    Width = 694
+    Height = 13
+    Caption = 
+      '* Obs: Conta Cont'#225'bil cadastrada no Plano de Contas com o Tipo L' +
+      'an'#231'amento = SPED, e cadastrada no Cadastro de Produtos na Conta_' +
+      'Despesa'
+  end
   object btnTXT: TButton
     Left = 432
     Top = 512
@@ -66,14 +76,14 @@ object fNfePisCofins: TfNfePisCofins
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1104
+    Width = 1016
     Height = 113
     Align = alTop
     BevelOuter = bvNone
     BorderStyle = bsSingle
     TabOrder = 1
     DesignSize = (
-      1100
+      1012
       109)
     object Label1: TLabel
       Left = 22
@@ -87,7 +97,7 @@ object fNfePisCofins: TfNfePisCofins
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 1100
+      Width = 1012
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -120,7 +130,7 @@ object fNfePisCofins: TfNfePisCofins
     object edtFile: TEdit
       Left = 22
       Top = 28
-      Width = 627
+      Width = 539
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
@@ -128,7 +138,7 @@ object fNfePisCofins: TfNfePisCofins
       OnExit = edtFileExit
     end
     object cbConcomitante: TCheckBox
-      Left = 700
+      Left = 612
       Top = 30
       Width = 134
       Height = 19
@@ -252,7 +262,7 @@ object fNfePisCofins: TfNfePisCofins
   object memoError: TMemo
     Left = 8
     Top = 153
-    Width = 1090
+    Width = 1002
     Height = 112
     Anchors = [akLeft, akTop, akRight]
     ScrollBars = ssVertical
@@ -261,7 +271,7 @@ object fNfePisCofins: TfNfePisCofins
   object memoTXT: TMemo
     Left = 8
     Top = 288
-    Width = 1090
+    Width = 1002
     Height = 192
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
@@ -293,7 +303,7 @@ object fNfePisCofins: TfNfePisCofins
     Text = '1000'
   end
   object btnError: TButton
-    Left = 804
+    Left = 716
     Top = 510
     Width = 100
     Height = 25
@@ -2268,9 +2278,11 @@ object fNfePisCofins: TfNfePisCofins
       'DET.VALOR_SEGURO, DET.VALOR_OUTROS, DET.OBS, DET.CODSOLICITACAO,' +
       ' DET.VALOR_PIS, DET.VALOR_COFINS, DET.II, DET.BCII, PRO.CODPRO, ' +
       'PRO.NCM, DET.CSTIPI, DET.CSTPIS, DET.CSTCOFINS, DET.PPIS, DET.PC' +
-      'OFINS'#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, PRODUTOS PRO' +
-      #13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      AND PRO.CODPR' +
-      'ODUTO     = DET.CODPRODUTO'#13#10'      AND MOV.CODMOVIMENTO = :PMOV'
+      'OFINS, DET.CST_IPI_CENQ, PRO.CONTA_DESPESA, PRO.CONTA_RECEITA, P' +
+      'RO.CONTA_ESTOQUE '#13#10'   FROM MOVIMENTO MOV, MOVIMENTODETALHE DET, ' +
+      'PRODUTOS PRO'#13#10'WHERE MOV.CODMOVIMENTO = DET.CODMOVIMENTO'#13#10'      A' +
+      'ND PRO.CODPRODUTO     = DET.CODPRODUTO'#13#10'      AND MOV.CODMOVIMEN' +
+      'TO = :PMOV'
     MaxBlobSize = -1
     Params = <
       item
@@ -2466,6 +2478,23 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsItensPCOFINS: TFloatField
       FieldName = 'PCOFINS'
+    end
+    object cdsItensCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsItensCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object cdsItensCONTA_RECEITA: TStringField
+      FieldName = 'CONTA_RECEITA'
+      Size = 15
+    end
+    object cdsItensCONTA_ESTOQUE: TStringField
+      FieldName = 'CONTA_ESTOQUE'
+      Size = 15
     end
   end
   object sdsUnimed: TSQLQuery
@@ -2792,8 +2821,10 @@ object fNfePisCofins: TfNfePisCofins
       'r.FRETE, r.BCFRETE, r.STFRETE, r.BCSTFRETE, r.ICMSFRETE, r.CSOSN' +
       ', r.VALOR_SEGURO, '#13#10'r.VALOR_OUTROS,  r.VALOR_PIS, r.VALOR_COFINS' +
       ', r.II, r.BCII, r.CSTIPI, r.CSTPIS, r.CSTCOFINS, r.PPIS, r.PCOFI' +
-      'NS'#13#10'    FROM MOVIMENTODETALHE r'#13#10'   WHERE  R.CODMOVIMENTO =  :CO' +
-      'DINI '#13#10
+      'NS, r.CST_IPI_CENQ, PRO.CONTA_DESPESA, PRO.CONTA_RECEITA, PRO.CO' +
+      'NTA_ESTOQUE '#13#10'    FROM MOVIMENTODETALHE r, PRODUTOS PRO '#13#10'   WHE' +
+      'RE r.CODPRODUTO = PRO.CODPRODUTO AND  R.CODMOVIMENTO =  :CODINI ' +
+      #13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -2914,6 +2945,23 @@ object fNfePisCofins: TfNfePisCofins
     end
     object sdsCompraDetPCOFINS: TFloatField
       FieldName = 'PCOFINS'
+    end
+    object sdsCompraDetCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object sdsCompraDetCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object sdsCompraDetCONTA_RECEITA: TStringField
+      FieldName = 'CONTA_RECEITA'
+      Size = 15
+    end
+    object sdsCompraDetCONTA_ESTOQUE: TStringField
+      FieldName = 'CONTA_ESTOQUE'
+      Size = 15
     end
   end
   object dspCompraDet: TDataSetProvider
@@ -3042,6 +3090,23 @@ object fNfePisCofins: TfNfePisCofins
     end
     object cdsCompraDetPCOFINS: TFloatField
       FieldName = 'PCOFINS'
+    end
+    object cdsCompraDetCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsCompraDetCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      Size = 15
+    end
+    object cdsCompraDetCONTA_RECEITA: TStringField
+      FieldName = 'CONTA_RECEITA'
+      Size = 15
+    end
+    object cdsCompraDetCONTA_ESTOQUE: TStringField
+      FieldName = 'CONTA_ESTOQUE'
+      Size = 15
     end
   end
   object sdsTotal: TSQLDataSet
@@ -3764,23 +3829,24 @@ object fNfePisCofins: TfNfePisCofins
   end
   object sqlM400: TSQLDataSet
     CommandText = 
-      'select sum(md.VLR_BASE * md.QUANTIDADE) , md.CSTPIS'#13#10'  from NOTA' +
-      'FISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODETALHE md '#13#10' where n' +
-      'f.CODVENDA = v.CODVENDA '#13#10'   and v.CODMOVIMENTO = m.CODMOVIMENTO' +
-      #13#10'   and m.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'   and nf.DTAEMISSAO' +
-      ' between :DTA1 and :DTA2'#13#10'   and (md.CSTPIS in ('#39'06'#39', '#39'05'#39', '#39'04'#39 +
-      ', '#39'07'#39', '#39'08'#39', '#39'09'#39')) and (md.PPIS = 0) '#13#10'   and (m.CODNATUREZA i' +
-      'n (12, 15))'#13#10'   and nf.PROTOCOLOCANC is null '#13#10' group by md.CSTP' +
-      'IS '
+      'select sum(md.VLR_BASE * md.QUANTIDADE) , md.CSTPIS, p.CONTA_DES' +
+      'PESA '#13#10'  from NOTAFISCAL NF, VENDA V, MOVIMENTO m , MOVIMENTODET' +
+      'ALHE md , PRODUTOS p'#13#10' where nf.CODVENDA = v.CODVENDA '#13#10'   and v' +
+      '.CODMOVIMENTO = m.CODMOVIMENTO'#13#10'   and m.CODMOVIMENTO = md.CODMO' +
+      'VIMENTO '#13#10'  and md.CODPRODUTO = p.CODPRODUTO '#13#10'   and nf.DTAEMIS' +
+      'SAO between :DTA1 and :DTA2'#13#10'   and (md.CSTPIS in ('#39'06'#39', '#39'05'#39', '#39 +
+      '04'#39', '#39'07'#39', '#39'08'#39', '#39'09'#39')) and (md.PPIS = 0) '#13#10'   and (m.CODNATUREZ' +
+      'A in (12, 15))'#13#10'   and nf.PROTOCOLOCANC is null '#13#10' group by md.C' +
+      'STPIS , p.CONTA_DESPESA '
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTA1'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftDate
         Name = 'DTA2'
         ParamType = ptInput
       end>
@@ -3833,5 +3899,29 @@ object fNfePisCofins: TfNfePisCofins
     ProviderName = 'dspUnimed'
     Left = 416
     Top = 208
+  end
+  object sdsPlanoContas: TSQLDataSet
+    CommandText = 
+      'SELECT SUM(MD.VIPI) IPI, SUM(MD.VALOR_PIS) PIS, SUM(MD.VALOR_COF' +
+      'INS) COFINS '#13#10'   FROM COMPRA C, MOVIMENTODETALHE MD   '#13#10'WHERE md' +
+      '.CODMOVIMENTO = c.CODMOVIMENTO      '#13#10#13#10' '
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 496
+    Top = 200
+  end
+  object dspPlanoContas: TDataSetProvider
+    DataSet = sdsPlanoContas
+    Options = [poAllowCommandText]
+    Left = 528
+    Top = 200
+  end
+  object cdsPlanoContas: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspPlanoContas'
+    Left = 560
+    Top = 200
   end
 end
