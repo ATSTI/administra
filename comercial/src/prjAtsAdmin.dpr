@@ -182,7 +182,6 @@ uses
   uOrdemAssistencia in 'uOrdemAssistencia.pas' {fOrdemAssistencia},
   uParametrosTerminal in 'uParametrosTerminal.pas' {fParametrosTerminal},
   uPfaturamento in 'uPfaturamento.pas' {fPfaturamento},
-  uNFeletronica in 'uNFeletronica.pas' {fNFeletronica},
   uLogsUsu in 'uLogsUsu.pas' {fLogsUsu},
   uTb_Ibge in 'uTb_Ibge.pas' {fTb_Ibge},
   uOf in 'uOf.pas' {fOf},
@@ -371,7 +370,6 @@ uses
   uInventarioAssistente in 'uInventarioAssistente.pas' {fInventarioAssistente},
   uTributosInfo in 'uTributosInfo.pas' {fTributosInfo},
   uProdutoAgrupa in 'uProdutoAgrupa.pas' {fProdutoAgrupa},
-  uNFCe in 'uNFCe.pas' {fNFCe},
   uBolSic in 'uBolSic.pas' {fBolSic},
   uBolSicR in 'uBolSicR.pas' {fBolSicR},
   RLCob748 in 'RLCob748.pas',
@@ -380,7 +378,12 @@ uses
   uCest in 'uCest.pas' {fCest},
   uSatAcbr in 'uSatAcbr.pas' {fSatAcbr},
   ConfiguraSerial in 'configuraserial.pas' {frConfiguraSerial},
-  uEmpresaProcura in 'uEmpresaProcura.pas' {fEmpresaProcura};
+  uEmpresaProcura in 'uEmpresaProcura.pas' {fEmpresaProcura},
+  ufNFeExe in 'ufNFeExe.pas' {fNFeExe},
+  uEstoqueAdm in 'uEstoqueAdm.pas' {fEstoqueAdm},
+  uNFCe in 'uNFCe.pas' {fNFCe},
+  uLotesInclui in 'uLotesInclui.pas' {fLotesInclui},
+  uArquivoRetornoItau in 'uArquivoRetornoItau.pas' {fArquivoRetornoItau};
 
 {$R *.res}
 
@@ -393,6 +396,9 @@ begin
   Application.CreateForm(TDmCitrus, DmCitrus);
   if (dm.conectado = False) then
     Application.Terminate;
+  if (dm.moduloUsado = 'ESTOQUE') then
+    Application.CreateForm(TfEstoqueAdm, fEstoqueAdm);
+
   if (dm.moduloUsado = 'AUTOMOTIVA') then
     Application.CreateForm(TfAtsOs, fAtsOs);
 
@@ -423,7 +429,7 @@ begin
   Application.CreateForm(TfPrazo, fPrazo);
   Application.CreateForm(TfCombo, fCombo);
   Application.CreateForm(TfGeraEtiquetas, fGeraEtiquetas);
-  Application.CreateForm(TfNFeletronica, fNFeletronica);
+  //Application.CreateForm(TfNFeletronica, fNFeletronica);
   if (dm.tipo_nfe = 'NFCe') then
     Application.CreateForm(TfNFCe, fNFCe);  
   Application.CreateForm(TfNFeMail, fNFeMail);
