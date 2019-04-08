@@ -2264,7 +2264,10 @@ var   FMov : TMovimento;
    codMov  : Integer;
       TDA  : TTransactionDesc;
 begin
-  inherited;
+  //inherited;
+  if  MessageDlg('Confirma DUPLICAR o PEDIDO ? ',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+
   if DtSrc.DataSet.State in [dsInactive] then
     exit;
 
