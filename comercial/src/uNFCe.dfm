@@ -1,6 +1,6 @@
 object fNFCe: TfNFCe
-  Left = 296
-  Top = 88
+  Left = 459
+  Top = 118
   Width = 828
   Height = 614
   Caption = 'NFC-e'
@@ -12,6 +12,7 @@ object fNFCe: TfNFCe
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -125,6 +126,14 @@ object fNFCe: TfNFCe
     Width = 98
     Height = 13
     Caption = 'Forma Recebimento:'
+  end
+  object Label12: TLabel
+    Left = 488
+    Top = 32
+    Width = 53
+    Height = 13
+    Caption = 'CANHOTO'
+    Visible = False
   end
   object edNFCe: TEdit
     Left = 56
@@ -1022,7 +1031,7 @@ object fNFCe: TfNFCe
   end
   object edtNumSerie: TEdit
     Left = 356
-    Top = 7
+    Top = 4
     Width = 186
     Height = 21
     TabOrder = 7
@@ -1434,18 +1443,14 @@ object fNFCe: TfNFCe
       F6F6F2F6F6F2F6F4F1F2EFFDFBEEFFFFEFFFFFEFFFFFEFFFFFEFFFFFEFFFFFEF
       FFFF}
   end
-  object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libCapicom
-    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.ModeloDF = moNFCe
-    Configuracoes.Geral.VersaoDF = ve200
-    Configuracoes.Geral.IncluirQRCodeXMLNFCe = True
-    Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.QuebradeLinha = '|'
-    DANFE = ACBrNFeDANFeRL1
-    Left = 528
-    Top = 325
+  object edDesconto: TJvCalcEdit
+    Left = 32
+    Top = 48
+    Width = 121
+    Height = 21
+    TabOrder = 16
+    Visible = False
+    DecimalPlacesAlwaysShown = False
   end
   object SQLDataSet1: TSQLDataSet
     Params = <>
@@ -1998,21 +2003,21 @@ object fNFCe: TfNFCe
       '          udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10' ' +
       '         ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'  ' +
       '        pr.UNIDADEMEDIDA,'#13#10'          UDF_TRIM(md.CST) CST,'#13#10'    ' +
-      '      md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 2) as ' +
-      'pIPI,'#13#10'          UDF_ROUNDDEC(md.FRETE, 2) as FRETE,'#13#10'          ' +
-      'UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO,'#13#10'         ' +
-      ' UDF_ROUNDDEC(md.vIPI, 2) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VL' +
-      'R_BASEICMS, 2) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR' +
-      '_ICMS, 2) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 2' +
-      ') as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS' +
-      '_SUBST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 2) as ICMS_SUBST' +
-      'D, '#13#10'          UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, '#13#10'   ' +
-      '       UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, '#13#10'     ' +
-      '     UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL,' +
-      ' '#13#10'          UDF_ROUNDDEC(md.VALOR_SEGURO, 2) as VALOR_SEGURO,'#13#10 +
-      '          UDF_ROUNDDEC(md.VALOR_OUTROS, 2) as VALOR_OUTROS,'#13#10'   ' +
-      '       UDF_ROUNDDEC(md.II, 2) as II,'#13#10'          UDF_ROUNDDEC(md.' +
-      'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
+      '      md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 6) as ' +
+      'pIPI,'#13#10'          UDF_ROUNDDEC(md.FRETE, 6) as FRETE,'#13#10'          ' +
+      'UDF_ROUNDDEC(md.VALOR_DESCONTO, 6) as VALOR_DESCONTO,'#13#10'         ' +
+      ' UDF_ROUNDDEC(md.vIPI, 6) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VL' +
+      'R_BASEICMS, 6) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR' +
+      '_ICMS, 6) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 6' +
+      ') as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 6) as ICMS' +
+      '_SUBST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 6) as ICMS_SUBST' +
+      'D, '#13#10'          UDF_ROUNDDEC(md.VALOR_PIS, 6) as VALOR_PIS, '#13#10'   ' +
+      '       UDF_ROUNDDEC(md.VALOR_COFINS, 6) as VALOR_COFINS, '#13#10'     ' +
+      '     UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 6) as VALTOTAL,' +
+      ' '#13#10'          UDF_ROUNDDEC(md.VALOR_SEGURO, 6) as VALOR_SEGURO,'#13#10 +
+      '          UDF_ROUNDDEC(md.VALOR_OUTROS, 6) as VALOR_OUTROS,'#13#10'   ' +
+      '       UDF_ROUNDDEC(md.II, 6) as II,'#13#10'          UDF_ROUNDDEC(md.' +
+      'BCII, 6) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
       ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRB' +
       'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB,' +
       ' pr.COD_BARRA, pr.NCM'#13#10'          ,pr.ORIGEM , md.CODMOVIMENTO '#13#10 +
@@ -2804,49 +2809,6 @@ object fNFCe: TfNFCe
     Left = 480
     Top = 269
   end
-  object ACBrNFeDANFeRL1: TACBrNFeDANFeRL
-    ACBrNFe = ACBrNFe1
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDANFE = tiNFCe
-    NumCopias = 1
-    ImprimeNomeFantasia = False
-    ImprimirDescPorc = False
-    ImprimirTotalLiquido = True
-    MargemInferior = 0.700000000000000000
-    MargemSuperior = 0.700000000000000000
-    MargemEsquerda = 0.700000000000000000
-    MargemDireita = 0.700000000000000000
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais._qCom = 4
-    CasasDecimais._vUnCom = 4
-    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
-    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
-    ExibirResumoCanhoto = False
-    FormularioContinuo = False
-    TamanhoFonte_DemaisCampos = 10
-    ProdutosPorPagina = 0
-    ImprimirDetalhamentoEspecifico = True
-    NFeCancelada = False
-    LocalImpCanhoto = 0
-    ImprimirItens = True
-    ViaConsumidor = True
-    TamanhoLogoHeight = 0
-    TamanhoLogoWidth = 0
-    RecuoEndereco = 0
-    RecuoEmpresa = 0
-    LogoemCima = False
-    TamanhoFonteEndereco = 0
-    RecuoLogo = 0
-    TributosSeparadamente = False
-    UsaCodigoEanImpressao = True
-    LarguraCodProd = 54
-    ExibirEAN = False
-    QuebraLinhaEmDetalhamentoEspecifico = True
-    ExibeCampoFatura = False
-    Left = 576
-    Top = 333
-  end
   object OpenDialog1: TOpenDialog
     Left = 256
     Top = 48
@@ -2871,81 +2833,21 @@ object fNFCe: TfNFCe
     Left = 352
     Top = 32
   end
-  object ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDANFE = tiNFCe
-    NumCopias = 1
-    ImprimeNomeFantasia = False
-    ImprimirDescPorc = False
-    ImprimirTotalLiquido = True
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais._qCom = 2
-    CasasDecimais._vUnCom = 2
-    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
-    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
-    ExibirResumoCanhoto = False
-    FormularioContinuo = False
-    TamanhoFonte_DemaisCampos = 10
-    ProdutosPorPagina = 0
-    ImprimirDetalhamentoEspecifico = True
-    NFeCancelada = False
-    LocalImpCanhoto = 0
-    ImprimirItens = True
-    ViaConsumidor = True
-    TamanhoLogoHeight = 0
-    TamanhoLogoWidth = 0
-    RecuoEndereco = 0
-    RecuoEmpresa = 0
-    LogoemCima = False
-    TamanhoFonteEndereco = 0
-    RecuoLogo = 0
-    TributosSeparadamente = False
-    PosCanhoto = prCabecalho
-    PosPrinter = ACBrPosPrinter1
-    Left = 416
-    Top = 32
-  end
-  object ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDANFE = tiNFCeA4
-    NumCopias = 1
-    ImprimeNomeFantasia = False
-    ImprimirDescPorc = False
-    ImprimirTotalLiquido = True
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais._qCom = 2
-    CasasDecimais._vUnCom = 2
-    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
-    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
-    ExibirResumoCanhoto = False
-    FormularioContinuo = False
-    TamanhoFonte_DemaisCampos = 10
-    ProdutosPorPagina = 0
-    ImprimirDetalhamentoEspecifico = True
-    NFeCancelada = False
-    LocalImpCanhoto = 0
-    ImprimirItens = True
-    ViaConsumidor = True
-    TamanhoLogoHeight = 0
-    TamanhoLogoWidth = 0
-    RecuoEndereco = 0
-    RecuoEmpresa = 0
-    LogoemCima = False
-    TamanhoFonteEndereco = 0
-    RecuoLogo = 0
-    TributosSeparadamente = False
-    PosCanhoto = prCabecalho
-    Left = 304
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
+    Configuracoes.Geral.SSLCryptLib = cryCapicom
+    Configuracoes.Geral.SSLHttpLib = httpIndy
+    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.ModeloDF = moNFCe
+    Configuracoes.Geral.VersaoDF = ve400
+    Configuracoes.Geral.VersaoQRCode = veqr200
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    DANFE = ACBrNFeDANFeESCPOS1
+    Left = 288
     Top = 32
   end
   object ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4
@@ -2963,15 +2865,14 @@ object fNFCe: TfNFCe
     CasasDecimais.Formato = tdetInteger
     CasasDecimais._qCom = 2
     CasasDecimais._vUnCom = 2
-    CasasDecimais._Mask_qCom = '###,###,###,##0.00'
-    CasasDecimais._Mask_vUnCom = '###,###,###,##0.00'
+    CasasDecimais._Mask_qCom = ',0.00'
+    CasasDecimais._Mask_vUnCom = ',0.00'
     ExibirResumoCanhoto = False
     FormularioContinuo = False
-    TamanhoFonte_DemaisCampos = 10
+    TamanhoFonte_DemaisCampos = 8
     ProdutosPorPagina = 0
     ImprimirDetalhamentoEspecifico = True
     NFeCancelada = False
-    LocalImpCanhoto = 0
     ImprimirItens = True
     ViaConsumidor = True
     TamanhoLogoHeight = 0
@@ -2981,9 +2882,79 @@ object fNFCe: TfNFCe
     LogoemCima = False
     TamanhoFonteEndereco = 0
     RecuoLogo = 0
-    TributosSeparadamente = False
-    PosCanhoto = prCabecalho
-    Left = 512
-    Top = 40
+    Left = 392
+    Top = 32
+  end
+  object ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes
+    MostrarPreview = True
+    MostrarStatus = True
+    TipoDANFE = tiNFCe
+    NumCopias = 1
+    ImprimeNomeFantasia = False
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = True
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    CasasDecimais._Mask_qCom = ',0.00'
+    CasasDecimais._Mask_vUnCom = ',0.00'
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 8
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    ImprimirItens = True
+    ViaConsumidor = True
+    TamanhoLogoHeight = 0
+    TamanhoLogoWidth = 0
+    RecuoEndereco = 0
+    RecuoEmpresa = 0
+    LogoemCima = False
+    TamanhoFonteEndereco = 0
+    RecuoLogo = 0
+    Left = 432
+    Top = 32
+  end
+  object ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS
+    ACBrNFe = ACBrNFe1
+    MostrarPreview = False
+    MostrarStatus = True
+    TipoDANFE = tiNFCe
+    NumCopias = 1
+    ImprimeNomeFantasia = False
+    ImprimirDescPorc = False
+    ImprimirTotalLiquido = True
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais._qCom = 2
+    CasasDecimais._vUnCom = 2
+    CasasDecimais._Mask_qCom = ',0.00'
+    CasasDecimais._Mask_vUnCom = ',0.00'
+    ExibirResumoCanhoto = False
+    FormularioContinuo = False
+    TamanhoFonte_DemaisCampos = 8
+    ProdutosPorPagina = 0
+    ImprimirDetalhamentoEspecifico = True
+    NFeCancelada = False
+    ImprimirItens = True
+    ViaConsumidor = True
+    TamanhoLogoHeight = 0
+    TamanhoLogoWidth = 0
+    RecuoEndereco = 0
+    RecuoEmpresa = 0
+    LogoemCima = False
+    TamanhoFonteEndereco = 0
+    RecuoLogo = 0
+    PosPrinter = ACBrPosPrinter1
+    Left = 320
+    Top = 32
   end
 end

@@ -9,11 +9,11 @@ uses
   pcnConversaoNFe, pcnConversao,pcnNFe, ACBrUtil, ACBrNFeDANFEClass,
   ACBrNFeDANFeRLClass, ComCtrls, Buttons, ACBrDfeSSL, ACBrNFeDANFeESCPOS,
   ACBrPosPrinter, Spin, IniFiles,TypInfo, OleCtrls, SHDocVw,
-  ACBrDANFCeFortesFr, ACBrDANFCeFortesFrA4;
+  ACBrDANFCeFortesFr, Mask, JvExMask, JvToolEdit,
+  JvBaseEdits, ACBrDANFCeFortesFrA4;
 
 type
   TfNFCe = class(TForm)
-    ACBrNFe1: TACBrNFe;
     edNFCe: TEdit;
     Label1: TLabel;
     SQLDataSet1: TSQLDataSet;
@@ -310,7 +310,6 @@ type
     cdsNFE_MAIL: TStringField;
     sdsNFCD_IBGE: TStringField;
     cdsNFCD_IBGE: TStringField;
-    ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -349,7 +348,6 @@ type
     sbtnCaminhoCert: TSpeedButton;
     BitBtn2: TBitBtn;
     ACBrPosPrinter1: TACBrPosPrinter;
-    ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
     BitBtn3: TBitBtn;
     GroupBox4: TGroupBox;
     Label11: TLabel;
@@ -376,8 +374,12 @@ type
     cbUsarFortes: TRadioButton;
     Panel1: TPanel;
     mRecebido: TWebBrowser;
-    ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
+    edDesconto: TJvCalcEdit;
+    ACBrNFe1: TACBrNFe;
+    Label12: TLabel;
     ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4;
+    ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
+    ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
@@ -387,12 +389,17 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     path_nfce: String;
     nova_nota: String;
     codnf: Integer;
     totalNFCe: Double;
     tk, id_tk: String;
+    ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
+    
+    //ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
+    //ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4;
     function RemoveChar(Const Texto:String):String;
     procedure GerarNFCe(NumNFe: String);
     procedure pegaItens;
@@ -427,6 +434,7 @@ var
  str: String;
  TD: TTransactionDesc;
 begin
+  ACBrNFe1.NotasFiscais.Clear;
   if (edit2.Text = '') then
   begin
     if (MessageDlg('DESEJA CPF NA NOTA ?',
@@ -477,7 +485,8 @@ begin
 
   // carlos 23/12/14
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
-  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve310;
+  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve400;
+  ACBrNFe1.Configuracoes.Geral.VersaoQRCode := veqr200;
 
   ACBrNFe1.Configuracoes.Geral.IdCSC := id_tk;
   ACBrNFe1.Configuracoes.Geral.CSC := tk;
@@ -506,6 +515,16 @@ begin
   //ACBrNFe1.NotasFiscais.GravarXML(edit1.Text + nome_xml);
   LoadXML(ACBrNFe1.NotasFiscais.Items[0].XML,  mRecebido);
   // carlos 06/01/2015
+
+  prepararImpressao();
+  // ############# descomentar a linha abaixo
+  ACBrNFe1.DANFE := ACBrNFeDANFeESCPOS1;
+  if cbUsarFortes.Checked then
+    ACBrNFe1.DANFE := ACBrNFeDANFCeFortesA41;
+  //ACBrNFeDANFeESCPOS1.ImprimirDANFE();
+
+  //ACBrNFe1.DANFE.TipoDANFE := tiNFCeA4;
+
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);
 
 
@@ -550,7 +569,7 @@ begin
   try
     str := 'UPDATE NOTAFISCAL SET ';
     str := str + ' XMLNFE = ' + quotedStr(ACBrNFe1.NotasFiscais.Items[0].XML);
-    str := str + ' NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID,
+    str := str + ', NOMEXML = ' + QuotedStr(copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID,
       (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml');
     str := str + ', STATUS = ' + QuotedStr('E');
     if (Protocolo <> '') then
@@ -572,7 +591,7 @@ begin
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Nota Fiscal Consumidor, gerada com sucesso.');
   MemoDados.Lines.Add('');
-  ACBrNFe1.NotasFiscais.Clear;
+
 end;
 
 procedure TfNFCe.GerarNFCe(NumNFe: String);
@@ -716,6 +735,7 @@ begin
         format('%8.2n', [sqlTotal_tributos.Fields[1].AsFloat]) + '-Est e ' +
         format('%8.2n', [sqlTotal_tributos.Fields[2].AsFloat]) + '-Mun ';
       InfAdic.infCpl := infCplTrib + 'Fonte: IBPT';//Fonte: IBPT/FECOMERCIO RJ Xe67eQ
+      // DESCOMENTAR #################################
       ACBrNFeDANFCeFortesA41.FonteTributos := 'Fonte: IBPT';
       ACBrNFeDANFCeFortesA41.vTribFed := sqlTotal_tributos.Fields[0].AsFloat;
       ACBrNFeDANFCeFortesA41.vTribEst := sqlTotal_tributos.Fields[1].AsFloat;
@@ -775,13 +795,13 @@ begin
       Total.ICMSTot.vProd   := sqlBuscaNota.fieldByName('VALOR').AsFloat; // totalNFCe;
       Total.ICMSTot.vFrete  := 0;
       Total.ICMSTot.vSeg    := 0;
-      Total.ICMSTot.vDesc   := 0;
+      Total.ICMSTot.vDesc   := edDesconto.Value;
       Total.ICMSTot.vII     := 0;
       Total.ICMSTot.vIPI    := 0;
       Total.ICMSTot.vPIS    := 0;
       Total.ICMSTot.vCOFINS := 0;
       Total.ICMSTot.vOutro  := 0;
-      Total.ICMSTot.vNF     := sqlBuscaNota.fieldByName('VALOR').AsFloat; //totalNFCe;
+      Total.ICMSTot.vNF     := sqlBuscaNota.fieldByName('VALOR').AsFloat - edDesconto.Value; //totalNFCe;
 
       Total.ISSQNtot.vServ   := 0;
       Total.ISSQNTot.vBC     := 0;
@@ -847,6 +867,7 @@ end;
 procedure TfNFCe.pegaItens;
 var contaItens :integer;
   desc, BC, BCST: variant;
+  cod_barra: String;
 begin
   totalNFCe := 0;
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
@@ -879,19 +900,26 @@ begin
         Prod.CFOP     := cdsItensNFCFOP.AsString;
         Prod.uCom     := cdsItensNFUNIDADEMEDIDA.AsString;
         Prod.qCom     := cdsItensNFQUANTIDADE.AsFloat;
-        Prod.vUnCom   := cdsItensNFVLR_BASE.AsFloat;
+        Prod.vUnCom   := cdsItensNFVALTOTAL.AsFloat/cdsItensNFQUANTIDADE.AsFloat;
         Prod.uTrib    := cdsItensNFUNIDADEMEDIDA.AsString;
         Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
-        Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
+        Prod.vUnTrib  := cdsItensNFVALTOTAL.AsFloat/cdsItensNFQUANTIDADE.AsFloat;
 
         Prod.NCM      := cdsItensNFNCM.AsString;
         Prod.EXTIPI   := '';
 
-        if (EAN13Valido(cdsItensNFCOD_BARRA.AsString)) then
-        begin
-          Prod.cEAN := cdsItensNFCOD_BARRA.AsString;
-          Prod.cEANTrib := cdsItensNFCOD_BARRA.AsString;;
-        end;
+        cod_barra := cdsItensNFCOD_BARRA.AsString;
+        ACBrValidador1.Documento := cod_barra;
+        ACBrValidador1.TipoDocto := docGTIN;
+        if not ACBrValidador1.Validar then
+          cod_barra := 'SEM GTIN';
+        ACBrValidador1.TipoDocto := docPrefixoGTIN;
+        if not ACBrValidador1.Validar then
+          cod_barra := 'SEM GTIN';
+
+        Prod.cEAN := cod_barra;
+        Prod.cEANTrib := cod_barra;
+
         desc := StrLen(PChar(MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)));
         if ( desc > 0) then
           infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
@@ -913,7 +941,7 @@ begin
           begin
             if (cdsItensNFORIGEM.IsNull) then
             begin
-              MessageDlg('Origem do Produto(CADASTRO PRODUTO) não informado.', mtError, [mbOK], 0);
+              MessageDlg('Origem do Produto(CADASTRO PRODUTO) não informado, Cod. Prod: ' + cdsItensNFCODPRO.AsString, mtError, [mbOK], 0);
               //exit;
             end;
 
@@ -1185,7 +1213,7 @@ begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
   sqlBuscaNota.SQL.Clear;
-  sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR' +
+  sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR, v.DESCONTO' +
     '  from MOVIMENTO m, VENDA v ' +
     ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
     '   and (m.CODNATUREZA = 30) ' +
@@ -1250,7 +1278,7 @@ begin
     end;
     sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR from MOVIMENTO m, VENDA v ' +
+    sqlBuscaNota.SQL.Add('select v.CODVENDA, v.VALOR, v.DESCONTO from MOVIMENTO m, VENDA v ' +
       ' where (m.CODMOVIMENTO = v.CODMOVIMENTO) ' +
       '   and (m.CODNATUREZA = 30) ' +
       '   and (m.CONTROLE = ' + QuotedStr(IntToStr(NFCe_codMov)) + ')');
@@ -1381,8 +1409,17 @@ begin
     ACBrNFe1.NotasFiscais.LoadFromFile(arquivx)
   end;
   //ACBrNFeDANFeRL1.ImprimirDANFE();
-  ACBrNFeDANFeESCPOS1.ACBrNFe := ACBrNFe1;
-  ACBrNFeDANFeESCPOS1.ImprimirDANFE();
+
+  // DESCOMENTAR 2 LINHAS ABAIXO #############################
+  if cbUsarFortes.Checked then
+  begin
+    ACBrNFe1.DANFE := ACBrNFeDANFCeFortesA41;
+    ACBrNFeDANFCeFortesA41.ImprimirDANFE();
+  end
+  else begin
+    ACBrNFeDANFeESCPOS1.ACBrNFe := ACBrNFe1;
+    ACBrNFeDANFeESCPOS1.ImprimirDANFE();
+  end;  
 end;
 
 procedure TfNFCe.BitBtn3Click(Sender: TObject);
@@ -1402,6 +1439,8 @@ begin
     ACBrNFe1.NotasFiscais.LoadFromFile(arquivx)
   end;
   //ACBrNFeDANFeRL1.ImprimirDANFE();
+
+  // DESCOMENTAR 2 LINHAS ABAIXO #############################
   ACBrNFeDANFeESCPOS1.ACBrNFe := ACBrNFe1;
   ACBrNFeDANFeESCPOS1.ImprimirDANFEResumido();
 end;
@@ -1417,6 +1456,8 @@ begin
   ACBrPosPrinter1.EspacoEntreLinhas := seEspLinhas.Value;
   //ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
   //ACBrSATExtratoESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
+
+  // DESCOMENTAR 1 LINHAS ABAIXO #############################
   ACBrNFeDANFeESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
 end;
 
@@ -1438,9 +1479,13 @@ begin
   end;
   //ACBrNFeDANFeRL1.ACBrNFe := ACBrNFe1;
   //ACBrNFeDANFeRL1.TipoDANFE := tiNFCeA4;
+
+  // DESCOMENTAR  linha abaixo #########################
   ACBrNFe1.DANFE := ACBrNFeDANFCeFortesA41;
-  ACBrNFe1.DANFE.TipoDANFE := tiNFCeA4;
+
+  //ACBrNFe1.DANFE.TipoDANFE := tiNFCeA4;
   //ACBrNFeDANFCeFortes1.TipoDANFE := tiNFCeA4;
+
   //ACBrNFeDANFCeFortes1.ACBrNFe := ACBrNFe1;
   acbrNFe1.NotasFiscais.Imprimir;
 end;
@@ -1448,6 +1493,10 @@ end;
 procedure TfNFCe.FormCreate(Sender: TObject);
 var   N: TACBrPosPrinterModelo;
 begin
+  //ACBrNFeDANFeRL1 := TACBrNFeDANFeRL.Create(nil);
+  //ACBrNFeDANFeESCPOS1 := TACBrNFeDANFeESCPOS.Create(nil);
+  //ACBrNFeDANFCeFortes1 := TACBrNFeDANFCeFortes.Create(nil);
+  //ACBrNFeDANFCeFortesA41 := TACBrNFeDANFCeFortesA4.Create(nil);
   cbxModeloPosPrinter.Items.Clear ;
   For N := Low(TACBrPosPrinterModelo) to High(TACBrPosPrinterModelo) do
      cbxModeloPosPrinter.Items.Add( GetEnumName(TypeInfo(TACBrPosPrinterModelo), integer(N) ) ) ;
@@ -1458,6 +1507,14 @@ begin
   WriteToTXT( PathWithDelim(ExtractFileDir(application.ExeName))+MyWebBrowser.Name+'-temp.xml',
               AXML, False, False);
   MyWebBrowser.Navigate(PathWithDelim(ExtractFileDir(application.ExeName))+MyWebBrowser.Name+'-temp.xml');
+end;
+
+procedure TfNFCe.FormDestroy(Sender: TObject);
+begin
+  //ACBrNFeDANFeRL1.Destroy;
+  //ACBrNFeDANFeESCPOS1.Destroy;
+  //ACBrNFeDANFCeFortesA41.Destroy;
+  //ACBrNFeDANFCeFortes1.Destroy;
 end;
 
 end.
