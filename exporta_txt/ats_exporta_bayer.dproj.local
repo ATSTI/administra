@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2016/10/14 11:19:43.000.640,=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.pas</Transaction>
+    <Transaction>2016/10/14 11:21:06.000.919,C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\uDMCTe.pas=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.pas</Transaction>
+    <Transaction>2016/10/14 11:21:06.000.919,C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\uDMCTe.dfm=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.dfm</Transaction>
+    <Transaction>2016/10/17 10:25:34.000.838,C:\home\cte\ats_CTe.dproj=C:\home\cte\Demo_ACBrCTe.dproj</Transaction>
+    <Transaction>2016/11/01 15:28:01.000.941,C:\home\cte\ats_CTe.dproj=C:\home\cte\ats_CTe.dproj</Transaction>
+    <Transaction>2016/11/01 15:28:51.000.223,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/01 15:30:02.000.792,C:\home\cte\Unit1.dfm=C:\home\cte\uQuantCarga.dfm</Transaction>
+    <Transaction>2016/11/01 15:30:02.000.792,C:\home\cte\Unit1.pas=C:\home\cte\uQuantCarga.pas</Transaction>
+    <Transaction>2016/11/18 15:16:01.000.685,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/18 15:18:55.000.447,C:\home\cte\Unit1.pas=C:\home\cte\ufCompValor.pas</Transaction>
+    <Transaction>2016/11/18 15:18:55.000.447,C:\home\cte\Unit1.dfm=C:\home\cte\ufCompValor.dfm</Transaction>
+    <Transaction>2016/11/21 16:48:45.000.334,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/21 16:49:35.000.757,C:\home\cte\Unit1.dfm=C:\home\cte\uNFe.dfm</Transaction>
+    <Transaction>2016/11/21 16:49:35.000.757,C:\home\cte\Unit1.pas=C:\home\cte\uNFe.pas</Transaction>
+    <Transaction>2016/11/22 08:33:46.000.949,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/22 08:34:31.000.687,C:\home\cte\uSeguro.dfm=C:\home\cte\Unit1.dfm</Transaction>
+    <Transaction>2016/11/22 08:34:31.000.687,C:\home\cte\uSeguro.pas=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/22 11:02:45.000.556,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/22 11:06:23.000.304,C:\home\cte\Unit1.pas=C:\home\cte\uMotorista.pas</Transaction>
+    <Transaction>2016/11/22 11:06:23.000.304,C:\home\cte\Unit1.dfm=C:\home\cte\uMotorista.dfm</Transaction>
+    <Transaction>2016/11/22 13:55:13.000.658,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/22 13:56:03.000.658,C:\home\cte\uVeiculo.pas=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/11/22 13:56:03.000.658,C:\home\cte\uVeiculo.dfm=C:\home\cte\Unit1.dfm</Transaction>
+    <Transaction>2016/12/05 08:39:11.000.612,=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/12/05 08:41:35.000.781,C:\home\cte\uNF.pas=C:\home\cte\Unit1.pas</Transaction>
+    <Transaction>2016/12/05 08:41:35.000.781,C:\home\cte\uNF.dfm=C:\home\cte\Unit1.dfm</Transaction>
+    <Transaction>2016/12/27 16:35:40.038,Z:\desenv\administra\exporta_txt\Frm_Demo_ACBrCTe.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:04.022,Z:\desenv\administra\exporta_txt\ats_exporta_bayer.dproj=Z:\desenv\administra\exporta_txt\ats_CTe.dproj</Transaction>
+    <Transaction>2016/12/27 16:40:36.839,Z:\desenv\administra\exporta_txt\ufCompValor.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:40.318,Z:\desenv\administra\exporta_txt\uMotorista.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:44.484,Z:\desenv\administra\exporta_txt\uNF.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:48.380,Z:\desenv\administra\exporta_txt\uNFe.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:52.366,Z:\desenv\administra\exporta_txt\uQuantCarga.pas=</Transaction>
+    <Transaction>2016/12/27 16:40:55.760,Z:\desenv\administra\exporta_txt\uSeguro.pas=</Transaction>
+    <Transaction>2016/12/27 16:41:40.392,Z:\desenv\administra\exporta_txt\uExporta.pas=Z:\desenv\administra\exporta_txt\uVeiculo.pas</Transaction>
+    <Transaction>2016/12/27 16:41:40.392,Z:\desenv\administra\exporta_txt\uExporta.dfm=Z:\desenv\administra\exporta_txt\uVeiculo.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="uDMCTe.pas"/>
+    <File Path="uDMCTe.dfm"/>
+    <File Path="uExporta.pas"/>
+    <File Path="uExporta.dfm"/>
+  </ProjectSortOrder>
+</BorlandProject>
