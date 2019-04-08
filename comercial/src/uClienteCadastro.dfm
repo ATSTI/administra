@@ -2429,8 +2429,8 @@ inherited fClienteCadastro: TfClienteCadastro
         OnClick = CheckBox2Click
       end
       object Panel2: TPanel
-        Left = 216
-        Top = 128
+        Left = 184
+        Top = 112
         Width = 337
         Height = 273
         TabOrder = 45
@@ -2457,6 +2457,8 @@ inherited fClienteCadastro: TfClienteCadastro
             ''
             'Nota 1: No caso de NFC-e informar indIEDest=9 e n'#227'o'
             'informar a tag IE do destinat'#225'rio;'#13#10#10
+            ''
+            ''
             ''
             ''
             'Nota 2: No caso de opera'#231#227'o com o Exterior informar'
