@@ -268,20 +268,21 @@ procedure TfFiltroMovimento.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   fFiltroMovimento.cds_cns.Close;
-  if (not dm.parametro.Active) then
-    dm.parametro.Open;
-  if (dm.parametro.Locate('PARAMETRO', 'PADRAOFILTROVENDA', [loCaseInsensitive])) then
-    if (dm.parametroCONFIGURADO.AsString = 'S') then
-    begin
-      dm.parametro.Edit;
-      dm.parametroD1.AsString := meDta1.Text;
-      dm.parametroD2.AsString := meDta2.Text;
-      try
-        dm.parametro.ApplyUpdates(0);
-      except
-        MessageDlg('Erro na gravação dos parâmetros.', mtError, [mbOK], 0);
-      end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FM-'+micro;
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString := meDta1.Text;
+    dm.cds_parametroD2.AsString := meDta2.Text;
+    try
+      dm.cds_parametro.ApplyUpdates(0);
+    except
+      MessageDlg('Erro na gravação dos parâmetros.', mtError, [mbOK], 0);
     end;
+  end;
 end;
 
 procedure TfFiltroMovimento.BitBtn1Click(Sender: TObject);
@@ -801,8 +802,8 @@ begin
 end;
 
 procedure TfFiltroMovimento.FormShow(Sender: TObject);
+var varsql:String;
 begin
-
   if (DM.tipoVenda = 'VENDA') then
   begin
     edit3.Text := '3';
@@ -831,6 +832,23 @@ begin
   begin
     meDta1.Date := Today;
     meDta2.Date := Today;
+  end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FM-'+micro;
+  dm.cds_parametro.Open;
+  if dm.cds_parametro.IsEmpty then
+  begin
+    varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1,D2) ' ;
+    varsql := varsql + ' values (' + QuotedStr('FM-'+Micro);
+    varsql := varsql + ',' + QuotedStr('S') + ',' + QuotedStr('RegFiltroMovimento');
+    varsql := varsql + ',' + QuotedStr('01/01/18') + ',' + QuotedStr('01/10/18') + ')';
+    dm.sqlsisAdimin.executedirect(varsql);
+  end;
+  if (dm.parametroCONFIGURADO.AsString = 'S') then
+  begin
+    meDta1.Text := dm.cds_parametroD1.AsString;
+    meDta2.Text := dm.cds_parametroD2.AsString;
   end;
   btnProcurar.Click;
 end;
