@@ -596,7 +596,7 @@ object fAtsAdmin: TfAtsAdmin
     BevelInner = bvRaised
     BevelOuter = bvNone
     PopupMenu = PopupMenu1
-    TabOrder = 1
+    TabOrder = 0
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
@@ -1912,7 +1912,7 @@ object fAtsAdmin: TfAtsAdmin
     Width = 75
     Height = 25
     Caption = 'Button1'
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
     OnClick = Button1Click
   end
@@ -1932,7 +1932,7 @@ object fAtsAdmin: TfAtsAdmin
     Font.Style = [fsUnderline]
     ParentBiDiMode = False
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
     Visible = False
   end
   object ComboBox14: TComboBox
@@ -1942,7 +1942,7 @@ object fAtsAdmin: TfAtsAdmin
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
     Items.Strings = (
       'nptStandard'
@@ -1957,7 +1957,7 @@ object fAtsAdmin: TfAtsAdmin
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 5
+    TabOrder = 4
     Visible = False
     Items.Strings = (
       'Large'
@@ -2134,7 +2134,7 @@ object fAtsAdmin: TfAtsAdmin
     PageButtonHeight = 24
     ActivePageIndex = 1
     BorderStyle = bsNone
-    TabOrder = 6
+    TabOrder = 5
     Visible = False
     OnClick = acTerminalExecute
   end
@@ -2223,14 +2223,14 @@ object fAtsAdmin: TfAtsAdmin
       9DA6AEC4F4F4F4F4F4F4F4F4F40316ABA1B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
       B4B49DA5AA8A160903030A8DADA4A7B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
       B4B4B4B415BCABA6A6A6A8AA9DB4B4B4B4B4B4B4B4B4B4B4B4B4}
-    TabOrder = 7
+    TabOrder = 6
   end
   object pnInfo: TPanel
     Left = 124
     Top = 56
     Width = 671
     Height = 393
-    TabOrder = 8
+    TabOrder = 7
     Visible = False
     object Memo1: TMemo
       Left = 1
@@ -2784,6 +2784,10 @@ object fAtsAdmin: TfAtsAdmin
         object ArquivoRetorno: TMenuItem
           Action = acArquivoRetorno
         end
+        object ArquivoRetornoItau1: TMenuItem
+          Caption = 'Arquivo Retorno-Itau'
+          OnClick = ArquivoRetornoItau1Click
+        end
         object AdmCaixaBanco1: TMenuItem
           Caption = 'Adm. Caixa / Banco'
           OnClick = AdmCaixaBanco1Click
@@ -2857,6 +2861,18 @@ object fAtsAdmin: TfAtsAdmin
       object SpedFiscalICMS1: TMenuItem
         Caption = 'Sped Fiscal (ICMS)'
         OnClick = SpedFiscalICMS1Click
+      end
+      object MDFe1: TMenuItem
+        Caption = 'MDFe'
+        OnClick = MDFe1Click
+      end
+      object CTe1: TMenuItem
+        Caption = 'CTe'
+        OnClick = CTe1Click
+      end
+      object CTeOS1: TMenuItem
+        Caption = 'CTeOS'
+        OnClick = CTeOS1Click
       end
     end
     object ContEstoque1: TMenuItem

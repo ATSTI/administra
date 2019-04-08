@@ -244,6 +244,10 @@ type
     sPermissaoUCPASSWORD: TStringField;
     sPermissaoUCPROFILE: TIntegerField;
     sPermissaoUCPRIVILEGED: TIntegerField;
+    MDFe1: TMenuItem;
+    CTe1: TMenuItem;
+    CTeOS1: TMenuItem;
+    ArquivoRetornoItau1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -394,6 +398,10 @@ type
     procedure ListadePreo1Click(Sender: TObject);
     procedure ExluirOrdemProduo1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure MDFe1Click(Sender: TObject);
+    procedure CTe1Click(Sender: TObject);
+    procedure CTeOS1Click(Sender: TObject);
+    procedure ArquivoRetornoItau1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -435,7 +443,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uMostraSuites, uBarCaixa, uRelProgReceb, ucopiailha, uRel_Guia,
   ucrdescontado, uNFPaulista, uselectempresa,  uRel_comissao,
   uMapeamento, uGeraAumento, uOrdemAssistencia, uExpContMat, DateUtils, uParametrosTerminal,
-  uOs, uPfaturamento, uNFeletronica, uTb_Ibge, uOf, uCallCenter, uCombo,
+  uOs, uPfaturamento, uTb_Ibge, uOf, uCallCenter, uCombo,
   uGeraEtiquetas, ufParametro, uCfop, uBalancete, uProdGeraAumento,
   uInventario, uCompraSolicitacao, uCompraCotacao, uApontHoras, uRelNfe,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
@@ -447,8 +455,9 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
-  uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM, 
-  uNCM, uFiltroCorreio, uTerminal2, uOsFinaliza;
+  uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM,
+  uNCM, uFiltroCorreio, uTerminal2, uOsFinaliza, ufNFeExe,
+  uArquivoRetornoItau;
 
 {$R *.dfm}
 
@@ -1047,6 +1056,10 @@ begin
       fOsFiltro := TfOsFiltro.Create(Self);
     // sCtrlResize.CtrlResize(TForm(fClienteCadastro));
     fOsFiltro.Show;
+  end
+  else if (dm.moduloUsado = 'PDV') then
+  begin
+    WinExec('prjPDV.EXE', SW_SHOWNORMAL);
   end
   else begin
     if (DM.cds_parametro.Active) then
@@ -1772,12 +1785,23 @@ end;
 
 procedure TfAtsAdmin.NotaFiscalEletrnica1Click(Sender: TObject);
 begin
-  fNFeletronica.ShowModal;
+  //fNFeletronica.ShowModal;
+  //WinExec(PChar('Nfe.exe'),SW_NORMAL);
+  //Panel2.Visible := True;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+  //Panel2.Visible := False;
+  //fNfeExe := TfNfeExe.Create(Application);
+  //try
+  //  fNfeExe.ShowModal;
+  //finally
+  //  fNfeExe.Free;
+  //end;
 end;
 
 procedure TfAtsAdmin.CidadesIBGE1Click(Sender: TObject);
 begin
-    fTb_Ibge := TfTb_Ibge.Create(Application);
+  fTb_Ibge := TfTb_Ibge.Create(Application);
   try
       fTb_Ibge.ShowModal;
   finally
@@ -2462,6 +2486,34 @@ end;
 procedure TfAtsAdmin.BitBtn1Click(Sender: TObject);
 begin
   pnInfo.Visible := False; 
+end;
+
+procedure TfAtsAdmin.MDFe1Click(Sender: TObject);
+begin
+  WinExec('atsMDFe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'MDFe'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.CTe1Click(Sender: TObject);
+begin
+  WinExec('ats_CTe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'CTe'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.CTeOS1Click(Sender: TObject);
+begin
+  WinExec('ats_CTeOS.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'CTeOS'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.ArquivoRetornoItau1Click(Sender: TObject);
+begin
+	fArquivoRetornoItau := TfArquivoRetornoItau.Create(Application);
+	try
+		fArquivoRetornoItau.ShowModal;
+	finally
+		fArquivoRetornoItau.Free;
+	end;
 end;
 
 end.
