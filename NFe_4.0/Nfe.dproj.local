@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/01/24 09:09:52.000.784,=C:\home\nfee\Unit1.pas</Transaction>
+    <Transaction>2018/01/24 09:11:23.000.787,C:\home\nfee\udmNFe.pas=C:\home\nfee\Unit1.pas</Transaction>
+    <Transaction>2018/01/24 09:11:23.000.787,C:\home\nfee\udmNFe.dfm=C:\home\nfee\Unit1.dfm</Transaction>
+    <Transaction>2018/02/06 13:41:47.000.394,C:\home\nfee\udmNFe.pas=</Transaction>
+    <Transaction>2018/02/06 13:42:24.000.384,=C:\home\nfee\Unit1.pas</Transaction>
+    <Transaction>2018/02/06 13:43:07.000.624,C:\home\nfee\udm.pas=C:\home\nfee\Unit1.pas</Transaction>
+    <Transaction>2018/02/06 13:43:07.000.624,C:\home\nfee\udm.dfm=C:\home\nfee\Unit1.dfm</Transaction>
+    <Transaction>2018/02/16 08:52:14.000.464,=C:\home\nfee\Unit2.pas</Transaction>
+    <Transaction>2018/02/16 08:57:43.000.603,C:\home\nfee\Unit2.dfm=C:\home\nfee\uNFeInutilizar.dfm</Transaction>
+    <Transaction>2018/02/16 08:57:43.000.603,C:\home\nfee\Unit2.pas=C:\home\nfee\uNFeInutilizar.pas</Transaction>
+    <Transaction>2018/06/05 14:58:02.000.472,=C:\home\nfee\uNFeMail.pas</Transaction>
+    <Transaction>2018/06/05 15:11:48.000.227,C:\home\nfee\uNFeMail.pas=</Transaction>
+    <Transaction>2018/06/13 14:13:42.000.412,=C:\home\nfee\Unit2.pas</Transaction>
+    <Transaction>2018/06/20 11:18:09.000.316,=C:\home\nfee\unit2.pas</Transaction>
+  </Transactions>
+</BorlandProject>
