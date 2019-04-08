@@ -2,10 +2,11 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 6
-  Top = 2
-  Height = 766
-  Width = 1022
+  Left = 322
+  Top = 3
+  Height = 772
+  HorizontalOffset = 49
+  Width = 1281
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -17,10 +18,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_vitton'
+      'Database=192.168.6.100:/home/publico/bd/sge_dnz.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -825,13 +826,13 @@ object DM: TDM
   end
   object scds_produto_proc: TSQLDataSet
     CommandText = 
-      'select CODPRODUTO'#13#10', CODPRO'#13#10', PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_' +
-      'PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13#10', PRECO_COMPRAULTIMO as  VALORUN' +
-      'ITARIOATUAL'#13#10', PRECO_VENDA AS VALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEAT' +
-      'UAL '#13#10', LOCALIZACAO, NCM'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOM' +
-      'EDIO, PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS,' +
-      ' ORIGEM '#13#10'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39',' +
-      ' '#39'TODOSSUBGRUPOS'#39','#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
+      'select CODPRODUTO, CODPRO, PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICM' +
+      'S, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, P' +
+      'RECO_VENDA AS VALOR_PRAZO, TIPO  , ESTOQUEATUAL , LOCALIZACAO, N' +
+      'CM, LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COM' +
+      'ISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM from LISTAPRODUT' +
+      'O(:CODPRODUTO, :CODPRO, '#13#10#39'TODOSGRUPOS'#39','#39'TODOSSUBGRUPOS'#39','#39'TODASM' +
+      'ARCAS'#39', '#39'TODASAPLICACOES'#39',0)'
     MaxBlobSize = -1
     Params = <
       item
@@ -2278,7 +2279,7 @@ object DM: TDM
     Params = <>
     ProviderName = 'd_1'
     Left = 464
-    Top = 56
+    Top = 40
     object c_1_planocCODIGO: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'CODIGO'
@@ -5884,6 +5885,33 @@ object DM: TDM
       FieldName = 'ECFCX'
       Size = 3
     end
+    object sds_EmpresaCHAVELIC: TStringField
+      FieldName = 'CHAVELIC'
+      Size = 50
+    end
+    object sds_EmpresaCHAVECONT: TStringField
+      FieldName = 'CHAVECONT'
+      Size = 50
+    end
+    object sds_EmpresaCERTIFICADO: TStringField
+      FieldName = 'CERTIFICADO'
+      Size = 50
+    end
+    object sds_EmpresaGIAF1: TStringField
+      FieldName = 'GIAF1'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_EmpresaGIAF3: TStringField
+      FieldName = 'GIAF3'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_EmpresaGIAF4: TStringField
+      FieldName = 'GIAF4'
+      FixedChar = True
+      Size = 1
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -6217,6 +6245,33 @@ object DM: TDM
     object cds_empresaECFCX: TStringField
       FieldName = 'ECFCX'
       Size = 3
+    end
+    object cds_empresaCHAVELIC: TStringField
+      FieldName = 'CHAVELIC'
+      Size = 50
+    end
+    object cds_empresaCHAVECONT: TStringField
+      FieldName = 'CHAVECONT'
+      Size = 50
+    end
+    object cds_empresaCERTIFICADO: TStringField
+      FieldName = 'CERTIFICADO'
+      Size = 50
+    end
+    object cds_empresaGIAF1: TStringField
+      FieldName = 'GIAF1'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_empresaGIAF3: TStringField
+      FieldName = 'GIAF3'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_empresaGIAF4: TStringField
+      FieldName = 'GIAF4'
+      FixedChar = True
+      Size = 1
     end
   end
   object sds_usuario: TSQLDataSet

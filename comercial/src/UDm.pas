@@ -1995,6 +1995,18 @@ type
     sds_produtoEMBALAGEM: TStringField;
     cds_produtoEMBALAGEM: TStringField;
     XMLDocument1: TXMLDocument;
+    sds_EmpresaCHAVELIC: TStringField;
+    sds_EmpresaCHAVECONT: TStringField;
+    sds_EmpresaCERTIFICADO: TStringField;
+    sds_EmpresaGIAF1: TStringField;
+    sds_EmpresaGIAF3: TStringField;
+    sds_EmpresaGIAF4: TStringField;
+    cds_empresaCHAVELIC: TStringField;
+    cds_empresaCHAVECONT: TStringField;
+    cds_empresaCERTIFICADO: TStringField;
+    cds_empresaGIAF1: TStringField;
+    cds_empresaGIAF3: TStringField;
+    cds_empresaGIAF4: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2054,7 +2066,7 @@ type
     memoLic : String;
     { Private declarations }
     FRpcCaller: TRpcCaller;
-    FRpcFunction: IRpcFunction;    
+    FRpcFunction: IRpcFunction;
     procedure verifiSeExisteCampo(nTabela, nCampo, nCampoTipo: string);
     procedure verificaSeExisteTabela(nTabela, nCampo, nCampoTipo: string);
     procedure verificaMensagemInicial;
@@ -3519,7 +3531,8 @@ begin
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
-  sqlBusca.SQL.Add('select first 1 cc.DATAFECHAMENTO from caixa_controle cc ' +
+  sqlBusca.SQL.Add('select first 1 UDF_INCDAY(cc.DATAFECHAMENTO,-1) as DATAFECHAMENTO' +
+    ' from caixa_controle cc ' +
     ' where cc.codcaixa = ' + IntToStr(ccusto) +
     '   and cc.SITUACAO = ' + QuotedStr('F') +
     ' order by cc.DATAFECHAMENTO desc');
@@ -3631,6 +3644,9 @@ var ThreadEstoque: TEstoqueAtualiza;
 //  strAtualiza: String;
 //  strAtualizaLote: String;
 begin
+  { 24/08 - Nao lembro porque comentei aqui, acho
+    que o estoque esta sendo atualizado por
+    ESTOQUE_PRODUTO_ATUALIZA - MovimentoDetalhe }
   EstoquecodMOV := codMovimento;
   {ThreadEstoque := TEstoqueAtualiza.Create(True);
   ThreadEstoque.FreeOnTerminate := True;
