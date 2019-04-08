@@ -286,6 +286,7 @@ type
     procedure JvDBGrid1TitleClick(Column: TColumn);
     procedure SelecionarTodos1Click(Sender: TObject);
     procedure DesmarcarTodos1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -462,6 +463,7 @@ begin
 end;
 
 procedure Tfcrproc.FormShow(Sender: TObject);
+var varsql: String;
 begin
   sCtrlResize.CtrlResize(TForm(fcrproc));
   //cbStatus.ItemIndex := 2;
@@ -473,6 +475,24 @@ begin
       edCliente.Text := dm.scds_cliente_procNOMECLIENTE.asString;
     dm.scds_cliente_proc.Close;
   end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'FR-'+micro;
+  dm.cds_parametro.Open;
+  if dm.cds_parametro.IsEmpty then
+  begin
+    varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1) ' ;
+    varsql := varsql + ' values (' + QuotedStr('FR-'+Micro);
+    varsql := varsql + ',' + QuotedStr('S') + ',' + QuotedStr('RegFiltroReceber');
+    varsql := varsql + ',' + QuotedStr('2') + ')';
+    dm.sqlsisAdimin.executedirect(varsql);
+  end;
+  if (dm.parametroCONFIGURADO.AsString = 'S') then
+  begin
+    cbStatus.ItemIndex := StrToInt(dm.cds_parametroD1.AsString);
+  end;
+
 end;
 
 procedure Tfcrproc.BitBtn12Click(Sender: TObject);
@@ -1714,6 +1734,20 @@ begin
   end;
   scdsCr_proc.First;
   scdsCr_proc.EnableControls;
+end;
+
+procedure Tfcrproc.FormClose(Sender: TObject; var Action: TCloseAction);
+  var str_sql: string;
+begin
+  //inherited;
+  str_sql := 'UPDATE PARAMETRO SET D1 = ';
+  str_sql := str_sql + QuotedStr(IntToStr(cbStatus.ItemIndex));
+  str_sql := str_sql + ' where PARAMETRO = ' + QuotedStr('FR'+micro);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+  except
+    exit;
+  end;
 end;
 
 end.

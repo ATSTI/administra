@@ -14,6 +14,7 @@ object fcrproc: Tfcrproc
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
