@@ -17,7 +17,6 @@ type
     MMJPanel1: TMMJPanel;
     Timer1: TTimer;
     VCLReport1: TVCLReport;
-    Image1: TImage;
     ImageList2: TImageList;
     JvOutlookBar1: TJvOutlookBar;
     RxLabel1: TRxLabel;
@@ -31,6 +30,8 @@ type
     acNfeEmitir: TAction;
     dxButton11: TdxButton;
     acCartaCorrecao: TAction;
+    Panel1: TPanel;
+    Image1: TImage;
     procedure FormCreate(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons0Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -99,7 +100,7 @@ uses
   ufuncionario, uPainelControle, uSobre, ufParametro, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
-  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
+  uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, 
   uRelOS,
   uNotaf,
   UDMNF, uNCM, uSeriaNF, uCCe;
@@ -704,7 +705,9 @@ end;
 
 procedure TfAtsOS.JvOutlookBar1Pages1Buttons3Click(Sender: TObject);
 begin
-  fNFeletronica.ShowModal;
+  //fNFeletronica.ShowModal;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 procedure TfAtsOS.acRelServExecute(Sender: TObject);
@@ -720,7 +723,9 @@ end;
 
 procedure TfAtsOS.acNfeExecute(Sender: TObject);
 begin
-  fNFeletronica.ShowModal;
+  //fNFeletronica.ShowModal;
+  WinExec('Nfe.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 procedure TfAtsOS.acNfeEmitirExecute(Sender: TObject);
