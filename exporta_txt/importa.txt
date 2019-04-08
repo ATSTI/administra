@@ -1,0 +1,27 @@
+procedure ExpTXT(DataSet: TDataSet; Arq: string);
+var
+  i: integer;
+  sl: TStringList;
+  st: string;
+begin
+  DataSet.First;
+  sl := TStringList.Create;
+  try
+    st := '';
+    for i := 0 to DataSet.Fields.Count - 1 do
+      st := st + DataSet.Fields[i].DisplayLabel + ';';
+    sl.Add(st);
+    DataSet.First;
+    while not DataSet.Eof do
+    begin
+      st := '';
+      for i := 0 to DataSet.Fields.Count - 1 do
+        st := st + DataSet.Fields[i].DisplayText + ';';
+      sl.Add(st);
+      DataSet.Next;
+    end;
+    sl.SaveToFile(Arq);
+  finally
+     sl.free;
+  end;
+end;
