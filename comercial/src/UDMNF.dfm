@@ -333,13 +333,18 @@ object DMNF: TDMNF
       'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS, ' +
       'movd.PAGOU '#13#10', movd.VBCUFDEST, movd.PFCPUFDEST, movd.PICMSUFDEST' +
       ', movd.PICMSINTER, movd.PICMSINTERPART, movd.VFCPUFDEST, movd.VI' +
-      'CMSUFDEST, movd.VICMSUFREMET'#13#10', movd.CST_IPI_CENQ, movd.CEST '#13#10'f' +
-      'rom MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.COD' +
-      'PRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on c' +
-      'cus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join COM' +
-      'ISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.COD' +
-      'DETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.' +
-      'coddetalhe'
+      'CMSUFDEST, movd.VICMSUFREMET'#13#10', movd.CST_IPI_CENQ, movd.CEST '#13#10',' +
+      ' movd.PERCIPIDEVOL '#13#10', movd.VALORIPIDEVOL '#13#10', movd.ICMS_PST '#13#10', ' +
+      'movd.V_B_FCP , movd.V_FCP '#13#10', movd.P_FCP '#13#10', movd.V_B_FCPST '#13#10', ' +
+      'movd.V_FCPST '#13#10', movd.P_FCPST '#13#10', movd.V_B_FCPSTRET '#13#10', movd.V_F' +
+      'CPSTRET '#13#10', movd.P_FCPSTRET '#13#10', movd.VBCSTRET  '#13#10', movd.VICMSSTR' +
+      'ET   '#13#10', movd.VBCSTDEST  '#13#10', movd.VICMSSTDEST '#13#10', movd.VBFCPUFDE' +
+      'ST '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on pr' +
+      'od.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccu' +
+      's on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer jo' +
+      'in COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where mo' +
+      'vd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by' +
+      ' movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -636,14 +641,63 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetCST_IPI_CENQ: TStringField
       FieldName = 'CST_IPI_CENQ'
-      ReadOnly = True
       FixedChar = True
       Size = 3
     end
     object sds_Mov_DetCEST: TStringField
       FieldName = 'CEST'
-      ReadOnly = True
       Size = 7
+    end
+    object sds_Mov_DetPERCIPIDEVOL: TFloatField
+      FieldName = 'PERCIPIDEVOL'
+    end
+    object sds_Mov_DetVALORIPIDEVOL: TFloatField
+      FieldName = 'VALORIPIDEVOL'
+    end
+    object sds_Mov_DetICMS_PST: TFloatField
+      FieldName = 'ICMS_PST'
+    end
+    object sds_Mov_DetV_B_FCP: TFloatField
+      FieldName = 'V_B_FCP'
+    end
+    object sds_Mov_DetV_FCP: TFloatField
+      FieldName = 'V_FCP'
+    end
+    object sds_Mov_DetP_FCP: TFloatField
+      FieldName = 'P_FCP'
+    end
+    object sds_Mov_DetV_B_FCPST: TFloatField
+      FieldName = 'V_B_FCPST'
+    end
+    object sds_Mov_DetV_FCPST: TFloatField
+      FieldName = 'V_FCPST'
+    end
+    object sds_Mov_DetP_FCPST: TFloatField
+      FieldName = 'P_FCPST'
+    end
+    object sds_Mov_DetV_B_FCPSTRET: TFloatField
+      FieldName = 'V_B_FCPSTRET'
+    end
+    object sds_Mov_DetV_FCPSTRET: TFloatField
+      FieldName = 'V_FCPSTRET'
+    end
+    object sds_Mov_DetP_FCPSTRET: TFloatField
+      FieldName = 'P_FCPSTRET'
+    end
+    object sds_Mov_DetVBCSTRET: TFloatField
+      FieldName = 'VBCSTRET'
+    end
+    object sds_Mov_DetVICMSSTRET: TFloatField
+      FieldName = 'VICMSSTRET'
+    end
+    object sds_Mov_DetVBCSTDEST: TFloatField
+      FieldName = 'VBCSTDEST'
+    end
+    object sds_Mov_DetVICMSSTDEST: TFloatField
+      FieldName = 'VICMSSTDEST'
+    end
+    object sds_Mov_DetVBFCPUFDEST: TFloatField
+      FieldName = 'VBFCPUFDEST'
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -986,15 +1040,81 @@ object DMNF: TDMNF
     end
     object cds_Mov_detCST_IPI_CENQ: TStringField
       FieldName = 'CST_IPI_CENQ'
-      ReadOnly = True
       FixedChar = True
       Size = 3
     end
     object cds_Mov_detCEST: TStringField
       FieldName = 'CEST'
-      ReadOnly = True
       EditMask = '00\.000\.00;0;_'
       Size = 7
+    end
+    object cds_Mov_detPERCIPIDEVOL: TFloatField
+      FieldName = 'PERCIPIDEVOL'
+      DisplayFormat = ',#.0'
+    end
+    object cds_Mov_detVALORIPIDEVOL: TFloatField
+      FieldName = 'VALORIPIDEVOL'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detICMS_PST: TFloatField
+      FieldName = 'ICMS_PST'
+      DisplayFormat = ',#.0'
+    end
+    object cds_Mov_detV_B_FCP: TFloatField
+      FieldName = 'V_B_FCP'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detV_FCP: TFloatField
+      FieldName = 'V_FCP'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detP_FCP: TFloatField
+      FieldName = 'P_FCP'
+      DisplayFormat = ',#.0'
+    end
+    object cds_Mov_detV_B_FCPST: TFloatField
+      FieldName = 'V_B_FCPST'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detV_FCPST: TFloatField
+      FieldName = 'V_FCPST'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detP_FCPST: TFloatField
+      FieldName = 'P_FCPST'
+      DisplayFormat = ',#.0'
+    end
+    object cds_Mov_detV_B_FCPSTRET: TFloatField
+      FieldName = 'V_B_FCPSTRET'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detV_FCPSTRET: TFloatField
+      FieldName = 'V_FCPSTRET'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detP_FCPSTRET: TFloatField
+      FieldName = 'P_FCPSTRET'
+      DisplayFormat = ',#.0'
+    end
+    object cds_Mov_detVBCSTRET: TFloatField
+      FieldName = 'VBCSTRET'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detVICMSSTRET: TFloatField
+      FieldName = 'VICMSSTRET'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detVBCSTDEST: TFloatField
+      FieldName = 'VBCSTDEST'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detVICMSSTDEST: TFloatField
+      FieldName = 'VICMSSTDEST'
+      DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detVBFCPUFDEST: TFloatField
+      FieldName = 'VBFCPUFDEST'
+      DisplayFormat = ',#.00'
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -5631,8 +5751,8 @@ object DMNF: TDMNF
       ' '#13#10', ende.LOGRADOURO, ende.BAIRRO, ende.COMPLEMENTO, ende.CIDADE' +
       ', ende.UF, ende.CEP, ende.TELEFONE, cli.TIPOFIRMA, cli.CODFISCAL' +
       ' '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ende on e' +
-      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where ende.TIPOEND = 0'#13#10' order' +
-      ' by cli.RAZAOSOCIAL '
+      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where ende.TIPOEND = 0 '#13#10'  AND' +
+      ' cli.STATUS = 1 '#13#10' order by cli.RAZAOSOCIAL '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
