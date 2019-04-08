@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2016/10/14 11:19:43.000.640,=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.pas</Transaction>
+    <Transaction>2016/10/14 11:21:06.000.919,C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.dfm=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\uDMCTe.dfm</Transaction>
+    <Transaction>2016/10/14 11:21:06.000.919,C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\Unit1.pas=C:\Program Files\Embarcadero\Studio\18.0\componentes\ACBR\Trunk2\Exemplos\ACBrDFe\ACBrCTe\Delphi\uDMCTe.pas</Transaction>
+  </Transactions>
+</BorlandProject>
