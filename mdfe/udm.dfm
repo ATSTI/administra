@@ -15,10 +15,10 @@ object dm: Tdm
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:sge_GH'
+      'Database=192.168.6.100:/home/publico/bd/sge_mart.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -406,6 +406,55 @@ object dm: Tdm
     end
     object cdsPROTOCOLOCAN: TStringField
       FieldName = 'PROTOCOLOCAN'
+    end
+    object cdsUF_PERCURSO2: TStringField
+      FieldName = 'UF_PERCURSO2'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsUF_PERCURSO3: TStringField
+      FieldName = 'UF_PERCURSO3'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsUF_PERCURSO4: TStringField
+      FieldName = 'UF_PERCURSO4'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsUF_PERCURSO5: TStringField
+      FieldName = 'UF_PERCURSO5'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsUF_PERCURSO6: TStringField
+      FieldName = 'UF_PERCURSO6'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsTIPO_EMITENTE: TIntegerField
+      FieldName = 'TIPO_EMITENTE'
+    end
+    object cdsSEG_RESP: TIntegerField
+      FieldName = 'SEG_RESP'
+    end
+    object cdsSEG_CNPJ_EMITENTE: TStringField
+      FieldName = 'SEG_CNPJ_EMITENTE'
+    end
+    object cdsSEG_SEGURADORA: TStringField
+      FieldName = 'SEG_SEGURADORA'
+      Size = 100
+    end
+    object cdsSEG_CNPJ_SEGURADORA: TStringField
+      FieldName = 'SEG_CNPJ_SEGURADORA'
+    end
+    object cdsSEG_APOLICE: TStringField
+      FieldName = 'SEG_APOLICE'
+      Size = 60
+    end
+    object cdsSEG_AVERBA: TStringField
+      FieldName = 'SEG_AVERBA'
+      Size = 60
     end
   end
 end
