@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, JvExDBGrids, JvDBGrid,
   JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr,
   ExtCtrls, ACBrNFe, ComCtrls, ACBrBase, ACBrDFe, Menus, Mask, JvExMask,
-  JvToolEdit, JvBaseEdits;
+  JvToolEdit, JvBaseEdits, midaslib;
 
 type
   TfImporta_XML = class(TForm)
@@ -151,14 +151,15 @@ type
     procedure importaXML;
     procedure importaItensXml(nota: Integer);
     procedure listaArquivos;
-    procedure listaArquivosImportados;    
-    procedure limpaArquivos;    
+    procedure listaArquivosImportados;
+    procedure limpaArquivos;
     function completaCodBarra(S: string; Ch: Char; Len: Integer): string;
     function retornaCodBarra(): String;
-    function retornaCodPro(): String;    
+    function retornaCodPro(): String;
     function eDiretorio(attr, val: Integer):Boolean;
     function tirazeros(numero: string):string;
     function removeCaracteres(Texto: string):string;
+    function removeAcentos(Str: string): string;
     { Private declarations }
   public
     { Public declarations }
@@ -499,7 +500,14 @@ begin
               ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) +
               ', ' + edMargem.Text +
               ', ' + QuotedStr('U');
+            if (retornaCodBarra = 'SEM GTIN') then
+            begin
+              strInsereItem := strInsereItem + ', NULL)';
+            end
+            else begin
               strInsereItem := strInsereItem + ', ' + QuotedStr(retornaCodBarra) + ')';
+            end;
+
 
             strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
@@ -1033,6 +1041,7 @@ end;
 procedure TfImporta_XML.importaItensXml(nota: Integer);
 var j, x: Integer;
   itemJaFoi, stql : String;
+  produto_desc: String;
 begin
   abreNFItem;
   j := nota;
@@ -1071,7 +1080,7 @@ begin
 
         sqlConn.StartTransaction(TD);
         try
-
+          produto_desc := removeAcentos(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd);
           stql := 'INSERT INTO NOTAFISCAL_PROD_IMPORTA (NOTAFISCAL, ' +
             ' SERIE, CNPJ_EMITENTE, NUM_ITEM, ' +
             ' CODPRODUTO, PRODUTO, NCM, UN, QTDE, VLR_UNIT,' +
@@ -1087,7 +1096,7 @@ begin
           stql := stql + ',';
           stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.cProd);
           stql := stql + ',';
-          stql := stql +  QuotedStr(Utf8ToAnsi(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.xProd));
+          stql := stql +  QuotedStr(Utf8ToAnsi(produto_desc));
           stql := stql + ',';
           stql := stql +  QuotedStr(ACBrNFe1.NotasFiscais.Items[j].NFe.Det[x].Prod.NCM);
           stql := stql + ',';
@@ -1180,6 +1189,7 @@ end;
 function TfImporta_XML.retornaCodPro: String;
 var retornoCodPro:String;
   codProd : String;
+  codFor: String;
   i:integer;
 begin
   retornoCodPro := '';
@@ -1188,7 +1198,18 @@ begin
   CodProd := removeCaracteres(CodProd);
 
   if (codProd <> '0') then
-    retornoCodPro := codProd
+  begin
+    if (Length(codProd) < 7) then
+    begin
+      codFor := IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
+      if (length(codFor) < 2) then
+         codFor := '00' + codFor;
+      if (length(codFor) < 3) then
+         codFor := '0' + codFor;
+      codPRod := codFor + codProd;   
+    end;
+    retornoCodPro := codProd;
+  end
   else
   begin
     if (Length(cdsNFItemCODPRODUTO.AsString)>15) then
@@ -1300,6 +1321,20 @@ begin
    Texto := StringReplace(Texto, '/', '', [rfReplaceAll]);
    Texto := StringReplace(Texto, '-', '', [rfReplaceAll]);
    Result := Texto;
+end;
+
+
+function TfImporta_XML.removeAcentos(Str: string): string;
+   const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸¿¬ ‘€√’¡…Õ”⁄«‹';
+  SemAcento = 'aaeouaoaeioucuAAEOUAOAEIOUCU';
+var
+   x: Integer;
+begin;
+  for x := 1 to Length(Str) do
+  if Pos(Str[x],ComAcento) <> 0 then
+    Str[x] := SemAcento[Pos(Str[x], ComAcento)];
+  Result := Str;
 end;
 
 end.

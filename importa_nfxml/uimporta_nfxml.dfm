@@ -49,7 +49,7 @@ object fImporta_XML: TfImporta_XML
       Top = 582
       Width = 78
       Height = 13
-      Caption = 'V. 1.5 - 06/2017'
+      Caption = 'V. 1.6 - 10/2017'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -11
@@ -215,8 +215,10 @@ object fImporta_XML: TfImporta_XML
       Height = 17
       Hint = 'Buscar pelo c'#243'digo do Fornecedor.'
       Caption = 'C'#243'd. Fornecedor'
+      Checked = True
       ParentShowHint = False
       ShowHint = True
+      State = cbChecked
       TabOrder = 8
     end
     object BitBtn1: TBitBtn
@@ -1106,8 +1108,12 @@ object fImporta_XML: TfImporta_XML
   end
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
+    Configuracoes.Geral.SSLCryptLib = cryCapicom
+    Configuracoes.Geral.SSLHttpLib = httpIndy
+    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
