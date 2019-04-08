@@ -116,6 +116,7 @@ type
     cdsLista_detCOD_CLIENTE: TStringField;
     Label18: TLabel;
     DBEdit10: TDBEdit;
+    Label19: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);

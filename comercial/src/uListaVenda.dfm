@@ -82,6 +82,14 @@ inherited fListaVenda: TfListaVenda
       Caption = 'C'#243'd. Prod. Cliente'
       Transparent = True
     end
+    object Label19: TLabel [9]
+      Left = 8
+      Top = 88
+      Width = 246
+      Height = 13
+      Caption = '* PARAMETRO LISTAPRECO = C (em configurado)'
+      Transparent = True
+    end
     inherited btnGravar: TBitBtn
       Left = 467
       Top = 104
