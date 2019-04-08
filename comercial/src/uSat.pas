@@ -862,7 +862,8 @@ begin
         end;
         cvCFOP := RemoveChar(cdsItensNFCFOP.AsString);
         Prod.xProd := cdsItensNFDESCPRODUTO.AsString;
-        prod.NCM := RemoveChar(cdsItensNFNCM.AsString);
+        if ((not cdsItensNFNCM.IsNull) and (cdsItensNFNCM.AsString <> '')) then
+          prod.NCM := RemoveChar(cdsItensNFNCM.AsString);
         Prod.CFOP := cvCFOP;
         Prod.uCom := cdsItensNFUNIDADEMEDIDA.AsString;
         Prod.qCom := cdsItensNFQUANTIDADE.AsFloat;
@@ -1314,6 +1315,21 @@ procedure TfSat.FormShow(Sender: TObject);
 begin
   cdsItensNF.Params[0].AsInteger := codVendaSAT;
   cdsItensNF.Open;
+  While not cdsItensNF.Eof do
+  begin
+    if (cdsItensNFNCM.IsNull) then
+    begin
+      ShowMessage('Item sem NCM : ' + cdsItensNFCODPRO.AsString +
+        cdsItensNFDESCPRODUTO.AsString);
+    end;
+    if (cdsItensNFNCM.AsString = '') then
+    begin
+      ShowMessage('Item sem NCM : ' + cdsItensNFCODPRO.AsString +
+        cdsItensNFDESCPRODUTO.AsString);
+    end;
+    cdsItensNF.Next;
+  end; // FIM WHILE
+  cdsItensNF.First;
   cdsFatura.Params[0].AsInteger := codVendaSAT;
   cdsFatura.Open;
   edCPF.Text := '';

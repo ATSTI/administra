@@ -12,6 +12,7 @@ object fSat: TfSat
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -2096,7 +2097,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 2
                 end
                 object cbxPorta: TComboBox
@@ -2105,7 +2106,7 @@ object fSat: TfSat
                   Width = 138
                   Height = 21
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 3
                 end
                 object cbxPagCodigo: TComboBox
@@ -2115,7 +2116,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 4
                 end
                 object seColunas: TSpinEdit
@@ -2299,6 +2300,7 @@ object fSat: TfSat
     Config.emit_indRatISSQN = irSim
     Config.EhUTF8 = False
     Config.PaginaDeCodigo = 0
+    Config.XmlSignLib = xsNone
     ConfigArquivos.PrefixoArqCFe = 'AD'
     ConfigArquivos.PrefixoArqCFeCanc = 'ADC'
     Rede.tipoInter = infETHE
@@ -3513,7 +3515,12 @@ object fSat: TfSat
     MostrarPreview = True
     MostrarSetup = True
     NomeArquivo = 'c:\home\'
+    SoftwareHouse = 'Projeto ACBr'
+    Site = 'http://www.projetoacbr.com.br'
     Filtro = fiPDF
+    MsgAppQRCode = 
+      'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
+      'l na AppStore (Apple) e PlayStore (Android)'
     PosPrinter = ACBrPosPrinter1
     Left = 612
     Top = 104
@@ -3535,7 +3542,6 @@ object fSat: TfSat
     ConfigQRCode.LarguraModulo = 4
     ConfigQRCode.ErrorLevel = 0
     LinhasEntreCupons = 5
-    CortaPapel = True
     Left = 657
     Top = 72
   end

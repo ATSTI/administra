@@ -224,7 +224,7 @@ object fSatAcbr: TfSatAcbr
         Top = 15
         Width = 635
         Height = 183
-        ActivePage = tsDadosSwHouse
+        ActivePage = Impressao
         Align = alClient
         TabOrder = 0
         object tsDadosSAT: TTabSheet
@@ -1186,7 +1186,7 @@ object fSatAcbr: TfSatAcbr
               Height = 21
               Style = csDropDownList
               Anchors = [akLeft, akTop, akRight]
-              ItemHeight = 0
+              ItemHeight = 13
               TabOrder = 2
             end
             object cbxPorta: TComboBox
@@ -1195,7 +1195,7 @@ object fSatAcbr: TfSatAcbr
               Width = 138
               Height = 21
               Anchors = [akLeft, akTop, akRight]
-              ItemHeight = 0
+              ItemHeight = 13
               TabOrder = 3
             end
             object cbxPagCodigo: TComboBox
@@ -1205,7 +1205,7 @@ object fSatAcbr: TfSatAcbr
               Height = 21
               Style = csDropDownList
               Anchors = [akLeft, akTop, akRight]
-              ItemHeight = 0
+              ItemHeight = 13
               TabOrder = 4
             end
             object seColunas: TSpinEdit
@@ -1406,6 +1406,7 @@ object fSatAcbr: TfSatAcbr
     Config.emit_indRatISSQN = irSim
     Config.EhUTF8 = True
     Config.PaginaDeCodigo = 65001
+    Config.XmlSignLib = xsNone
     ConfigArquivos.PrefixoArqCFe = 'AD'
     ConfigArquivos.PrefixoArqCFeCanc = 'ADC'
     Rede.tipoInter = infETHE
@@ -1445,6 +1446,11 @@ object fSatAcbr: TfSatAcbr
     Mask_vUnCom = '0.000'
     MostrarPreview = True
     MostrarSetup = True
+    SoftwareHouse = 'Projeto ACBr'
+    Site = 'http://www.projetoacbr.com.br'
+    MsgAppQRCode = 
+      'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
+      'l na AppStore (Apple) e PlayStore (Android)'
     PosPrinter = ACBrPosPrinter1
     Left = 188
     Top = 360
