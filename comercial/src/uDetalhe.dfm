@@ -888,6 +888,18 @@ object fDetalhe: TfDetalhe
     ReadOnly = True
     TabOrder = 5
   end
+  object chkManual: TDBCheckBox
+    Left = 184
+    Top = 248
+    Width = 153
+    Height = 17
+    Caption = 'Calculo Manual'
+    DataField = 'FRETE_BC'
+    DataSource = ds1
+    TabOrder = 40
+    ValueChecked = 'True'
+    ValueUnchecked = 'False'
+  end
   object ds1: TDataSource
     DataSet = fVendas.cds_Mov_det
     Left = 208

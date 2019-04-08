@@ -84,6 +84,7 @@ type
     DBEdit33: TDBEdit;
     DBEdit34: TDBEdit;
     Label33: TLabel;
+    chkManual: TDBCheckBox;
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
@@ -111,34 +112,36 @@ TD: TTransactionDesc;
 cm: string;
 begin
   //********************************************************************************
-  TD.TransactionID  := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  Try
-    dm.sqlsisAdimin.StartTransaction(TD);
-    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
-    dm.sqlsisAdimin.ExecuteDirect(cm);
-    dm.sqlsisAdimin.Commit(TD);
-    if (ds1.DataSet.State in [dsEdit, dsInsert]) then
-    begin
+  if (chkManual.Checked) then
+  begin
+    TD.TransactionID  := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    Try
       dm.sqlsisAdimin.StartTransaction(TD);
-      if (ds1.DataSet = fCompra.DtSrc1.DataSet) then
-        fCompra.cds_Mov_detPAGOU.AsString := 'M';  // Preciso disto pois, ao finalizar, se não estiver marcado o sistema ira recalcular.
-      ds1.DataSet.Post;
-      (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
+      cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+      dm.sqlsisAdimin.ExecuteDirect(cm);
       dm.sqlsisAdimin.Commit(TD);
-    end;
-    dm.sqlsisAdimin.StartTransaction(TD);
-    cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
-    dm.sqlsisAdimin.ExecuteDirect(cm);
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
+      if (ds1.DataSet.State in [dsEdit, dsInsert]) then
+      begin
+        dm.sqlsisAdimin.StartTransaction(TD);
+        if (ds1.DataSet = fCompra.DtSrc1.DataSet) then
+          fCompra.cds_Mov_detPAGOU.AsString := 'M';  // Preciso disto pois, ao finalizar, se não estiver marcado o sistema ira recalcular.
+        ds1.DataSet.Post;
+        (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      end;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
+      dm.sqlsisAdimin.ExecuteDirect(cm);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
     end;
   end;
-  
 end;
 
 procedure TfDetalhe.FormShow(Sender: TObject);
@@ -152,6 +155,9 @@ begin
     ds1.DataSet := fVendas.DtSrc1.DataSet;
   if (DM_MOV.d_movdet.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
     ds1.DataSet := DM_MOV.d_movdet.DataSet;
+  chkManual.Checked := False;    
+  if (fCompra.cds_Mov_detPAGOU.AsString = 'M') then
+    chkManual.Checked := True;
 end;
 
 procedure TfDetalhe.dbeCodproExit(Sender: TObject);
