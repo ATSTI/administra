@@ -701,6 +701,7 @@ type
     procedure Label4Click(Sender: TObject);
   private
     { Private declarations }
+    prod_usalote: String;
     vnd_status: String;
     limiteCred: Double;
     procurouProd : String;
@@ -989,7 +990,8 @@ begin
   begin
     // 'S' = usa a tabela ListaPreco
     // 'C' = usa a tabela ListaPreco_Venda
-    usaprecolistavenda := dm.cds_parametroCONFIGURADO.AsString;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      usaprecolistavenda := 'S';
   end;
 
   //Populo combobox Transportadora
@@ -1466,8 +1468,12 @@ begin
     lblEstoque.Caption := FloatToStr(fProcura_prod.cds_procESTOQUEATUAL.asfloat);
     // Usa Lote
     usaLote := 'N';
-    if (fProcura_prod.cds_procLOTES.AsString <> 'S') then
+    if (fProcura_prod.cds_procLOTES.AsString = 'S') then
     begin
+      usaLote := 'S';
+      Bitbtn4.SetFocus;
+    end
+    else begin
       if (fProcura_prod.cds_proc.Active) then
         fProcura_prod.cds_proc.Close;
       if cds_Mov_det.State in [dsInsert] then
@@ -1480,10 +1486,6 @@ begin
         //if DBEdit17.Text <> '' then
         //DBEdit17.SetFocus;
       end;
-    end
-    else begin
-      usaLote := 'S';
-      Bitbtn4.SetFocus;
     end;
 
  // end;
@@ -1501,14 +1503,12 @@ begin
     end;
   end;
   // 06/01/2016
-  {if (usalote = 'S') then
+  // 01/10/2018
+  if (cds_Mov_detLOTE.AsString = 'S') then
   begin
-    if (cds_Mov_detLOTE.AsString = '') then
-    begin
-      MessageDlg('Informe o Lote do Produto.', mtWarning, [mbOK], 0);
-      exit;
-    end;
-  end;}
+    BitBtn4.Click
+    //exit;
+  end;
   inherited;
   if (matPrima = 'SIM') then
     inseridoMatPrima := 'SIM';
@@ -1655,6 +1655,9 @@ begin
       fLotes.btnCancelar.Enabled := False;
       fLotes.btnProcurar.Enabled := False;
       fLotes.ShowModal;
+      cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
+      cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
+      cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
     finally
       fLotes.Free;
     end;
@@ -1943,6 +1946,10 @@ begin
         cds_Mov_det.First;
         While not cds_Mov_det.Eof do
         begin
+          if (cds_Mov_detLOTE.AsString = 'S') then
+          begin
+            BitBtn4.Click;
+          end;
           if (cds_Mov_detCODDETALHE.AsInteger >= 1999999) then
           begin
             if (dm.validaCfop(edCFOP.Text) = False) then
@@ -4212,7 +4219,7 @@ procedure TfVendas.PesquisaProdutos;
 var sql: String;
 begin
   cds_mov_detCFOP.asString := edCfop.text;
-  if (usaprecolistavenda <> 'N') then
+  if (usaprecolistavenda = 'S') then
   begin
     varonde := 'Lista';
     CODIGOPRODUTO := dbeProduto.Text;
@@ -4301,17 +4308,19 @@ begin
 
       //Usa Lote ??
       usaLote := 'N';
-      if (dm.scds_produto_procLOTES.AsString <> 'S') then
+      if (dm.scds_produto_procLOTES.AsString = 'S') then
       begin
+        cds_Mov_detLOTE.AsString := 'S';
         usaLote := 'S';
+        Bitbtn4.SetFocus;
+      end
+      else begin
         dm.scds_produto_proc.Close;
         if dbeProduto.Text = '' then
            dbeProduto.SetFocus;
         if DBEdit17.Text <> '' then
          DBEdit17.SetFocus;
-      end
-      else
-        Bitbtn4.SetFocus;
+      end;
     end;
   end
   else
@@ -4413,6 +4422,11 @@ begin
         cds_Mov_detCODALMOXARIFADO.AsInteger := dm.scds_produto_procCODALMOXARIFADO.AsInteger;
         cds_Mov_detALMOXARIFADO.AsString := '';
         cds_Mov_detICMS.AsFloat := dm.scds_produto_procICMS.AsFloat;
+        usaLote := 'N';
+        if (dm.scds_produto_procLOTES.AsString = 'S') then
+        begin
+          usaLote := 'S';
+        end;
       end;
     end;
   end;
@@ -4599,6 +4613,8 @@ var   FMov : TMovimento;
    codMov  : Integer;
       TDA  : TTransactionDesc;
 begin
+  if  MessageDlg('Confirma DUPLICAR o PEDIDO ? ',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
   if DtSrc.DataSet.State in [dsInactive] then
     exit;
 
