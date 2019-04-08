@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, dxCore, dxButton,
   StdCtrls,
-  DB, DBCtrls,
+  DB, DBCtrls,  DBxpress,
   FMTBcd, SqlExpr, Provider, DBClient;
 
 type
@@ -31,6 +31,7 @@ type
     procedure dxButton3Click(Sender: TObject);
     procedure dxButton4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure NFeEletronica(Tipo: String);
   private
     { Private declarations }
   public
@@ -83,6 +84,7 @@ end;
 
 procedure TfEscolherNF.dxButton3Click(Sender: TObject);
 begin
+   NFeEletronica('1');
    fNotaf := TfNotaf.Create(Application);
    try
      fNotaf.codVendaFin := 0;
@@ -103,6 +105,7 @@ end;
 
 procedure TfEscolherNF.dxButton4Click(Sender: TObject);
 begin
+   NFeEletronica('0');
    fNotaFc := TfNotaFc.Create(Application);
    try
       TipoNF := 'Fornecedor';
@@ -120,6 +123,47 @@ begin
   if (not cds_empresa.Active) then
     cds_empresa.open;
   dblkp_empresa.KeyValue := cds_empresaCCUSTO.AsInteger;
+end;
+
+procedure TfEscolherNF.NFeEletronica(Tipo: String);
+var
+  TD: TTransactionDesc;
+  dia, mes,ano :word;
+  numero_ano,numero_mes, numero_dia : string;
+  str_sql_user: String;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  DecodeDate(Now,ano,mes,dia);
+  numero_ano := copy(IntToStr(ano),3,2);
+  if (mes < 10) then
+    numero_mes := '0' + IntToStr(mes)
+  else
+    numero_mes := IntToStr(mes);
+  if (dia < 10) then
+    numero_dia := '0' + IntToStr(dia)
+  else
+    numero_dia := IntToStr(dia);
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    str_sql_user := 'UPDATE UCTABUSERSLOGGED SET ' +
+      ' CODEMPRESA = ' + IntToStr(dblkp_empresa.KeyValue) +
+      ' , NOMEEMPRESA = ' + QuotedStr(dblkp_empresa.Text) +
+      ' , TIPONOTA = ' + Tipo +
+      ' WHERE UCIDUSER = ' + IntToStr(usulog) +
+      ' AND UCDATA LIKE ' + QuotedStr(numero_dia + '/' + numero_mes  + '/' + numero_ano + '%');
+    dm.sqlsisAdimin.ExecuteDirect(str_sql_user);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
+    end;
+  end;
+
 end;
 
 end.
