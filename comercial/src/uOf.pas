@@ -221,7 +221,9 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
+    qtde_produzido: Double;
     codMovJaBaixado: Integer;
     dataMovJaBaixado: TDateTime;
     serieOFParam : String;
@@ -279,6 +281,7 @@ begin
 end;
 
 procedure TfOf.btnGravarClick(Sender: TObject);
+var mesatual: Word;
 begin
   if (cdsOfOFSTATUS.AsString  = 'E') then
   begin
@@ -291,7 +294,7 @@ begin
     MessageDlg('OF já incluída, não é permitido fazer alteração.', mtWarning, [mbOK], 0);
     exit;
   end;
-
+  qtde_produzido := OfQtde.Value;
   if (codProd = 0) then
   begin
     if dm.scds_produto_proc.Active then
@@ -306,7 +309,6 @@ begin
     end;
   end;
   cdsOfOFID.AsInteger       := StrToInt(OfId.Text);
-  cdsOfOFDATA.AsDateTime    := OfData.Date;
   if (OFTipo = 'OP') then
   begin
     cdsOfOFID_IND.AsString   := OFID_Ind.Text;
@@ -315,6 +317,7 @@ begin
     cdsOfOFQTDEPERDA.AsFloat  := 0;
     cdsOfCODPRODUTO.AsInteger := codProd;
     cdsOfOFSTATUS.AsString    := 'A'; // OF Aberta
+    cdsOfOFDATA.AsDateTime    := OfData.Date;
     inherited;
     alteranumeroserie;
     lancaapont(cdsOfOFID.AsInteger);
@@ -322,18 +325,38 @@ begin
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
-    cdsOfOFQTDEPRODUZ.AsFloat := OfQtde.Value;
-    cdsOfOFQTDEPERDA.AsFloat  := 0;
-    cdsOfOFSTATUS.AsString    := 'F'; // OF Finalizada
-    inherited;
-    if (cdsOfOFQTDEPRODUZ.AsFloat <> cdsOfOFQTDESOLIC.AsFloat) then
+    if ((MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now)) OR
+       (OfQtde.Value = cdsOfOFQTDESOLIC.AsFloat) OR
+       (OfQtde.Value > cdsOfOFQTDESOLIC.AsFloat)) then
     begin
-      lancaapont(cdsOfOFID.AsInteger);
-      baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
+      cdsOfOFQTDEPRODUZ.AsFloat := OfQtde.Value;
+      cdsOfOFQTDEPERDA.AsFloat  := 0;
+      cdsOfOFSTATUS.AsString    := 'F'; // OF Finalizada
+      inherited;
+      if (cdsOfOFQTDEPRODUZ.AsFloat <> cdsOfOFQTDESOLIC.AsFloat) then
+      begin
+        // a materia prima e o produto acabado sao baixados na criacao da OF
+        // OBS.:  se a BAIXA ACONTECESSE somente no apontamento isso nao era problema
+        //
+        // entao a OF nunca poderá ser menor do q o lancamento original
+        // aqui so vai entrar se o APONTAMENTO for MAIOR DO QUE A QTDE DA OF
+        //
+        // OBS 2 .: isso so e problema para apontamento em outro mes
+        // por causa do Bloco K
+        //
+        lancaapont(cdsOfOFID.AsInteger);
+        baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
+      end;
+    end
+    else begin
+      MessageDlg('Apontamento menor do que a Quantidade da OF em Mês diferente.', mtWarning,
+        [mbOk], 0);
+      exit;
     end;
   end;
   if (OFTipo = 'PERDA') then
   begin
+    cdsOfOFDATA.AsDateTime    := OfData.Date;
     cdsOfOFQTDESOLIC.AsFloat  := 0;
     cdsOfOFQTDEPRODUZ.AsFloat := 0;
     cdsOfOFQTDEPERDA.AsFloat  := OfQtde.Value;
@@ -351,10 +374,10 @@ begin
   dm.scds_produto_proc.Params[1].AsString := OfProd.Text;
   dm.scds_produto_proc.Open;
   if dm.scds_produto_proc.IsEmpty then begin
-    MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
-      [mbOk], 0);
+    //MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+    //  [mbOk], 0);
     btnProdutoProcura.Click;
-    exit;
+    //exit;
   end;
   OfDesc.Text := dm.scds_produto_procPRODUTO.AsString;
   codProd := dm.scds_produto_procCODPRODUTO.asInteger;
@@ -367,7 +390,10 @@ begin
   codProd := 0;
   if (OFTipo = 'APONTAMENTO') then
   begin
-    OfData.Enabled := False;
+    //02/01/2019
+    // a data vai ficar liberada para troca, pois, se apontamento diferente do mes
+    // atual , sera novo apontamento da diferenca apenas
+    //OfData.Enabled := False;
     OFID_Ind.Enabled := False;
     OfProd.Enabled := False;
     OfDesc.Enabled := False;
@@ -391,6 +417,7 @@ end;
 
 procedure TfOf.btnIncluirClick(Sender: TObject);
 begin
+  qtde_produzido := 0;
   dataMovJaBaixado := now;
   OfQtde.Value := 0;
   if (OFTipo = 'OP') then
@@ -518,7 +545,7 @@ begin
             FMov.MovDetalhe.Descricao     := cdsDetalhePRODUTO.AsString;
             if ( cdsOfOFSTATUS.AsString = 'F') then
             begin
-              FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * cdsOfOFQTDEPRODUZ.AsFloat);
+              FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * qtde_produzido);
             end
             else
               FMov.MovDetalhe.Qtde          := cdsDetalheSUM.AsFloat;
@@ -617,8 +644,8 @@ begin
         dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
         dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
         dm.scds_produto_proc.Open;
-        dataMovJaBaixado := cdsOfOFDATA.AsDateTime;
-        OfData.Date := cdsOfOFDATA.AsDateTime;
+        //dataMovJaBaixado := cdsOfOFDATA.AsDateTime;
+        //OfData.Date := cdsOfOFDATA.AsDateTime;
         OfProd.Text := DM.scds_produto_procCODPRO.AsString;
         OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
         OfQtde.Text := FloatToStr(cdsOfOFQTDESOLIC.AsFloat);
@@ -661,9 +688,30 @@ var
   codMovEntrada: Integer;
   Save_Cursor:TCursor;
 begin
+   if (cdsOFOFQTDEPRODUZ.AsFloat > 0) then
+      qtde_produzido := cdsOFOFQTDEPRODUZ.AsFloat
+   else
+      qtde_produzido := cdsOfOFQTDESOLIC.AsFloat;
+
   if ( cdsOfOFSTATUS.AsString = 'F' )then
   begin
-    excluilancamentos(codof);
+    qtde_produzido := OfQtde.Value;
+    if (MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now)) then
+    begin
+      excluilancamentos(codof);
+    end
+    else begin
+      dataMovJaBaixado := OfData.Date;
+      if (OfQtde.Value > cdsOfOFQTDESOLIC.AsFloat) then
+      begin
+        qtde_produzido := OfQtde.Value - cdsOfOFQTDESOLIC.AsFloat;
+      end
+      else begin
+        MessageDlg('Apontamento nao pode ser menor do que a Quantidade da OF.', mtWarning,
+        [mbOk], 0);
+        exit;
+      end;
+    end;
   end;
 
   TDA.TransactionID  := 1;
@@ -699,10 +747,7 @@ begin
       FMov.MovDetalhe.CodProduto    := cdsOfCODPRODUTO.AsInteger;
       //FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
       FMov.MovDetalhe.Descricao     := OfDesc.Text;
-      if (cdsOFOFQTDEPRODUZ.AsFloat > 0) then
-        FMov.MovDetalhe.Qtde          := cdsOFOFQTDEPRODUZ.AsFloat
-      else
-        FMov.MovDetalhe.Qtde          := cdsOfOFQTDESOLIC.AsFloat;
+      FMov.MovDetalhe.Qtde          := qtde_produzido;
       FMov.MovDetalhe.Lote          := '';
       FMov.MovDetalhe.DtaVcto       := Now;
       FMov.MovDetalhe.DtaFab        := Now;
@@ -887,6 +932,29 @@ begin
     fOfProc.Free;
   end;
 
+end;
+
+procedure TfOf.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  //inherited;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    if dm.scds_produto_proc.Active then
+      dm.scds_produto_proc.Close;
+    dm.scds_produto_proc.Params[0].AsInteger := 0;
+    dm.scds_produto_proc.Params[1].AsString := OfProd.Text;
+    dm.scds_produto_proc.Open;
+    if dm.scds_produto_proc.IsEmpty then begin
+      //MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+      //  [mbOk], 0);
+      btnProdutoProcura.Click;
+      //exit;
+    end;
+    OfDesc.Text := dm.scds_produto_procPRODUTO.AsString;
+    codProd := dm.scds_produto_procCODPRODUTO.asInteger;
+  end;
 end;
 
 end.
