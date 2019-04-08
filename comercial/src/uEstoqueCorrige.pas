@@ -82,8 +82,6 @@ Begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(sqlStr);
     dataUltimoFechamento := JvDateEdit1.Date-1;
-    MessageDlg('Período excluído com sucesso.', mtWarning, [mbOK], 0);
-    exit;
     try
       dm.sqlsisAdimin.Commit(TD);
     except
@@ -94,6 +92,8 @@ Begin
         exit;
       end;
     end;
+    MessageDlg('Período excluído com sucesso.', mtWarning, [mbOK], 0);
+    exit;
   end;
 
   if ((dataUltimoFechamento > JvDateEdit1.Date) or (dataUltimoFechamento > JvDateEdit2.Date)) then
@@ -120,8 +120,10 @@ Begin
     if (cdsB.Active) then
     cdsB.Close;
 
+    // 15/02/2019  tirei a linha abaixo do select pra nao trazer nada no lote
+    //' ,COALESCE(md.LOTE, ' + QuotedStr('0') + ') LOTE ' +
     cdsB.CommandText := 'SELECT DISTINCT m.CODALMOXARIFADO, md.CODPRODUTO ' +
-      ' ,COALESCE(md.LOTE, ' + QuotedStr('0') + ') LOTE ' + 
+      ' , ' + QuotedStr('0') + ' LOTE ' + 
       '  FROM movimento m, movimentodetalhe md ' +
       ' WHERE m.CODMOVIMENTO = md.CODMOVIMENTO ' +
       '   AND m.DATAMOVIMENTO BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date-10)) +
@@ -191,7 +193,6 @@ Begin
         sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
           'QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA, QTDEPERDA, PRECOCUSTO, ' +
           'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO' +
-
           ') VALUES (';
 
         dm.sqlsisAdimin.StartTransaction(TD);
