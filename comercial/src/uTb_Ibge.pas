@@ -55,6 +55,8 @@ type
     { Private declarations }
   public
     { Public declarations }
+    cd_ibge: String;
+    nm_mun: String;
   end;
 
 var

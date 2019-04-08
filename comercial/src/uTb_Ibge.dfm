@@ -400,7 +400,6 @@ inherited fTb_Ibge: TfTb_Ibge
     CommandText = 'Select * From TB_IBGE'
     MaxBlobSize = -1
     Params = <>
-    SQLConnection = DM.sqlsisAdimin
     Left = 8
     Top = 8
     object sds_IBGENM_LOCALIDADE: TStringField
