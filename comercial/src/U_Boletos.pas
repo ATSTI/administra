@@ -5,14 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ACBrBoleto, ACBrBase,
-  ACBrBoletoFCFortesFr, ExtCtrls, MMJPanel, Buttons, ACBrUtil, FMTBcd, DB,
+  ExtCtrls, MMJPanel, Buttons, ACBrUtil, FMTBcd, DB,
   SqlExpr, uRel_CR1, U_AUTOPECAS, uVendas, DBClient, Provider, Grids,
-  DBGrids;
+  DBGrids, ACBrBoletoFCFortesFr;
 
 type
   TF_Boletos = class(TForm)
-    ACBrBoleto1: TACBrBoleto;
-    ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
     MMJPanel3: TMMJPanel;
     lbl1: TLabel;
     cbb1: TComboBox;
@@ -333,10 +331,13 @@ type
     ds_crCODIGOBOLETO: TStringField;
     ds_crCODIGOBANCO: TIntegerField;
     ds_crCODCONCILIACAO: TStringField;
+    ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     function RemoveAcento(Str: string): string;
@@ -383,7 +384,7 @@ var
    form_ativo      : string;
    dia, mes,ano    : word;
    especie_DOC     : string;
-
+   AcbrBoleto1     : TAcbrBoleto;
 implementation
 
 uses UDm, ufcr, DateUtils;
@@ -611,7 +612,7 @@ begin
                 if (Length(s_bancoCONVENIO.AsString) = 6) then
                    Titulo.NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,11);
                 if (Length(s_bancoCONVENIO.AsString) = 7) then
-                   Titulo.NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,10);
+                   Titulo.NossoNumero := IntToStrZero(varNossoNumero,10); // Manoel 13/08/18 s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,10);
               end;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
               Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
@@ -630,7 +631,8 @@ begin
               Titulo.ValorAbatimento   := 0; //ValorAbatimento;
               Titulo.DataAbatimento    := ds_crDATAVENCIMENTO.AsDateTime;// - 5;
               Titulo.Mensagem.Text  := s_bancoINSTRUCAO1.AsString;
-              Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
+              //Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
+              Titulo.Mensagem.Text  := Titulo.Mensagem.Text + 'Valor Juros por Dia ' + FormatCurr('R$ #,##0.00', ((ds_crVALOR_RESTO.AsFloat * ((s_bancoPERCMULTA.AsFloat/30)/100)))); // val_dia ;
               Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO3.AsString;
               Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO4.AsString;
 
@@ -702,7 +704,6 @@ begin
 
   // Busco os dados do Banco
   BANCO_SELECIONADO;
-
   if (s_bancoLAYOUT_BL.AsString = 'Carnê') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lCarne;
   if (s_bancoLAYOUT_BL.AsString = 'Boleto') then
@@ -945,7 +946,6 @@ procedure TF_Boletos.FormShow(Sender: TObject);
 var
  dia, mes, ano : Word;
 begin
-  edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   if (not DM.cdsBanco.Active) then
       DM.cdsBanco.Open;
   dm.cdsBanco.First;
@@ -977,8 +977,8 @@ begin
 
   if (s_bancoLAYOUT_BL.AsString = 'Carnê') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lCarne;
-  if (s_bancoLAYOUT_BL.AsString = 'Boleto') then
-    ACBrBoleto1.ACBrBoletoFC.LayOut := lPadrao;
+  //if (s_bancoLAYOUT_BL.AsString = 'Boleto') then
+  //  ACBrBoleto1.ACBrBoletoFC.LayOut := lPadrao;
   if (s_bancoLAYOUT_BL.AsString = 'Fatura') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lFatura;
 
@@ -1026,6 +1026,18 @@ begin;
   if Pos(Str[x],ComAcento) <> 0 then
     Str[x] := SemAcento[Pos(Str[x], ComAcento)];
   Result := Str;
+end;
+
+procedure TF_Boletos.FormCreate(Sender: TObject);
+begin
+  AcbrBoleto1 := TACBrBoleto.Create(Nil);
+  edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
+  AcbrBoleto1.ACBrBoletoFC := ACBrBoletoFCFortes1;
+end;
+
+procedure TF_Boletos.FormDestroy(Sender: TObject);
+begin
+  AcbrBoleto1.Destroy;
 end;
 
 end.

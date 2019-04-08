@@ -1,6 +1,6 @@
 object F_Boletos: TF_Boletos
-  Left = 424
-  Top = 309
+  Left = 427
+  Top = 311
   Width = 417
   Height = 302
   BorderIcons = [biSystemMenu]
@@ -12,6 +12,8 @@ object F_Boletos: TF_Boletos
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -138,20 +140,6 @@ object F_Boletos: TF_Boletos
       TabOrder = 2
       OnClick = btn4Click
     end
-  end
-  object ACBrBoleto1: TACBrBoleto
-    Banco.TamanhoMaximoNossoNum = 17
-    Banco.TipoCobranca = cobNenhum
-    Cedente.TipoInscricao = pOutras
-    NumeroArquivo = 0
-    ACBrBoletoFC = ACBrBoletoFCFortes1
-    Left = 192
-    Top = 16
-  end
-  object ACBrBoletoFCFortes1: TACBrBoletoFCFortes
-    ACBrBoleto = ACBrBoleto1
-    Left = 224
-    Top = 16
   end
   object s_banco: TSQLDataSet
     CommandText = 'SELECT a.*    '#13#10'FROM BANCO a'#13#10'where CODBANCO = :bc'
@@ -1390,5 +1378,9 @@ object F_Boletos: TF_Boletos
     DataSet = ds_cr
     Left = 336
     Top = 179
+  end
+  object ACBrBoletoFCFortes1: TACBrBoletoFCFortes
+    Left = 184
+    Top = 171
   end
 end
