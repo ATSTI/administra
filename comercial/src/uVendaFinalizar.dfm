@@ -2263,8 +2263,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
       OnKeyPress = FormKeyPress
     end
     object pnlMotivoCancelamento: TGroupBox
-      Left = 224
-      Top = 16
+      Left = 184
+      Top = 96
       Width = 337
       Height = 89
       BiDiMode = bdRightToLeft

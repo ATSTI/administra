@@ -1002,6 +1002,8 @@ begin
       dbeSerie.SetFocus;
       exit;
     end;
+    if (cdsSERIE.AsString <> dbeSerie.Text) then
+      cdsSERIE.AsString := dbeSerie.Text;
 
     if (DM.tipoVenda <> 'DEVOLUCAO') then
     begin
@@ -1445,6 +1447,11 @@ end;
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
 var nfe :string;
 begin
+  if (combobox1.Text = '') then
+  begin
+    MessageDlg('Forma de Recebimento é obrigatório',mtInformation,[mbOk],0);
+    Exit;
+  end;
 
   if DtSrc.State in [dsInsert] then
   begin
@@ -3038,8 +3045,46 @@ var
   Save_Cursor:TCursor;
   codClienteNF, ultimoNumUsado: integer;
   serieNf: String;
+  TD: TTransactionDesc;
+  dia, mes,ano :word;
+  numero_ano,numero_mes, numero_dia : string;
+  str_sql_user: String;
   str_sql, numNf: String;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  DecodeDate(Now,ano,mes,dia);
+  numero_ano := copy(IntToStr(ano),3,2);
+  if (mes < 10) then
+    numero_mes := '0' + IntToStr(mes)
+  else
+    numero_mes := IntToStr(mes);
+  if (dia < 10) then
+    numero_dia := '0' + IntToStr(dia)
+  else
+    numero_dia := IntToStr(dia);
+
+  //    ' CODEMPRESA = ' + IntToStr(dblkp_empresa.KeyValue) +
+  //    ' , NOMEEMPRESA = ' + QuotedStr(dblkp_empresa.Text) +
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    str_sql_user := 'UPDATE UCTABUSERSLOGGED SET ' +
+      ' TIPONOTA = 1 ' +
+      ' WHERE UCIDUSER = ' + IntToStr(usulog) +
+      ' AND UCDATA LIKE ' + QuotedStr(numero_dia + '/' + numero_mes  + '/' + numero_ano + '%');
+    dm.sqlsisAdimin.ExecuteDirect(str_sql_user);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
+    end;
+  end;
+
+
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
 
@@ -3866,6 +3911,7 @@ begin
     fNFCe.NFCe_dataVencimento := cdsDATAVENCIMENTO.AsDateTime;
     fNFCe.edtRecebimento.Text := ComboBox1.Text;
     fNFCe.NFCe_codNF := cdsNOTAFISCAL.AsInteger;
+    fNFCe.edDesconto.Value := cdsDESCONTO.AsFloat;
     fNFCe.ShowModal;
   end;
 
