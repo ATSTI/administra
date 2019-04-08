@@ -1,7 +1,7 @@
 inherited fEmpresa: TfEmpresa
-  Left = 408
+  Left = 312
   Top = 76
-  Width = 795
+  Width = 891
   Height = 695
   Caption = 'Cadastro de Empresa'
   Font.Charset = ANSI_CHARSET
@@ -13,7 +13,7 @@ inherited fEmpresa: TfEmpresa
   TextHeight = 36
   inherited MMJPanel1: TMMJPanel
     Top = 614
-    Width = 787
+    Width = 883
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
       Font.Height = -13
@@ -64,7 +64,7 @@ inherited fEmpresa: TfEmpresa
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 787
+    Width = 883
     inherited Label1: TLabel
       Left = 165
       Top = -85
@@ -107,7 +107,7 @@ inherited fEmpresa: TfEmpresa
   object JvPageControl1: TJvPageControl [2]
     Left = 0
     Top = 54
-    Width = 787
+    Width = 883
     Height = 560
     ActivePage = TabSheet1
     Align = alClient
@@ -129,7 +129,7 @@ inherited fEmpresa: TfEmpresa
       object JvCaptionPanel1: TJvCaptionPanel
         Left = 0
         Top = 0
-        Width = 779
+        Width = 875
         Height = 530
         Align = alClient
         Buttons = []
@@ -1289,9 +1289,30 @@ inherited fEmpresa: TfEmpresa
       object Label42: TLabel
         Left = 622
         Top = 17
-        Width = 269
+        Width = 212
         Height = 15
-        Caption = 'Indicador de per'#237'odo de apura'#231#227'o do IPI'
+        Caption = 'Ind. per'#237'odo de apura'#231#227'o do IPI'
+      end
+      object Label57: TLabel
+        Left = 624
+        Top = 60
+        Width = 188
+        Height = 15
+        Caption = 'Possui informa'#231#245'es GIAF 1 ?'
+      end
+      object Label58: TLabel
+        Left = 624
+        Top = 100
+        Width = 188
+        Height = 15
+        Caption = 'Possui informa'#231#245'es GIAF 3 ?'
+      end
+      object Label59: TLabel
+        Left = 624
+        Top = 140
+        Width = 188
+        Height = 15
+        Caption = 'Possui informa'#231#245'es GIAF 4 ?'
       end
       object cbTACBrIndicadorAtividade: TComboBox
         Left = 26
@@ -1546,6 +1567,48 @@ inherited fEmpresa: TfEmpresa
           '0 - Mensal'
           '1 - Decendial'
           '2 - Vazio')
+      end
+      object cbGiaf1: TComboBox
+        Left = 624
+        Top = 75
+        Width = 225
+        Height = 23
+        ItemHeight = 15
+        ItemIndex = 1
+        TabOrder = 13
+        Text = 'N'#227'o'
+        OnChange = cbGiaf1Change
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+      end
+      object cbGiaf3: TComboBox
+        Left = 624
+        Top = 115
+        Width = 225
+        Height = 23
+        ItemHeight = 15
+        ItemIndex = 1
+        TabOrder = 14
+        Text = 'N'#227'o'
+        OnChange = cbGiaf3Change
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+      end
+      object cbGiaf4: TComboBox
+        Left = 624
+        Top = 155
+        Width = 225
+        Height = 23
+        ItemHeight = 15
+        ItemIndex = 1
+        TabOrder = 15
+        Text = 'N'#227'o'
+        OnChange = cbGiaf4Change
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
       end
     end
     object TabSheet3: TTabSheet

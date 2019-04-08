@@ -150,6 +150,12 @@ type
     DBEdit24: TDBEdit;
     Label56: TLabel;
     DBEdit38: TDBEdit;
+    Label57: TLabel;
+    cbGiaf1: TComboBox;
+    Label58: TLabel;
+    cbGiaf3: TComboBox;
+    Label59: TLabel;
+    cbGiaf4: TComboBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -174,6 +180,9 @@ type
     procedure cbTACBrBaseCalculoCreditoChange(Sender: TObject);
     procedure cbTACBrIndAJChange(Sender: TObject);
     procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
+    procedure cbGiaf1Change(Sender: TObject);
+    procedure cbGiaf3Change(Sender: TObject);
+    procedure cbGiaf4Change(Sender: TObject);
   private
     TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
     TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
@@ -509,6 +518,39 @@ begin
   dm.cds_ccusto.Locate('CODIGO', dm.cds_empresaCCUSTO.AsInteger ,[loCaseInsensitive]);
     ComboBox1.Text := dm.cds_ccustoNOME.AsString;
   JvLabel1.Caption := dm.cds_empresaEMPRESA.AsString;
+end;
+
+procedure TfEmpresa.cbGiaf1Change(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
+  if (cbGiaf1.ItemIndex = 0) then
+    dm.cds_empresaGIAF1.AsString := 'S'
+  else
+    dm.cds_empresaGIAF1.AsString := 'N';
+end;
+
+procedure TfEmpresa.cbGiaf3Change(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
+  if (cbGiaf3.ItemIndex = 0) then
+    dm.cds_empresaGIAF3.AsString := 'S'
+  else
+    dm.cds_empresaGIAF3.AsString := 'N';
+end;
+
+procedure TfEmpresa.cbGiaf4Change(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
+  if (cbGiaf4.ItemIndex = 0) then
+    dm.cds_empresaGIAF4.AsString := 'S'
+  else
+    dm.cds_empresaGIAF4.AsString := 'N';
 end;
 
 end.
