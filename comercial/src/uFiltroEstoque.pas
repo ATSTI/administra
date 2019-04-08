@@ -278,21 +278,24 @@ begin
     cds_Familia.Close;
   end;
 
-  {if (dm.cds_parametro.Active) then
+  if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'RegFiltroEstoque';
+  dm.cds_parametro.Params[0].AsString := 'FE-'+micro;
   dm.cds_parametro.Open;
   if dm.cds_parametro.IsEmpty then
   begin
-    varsql :=  'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1,D2,D3,D4) ' ;
-    varsql := varsql + 'values (''RegFiltroEstoque'',''S'',''RegFiltroEstoque'',''01/01/04'',''01/10/04'',''2-DINHEIRO'',''00'')';
+    varsql := 'Insert into PARAMETRO (PARAMETRO,CONFIGURADO,DADOS,D1,D2)';
+    varsql := varsql + ' values (' + QuotedStr('FE-'+Micro);
+    varsql := varsql + ',' + QuotedStr('S') + ',' + QuotedStr('RegFiltroEstoque');
+    varsql := varsql + ',' + QuotedStr('01/01/18') + ',' + QuotedStr('01/10/18') + ')';
     dm.sqlsisAdimin.executedirect(varsql);
-  end
-  else
+  end;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
     meDta1.Text := dm.cds_parametroD1.AsString;
     meDta2.Text := dm.cds_parametroD2.AsString;
-  end;}
+  end;
+
   bitbtn7.SetFocus;
    if (Edit3.Text = '') then exit;
    if dm.scds_produto_proc.Active then
@@ -669,15 +672,15 @@ procedure TfFiltroEstoque.FormClose(Sender: TObject;
   var str_sql: string;
 begin
   //inherited;
-  {str_sql := 'UPDATE PARAMETRO SET D1 = ';
+  str_sql := 'UPDATE PARAMETRO SET D1 = ';
   str_sql := str_sql + '''' + meDta1.Text + ''', D2 = ';
   str_sql := str_sql + '''' + meDta2.Text + '''';
-  str_sql := str_sql + ' where PARAMETRO = ' + '''RegFiltroEstoque''';
+  str_sql := str_sql + ' where PARAMETRO = ' + QuotedStr('FE-' + micro);
   try
     dm.sqlsisAdimin.ExecuteDirect(str_sql);
   except
     exit;
-  end;}
+  end;
 end;
 
 procedure TfFiltroEstoque.meDta1KeyPress(Sender: TObject; var Key: Char);
