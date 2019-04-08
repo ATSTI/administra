@@ -1,6 +1,6 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
-  Left = 196
-  Top = 111
+  Left = 202
+  Top = 142
   Width = 853
   Height = 587
   Caption = 'Classifica'#231#227'o Fiscal dos Produto'
@@ -167,12 +167,22 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ParentShowHint = False
     ShowHint = True
   end
+  object Label22: TLabel [16]
+    Left = 277
+    Top = 109
+    Width = 56
+    Height = 13
+    Caption = 'Tipos Fiscal'
+    FocusControl = DBEdit15
+    ParentShowHint = False
+    ShowHint = True
+  end
   inherited MMJPanel1: TMMJPanel
     Width = 845
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 18
     object Label9: TLabel
       Left = 9
       Top = 7
@@ -195,13 +205,13 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   inherited MMJPanel2: TMMJPanel
     Top = 509
     Width = 845
-    TabOrder = 16
+    TabOrder = 17
     inherited btnProcurar: TBitBtn
       Caption = 'F8-Procurar'
       Visible = False
     end
   end
-  object DBEdit1: TDBEdit [18]
+  object DBEdit1: TDBEdit [19]
     Left = 3
     Top = 80
     Width = 83
@@ -211,7 +221,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ReadOnly = True
     TabOrder = 0
   end
-  object DBEdit2: TDBEdit [19]
+  object DBEdit2: TDBEdit [20]
     Left = 99
     Top = 80
     Width = 57
@@ -220,7 +230,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 1
   end
-  object DBEdit3: TDBEdit [20]
+  object DBEdit3: TDBEdit [21]
     Left = 163
     Top = 80
     Width = 30
@@ -229,7 +239,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 2
   end
-  object DBEdit4: TDBEdit [21]
+  object DBEdit4: TDBEdit [22]
     Left = 200
     Top = 80
     Width = 65
@@ -238,7 +248,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 3
   end
-  object DBEdit5: TDBEdit [22]
+  object DBEdit5: TDBEdit [23]
     Left = 271
     Top = 80
     Width = 70
@@ -247,7 +257,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 4
   end
-  object DBEdit6: TDBEdit [23]
+  object DBEdit6: TDBEdit [24]
     Left = 347
     Top = 80
     Width = 70
@@ -256,7 +266,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 5
   end
-  object DBEdit7: TDBEdit [24]
+  object DBEdit7: TDBEdit [25]
     Left = 422
     Top = 80
     Width = 60
@@ -265,7 +275,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 6
   end
-  object DBEdit8: TDBEdit [25]
+  object DBEdit8: TDBEdit [26]
     Left = 487
     Top = 80
     Width = 78
@@ -274,13 +284,13 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 7
   end
-  object DBGrid1: TDBGrid [26]
+  object DBGrid1: TDBGrid [27]
     Left = 3
     Top = 152
     Width = 832
     Height = 345
     DataSource = DtSrc
-    TabOrder = 18
+    TabOrder = 19
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -393,7 +403,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
         Visible = True
       end>
   end
-  object DBEdit9: TDBEdit [27]
+  object DBEdit9: TDBEdit [28]
     Left = 571
     Top = 80
     Width = 60
@@ -402,7 +412,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 8
   end
-  object DBEdit10: TDBEdit [28]
+  object DBEdit10: TDBEdit [29]
     Left = 773
     Top = 80
     Width = 60
@@ -411,7 +421,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 11
   end
-  object DBEdit11: TDBEdit [29]
+  object DBEdit11: TDBEdit [30]
     Left = 636
     Top = 80
     Width = 60
@@ -420,7 +430,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 9
   end
-  object DBEdit12: TDBEdit [30]
+  object DBEdit12: TDBEdit [31]
     Left = 704
     Top = 80
     Width = 65
@@ -429,7 +439,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 10
   end
-  object DBEdit13: TDBEdit [31]
+  object DBEdit13: TDBEdit [32]
     Left = 73
     Top = 122
     Width = 60
@@ -438,7 +448,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 13
   end
-  object DBEdit14: TDBEdit [32]
+  object DBEdit14: TDBEdit [33]
     Left = 4
     Top = 122
     Width = 65
@@ -447,7 +457,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 12
   end
-  object DBEdit15: TDBEdit [33]
+  object DBEdit15: TDBEdit [34]
     Left = 210
     Top = 122
     Width = 60
@@ -456,7 +466,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 15
   end
-  object DBEdit16: TDBEdit [34]
+  object DBEdit16: TDBEdit [35]
     Left = 140
     Top = 122
     Width = 65
@@ -465,8 +475,8 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     DataSource = DtSrc
     TabOrder = 14
   end
-  object BitBtn1: TBitBtn [35]
-    Left = 278
+  object BitBtn1: TBitBtn [36]
+    Left = 478
     Top = 104
     Width = 107
     Height = 42
@@ -481,7 +491,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ParentShowHint = False
     PopupMenu = PopupMenu1
     ShowHint = True
-    TabOrder = 19
+    TabOrder = 20
     OnClick = BitBtn1Click
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -583,13 +593,13 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object gbProduto: TGroupBox [36]
+  object gbProduto: TGroupBox [37]
     Left = 248
     Top = 146
     Width = 161
     Height = 143
     Caption = 'Produto'
-    TabOrder = 20
+    TabOrder = 21
     Visible = False
     object Label18: TLabel
       Left = 24
@@ -639,8 +649,8 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       TabOrder = 1
     end
   end
-  object BitBtn2: TBitBtn [37]
-    Left = 398
+  object BitBtn2: TBitBtn [38]
+    Left = 598
     Top = 104
     Width = 123
     Height = 42
@@ -655,7 +665,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     ParentShowHint = False
     PopupMenu = PopupMenu1
     ShowHint = True
-    TabOrder = 21
+    TabOrder = 22
     OnClick = BitBtn2Click
     Glyph.Data = {
       360C0000424D360C000000000000360000002800000020000000200000000100
@@ -757,13 +767,13 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object gbGeraUF: TGroupBox [38]
+  object gbGeraUF: TGroupBox [39]
     Left = 400
     Top = 152
     Width = 137
     Height = 169
     Caption = 'Copiar de :'
-    TabOrder = 22
+    TabOrder = 23
     Visible = False
     object Label20: TLabel
       Left = 8
@@ -803,7 +813,7 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       OnClick = BitBtn3Click
     end
   end
-  object dxButton11: TdxButton [39]
+  object dxButton11: TdxButton [40]
     Left = 778
     Top = 106
     Width = 56
@@ -888,7 +898,29 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       9DA6AEC4F4F4F4F4F4F4F4F4F40316ABA1B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
       B4B49DA5AA8A160903030A8DADA4A7B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4
       B4B4B4B415BCABA6A6A6A8AA9DB4B4B4B4B4B4B4B4B4B4B4B4B4}
-    TabOrder = 23
+    TabOrder = 24
+  end
+  object DBLookupComboBox1: TDBLookupComboBox [41]
+    Left = 276
+    Top = 122
+    Width = 162
+    Height = 24
+    BevelKind = bkFlat
+    Ctl3D = True
+    DataField = 'CODFISCAL'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    KeyField = 'CODFISCAL'
+    ListField = 'DESCRICAO'
+    ListSource = DtSrcTFiscal
+    ParentCtl3D = False
+    ParentFont = False
+    TabOrder = 16
+    OnKeyPress = FormKeyPress
   end
   inherited DtSrc: TDataSource
     DataSet = cdsClassFisc
@@ -973,6 +1005,45 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     object sdsClassFiscCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+    object sdsClassFiscALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object sdsClassFiscVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object sdsClassFiscPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object sdsClassFiscPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object sdsClassFiscPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object sdsClassFiscPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object sdsClassFiscVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object sdsClassFiscVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object sdsClassFiscVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object sdsClassFiscCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object sdsClassFiscCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -1048,6 +1119,45 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     end
     object cdsClassFiscCOFINS: TFloatField
       FieldName = 'COFINS'
+    end
+    object cdsClassFiscALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsClassFiscVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object cdsClassFiscPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object cdsClassFiscPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object cdsClassFiscPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object cdsClassFiscPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object cdsClassFiscVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object cdsClassFiscVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object cdsClassFiscVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object cdsClassFiscCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsClassFiscCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object dspClassFisc: TDataSetProvider
@@ -1408,5 +1518,54 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
       ReadOnly = True
       Required = True
     end
+  end
+  object cdsTFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTFiscal'
+    Left = 353
+    Top = 15
+    object cdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object cdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object dspTFiscal: TDataSetProvider
+    DataSet = sdsTFiscal
+    Options = [poAllowCommandText]
+    UpdateMode = upWhereKeyOnly
+    Left = 322
+    Top = 15
+  end
+  object sdsTFiscal: TSQLDataSet
+    CommandText = 'select * from TIPO_FISCAL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 284
+    Top = 15
+    object sdsTFiscalCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsTFiscalDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Required = True
+      Size = 60
+    end
+  end
+  object DtSrcTFiscal: TDataSource
+    DataSet = cdsTFiscal
+    Left = 391
+    Top = 14
   end
 end

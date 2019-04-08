@@ -174,6 +174,38 @@ type
     edUFCopia: TEdit;
     BitBtn3: TBitBtn;
     dxButton11: TdxButton;
+    Label22: TLabel;
+    cdsTFiscal: TClientDataSet;
+    cdsTFiscalCODFISCAL: TStringField;
+    cdsTFiscalDESCRICAO: TStringField;
+    dspTFiscal: TDataSetProvider;
+    sdsTFiscal: TSQLDataSet;
+    sdsTFiscalCODFISCAL: TStringField;
+    sdsTFiscalDESCRICAO: TStringField;
+    DBLookupComboBox1: TDBLookupComboBox;
+    DtSrcTFiscal: TDataSource;
+    sdsClassFiscALIQ_CUPOM: TStringField;
+    sdsClassFiscVBCUFDEST: TFloatField;
+    sdsClassFiscPFCPUFDEST: TFloatField;
+    sdsClassFiscPICMSUFDEST: TFloatField;
+    sdsClassFiscPICMSINTER: TFloatField;
+    sdsClassFiscPICMSINTERPART: TFloatField;
+    sdsClassFiscVFCPUFDEST: TFloatField;
+    sdsClassFiscVICMSUFDEST: TFloatField;
+    sdsClassFiscVICMSUFREMET: TFloatField;
+    sdsClassFiscCST_IPI_CENQ: TStringField;
+    sdsClassFiscCODFISCAL: TStringField;
+    cdsClassFiscALIQ_CUPOM: TStringField;
+    cdsClassFiscVBCUFDEST: TFloatField;
+    cdsClassFiscPFCPUFDEST: TFloatField;
+    cdsClassFiscPICMSUFDEST: TFloatField;
+    cdsClassFiscPICMSINTER: TFloatField;
+    cdsClassFiscPICMSINTERPART: TFloatField;
+    cdsClassFiscVFCPUFDEST: TFloatField;
+    cdsClassFiscVICMSUFDEST: TFloatField;
+    cdsClassFiscVICMSUFREMET: TFloatField;
+    cdsClassFiscCST_IPI_CENQ: TStringField;
+    cdsClassFiscCODFISCAL: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -217,6 +249,9 @@ end;
 procedure TfClassificacaoFIscalProduto.FormShow(Sender: TObject);
 begin
   //sCtrlResize.CtrlResize(TForm(fClassificacaoFIscalProduto));
+  if (not cdsTFiscal.Active) then
+    cdsTFiscal.Open;
+
   if(cdsClassFisc.Active) then
     cdsClassFisc.Close;
   cdsClassFisc.Params.ParamByName('pcodpro').AsInteger := cfcodprod;
