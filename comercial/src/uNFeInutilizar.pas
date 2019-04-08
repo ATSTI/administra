@@ -93,7 +93,7 @@ var
 
 implementation
 
-uses uNFeletronica, UDm;
+uses UDm;
 
 {$R *.dfm}
 
@@ -156,10 +156,10 @@ begin
   if(sEmpresa.IsEmpty) then
     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
   //try
-  fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
-  MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
+  //fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
+  //MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
   //finally
-  protocoloInutilizacao := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
+  //protocoloInutilizacao := fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo;
   MessageDlg('Protocolo de Inutilização: ' + protocoloInutilizacao, mtInformation, [mbOK], 0);
   //end;
 
@@ -225,11 +225,11 @@ begin
       dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
     dm.cds_parametro.Open;
-    conta_local := dm.cds_parametroDADOS.AsString;
+    //conta_local := dm.cds_parametroDADOS.AsString;
     dm.cds_parametro.Close;
     if cds_ccusto.Active then
       cds_ccusto.Close;
-    cds_ccusto.Params[0].AsString := conta_local;
+    //cds_ccusto.Params[0].AsString := conta_local;
     cds_ccusto.Open;
     // populo a combobox
     cds_ccusto.First;
@@ -246,7 +246,7 @@ begin
   begin
     edtNumIni.Text := nfeaInutilizar;
     edtNumFim.Text := nfeaInutilizar;
-  end;  
+  end;
 end;
 
 end.
