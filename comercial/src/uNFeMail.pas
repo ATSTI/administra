@@ -105,7 +105,7 @@ var
 
 implementation
 
-uses uNFeletronica, UDm;
+uses UDm;
 
 {$R *.dfm}
 
@@ -116,11 +116,11 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
   dm.cds_parametro.Open;
-  conta_local := dm.cds_parametroDADOS.AsString;
+  //conta_local := dm.cds_parametroDADOS.AsString;
   dm.cds_parametro.Close;
   if cds_ccusto.Active then
     cds_ccusto.Close;
-  cds_ccusto.Params[0].AsString := conta_local;
+  //cds_ccusto.Params[0].AsString := conta_local;
   cds_ccusto.Open;
   // populo a combobox
   cds_ccusto.First;
@@ -150,6 +150,7 @@ begin
       OpenDialog1.Title := 'Selecione a NFE';
       OpenDialog1.DefaultExt := '*-nfe.XML';
       OpenDialog1.Filter := 'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+      {
       OpenDialog1.InitialDir := fNFeletronica.Edit1.Text;
       if OpenDialog1.Execute then
       begin
@@ -217,12 +218,12 @@ begin
         if (sTransportadora.Active) then
           sTransportadora.Close;
         sTransportadora.Open;
-
-    end;
-    CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
+       }
+    //end;
+    //CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
     if (sTransportadoraEMAIL.AsString <> '') then
     begin
-      CC.Add(sTransportadoraEMAIL.AsString);
+      //CC.Add(sTransportadoraEMAIL.AsString);
       Memo1.Lines.Add(sTransportadoraEMAIL.AsString);
     end;
     memo1.Lines.Add(sEmpresaE_MAIL.AsString);
@@ -248,7 +249,7 @@ end;
 
 procedure TfNFeMail.sbtnCCClick(Sender: TObject);
 begin
-  CC.Add(Edit5.Text);
+  //CC.Add(Edit5.Text);
   Memo1.Lines.Add(edit5.Text);
   Edit5.Clear;
 end;
@@ -257,11 +258,13 @@ procedure TfNFeMail.enviarEmailNfe;
 var i:Integer;
 begin
   Try
+    {
     CC.Clear;
     cc.Add(Edit3.Text);
     for I := 0 to memo1.Lines.Count-1 do begin
       CC.Add(Trim(Memo1.Lines[I]));
     end;
+    }
     //CC.Add(sEmpresaE_MAIL.AsString);
     if ((ComboBox1.Text = NULL) or (ComboBox1.Text = ''))then
       MessageDlg('Centro de Custo não Selecionado', mtError, [mbOK], 0)
@@ -269,6 +272,7 @@ begin
     begin
       try
         // 29/12/2015
+        {
         fNFeletronica.ACBrMail1.Port := sEmpresaPORTA.AsString;
         fNFeletronica.ACBrMail1.Host := sEmpresaSMTP.AsString;
         fNFeletronica.ACBrMail1.Username := sEmpresaE_MAIL.AsString;
@@ -280,7 +284,7 @@ begin
           fNFeletronica.ACBrMail1.SetTLS := True;
         if (dm.email_ssl = 'S') then
           fNFeletronica.ACBrMail1.SetSSL := True;
-
+        }
        // 29/12/2015
        { fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
                                                  , sEmpresaPORTA.AsString
@@ -298,7 +302,7 @@ begin
                                                  , True  //Aguarda Envio do Email(não usa thread)
                                                  , sEmpresaRAZAO.AsString ); // Nome do Rementente
         }
-
+        {
         fNFeletronica.ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmailE_MAIL.AsString
                                                  , EdtAssunto.Text
                                                  , Texto
@@ -307,7 +311,7 @@ begin
                                                  , nil // Lista de anexos - TStrings
                                                  );
 
-
+        }
         ShowMessage('Email enviado com sucesso!');
       except
          on E: Exception do
@@ -317,10 +321,10 @@ begin
       end;
     end;
   finally
-    CC.Clear;
-    CC.Free;
+    //CC.Clear;
+    //CC.Free;
     Texto.Free;
-    fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+    //fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
   end;
 
 end;
