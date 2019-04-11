@@ -480,68 +480,67 @@ begin
                 s_cliente.Open;
               end;
 
-              Titulo.TotalParcelas := ds_cr.RecordCount; //TotalParcelas;
-              Titulo.Parcela := ds_cr.RecNo; //Parcela; //I;
-              Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
-              Titulo.Vencimento := ds_crDATAVENCIMENTO.AsDateTime;
-              Titulo.DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
-              Titulo.EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
-                if (especie_DOC = 'REMESSA') then
+              TotalParcelas := ds_cr.RecordCount; //TotalParcelas;
+              Parcela := ds_cr.RecNo; //Parcela; //I;
+              LocalPagamento := s_bancoLOCALPGTO.AsString;
+              Vencimento := ds_crDATAVENCIMENTO.AsDateTime;
+              DataDocumento     := ds_crEMISSAO.AsDateTime; //EncodeDate(2010,04,10);
+              EspecieDoc        := s_bancoESPECIEDOC.AsString; //EspecieDoc;
+
+              if (especie_DOC = 'REMESSA') then
+              begin
+                if (s_bancoN_BANCO.AsString = '001') then // Banco do Brasil
                 begin
-                  if (s_bancoN_BANCO.AsString = '001') then // Banco do Brasil
-                  begin
-                   if (s_bancoLAYOUT_RM.AsString = 'c240') then
+                  if (s_bancoLAYOUT_RM.AsString = 'c240') then
                     if (s_bancoESPECIEDOC.AsString = 'DM') then
                        Titulo.EspecieDoc        := '02'; //EspecieDoc;
-                    // Passo valores iniciais
-                    Titulo.ValorMoraJuros := 3; // Isento
-                    Titulo.PercentualMulta := 0;
-
+                  // Passo valores iniciais
+                  ValorMoraJuros := 3; // Isento
+                  PercentualMulta := 0;
                   case StrToInt(s_bancoPROTESTO.AsString) of
                     // 00: TItulo.DataProtesto := cobBradesco;// 00 - Sem de instruções
-                    01: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,1); //01 - Cobrar juros (Dispensável se informado o valor a ser cobrado por dia de atraso).
-                    03: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,3);//03 - Protestar no 3º dia útil após vencido
-                    04: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,4);//04 - Protestar no 4º dia útil após vencido
-                    05: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,5);//05 - Protestar no 5º dia útil após vencido
+                    01: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,1); //01 - Cobrar juros (Dispensável se informado o valor a ser cobrado por dia de atraso).
+                    03: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,3);//03 - Protestar no 3º dia útil após vencido
+                    04: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,4);//04 - Protestar no 4º dia útil após vencido
+                    05: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,5);//05 - Protestar no 5º dia útil após vencido
                     //06: TItulo.DataProtesto :=  //06 - Indica Protesto em dias corridos, com prazo de 6 a 29, 35 ou 40 dias Corridos.
                     //07: TItulo.DataProtesto :=  //07 - Não protestar
-                    10: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,10);//10 - Protestar no 10º dia corrido após vencido
-                    15: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,15);//15 - Protestar no 15º dia corrido após vencido
-                    20: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,20);//20 - Protestar no 20º dia corrido após vencido
+                    10: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,10);//10 - Protestar no 10º dia corrido após vencido
+                    15: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,15);//15 - Protestar no 15º dia corrido após vencido
+                    20: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,20);//20 - Protestar no 20º dia corrido após vencido
                     //22: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,21)//22 - Conceder desconto só até a data estipulada
-                    25: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,25);//25 - Protestar no 25º dia corrido após vencido
-                    30: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,30);//30 - Protestar no 30º dia corrido após vencido
-                    45: TItulo.DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,45);//45 - Protestar no 45º dia corrido após vencido
+                    25: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,25);//25 - Protestar no 25º dia corrido após vencido
+                    30: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,30);//30 - Protestar no 30º dia corrido após vencido
+                    45: DataProtesto :=  IncDay(ds_crDATAVENCIMENTO.AsDateTime,45);//45 - Protestar no 45º dia corrido após vencido
                   else
-                    TItulo.DataProtesto := ds_crDATAVENCIMENTO.AsDateTime;
+                    DataProtesto := ds_crDATAVENCIMENTO.AsDateTime;
                   end;
-                   // TItulo.DataProtesto :=
+                  // TItulo.DataProtesto :=
                   //titulo.Instrucao1
-                    if (s_bancoMORAJUROS.AsString = '1-Diario') then
-                    begin
-                       Titulo.ValorMoraJuros := s_bancoPERCMULTA.Value;
-                       titulo.CodigoMora := '1';
-                    end;
-                    if (s_bancoMORAJUROS.AsString = '2-Mensal') then
-                    begin
-                       Titulo.ValorMoraJuros := s_bancoPERCMULTA.Value;
-                       titulo.CodigoMora := '2';
-                    end;
-                    if (s_bancoMORAJUROS.AsString = '3-Isento') then
-                       Titulo.ValorMoraJuros := 0; // Isento
-                    
-                    Titulo.DataMoraJuros := IncDay(ds_crDATAVENCIMENTO.AsDateTime,1);
-
-                    //if (s_bancoPERCMULTA.Value > 0) then
-                    //  Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
-
-                    Titulo.Instrucao1 := s_bancoPROTESTO.AsString;
-                    titulo.TipoDiasProtesto := diUteis;
-                    Titulo.Instrucao2 := s_bancoINSTRUCAO1.AsString;
-                    Titulo.Instrucao3 := s_bancoINSTRUCAO3.AsString;
-
+                  if (s_bancoMORAJUROS.AsString = '1-Diario') then
+                  begin
+                    ValorMoraJuros := s_bancoPERCMULTA.Value;
+                    CodigoMora := '1';
                   end;
+                  if (s_bancoMORAJUROS.AsString = '2-Mensal') then
+                  begin
+                    ValorMoraJuros := s_bancoPERCMULTA.Value;
+                    CodigoMora := '2';
+                  end;
+                  if (s_bancoMORAJUROS.AsString = '3-Isento') then
+                    ValorMoraJuros := 0; // Isento
+
+                  DataMoraJuros := IncDay(ds_crDATAVENCIMENTO.AsDateTime,1);
+
+                  //if (s_bancoPERCMULTA.Value > 0) then
+                  //  Titulo.PercentualMulta := s_bancoPERCMULTA.Value;
+
+                  Instrucao1 := s_bancoPROTESTO.AsString;
+                  TipoDiasProtesto := diUteis;
+                  Instrucao2 := s_bancoINSTRUCAO1.AsString;
+                  Instrucao3 := s_bancoINSTRUCAO3.AsString;
                 end;
+              end;
 
               if (s_bancoACEITE.AsString = 'S') then
                 Titulo.Aceite            := atSim
@@ -603,40 +602,40 @@ begin
                  ACBrBoleto1.Cedente.AgenciaDigito := PadRight(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
                  if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
                     ACBrBoleto1.Cedente.Modalidade := '3';
-                 Titulo.NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
+                 NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
                     //Titulo.Carteira := '1';
               end;
               if ((s_bancoN_BANCO.AsString = '001')) then
               begin
                 ACBrBoleto1.Banco.TamanhoMaximoNossoNum := 17;
                 if (Length(s_bancoCONVENIO.AsString) = 6) then
-                   Titulo.NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,11);
+                   NossoNumero := s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,11);
                 if (Length(s_bancoCONVENIO.AsString) = 7) then
-                   Titulo.NossoNumero := IntToStrZero(varNossoNumero,10); // Manoel 13/08/18 s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,10);
+                   NossoNumero := IntToStrZero(varNossoNumero,10); // Manoel 13/08/18 s_bancoCONVENIO.AsString + IntToStrZero(varNossoNumero,10);
               end;
               //Titulo.Carteira  := s_bancoCARTEIRA.AsString;
-              Titulo.ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
-              Titulo.Sacado.NomeSacado := RemoveAcento(s_clienteNOMECLIENTE.AsString); // NomeSacado;
+              ValorDocumento    := ds_crVALOR_RESTO.AsFloat; //ValorDocumento;
+              Sacado.NomeSacado := RemoveAcento(s_clienteNOMECLIENTE.AsString); // NomeSacado;
               if (s_clienteTIPOFIRMA.AsInteger = 0) then
-                 Titulo.Sacado.Pessoa := pFisica
+                 Sacado.Pessoa := pFisica
               else
-                 Titulo.Sacado.Pessoa := pJuridica;
-              Titulo.Sacado.CNPJCPF    := s_clienteCNPJ.AsString; //CNPJCPF;
-              Titulo.Sacado.Logradouro := RemoveAcento(s_clienteLOGRADOURO.AsString); //Logradouro;
-              Titulo.Sacado.Numero     := s_clienteNUMERO_1.AsString; //Numero;
-              Titulo.Sacado.Bairro     := RemoveAcento(s_clienteBAIRRO.AsString); //Bairro;
-              Titulo.Sacado.Cidade     := RemoveAcento(s_clienteCIDADE.AsString); //Cidade;
-              Titulo.Sacado.UF         := s_clienteUF.AsString; //UF;
-              Titulo.Sacado.CEP        := s_clienteCEP.AsString; //CEP;
-              Titulo.ValorAbatimento   := 0; //ValorAbatimento;
-              Titulo.DataAbatimento    := ds_crDATAVENCIMENTO.AsDateTime;// - 5;
-              Titulo.Mensagem.Text  := s_bancoINSTRUCAO1.AsString;
+                 Sacado.Pessoa := pJuridica;
+              Sacado.CNPJCPF    := s_clienteCNPJ.AsString; //CNPJCPF;
+              Sacado.Logradouro := RemoveAcento(s_clienteLOGRADOURO.AsString); //Logradouro;
+              Sacado.Numero     := s_clienteNUMERO_1.AsString; //Numero;
+              Sacado.Bairro     := RemoveAcento(s_clienteBAIRRO.AsString); //Bairro;
+              Sacado.Cidade     := RemoveAcento(s_clienteCIDADE.AsString); //Cidade;
+              Sacado.UF         := s_clienteUF.AsString; //UF;
+              Sacado.CEP        := s_clienteCEP.AsString; //CEP;
+              ValorAbatimento   := 0; //ValorAbatimento;
+              DataAbatimento    := ds_crDATAVENCIMENTO.AsDateTime;// - 5;
+              Mensagem.Text  := s_bancoINSTRUCAO1.AsString;
               //Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
-              Titulo.Mensagem.Text  := Titulo.Mensagem.Text + 'Valor Juros por Dia ' + FormatCurr('R$ #,##0.00', ((ds_crVALOR_RESTO.AsFloat * ((s_bancoPERCMULTA.AsFloat/30)/100)))); // val_dia ;
-              Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO3.AsString;
-              Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO4.AsString;
+              Mensagem.Text  := Titulo.Mensagem.Text + 'Valor Juros por Dia ' + FormatCurr('R$ #,##0.00', ((ds_crVALOR_RESTO.AsFloat * ((s_bancoPERCMULTA.AsFloat/30)/100)))); // val_dia ;
+              Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO3.AsString;
+              Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO4.AsString;
 
-              Titulo.LocalPagamento := s_bancoLOCALPGTO.AsString;
+              LocalPagamento := s_bancoLOCALPGTO.AsString;
 
               if (s_bancoN_BANCO.AsString = '001') then
               begin
@@ -646,7 +645,7 @@ begin
 
               if (s_bancoN_BANCO.AsString = '341') then
               begin
-                Titulo.LocalPagamento :=  'Até o vencimento, preferencialmente no Itaú e Após o vencimento, somente no Itaú';
+                LocalPagamento :=  'Até o vencimento, preferencialmente no Itaú e Após o vencimento, somente no Itaú';
               end;
               //ACBrBoleto1.AdicionarMensagensPadroes(Titulo,Mensagem);
            end;
@@ -1033,6 +1032,11 @@ begin
   AcbrBoleto1 := TACBrBoleto.Create(Nil);
   edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   AcbrBoleto1.ACBrBoletoFC := ACBrBoletoFCFortes1;
+  ACBrBoletoFCFortes1.ACBrBoleto := AcbrBoleto1;
+  AcbrBoleto1.Banco.TamanhoMaximoNossoNum := 17;
+  AcbrBoleto1.Banco.TipoCobranca := cobNenhum;
+  //AcbrBoleto1.Cedente.TipoInscricao := pOutras;
+  AcbrBoleto1.ACBrBoletoFC.LayOut := lPadrao;
 end;
 
 procedure TF_Boletos.FormDestroy(Sender: TObject);

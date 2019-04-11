@@ -1380,7 +1380,7 @@ object F_Boletos: TF_Boletos
     Top = 179
   end
   object ACBrBoletoFCFortes1: TACBrBoletoFCFortes
-    Left = 184
+    Left = 200
     Top = 171
   end
 end
