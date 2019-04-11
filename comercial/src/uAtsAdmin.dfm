@@ -2874,6 +2874,14 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'CTeOS'
         OnClick = CTeOS1Click
       end
+      object ImportarNFeXML1: TMenuItem
+        Caption = 'Importar NFe XML'
+        OnClick = ImportarNFeXML1Click
+      end
+      object ImportaIBPT1: TMenuItem
+        Caption = 'Importa IBPT'
+        OnClick = ImportaIBPT1Click
+      end
     end
     object ContEstoque1: TMenuItem
       Caption = 'Materiais     '

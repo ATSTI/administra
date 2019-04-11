@@ -248,6 +248,8 @@ type
     CTe1: TMenuItem;
     CTeOS1: TMenuItem;
     ArquivoRetornoItau1: TMenuItem;
+    ImportarNFeXML1: TMenuItem;
+    ImportaIBPT1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -402,6 +404,8 @@ type
     procedure CTe1Click(Sender: TObject);
     procedure CTeOS1Click(Sender: TObject);
     procedure ArquivoRetornoItau1Click(Sender: TObject);
+    procedure ImportarNFeXML1Click(Sender: TObject);
+    procedure ImportaIBPT1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2514,6 +2518,18 @@ begin
 	finally
 		fArquivoRetornoItau.Free;
 	end;
+end;
+
+procedure TfAtsAdmin.ImportarNFeXML1Click(Sender: TObject);
+begin
+  WinExec('prjImportaNfeXml.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'ImportaXml'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.ImportaIBPT1Click(Sender: TObject);
+begin
+  WinExec('prjIBPTImporta.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'ImportaIBPT'),panel1.handle);
 end;
 
 end.
