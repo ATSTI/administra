@@ -2290,7 +2290,6 @@ object fSat: TfSat
       end>
   end
   object ACBrSAT1: TACBrSAT
-    Extrato = ACBrSATExtratoESCPOS1
     OnGravarLog = ACBrSAT1GravarLog
     Config.infCFe_versaoDadosEnt = 0.050000000000000000
     Config.ide_numeroCaixa = 0
@@ -3508,23 +3507,6 @@ object fSat: TfSat
       Size = 2
     end
   end
-  object ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS
-    ACBrSAT = ACBrSAT1
-    Mask_qCom = '0.000'
-    Mask_vUnCom = '0.000'
-    MostrarPreview = True
-    MostrarSetup = True
-    NomeArquivo = 'c:\home\'
-    SoftwareHouse = 'Projeto ACBr'
-    Site = 'http://www.projetoacbr.com.br'
-    Filtro = fiPDF
-    MsgAppQRCode = 
-      'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
-      'l na AppStore (Apple) e PlayStore (Android)'
-    PosPrinter = ACBrPosPrinter1
-    Left = 612
-    Top = 104
-  end
   object OpenDialog1: TOpenDialog
     Left = 484
     Top = 96
@@ -3544,5 +3526,23 @@ object fSat: TfSat
     LinhasEntreCupons = 5
     Left = 657
     Top = 72
+  end
+  object ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS
+    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais.qCom = 2
+    CasasDecimais.vUnCom = 2
+    CasasDecimais.MaskqCom = ',0.00'
+    CasasDecimais.MaskvUnCom = ',0.00'
+    Filtro = fiPDF
+    MsgAppQRCode = 
+      'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
+      'l na AppStore (Apple) e PlayStore (Android)'
+    Left = 612
+    Top = 136
   end
 end

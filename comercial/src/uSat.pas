@@ -8,7 +8,7 @@ uses
   Menus, OleCtrls, SHDocVw, FMTBcd, DB, DBClient, Provider, SqlExpr, IniFiles,
   ACBrSATExtratoClass, ACBrSATExtratoESCPOS, pcnConversao, ACBrValidador,
   TypInfo, ACBrUtil, ACBrPosPrinter, ACBrDFe, ACBrNFe,
-  ACBrNFeDANFEClass, DBXpress, Printers;
+  ACBrNFeDANFEClass, DBXpress, Printers, ACBrDFeReport;
 
 const
   cAssinatura = '9d4c4eef8c515e2c1269c2e4fff0719d526c5096422bf1defa20df50ba06469'+
@@ -368,7 +368,6 @@ type
     cdsFaturaVALOR_RESTO: TFloatField;
     cdsFaturaPARCELAS: TIntegerField;
     cdsFaturaFORMARECEBIMENTO: TStringField;
-    ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
     OpenDialog1: TOpenDialog;
     PrintDialog1: TPrintDialog;
     ACBrPosPrinter1: TACBrPosPrinter;
@@ -431,6 +430,7 @@ type
     sdsFaturaSTATUS: TStringField;
     cdsFaturaSTATUS: TStringField;
     cbCortarPapel: TCheckBox;
+    ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
     procedure btLerParamsClick(Sender: TObject);
     procedure btSalvarParamsClick(Sender: TObject);
     procedure bInicializarClick(Sender: TObject);
@@ -1436,6 +1436,9 @@ var
   M : TpcnRegTrib ;
   O: TACBrPosPaginaCodigo;
 begin
+  ACBrSATExtratoESCPOS1.Filtro := fiPDF;
+  ACBrSAT1.Extrato := ACBrSATExtratoESCPOS1;
+  ACBrSATExtratoESCPOS1.ACBrSAT := ACBrSAT1;
   cbxModelo.Items.Clear ;
   For I := Low(TACBrSATModelo) to High(TACBrSATModelo) do
      cbxModelo.Items.Add( GetEnumName(TypeInfo(TACBrSATModelo), integer(I) ) ) ;
@@ -1497,6 +1500,7 @@ begin
   ACBrPosPrinter1.ColunasFonteNormal := seColunas.Value;
   ACBrPosPrinter1.LinhasEntreCupons := seLinhasPular.Value;
   ACBrPosPrinter1.EspacoEntreLinhas := seEspLinhas.Value;
+
   ACBrSATExtratoESCPOS1.ImprimeQRCode := True;
   ACBrSATExtratoESCPOS1.ImprimeEmUmaLinha := cbImprimir1Linha.Checked;
 
