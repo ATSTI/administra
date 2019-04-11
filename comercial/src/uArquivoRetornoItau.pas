@@ -211,8 +211,10 @@ type
       var Action: TReconcileAction);
   private
     { Private declarations }
+
   public
     { Public declarations }
+   dataOco : TDateTime;
   end;
 
 var
@@ -369,7 +371,7 @@ begin
     if cdsREC.State in [dsBrowse] then
        cdsREC.Edit;
     cdsRECDATABAIXA.AsDateTime := now;
-    cdsRECDATARECEBIMENTO.AsDateTime := now;
+    cdsRECDATARECEBIMENTO.AsDateTime := dataOco ; //now;
     cdsRECSTATUS.AsString := '7-';
     cdsRECVALORRECEBIDO.AsFloat := cdsRECVALOR_RESTO.AsFloat;
     texto_memo := texto_memo + 'CBR643 : ';
@@ -532,6 +534,8 @@ begin
           cds.FieldByName('VALOR_COM_MULTA').Value := Copy(Entrada,280,11) + '.' +Copy(Entrada,291,02);
           cds.FieldByName('N_BOLETO').Value := Copy(Entrada,127,9);
           cds.FieldByName('NOMECLIENTE').Value := Copy(Entrada,325,60);
+
+          dataOco :=  StrToDate(Copy(Entrada,111,02)  + '/'  + Copy(Entrada,113,02) + '/' + Copy(Entrada,115,02));
 
           cds.Post;
         end;
