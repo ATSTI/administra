@@ -303,7 +303,7 @@ BEGIN
 			if ( new.ICMS_SUBSTD > 0) then
 			begin
 				VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
-				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(new.VALOR_ICMS), :arredondar);
+				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(VALOR_SUBDesc), :arredondar);
 			end     
 			else	
 				new.ICMS_SUBST = 0;
@@ -475,7 +475,7 @@ BEGIN
                 if ( new.ICMS_SUBSTD > 0) then
                 begin
                     VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
-                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(new.VALOR_ICMS), :arredondar);
+                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(VALOR_SUBDesc), :arredondar);
                 end     
                 else	
                     new.ICMS_SUBST = 0;
@@ -686,7 +686,7 @@ BEGIN
                     */    
                     new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
                     VALOR_SUBDesc = TOTALITENS  * CICMS_SUBST_IND; 
-                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - new.VALOR_ICMS, :arredondar);
+                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - VALOR_SUBDesc, :arredondar);
                 end
 				
 				--TOTAIS TRIBUTOS ITEM
