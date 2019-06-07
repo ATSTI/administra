@@ -1,9 +1,8 @@
 object fFiltroMovimento: TfFiltroMovimento
-  Left = 11
-  Top = 1
-  Width = 800
-  Height = 600
-  Align = alCustom
+  Left = 0
+  Top = 0
+  Width = 805
+  Height = 552
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,7 +11,6 @@ object fFiltroMovimento: TfFiltroMovimento
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
-  Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -22,7 +20,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 792
+    Width = 797
     Height = 132
     Align = alTop
     PopupMenu = PopupMenu1
@@ -874,7 +872,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 792
+    Width = 797
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -894,7 +892,7 @@ object fFiltroMovimento: TfFiltroMovimento
     object Label10: TJvLabel
       Left = 2
       Top = 2
-      Width = 788
+      Width = 793
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -925,8 +923,8 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 512
-    Width = 792
+    Top = 464
+    Width = 797
     Height = 61
     Align = alBottom
     BevelInner = bvLowered
@@ -1374,8 +1372,8 @@ object fFiltroMovimento: TfFiltroMovimento
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 792
-    Height = 334
+    Width = 797
+    Height = 286
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1419,7 +1417,7 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'NFE'
         Title.Caption = 'NFe'
-        Width = 50
+        Width = 51
         Visible = True
       end
       item
@@ -1461,21 +1459,21 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 191
+        Width = 192
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Valor R$'
-        Width = 47
+        Width = 48
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'HIST_MOV'
         Title.Caption = 'Historico'
-        Width = 78
+        Width = 79
         Visible = True
       end
       item
@@ -1489,7 +1487,7 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 75
+        Width = 76
         Visible = True
       end>
   end

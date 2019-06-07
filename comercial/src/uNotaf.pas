@@ -8,7 +8,7 @@ uses
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
   JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress,
-  DBLocal, DBLocalS, uVendaCls, umovimento, uUtils;
+  DBLocal, DBLocalS, uVendaCls, umovimento, uUtils, DateUtils;
 
 type
   TfNotaf = class(TForm)
@@ -2843,8 +2843,8 @@ begin
      try
         str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
         str_sql := str_sql + IntToStr(dmnf.cds_vendaCODCLIENTE.AsInteger);
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dmnf.cds_vendaDATAVENDA.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dmnf.cds_vendaDATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Today));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', Today));
         str_sql := str_sql + ', ' + QuotedStr(dmnf.cds_vendaSERIE.AsString);
         str_sql := str_sql + ', ' + QuotedStr(IntToStr(s_nf_d));
         str_sql := str_sql + ', ' + IntToStr(dmnf.cds_vendaCODMOVIMENTO.AsInteger);

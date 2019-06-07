@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE SP_MOV_CAIXAFLUXO (
     DTAINI Date,
     DTAFIM Date,
@@ -29,7 +30,7 @@ DECLARE VARIABLE CONTACAIXA VARCHAR(15);
 DECLARE VARIABLE FORN VARCHAR(60);
 BEGIN
   /* Saldo Inicial */
-  -- Total Pago atÃ© esta data
+  -- Total Pago ate esta data
   valorc = 0;
   valord = 0;
   valor = 0;
@@ -40,14 +41,14 @@ BEGIN
   SELECT SUM(pag.VALORRECEBIDO + pag.JUROS) FROM PAGAMENTO pag 
     inner join plano pl on pl.CODIGO = pag.CAIXA 
     WHERE ((pag.STATUS = '7-') or (pag.STATUS = '1-'))
-    and pag.DATACONSOLIDA < :DTAINI and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
+    and pag.DATACONSOLIDA < :DTAINI and SUBSTRING(pl.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8)
     and ((pag.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
   INTO :VLINID;
   -- Total Recebido ate esta data
   SELECT SUM(rec.VALORRECEBIDO + rec.JUROS) FROM RECEBIMENTO rec 
     inner join plano pl on pl.CODIGO = rec.CAIXA 
     WHERE  ((rec.STATUS = '7-')  or (rec.STATUS = '1-'))
-    and rec.DATACONSOLIDA < :DTAINI  and PLNCTAMAIN(pl.CONTA) = PLNCTAMAIN(:CONTACAIXA)
+    and rec.DATACONSOLIDA < :DTAINI  and SUBSTRING(pl.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8)
     and ((rec.CAIXA = :COD_CAIXA) or (:COD_CAIXA = 0))
   INTO :VLINIC;
   IF (VLINID IS NULL) THEN
@@ -55,7 +56,9 @@ BEGIN
   IF (VLINIC IS NULL) THEN
     VLINIC = 0;
   VLINIT = VLINIC - VLINID;
-  -- Movimento feito pelo Movimenta��o Finaceira(tabela MovimentoCont)
+  
+  
+  -- Movimento feito pelo Movimentação Finaceira(tabela MovimentoCont)
   -- Se a busca e por caixa entao pega o N. Conta Contabil do Caixa pedido
   IF (COD_CAIXA <> 0) THEN
   BEGIN
@@ -67,7 +70,7 @@ BEGIN
   ELSE
   BEGIN 
     select SUM(VALORCREDITO), SUM(VALORDEBITO) from MOVIMENTOCONT where data < :DTAINI 
-        and tipoorigem = 'CONTABIL' and PLNCTAMAIN(CONTA) = PLNCTAMAIN(:CONTACAIXA) 
+        and tipoorigem = 'CONTABIL' and SUBSTRING(CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8) 
       INTO :VLINIC, VLINID;   
   END
   IF (VLINID IS NULL) THEN
@@ -85,11 +88,13 @@ BEGIN
   VALORD = 0;
   FORMA = null;
   CODCONTA = null;
+  
   /*                                                    */
   /*                                                    */
   /*     Total de Debitos (Entrou) por RECEBIMENTOS     */
   /*                                                    */
   /*                                                    */
+  
   FOR SELECT rec.DATACONSOLIDA, CAST(rec.CODCLIENTE AS VARCHAR(5)) || '-' ||  cli.NOMECLIENTE, 
     rec.HISTORICO, (rec.VALORRECEBIDO + rec.JUROS), rec.CONTACREDITO, rec.FORMARECEBIMENTO, rec.N_DOCUMENTO  
     FROM RECEBIMENTO rec, CLIENTES cli where cli.CODCLIENTE = rec.CODCLIENTE 
@@ -149,12 +154,14 @@ BEGIN
     CODCONTA = null;
     N_DOC = null;
   END
+  
   /*                                                    */
   /*                                                    */
   /*   Total de Debitos pela Movimentacao Financeira    */
   /*                                                    */
   /*                                                    */
   -- Se a busca e por caixa entao pega o N. Conta Contabil do Caixa pedido
+
   IF (COD_CAIXA <> 0) THEN
   BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
@@ -182,7 +189,7 @@ BEGIN
     FOR select mov.DATA, SUM(mov.VALORDEBITO), his.HISTORICO, pc.CODREDUZIDO from MOVIMENTOCONT mov, PLANO pc 
        , HISTORICO_CONTAB his 
        WHERE his.COD_CONTAB = mov.CODORIGEM  and pc.CONTA = mov.CONTA and  mov.DATA BETWEEN :DTAINI AND :DTAFIM
-       and mov.tipoorigem = 'CONTABIL' and PLNCTAMAIN(mov.CONTA) = PLNCTAMAIN(:CONTACAIXA) group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
+       and mov.tipoorigem = 'CONTABIL' and SUBSTRING(mov.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8) group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
       INTO :DTAPAGTO,:VALORD, :DESCRICAO, :CODCONTA 
     do begin
       VALOR = VALOR + VALORD;
@@ -195,11 +202,16 @@ BEGIN
       CODCONTA = null;
     end
   END
+  
+
+  
   /*                                                    */
   /*                                                    */
-  /*      Total de CrÃ©ditos (Saiu) por PAGAMENTOS       */
+  /*      Total de Creditos (Saiu) por PAGAMENTOS       */
   /*                                                    */
   /*                                                    */
+  
+
   FOR SELECT pag.DATACONSOLIDA, CAST(pag.CODFORNECEDOR AS VARCHAR(5)) || '-' ||  forn.NOMEFORNECEDOR, 
     pag.HISTORICO, (pag.VALORRECEBIDO + pag.JUROS), pag.CONTACREDITO, pag.FORMAPAGAMENTO,
    pag.N_DOCUMENTO  , pag.SITUACAOCHEQUE 
@@ -261,12 +273,15 @@ BEGIN
     N_DOC = null;
 
   END
+
+  
   /*                                                    */
   /*                                                    */
-  /*   Total de CrÃ©ditos pela MovimentaÃ§Ã£o Financeira    */
+  /*   Total de Creditos pela Movimentacao Financeira   */
   /*                                                    */
   /*                                                    */
-  -- Se a busca Ã© por caixa entÃ£o pega o N. Conta Contabil do Caixa pedido
+  -- Se a busca e por caixa entao pega o N. Conta Contabil do Caixa pedido  
+  
   IF (COD_CAIXA <> 0) THEN
   BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
@@ -297,7 +312,7 @@ BEGIN
        , PLANO pc 
        , HISTORICO_CONTAB his 
        WHERE his.COD_CONTAB = mov.CODORIGEM  and pc.CONTA = mov.CONTA and mov.DATA BETWEEN :DTAINI AND :DTAFIM
-       and mov.tipoorigem = 'CONTABIL' and PLNCTAMAIN(MOV.CONTA) = PLNCTAMAIN(:CONTACAIXA) group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
+       and mov.tipoorigem = 'CONTABIL' and SUBSTRING(MOV.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8) group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
       INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
     do begin
       VALOR = VALOR - VALORC;
@@ -311,7 +326,6 @@ BEGIN
       CCONTABIL = null;
     end
   END
-
 
 END
 

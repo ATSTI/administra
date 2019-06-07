@@ -590,6 +590,22 @@ begin
     sqlBusca.SQL.Add(strBusca);
     sqlBusca.Open;
   end;
+
+  // buscando na produto_fornecedor
+  if (sqlBusca.IsEmpty) then
+  begin
+    strBusca := 'SELECT p.CODPRODUTO, p.CODPRO, p.QTDE_PCT, p.UNIDADEMEDIDA ' +
+      '  FROM produtos p, produto_fornecedor pf' +
+      ' WHERE p.CODPRODUTO = pf.CODPRODUTO ' ;
+    strBusca := strBusca + ' AND CODPRODFORNEC = ' + QuotedStr(retornaCodPro);
+    strBusca := strBusca + '  AND ((usa is null) or (usa = '+ QuotedStr('S') + '))';
+    strBusca := strBusca + '  AND CODFORNECEDOR = ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
+    sqlBusca.Close;
+    sqlBusca.SQL.Clear;
+    sqlBusca.SQL.Add(strBusca);
+    sqlBusca.Open;
+  end;
+
   {
   if (chkFornec.Checked) then
   begin
@@ -618,7 +634,7 @@ procedure TfImporta_XML.FormShow(Sender: TObject);
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-
+  dm.sqlsisAdimin.Connected := True;
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'XML_CODBARRA'; // Forma de Busca Produto
@@ -692,7 +708,7 @@ begin
         try
 
           codMov := fMov.inserirMovimento(0);
-
+          cdsNFItem.First;
           While not cdsNFItem.Eof do
           begin
             //prog2.Position := cdsB.RecNo;
@@ -701,6 +717,7 @@ begin
             if (cdsNFItemCODPRO_ATS.AsString = '') then
             begin
               MessageDlg('Existe Produto sem o Código no sistema.', mtWarning, [mbOK], 0);
+              dm.sqlsisAdimin.Rollback(TDm);
               exit;
             end;
             fMov.MovDetalhe.CodMov     := codMov;

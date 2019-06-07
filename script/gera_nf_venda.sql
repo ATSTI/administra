@@ -117,6 +117,7 @@ AS
   declare variable levaDesc char(1);
   declare variable calc_manual char(1);
   declare variable arredondar DOUBLE PRECISION;
+  declare variable vendedor integer;
 begin 
   -- versao 3.0
   vFreteT = 0;
@@ -192,6 +193,15 @@ begin
           into :codCCusto, :codUser, :codVendedor, :np, :PRAZO, :vFreteT, :CODTRANSPORTADORA, :tpfrete, :entrada, :xped
           , :rcodven , :vDesconto, :vVendaTotal, :vSeguroT, :vOutrosT, :rFORMARECEBIMENTO 
     do begin 
+      select first 1 codusuario from usuario 
+       where codusuario = :codVendedor or codUsuario = 1
+       into :vendedor;
+      if (vendedor is null) then
+      begin
+        select first 1 codusuario from usuario 
+        into :vendedor;
+      end
+      codVendedor = vendedor; 
       if (vSeguroT is null) then 
         vSeguroT = 0;
       if (vOutrosT is null) then 

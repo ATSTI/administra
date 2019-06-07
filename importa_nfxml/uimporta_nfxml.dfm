@@ -49,7 +49,7 @@ object fImporta_XML: TfImporta_XML
       Top = 582
       Width = 78
       Height = 13
-      Caption = 'V. 1.6 - 10/2017'
+      Caption = 'V. 2.0 - 05/2019'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
       Font.Height = -11
@@ -1117,6 +1117,7 @@ object fImporta_XML: TfImporta_XML
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
     Left = 736
     Top = 16
   end

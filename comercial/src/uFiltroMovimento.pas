@@ -5,10 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, Grids, DBGrids, Menus, SqlExpr, Provider, DB, DBClient,
-  StdCtrls, ExtCtrls, XPMenu, Buttons, MMJPanel, DBLocal, DBLocalS, Mask,
+  StdCtrls, ExtCtrls, Buttons, MMJPanel, DBLocal, DBLocalS, Mask,
   JvFormPlacement, JvComponentBase, JvAppStorage, JvAppXMLStorage,
   rpcompobase, rpvclreport, JvExDBGrids, JvDBGrid, JvExControls, JvLabel,
-  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress, DateUtils;
+  JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress, DateUtils,
+  XPMenu;
 
 type
   TfFiltroMovimento = class(TForm)
@@ -193,8 +194,8 @@ uses uComercial, UDm, uProcurar, uListaClientes, uVendas, uPdm, ufDlgLogin,
 
 procedure TfFiltroMovimento.FormCreate(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
   JvAppXMLFileStorage1.FileName := 'fVenda_' + dm.empresa + '.xml';
+  sCtrlResize.CtrlResize(TForm(fFiltroMovimento));  
   //MMJPanel1.Background.EndColor   := dm.corStart;
   //MMJPanel1.Background.StartColor := dm.corEnd;
   //MMJPanel2.Background.EndColor   := dm.corEnd;

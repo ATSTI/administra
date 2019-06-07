@@ -1,3 +1,4 @@
+set term ^;
 CREATE OR ALTER PROCEDURE BUSCA_CFOP 
  (UF CHAR(2), UF_EMPRESA CHAR(2), NATUREZA SMALLINT, NCM VARCHAR(8), CODPRODUTO INTEGER, CODFISCAL CHAR(1)) 
 RETURNS
@@ -19,7 +20,7 @@ BEGIN
     begin 
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO 
-         and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '3'
+         and LEFT(TRIM(cfp.CFOP),1) = '3'
          and cfp.CODFISCAL = :codFiscal
          and cfp.UF = :UF
         into :cfop_mov;
@@ -27,7 +28,7 @@ BEGIN
     else begin 
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO 
-         and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '1'
+         and LEFT(TRIM(cfp.CFOP),1) = '1'
          and cfp.UF = :UF
          and cfp.CODFISCAL = :codFiscal
         into :cfop_mov;
@@ -39,7 +40,7 @@ BEGIN
       begin 
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALNCM cfp 
          where cfp.NCM = :NCM 
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '3'
+           and LEFT(TRIM(cfp.CFOP),1) = '3'
            and cfp.CODFISCAL = :codFiscal
            and cfp.UF = :UF
           into :cfop_mov;
@@ -47,7 +48,7 @@ BEGIN
       else begin 
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALNCM cfp 
          where cfp.NCM = :NCM 
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '1'
+           and LEFT(TRIM(cfp.CFOP),1) = '1'
            and cfp.CODFISCAL = :codFiscal
            and cfp.UF = :UF
           into :cfop_mov;
@@ -60,14 +61,14 @@ BEGIN
       begin 
         select first 1 cfp.CFOP from ESTADO_ICMS cfp 
          where cfp.UF = :UF
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '3'
+           and LEFT(TRIM(cfp.CFOP),1) = '3'
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
       end 
       else begin 
         select first 1 cfp.CFOP from ESTADO_ICMS cfp 
          where cfp.UF = :UF
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '1'
+           and LEFT(TRIM(cfp.CFOP),1) = '1'
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
       end          
@@ -81,7 +82,7 @@ BEGIN
     begin 
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO 
-         and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '5'
+         and LEFT(TRIM(cfp.CFOP),1) = '5'
          and cfp.CODFISCAL = :codFiscal
          and cfp.UF = :UF
         into :cfop_mov;
@@ -91,7 +92,7 @@ BEGIN
 	begin
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
          where cfp.COD_PROD = :CODPRODUTO 
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and LEFT(TRIM(cfp.CFOP),1) = '6'
            and cfp.UF = :UF
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
@@ -100,7 +101,7 @@ BEGIN
 	  begin 
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
          where cfp.COD_PROD = :CODPRODUTO 
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and LEFT(TRIM(cfp.CFOP),1) = '6'
            and cfp.UF = :UF
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
@@ -110,7 +111,7 @@ BEGIN
 	begin
       select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
        where cfp.COD_PROD = :CODPRODUTO
-         and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '7'
+         and LEFT(TRIM(cfp.CFOP),1) = '7'
          and cfp.UF = :UF
          and cfp.CODFISCAL = :codFiscal
         into :cfop_mov;
@@ -126,7 +127,7 @@ BEGIN
       begin 
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALNCM cfp 
          where cfp.NCM = :NCM
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '5'
+           and LEFT(TRIM(cfp.CFOP),1) = '5'
            and cfp.UF = :UF
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
@@ -136,7 +137,7 @@ BEGIN
 	  begin
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALNCM cfp 
          where cfp.NCM = :NCM
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and LEFT(TRIM(cfp.CFOP),1) = '6'
            and cfp.UF = :UF
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
@@ -145,7 +146,7 @@ BEGIN
   	  begin
         select first 1 cfp.CFOP from CLASSIFICACAOFISCALNCM cfp 
          where cfp.NCM = :NCM
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '7'
+           and LEFT(TRIM(cfp.CFOP),1) = '7'
            and cfp.UF = :UF
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
@@ -162,7 +163,7 @@ BEGIN
       begin 
         select first 1 cfp.CFOP from ESTADO_ICMS cfp 
          where cfp.UF = :UF
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '5'
+           and LEFT(TRIM(cfp.CFOP),1) = '5'
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
         log = log || ' venda por Estado.';  
@@ -171,7 +172,7 @@ BEGIN
 	  begin
         select first 1 cfp.CFOP from ESTADO_ICMS cfp 
          where cfp.UF = :UF
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '6'
+           and LEFT(TRIM(cfp.CFOP),1) = '6'
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
       end    
@@ -179,7 +180,7 @@ BEGIN
   	  begin
         select first 1 cfp.CFOP from ESTADO_ICMS cfp 
          where cfp.UF = :UF
-           and UDF_LEFT(UDF_TRIM(cfp.CFOP),1) = '7'
+           and LEFT(TRIM(cfp.CFOP),1) = '7'
            and cfp.CODFISCAL = :codFiscal
           into :cfop_mov;
       end    
@@ -188,7 +189,7 @@ BEGIN
 
   if ((cfop_mov is null) or (cfop_mov = '')) then
   begin
-    select UDF_TRIM(dados), UDF_TRIM(D1), UDF_TRIM(D2), UDF_TRIM(D3), UDF_TRIM(D4) from PARAMETRO where PARAMETRO = 'CFOP'
+    select TRIM(dados), TRIM(D1), TRIM(D2), TRIM(D3), TRIM(D4) from PARAMETRO where PARAMETRO = 'CFOP'
       into :CFOP_SAI, :CFOP_SAIEXT, :CFOP_ENT, CFOP_EXT, CFOP_IMP;
     if (natureza = 3) then 
     begin

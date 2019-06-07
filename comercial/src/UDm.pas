@@ -2515,6 +2515,22 @@ begin
       MessageDlg('Informe o CENTRO DE RECEITA PADRAO em Parametros.', mtWarning, [mbOK], 0);
   end;
 
+  {  mesmo da linha acima
+  //if (cds_parametro.Active) then
+  cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
+  cds_parametro.Open;
+  if (not cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroD1.AsString <> '') then
+    begin
+      Try
+        CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
+      Except
+      end;
+    end;
+  end;}
+
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'SUBSTITUICAOTRIBUTARIA'; // Forma de Busca Produto
@@ -2581,10 +2597,7 @@ begin
   LicencaUso;
 
   verificaMensagemInicial;
-  try
-    sqlsisAdimin.ExecuteDirect('ALTER TRIGGER CALCULA_ICMS_ST ACTIVE');
-  except
-  end;
+
 
   { Adiciona CAMPO a uma tabela se nao existir}
   // verifiSeExisteCampo('CLIENTES', 'RAZAOSOCIAL', 'VARCHAR(60)');
@@ -2593,20 +2606,7 @@ begin
 
   //fAtualizaSistema.VerBoleto('teste');
 
-  if (cds_parametro.Active) then
-    cds_parametro.Close;
-  cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
-  cds_parametro.Open;
-  if (not cds_parametro.IsEmpty) then
-  begin
-    if (dm.cds_parametroD1.AsString <> '') then
-    begin
-      Try
-        CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
-      Except
-      end;
-    end;
-  end;
+
 
   if (cds_parametro.Active) then
     cds_parametro.Close;
@@ -2647,7 +2647,10 @@ begin
     if (cds_parametroD4.AsString = 'BRANCO') then
       videoFONTE := clWhite;
   end;
-
+  try
+    sqlsisAdimin.ExecuteDirect('ALTER TRIGGER CALCULA_ICMS_ST ACTIVE');
+  except
+  end;
 end;
 
 procedure TDM.cds_produtoNewRecord(DataSet: TDataSet);

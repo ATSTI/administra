@@ -2,10 +2,9 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 322
+  Left = 319
   Top = 3
   Height = 772
-  HorizontalOffset = 49
   Width = 1281
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'

@@ -304,6 +304,8 @@ BEGIN
 			begin
 				VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
 				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(VALOR_SUBDesc), :arredondar);
+				--new.VBCSTRET = TOTALITENS;
+				--new.VICMSSTRET = new.ICMS_SUBST;
 			end     
 			else	
 				new.ICMS_SUBST = 0;

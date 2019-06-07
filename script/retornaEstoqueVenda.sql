@@ -1,4 +1,4 @@
-ALTER TRIGGER RETORNA_ESTOQUEVENDA
+CREATE OR ALTER TRIGGER RETORNA_ESTOQUEVENDA  FOR VENDA ACTIVE
 AFTER DELETE
 POSITION 0
 AS 
@@ -8,7 +8,7 @@ AS
 BEGIN
   -- v 3.0
   /* Se baixou estoque de materia prima , então excluo este lançamento */
-  delete from movimento where controle = UDF_TRIM(cast(old.CODMOVIMENTO as varchar(15))) and codnatureza = 2;
+  delete from movimento where controle = TRIM(cast(old.CODMOVIMENTO as varchar(15))) and codnatureza = 2;
   /* Volta o campo BAIXA para null na tab MOVIMENTODETALHE */ 
   update MOVIMENTODETALHE set BAIXA = null where CODMOVIMENTO = old.CODMOVIMENTO;
 

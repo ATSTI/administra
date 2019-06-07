@@ -1,10 +1,10 @@
 object fcrproc: Tfcrproc
-  Left = 82
-  Top = 105
+  Left = 0
+  Top = 0
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
-  ClientHeight = 591
-  ClientWidth = 898
+  ClientHeight = 525
+  ClientWidth = 797
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,6 +14,7 @@ object fcrproc: Tfcrproc
   OldCreateOrder = False
   PopupMenu = PopupMenu1
   Position = poDesktopCenter
+  Scaled = False
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -23,7 +24,7 @@ object fcrproc: Tfcrproc
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 898
+    Width = 797
     Height = 60
     Align = alTop
     BevelInner = bvLowered
@@ -1080,8 +1081,8 @@ object fcrproc: Tfcrproc
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 556
-    Width = 898
+    Top = 490
+    Width = 797
     Height = 35
     Align = alBottom
     BevelInner = bvLowered
@@ -1323,8 +1324,8 @@ object fcrproc: Tfcrproc
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 221
-    Width = 898
-    Height = 335
+    Width = 797
+    Height = 269
     Align = alClient
     DataSource = ds_Cr
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -1353,124 +1354,124 @@ object fcrproc: Tfcrproc
         Expanded = False
         FieldName = 'DUP_REC_NF'
         Title.Caption = 'Sel.'
-        Width = 21
+        Width = 19
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'TITULO'
         Title.Caption = 'T'#237'tulo'
-        Width = 51
+        Width = 45
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VIA'
         Title.Caption = 'Parc.'
-        Width = 33
+        Width = 29
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'EMISSAO'
         Title.Caption = 'Emiss'#227'o'
-        Width = 52
+        Width = 46
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENCIMENTO'
         Title.Caption = 'Vencto.'
-        Width = 52
+        Width = 46
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATARECEBIMENTO'
         Title.Caption = 'Data Rec.'
-        Width = 57
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.'
-        Width = 23
+        Width = 20
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 100
+        Width = 88
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALOR_RESTO'
         Title.Caption = 'V. Receber'
-        Width = 57
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORREC'
         Title.Caption = 'Pendente'
-        Width = 57
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'VALORRECEBIDO'
         Title.Caption = 'Recebido'
-        Width = 57
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'STATUSP'
         Title.Caption = 'Situa'#231#227'o'
-        Width = 57
+        Width = 50
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'N_DOCUMENTO'
         Title.Caption = 'N.doc'
-        Width = 39
+        Width = 34
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'HISTORICO'
         Title.Caption = 'Hist'#243'rico'
-        Width = 47
+        Width = 42
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DP'
-        Width = 32
+        Width = 28
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BL'
-        Width = 65
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODIGOBOLETO'
         Title.Caption = 'Nosso N'#186
-        Width = 65
+        Width = 60
         Visible = True
       end>
   end
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 60
-    Width = 898
+    Width = 797
     Height = 161
     ActivePage = TabSheet1
     Align = alTop
@@ -1480,7 +1481,7 @@ object fcrproc: Tfcrproc
       object Panel6: TPanel
         Left = 0
         Top = 0
-        Width = 890
+        Width = 789
         Height = 133
         Align = alClient
         TabOrder = 0
@@ -2479,7 +2480,7 @@ object fcrproc: Tfcrproc
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 0
       end

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Provider, SqlExpr, FMTBcd, ImgList, Menus, DBClient, DB,
-  DBLocal, DBLocalS, Grids, DBGrids, XPMenu, ExtCtrls, MMJPanel, Mask,
+  DBLocal, DBLocalS, Grids, DBGrids, ExtCtrls, MMJPanel, Mask,
   StdCtrls, Buttons, DBCtrls, rpcompobase, rpvclreport, VDOBasePrinter,
   rplabelitem, VDODmPrinter, EExtenso, gbCobranca, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, JvFormPlacement, JvExMask, JvToolEdit,

@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
-  Left = 300
-  Top = 165
+  Left = 469
+  Top = 169
   Width = 819
   Height = 586
   BorderIcons = [biSystemMenu, biMaximize]
@@ -893,7 +893,7 @@ object fNotaf: TfNotaf
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
             OnChange = ComboBox1Change
             OnKeyPress = FormKeyPress
