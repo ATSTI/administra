@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:/home/publico/bd/sge_dnz.fdb'
+      'Database=C:\Home\sisadmin\BD\sge_rodrigo.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
