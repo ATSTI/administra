@@ -10,7 +10,7 @@ uses
   ACBrNFeDANFeRLClass, ComCtrls, Buttons, ACBrDfeSSL, ACBrNFeDANFeESCPOS,
   ACBrPosPrinter, Spin, IniFiles,TypInfo, OleCtrls, SHDocVw,
   ACBrDANFCeFortesFr, Mask, JvExMask, JvToolEdit,
-  JvBaseEdits, ACBrDANFCeFortesFrA4;
+  JvBaseEdits, ACBrDANFCeFortesFrA4, ACBrDFeReport, ACBrDFeDANFeReport;
 
 type
   TfNFCe = class(TForm)
@@ -377,9 +377,9 @@ type
     edDesconto: TJvCalcEdit;
     ACBrNFe1: TACBrNFe;
     Label12: TLabel;
-    ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4;
     ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
     ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
+    ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
