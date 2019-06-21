@@ -24,14 +24,14 @@ inherited fCompra: TfCompra
     ParentFont = False
   end
   object Label18: TLabel [1]
-    Left = 8
+    Left = 1
     Top = 470
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
   end
   object Label12: TLabel [2]
-    Left = 24
+    Left = 12
     Top = 501
     Width = 31
     Height = 16
@@ -52,25 +52,32 @@ inherited fCompra: TfCompra
     Caption = 'Resp. Aprova.'
   end
   object Label17: TLabel [5]
-    Left = 8
+    Left = -1
     Top = 524
     Width = 49
     Height = 32
     Caption = 'Tipo '#13#10'Transp.:'
   end
   object Label19: TLabel [6]
-    Left = 139
+    Left = 125
     Top = 532
     Width = 49
     Height = 16
     Caption = 'Transp.:'
   end
   object Label20: TLabel [7]
-    Left = 451
+    Left = 387
     Top = 524
     Width = 54
     Height = 32
     Caption = 'Telefone'#13#10'Transp.:'
+  end
+  object Label25: TLabel [8]
+    Left = 507
+    Top = 524
+    Width = 56
+    Height = 16
+    Caption = 'Vlr. Frete:'
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
@@ -1209,7 +1216,7 @@ inherited fCompra: TfCompra
       Transparent = True
     end
   end
-  object GroupBox1: TGroupBox [10]
+  object GroupBox1: TGroupBox [11]
     Left = 0
     Top = 62
     Width = 425
@@ -1341,7 +1348,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox2: TGroupBox [11]
+  object GroupBox2: TGroupBox [12]
     Left = 489
     Top = 62
     Width = 184
@@ -1368,7 +1375,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [12]
+  object GroupBox3: TGroupBox [13]
     Left = 674
     Top = 62
     Width = 109
@@ -1394,7 +1401,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [13]
+  object GroupBox4: TGroupBox [14]
     Left = 634
     Top = 249
     Width = 149
@@ -1433,7 +1440,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object DBMemo1: TDBMemo [14]
+  object DBMemo1: TDBMemo [15]
     Left = 636
     Top = 369
     Width = 148
@@ -1446,7 +1453,7 @@ inherited fCompra: TfCompra
     ReadOnly = True
     TabOrder = 13
   end
-  object GroupBox5: TGroupBox [15]
+  object GroupBox5: TGroupBox [16]
     Left = 635
     Top = 302
     Width = 150
@@ -1476,7 +1483,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox6: TGroupBox [16]
+  object GroupBox6: TGroupBox [17]
     Left = 0
     Top = 111
     Width = 633
@@ -1998,7 +2005,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object CheckBox1: TCheckBox [17]
+  object CheckBox1: TCheckBox [18]
     Left = 640
     Top = 448
     Width = 97
@@ -2007,7 +2014,7 @@ inherited fCompra: TfCompra
     TabOrder = 15
     Visible = False
   end
-  object GroupBox7: TGroupBox [18]
+  object GroupBox7: TGroupBox [19]
     Left = 635
     Top = 461
     Width = 150
@@ -2051,8 +2058,8 @@ inherited fCompra: TfCompra
       OnClick = BitBtn9Click
     end
   end
-  object DBEdit13: TDBEdit [19]
-    Left = 56
+  object DBEdit13: TDBEdit [20]
+    Left = 48
     Top = 497
     Width = 573
     Height = 24
@@ -2069,8 +2076,8 @@ inherited fCompra: TfCompra
     TabOrder = 11
     OnKeyPress = FormKeyPress
   end
-  object DBEdit15: TDBEdit [20]
-    Left = 56
+  object DBEdit15: TDBEdit [21]
+    Left = 48
     Top = 468
     Width = 52
     Height = 24
@@ -2088,7 +2095,7 @@ inherited fCompra: TfCompra
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [21]
+  object DBEdit16: TDBEdit [22]
     Left = 186
     Top = 468
     Width = 178
@@ -2108,7 +2115,7 @@ inherited fCompra: TfCompra
     TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object SpeedButton1: TBitBtn [22]
+  object SpeedButton1: TBitBtn [23]
     Left = 368
     Top = 466
     Width = 27
@@ -2185,7 +2192,7 @@ inherited fCompra: TfCompra
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
   end
-  object CheckBox2: TCheckBox [23]
+  object CheckBox2: TCheckBox [24]
     Left = 88
     Top = 272
     Width = 97
@@ -2194,7 +2201,7 @@ inherited fCompra: TfCompra
     TabOrder = 19
     Visible = False
   end
-  object GroupBox8: TGroupBox [24]
+  object GroupBox8: TGroupBox [25]
     Left = 634
     Top = 157
     Width = 149
@@ -2220,7 +2227,7 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox9: TGroupBox [25]
+  object GroupBox9: TGroupBox [26]
     Left = 634
     Top = 203
     Width = 149
@@ -2239,7 +2246,7 @@ inherited fCompra: TfCompra
       TabOrder = 0
     end
   end
-  object edRespAprovacao: TDBEdit [26]
+  object edRespAprovacao: TDBEdit [27]
     Left = 490
     Top = 468
     Width = 139
@@ -2262,7 +2269,7 @@ inherited fCompra: TfCompra
     TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object GroupBox10: TGroupBox [27]
+  object GroupBox10: TGroupBox [28]
     Left = 634
     Top = 110
     Width = 149
@@ -2289,29 +2296,29 @@ inherited fCompra: TfCompra
       OnKeyPress = FormKeyPress
     end
   end
-  object btnTransp: TBitBtn [28]
-    Left = 411
+  object btnTransp: TBitBtn [29]
+    Left = 361
     Top = 528
-    Width = 32
+    Width = 22
     Height = 25
     Caption = '...'
     TabOrder = 22
     OnClick = btnTranspClick
   end
-  object cbTransportadora: TComboBox [29]
-    Left = 189
+  object cbTransportadora: TComboBox [30]
+    Left = 174
     Top = 528
-    Width = 221
+    Width = 187
     Height = 24
     Color = clInfoBk
     ItemHeight = 16
     TabOrder = 12
     OnChange = cbTransportadoraChange
   end
-  object cbTpTransp: TComboBox [30]
-    Left = 56
+  object cbTpTransp: TComboBox [31]
+    Left = 48
     Top = 528
-    Width = 80
+    Width = 75
     Height = 24
     Color = clInfoBk
     ItemHeight = 16
@@ -2323,16 +2330,16 @@ inherited fCompra: TfCompra
       '2 - Terceiros'
       '9 - Sem Frete')
   end
-  object Edit1: TEdit [31]
-    Left = 514
+  object Edit1: TEdit [32]
+    Left = 442
     Top = 528
-    Width = 114
+    Width = 63
     Height = 24
     Color = clInfoBk
     ReadOnly = True
     TabOrder = 24
   end
-  object GroupBox11: TGroupBox [32]
+  object GroupBox11: TGroupBox [33]
     Left = 426
     Top = 62
     Width = 63
@@ -2350,6 +2357,27 @@ inherited fCompra: TfCompra
       OnExit = edCFOPExit
       OnKeyPress = FormKeyPress
     end
+  end
+  object DBEdit21: TDBEdit [34]
+    Left = 562
+    Top = 526
+    Width = 71
+    Height = 27
+    TabStop = False
+    BorderStyle = bsNone
+    Color = clInfoBk
+    DataField = 'VALOR_FRETE'
+    DataSource = DtSrc
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    PopupMenu = PopupMenu1
+    ReadOnly = True
+    TabOrder = 25
+    OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
     Left = 720
@@ -2549,6 +2577,9 @@ inherited fCompra: TfCompra
       FieldName = 'ENTREGA'
       Size = 60
     end
+    object sds_MovimentoVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
+    end
   end
   object dsp_Movimento: TDataSetProvider
     DataSet = sds_Movimento
@@ -2715,6 +2746,9 @@ inherited fCompra: TfCompra
       FieldName = 'ENTREGA'
       ProviderFlags = [pfInUpdate]
       Size = 60
+    end
+    object cds_MovimentoVALOR_FRETE: TFloatField
+      FieldName = 'VALOR_FRETE'
     end
   end
   object DtSrc1: TDataSource

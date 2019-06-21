@@ -473,6 +473,10 @@ type
     Label24: TLabel;
     sds_Mov_DetUN_CONV: TFloatField;
     cds_Mov_detUN_CONV: TFloatField;
+    Label25: TLabel;
+    DBEdit21: TDBEdit;
+    sds_MovimentoVALOR_FRETE: TFloatField;
+    cds_MovimentoVALOR_FRETE: TFloatField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

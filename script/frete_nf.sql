@@ -24,6 +24,7 @@ declare variable levaDesc char(1);
 declare variable log_sis varchar(260);
 BEGIN
   log_sis =  new.IDCOMPLEMENTAR;
+  frete = 0;
   if (log_sis is null) then 
   begin
     log_sis = 'NAO COMPLEMENTAR'; 
@@ -48,11 +49,19 @@ BEGIN
         where c.CODCOMPRA = new.CODVENDA
         into :codm;
     end
-   
+   select sum(md.FRETE), sum(md.VALTOTAL) from MOVIMENTODETALHE md
+     where md.CODMOVIMENTO = :codm
+   into :FRETE, :vp;
+
+   -- valor de frete diferente do total entao faz o rateio
+   log_sis = 'Frete Itens ' || Cast(:FRETE as varchar(6)) || ' Frete ' || Cast(new.VALOR_FRETE as varchar(6)) || ' vp ' || Cast(:vp as varchar(6));
+   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'Rateio Frete', :log_sis);
+   if (frete <> new.VALOR_FRETE) then
+   begin 
    if (levaDesc is null) then 
      levaDesc = 'N';
    
-   vp = new.VALOR_PRODUTO; 
+   --vp = new.VALOR_PRODUTO; 
    
    FRETE = new.VALOR_FRETE;
    
@@ -93,7 +102,8 @@ BEGIN
    DESCONTO_TOTAL = new.VALOR_DESCONTO;
    OUTRAS_TOTAL = new.OUTRAS_DESP;
    SEGURO_TOTAL = new.VALOR_SEGURO;
-   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 'FRETE ' || :FRETE_TOTAL || ' VP ' || :vp);
+   --insert into LOG_ACESSO (ID_LOG, LOGIN, USUARIO) VALUES (GEN_ID(GEN_AVISOS, 1), 'NF', 
+   --  'FRETE ' || CAST(:FRETE_TOTAL as VARCHAR(6)) || ' VP ' || Cast(:vp as VARCHAR(6)));
    
    select count(md.CODDETALHE) from MOVIMENTODETALHE md
    where md.CODMOVIMENTO = :codm
@@ -163,4 +173,5 @@ BEGIN
     SEGURO_TOTAL = SEGURO_TOTAL - UDF_ROUNDDEC((:SEGURO_UNIT * :valtot), 2);
    end
   end  
+  end -- fim do if rateio
 END

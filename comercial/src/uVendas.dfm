@@ -2462,7 +2462,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2516,7 +2516,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -3416,7 +3416,7 @@ inherited fVendas: TfVendas
       Active = True
       currency = True
       DisplayFormat = ',#0.00'
-      Expression = 'Sum(ValorTotal)'
+      Expression = 'Sum(ValorTotal+FRETE)'
     end
   end
   object DtSrc1: TDataSource

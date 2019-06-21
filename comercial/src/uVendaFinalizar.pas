@@ -2117,6 +2117,7 @@ begin
   begin
     btnIncluir.Visible:=True;
     btnIncluir.Click;
+    cdsVALOR_FRETE.AsFloat := fVendas.cds_MovimentoVALOR_FRETE.AsFloat;
     if fVendas.DBEdit15.Text <> '' then
     begin
       dbeUsuario.Text := fVendas.DBEdit15.Text;
