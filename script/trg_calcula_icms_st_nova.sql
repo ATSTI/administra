@@ -83,17 +83,13 @@ BEGIN
   
   IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Nao e Calculo manual 
   begin 
-
     select first 1 emp.UF from EMPRESA emp
-      into :UF_EMPRESA; 
-  
+      into :UF_EMPRESA;
 	select FIRST 1 CRT from EMPRESA , MOVIMENTO where CODALMOXARIFADO = CCUSTO and CODMOVIMENTO = new.CODMOVIMENTO
 	  into :CRT;  
-
 	select FIRST 1 CODNATUREZA, CASE WHEN CODNATUREZA in (2,3, 7, 12,15,16) THEN CODCLIENTE  WHEN CODNATUREZA in (1,4, 20, 21) THEN CODFORNECEDOR
 	 ELSE 0 end from MOVIMENTO where CODMOVIMENTO = new.CODMOVIMENTO
 	  into :NATUREZA, :CODCLI; 
-	  
 	if (natureza in (1,4,20,21)) then 
 	begin 
       select first 1 ef.UF, f.CODFISCAL, f.INSCESTADUAL from FORNECEDOR f
@@ -118,11 +114,11 @@ BEGIN
 	 where p.CODPRODUTO = new.CODPRODUTO
 	  into :NCM_P, :CEST, :origem;
  
-       if (new.ORIGEM is null) then  
-          new.origem = cast(:origem as char(2));
+    if (new.ORIGEM is null) then  
+      new.origem = cast(:origem as char(2));
   
-       if (CEST <> '') then
-          new.CEST = :CEST; 
+    if (CEST <> '') then
+      new.CEST = :CEST; 
   
 	if ((new.cfop = '') or (new.CFOP is null)) then
 	begin
@@ -139,18 +135,18 @@ BEGIN
 	end 
     vFrete = 0;
     if (new.FRETE > 0) then
-       vFrete = new.FRETE;	
+      vFrete = new.FRETE;	
     
 	-- IF-01		
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
 	  if ( new.lote is null) then
-			new.lote = '0';
+        new.lote = '0';
 
       if (new.QTDE_ALT is null) then 
-			new.QTDE_ALT = 0;
+        new.QTDE_ALT = 0;
       
-        -- ROUND
+      -- ROUND
       new.VLR_BASE = ROUND(new.PRECO, :arredondar);  
       
       if (new.QTDE_ALT = 100) then
@@ -239,132 +235,129 @@ BEGIN
         from NCM n WHERE n.NCM = new.NCM
         INTO :ALIQIMP, :ALIQNAC, :aliq_est, :aliq_mun;        
 
-		new.SUITE = :posicao_fiscal;
+        new.SUITE = :posicao_fiscal;
         new.cst = :CST_P;
-		new.CSOSN = :CSOSN;
-		new.CSTPIS = :CSTPIS;
-		new.CSTCOFINS = :CSTCOFINS;
-		new.CSTIPI = :CSTIPI;
-		new.icms = :cicms;
-		new.Aliq_cupom = :aliq_cupom;
+        new.CSOSN = :CSOSN;
+        new.CSTPIS = :CSTPIS;
+        new.CSTCOFINS = :CSTCOFINS;
+        new.CSTIPI = :CSTIPI;
+        new.icms = :cicms;
+        new.Aliq_cupom = :aliq_cupom;
 
-      
-		--CALCULO DE IPI
-		if (IND_IPI > 0) then
-		begin
+        --CALCULO DE IPI
+        if (IND_IPI > 0) then
+        begin
           if (pessoa = 'J') then 
             new.VLRBC_IPI = ROUND((TOTALITENS * redBaseIPI) , :arredondar);
           else
             new.VLRBC_IPI = ROUND(((TOTALITENS * redBaseIPI) + :vFrete) , :arredondar);
-          new.VIPI = ROUND(((((TOTALITENS * redBaseIPI) + :vFrete)) * (IND_IPI/100)), :arredondar);
+          new.VIPI = ROUND((new.VLRBC_IPI * (IND_IPI/100)), :arredondar);
           new.PIPI = IND_IPI;
         end
-		else begin
+        else begin
           new.VLRBC_IPI = 0;
           new.VIPI = 0;
           new.PIPI = 0;
         end
-      
-		--CALCULO DE PIS
-		if (PIS > 0) then
-		begin
+
+        --CALCULO DE PIS
+        if (PIS > 0) then
+        begin
           new.VLRBC_PIS = ROUND((TOTALITENS * redBasePis), :arredondar);
           new.PPIS = :PIS;
           new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
         end
-		else begin
+        else begin
           new.VLRBC_PIS = 0;
           new.PPIS = 0;
           new.VALOR_PIS = 0;
         end
-      
-		--CALCULO DO COFINS
-		if (cofins > 0) then
-		begin
-		  new.VLRBC_COFINS = ROUND((TOTALITENS * redBaseCofins), :arredondar);
+
+        --CALCULO DO COFINS
+        if (cofins > 0) then
+        begin
+          new.VLRBC_COFINS = ROUND((TOTALITENS * redBaseCofins), :arredondar);
           new.PCOFINS = :cofins;	
           new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
         end
-		else begin
+        else begin
           new.VLRBC_COFINS = 0;
           new.PCOFINS = 0;	
           new.VALOR_COFINS = 0;
         end
 
-		if (ind_reduzicms <= 0) then
-		  ind_reduzicms = 1;
+        if (ind_reduzicms <= 0) then
+          ind_reduzicms = 1;
         if (ind_reduzicms > 1 )then
-		  ind_reduzicms = ind_reduzicms/100;
+          ind_reduzicms = ind_reduzicms/100;
 
         --CALCULO DO ICMS
-		if (CICMS > 0) then 
-		begin
-		  vFrete = new.FRETE;
-          vd     = new.VALOR_DESCONTO;
+        if (CICMS > 0) then 
+        begin
+          vFrete = new.FRETE;
+          vd = new.VALOR_DESCONTO;
           if (vFrete is null) then 
-		    vFrete = 0;
-           
+            vFrete = 0;
           if (vd is null) then 
-		    vd = 0;   
-        
+            vd = 0;
+
           --Calculos do ICMS
-		  if (new.FRETE_BC = 'T') then
+          if (new.FRETE_BC = 'T') then
           begin
-			-- Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS	
-			if (new.DESCONTO_BC = 'True') then
-			begin
-			  new.SUITE = :posicao_fiscal || '-Com Frete+DescontoBC';
-			  new.VLR_BASEICMS = ROUND(( (TOTALITENS + vFrete - :vd)* ind_reduzicms), :arredondar);
-			end 
-			else begin
+            -- Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS	
+            if (new.DESCONTO_BC = 'True') then
+            begin
+              new.SUITE = :posicao_fiscal || '-Com Frete+DescontoBC';
+              new.VLR_BASEICMS = ROUND(( (TOTALITENS + vFrete - :vd)* ind_reduzicms), :arredondar);
+            end 
+	        else begin
               new.SUITE = :posicao_fiscal || '-Com Frete: ';
-			  -- Soma Frete na BC ICMS e Nao Subtrai Desconto da BC ICMS
+              -- Soma Frete na BC ICMS e Nao Subtrai Desconto da BC ICMS
               new.VLR_BASEICMS = ROUND(((TOTALITENS + vFrete)* ind_reduzicms), :arredondar);
             end
           end
           else begin
             -- Subtrair Desconto a BC ICMS 
-			if (new.DESCONTO_BC = 'True') then
-			begin
-			  new.SUITE = :posicao_fiscal || '-Sem Frete+DescontoBC';
-			  new.VLR_BASEICMS = ROUND(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
-			end
-			else begin
+            if (new.DESCONTO_BC = 'True') then
+            begin
+              new.SUITE = :posicao_fiscal || '-Sem Frete+DescontoBC';
+              new.VLR_BASEICMS = ROUND(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
+            end
+            else begin
               new.SUITE = :posicao_fiscal || '-Sem Frete';
               -- Nao Subtrai Desconto da BC ICMS, nao soma Frete a BC ICMS
-			  new.VLR_BASEICMS = ROUND(( TOTALITENS * ind_reduzicms), :arredondar);
-			end  
+              new.VLR_BASEICMS = ROUND(( TOTALITENS * ind_reduzicms), :arredondar);
+            end  
           end
           if (new.VIPI > 0) then
           begin
             -- nao e pessoa juridica entao o ipi entra na base de calculo
             if (pessoa <> 'J') then
-            BEGIN
+            begin
               new.VLR_BASEICMS = new.VLR_BASEICMS + new.VIPI;
-            END
+            end
           end
           new.VALOR_ICMS = ROUND(new.VLR_BASEICMS * (:CICMS / 100), :arredondar);
         end
 
-		----------- TEM ST -------------
-			
-		if (CICMS_SUBST > 0 ) then
+        ----------- TEM ST -------------
+        if (CICMS_SUBST > 0 ) then
           CICMS_SUBST = 1+ ( CICMS_SUBST/100);
         if (CICMS_SUBST_IND > 0 ) then
           CICMS_SUBST_IND = CICMS_SUBST_IND/100;
         if (CICMS_SUBST_IC > 0 ) then
           CICMS_SUBST_IC = CICMS_SUBST_IC/100;
-				
-		if (CICMS_SUBST > 0) then
-		  new.ICMS_SUBSTD = ROUND(((TOTALITENS + new.VIPI) * CICMS_SUBST), :arredondar);
+
+        if (CICMS_SUBST > 0) then
+          new.ICMS_SUBSTD = ROUND(((TOTALITENS + new.VIPI) * CICMS_SUBST), :arredondar);
         if ( new.ICMS_SUBSTD > 0) then
-		begin
-		  VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
+        begin
+          VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
           new.ICMS_SUBST = ROUND((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(:VALOR_SUBDESC), :arredondar);
         end     
-		else	
-		  new.ICMS_SUBST = 0;
-				
+        else	
+          new.ICMS_SUBST = 0;
+  
         --CORRECAO DO VALOR DO MVA QUANDO FOR PARA FORA DO ESTADO
         if ( CRT <> 0) then
         begin
@@ -379,7 +372,7 @@ BEGIN
         new.ICMS_SUBSTD = ROUND((TOTALITENS + new.vipi) * ROUND(:CICMS_SUBST, 4), :arredondar); 
         VALOR_SUBDesc = TOTALITENS  * CICMS_SUBST_IND; 
         new.ICMS_SUBST = ROUND((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - :Valor_SubDesc, :arredondar);
-        
+    
         if( new.FRETE > 0) then
         begin
           if (CICMS >0) then
@@ -401,31 +394,30 @@ BEGIN
           new.ICMSFRETE = 0;
           new.BCSTFRETE = 0;
         end
-  
+   
         -- CALCULO DO TOTAL TRIBUTOS
         -- colocado aqui em 28/07/2016
         if(:CALCTRIB = 'T') then
-		begin
-		  if (aliqnac > 0) then 
-		    aliqnac = aliqnac/100;
-		  if (aliqimp > 0) then 
-		    aliqimp = aliqimp/100;
-		  if (aliq_est > 0) then 
-		    aliq_est = aliq_est/100;
-		  if (aliq_mun > 0) then 
-		    aliq_mun = aliq_mun/100;
-		    
+        begin
+          if (aliqnac > 0) then 
+            aliqnac = aliqnac/100;
+          if (aliqimp > 0) then 
+            aliqimp = aliqimp/100;
+          if (aliq_est > 0) then 
+            aliq_est = aliq_est/100;
+          if (aliq_mun > 0) then 
+            aliq_mun = aliq_mun/100;
           if (:origem in (0, 3, 4, 5) ) then
           begin
             new.VLRTOT_TRIB = (new.VALTOTAL * :aliqnac) + 
               (new.VALTOTAL * :aliq_est) + 
               (new.VALTOTAL * :aliq_mun);
-          end      
-          else begin 
+          end
+          else begin
             new.VLRTOT_TRIB = (new.VALTOTAL * :aliqimp) + 
               (new.VALTOTAL * :aliq_est) + 
               (new.VALTOTAL * :aliq_mun);
-          end    
+          end
         end
         else begin
           new.VLRTOT_TRIB = 0;
@@ -455,7 +447,6 @@ BEGIN
           new.VIPI = 0;
         new.VBCUFDEST = ROUND(((new.VLR_BASE * new.QUANTIDADE) + new.FRETE - new.VALOR_DESCONTO + new.VIPI - new.VALOR_ICMS), :arredondar);
       end   
-      
       new.pFCPUFDest = :pFCPUFDest;
       new.pICMSUFDest = :pICMSUFDest;
       new.pICMSInter = :pICMSInter;
@@ -477,8 +468,7 @@ BEGIN
   else begin 
     -- Calculo Manual
     if (new.QTDE_ALT is null) then 
-	  new.QTDE_ALT = 0;
-      
-	new.VLR_BASE = ROUND(new.PRECO, :arredondar);  
+      new.QTDE_ALT = 0;
+    new.VLR_BASE = ROUND(new.PRECO, :arredondar);  
   end
 END
