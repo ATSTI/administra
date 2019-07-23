@@ -12,7 +12,7 @@ uses IniFiles, ShellAPI,
   JvBaseEdits, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit, dbXpress,
   ACBrBase, ACBrDFe, ACBrMDFeDAMDFeRLClass, pmdfeConversaoMDFe, ACBrMail,
   DBClient, Provider, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  ACBrNFe;
+  ACBrNFe, ACBrDFeReport;
 
 type
   TfACBrMDFe = class(TForm)
@@ -339,7 +339,6 @@ type
     cdsMun: TClientDataSet;
     cdsMunMUNICIPIO: TStringField;
     cdsMunCD_IBGE: TIntegerField;
-    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     cbTipoEmit: TComboBox;
     BitBtn10: TBitBtn;
     cdsProc: TClientDataSet;
@@ -364,6 +363,7 @@ type
     edSegCnpj: TEdit;
     edApolice: TEdit;
     edAverba: TEdit;
+    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -655,10 +655,10 @@ begin
  if ACBrMDFe1.DAMDFe <> nil then
   begin
    ACBrMDFe1.DAMDFe.PathPDF           := PathMensal;
-   ACBrMDFe1.DAMDFe.ExpandirLogoMarca := False;
+   //ACBrMDFe1.DAMDFe.ExpandirLogoMarca := False;
    //ACBrMDFe1.DAMDFe.ImprimirDescPorc  := False;
    ACBrMDFe1.DAMDFe.Logo              := edtLogoMarca.Text;
-   ACBrMDFe1.DAMDFe.MostrarPreview    := True;
+   //ACBrMDFe1.DAMDFe.MostrarPreview    := True;
    ACBrMDFe1.DAMDFe.TipoDAMDFe        := StrToTpImp(OK, IntToStr(rgTipoDaMDFe.ItemIndex+1));
   end;
 
@@ -742,6 +742,11 @@ begin
     
     with Ide.infMunCarrega.Add do
     begin
+      if (edtMunCarregaIBGE.Text <> '') then
+      begin
+        MessageDlg('Preencha o municipio de Carregamento.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       cMunCarrega := StrToInt(RemoveChar(edtMunCarregaIBGE.Text));//edtEmitCodCidade.Text));
       xMunCarrega := edtMunicipioCarrega.Text;//edtEmitCidade.Text;
     end;
@@ -780,7 +785,8 @@ begin
     //
     // Dados do Emitente
     //
-    Emit.CNPJ  := edtEmitCNPJ.Text;
+
+    Emit.CNPJCPF  := edtEmitCNPJ.Text;
     Emit.IE    := edtEmitIE.Text;
     Emit.xNome := edtEmitRazao.Text;
     Emit.xFant := edtEmitFantasia.Text;
@@ -803,7 +809,13 @@ begin
 
     rodo.RNTRC := edRntrc.Text;
     rodo.CIOT  := edCIOT.Text;
-    rodo.infANTT.infContratante.Add.CNPJCPF := edCnpjCpfContratante.Text;
+    if (cbTipoEmit.ItemIndex = 0) then
+    begin
+      rodo.infANTT.infContratante.Add.CNPJCPF := edtEmitCNPJ.Text;
+    end
+    else begin
+      rodo.infANTT.infContratante.Add.CNPJCPF := edCnpjCpfContratante.Text;
+    end;
 
     rodo.veicTracao.cInt  := edCINT.Text;
     rodo.veicTracao.placa := edPlaca.Text;
@@ -872,6 +884,12 @@ begin
       nCompra  := '789';
     end;
     }
+
+    if (edRntrc.Text <> '') then
+      rodo.infANTT.RNTRC := edRntrc.Text;
+
+    //if (edCIOT.Text <> '') then
+    //  rodo.infANTT.infCIOT.
 
     with infDoc do
     begin
@@ -1683,7 +1701,7 @@ begin
    with ACBrMDFe1.EventoMDFe.Evento.Add do
     begin
      infEvento.chMDFe   := Copy(ACBrMDFe1.Manifestos.Items[0].MDFe.infMDFe.ID, 5, 44);
-     infEvento.CNPJ     := edtEmitCNPJ.Text;
+     infEvento.CNPJCPF     := edtEmitCNPJ.Text;
      infEvento.dhEvento := now;
 //  TpcnTpEvento = (teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
 //                  teManifDestDesconhecimento, teManifDestOperNaoRealizada,
@@ -1741,7 +1759,7 @@ begin
    with ACBrMDFe1.EventoMDFe.Evento.Add do
     begin
      infEvento.chMDFe   := Copy(ACBrMDFe1.Manifestos.Items[0].MDFe.infMDFe.ID, 5, 44);
-     infEvento.CNPJ     := edtEmitCNPJ.Text;
+     infEvento.CNPJCPF  := edtEmitCNPJ.Text;
      infEvento.dhEvento := now;
 //  TpcnTpEvento = (teCCe, teCancelamento, teManifDestConfirmacao, teManifDestCiencia,
 //                  teManifDestDesconhecimento, teManifDestOperNaoRealizada,
@@ -2691,6 +2709,15 @@ begin
   dm.sc.StartTransaction(TD);
   try
     dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD PROTOCOLOENC VARCHAR(20)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  // Protocolo Encerramento
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD PROTOCOLOENV VARCHAR(20)');
     dm.sc.Commit(TD); {on success, commit the changes};
   except
     dm.sc.Rollback(TD); {on failure, undo the changes};

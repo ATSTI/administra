@@ -1,0 +1,1 @@
+/home/publico/atsadmin_dev/script/insere_estoque.sql

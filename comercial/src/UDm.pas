@@ -2076,6 +2076,7 @@ type
   public
     { Public declarations }
     usu_tipovendedor : Integer;
+    of_permite_mudar: String;
     somente_sua_venda: String;
     nfe_serie_receita: Integer;
     dmCentroReceita: String;
@@ -2267,6 +2268,7 @@ begin
     email_ssl     := ImpressoraDet.ReadString('EMAIL','SSL','N');
     nao_testa_data := ImpressoraDet.ReadString('SISTEMA','DATA','N');
     nfe_serie_receita := ImpressoraDet.ReadInteger('SISTEMA','SERIERECEITA',1);
+    of_permite_mudar := ImpressoraDet.ReadString('SISTEMA','OF','N');
   finally
     ImpressoraDet.Free;
   end;

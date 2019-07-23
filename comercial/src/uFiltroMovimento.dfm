@@ -1,8 +1,8 @@
 object fFiltroMovimento: TfFiltroMovimento
-  Left = 0
-  Top = 0
-  Width = 805
-  Height = 552
+  Left = 47
+  Top = 31
+  Width = 899
+  Height = 563
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,6 +11,7 @@ object fFiltroMovimento: TfFiltroMovimento
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = PopupMenu1
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -20,7 +21,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object Panel1: TPanel
     Left = 0
     Top = 46
-    Width = 797
+    Width = 891
     Height = 132
     Align = alTop
     PopupMenu = PopupMenu1
@@ -872,7 +873,7 @@ object fFiltroMovimento: TfFiltroMovimento
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 797
+    Width = 891
     Height = 46
     Align = alTop
     BevelInner = bvLowered
@@ -892,7 +893,7 @@ object fFiltroMovimento: TfFiltroMovimento
     object Label10: TJvLabel
       Left = 2
       Top = 2
-      Width = 793
+      Width = 887
       Height = 42
       Align = alClient
       Alignment = taCenter
@@ -923,8 +924,8 @@ object fFiltroMovimento: TfFiltroMovimento
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 464
-    Width = 797
+    Top = 475
+    Width = 891
     Height = 61
     Align = alBottom
     BevelInner = bvLowered
@@ -1372,8 +1373,8 @@ object fFiltroMovimento: TfFiltroMovimento
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 178
-    Width = 797
-    Height = 286
+    Width = 891
+    Height = 297
     Align = alClient
     DataSource = ds_Cr
     Font.Charset = DEFAULT_CHARSET
@@ -1403,91 +1404,91 @@ object fFiltroMovimento: TfFiltroMovimento
         Expanded = False
         FieldName = 'CODPEDIDO'
         Title.Caption = 'Cod. Pedido'
-        Width = 39
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOTAFISCAL'
         Title.Caption = 'T'#237'tulo'
-        Width = 39
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NFE'
         Title.Caption = 'NFe'
-        Width = 51
+        Width = 56
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'SERIE'
         Title.Caption = 'S'#233'rie'
-        Width = 25
+        Width = 29
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAMOVIMENTO'
         Title.Caption = 'Data'
-        Width = 39
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAVENDA'
         Title.Caption = 'Data Venda'
-        Width = 53
+        Width = 58
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATA_ENTREGA'
         Title.Caption = 'Entrega'
-        Width = 52
+        Width = 57
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODCLIENTE'
         Title.Caption = 'C'#243'd.Cli.'
-        Width = 36
+        Width = 41
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
-        Width = 192
+        Width = 215
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRECO'
         Title.Caption = 'Valor R$'
-        Width = 48
+        Width = 54
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'HIST_MOV'
         Title.Caption = 'Historico'
-        Width = 79
+        Width = 89
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODNATUREZA'
         Title.Caption = 'C'#243'd. Nat.'
-        Width = 39
+        Width = 44
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DESCNATUREZA'
         Title.Caption = 'Natureza'
-        Width = 76
+        Width = 87
         Visible = True
       end>
   end

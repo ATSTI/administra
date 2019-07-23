@@ -1,0 +1,1 @@
+/home/publico/atsadmin_dev/script/estoque_fechado_venda.sql

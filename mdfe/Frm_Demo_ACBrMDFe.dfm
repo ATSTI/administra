@@ -2991,12 +2991,12 @@ object fACBrMDFe: TfACBrMDFe
     Configuracoes.Geral.SSLHttpLib = httpNone
     Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoDF = ve400
     Configuracoes.Geral.VersaoQRCode = veqr000
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
     Left = 614
     Top = 265
   end
@@ -3010,6 +3010,7 @@ object fACBrMDFe: TfACBrMDFe
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
     DAMDFE = ACBrMDFeDAMDFeRL1
     Left = 574
     Top = 273
@@ -3053,24 +3054,6 @@ object fACBrMDFe: TfACBrMDFe
       FieldName = 'CD_IBGE'
     end
   end
-  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
-    ACBrMDFe = ACBrMDFe1
-    ImprimirHoraSaida = False
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDAMDFe = tiSemGeracao
-    TamanhoPapel = tpA4
-    NumCopias = 1
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    MDFeCancelada = False
-    MDFeEncerrado = False
-    PrintDialog = True
-    Left = 590
-    Top = 337
-  end
   object cdsProc: TClientDataSet
     Aggregates = <>
     Params = <>
@@ -3087,5 +3070,26 @@ object fACBrMDFe: TfACBrMDFe
     DataSet = sqlProc
     Left = 394
     Top = 57
+  end
+  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
+    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
+    MargemInferior = 0.800000000000000000
+    MargemSuperior = 0.800000000000000000
+    MargemEsquerda = 0.600000000000000000
+    MargemDireita = 0.510000000000000000
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais.qCom = 2
+    CasasDecimais.vUnCom = 2
+    CasasDecimais.MaskqCom = ',0.00'
+    CasasDecimais.MaskvUnCom = ',0.00'
+    ACBrMDFe = ACBrMDFe1
+    ImprimeHoraSaida = False
+    TipoDAMDFe = tiSemGeracao
+    TamanhoPapel = tpA4
+    Cancelada = False
+    Encerrado = False
+    PrintDialog = True
+    Left = 622
+    Top = 345
   end
 end

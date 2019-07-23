@@ -9,7 +9,7 @@ uses
   JvFormPlacement, JvComponentBase, JvAppStorage, JvAppXMLStorage,
   rpcompobase, rpvclreport, JvExDBGrids, JvDBGrid, JvExControls, JvLabel,
   JvExMask, JvToolEdit, JvExStdCtrls, JvCheckBox, dbxpress, DateUtils,
-  XPMenu;
+  XPMenu, RLReport, RLFilters, RLXLSFilter;
 
 type
   TfFiltroMovimento = class(TForm)
@@ -188,7 +188,8 @@ var
 implementation
 
 uses uComercial, UDm, uProcurar, uListaClientes, uVendas, uPdm, ufDlgLogin,
-   sCtrlResize, UDMNF, uTerminal_Delivery, uProcurar_nf, UDM_MOV;
+   sCtrlResize, UDMNF, uTerminal_Delivery, uProcurar_nf, UDM_MOV,
+  ufRelFortes;
 
 {$R *.dfm}
 
@@ -773,33 +774,52 @@ begin
     MessageDlg('Preencha o Campo Data do Movimento', mtWarning, [mbOK], 0);
     exit;
   end;
-  VCLReport1.FileName := str_relatorio + 'romaneioporregiao.rep';
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(medta1.Text);
-  VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(medta2.Text);;
-  if (edControle.Text <> '') then
-     VCLReport1.Report.Params.ParamByName('PRO1').Value := StrToInt(edControle.Text)
-  else
-     VCLReport1.Report.Params.ParamByName('PRO1').Value := 9999999;
-  if (ComboBox2.Text = '') then
-    VCLReport1.Report.Params.ParamByName('REG').Value := 0
-  else
+  if (FileExists('romaneioporregiao.rep')) then
   begin
-    if (not sdsRegiao.Active) then
-        sdsRegiao.Open;
-    sdsRegiao.Locate('DESCRICAO',ComboBox2.Text, [loCaseInsensitive]);
-    edit5.Text := IntToStr(sdsRegiaoCODDADOS.AsInteger);
-    sdsRegiao.Close;
-    VCLReport1.Report.Params.ParamByName('REG').Value := StrToInt(Edit5.Text);
-  end;
-  if (ComboBox1.Text = '') then
-  begin
-    VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := 'TOTAL GERAL EMPRESA';
+    VCLReport1.FileName := str_relatorio + 'romaneioporregiao.rep';
+    VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    VCLReport1.Report.Params.ParamByName('DATA1').Value := StrToDate(medta1.Text);
+    VCLReport1.Report.Params.ParamByName('DATA2').Value := StrToDate(medta2.Text);;
+    if (edControle.Text <> '') then
+       VCLReport1.Report.Params.ParamByName('PRO1').Value := StrToInt(edControle.Text)
+    else
+       VCLReport1.Report.Params.ParamByName('PRO1').Value := 9999999;
+    if (ComboBox2.Text = '') then
+      VCLReport1.Report.Params.ParamByName('REG').Value := 0
+    else
+    begin
+      if (not sdsRegiao.Active) then
+          sdsRegiao.Open;
+      sdsRegiao.Locate('DESCRICAO',ComboBox2.Text, [loCaseInsensitive]);
+      edit5.Text := IntToStr(sdsRegiaoCODDADOS.AsInteger);
+      sdsRegiao.Close;
+      VCLReport1.Report.Params.ParamByName('REG').Value := StrToInt(Edit5.Text);
+    end;
+    if (ComboBox1.Text = '') then
+    begin
+      VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := 'TOTAL GERAL EMPRESA';
+    end
+    else begin
+      VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
+    end;
+    VCLReport1.Execute;
   end
   else begin
-    VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
+    fRelFortes := TfRelFortes.Create(Application);
+    try
+      if (fRelFortes.cdsRel.Active) then
+        fRelFortes.cdsRel.Close;
+      fRelFortes.cdsRel.Params[0].AsDate := StrToDate(medta1.Text);
+      fRelFortes.cdsRel.Params[1].AsDate := StrToDate(medta2.Text);
+      fRelFortes.cdsRel.Params[2].AsInteger := 9999999;
+      fRelFortes.cdsRel.Params[4].AsInteger := 0;
+      //fRelFortes.ShowModal;
+      fRelFortes.RLReport1.PreviewModal();
+      //fRelFortes.Close;
+    finally
+      fRelFortes.Free;
+    end;
   end;
-  VCLReport1.Execute;
 end;
 
 procedure TfFiltroMovimento.FormShow(Sender: TObject);

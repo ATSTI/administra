@@ -194,7 +194,7 @@ object fProc: TfProc
       Top = 48
       Width = 57
       Height = 13
-      Caption = 'Vers'#227'o : 3.4'
+      Caption = 'Vers'#227'o : 3.5'
     end
     object BitBtn1: TBitBtn
       Left = 740

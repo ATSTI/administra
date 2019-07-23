@@ -104,21 +104,21 @@ begin
   V_VL_INTEIRO = 0;
   
   V_VL_INTEIRO = PE_VL_NUMERO;
-  V_IMPLEMENTAR = UDF_LEN(V_VL_INTEIRO);
+  V_IMPLEMENTAR = LEN(V_VL_INTEIRO);
   VALOR1 = '';
   WHILE (I <= V_IMPLEMENTAR) DO
   BEGIN
-    IF (UDF_COPY(V_VL_INTEIRO,I, 1) <> '.') THEN
+    IF (COPY(V_VL_INTEIRO,I, 1) <> '.') THEN
     BEGIN
-      VALOR1 = VALOR1 || UDF_COPY(V_VL_INTEIRO,I, 1); 
+      VALOR1 = VALOR1 || COPY(V_VL_INTEIRO,I, 1); 
     END
     I = (I+1);
   END
-  V_IMPLEMENTAR = (14 - UDF_LEN(UDF_TRIM(VALOR1)));
+  V_IMPLEMENTAR = (14 - LEN(TRIM(VALOR1)));
   I = 0;
   WHILE (I <= V_IMPLEMENTAR) DO
   BEGIN
-    IF (UDF_LEN(VALOR1) < 14) THEN
+    IF (LEN(VALOR1) < 14) THEN
     BEGIN
       VALOR1 = '0' || VALOR1;
     END
@@ -150,12 +150,12 @@ begin
         END
         ELSE
         BEGIN
-          L1 = UDF_COPY(CENTENAS,(B1 * 12-11),12);
+          L1 = COPY(CENTENAS,(B1 * 12-11),12);
         END
       END
       ELSE
       BEGIN
-        L1 = UDF_COPY(CENTENAS,(B1 * 12-11),12); 
+        L1 = COPY(CENTENAS,(B1 * 12-11),12); 
       END
     END
     IF (B2 <> 0) THEN
@@ -168,19 +168,19 @@ begin
         END
         ELSE
         BEGIN
-          L3 =  UDF_COPY(UNID10,(B3 * 9-8), 9); 
+          L3 =  COPY(UNID10,(B3 * 9-8), 9); 
         END
       END
       ELSE
       BEGIN
-        L3 =  UDF_COPY(DEZENAS,(B2 * 9-8), 9);
+        L3 =  COPY(DEZENAS,(B2 * 9-8), 9);
       END
     END
     IF (B3 <> 0) THEN
     BEGIN
       IF (B2 <> 1) THEN
       BEGIN
-        L5 =  UDF_COPY(UNIDADES, (B3 * 6-5), 6);
+        L5 =  COPY(UNIDADES, (B3 * 6-5), 6);
       END
     END
     IF ((B1 <> 0) OR (B2 <> 0)  OR (B3 <> 0)) THEN
@@ -203,9 +203,9 @@ begin
           VIRGULA_BI = ' DE ' ;
         END 
       END
-      L1 =  UDF_TRIM(L1);
-      L3 =  UDF_TRIM(L3);
-      L5 =  UDF_TRIM(L5);
+      L1 =  TRIM(L1);
+      L3 =  TRIM(L3);
+      L5 =  TRIM(L5);
       IF ((B2 > 1) AND (B3 > 0)) THEN
       BEGIN
         L4 = ' E ';
@@ -226,12 +226,12 @@ begin
         END 
         ELSE
         BEGIN
-          L7 = UDF_COPY(CENTENAS,(B4 * 12-11), 12);
+          L7 = COPY(CENTENAS,(B4 * 12-11), 12);
         END
       END
       ELSE
       BEGIN
-        L7 = UDF_COPY(CENTENAS, (B4 * 12-11),12);
+        L7 = COPY(CENTENAS, (B4 * 12-11),12);
       END 
     END
     IF (B5 <> 0) THEN
@@ -244,19 +244,19 @@ begin
         END
         ELSE
         BEGIN 
-          L9 =  UDF_COPY(UNID10, (B6 * 9-8), 9);
+          L9 =  COPY(UNID10, (B6 * 9-8), 9);
         END
       END
       ELSE
       BEGIN
-        L9 =  UDF_COPY(DEZENAS, (B5 * 9-8), 9);
+        L9 =  COPY(DEZENAS, (B5 * 9-8), 9);
       END
     END
     IF (B6 <> 0) THEN 
     BEGIN
       IF (B5 <> 1) THEN
       BEGIN
-        L11 =  UDF_COPY(UNIDADES,(B6 * 6-5), 6);
+        L11 =  COPY(UNIDADES,(B6 * 6-5), 6);
       END
     END
     IF ((B4 <> 0) OR (B5 <> 0)  OR (B6 <> 0)) THEN
@@ -279,9 +279,9 @@ begin
           VIRGULA_MI = ' DE '; 
         END
       END
-      L7 =  UDF_TRIM(L7);
-      L9 =  UDF_TRIM(L9);
-      L11 = UDF_TRIM(L11);
+      L7 =  TRIM(L7);
+      L9 =  TRIM(L9);
+      L11 = TRIM(L11);
       IF ((B5 > 1) AND (B6 > 0)) THEN
       BEGIN
         L10 = ' E ';
@@ -302,12 +302,12 @@ begin
         END
         ELSE
         BEGIN 
-          L13 = UDF_COPY(CENTENAS, (B7 * 12-11), 12);
+          L13 = COPY(CENTENAS, (B7 * 12-11), 12);
         END
       END
       ELSE
       BEGIN
-        L13 = UDF_COPY(CENTENAS,(B7 * 12-11), 12);
+        L13 = COPY(CENTENAS,(B7 * 12-11), 12);
       END
     END
     IF (B8 <> 0) THEN 
@@ -320,19 +320,19 @@ begin
         END
         ELSE
         BEGIN
-          L15 =  UDF_COPY(UNID10, (B9 * 9-8), 9); 
+          L15 =  COPY(UNID10, (B9 * 9-8), 9); 
         END
       END
       ELSE
       BEGIN
-        L15 =  UDF_COPY(DEZENAS, (B8 * 9-8), 9);
+        L15 =  COPY(DEZENAS, (B8 * 9-8), 9);
       END
     END
     IF (B9 <> 0) THEN
     BEGIN
       IF (B8 <> 1) THEN
       BEGIN
-        L17 =  UDF_COPY(UNIDADES,(B9 * 6-5), 6);
+        L17 =  COPY(UNIDADES,(B9 * 6-5), 6);
       END
     END
     IF ((B7 <> 0) OR (B8 <> 0)  OR (B9 <> 0)) THEN
@@ -350,9 +350,9 @@ begin
       BEGIN
         VIRGULA_MIL  = ' E ';
       END
-      L13 =  UDF_TRIM(L13);
-      L15 =  UDF_TRIM(L15);
-      L17 =  UDF_TRIM(L17);
+      L13 =  TRIM(L13);
+      L15 =  TRIM(L15);
+      L17 =  TRIM(L17);
       IF ((B8 > 1) AND (B9 > 0)) THEN
       BEGIN
          L16 = ' E '; 
@@ -373,12 +373,12 @@ begin
         END
         ELSE
         BEGIN 
-          L19 = UDF_COPY(CENTENAS, (B10 * 12-11), 12);
+          L19 = COPY(CENTENAS, (B10 * 12-11), 12);
         END
      END
      ELSE
      BEGIN
-       L19 = UDF_COPY(CENTENAS,(B10 * 12-11), 12);
+       L19 = COPY(CENTENAS,(B10 * 12-11), 12);
      END
     END
     IF (B11 <> 0) THEN
@@ -391,19 +391,19 @@ begin
         END
         ELSE
         BEGIN
-          L21 =  UDF_COPY(UNID10, (B12 * 9-8), 9); 
+          L21 =  COPY(UNID10, (B12 * 9-8), 9); 
         END
       END
       ELSE
       BEGIN
-        L21 =  UDF_COPY(DEZENAS, (B11 * 9-8), 9);
+        L21 =  COPY(DEZENAS, (B11 * 9-8), 9);
       END
     END
     IF (B12 <> 0) THEN
     BEGIN
       IF (B11 <> 1) THEN 
       BEGIN
-        L23 =  UDF_COPY(UNIDADES,(B12 * 6-5),6);
+        L23 =  COPY(UNIDADES,(B12 * 6-5),6);
       END
     END
     IF ((B10 <> 0) OR (B11 <> 0)  OR (B12 <> 0)) THEN
@@ -412,9 +412,9 @@ begin
       BEGIN
         L23 =  'UM';
       END
-      L19 =  UDF_TRIM(L19); 
-      L21 =  UDF_TRIM(L21);
-      L23 = UDF_TRIM(L23);
+      L19 =  TRIM(L19); 
+      L21 =  TRIM(L21);
+      L23 = TRIM(L23);
       IF ((B11 > 1) AND (B12 > 0)) THEN
       BEGIN
         L22 = ' E ';
@@ -458,19 +458,19 @@ begin
           END
           ELSE
           BEGIN
-            L26 =  UDF_COPY(UNID10, B14*9-8, 9);
+            L26 =  COPY(UNID10, B14*9-8, 9);
           END
         END
         ELSE
         BEGIN
-          L26 =  UDF_COPY(DEZENAS, B13*9-8, 9); 
+          L26 =  COPY(DEZENAS, B13*9-8, 9); 
         END
       END
       IF (B14 <> 0) THEN
       BEGIN
         IF (B13 <> 1) THEN
         BEGIN
-          L28 =  UDF_COPY(UNIDADES,B14*6-5, 6);
+          L28 =  COPY(UNIDADES,B14*6-5, 6);
         END
       END
       IF ((B13 <> 0)  OR (B14 <> 0)) THEN
@@ -479,8 +479,8 @@ begin
         BEGIN
           L28 =  'UM';
         END
-        L26 =  UDF_TRIM(L26);
-        L28 = UDF_TRIM(L28); 
+        L26 =  TRIM(L26);
+        L28 = TRIM(L28); 
         IF ((B13 > 1) AND (B14 > 0)) THEN
         BEGIN
           L27 = ' E ';
@@ -514,12 +514,12 @@ begin
     BEGIN
       VIRGULA_MIL = '';
     END
-    EXTENSO = UDF_TRIM(L1) || ' ' || UDF_TRIM(L2) || ' ' || UDF_TRIM(L3) || ' ' || UDF_TRIM(L4) || ' ' || UDF_TRIM(L5) || ' ' || UDF_TRIM(L6) || ' ' || UDF_TRIM(VIRGULA_BI) || ' '
-                 || UDF_TRIM(L7) || ' ' || UDF_TRIM(L8) || ' ' || UDF_TRIM(L9) || ' ' || UDF_TRIM(L10) || ' ' || UDF_TRIM(L11) || ' ' || UDF_TRIM(L12) || ' ' || UDF_TRIM(VIRGULA_MI) || ' ' 
-                 || UDF_TRIM(L13) || ' ' || UDF_TRIM(L14) || ' ' || UDF_TRIM(L15) || ' ' || UDF_TRIM(L16) || ' ' || UDF_TRIM(L17) || ' ' || UDF_TRIM(L18) || ' ' || UDF_TRIM(VIRGULA_MIL) || ' ' 
-                 || UDF_TRIM(L19) || ' ' || UDF_TRIM(L20) || ' ' || UDF_TRIM(L21) || ' ' || UDF_TRIM(L22) || ' ' || UDF_TRIM(L23) || ' ' || UDF_TRIM(L24) || ' ' || UDF_TRIM(VIRGULA_CR) || ' ' 
-                 || UDF_TRIM(L25) || ' ' || UDF_TRIM(L26) || ' ' || UDF_TRIM(L27) || ' ' || UDF_TRIM(L28) || ' ' || UDF_TRIM(L29);
-    EXTENSO = UDF_TRIM(EXTENSO);
+    EXTENSO = TRIM(L1) || ' ' || TRIM(L2) || ' ' || TRIM(L3) || ' ' || TRIM(L4) || ' ' || TRIM(L5) || ' ' || TRIM(L6) || ' ' || TRIM(VIRGULA_BI) || ' '
+                 || TRIM(L7) || ' ' || TRIM(L8) || ' ' || TRIM(L9) || ' ' || TRIM(L10) || ' ' || TRIM(L11) || ' ' || TRIM(L12) || ' ' || TRIM(VIRGULA_MI) || ' ' 
+                 || TRIM(L13) || ' ' || TRIM(L14) || ' ' || TRIM(L15) || ' ' || TRIM(L16) || ' ' || TRIM(L17) || ' ' || TRIM(L18) || ' ' || TRIM(VIRGULA_MIL) || ' ' 
+                 || TRIM(L19) || ' ' || TRIM(L20) || ' ' || TRIM(L21) || ' ' || TRIM(L22) || ' ' || TRIM(L23) || ' ' || TRIM(L24) || ' ' || TRIM(VIRGULA_CR) || ' ' 
+                 || TRIM(L25) || ' ' || TRIM(L26) || ' ' || TRIM(L27) || ' ' || TRIM(L28) || ' ' || TRIM(L29);
+    EXTENSO = TRIM(EXTENSO);
   END
   ELSE
   BEGIN

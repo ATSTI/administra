@@ -325,7 +325,8 @@ begin
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
-    if ((MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now)) OR
+    if ((dm.of_permite_mudar = 'S') OR
+       (MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now)) OR
        (OfQtde.Value = cdsOfOFQTDESOLIC.AsFloat) OR
        (OfQtde.Value > cdsOfOFQTDESOLIC.AsFloat)) then
     begin
@@ -696,7 +697,8 @@ begin
   if ( cdsOfOFSTATUS.AsString = 'F' )then
   begin
     qtde_produzido := OfQtde.Value;
-    if (MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now)) then
+    if ((dm.of_permite_mudar = 'S') OR
+      (MonthOf(cdsOfOFDATA.AsDateTime) = MonthOf(Now))) then
     begin
       excluilancamentos(codof);
     end

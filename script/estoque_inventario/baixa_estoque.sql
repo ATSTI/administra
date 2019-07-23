@@ -1,0 +1,1 @@
+/home/publico/atsadmin_dev/script/baixa_estoque.sql
