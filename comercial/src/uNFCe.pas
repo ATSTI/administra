@@ -10,7 +10,8 @@ uses
   ACBrNFeDANFeRLClass, ComCtrls, Buttons, ACBrDfeSSL, ACBrNFeDANFeESCPOS,
   ACBrPosPrinter, Spin, IniFiles,TypInfo, OleCtrls, SHDocVw,
   ACBrDANFCeFortesFr, Mask, JvExMask, JvToolEdit,
-  JvBaseEdits, ACBrDANFCeFortesFrA4, ACBrDFeReport, ACBrDFeDANFeReport;
+  JvBaseEdits, ACBrDANFCeFortesFrA4, ACBrDFeReport, ACBrDFeDANFeReport,
+  ACBrDFeUTil;
 
 type
   TfNFCe = class(TForm)
@@ -380,6 +381,8 @@ type
     ACBrNFeDANFCeFortes1: TACBrNFeDANFCeFortes;
     ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
     ACBrNFeDANFCeFortesA41: TACBrNFeDANFCeFortesA4;
+    edUFEmissao: TEdit;
+    Label13: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
@@ -435,7 +438,8 @@ var
  TD: TTransactionDesc;
 begin
   ACBrNFe1.NotasFiscais.Clear;
-  if (edit2.Text = '') then
+  
+  if ((edit2.Text = '') and (Trim(edUFEmissao.Text) = 'SP')) then
   begin
     if (MessageDlg('DESEJA CPF NA NOTA ?',
       mtConfirmation, [mbYes, mbNo],0) = mrYes) then
@@ -614,7 +618,7 @@ begin
 
   with ACBrNFe1.NotasFiscais.Add.NFe do
   begin
-    Ide.cNF       := StrToInt(NumNFe); //Caso não seja preenchido será gerado um número aleatório pelo componente
+    Ide.cNF       := GerarCodigoNumerico(StrToInt(NumNFe)); //Caso não seja preenchido será gerado um número aleatório pelo componente
     Ide.natOp     := 'VENDA';
     if (chkAvista.Checked) then
       Ide.indPag    := ipVista
@@ -637,8 +641,11 @@ begin
       0: Ide.tpAmb := taProducao;
       1: Ide.tpAmb := taHomologacao;  //Lembre-se de trocar esta variável quando for para ambiente de produção
     end;
+    if (Trim(sEmpresaUF.AsString) = 'SP') then
+      Ide.cUF     := 35;
+    if (Trim(sEmpresaUF.AsString) = 'MS') then
+      Ide.cUF     := 50;
 
-    Ide.cUF       := 35; // SP
     Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
     Ide.finNFe    := fnNormal;
     Ide.tpImp     := tiNFCe;
@@ -675,6 +682,11 @@ begin
       1: Emit.CRT := crtSimplesExcessoReceita;
       2: Emit.CRT := crtRegimeNormal;
     end;
+
+    infRespTec.CNPJ := '08382545000111';
+    infRespTec.xContato := 'Carlos R. Silveira';
+    infRespTec.email := 'ats@atsti.com.br';
+    infRespTec.fone := '19992159534';
 
     if (edit2.Text <> '') then
     begin
@@ -1173,12 +1185,17 @@ begin
   ACBrNFe1.NotasFiscais.Clear;
   if (sEmpresa.Active) then
     sEmpresa.Close;
-  sEmpresa.Params[0].AsInteger := 51; //Buscar de parametro
+  sEmpresa.Params[0].AsInteger := DM.CCustoPadrao; //Buscar de parametro
   sEmpresa.Open;
 
   if (not sEmpresa.IsEmpty) then
   begin
-    edit1.Text := sEmpresaDIVERSOS1.AsString + 'nfce\';
+    edUFEmissao.Text := sEmpresaUF.AsString;
+    edit1.Text := sEmpresaDIVERSOS1.AsString + 'nfce';
+    if (sEmpresaDIVERSOS3.AsString <> '') then
+    begin
+      ACBrNFe1.Configuracoes.WebServices.TimeZoneConf.TimeZoneStr := sEmpresaDIVERSOS3.AsString;
+    end;
     ACBrNFe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
     if ( not DirectoryExists(edit1.Text)) then
        CreateDir(edit1.Text);
@@ -1229,7 +1246,6 @@ begin
     MessageDlg('Cadastre: '+#13+#10+''+#13+#10+'Natureza Operação : 30 para Nota Fiscal Consumidor;'+#13+#10+''+#13+#10+'Série                         : para ser usada na NFCe;'+#13+#10+''+#13+#10+'Parametro                : SERIENFCe com a série criada no campo D1;', mtWarning, [mbOK], 0);
     exit;
   end;
-
 
   id_tk := dm.cds_parametroD4.AsString;
   tk := dm.cds_parametroDADOS.AsString;
@@ -1324,7 +1340,13 @@ begin
   finally
      INI.Free ;
   end ;
-
+  if (edtPastaXml.Text <> '') then
+  begin
+    edit1.Text := edtPastaXml.Text;
+    ACBrNFe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
+    if ( not DirectoryExists(edit1.Text)) then
+       CreateDir(edit1.Text);    
+  end;
 end;
 
 procedure TfNFCe.sbtnGetCertClick(Sender: TObject);

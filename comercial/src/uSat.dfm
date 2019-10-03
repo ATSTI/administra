@@ -2290,6 +2290,7 @@ object fSat: TfSat
       end>
   end
   object ACBrSAT1: TACBrSAT
+    Extrato = ACBrSATExtratoESCPOS1
     OnGravarLog = ACBrSAT1GravarLog
     Config.infCFe_versaoDadosEnt = 0.050000000000000000
     Config.ide_numeroCaixa = 0
@@ -3538,10 +3539,12 @@ object fSat: TfSat
     CasasDecimais.vUnCom = 2
     CasasDecimais.MaskqCom = ',0.00'
     CasasDecimais.MaskvUnCom = ',0.00'
+    ACBrSAT = ACBrSAT1
     Filtro = fiPDF
     MsgAppQRCode = 
       'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
       'l na AppStore (Apple) e PlayStore (Android)'
+    PosPrinter = ACBrPosPrinter1
     Left = 612
     Top = 136
   end

@@ -11,7 +11,8 @@ uses
   uMotorista in 'uMotorista.pas' {fMotorista},
   uVeiculo in 'uVeiculo.pas' {fVeiculo},
   uNF in 'uNF.pas' {fNF},
-  uDocOutros in 'uDocOutros.pas' {fDocOutros};
+  uDocOutros in 'uDocOutros.pas' {fDocOutros},
+  uBusca in 'uBusca.pas' {fBusca};
 
 {$R *.res}
 
@@ -28,5 +29,6 @@ begin
   Application.CreateForm(TfVeiculo, fVeiculo);
   Application.CreateForm(TfNF, fNF);
   Application.CreateForm(TfDocOutros, fDocOutros);
+  Application.CreateForm(TfBusca, fBusca);
   Application.Run;
 end.

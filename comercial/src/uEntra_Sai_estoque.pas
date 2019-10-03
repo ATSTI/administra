@@ -665,18 +665,20 @@ var   FEstoque: TEstoque;
   TD: TTransactionDesc;
   dataMov: TDateTime;
   ccusto : integer;
-begin
+  lote_obrig: String;
+begin                   
   if (MaskEdit1.Checked) then
     dataMov := MaskEdit1.Date;
   if (dbEdit1.Checked) then
     dataMov := dbEdit1.Date;
-
+  lote_obrig := 'N';
   if Dm.cds_parametro.Active then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
   dm.cds_parametro.Open;
   if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
+    lote_obrig := 'S';
     if ( (Edit1.Text = '') and (Edit1.Visible = true) ) then
     begin
       if (cds_Mov_detLOTE.AsString = '')then
@@ -908,10 +910,13 @@ begin
         cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
         dm.c_6_genid.Close;
         // inclui para o EstoqueAdm
-        if (edit1.text <> '') then
-          cds_Mov_detLOTE.AsString := edit1.text;
-        if (edit2.text <> '') then
-          cds_Mov_detLOTE.AsString := edit2.text;
+        if (lote_obrig = 'S') then
+        begin
+          if (edit1.text <> '') then
+            cds_Mov_detLOTE.AsString := edit1.text;
+          if (edit2.text <> '') then
+            cds_Mov_detLOTE.AsString := edit2.text;
+        end;
         cds_Mov_det.Post;
         cds_Mov_det.Next;
       end;
@@ -1241,7 +1246,8 @@ procedure TfEntra_Sai_estoque.dbeProdutoExit(Sender: TObject);
 begin
   varonde := 'compra';
   if dbeProduto.Text='' then exit;
-  if Length(dbeProduto.Text) > 10 then exit;  
+  // 25/09/19 , aqui esta dando problema, nao busca
+  //if Length(dbeProduto.Text) > 10 then exit;
   if dbeProduto.Field.OldValue<>dbeProduto.Field.NewValue then
   begin
     if dm.scds_produto_proc.Active then

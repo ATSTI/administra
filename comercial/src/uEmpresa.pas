@@ -156,6 +156,7 @@ type
     cbGiaf3: TComboBox;
     Label59: TLabel;
     cbGiaf4: TComboBox;
+    rgAmbiente: TRadioGroup;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
@@ -183,6 +184,7 @@ type
     procedure cbGiaf1Change(Sender: TObject);
     procedure cbGiaf3Change(Sender: TObject);
     procedure cbGiaf4Change(Sender: TObject);
+    procedure rgAmbienteClick(Sender: TObject);
   private
     TACBrCodAj, TACBrIndAJ, TACBrBaseCalculoCredito, TACBrIndEscrituracao,
     TACBrIndCTA, TACBrIndCodIncidencia, TACBrCodIndCritEscrit, TACBrCodIndTipoCon,
@@ -233,6 +235,13 @@ begin
   if not dm.cds_empresa.Active then
     dm.cds_empresa.Open;
 
+  if (Trim(dm.cds_empresaTIPO.AsString) = '1') then
+  begin
+    rgAmbiente.ItemIndex := 1;
+  end
+  else begin
+    rgAmbiente.ItemIndex := 0;
+  end;
     //Vejo quais são as contas de Receitas para listar no lookupcombobox.
     if dm.cds_parametro.Active then
       dm.cds_parametro.Close;
@@ -363,6 +372,10 @@ begin
     dm.sqlsisAdimin.Rollback(TD);
     MessageDlg('Erro ao gravar o centro de resultado)', mtWarning, [mbOK], 0);
     abort;
+  end;
+  Case rgAmbiente.ItemIndex of
+    0: dm.cds_empresaTIPO.AsString := '0';
+    1: dm.cds_empresaTIPO.AsString := '1';
   end;
   inherited;
   case dm.cds_empresaCRT.AsInteger of
@@ -551,6 +564,13 @@ begin
     dm.cds_empresaGIAF4.AsString := 'S'
   else
     dm.cds_empresaGIAF4.AsString := 'N';
+end;
+
+procedure TfEmpresa.rgAmbienteClick(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_empresa.State in [dsBrowse]) then
+    dm.cds_empresa.Edit;
 end;
 
 end.

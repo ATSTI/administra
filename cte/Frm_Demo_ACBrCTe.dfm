@@ -1,10 +1,10 @@
 object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
-  Left = 192
-  Top = 125
+  Left = 221
+  Top = 279
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'ATS-CTe'
   ClientHeight = 676
-  ClientWidth = 1012
+  ClientWidth = 1015
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,7 +12,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poDesigned
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -20,8 +21,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl3: TPageControl
-    Left = -2
-    Top = 1
+    Left = -1
+    Top = -5
     Width = 1015
     Height = 676
     ActivePage = TabSheet17
@@ -84,7 +85,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         Top = 3
         Width = 1010
         Height = 606
-        ActivePage = TabSheet24
+        ActivePage = TabSheet2
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -93,6 +94,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         MultiLine = True
         ParentFont = False
         TabOrder = 1
+        OnDrawTab = PageControl1DrawTab
         object TabSheet2: TTabSheet
           Caption = 'Dados'
           ImageIndex = 1
@@ -109,22 +111,31 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             Font.Style = []
             ParentFont = False
             TabOrder = 0
+            OnDrawTab = PageControl4DrawTab
             object TabSheet1: TTabSheet
               Caption = 'Dados CT-e'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
               OnShow = TabSheet1Show
               object Label68: TLabel
                 Left = 155
                 Top = 45
-                Width = 36
+                Width = 47
                 Height = 16
-                Caption = 'CFOP'
+                Caption = '*  CFOP'
               end
               object Label69: TLabel
                 Left = 258
                 Top = 45
-                Width = 137
+                Width = 349
                 Height = 16
-                Caption = 'Natureza da Opera'#231#227'o'
+                Caption = 
+                  'Natureza da Opera'#231#227'o                                         (60' +
+                  ' caracteres)'
               end
               object Label70: TLabel
                 Left = 35
@@ -366,7 +377,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                 end
               end
               object GroupBox6: TGroupBox
-                Left = 644
+                Left = 645
                 Top = 424
                 Width = 319
                 Height = 90
@@ -496,6 +507,19 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                 TabOrder = 22
                 DropDownDate = 42725.000000000000000000
               end
+              object rgGlobalizado: TRadioGroup
+                Left = 352
+                Top = 92
+                Width = 249
+                Height = 49
+                Caption = 'Globalizado'
+                Columns = 2
+                ItemIndex = 0
+                Items.Strings = (
+                  '1 = N'#227'o'
+                  '0 = Sim')
+                TabOrder = 23
+              end
             end
             object TabSheet3: TTabSheet
               Caption = 'Dados Complementares'
@@ -551,7 +575,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                 Top = 73
                 Width = 1011
                 Height = 435
-                ActivePage = TabSheet39
+                ActivePage = TabSheet38
                 TabOrder = 3
                 object TabSheet38: TTabSheet
                   Caption = 'Previs'#227'o de Fluxo de Carga'
@@ -1096,8 +1120,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           object GroupBoxTomador: TGroupBox
             Left = 1
             Top = 48
-            Width = 942
-            Height = 385
+            Width = 928
+            Height = 345
             TabOrder = 14
           end
         end
@@ -1340,8 +1364,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           object GroupBoxRemetente: TGroupBox
             Left = 3
             Top = 54
-            Width = 958
-            Height = 347
+            Width = 918
+            Height = 267
             TabOrder = 15
           end
         end
@@ -1577,7 +1601,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           object GroupBoxExpeditor: TGroupBox
             Left = 3
             Top = 62
-            Width = 971
+            Width = 958
             Height = 347
             TabOrder = 15
           end
@@ -1814,7 +1838,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           object GroupBoxRecebedor: TGroupBox
             Left = 20
             Top = 62
-            Width = 958
+            Width = 957
             Height = 376
             TabOrder = 15
           end
@@ -2065,9 +2089,9 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             OnClick = rgDestClick
           end
           object GroupBoxDestinatario: TGroupBox
-            Left = 3
+            Left = 12
             Top = 48
-            Width = 971
+            Width = 963
             Height = 369
             TabOrder = 16
           end
@@ -2211,6 +2235,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
               DataField = 'VREC'
               DataSource = dm.dsCTE
               TabOrder = 1
+              OnKeyPress = FormKeyPress
             end
             object dbValTotPrest: TDBEdit
               Left = 312
@@ -2220,6 +2245,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
               DataField = 'VPREST'
               DataSource = dm.dsCTE
               TabOrder = 0
+              OnKeyPress = FormKeyPress
             end
             object dbValTotTri: TDBEdit
               Left = 312
@@ -2229,6 +2255,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
               DataField = 'VALTOTTRI'
               DataSource = dm.dsCTE
               TabOrder = 2
+              OnKeyPress = FormKeyPress
             end
           end
           object GroupBox10: TGroupBox
@@ -2368,7 +2395,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             end
             object calValB: TJvCalcEdit
               Left = 383
-              Top = 31
+              Top = 30
               Width = 121
               Height = 24
               TabOrder = 2
@@ -2901,7 +2928,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                   object Button24: TButton
                     Left = 24
                     Top = 442
-                    Width = 75
+                    Width = 81
                     Height = 25
                     Caption = 'Incluir'
                     TabOrder = 1
@@ -3006,12 +3033,39 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                     Font.Style = [fsBold]
                     ParentFont = False
                   end
-                  object edtOutrosDocs: TEdit
+                  object Label61: TLabel
+                    Left = 354
+                    Top = 89
+                    Width = 108
+                    Height = 16
+                    Caption = '* Data Emiss'#227'o'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -13
+                    Font.Name = 'MS Sans Serif'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object Label62: TLabel
+                    Left = 209
+                    Top = 32
+                    Width = 62
+                    Height = 16
+                    Caption = 'Descri'#231#227'o'
+                  end
+                  object Label63: TLabel
                     Left = 32
-                    Top = 51
-                    Width = 302
-                    Height = 21
-                    TabOrder = 0
+                    Top = 93
+                    Width = 48
+                    Height = 16
+                    Caption = 'N'#250'mero'
+                  end
+                  object Label64: TLabel
+                    Left = 546
+                    Top = 93
+                    Width = 123
+                    Height = 16
+                    Caption = 'Valor do Documento'
                   end
                   object Button15: TButton
                     Left = 18
@@ -3019,7 +3073,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                     Width = 75
                     Height = 25
                     Caption = 'Incluir'
-                    TabOrder = 1
+                    Enabled = False
+                    TabOrder = 5
                     OnClick = Button15Click
                   end
                   object Button23: TButton
@@ -3028,7 +3083,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                     Width = 75
                     Height = 25
                     Caption = 'Editar'
-                    TabOrder = 2
+                    Enabled = False
+                    TabOrder = 6
                     OnClick = Button23Click
                   end
                   object Button28: TButton
@@ -3038,8 +3094,72 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                     Height = 25
                     Caption = 'Excluir'
                     Enabled = False
-                    TabOrder = 3
+                    TabOrder = 7
                     OnClick = Button14Click
+                  end
+                  object edtOutrosDesc: TEdit
+                    Left = 207
+                    Top = 51
+                    Width = 770
+                    Height = 24
+                    TabOrder = 1
+                    OnKeyPress = FormKeyPress
+                  end
+                  object edtOutrosNum: TEdit
+                    Left = 32
+                    Top = 111
+                    Width = 305
+                    Height = 24
+                    TabOrder = 2
+                    OnKeyPress = FormKeyPress
+                  end
+                  object dataOutrosEmi: TJvDateTimePicker
+                    Left = 354
+                    Top = 111
+                    Width = 133
+                    Height = 24
+                    Date = 0.363676979170122700
+                    Time = 0.363676979170122700
+                    TabOrder = 3
+                    OnKeyPress = FormKeyPress
+                    DropDownDate = 42746.000000000000000000
+                  end
+                  object combOutrosDocs: TComboBox
+                    Left = 34
+                    Top = 51
+                    Width = 169
+                    Height = 24
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -13
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                    TabOrder = 0
+                    OnChange = combOutrosDocsChange
+                    OnClick = combOutrosDocsClick
+                    OnKeyPress = FormKeyPress
+                    Items.Strings = (
+                      '00 - Declara'#231#227'o'
+                      '99 - Outros')
+                  end
+                  object valOutrosVal: TJvCalcEdit
+                    Left = 546
+                    Top = 111
+                    Width = 133
+                    Height = 24
+                    TabOrder = 4
+                    DecimalPlacesAlwaysShown = False
+                    OnKeyPress = FormKeyPress
+                  end
+                  object btnOutrosLimpar: TButton
+                    Left = 744
+                    Top = 110
+                    Width = 75
+                    Height = 25
+                    Caption = 'Limpar'
+                    TabOrder = 8
+                    OnClick = btnOutrosLimparClick
                   end
                 end
               end
@@ -3047,6 +3167,81 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             object TabSheet27: TTabSheet
               Caption = 'Doc. de Transp. Ant.'
               ImageIndex = 2
+              object Label178: TLabel
+                Left = 64
+                Top = 18
+                Width = 35
+                Height = 16
+                Caption = 'CNPJ'
+              end
+              object Label179: TLabel
+                Left = 304
+                Top = 18
+                Width = 110
+                Height = 16
+                Caption = 'INCR. ESTADUAL'
+              end
+              object Label180: TLabel
+                Left = 624
+                Top = 18
+                Width = 18
+                Height = 16
+                Caption = 'UF'
+              end
+              object Label181: TLabel
+                Left = 64
+                Top = 104
+                Width = 40
+                Height = 16
+                Caption = 'NOME'
+              end
+              object Label182: TLabel
+                Left = 64
+                Top = 210
+                Width = 76
+                Height = 16
+                Caption = 'CHAVE CTE'
+              end
+              object edtAntCNPJ: TEdit
+                Left = 64
+                Top = 40
+                Width = 203
+                Height = 24
+                TabOrder = 0
+                Text = 'edtAntCNPJ'
+              end
+              object edtAntIE: TEdit
+                Left = 304
+                Top = 40
+                Width = 296
+                Height = 24
+                TabOrder = 1
+                Text = 'edtAntIE'
+              end
+              object edtAntUF: TEdit
+                Left = 624
+                Top = 40
+                Width = 65
+                Height = 24
+                TabOrder = 2
+                Text = 'edtAntUF'
+              end
+              object edtAntNome: TEdit
+                Left = 64
+                Top = 126
+                Width = 681
+                Height = 24
+                TabOrder = 3
+                Text = 'edtAntNome'
+              end
+              object edtAntCHCTE: TEdit
+                Left = 64
+                Top = 232
+                Width = 681
+                Height = 24
+                TabOrder = 4
+                Text = 'edtAntCHCTE'
+              end
             end
             object TabSheet28: TTabSheet
               Caption = 'Inf. do Seguro'
@@ -3246,6 +3441,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
                 Top = 36
                 Width = 120
                 Height = 24
+                MaxLength = 10
                 TabOrder = 0
                 OnKeyPress = FormKeyPress
               end
@@ -3583,8 +3779,9 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         object TabSheet24: TTabSheet
           Caption = 'CTe Geradas'
           ImageIndex = 12
+          OnShow = TabSheet24Show
           object Label59: TLabel
-            Left = 289
+            Left = 127
             Top = 16
             Width = 25
             Height = 20
@@ -3596,9 +3793,16 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             Font.Style = [fsBold, fsItalic]
             ParentFont = False
           end
+          object Label65: TLabel
+            Left = 781
+            Top = 6
+            Width = 95
+            Height = 16
+            Caption = 'Periodo  De At'#233
+          end
           object dgGridCTE: TDBGrid
             Left = 19
-            Top = 16
+            Top = 59
             Width = 985
             Height = 462
             DataSource = dm.dsCTE
@@ -3828,7 +4032,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           end
           object btnEditarCte: TBitBtn
             Left = 112
-            Top = 527
+            Top = 528
             Width = 89
             Height = 44
             Caption = 'Editar'
@@ -3940,10 +4144,85 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
             TabOrder = 4
             OnClick = Button1Click
           end
+          object Button29: TButton
+            Left = 464
+            Top = 527
+            Width = 233
+            Height = 45
+            Caption = 'IMPRIMIR POR PERIODO'
+            TabOrder = 5
+            OnClick = Button29Click
+          end
+          object JvDateTimePicker1: TJvDateTimePicker
+            Left = 723
+            Top = 29
+            Width = 103
+            Height = 24
+            Date = 0.363676979170122700
+            Time = 0.363676979170122700
+            TabOrder = 6
+            DropDownDate = 42725.000000000000000000
+          end
+          object JvDateTimePicker2: TJvDateTimePicker
+            Left = 840
+            Top = 29
+            Width = 102
+            Height = 24
+            Date = 0.363676979170122700
+            Time = 0.363676979170122700
+            TabOrder = 7
+            DropDownDate = 42725.000000000000000000
+          end
+          object btnDuplicar: TButton
+            Left = 415
+            Top = 530
+            Width = 34
+            Height = 40
+            Caption = 'btnDuplicar'
+            TabOrder = 8
+            Visible = False
+            OnClick = btnDuplicarClick
+          end
+        end
+        object TabSheet44: TTabSheet
+          Caption = 'ATS'
+          ImageIndex = 12
+          object DBText1: TDBText
+            Left = 293
+            Top = 80
+            Width = 359
+            Height = 17
+            DataField = 'INSTRUCOES'
+            DataSource = DataSource1
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object Label153: TLabel
+            Left = 232
+            Top = 136
+            Width = 9
+            Height = 16
+            Caption = '...'
+          end
+          object edtLink: TEdit
+            Left = 231
+            Top = 184
+            Width = 465
+            Height = 24
+            TabOrder = 0
+            Text = 
+              'https://si-web.sicredi.com.br/boletoweb/BoletoWeb.servicos.Index' +
+              '.task'
+            Visible = False
+          end
         end
       end
       object btnGerar: TButton
-        Left = 615
+        Left = 616
         Top = 618
         Width = 100
         Height = 25
@@ -3955,7 +4234,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
       object Button13: TButton
         Left = 319
         Top = 618
-        Width = 150
+        Width = 82
         Height = 25
         Caption = 'Validar CTe -  XML'
         TabOrder = 3
@@ -3993,6 +4272,16 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         TabOrder = 6
         OnClick = btnPreVisuClick
       end
+      object Button32: TButton
+        Left = 416
+        Top = 617
+        Width = 48
+        Height = 25
+        Caption = 'Button32'
+        TabOrder = 7
+        Visible = False
+        OnClick = Button32Click
+      end
     end
     object TabSheet18: TTabSheet
       Caption = 'Diversos'
@@ -4000,8 +4289,8 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
       object Panel3: TPanel
         Left = 3
         Top = 3
-        Width = 886
-        Height = 406
+        Width = 966
+        Height = 590
         TabOrder = 0
         object btnImprimir: TButton
           Left = 8
@@ -4192,6 +4481,15 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           TabOrder = 20
           OnClick = btnAtualizarBDClick
         end
+        object Button30: TButton
+          Left = 375
+          Top = 95
+          Width = 177
+          Height = 25
+          Caption = 'Importar TXT/XML'
+          TabOrder = 21
+          OnClick = btnImportarXMLClick
+        end
       end
     end
     object TabSheet19: TTabSheet
@@ -4202,7 +4500,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         Top = 3
         Width = 953
         Height = 590
-        ActivePage = TabSheet9
+        ActivePage = TabSheet5
         TabOrder = 0
         object TabSheet5: TTabSheet
           Caption = 'Respostas'
@@ -4360,6 +4658,15 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         Font.Name = 'MS Sans Serif'
         Font.Style = [fsBold]
         ParentFont = False
+      end
+      object Label66: TLabel
+        Left = 48
+        Top = 593
+        Width = 248
+        Height = 16
+        Caption = 
+          '001                     1                       CT           1  ' +
+          '        '
       end
       object edtLogoMarca: TEdit
         Left = 8
@@ -4633,7 +4940,7 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
         object cbEmailSSL: TCheckBox
           Left = 10
           Top = 144
-          Width = 167
+          Width = 215
           Height = 17
           Caption = 'SMTP exige conex'#227'o segura'
           TabOrder = 5
@@ -4815,10 +5122,371 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
           end>
       end
     end
+    object TabSheet43: TTabSheet
+      Caption = 'Carta Corre'#231#227'o'
+      ImageIndex = 4
+      object Label67: TLabel
+        Left = 224
+        Top = 65
+        Width = 39
+        Height = 16
+        Caption = 'Chave'
+      end
+      object Sequencia: TLabel
+        Left = 224
+        Top = 114
+        Width = 65
+        Height = 16
+        Caption = 'Sequencia'
+      end
+      object Label150: TLabel
+        Left = 224
+        Top = 163
+        Width = 91
+        Height = 16
+        Caption = 'Grupo Alterado'
+      end
+      object Campo: TLabel
+        Left = 226
+        Top = 215
+        Width = 467
+        Height = 16
+        Caption = 
+          'Texto Digitado                                                  ' +
+          '                                                           (Camp' +
+          'o)'
+      end
+      object Valor: TLabel
+        Left = 225
+        Top = 269
+        Width = 474
+        Height = 16
+        Caption = 
+          'Texto Corrigido                                                 ' +
+          '                                                                ' +
+          ' (Valor)'
+      end
+      object Label151: TLabel
+        Left = 226
+        Top = 321
+        Width = 56
+        Height = 16
+        Caption = 'Num Item'
+      end
+      object Label149: TLabel
+        Left = 315
+        Top = 131
+        Width = 140
+        Height = 16
+        Caption = '* Digitar 1 para primeira'
+      end
+      object Label152: TLabel
+        Left = 304
+        Top = 343
+        Width = 140
+        Height = 16
+        Caption = '* Digitar 1 para primeiro'
+      end
+      object btnCC: TButton
+        Left = 304
+        Top = 32
+        Width = 177
+        Height = 25
+        Caption = 'Carta Corre'#231#227'o'
+        TabOrder = 0
+        OnClick = btnCCClick
+      end
+      object edtChave: TEdit
+        Left = 224
+        Top = 82
+        Width = 601
+        Height = 24
+        MaxLength = 45
+        TabOrder = 1
+      end
+      object edtSequencia: TEdit
+        Left = 224
+        Top = 132
+        Width = 73
+        Height = 24
+        TabOrder = 2
+      end
+      object edtGrupoAlterado: TEdit
+        Left = 224
+        Top = 180
+        Width = 601
+        Height = 24
+        TabOrder = 3
+      end
+      object edtsCampo: TEdit
+        Left = 224
+        Top = 232
+        Width = 601
+        Height = 24
+        TabOrder = 4
+      end
+      object edtsValor: TEdit
+        Left = 226
+        Top = 287
+        Width = 655
+        Height = 24
+        TabOrder = 5
+      end
+      object edtiNumItem: TEdit
+        Left = 226
+        Top = 342
+        Width = 63
+        Height = 24
+        TabOrder = 6
+      end
+    end
+    object TabSheet45: TTabSheet
+      Caption = 'Importar Clientes XML NFe'
+      ImageIndex = 5
+      object Label154: TLabel
+        Left = 10
+        Top = 211
+        Width = 35
+        Height = 16
+        Caption = 'CNPJ'
+      end
+      object Label155: TLabel
+        Left = 10
+        Top = 159
+        Width = 55
+        Height = 16
+        Caption = 'Empresa'
+      end
+      object Label156: TLabel
+        Left = 400
+        Top = 514
+        Width = 30
+        Height = 16
+        Caption = 'DDD'
+      end
+      object Label157: TLabel
+        Left = 576
+        Top = 514
+        Width = 71
+        Height = 16
+        Caption = 'TELEFONE'
+      end
+      object Label158: TLabel
+        Left = 856
+        Top = 450
+        Width = 27
+        Height = 16
+        Caption = 'CEP'
+      end
+      object Label159: TLabel
+        Left = 400
+        Top = 450
+        Width = 50
+        Height = 16
+        Caption = 'CIDADE'
+      end
+      object Label160: TLabel
+        Left = 672
+        Top = 450
+        Width = 18
+        Height = 16
+        Caption = 'UF'
+      end
+      object Label161: TLabel
+        Left = 400
+        Top = 398
+        Width = 104
+        Height = 16
+        Caption = 'COMPLEMENTO'
+      end
+      object Label162: TLabel
+        Left = 720
+        Top = 450
+        Width = 51
+        Height = 16
+        Caption = 'BAIRRO'
+      end
+      object Label163: TLabel
+        Left = 400
+        Top = 346
+        Width = 96
+        Height = 16
+        Caption = 'LOGRADOURO'
+      end
+      object Label164: TLabel
+        Left = 400
+        Top = 563
+        Width = 60
+        Height = 16
+        Caption = 'NUMERO'
+      end
+      object Label176: TLabel
+        Left = 576
+        Top = 566
+        Width = 66
+        Height = 16
+        Caption = 'COD. IBGE'
+      end
+      object Label177: TLabel
+        Left = 720
+        Top = 562
+        Width = 30
+        Height = 16
+        Caption = 'PAIS'
+      end
+      object Button31: TButton
+        Left = 96
+        Top = 46
+        Width = 163
+        Height = 25
+        Caption = 'Carregar XML -NFe'
+        TabOrder = 0
+        OnClick = Button31Click
+      end
+      object trvwNFe: TTreeView
+        Left = 390
+        Top = 2
+        Width = 569
+        Height = 336
+        Indent = 19
+        TabOrder = 1
+      end
+      object Edit2: TEdit
+        Left = 10
+        Top = 181
+        Width = 361
+        Height = 24
+        ReadOnly = True
+        TabOrder = 2
+      end
+      object btnVerCadastro: TButton
+        Left = 80
+        Top = 135
+        Width = 193
+        Height = 25
+        Caption = 'Ver se ja tem Cadastro'
+        TabOrder = 3
+        Visible = False
+        OnClick = btnVerCadastroClick
+      end
+      object btnCliCa: TButton
+        Left = 80
+        Top = 89
+        Width = 75
+        Height = 25
+        Caption = 'btnCliCa'
+        TabOrder = 4
+        Visible = False
+        OnClick = btnCliCaClick
+      end
+      object Edit3: TEdit
+        Left = 10
+        Top = 280
+        Width = 201
+        Height = 24
+        TabOrder = 5
+        Visible = False
+      end
+      object Edit4: TEdit
+        Left = 400
+        Top = 368
+        Width = 505
+        Height = 24
+        TabOrder = 6
+      end
+      object Edit5: TEdit
+        Left = 400
+        Top = 420
+        Width = 505
+        Height = 24
+        TabOrder = 7
+      end
+      object Edit6: TEdit
+        Left = 400
+        Top = 472
+        Width = 266
+        Height = 24
+        TabOrder = 8
+      end
+      object Edit7: TEdit
+        Left = 672
+        Top = 472
+        Width = 25
+        Height = 24
+        TabOrder = 9
+      end
+      object Edit8: TEdit
+        Left = 720
+        Top = 472
+        Width = 121
+        Height = 24
+        TabOrder = 10
+      end
+      object Edit9: TEdit
+        Left = 856
+        Top = 472
+        Width = 121
+        Height = 24
+        TabOrder = 11
+      end
+      object Edit10: TEdit
+        Left = 400
+        Top = 536
+        Width = 121
+        Height = 24
+        TabOrder = 12
+      end
+      object Edit11: TEdit
+        Left = 576
+        Top = 536
+        Width = 121
+        Height = 24
+        TabOrder = 13
+      end
+      object Edit12: TEdit
+        Left = 400
+        Top = 584
+        Width = 121
+        Height = 24
+        TabOrder = 14
+      end
+      object Edit13: TEdit
+        Left = 576
+        Top = 584
+        Width = 121
+        Height = 24
+        TabOrder = 15
+      end
+      object Edit14: TEdit
+        Left = 720
+        Top = 584
+        Width = 121
+        Height = 24
+        TabOrder = 16
+      end
+      object btnCliEnd: TButton
+        Left = 198
+        Top = 89
+        Width = 75
+        Height = 25
+        Caption = 'btnCliEnd'
+        TabOrder = 17
+        Visible = False
+        OnClick = btnCliEndClick
+      end
+      object Edit1: TEdit
+        Left = 10
+        Top = 233
+        Width = 201
+        Height = 24
+        ReadOnly = True
+        TabOrder = 18
+      end
+    end
   end
   object Button22: TButton
     Left = 953
-    Top = 646
+    Top = 638
     Width = 53
     Height = 25
     Caption = 'Sair'
@@ -4831,21 +5499,26 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
       'Arquivos NFE (*-nfe.XML)|*-nfe.XML|Arquivos XML (*.XML)|*.XML|To' +
       'dos os Arquivos (*.*)|*.*'
     Title = 'Selecione a NFe'
-    Left = 834
-    Top = 520
+    Left = 826
+    Top = 584
   end
   object ACBrCTe1: TACBrCTe
     MAIL = ACBrMail1
     OnStatusChange = ACBrCTe1StatusChange
     Configuracoes.Geral.SSLLib = libCapicom
+    Configuracoes.Geral.SSLCryptLib = cryCapicom
+    Configuracoes.Geral.SSLHttpLib = httpWinINet
+    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.Arquivos.SalvarApenasCTeProcessados = True
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
     DACTE = ACBrCTeDACTeRL1
-    Left = 674
-    Top = 510
+    Left = 778
+    Top = 550
   end
   object ACBrMail1: TACBrMail
     Host = '127.0.0.1'
@@ -4855,36 +5528,40 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
     Attempts = 3
     DefaultCharset = UTF_8
     IDECharset = CP1252
-    Left = 747
-    Top = 510
+    Left = 779
+    Top = 462
   end
   object ACBrCTeDACTeRL1: TACBrCTeDACTeRL
-    ACBrCTE = ACBrCTe1
-    ImprimirHoraSaida = False
-    MostrarPreview = True
-    MostrarStatus = True
-    TipoDACTE = tiSemGeracao
-    TamanhoPapel = tpA4
-    NumCopias = 1
+    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
     MargemInferior = 0.800000000000000000
     MargemSuperior = 0.800000000000000000
     MargemEsquerda = 0.600000000000000000
     MargemDireita = 0.510000000000000000
-    CTeCancelada = False
-    ExibirResumoCanhoto = False
+    CasasDecimais.Formato = tdetInteger
+    CasasDecimais.qCom = 2
+    CasasDecimais.vUnCom = 2
+    CasasDecimais.MaskqCom = ',0.00'
+    CasasDecimais.MaskvUnCom = ',0.00'
+    ACBrCTE = ACBrCTe1
+    ImprimirHoraSaida = False
+    TipoDACTE = tiSemGeracao
+    TamanhoPapel = tpA4
+    Cancelada = False
+    ExibeResumoCanhoto = False
     EPECEnviado = False
-    ImprimirDescPorc = False
+    PosCanhoto = prRodape
+    ImprimeDescPorc = False
     PrintDialog = True
-    Left = 900
-    Top = 503
+    Left = 892
+    Top = 576
   end
   object qSeries: TZQuery
     Connection = dm.con
     SQL.Strings = (
       'select * from series where modelo = '#39'CT'#39' order by codserie')
     Params = <>
-    Left = 96
-    Top = 371
+    Left = 40
+    Top = 379
     object qSeriesSERIE: TWideStringField
       FieldName = 'SERIE'
       Required = True
@@ -4914,15 +5591,15 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
   end
   object dsSeries: TDataSource
     DataSet = cdsSeries
-    Left = 268
+    Left = 236
     Top = 379
   end
   object cdsSeries: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspSeries'
-    Left = 212
-    Top = 371
+    Left = 180
+    Top = 387
     object cdsSeriesSERIE: TWideStringField
       FieldName = 'SERIE'
       Required = True
@@ -4952,7 +5629,33 @@ object frmDemo_ACBrCTe: TfrmDemo_ACBrCTe
   end
   object dspSeries: TDataSetProvider
     DataSet = qSeries
-    Left = 164
-    Top = 371
+    Left = 116
+    Top = 379
+  end
+  object DataSource1: TDataSource
+    DataSet = dm.qParametros
+    Left = 350
+    Top = 346
+  end
+  object ACBrNFe1: TACBrNFe
+    MAIL = ACBrMail1
+    Configuracoes.Geral.SSLLib = libNone
+    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLHttpLib = httpNone
+    Configuracoes.Geral.SSLXmlSignLib = xsNone
+    Configuracoes.Geral.FormaEmissao = teContingencia
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.VersaoDF = ve200
+    Configuracoes.Geral.AtualizarXMLCancelado = True
+    Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Arquivos.OrdenacaoPath = <>
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 15000
+    Configuracoes.WebServices.AjustaAguardaConsultaRet = True
+    Configuracoes.WebServices.TimeOut = 20000
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.RespTec.IdCSRT = 0
+    Left = 306
+    Top = 375
   end
 end

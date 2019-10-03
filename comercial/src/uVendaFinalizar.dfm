@@ -2571,6 +2571,15 @@ inherited fVendaFinalizar: TfVendaFinalizar
     Height = 213
     TabOrder = 7
     Visible = False
+    object MemoImp: TMemo
+      Left = 184
+      Top = 12
+      Width = 185
+      Height = 89
+      Lines.Strings = (
+        'MemoImp')
+      TabOrder = 5
+    end
     object DBGrid2: TDBGrid
       Left = 4
       Top = 15
@@ -5269,5 +5278,17 @@ inherited fVendaFinalizar: TfVendaFinalizar
   object dlgSave1: TSaveDialog
     Left = 584
     Top = 230
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    Left = 336
+    Top = 79
   end
 end

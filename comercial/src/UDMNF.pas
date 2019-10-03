@@ -1562,6 +1562,7 @@ type
     cds_Mov_detVBCSTDEST: TFloatField;
     cds_Mov_detVICMSSTDEST: TFloatField;
     cds_Mov_detVBFCPUFDEST: TFloatField;
+    listaFornecedorNOMEFORNECEDOR: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

@@ -742,7 +742,7 @@ begin
     
     with Ide.infMunCarrega.Add do
     begin
-      if (edtMunCarregaIBGE.Text <> '') then
+      if (edtMunCarregaIBGE.Text = '') then
       begin
         MessageDlg('Preencha o municipio de Carregamento.', mtWarning, [mbOK], 0);
         exit;

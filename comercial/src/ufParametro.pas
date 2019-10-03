@@ -421,6 +421,7 @@ type
     BitBtn53: TBitBtn;
     rbEndEntrega: TRadioButton;
     Label88: TLabel;
+    Label89: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);

@@ -69,6 +69,15 @@ inherited fVendas: TfVendas
     ParentFont = False
     OnClick = Label29Click
   end
+  object memoImp: TMemo [7]
+    Left = 416
+    Top = 397
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'memoImp')
+    TabOrder = 21
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 0
     Width = 819
@@ -1206,7 +1215,7 @@ inherited fVendas: TfVendas
     Top = -62
     Align = alNone
   end
-  object GroupBox1: TGroupBox [9]
+  object GroupBox1: TGroupBox [10]
     Left = 0
     Top = 63
     Width = 489
@@ -1413,7 +1422,7 @@ inherited fVendas: TfVendas
       OnKeyPress = edClienteCnpjKeyPress
     end
   end
-  object GroupBox2: TGroupBox [10]
+  object GroupBox2: TGroupBox [11]
     Left = 489
     Top = 63
     Width = 184
@@ -1440,7 +1449,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox3: TGroupBox [11]
+  object GroupBox3: TGroupBox [12]
     Left = 674
     Top = 63
     Width = 109
@@ -1466,7 +1475,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox4: TGroupBox [12]
+  object GroupBox4: TGroupBox [13]
     Left = 634
     Top = 253
     Width = 150
@@ -1496,7 +1505,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object GroupBox5: TGroupBox [13]
+  object GroupBox5: TGroupBox [14]
     Left = 634
     Top = 404
     Width = 150
@@ -1548,7 +1557,7 @@ inherited fVendas: TfVendas
       OnExit = edChassiExit
     end
   end
-  object MMJPanel3: TMMJPanel [14]
+  object MMJPanel3: TMMJPanel [15]
     Left = 0
     Top = 565
     Width = 819
@@ -1578,7 +1587,7 @@ inherited fVendas: TfVendas
       Transparent = True
     end
   end
-  object DBEdit15: TDBEdit [15]
+  object DBEdit15: TDBEdit [16]
     Left = 51
     Top = 487
     Width = 78
@@ -1596,7 +1605,7 @@ inherited fVendas: TfVendas
     OnExit = DBEdit15Exit
     OnKeyPress = FormKeyPress
   end
-  object DBEdit16: TDBEdit [16]
+  object DBEdit16: TDBEdit [17]
     Left = 206
     Top = 487
     Width = 387
@@ -1614,7 +1623,7 @@ inherited fVendas: TfVendas
     TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object ComboBox2: TComboBox [17]
+  object ComboBox2: TComboBox [18]
     Left = 704
     Top = 513
     Width = 78
@@ -1631,7 +1640,7 @@ inherited fVendas: TfVendas
     Visible = False
     OnChange = ComboBox2Change
   end
-  object DBComboBox1: TDBComboBox [18]
+  object DBComboBox1: TDBComboBox [19]
     Left = 640
     Top = 182
     Width = 145
@@ -1652,7 +1661,7 @@ inherited fVendas: TfVendas
     OnExit = DBComboBox1Exit
     OnKeyPress = FormKeyPress
   end
-  object PageControl1: TPageControl [19]
+  object PageControl1: TPageControl [20]
     Left = 0
     Top = 112
     Width = 633
@@ -2545,7 +2554,7 @@ inherited fVendas: TfVendas
       end
     end
   end
-  object DBEdit1: TDBEdit [20]
+  object DBEdit1: TDBEdit [21]
     Left = 682
     Top = 142
     Width = 98
@@ -2563,7 +2572,7 @@ inherited fVendas: TfVendas
     TabOrder = 15
     OnKeyPress = FormKeyPress
   end
-  object btVendedor: TBitBtn [21]
+  object btVendedor: TBitBtn [22]
     Left = 595
     Top = 487
     Width = 37
@@ -2640,7 +2649,7 @@ inherited fVendas: TfVendas
       0000000000000000000022222222222222222222222222222222222222222222
       2222222222222222222222222222222222222222222222222222}
   end
-  object DBEdit13: TDBEdit [22]
+  object DBEdit13: TDBEdit [23]
     Left = 51
     Top = 512
     Width = 542
@@ -2658,7 +2667,7 @@ inherited fVendas: TfVendas
     TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object BitBtn7: TBitBtn [23]
+  object BitBtn7: TBitBtn [24]
     Left = 501
     Top = 112
     Width = 132
@@ -2667,7 +2676,7 @@ inherited fVendas: TfVendas
     TabOrder = 17
     OnClick = BitBtn7Click
   end
-  object edCfop: TEdit [24]
+  object edCfop: TEdit [25]
     Left = 682
     Top = 114
     Width = 98
@@ -2681,7 +2690,7 @@ inherited fVendas: TfVendas
     TabOrder = 18
     OnExit = edCfopExit
   end
-  object GroupBox6: TGroupBox [25]
+  object GroupBox6: TGroupBox [26]
     Left = 634
     Top = 210
     Width = 150
@@ -2708,7 +2717,7 @@ inherited fVendas: TfVendas
       OnKeyPress = FormKeyPress
     end
   end
-  object pnRelatorio: TPanel [26]
+  object pnRelatorio: TPanel [27]
     Left = 485
     Top = 58
     Width = 169
@@ -2743,7 +2752,7 @@ inherited fVendas: TfVendas
       OnClick = btnEstoqueMatPrimaClick
     end
   end
-  object GroupBox7: TGroupBox [27]
+  object GroupBox7: TGroupBox [28]
     Left = 634
     Top = 324
     Width = 150
@@ -5556,5 +5565,17 @@ inherited fVendas: TfVendas
   object SaveDialog1: TSaveDialog
     Left = 664
     Top = 536
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    Left = 344
+    Top = 120
   end
 end

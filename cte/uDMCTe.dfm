@@ -14,35 +14,35 @@ object dm: Tdm
     AutoCommit = False
     HostName = 'localhost'
     Port = 3050
-    Database = ''
+    Database = 'C:\home\sisadmin\bd\sge_vanlog.fdb'
     User = 'sysdba'
     Password = 'masterkey'
     Protocol = 'firebirdd-2.5'
     LibraryLocation = 'C:\home\cte\fbclient.dll'
-    Left = 32
-    Top = 40
+    Left = 16
+    Top = 16
   end
   object ZQueryCTe: TZQuery
     Connection = con
     SQL.Strings = (
       'select * from mdfe')
     Params = <>
-    Left = 112
-    Top = 32
+    Left = 88
+    Top = 16
   end
   object Cte: TZQuery
     Connection = con
     Params = <>
-    Left = 184
-    Top = 32
+    Left = 208
+    Top = 16
   end
   object QueryCli: TZQuery
     Connection = con
     SQL.Strings = (
       'select * from clientes')
     Params = <>
-    Left = 112
-    Top = 96
+    Left = 88
+    Top = 72
     object QueryCliCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -502,8 +502,8 @@ object dm: Tdm
         Name = 'pcod'
         ParamType = ptUnknown
       end>
-    Left = 192
-    Top = 96
+    Left = 208
+    Top = 80
     ParamData = <
       item
         DataType = ftInteger
@@ -702,7 +702,7 @@ object dm: Tdm
       'select distinct(CD_UF) from TB_IBGE')
     Params = <>
     Left = 96
-    Top = 184
+    Top = 232
     object qUFCD_UF: TWideStringField
       FieldName = 'CD_UF'
       Size = 2
@@ -725,7 +725,7 @@ object dm: Tdm
         ParamType = ptUnknown
       end>
     Left = 160
-    Top = 184
+    Top = 224
     ParamData = <
       item
         DataType = ftString
@@ -781,7 +781,7 @@ object dm: Tdm
         ParamType = ptUnknown
       end>
     Left = 232
-    Top = 184
+    Top = 232
     ParamData = <
       item
         DataType = ftString
@@ -2071,7 +2071,6 @@ object dm: Tdm
     Top = 543
     object cdsQCCOD_CTE_QC: TIntegerField
       FieldName = 'COD_CTE_QC'
-      Required = True
     end
     object cdsQCCOD_CTE: TIntegerField
       FieldName = 'COD_CTE'
@@ -2098,8 +2097,15 @@ object dm: Tdm
       'select * from CTE '
       'where ((emitente  =:pEmi )'
       '    and ((cte_numero = :num_cte) or (:num_cte = 0)))'
+      '    and DHEMI between :Data1 and  :Data2'
       'order by CTE_NUMERO desc'
-      '')
+      ''
+      '/*'
+      'select * from CTE '
+      'where ((emitente  =:pEmi )'
+      '    and ((cte_numero = :num_cte) or (:num_cte = 0)))'
+      'order by CTE_NUMERO desc'
+      '*/')
     Params = <
       item
         DataType = ftInteger
@@ -2109,6 +2115,16 @@ object dm: Tdm
       item
         DataType = ftInteger
         Name = 'num_cte'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data2'
         ParamType = ptUnknown
       end>
     Left = 560
@@ -2122,6 +2138,16 @@ object dm: Tdm
       item
         DataType = ftInteger
         Name = 'num_cte'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data2'
         ParamType = ptUnknown
       end>
     object qCTECOD_CTE: TIntegerField
@@ -2693,6 +2719,41 @@ object dm: Tdm
       FieldName = 'RE_PAIS'
       Size = 60
     end
+    object qCTEOUTPDOC: TWideStringField
+      FieldName = 'OUTPDOC'
+      Size = 2
+    end
+    object qCTEOUDESCOUTRO: TWideStringField
+      FieldName = 'OUDESCOUTRO'
+      Size = 100
+    end
+    object qCTEOUNDOC: TWideStringField
+      FieldName = 'OUNDOC'
+    end
+    object qCTEOUDEMI: TDateTimeField
+      FieldName = 'OUDEMI'
+    end
+    object qCTEOUVDOCFISC: TFloatField
+      FieldName = 'OUVDOCFISC'
+    end
+    object qCTEANT_CNPJ: TWideStringField
+      FieldName = 'ANT_CNPJ'
+    end
+    object qCTEANT_IE: TWideStringField
+      FieldName = 'ANT_IE'
+    end
+    object qCTEANT_UF: TWideStringField
+      FieldName = 'ANT_UF'
+      Size = 2
+    end
+    object qCTEANT_NOME: TWideStringField
+      FieldName = 'ANT_NOME'
+      Size = 60
+    end
+    object qCTEANT_CHCTE: TWideStringField
+      FieldName = 'ANT_CHCTE'
+      Size = 60
+    end
   end
   object dsCTE: TDataSource
     DataSet = cdsCTE
@@ -2710,6 +2771,16 @@ object dm: Tdm
       item
         DataType = ftInteger
         Name = 'num_cte'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data1'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftDate
+        Name = 'Data2'
         ParamType = ptUnknown
       end>
     ProviderName = 'dspCTE'
@@ -3284,6 +3355,41 @@ object dm: Tdm
       FieldName = 'RE_PAIS'
       Size = 60
     end
+    object cdsCTEOUTPDOC: TWideStringField
+      FieldName = 'OUTPDOC'
+      Size = 2
+    end
+    object cdsCTEOUDESCOUTRO: TWideStringField
+      FieldName = 'OUDESCOUTRO'
+      Size = 100
+    end
+    object cdsCTEOUNDOC: TWideStringField
+      FieldName = 'OUNDOC'
+    end
+    object cdsCTEOUDEMI: TDateTimeField
+      FieldName = 'OUDEMI'
+    end
+    object cdsCTEOUVDOCFISC: TFloatField
+      FieldName = 'OUVDOCFISC'
+    end
+    object cdsCTEANT_CNPJ: TWideStringField
+      FieldName = 'ANT_CNPJ'
+    end
+    object cdsCTEANT_IE: TWideStringField
+      FieldName = 'ANT_IE'
+    end
+    object cdsCTEANT_UF: TWideStringField
+      FieldName = 'ANT_UF'
+      Size = 2
+    end
+    object cdsCTEANT_NOME: TWideStringField
+      FieldName = 'ANT_NOME'
+      Size = 60
+    end
+    object cdsCTEANT_CHCTE: TWideStringField
+      FieldName = 'ANT_CHCTE'
+      Size = 60
+    end
   end
   object dspCTE: TDataSetProvider
     DataSet = qCTE
@@ -3321,7 +3427,7 @@ object dm: Tdm
       end>
     object qQCCOD_CTE_QC: TIntegerField
       FieldName = 'COD_CTE_QC'
-      Required = True
+      Visible = False
     end
     object qQCCOD_CTE: TIntegerField
       FieldName = 'COD_CTE'
@@ -3802,5 +3908,610 @@ object dm: Tdm
       Required = True
       Size = 80
     end
+  end
+  object qParametros: TZQuery
+    Connection = con
+    SQL.Strings = (
+      'select * from PARAMETRO where DESCRICAO = '#39'EMPRESAS'#39)
+    Params = <>
+    Left = 56
+    Top = 448
+    object qParametrosDESCRICAO: TWideStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object qParametrosPARAMETRO: TWideStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object qParametrosCONFIGURADO: TWideStringField
+      FieldName = 'CONFIGURADO'
+      Size = 1
+    end
+    object qParametrosDADOS: TWideStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object qParametrosD1: TWideStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object qParametrosD2: TWideStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object qParametrosD3: TWideStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object qParametrosD4: TWideStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object qParametrosD5: TWideStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object qParametrosD6: TWideStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object qParametrosD7: TWideStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object qParametrosD8: TWideStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object qParametrosD9: TWideStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object qParametrosINSTRUCOES: TWideStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object qParametrosVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+  end
+  object dspParametros: TDataSetProvider
+    DataSet = qParametros
+    Left = 128
+    Top = 448
+  end
+  object cdsParametros: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspParametros'
+    Left = 224
+    Top = 448
+    object cdsParametrosDESCRICAO: TWideStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object cdsParametrosPARAMETRO: TWideStringField
+      FieldName = 'PARAMETRO'
+      Required = True
+      Size = 40
+    end
+    object cdsParametrosCONFIGURADO: TWideStringField
+      FieldName = 'CONFIGURADO'
+      Size = 1
+    end
+    object cdsParametrosDADOS: TWideStringField
+      FieldName = 'DADOS'
+      Size = 40
+    end
+    object cdsParametrosD1: TWideStringField
+      FieldName = 'D1'
+      Size = 30
+    end
+    object cdsParametrosD2: TWideStringField
+      FieldName = 'D2'
+      Size = 30
+    end
+    object cdsParametrosD3: TWideStringField
+      FieldName = 'D3'
+      Size = 30
+    end
+    object cdsParametrosD4: TWideStringField
+      FieldName = 'D4'
+      Size = 30
+    end
+    object cdsParametrosD5: TWideStringField
+      FieldName = 'D5'
+      Size = 30
+    end
+    object cdsParametrosD6: TWideStringField
+      FieldName = 'D6'
+      Size = 30
+    end
+    object cdsParametrosD7: TWideStringField
+      FieldName = 'D7'
+      Size = 30
+    end
+    object cdsParametrosD8: TWideStringField
+      FieldName = 'D8'
+      Size = 30
+    end
+    object cdsParametrosD9: TWideStringField
+      FieldName = 'D9'
+      Size = 30
+    end
+    object cdsParametrosINSTRUCOES: TWideStringField
+      FieldName = 'INSTRUCOES'
+      Size = 200
+    end
+    object cdsParametrosVALOR: TFloatField
+      FieldName = 'VALOR'
+    end
+  end
+  object cdsCli: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCli'
+    Left = 112
+    Top = 128
+    object cdsCliCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+      Required = True
+    end
+    object cdsCliNOMECLIENTE: TWideStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 60
+    end
+    object cdsCliRAZAOSOCIAL: TWideStringField
+      FieldName = 'RAZAOSOCIAL'
+      Required = True
+      Size = 60
+    end
+    object cdsCliCONTATO: TWideStringField
+      FieldName = 'CONTATO'
+      Size = 30
+    end
+    object cdsCliTIPOFIRMA: TSmallintField
+      FieldName = 'TIPOFIRMA'
+      Required = True
+    end
+    object cdsCliCPF: TWideStringField
+      FieldName = 'CPF'
+      Size = 14
+    end
+    object cdsCliCNPJ: TWideStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object cdsCliINSCESTADUAL: TWideStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object cdsCliRG: TWideStringField
+      FieldName = 'RG'
+      Size = 14
+    end
+    object cdsCliSEGMENTO: TSmallintField
+      FieldName = 'SEGMENTO'
+      Required = True
+    end
+    object cdsCliREGIAO: TSmallintField
+      FieldName = 'REGIAO'
+      Required = True
+    end
+    object cdsCliLIMITECREDITO: TFloatField
+      FieldName = 'LIMITECREDITO'
+    end
+    object cdsCliDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      Required = True
+    end
+    object cdsCliCODUSUARIO: TIntegerField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object cdsCliSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object cdsCliHOMEPAGE: TWideStringField
+      FieldName = 'HOMEPAGE'
+      Size = 40
+    end
+    object cdsCliPRAZORECEBIMENTO: TSmallintField
+      FieldName = 'PRAZORECEBIMENTO'
+    end
+    object cdsCliPRAZOENTREGA: TSmallintField
+      FieldName = 'PRAZOENTREGA'
+    end
+    object cdsCliCODBANCO: TSmallintField
+      FieldName = 'CODBANCO'
+    end
+    object cdsCliBASE_ICMS: TSmallintField
+      FieldName = 'BASE_ICMS'
+    end
+    object cdsCliDATANASC: TDateField
+      FieldName = 'DATANASC'
+    end
+    object cdsCliCONTA_CLIENTE: TWideStringField
+      FieldName = 'CONTA_CLIENTE'
+      Size = 15
+    end
+    object cdsCliOBS: TWideStringField
+      FieldName = 'OBS'
+      Size = 200
+    end
+    object cdsCliTEM_IE: TWideStringField
+      FieldName = 'TEM_IE'
+      Size = 1
+    end
+    object cdsCliDATARESC: TDateField
+      FieldName = 'DATARESC'
+    end
+    object cdsCliNOMEMAE: TWideStringField
+      FieldName = 'NOMEMAE'
+      Size = 80
+    end
+    object cdsCliSEXO: TWideStringField
+      FieldName = 'SEXO'
+      Size = 1
+    end
+    object cdsCliFORMA_CORRESPOND: TWideStringField
+      FieldName = 'FORMA_CORRESPOND'
+      Size = 30
+    end
+    object cdsCliGRUPO_CLIENTE: TWideStringField
+      FieldName = 'GRUPO_CLIENTE'
+      Size = 30
+    end
+    object cdsCliCODINCLUCANC: TIntegerField
+      FieldName = 'CODINCLUCANC'
+    end
+    object cdsCliEXIST_COBERT: TWideStringField
+      FieldName = 'EXIST_COBERT'
+      Size = 6
+    end
+    object cdsCliEXISTCOPART: TWideStringField
+      FieldName = 'EXISTCOPART'
+      Size = 6
+    end
+    object cdsCliDATAREINC: TDateField
+      FieldName = 'DATAREINC'
+    end
+    object cdsCliGERAAVISO: TWideStringField
+      FieldName = 'GERAAVISO'
+      Size = 1
+    end
+    object cdsCliGERAENV: TWideStringField
+      FieldName = 'GERAENV'
+      Size = 1
+    end
+    object cdsCliGERABOL: TWideStringField
+      FieldName = 'GERABOL'
+      Size = 1
+    end
+    object cdsCliEMVIAGEM: TWideStringField
+      FieldName = 'EMVIAGEM'
+      Size = 1
+    end
+    object cdsCliDTAALTERA: TDateField
+      FieldName = 'DTAALTERA'
+    end
+    object cdsCliSERIELETRA: TWideStringField
+      FieldName = 'SERIELETRA'
+      Size = 4
+    end
+    object cdsCliSERIE: TWideStringField
+      FieldName = 'SERIE'
+      Size = 4
+    end
+    object cdsCliRA: TWideStringField
+      FieldName = 'RA'
+      Size = 10
+    end
+    object cdsCliCURSO: TWideStringField
+      FieldName = 'CURSO'
+      Size = 50
+    end
+    object cdsCliIP: TWideStringField
+      FieldName = 'IP'
+      Size = 60
+    end
+    object cdsCliN_CONTRATO: TWideStringField
+      FieldName = 'N_CONTRATO'
+      Size = 60
+    end
+    object cdsCliMAC: TWideStringField
+      FieldName = 'MAC'
+      Size = 60
+    end
+    object cdsCliMARCA: TWideStringField
+      FieldName = 'MARCA'
+      Size = 60
+    end
+    object cdsCliBANDA_UPLOAD: TWideStringField
+      FieldName = 'BANDA_UPLOAD'
+      Size = 60
+    end
+    object cdsCliBANDA_DOWLOAD: TWideStringField
+      FieldName = 'BANDA_DOWLOAD'
+      Size = 60
+    end
+    object cdsCliTORRE_CONECCAO: TWideStringField
+      FieldName = 'TORRE_CONECCAO'
+      Size = 60
+    end
+    object cdsCliCOD_FAIXA: TIntegerField
+      FieldName = 'COD_FAIXA'
+    end
+    object cdsCliDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object cdsCliMENSALIDADE: TFloatField
+      FieldName = 'MENSALIDADE'
+    end
+    object cdsCliANUIDADE: TFloatField
+      FieldName = 'ANUIDADE'
+    end
+    object cdsCliPARCELA: TIntegerField
+      FieldName = 'PARCELA'
+    end
+    object cdsCliPARCELAGERADAS: TIntegerField
+      FieldName = 'PARCELAGERADAS'
+    end
+    object cdsCliNUMERO: TIntegerField
+      FieldName = 'NUMERO'
+    end
+    object cdsCliDATANASCIMENTO: TDateTimeField
+      FieldName = 'DATANASCIMENTO'
+    end
+    object cdsCliANOLETIVO: TWideStringField
+      FieldName = 'ANOLETIVO'
+      Size = 4
+    end
+    object cdsCliSITUACAOESCOLAR: TWideStringField
+      FieldName = 'SITUACAOESCOLAR'
+      Size = 2
+    end
+    object cdsCliRGMAE: TWideStringField
+      FieldName = 'RGMAE'
+      Size = 15
+    end
+    object cdsCliCPFMAE: TWideStringField
+      FieldName = 'CPFMAE'
+      Size = 14
+    end
+    object cdsCliPAI: TWideStringField
+      FieldName = 'PAI'
+      Size = 30
+    end
+    object cdsCliRGPAI: TWideStringField
+      FieldName = 'RGPAI'
+      Size = 15
+    end
+    object cdsCliCPFPAI: TWideStringField
+      FieldName = 'CPFPAI'
+      Size = 14
+    end
+    object cdsCliLANCADOCLASSE: TIntegerField
+      FieldName = 'LANCADOCLASSE'
+    end
+    object cdsCliTRANSPORTE: TWideStringField
+      FieldName = 'TRANSPORTE'
+      Size = 50
+    end
+    object cdsCliCIDADENASC: TWideStringField
+      FieldName = 'CIDADENASC'
+      Size = 30
+    end
+    object cdsCliUFNASC: TWideStringField
+      FieldName = 'UFNASC'
+      Size = 2
+    end
+    object cdsCliNACIONALIDADE: TWideStringField
+      FieldName = 'NACIONALIDADE'
+      Size = 15
+    end
+    object cdsCliCERTIDAONASCNUM: TWideStringField
+      FieldName = 'CERTIDAONASCNUM'
+      Size = 10
+    end
+    object cdsCliLIVRONASC: TWideStringField
+      FieldName = 'LIVRONASC'
+      Size = 10
+    end
+    object cdsCliFLLIVRONASC: TWideStringField
+      FieldName = 'FLLIVRONASC'
+      Size = 5
+    end
+    object cdsCliLOCALTRABPAI: TWideStringField
+      FieldName = 'LOCALTRABPAI'
+      Size = 30
+    end
+    object cdsCliLOCALTRABMAE: TWideStringField
+      FieldName = 'LOCALTRABMAE'
+      Size = 30
+    end
+    object cdsCliTELTRABPAI: TWideStringField
+      FieldName = 'TELTRABPAI'
+      Size = 15
+    end
+    object cdsCliTELTRABMAE: TWideStringField
+      FieldName = 'TELTRABMAE'
+      Size = 15
+    end
+    object cdsCliINFONECESSARIAS: TWideStringField
+      FieldName = 'INFONECESSARIAS'
+      Size = 30
+    end
+    object cdsCliCARTEIRAVACINACAO: TWideStringField
+      FieldName = 'CARTEIRAVACINACAO'
+      Size = 10
+    end
+    object cdsCliRAPRODESP: TWideStringField
+      FieldName = 'RAPRODESP'
+      Size = 10
+    end
+    object cdsCliLOCALTRABALUNO: TWideStringField
+      FieldName = 'LOCALTRABALUNO'
+      Size = 30
+    end
+    object cdsCliTELTRABALUNO: TWideStringField
+      FieldName = 'TELTRABALUNO'
+      Size = 15
+    end
+    object cdsCliRAPROD: TWideStringField
+      FieldName = 'RAPROD'
+      Size = 15
+    end
+    object cdsCliCERT_NAS_COMARCA: TWideStringField
+      FieldName = 'CERT_NAS_COMARCA'
+      Size = 50
+    end
+    object cdsCliCERT_NAS_UF: TWideStringField
+      FieldName = 'CERT_NAS_UF'
+      Size = 2
+    end
+    object cdsCliCERT_NAS_MUNICIPIO: TWideStringField
+      FieldName = 'CERT_NAS_MUNICIPIO'
+      Size = 50
+    end
+    object cdsCliCERT_NAS_DISTRITO: TWideStringField
+      FieldName = 'CERT_NAS_DISTRITO'
+      Size = 50
+    end
+    object cdsCliCERT_NAS_SUBDISTRITO: TWideStringField
+      FieldName = 'CERT_NAS_SUBDISTRITO'
+      Size = 50
+    end
+    object cdsCliDIVERSO1: TWideStringField
+      FieldName = 'DIVERSO1'
+      Size = 50
+    end
+    object cdsCliDIVERSO2: TWideStringField
+      FieldName = 'DIVERSO2'
+      Size = 50
+    end
+    object cdsCliDATAEMISSAORG: TDateField
+      FieldName = 'DATAEMISSAORG'
+    end
+    object cdsCliESTADORG: TWideStringField
+      FieldName = 'ESTADORG'
+      Size = 2
+    end
+    object cdsCliCOMUNICAALUNO: TWideStringField
+      FieldName = 'COMUNICAALUNO'
+      Size = 50
+    end
+    object cdsCliFONEMAE: TWideStringField
+      FieldName = 'FONEMAE'
+      Size = 15
+    end
+    object cdsCliCELULARMAE: TWideStringField
+      FieldName = 'CELULARMAE'
+      Size = 15
+    end
+    object cdsCliCOMUNICAMAE: TWideStringField
+      FieldName = 'COMUNICAMAE'
+      Size = 50
+    end
+    object cdsCliFONEPAI: TWideStringField
+      FieldName = 'FONEPAI'
+      Size = 15
+    end
+    object cdsCliCELULARPAI: TWideStringField
+      FieldName = 'CELULARPAI'
+      Size = 15
+    end
+    object cdsCliCOMUNICAPAI: TWideStringField
+      FieldName = 'COMUNICAPAI'
+      Size = 50
+    end
+    object cdsCliVALOR_MATRICULA: TFloatField
+      FieldName = 'VALOR_MATRICULA'
+    end
+    object cdsCliDATATRANSF: TDateField
+      FieldName = 'DATATRANSF'
+    end
+    object cdsCliCOR_RACA: TWideStringField
+      FieldName = 'COR_RACA'
+      Size = 25
+    end
+    object cdsCliPERIODO: TWideStringField
+      FieldName = 'PERIODO'
+      Size = 15
+    end
+    object cdsCliFOTO: TWideStringField
+      FieldName = 'FOTO'
+      Size = 300
+    end
+    object cdsCliDATA_MATRICULA: TDateTimeField
+      FieldName = 'DATA_MATRICULA'
+    end
+    object cdsCliCODRESPONSAVEL: TIntegerField
+      FieldName = 'CODRESPONSAVEL'
+    end
+    object cdsCliID_COB: TIntegerField
+      FieldName = 'ID_COB'
+    end
+    object cdsCliCOD_TRANPORTADORA: TIntegerField
+      FieldName = 'COD_TRANPORTADORA'
+    end
+    object cdsCliBLOQUEADO: TWideStringField
+      FieldName = 'BLOQUEADO'
+      Size = 1
+    end
+    object cdsCliBLOQUEIO: TWideStringField
+      FieldName = 'BLOQUEIO'
+      Size = 1
+    end
+    object cdsCliCFOP: TWideStringField
+      FieldName = 'CFOP'
+      Size = 4
+    end
+    object cdsCliCOD_CLI: TWideStringField
+      FieldName = 'COD_CLI'
+      Size = 10
+    end
+    object cdsCliCORTESIA: TWideStringField
+      FieldName = 'CORTESIA'
+      Size = 1
+    end
+    object cdsCliVALOR_CONSUMO: TFloatField
+      FieldName = 'VALOR_CONSUMO'
+    end
+    object cdsCliVALOR_CORTESIA: TFloatField
+      FieldName = 'VALOR_CORTESIA'
+    end
+    object cdsCliE_FORNECEDOR: TWideStringField
+      FieldName = 'E_FORNECEDOR'
+      Size = 1
+    end
+    object cdsCliCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+    end
+    object cdsCliCODFISCAL: TWideStringField
+      FieldName = 'CODFISCAL'
+      Size = 1
+    end
+    object cdsCliSUFRAMA: TWideStringField
+      FieldName = 'SUFRAMA'
+      Size = 9
+    end
+    object cdsCliCARGOFUNCAO: TIntegerField
+      FieldName = 'CARGOFUNCAO'
+    end
+  end
+  object dspCli: TDataSetProvider
+    DataSet = QueryCli
+    Left = 48
+    Top = 128
+  end
+  object dsCli: TDataSource
+    DataSet = cdsCli
+    Left = 96
+    Top = 176
   end
 end

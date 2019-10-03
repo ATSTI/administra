@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2859,6 +2859,22 @@ inherited fParametro: TfParametro
     object TabSheet7: TTabSheet
       Caption = 'Vendas'
       ImageIndex = 7
+      object Label89: TLabel
+        Left = 4
+        Top = 466
+        Width = 798
+        Height = 13
+        Caption = 
+          'IMPRIMIR Cupom - Finalizar venda : Parametro IMPARQUIVO em Dados' +
+          ' coloque :  C:\home\imprime.txt , a porta impressora e a mesma P' +
+          'DV'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       object GroupBox8: TGroupBox
         Left = 0
         Top = 8
@@ -3194,9 +3210,9 @@ inherited fParametro: TfParametro
       end
       object GroupBox31: TGroupBox
         Left = 2
-        Top = 383
+        Top = 377
         Width = 263
-        Height = 48
+        Height = 39
         Caption = 'Desconto na Venda de Clientes com SUFRAMA'
         TabOrder = 6
         object Label51: TLabel
@@ -3208,14 +3224,14 @@ inherited fParametro: TfParametro
         end
         object MaskEdit3: TMaskEdit
           Left = 74
-          Top = 18
+          Top = 15
           Width = 66
           Height = 21
           TabOrder = 0
         end
         object BitBtn31: TBitBtn
           Left = 157
-          Top = 15
+          Top = 13
           Width = 75
           Height = 25
           Caption = 'Gravar'
@@ -3246,9 +3262,9 @@ inherited fParametro: TfParametro
       end
       object rgBloqueio: TRadioGroup
         Left = 271
-        Top = 383
+        Top = 377
         Width = 266
-        Height = 48
+        Height = 37
         Caption = 'Mensagem Personalizada para Cliente Bloqueado'
         Columns = 2
         Items.Strings = (
@@ -3259,9 +3275,9 @@ inherited fParametro: TfParametro
       end
       object GroupBox41: TGroupBox
         Left = 0
-        Top = 431
+        Top = 416
         Width = 769
-        Height = 51
+        Height = 45
         Caption = 'Lista de Pre'#231'o'
         TabOrder = 10
         object Label65: TLabel
@@ -3286,8 +3302,8 @@ inherited fParametro: TfParametro
           Caption = 'S=ListaPre'#231'o ou C=Lista por Cliente'
         end
         object LISTAPRECOGrava: TBitBtn
-          Left = 690
-          Top = 22
+          Left = 674
+          Top = 14
           Width = 75
           Height = 25
           Caption = 'Gravar'
@@ -3628,7 +3644,7 @@ inherited fParametro: TfParametro
           end
           object Label88: TLabel
             Left = 9
-            Top = 434
+            Top = 420
             Width = 333
             Height = 13
             Caption = 'PDV novo: PARAMETRO :  EMPRESA - CAMPO D1 = PDV'

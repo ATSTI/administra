@@ -21,6 +21,7 @@ inherited fEmpresa: TfEmpresa
       ParentFont = False
     end
     inherited btnExcluir: TBitBtn [1]
+      Width = 109
       Font.Charset = ANSI_CHARSET
       Font.Height = -13
       Font.Name = 'Arial'
@@ -33,12 +34,14 @@ inherited fEmpresa: TfEmpresa
       ParentFont = False
     end
     inherited btnIncluir: TBitBtn [3]
+      Width = 109
       Font.Charset = ANSI_CHARSET
       Font.Height = -13
       Font.Name = 'Arial'
       ParentFont = False
     end
     inherited btnProcurar: TBitBtn
+      Width = 109
       Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Height = -13
@@ -47,6 +50,7 @@ inherited fEmpresa: TfEmpresa
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
+      Width = 109
       Font.Charset = ANSI_CHARSET
       Font.Height = -13
       Font.Name = 'Arial'
@@ -2050,6 +2054,18 @@ inherited fEmpresa: TfEmpresa
         PopupMenu = PopupMenu1
         TabOrder = 2
         OnKeyPress = FormKeyPress
+      end
+      object rgAmbiente: TRadioGroup
+        Left = 32
+        Top = 176
+        Width = 185
+        Height = 105
+        Caption = 'Ambiente da NFe'
+        Items.Strings = (
+          'Homologa'#231#227'o'
+          'Produ'#231#227'o')
+        TabOrder = 3
+        OnClick = rgAmbienteClick
       end
     end
   end

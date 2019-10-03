@@ -35,8 +35,8 @@ BEGIN
     from MOVIMENTODETALHE md , CFOP cf, NCM, PRODUTOS p
    where md.CODMOVIMENTO = :codMovimento
      and cf.CFCOD = md.CFOP 
-     and NCM.NCM = md.NCM 
      and p.CODPRODUTO = md.CODPRODUTO
+     and ((NCM.NCM = md.NCM) OR (ncm.ncm = p.ncm))
    into :valor, :nac, :imp, :mun, :est, :codProduto, :ncm, :origem
    do begin
      select FIRST 1 fonte, chave from IBPT 

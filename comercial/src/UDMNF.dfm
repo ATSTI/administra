@@ -5849,10 +5849,10 @@ object DMNF: TDMNF
       '  f.CNPJ, '#13#10'           f.INSCESTADUAL, '#13#10'           f.PRAZOPAGAM' +
       'ENTO, '#13#10'           ende.LOGRADOURO, '#13#10'           ende.BAIRRO, '#13#10 +
       '           ende.COMPLEMENTO, '#13#10'           ende.CIDADE, '#13#10'       ' +
-      '    ende.UF, '#13#10'           ende.CEP, '#13#10'           ende.TELEFONE '#13 +
-      #10'from FORNECEDOR f '#13#10'left outer join ENDERECOFORNECEDOR ende on ' +
-      'ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10'where ende.TIPOEND = 0'#13#10 +
-      ' order by f.RAZAOSOCIAL '#13#10
+      '    ende.UF, '#13#10'           ende.CEP, '#13#10'           ende.TELEFONE ,' +
+      ' f.NOMEFORNECEDOR '#13#10'from FORNECEDOR f '#13#10'left outer join ENDERECO' +
+      'FORNECEDOR ende on ende.CODFORNECEDOR = f.CODFORNECEDOR  '#13#10'where' +
+      ' ende.TIPOEND = 0'#13#10' order by f.RAZAOSOCIAL '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -5906,6 +5906,11 @@ object DMNF: TDMNF
     object listaFornecedorTELEFONE: TStringField
       FieldName = 'TELEFONE'
       Size = 9
+    end
+    object listaFornecedorNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Required = True
+      Size = 60
     end
   end
   object listaCFOP: TSQLDataSet

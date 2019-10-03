@@ -411,8 +411,11 @@ begin
         nPos := Pos('-',cod);
         if (nPos > 0) then
         begin
-          if dm.cdsProc.Active then
+          cod := Copy(cod, 0, nPos -1);
+          if (dm.cdsProc.Active) then
+          begin
              dm.cdsProc.Close;
+          end;
           dm.cdsProc.CommandText := 'SELECT CNPJ FROM CLIENTES ' +
             ' WHERE CODCLIENTE = ' + cod;
           dm.cdsProc.Open;

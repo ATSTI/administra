@@ -18,6 +18,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnEditaClick(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -125,6 +126,15 @@ end;
 procedure TfMotorista.Button2Click(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfMotorista.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+  end;
 end;
 
 end.

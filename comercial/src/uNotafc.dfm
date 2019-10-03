@@ -145,7 +145,7 @@ object fNotafc: TfNotafc
           Width = 404
           Height = 21
           BevelKind = bkFlat
-          DataField = 'RAZAOSOCIAL'
+          DataField = 'NOMECLIENTE'
           DataSource = DMNF.DtSrc_NF1
           ItemHeight = 13
           TabOrder = 0
@@ -673,7 +673,7 @@ object fNotafc: TfNotafc
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnKeyPress = FormKeyPress
           end

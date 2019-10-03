@@ -820,7 +820,8 @@ begin
 
   ACBrSAT1.CFe.IdentarXML := cbxFormatXML.Checked;
   ACBrSAT1.CFe.TamanhoIdentacao := 3;
-
+  ACBrSAT1.Extrato := ACBrSATExtratoESCPOS1;
+  ACBrSATExtratoESCPOS1.PosPrinter := ACBrPosPrinter1;
   mVendaEnviar.Clear;  
 
   // Trasnferindo Informações de Config para o CFe //

@@ -606,7 +606,7 @@ begin
   cbCLiente.Clear;
   while not dmnf.listaFornecedor.Eof do
   begin
-     cbCLiente.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
+     cbCLiente.Items.Add(dmnf.listaFornecedorNOMEFORNECEDOR.AsString);
      dmnf.listaFornecedor.Next;
   end;
   dmnf.listaFornecedor.Close;
@@ -622,8 +622,8 @@ begin
   cbCLiente.Clear;
   while not dmnf.listaFornecedor.Eof do
   begin
-     cbCLiente.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
-     cbCLiente1.Items.Add(dmnf.listaFornecedorRAZAOSOCIAL.AsString);
+     cbCLiente.Items.Add(dmnf.listaFornecedorNOMEFORNECEDOR.AsString);
+     cbCLiente1.Items.Add(dmnf.listaFornecedorNOMEFORNECEDOR.AsString);
      dmnf.listaFornecedor.Next;
   end;
   dmnf.listaFornecedor.Close;
@@ -1830,7 +1830,7 @@ begin
   if (cbCLiente1.Text <> '') then
   begin
     DMNF.listaFornecedor.Open;
-    DMNF.listaFornecedor.Locate('RAZAOSOCIAL',cbCLiente1.Text,[loCaseInsensitive]);
+    DMNF.listaFornecedor.Locate('NOMEFORNECEDOR',cbCLiente1.Text,[loCaseInsensitive]);
     dmnf.cds_nf1CODCLIENTE.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;
     dmnf.cds_MovimentoCODFORNECEDOR.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;
     //dmnf.cds_compraCODFORNECEDOR.AsInteger := DMNF.listaFornecedorCODFORNECEDOR.AsInteger;;

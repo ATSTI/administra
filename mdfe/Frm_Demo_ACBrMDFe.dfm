@@ -49,7 +49,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 15
         Width = 377
         Height = 479
-        ActivePage = TabSheet12
+        ActivePage = TabSheet4
         Align = alClient
         MultiLine = True
         Style = tsButtons

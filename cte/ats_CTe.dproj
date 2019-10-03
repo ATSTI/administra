@@ -82,6 +82,7 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <Icon_MainIcon>ats_CTe_Icon.ico</Icon_MainIcon>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
@@ -135,6 +136,10 @@
             <Form>fDocOutros</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uBusca.pas">
+            <Form>fBusca</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -156,8 +161,7 @@
                     <Source Name="MainSource">ats_CTe.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\ACBr_OpenSSL.bpl">ACBr - OpenSSL através do LibXMLSec - (http://www.projetoacbr.com.br/)</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvDBDesign240.bpl">JVCL Database Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\ACBr_Integrador.bpl">ACBr - Integrador - (http://www.projetoacbr.com.br/)</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

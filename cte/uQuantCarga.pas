@@ -27,6 +27,7 @@ type
   public
     { Public declarations }
     valorQ : double;
+    fcarga : integer;
   end;
 
 var
@@ -128,6 +129,8 @@ begin
       MessageDlg('Quantidade de Carga Alterada com Sucesso.', mtInformation, [mbOK], 0);
       dm.qQC.Refresh;
       FormatSettings.DecimalSeparator := ',';
+      fcarga := 1;
+      frmDemo_ACBrCTe.btnGravarCTe.Click;
       close;
     except
       on E : Exception do

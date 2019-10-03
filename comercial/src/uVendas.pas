@@ -10,7 +10,7 @@ uses
   UCHistDataset, JvExDBGrids, JvDBGrid, JvExStdCtrls, JvRadioButton,
   JvCombobox, JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit,
   JvDatePickerEdit, JvDBDatePickerEdit, JvDBControls, comobj , uVendaCls, Printers,
-  umovimento;
+  umovimento, ACBrBase, ACBrPosPrinter;
 
 type
   TfVendas = class(TfPai)
@@ -610,6 +610,8 @@ type
     btnDuplicar: TBitBtn;
     GroupBox7: TGroupBox;
     DBMemo1: TDBMemo;
+    ACBrPosPrinter1: TACBrPosPrinter;
+    memoImp: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -2364,6 +2366,7 @@ procedure TfVendas.BitBtn2Click(Sender: TObject);
     produto_cupom: String;
     total : double;
     portaIMP : string;
+    arquivo: TStringList;
 begin
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -2400,6 +2403,7 @@ begin
 
     //   tipoimpressao := 'txt';
 
+    // 24/09/2019 alterei pra gravar em um pasta local e usar o acbr
     if (dm.cds_parametro.Active) then
       dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
@@ -2407,8 +2411,8 @@ begin
     try
       if (not dm.cds_parametro.Eof) then
       begin
-        SaveDialog1.Execute;
-        AssignFile(IMPRESSORA, SaveDialog1.FileName);
+        //SaveDialog1.Execute;
+        AssignFile(IMPRESSORA, dm.cds_parametroDADOS.AsString);
         dm.cds_parametro.Close;
       end
       else
@@ -2562,7 +2566,39 @@ begin
     finally
       CloseFile(IMPRESSORA);
     end;
+    if (dm.cds_parametro.Active) then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].Clear;
+    dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+    dm.cds_parametro.Open;
+    portaIMP := dm.cds_parametroDADOS.AsString;
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+    dm.cds_parametro.Open;
+    if (not dm.cds_parametro.Eof) then
+    begin
+      arquivo := TStringList.Create();
+      try
+        arquivo.LoadFromFile(dm.cds_parametroDADOS.AsString);
+        MemoImp.Clear;
+        MemoImp.Text := arquivo.Text;
+      finally
+        arquivo.free;
+      end;
+      ACBrPosPrinter1.Desativar;
+      //ACBrPosPrinter1.LinhasBuffer := dmpdv.imp_LinhasBuffer;
+      ACBrPosPrinter1.LinhasEntreCupons := 0;
+      //ACBrPosPrinter1.EspacoEntreLinhas := dmpdv.espacoEntreLinhas;
+      //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
+      ACBrPosPrinter1.Porta  := portaImp;
+      ACBrPosPrinter1.CortaPapel := True;
+      ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1); // epson TACBrPosPrinterModelo(cbxModeloPosPrinter.ItemIndex);
+      ACBrPosPrinter1.Ativar;
 
+      ACBrPosPrinter1.Buffer.Text := MemoImp.Lines.Text;
+      ACBrPosPrinter1.Imprimir;
+    end;
   end
   else begin
     //cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido

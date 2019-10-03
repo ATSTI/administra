@@ -11,6 +11,7 @@ object fNFCe: TfNFCe
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -268,6 +269,13 @@ object fNFCe: TfNFCe
         Color = clBtnFace
         ParentColor = False
       end
+      object Label13: TLabel
+        Left = 128
+        Top = 136
+        Width = 56
+        Height = 13
+        Caption = 'UF Emissa'#245
+      end
       object rgAmbiente: TRadioGroup
         Left = 8
         Top = 4
@@ -439,7 +447,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -448,7 +456,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -458,7 +466,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 4
         end
         object seColunas: TSpinEdit
@@ -530,6 +538,14 @@ object fNFCe: TfNFCe
         Width = 177
         Height = 21
         TabOrder = 7
+      end
+      object edUFEmissao: TEdit
+        Left = 128
+        Top = 152
+        Width = 57
+        Height = 21
+        TabOrder = 8
+        Text = 'SP'
       end
     end
   end
@@ -2845,6 +2861,8 @@ object fNFCe: TfNFCe
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
+    Configuracoes.WebServices.TimeZoneConf.ModoDeteccao = tzManual
+    Configuracoes.WebServices.TimeZoneConf.TimeZoneStr = '-03:00'
     Configuracoes.RespTec.IdCSRT = 0
     DANFE = ACBrNFeDANFeESCPOS1
     Left = 288

@@ -18,7 +18,7 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select * from FILTROPRODUTO(:CCUSTO, :MARCA, :CATEGORIA  '#13#10', :FA' +
-        'MILIA,   :DTAINI, :DTAFIM)'
+        'MILIA,   :DTAINI, :DTAFIM, :CODVENDEDOR)'
     end
     item
       Alias = 'CABECALHO'
@@ -133,6 +133,19 @@ object TRpReport
       Datasets.Strings = (
         'LISTA_PRODUTOS')
       Description = 'Sub-Grupo'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'CODVENDEDOR'
+      AllowNulls = False
+      Value = 0
+      ParamType = rpParamInteger
+      Datasets.Strings = (
+        'LISTA_PRODUTOS')
+      Description = ''
       Hint = ''
       Search = ''
       ErrorMessage = ''

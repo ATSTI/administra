@@ -12,6 +12,7 @@ object fMotorista: TfMotorista
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -34,6 +35,7 @@ object fMotorista: TfMotorista
     Width = 225
     Height = 21
     TabOrder = 0
+    OnKeyPress = FormKeyPress
   end
   object edtMotNome: TEdit
     Left = 40
@@ -41,6 +43,7 @@ object fMotorista: TfMotorista
     Width = 457
     Height = 21
     TabOrder = 1
+    OnKeyPress = FormKeyPress
   end
   object btnOK: TButton
     Left = 40

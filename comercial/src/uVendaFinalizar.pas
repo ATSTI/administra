@@ -10,7 +10,7 @@ uses
   VDOBasePrinter, VDODmPrinter, Printers, Modulo, JvBaseEdits, JvExMask,
   JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
   JvExStdCtrls, JvCombobox, JvDBSearchComboBox, fClassCitrus, uUtils,
-  UCHist_Base, UCHistDataset, DBXpress, uVendaCls;
+  UCHist_Base, UCHistDataset, DBXpress, uVendaCls, ACBrBase, ACBrPosPrinter;
 
     //, ComCtrls, ImgList, Mask, Modulo
 
@@ -513,6 +513,8 @@ type
     BitBtn10: TBitBtn;
     ImprimirPedidoII1: TMenuItem;
     btnSAT: TBitBtn;
+    ACBrPosPrinter1: TACBrPosPrinter;
+    MemoImp: TMemo;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -2835,6 +2837,7 @@ var
   produto_cupomf: String;
   portaIMP : string;
   i: integer;
+  arquivo: TStringList;
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
@@ -2872,8 +2875,8 @@ begin
   try
     if (not dm.cds_parametro.Eof) then
     begin
-      dlgSave1.Execute;
-      AssignFile(IMPRESSORA, dlgSave1.FileName);
+      //dlgSave1.Execute;
+      AssignFile(IMPRESSORA, dm.cds_parametroDADOS.AsString);
       dm.cds_parametro.Close;
     end
     else
@@ -3001,6 +3004,55 @@ begin
       Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
+  end;
+
+  if (dm.cds_parametro.Active) then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].Clear;
+  dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+  dm.cds_parametro.Open;
+  portaIMP := dm.cds_parametroDADOS.AsString;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+  begin
+    arquivo := TStringList.Create();
+    try
+      arquivo.LoadFromFile(dm.cds_parametroDADOS.AsString);
+      MemoImp.Clear;
+      MemoImp.Text := arquivo.Text;
+    finally
+      arquivo.free;
+    end;
+    ACBrPosPrinter1.Desativar;
+    //ACBrPosPrinter1.LinhasBuffer := dmpdv.imp_LinhasBuffer;
+    ACBrPosPrinter1.LinhasEntreCupons := 0;
+    //ACBrPosPrinter1.EspacoEntreLinhas := dmpdv.espacoEntreLinhas;
+    //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
+    ACBrPosPrinter1.Porta  := portaImp;
+    ACBrPosPrinter1.CortaPapel := True;
+    if (dm.cds_parametroD1.AsString <> '') then
+    begin
+      try
+        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(
+          StrToInt(dm.cds_parametroD1.AsString));
+        if (dm.cds_parametroD2.AsString <> '') then
+          ACBrPosPrinter1.Device.Baud := StrToInt(dm.cds_parametroD2.AsString);
+      except
+        ShowMessage('Parametro IMPARQUIVO D1 informar modelo impressora');
+        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1);
+      end;
+    end
+    else begin
+      ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1); // epson TACBrPosPrinterModelo(cbxModeloPosPrinter.ItemIndex);
+    end;  
+    ACBrPosPrinter1.Ativar;
+
+    ACBrPosPrinter1.Buffer.Text := MemoImp.Lines.Text;
+    ACBrPosPrinter1.Imprimir;
+    ACBrPosPrinter1.Desativar;
   end;
 end;
 
