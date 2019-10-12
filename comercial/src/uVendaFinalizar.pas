@@ -2875,8 +2875,10 @@ begin
   try
     if (not dm.cds_parametro.Eof) then
     begin
-      //dlgSave1.Execute;
-      AssignFile(IMPRESSORA, dm.cds_parametroDADOS.AsString);
+      texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
+        'v.txt';
+      AssignFile(IMPRESSORA, texto3);
+      //AssignFile(IMPRESSORA, dm.cds_parametroDADOS.AsString);
       dm.cds_parametro.Close;
     end
     else
@@ -2892,7 +2894,7 @@ begin
          portaIMP := dm.portaImpressora2;
       AssignFile(IMPRESSORA,portaIMP);
     end;
-
+    texto3 := '';
     Rewrite(IMPRESSORA);
     Writeln(Impressora, c10cpi + '  VENDA');
     Writeln(IMPRESSORA);
@@ -3018,41 +3020,44 @@ begin
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.Eof) then
   begin
-    arquivo := TStringList.Create();
-    try
-      arquivo.LoadFromFile(dm.cds_parametroDADOS.AsString);
-      MemoImp.Clear;
-      MemoImp.Text := arquivo.Text;
-    finally
-      arquivo.free;
-    end;
-    ACBrPosPrinter1.Desativar;
-    //ACBrPosPrinter1.LinhasBuffer := dmpdv.imp_LinhasBuffer;
-    ACBrPosPrinter1.LinhasEntreCupons := 0;
-    //ACBrPosPrinter1.EspacoEntreLinhas := dmpdv.espacoEntreLinhas;
-    //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
-    ACBrPosPrinter1.Porta  := portaImp;
-    ACBrPosPrinter1.CortaPapel := True;
-    if (dm.cds_parametroD1.AsString <> '') then
+    if (dm.cds_parametroD3.AsString <> 'APLICATIVO') then
     begin
+      arquivo := TStringList.Create();
       try
-        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(
-          StrToInt(dm.cds_parametroD1.AsString));
-        if (dm.cds_parametroD2.AsString <> '') then
-          ACBrPosPrinter1.Device.Baud := StrToInt(dm.cds_parametroD2.AsString);
-      except
-        ShowMessage('Parametro IMPARQUIVO D1 informar modelo impressora');
-        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1);
+        arquivo.LoadFromFile(dm.cds_parametroDADOS.AsString);
+        MemoImp.Clear;
+        MemoImp.Text := arquivo.Text;
+      finally
+        arquivo.free;
       end;
-    end
-    else begin
-      ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1); // epson TACBrPosPrinterModelo(cbxModeloPosPrinter.ItemIndex);
-    end;  
-    ACBrPosPrinter1.Ativar;
+      ACBrPosPrinter1.Desativar;
+      //ACBrPosPrinter1.LinhasBuffer := dmpdv.imp_LinhasBuffer;
+      ACBrPosPrinter1.LinhasEntreCupons := 0;
+      //ACBrPosPrinter1.EspacoEntreLinhas := dmpdv.espacoEntreLinhas;
+      //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
+      ACBrPosPrinter1.Porta  := portaImp;
+      ACBrPosPrinter1.CortaPapel := True;
+      if (dm.cds_parametroD1.AsString <> '') then
+      begin
+        try
+          ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(
+            StrToInt(dm.cds_parametroD1.AsString));
+          if (dm.cds_parametroD2.AsString <> '') then
+            ACBrPosPrinter1.Device.Baud := StrToInt(dm.cds_parametroD2.AsString);
+        except
+          ShowMessage('Parametro IMPARQUIVO D1 informar modelo impressora');
+          ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1);
+        end;
+      end
+      else begin
+        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1); // epson TACBrPosPrinterModelo(cbxModeloPosPrinter.ItemIndex);
+      end;
+      ACBrPosPrinter1.Ativar;
 
-    ACBrPosPrinter1.Buffer.Text := MemoImp.Lines.Text;
-    ACBrPosPrinter1.Imprimir;
-    ACBrPosPrinter1.Desativar;
+      ACBrPosPrinter1.Buffer.Text := MemoImp.Lines.Text;
+      ACBrPosPrinter1.Imprimir;
+      ACBrPosPrinter1.Desativar;
+    end;
   end;
 end;
 

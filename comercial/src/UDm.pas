@@ -2127,6 +2127,7 @@ type
     regimeEmpresa: string;
     imprimeDetalhamentoEspecifico: Boolean;
     quebraLinhaDanfe: Boolean;
+    vendaVerTotal : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
     function validaCfop(cfop: String):Boolean;
@@ -2304,6 +2305,15 @@ begin
     baixaMateriaPrima := cds_parametroCONFIGURADO.AsString;
   end;
 
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'VENDAVERTOTAL';
+  cds_parametro.Open;
+  vendaVerTotal := 'adm';
+  if (not cds_parametro.IsEmpty) then
+  begin
+    vendaVerTotal := Trim(cds_parametroDADOS.AsString);
+  end;
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';

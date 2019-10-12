@@ -680,6 +680,7 @@ begin
   qnf := 0;
   tot_nf := 0;
   tot_cte := 0;
+  
   case rgVersaoDF.ItemIndex of
     0: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve100;
     1: ACBrMDFe1.Configuracoes.Geral.VersaoDF := ve300;

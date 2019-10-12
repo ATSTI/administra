@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabSheet7
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2862,12 +2862,27 @@ inherited fParametro: TfParametro
       object Label89: TLabel
         Left = 4
         Top = 466
-        Width = 798
+        Width = 854
         Height = 13
         Caption = 
-          'IMPRIMIR Cupom - Finalizar venda : Parametro IMPARQUIVO em Dados' +
-          ' coloque :  C:\home\imprime.txt , a porta impressora e a mesma P' +
-          'DV'
+          'IMPRIMIR Cupom - Fin. venda : Parametro IMPARQUIVO Dados :  C:\h' +
+          'ome\imprime.txt , a porta imp. usa PDV, D3 = APLICATIVO (usa prj' +
+          'Imprime.exe)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label90: TLabel
+        Left = 4
+        Top = 409
+        Width = 514
+        Height = 13
+        Caption = 
+          'Exibir Total na tela Filtro VENDA : Parametro VENDAVERTOTAL , Da' +
+          'dos = codigo Usuario'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -2877,16 +2892,16 @@ inherited fParametro: TfParametro
       end
       object GroupBox8: TGroupBox
         Left = 0
-        Top = 8
+        Top = 2
         Width = 769
-        Height = 60
+        Height = 47
         Caption = 
           'Tipo de Form de Procura do Produto para o Form VENDA (TERMINALVE' +
           'NDAS)'
         TabOrder = 0
         object BitBtn8: TBitBtn
           Left = 679
-          Top = 20
+          Top = 17
           Width = 75
           Height = 25
           Caption = 'Gravar'
@@ -2895,7 +2910,7 @@ inherited fParametro: TfParametro
         end
         object RadioGroup2: TRadioGroup
           Left = 9
-          Top = 20
+          Top = 11
           Width = 647
           Height = 31
           Columns = 2
@@ -2907,9 +2922,9 @@ inherited fParametro: TfParametro
       end
       object GroupBox1: TGroupBox
         Left = 1
-        Top = 83
+        Top = 51
         Width = 769
-        Height = 89
+        Height = 81
         Caption = 
           'Usa anota'#231#245'es em Vendas (Campo Controle tabela Movimento Detalhe' +
           ') - Combobox usa D1 a D9. - ANOTACOESVENDAS'
@@ -3016,7 +3031,7 @@ inherited fParametro: TfParametro
         end
         object BitBtn1: TBitBtn
           Left = 678
-          Top = 55
+          Top = 52
           Width = 75
           Height = 25
           Caption = 'Gravar'
@@ -3026,7 +3041,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox29: TGroupBox
         Left = 2
-        Top = 176
+        Top = 132
         Width = 769
         Height = 48
         Caption = 'Campo Controle  e Obs. no Formul'#225'rio FINALIZAR VENDA (CONTROLE)'
@@ -3077,7 +3092,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox10: TGroupBox
         Left = 2
-        Top = 227
+        Top = 181
         Width = 769
         Height = 48
         Caption = 
@@ -3142,7 +3157,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox7: TGroupBox
         Left = 2
-        Top = 278
+        Top = 230
         Width = 496
         Height = 48
         Caption = 'Margem de Lucro Permitido no Pedido de Venda'
@@ -3191,9 +3206,9 @@ inherited fParametro: TfParametro
       end
       object GroupBox30: TGroupBox
         Left = 2
-        Top = 329
+        Top = 281
         Width = 769
-        Height = 48
+        Height = 40
         Caption = 
           'Utiliza Expedi'#231#227'o para Vendas (O Estoque so ser'#225' baixado no mome' +
           'nto que o Status da Expedi'#231#227'o for igual a ENTREGUE'
@@ -3210,7 +3225,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox31: TGroupBox
         Left = 2
-        Top = 377
+        Top = 321
         Width = 263
         Height = 39
         Caption = 'Desconto na Venda de Clientes com SUFRAMA'
@@ -3241,7 +3256,7 @@ inherited fParametro: TfParametro
       end
       object RadioGroup3: TRadioGroup
         Left = 502
-        Top = 281
+        Top = 232
         Width = 269
         Height = 45
         Caption = 'Vendedor Igual Usu'#225'rio Logado'
@@ -3253,7 +3268,7 @@ inherited fParametro: TfParametro
       end
       object BitBtn32: TBitBtn
         Left = 681
-        Top = 296
+        Top = 245
         Width = 75
         Height = 25
         Caption = 'Gravar'
@@ -3262,7 +3277,7 @@ inherited fParametro: TfParametro
       end
       object rgBloqueio: TRadioGroup
         Left = 271
-        Top = 377
+        Top = 321
         Width = 266
         Height = 37
         Caption = 'Mensagem Personalizada para Cliente Bloqueado'
@@ -3275,7 +3290,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox41: TGroupBox
         Left = 0
-        Top = 416
+        Top = 360
         Width = 769
         Height = 45
         Caption = 'Lista de Pre'#231'o'

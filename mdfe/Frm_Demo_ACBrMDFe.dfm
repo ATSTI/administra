@@ -2624,7 +2624,7 @@ object fACBrMDFe: TfACBrMDFe
       Top = 177
       Width = 636
       Height = 363
-      ActivePage = TabSheet5
+      ActivePage = TabSheet6
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet
@@ -2644,12 +2644,12 @@ object fACBrMDFe: TfACBrMDFe
         object WBResposta: TWebBrowser
           Left = 0
           Top = 0
-          Width = 660
+          Width = 628
           Height = 335
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C00000037440000A02200000000000000000000000000000000000000000000
+            4C000000E8400000A02200000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126208000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -3082,7 +3082,6 @@ object fACBrMDFe: TfACBrMDFe
     CasasDecimais.vUnCom = 2
     CasasDecimais.MaskqCom = ',0.00'
     CasasDecimais.MaskvUnCom = ',0.00'
-    ACBrMDFe = ACBrMDFe1
     ImprimeHoraSaida = False
     TipoDAMDFe = tiSemGeracao
     TamanhoPapel = tpA4

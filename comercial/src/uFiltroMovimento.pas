@@ -751,7 +751,8 @@ begin
     BitBtn8.Enabled := True;
     lblNumReg.Caption := 'Número de Registros : ' + IntToStr(cds_cns.RecordCount);
     sqTotalFMov.Open;
-    lblValorTotal.Caption := 'Total : ' + Format('%-6.2n', [sqTotalFMov.Fields[0].AsFloat]);
+    if (dm.vendaVerTotal = dm.varLogado) then
+      lblValorTotal.Caption := 'Total : ' + Format('%-6.2n', [sqTotalFMov.Fields[0].AsFloat]);
   end;
   DBGrid1.SetFocus;
 end;
