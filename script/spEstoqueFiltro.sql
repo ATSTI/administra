@@ -146,7 +146,7 @@ BEGIN
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND natu.BAIXAMOVIMENTO = 0 
              AND movdet.BAIXA is not null  
-             AND c.DATACOMPRA  BETWEEN UDF_INCDAY(:dataEstoqueMEs,1) and UDF_INCDAY(:DTA1,-1) 
+             AND c.DATACOMPRA  BETWEEN dateadd(1 day to :dataEstoqueMEs) and dateadd(-1 day to :DTA1) 
             INTO :ENTRA, :VLR
       DO BEGIN     
         --anotacoes = ' 2 - ' || cast(entra as varchar(8));
@@ -192,7 +192,7 @@ BEGIN
            WHERE v.CODMOVIMENTO = mov.CODMOVIMENTO 
              AND natu.CODNATUREZA = mov.CODNATUREZA  
              AND mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
-             AND v.DATAVENDA  BETWEEN UDF_INCDAY(:dataEstoqueMEs,1) and UDF_INCDAY(:DTA1,-1) 
+             AND v.DATAVENDA  BETWEEN dateadd(1 day to :dataEstoqueMEs) and dateadd(-1 day to :DTA1)
              AND ((mov.CODALMOXARIFADO = :CCUSTO) OR (:CCUSTO = 1))  
              AND ((movdet.LOTE is null) or ((movdet.LOTE = :LOTE) or (:LOTE = 'TODOS OS LOTES CADASTRADOS NO SISTEMA')))
              AND movdet.CODPRODUTO = :CODPRODUTO 
@@ -217,7 +217,7 @@ BEGIN
              AND movdet.CODPRODUTO = :CODPRODUTO 
              AND natu.BAIXAMOVIMENTO = 1
              AND movdet.BAIXA is not null  
-             AND c.DATACOMPRA  BETWEEN UDF_INCDAY(:dataEstoqueMEs,1) and UDF_INCDAY(:DTA1,-1) 
+             AND c.DATACOMPRA  BETWEEN dateadd(1 day to :dataEstoqueMEs) and dateadd(-1 day to :DTA1)
             INTO :SAI, :VLR
       DO BEGIN     
         if ((SAI > 0) AND (VLR > 0)) then 
@@ -241,7 +241,7 @@ BEGIN
       end
       
       select first 1 em.PRECOCOMPRA, em.PRECOCUSTO from ESTOQUEMES em 
-       where em.MESANO = UDF_INCDAY(:dta1, -1) 
+       where em.MESANO = dateadd(-1 day to :DTA1)
          and em.CODPRODUTO = :prod1
          and em.CENTROCUSTO = :ccusto
         into :COMPRAEM, :CUSTOEM;

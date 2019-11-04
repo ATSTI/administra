@@ -64,7 +64,7 @@ BEGIN
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO, 
         prod.PRODUTO
         , prod.FAMILIA, prod.CATEGORIA, mov.OBS, prod.VALORUNITARIOATUAL, 
-        prod.VALOR_PRAZO, UDF_LEFT(movdet.OBS,99), prod.PRODUTO
+        prod.VALOR_PRAZO, LEFT(movdet.OBS,99), prod.PRODUTO
         FROM MOVIMENTO mov
         inner join VENDA v on v.CODMOVIMENTO = mov.CODMOVIMENTO 
         inner join NATUREZAOPERACAO natu on natu.CODNATUREZA = mov.CODNATUREZA 
@@ -108,7 +108,7 @@ BEGIN
          movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO,
           prod.PRODUTO
-         , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
+         , prod.FAMILIA, prod.CATEGORIA, LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
         , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.OBS, prod.PRODUTO
         FROM MOVIMENTO mov
         inner join compra v on v.CODMOVIMENTO = mov.CODMOVIMENTO 
@@ -152,7 +152,7 @@ BEGIN
          movdet.CODPRODUTO, 
         movdet.LOTE, movdet.DTAFAB, movdet.DTAVCTO, mov.CODALMOXARIFADO, prod.CODPRO,
           prod.PRODUTO
-         , prod.FAMILIA, prod.CATEGORIA, UDF_LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
+         , prod.FAMILIA, prod.CATEGORIA, LEFT(mov.OBS || COALESCE(movdet.OBS,''),99)
         , prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO, movdet.OBS, prod.PRODUTO
         FROM MOVIMENTO mov
         inner join compra v on v.CODMOVIMENTO = mov.CODMOVIMENTO 

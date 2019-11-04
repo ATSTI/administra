@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE ESTOQUE_VIEW_CUSTO (
     DTA1 date,
     PROD1 integer,
@@ -35,15 +36,27 @@ DECLARE VARIABLE SOMA_SAI double precision;
 DECLARE VARIABLE SOMA_ENT double precision;
 DECLARE VARIABLE ultimoDiaMes date;
 DECLARE VARIABLE MesEstoque date;
+DECLARE VARIABLE calc_data varchar(10);
+DECLARE VARIABLE calc_mes varchar(2);
+DECLARE VARIABLE calc_ano varchar(4);
 BEGIN
   -- versao 3.0
   PROD = 0;
   INI  = 0;
   SOMA_ENTRADA = 0;
   SOMA_SAIDA   = 0;
-  ultimoDiaMes = UDF_MONTHEND(UDF_YEAR(:DTA1), UDF_MONTH(:DTA1));
+  calc_mes = EXTRACT(MONTH from :DTA1);
+  calc_ano = EXTRACT(YEAR from :DTA1);
+  calc_data =  calc_mes || '/01/' || calc_ano;
+  ultimoDiaMes = CAST(calc_data AS DATE)-1;
+  -- troquei a udf abaixo pela funcao acima
+  -- ultimoDiaMes = UDF_MONTHEND(UDF_YEAR(:DTA1), UDF_MONTH(:DTA1));
   if (ultimoDiaMes > dta1) then 
-    ultimoDiaMes = UDF_MONTHEND(UDF_YEAR(:DTA1), UDF_MONTH(UDF_INCMONTH(:DTA1,-1)));
+  begin
+    --ultimoDiaMes = UDF_MONTHEND(UDF_YEAR(:DTA1), UDF_MONTH(UDF_INCMONTH(:DTA1,-1)));
+    calc_data = CAST((CAST(calc_mes as INTEGER)-1) as varchar(2)) || '/01/' || calc_ano;
+    ultimoDiaMes = CAST(calc_data AS DATE)-1;
+  end
   
   select CAST(COALESCE(DADOS, '0') as INTEGER) FROM PARAMETRO WHERE PARAMETRO = 'CCUSTOESTOQUE'
     into :CCUSTOESTOQUE;
@@ -97,7 +110,7 @@ BEGIN
    begin  
      FOR SELECT CODPROD, SALDOINIACUM, ENTRADA, SAIDA,      SALDOFIMACUM, PRECOUNIT, VALORVENDA,  CCUSTOS, LOTES, 
        GRUPO, PRECOCOMPRA, PRECOVENDA, PRECOCUSTO
-       from SPESTOQUEFILTRO(UDF_INCDAY(:mesEstoque,1) , :DTA1, :Prod1, :Prod1, 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA', 
+       from SPESTOQUEFILTRO( dateadd(1 day to :mesEstoque) , :DTA1, :Prod1, :Prod1, 'TODOS SUBGRUPOS DO CADASTRO CATEGORIA', 
        100, :CCUSTO, 'TODAS AS MARCAS CADASTRADAS NO SISTEMA', :LOTE, 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA') ep
        into :CODPROD,  :ESTOQUE_X, :SOMA_ENT, :SOMA_SAI, :SALDOFIMACUM, :PRECOUNIT, :VALORVENDA,  :CCUSTOS, :LOTES, 
        :GRUPO, :PRECOCOMPRA, :PRECOVENDA, :PRECOCUSTO

@@ -61,6 +61,7 @@ AS
  DECLARE VARIABLE redBasePIS DOUBLE PRECISION = 0;
  DECLARE VARIABLE redBaseCofins DOUBLE PRECISION = 0;
  DECLARE VARIABLE redBaseIPI DOUBLE PRECISION = 0;
+ DECLARE VARIABLE ii_percentual DOUBLE PRECISION = 0;
  DECLARE VARIABLE posicao_fiscal CHAR(12);
 BEGIN
 
@@ -178,30 +179,30 @@ BEGIN
 
 	  new.SUITE = 'Nao achou nenhuma configuracao';
       for select first 1 * from ( 
-        select COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IND, 0)
+        select 'APRODUTO' as ONDE, COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IND, 0)
 	      , COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0)
 	      , COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI, cfp.ALIQ_CUPOM, COALESCE(vBCUFDest, 0)
 	      , COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0)
 	      , COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
-	      , 1, 1, 1, 'PRODUTO' as ONDE
+	      , 1, 1, 1, 0
         from CLASSIFICACAOFISCALPRODUTO cfp	
         where cfp.CODFISCAL = :PESSOA and cfp.CFOP = new.CFOP and cfp.UF = :UF and cfp.COD_PROD = new.CODPRODUTO
         UNION		
-        select COALESCE(cfn.ICMS_SUBST, 0), COALESCE(cfn.ICMS_SUBST_IC, 0), COALESCE(cfn.ICMS_SUBST_IND, 0)
-          , COALESCE(cfn.ICMS, 0), COALESCE(cfn.ICMS_BASE, 1), cfn.CST, COALESCE(cfn.IPI, 0), cfn.CSOSN, COALESCE(cfn.PIS, 0)
-          , COALESCE(cfn.COFINS, 0), cfn.CSTCOFINS, cfn.CSTPIS, cfn.CSTIPI, cfn.ALIQ_CUPOM, COALESCE(vBCUFDest, 0)
+        select 'NCM' as ONDE, COALESCE(cfn.ICMS_SUBST, 0), COALESCE(cfn.ICMS_SUBST_IC, 0), COALESCE(cfn.ICMS_SUBST_IND, 0)
+          , COALESCE(cfn.ICMS, 0), COALESCE(cfn.ICMS_BASE, 1), COALESCE(cfn.CST, '000'), COALESCE(cfn.IPI, 0), cfn.CSOSN, COALESCE(cfn.PIS, 0)
+          , COALESCE(cfn.COFINS, 0), cfn.CSTCOFINS, cfn.CSTPIS, cfn.CSTIPI, COALESCE(cfn.ALIQ_CUPOM,0), COALESCE(vBCUFDest, 0)
           , COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0)
           , COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999') 
-          , COALESCE(cfn.REDBASEPIS,1), COALESCE(cfn.REDBASECOFINS,1), COALESCE(cfn.REDBASEIPI,1), 'NCM' as ONDE
+          , COALESCE(cfn.REDBASEPIS,1), COALESCE(cfn.REDBASECOFINS,1), COALESCE(cfn.REDBASEIPI,1), COALESCE(cfn.II_PERCENTUAL, 0)
         from CLASSIFICACAOFISCALNCM cfn		
         where cfn.CODFISCAL = :PESSOA and cfn.CFOP = new.CFOP and cfn.UF = :UF and cfn.NCM = :NCM_P
         UNION
-        select COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0)
+        select 'UF' as ONDE, COALESCE(ei.ICMS_SUBSTRIB, 0), COALESCE(ei.ICMS_SUBSTRIB_IC, 0), COALESCE(ei.ICMS_SUBSTRIB_IND, 0)
           , COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1), ei.CST, COALESCE(ei.IPI, 0), ei.CSOSN, COALESCE(ei.PIS, 0)
           , COALESCE(ei.COFINS, 0), ei.CSTCOFINS, ei.CSTPIS, ei.CSTIPI, ei.ALIQ_CUPOM, COALESCE(vBCUFDest, 0)
           , COALESCE(pFCPUFDest,0), COALESCE(pICMSUFDest,0),COALESCE(pICMSInter,0), COALESCE(pICMSInterPart,0)
           , COALESCE(vFCPUFDest,0), COALESCE(vICMSUFDest,0), COALESCE(vICMSUFRemet,0), COALESCE(CST_IPI_CENQ, '999')
-          , 1, 1, 1, 'UF' as ONDE
+          , 1, 1, 1, 0
         from ESTADO_ICMS ei
         where ei.CODFISCAL = :PESSOA and ei.CFOP = new.CFOP and ei.UF = :UF) 
         (CICMS_SUBST, CICMS_SUBST_IC, CICMS_SUBST_IND
@@ -209,13 +210,13 @@ BEGIN
           , COFINS, CSTCOFINS, CSTPIS, CSTIPI, aliq_cupom, vBCUFDest
           , pFCPUFDest, pICMSUFDest, pICMSInter, pICMSInterPart
           , vFCPUFDest, vICMSUFDest, vICMSUFRemet, CST_IPI_CENQ
-          , redBasePIS, redBaseCOFINS, redBaseIPI, posicao_fiscal)
-        into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND
+          , redBasePIS, redBaseCOFINS, redBaseIPI, posicao_fiscal, ii)
+        into :posicao_fiscal, :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND
           , :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS
           , :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :aliq_cupom, :vBCUFDest
           , :pFCPUFDest, :pICMSUFDest, :pICMSInter, :pICMSInterPart
           , :vFCPUFDest, :vICMSUFDest, :vICMSUFRemet, :CST_IPI_CENQ
-          , :redBasePIS, :redBaseCOFINS, :redBaseIPI, :posicao_fiscal
+          , :redBasePIS, :redBaseCOFINS, :redBaseIPI, :ii_percentual
       do begin
         if (redBaseIpi = 0) then
           redBaseIpi = 1;
@@ -484,6 +485,22 @@ BEGIN
         end  
       end
     end
+    -- CaLCULO ii IMPOSTO IMPORTACAO
+    new.SUITE = cast(:ii_percentual as varchar(6)) || ' - II';
+    if (ii_percentual > 0) then 
+    begin 
+      new.BCII = new.VLR_BASEICMS -  new.VIPI;
+      new.II = ROUND((new.BCII) * (:ii_percentual / 100), :arredondar);
+      new.VLRBC_IPI = ROUND((TOTALITENS+new.II) * redBaseIPI , :arredondar);
+      new.VIPI = ROUND(((((new.VLR_BASE*new.QUANTIDADE)++new.II)*redBaseIPI) * IND_IPI/100), :arredondar);
+      new.PIPI = IND_IPI;
+      -- new.QTDEESTOQUE = new.VLR_BASEICMS;
+      new.VLR_BASEICMS =  new.BCII + new.VIPI + NEW.II + new.VALOR_COFINS + new.VALOR_PIS + coalesce(new.VALOR_OUTROS,0);
+      cicms = 1 - (:cicms / 100);
+      --new.icms = :cicms;
+      new.VLR_BASEICMS = ROUND((new.VLR_BASEICMS / :cicms), :arredondar);
+      new.VALOR_ICMS =  new.VLR_BASEICMS * (1 - :cicms);
+    end     
     new.CST_IPI_CENQ = :CST_IPI_CENQ;
   end  
   else begin 
