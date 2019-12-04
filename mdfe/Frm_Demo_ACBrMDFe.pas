@@ -364,6 +364,59 @@ type
     edApolice: TEdit;
     edAverba: TEdit;
     ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
+    GroupBox16: TGroupBox;
+    Label108: TLabel;
+    Label109: TLabel;
+    Label110: TLabel;
+    Label111: TLabel;
+    Label112: TLabel;
+    Label113: TLabel;
+    Label115: TLabel;
+    Label116: TLabel;
+    Label117: TLabel;
+    Label118: TLabel;
+    Label119: TLabel;
+    Label120: TLabel;
+    Label121: TLabel;
+    edRebocoCint: TEdit;
+    edRebocoPlaca: TEdit;
+    edRebocoTara: TEdit;
+    edRebocoCapM: TEdit;
+    edRebocoCapKg: TEdit;
+    edRebocoRNTRC: TEdit;
+    edRebocoNome: TEdit;
+    edRebocoIE: TEdit;
+    edRebocoUF: TEdit;
+    edRebocoTipoProp: TEdit;
+    edRebocoTipoCarroc: TEdit;
+    edRebocoUFVeic: TEdit;
+    edRebocoCPF: TEdit;
+    Label114: TLabel;
+    Label122: TLabel;
+    Label123: TLabel;
+    Label124: TLabel;
+    Label125: TLabel;
+    Label126: TLabel;
+    Label127: TLabel;
+    Label128: TLabel;
+    Label129: TLabel;
+    Label130: TLabel;
+    Label131: TLabel;
+    Label132: TLabel;
+    Label133: TLabel;
+    edRebocoCint2: TEdit;
+    edRebocoPlaca2: TEdit;
+    edRebocoTara2: TEdit;
+    edRebocoCapM2: TEdit;
+    edRebocoCapKg2: TEdit;
+    edRebocoCPF2: TEdit;
+    edRebocoRNTRC2: TEdit;
+    edRebocoNome2: TEdit;
+    edRebocoIE2: TEdit;
+    edRebocoUF2: TEdit;
+    edRebocoTipoProp2: TEdit;
+    edRebocoTipoCarroc2: TEdit;
+    edRebocoUFVeic2: TEdit;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -404,6 +457,7 @@ type
     procedure BitBtn10Click(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
     procedure cbSegRespChange(Sender: TObject);
+    procedure cbTransporteChange(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
@@ -868,16 +922,32 @@ begin
       CPF   := edCondutorCPF.Text;
     end;
 
-    {with rodo.veicReboque.Add do
+    if (cbTransporte.ItemIndex = 1) then
     begin
-      cInt  := '002';
-      placa := 'XYZ4567';
-      tara  := 4000;
-      capKG := 3000;
-      capM3 := 300;
-      //     RNTRC := '87654321';
+      with rodo.veicReboque.Add do
+      begin
+        cInt  := edRebocoCint.Text;
+        placa := edRebocoPlaca.Text;
+        tara  := StrToInt(edRebocoTara.Text);
+        capKG := StrToInt(edRebocoCapKg.Text);
+        capM3 := StrToInt(edRebocoCapM.Text);
+        RENAVAM := edRebocoRNTRC.Text;
+        //RNTRC := edReboco ;
+      end;
+      if (edRebocoCint2.Text <> '') then
+      begin
+        with rodo.veicReboque.Add do
+        begin
+          cInt  := edRebocoCint2.Text;
+          placa := edRebocoPlaca2.Text;
+          tara  := StrToInt(edRebocoTara2.Text);
+          capKG := StrToInt(edRebocoCapKg2.Text);
+          capM3 := StrToInt(edRebocoCapM2.Text);
+          RENAVAM := edRebocoRNTRC2.Text;
+         //RNTRC := edReboco ;
+        end;
+      end;
     end;
-    }
     {with rodo.valePed.disp.Add do
     begin
       CNPJForn := '12345678000199';
@@ -2301,6 +2371,69 @@ begin
       end;
     end;
   end;
+  if (edRebocoCint.Text <> '') then
+  begin
+    DecimalSeparator := '.';
+    strInsere := 'UPDATE MDFE SET REBOQUE_CINT = ' + QuotedStr(edRebocoCint.Text);
+    if (edRebocoPlaca.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_PLACA = ' + QuotedStr(edRebocoPlaca.Text);
+    if (edRebocoTara.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_TARA = ' + edRebocoTara.Text;
+    if (edRebocoCapKg.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_CAPKG = ' + edRebocoCapKg.Text;
+    if (edRebocoCapM.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_CAPM3 = ' + edRebocoCapM.Text;
+    if (edRebocoRNTRC.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_RNTRC = ' + QuotedStr(edRebocoRNTRC.Text);
+    if (edRebocoUF.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_UF = ' + QuotedStr(edRebocoUF.Text);
+    strInsere := strInsere + ' WHERE COD_MDFE = ' + edNumMDFe.Text;
+    DecimalSeparator := ',';
+    dm.sc.StartTransaction(TD);
+    try
+      dm.sc.ExecuteDirect(strInsere);
+      dm.sc.Commit(TD); {on success, commit the changes};
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+  end;
+  if (edRebocoCint2.Text <> '') then
+  begin
+    DecimalSeparator := '.';
+    strInsere := 'UPDATE MDFE SET REBOQUE_CINT2 = ' + QuotedStr(edRebocoCint2.Text);
+    if (edRebocoPlaca2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_PLACA2 = ' + QuotedStr(edRebocoPlaca2.Text);
+    if (edRebocoTara2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_TARA2 = ' + edRebocoTara2.Text;
+    if (edRebocoCapKg2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_CAPKG2 = ' + edRebocoCapKg2.Text;
+    if (edRebocoCapM2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_CAPM32 = ' + edRebocoCapM2.Text;
+    if (edRebocoRNTRC2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_RNTRC2 = ' + QuotedStr(edRebocoRNTRC2.Text);
+    if (edRebocoUF2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_UF2 = ' + QuotedStr(edRebocoUF2.Text);
+    strInsere := strInsere + ' WHERE COD_MDFE = ' + edNumMDFe.Text;
+    DecimalSeparator := ',';
+    dm.sc.StartTransaction(TD);
+    try
+      dm.sc.ExecuteDirect(strInsere);
+      dm.sc.Commit(TD); {on success, commit the changes};
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+  end;
+
 end;
 
 function TfACBrMDFe.RemoveChar(const Texto: String): String;
@@ -2358,7 +2491,8 @@ begin
       codMDFe := 1;
     edNumMdfe.Text := IntToStr(codMdfe);
   end;
-
+  if (dm.cds.FieldByName('TIPO_TRANSP').AsInteger = 2) then
+    GroupBox16.Visible := True;
 end;
 
 procedure TfACBrMDFe.PreencherCampos;
@@ -2439,6 +2573,22 @@ begin
     if (dm.cds.FieldByName('NF2_PIN').AsInteger = 0) then
        edNFPin2.Text := ''
     else edNFPin2.Text := IntToStr(dm.cds.FieldByName('NF2_PIN').AsInteger);
+
+    edRebocoCint.Text := dm.cds.FieldByName('REBOQUE_CINT').AsString;;
+    edRebocoPlaca.Text := dm.cds.FieldByName('REBOQUE_PLACA').AsString;
+    edRebocoTara.Text := dm.cds.FieldByName('REBOQUE_TARA').AsString;
+    edRebocoCapKg.Text := dm.cds.FieldByName('REBOQUE_CAPKG').AsString;
+    edRebocoCapM.Text := dm.cds.FieldByName('REBOQUE_CAPM3').AsString;
+    edRebocoRNTRC.Text := dm.cds.FieldByName('REBOQUE_RNTRC').AsString;
+    edRebocoUF.Text := dm.cds.FieldByName('REBOQUE_UF').AsString;
+
+    edRebocoCint2.Text := dm.cds.FieldByName('REBOQUE_CINT2').AsString;;
+    edRebocoPlaca2.Text := dm.cds.FieldByName('REBOQUE_PLACA2').AsString;
+    edRebocoTara2.Text := dm.cds.FieldByName('REBOQUE_TARA2').AsString;
+    edRebocoCapKg2.Text := dm.cds.FieldByName('REBOQUE_CAPKG2').AsString;
+    edRebocoCapM2.Text := dm.cds.FieldByName('REBOQUE_CAPM32').AsString;
+    edRebocoRNTRC2.Text := dm.cds.FieldByName('REBOQUE_RNTRC2').AsString;
+    edRebocoUF2.Text := dm.cds.FieldByName('REBOQUE_UF2').AsString;
 
     edNFValor2.Value := dm.cds.FieldByName('NF2_VALOR').AsFloat;
     edNFCnpj3.Text := dm.cds.FieldByName('NF3_CNPJ').AsString;
@@ -2796,6 +2946,28 @@ begin
   except
     dm.sc.Rollback(TD); {on failure, undo the changes};
   end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD REBOQUE_CINT2 VARCHAR( 10 )' +
+      ', ADD REBOQUE_PLACA2          VARCHAR( 10 )'+
+      ', ADD REBOQUE_TARA2           INTEGER' +
+      ', ADD REBOQUE_CAPKG2          INTEGER' +
+      ', ADD REBOQUE_CAPM32          INTEGER' +
+      ', ADD REBOQUE_CPF2            VARCHAR( 14 )'+
+      ', ADD REBOQUE_CNPJ2           VARCHAR( 20 )' +
+      ', ADD REBOQUE_RNTRC2          VARCHAR( 10 )' +
+      ', ADD REBOQUE_NOME2           VARCHAR( 60 )' +
+      ', ADD REBOQUE_IE2             VARCHAR( 20 )' +
+      ', ADD REBOQUE_UF2             CHAR( 2 )' +
+      ', ADD REBOQUE_TIPOPROP2       SMALLINT' +
+      ', ADD REBOQUE_TIPOCARROCERIA2   SMALLINT' +
+      ', ADD REBOQUE_UFVEICULO2      CHAR( 2 )');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
@@ -3197,6 +3369,15 @@ begin
   begin
     edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
   end;
+end;
+
+procedure TfACBrMDFe.cbTransporteChange(Sender: TObject);
+begin
+  if cbTransporte.ItemIndex = 1 then
+    GroupBox16.Visible := True;
+  if cbTransporte.ItemIndex <> 1 then
+    GroupBox16.Visible := False;
+
 end;
 
 end.

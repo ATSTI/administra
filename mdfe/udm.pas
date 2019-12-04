@@ -125,6 +125,21 @@ type
     cdsSEG_CNPJ_SEGURADORA: TStringField;
     cdsSEG_APOLICE: TStringField;
     cdsSEG_AVERBA: TStringField;
+    cdsCNPJ_CONTRATANTE: TStringField;
+    cdsREBOQUE_CINT2: TStringField;
+    cdsREBOQUE_PLACA2: TStringField;
+    cdsREBOQUE_TARA2: TIntegerField;
+    cdsREBOQUE_CAPKG2: TIntegerField;
+    cdsREBOQUE_CAPM32: TIntegerField;
+    cdsREBOQUE_CPF2: TStringField;
+    cdsREBOQUE_CNPJ2: TStringField;
+    cdsREBOQUE_RNTRC2: TStringField;
+    cdsREBOQUE_NOME2: TStringField;
+    cdsREBOQUE_IE2: TStringField;
+    cdsREBOQUE_UF2: TStringField;
+    cdsREBOQUE_TIPOPROP2: TSmallintField;
+    cdsREBOQUE_TIPOCARROCERIA2: TSmallintField;
+    cdsREBOQUE_UFVEICULO2: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

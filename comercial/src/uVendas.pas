@@ -1158,7 +1158,25 @@ begin
   if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
     DBEdit10.ReadOnly := True;
+    DBEdit12.ReadOnly := True;
     DBEdit17.ReadOnly := True;
+    DBEdit6.ReadOnly := True;
+    dbedtVALOR_DESCONTO.ReadOnly := True;
+    if Dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
+    dm.cds_parametro.Open;
+    sPermissao.Close;
+    sPermissao.Params[0].AsInteger := usulog;
+    sPermissao.Open;
+    if (dm.usu_tipovendedor = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    begin
+      DBEdit10.ReadOnly := False;
+      DBEdit12.ReadOnly := False;
+      DBEdit17.ReadOnly := False;
+      DBEdit6.ReadOnly := False;
+      dbedtVALOR_DESCONTO.ReadOnly := False;
+    end;
   end;
 
   RadioOrcamento.Checked  := True;

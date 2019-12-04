@@ -15,7 +15,7 @@ object dm: Tdm
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.6.100:/home/publico/bd/sge_mart.fdb'
+      'Database=C:\Home\sisadmin\BD\sge_maisflores.FDB'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -455,6 +455,60 @@ object dm: Tdm
     object cdsSEG_AVERBA: TStringField
       FieldName = 'SEG_AVERBA'
       Size = 60
+    end
+    object cdsCNPJ_CONTRATANTE: TStringField
+      FieldName = 'CNPJ_CONTRATANTE'
+    end
+    object cdsREBOQUE_CINT2: TStringField
+      FieldName = 'REBOQUE_CINT2'
+      Size = 10
+    end
+    object cdsREBOQUE_PLACA2: TStringField
+      FieldName = 'REBOQUE_PLACA2'
+      Size = 10
+    end
+    object cdsREBOQUE_TARA2: TIntegerField
+      FieldName = 'REBOQUE_TARA2'
+    end
+    object cdsREBOQUE_CAPKG2: TIntegerField
+      FieldName = 'REBOQUE_CAPKG2'
+    end
+    object cdsREBOQUE_CAPM32: TIntegerField
+      FieldName = 'REBOQUE_CAPM32'
+    end
+    object cdsREBOQUE_CPF2: TStringField
+      FieldName = 'REBOQUE_CPF2'
+      Size = 14
+    end
+    object cdsREBOQUE_CNPJ2: TStringField
+      FieldName = 'REBOQUE_CNPJ2'
+    end
+    object cdsREBOQUE_RNTRC2: TStringField
+      FieldName = 'REBOQUE_RNTRC2'
+      Size = 10
+    end
+    object cdsREBOQUE_NOME2: TStringField
+      FieldName = 'REBOQUE_NOME2'
+      Size = 60
+    end
+    object cdsREBOQUE_IE2: TStringField
+      FieldName = 'REBOQUE_IE2'
+    end
+    object cdsREBOQUE_UF2: TStringField
+      FieldName = 'REBOQUE_UF2'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsREBOQUE_TIPOPROP2: TSmallintField
+      FieldName = 'REBOQUE_TIPOPROP2'
+    end
+    object cdsREBOQUE_TIPOCARROCERIA2: TSmallintField
+      FieldName = 'REBOQUE_TIPOCARROCERIA2'
+    end
+    object cdsREBOQUE_UFVEICULO2: TStringField
+      FieldName = 'REBOQUE_UFVEICULO2'
+      FixedChar = True
+      Size = 2
     end
   end
 end

@@ -946,10 +946,11 @@ begin
   usulog :=  UserControlComercial.CurrentUser.UserID;
   nome_user := UserControlComercial.CurrentUser.UserName;
   //dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
-  sPermissao.Close;
-  sPermissao.Params[0].AsInteger := usulog;
-  sPermissao.Open;
-  dm.usu_tipovendedor := sPermissaoUCPRIVILEGED.AsInteger;
+
+  if (dm.somente_sua_venda = 'S') then
+    dm.usu_tipovendedor := sPermissaoUCPRIVILEGED.AsInteger
+  else
+    dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
 end;
 
 procedure TfAtsAdmin.ListadeCompras1Click(Sender: TObject);
@@ -2409,7 +2410,7 @@ end;
 procedure TfAtsAdmin.UserControlComercialAfterLogin(Sender: TObject);
 begin
   Dm.varLogado := UserControlComercial.CurrentUser.UserLogin;
-  
+  dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
 end;
 
 procedure TfAtsAdmin.CadastrarSemanas1Click(Sender: TObject);

@@ -598,11 +598,27 @@ begin
 
   dm.cds_parametro.Close;
 
-  //if (procprod <> 'PROC_PROD_COMPLETO') then
-  //begin
-  //  BitBtn1.Click;
-    //JvDbGrid1.SetFocus;   // Comentei por causa da Felicita
-  //end;
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    Edit4.ReadOnly := True;
+    edDescontoMargem.ReadOnly := True;
+    Edit2.ReadOnly := True;
+    if Dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
+    dm.cds_parametro.Open;
+    if (dm.usu_tipovendedor = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    begin
+      Edit4.ReadOnly := False;
+      edDescontoMargem.ReadOnly := False;
+      Edit2.ReadOnly := False;
+    end;
+  end;
+
 end;
 
 procedure TfProcura_prod.btnIncluirClick(Sender: TObject);

@@ -895,6 +895,7 @@ begin
     end;
     //Adicionando Produtos
     contaItens := 0;
+    cdsItensNF.First;
     while not cdsItensNF.Eof do
     begin
       totalNFCe := totalNFCe + cdsItensNFVLR_BASE.AsFloat;

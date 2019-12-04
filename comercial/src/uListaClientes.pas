@@ -251,8 +251,11 @@ begin
    QuotedStr('(') + ' || ende.DDD2 || ' + QuotedStr(')') + ' || ende.TELEFONE2 END ) as TELEFONE2, ' +
    '       (CASE when ende.DDD3 is null then  ende.FAX ELSE ' +
    QuotedStr('(') + ' || ende.DDD3 || ' + QuotedStr(')') + ' || ende.FAX END ) as FAX, ende.CIDADE, ' +
-   'ende.UF, ende.LOGRADOURO || ' + QuotedStr(', ') + ' || ende.NUMERO || ' + QuotedStr(', ') +
-   '|| ende.BAIRRO as ENDERECO, ende.TELEFONE as FONE, '+
+   'ende.UF, ende.LOGRADOURO || ' +
+   ' CASE WHEN ende.NUMERO IS NULL THEN ' + QuotedStr('') +
+   ' ELSE ' + QuotedStr(', ') + ' || ende.NUMERO END ' +
+   ' || CASE WHEN ende.BAIRRO IS NULL THEN ' + QuotedStr('') +
+   ' ELSE ' + QuotedStr(', ') + ' || ende.BAIRRO END as ENDERECO, ende.TELEFONE as FONE, '+
    'cli.CODBANCO, cli.PRAZORECEBIMENTO, cli.OBS, rep.NOME_REPRCLI, ' +
    'usu.NOMEUSUARIO, fun.NOME_FUNCIONARIO, fun.TELEFONE, fun.CELULAR, ende.TELEFONE as tel, ende.E_mail, ' +
    'cli.CODFISCAL, ende.CD_IBGE,ende.CEP, cli.DATACADASTRO' +

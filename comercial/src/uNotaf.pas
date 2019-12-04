@@ -2680,7 +2680,7 @@ begin
     dmnf.cds_nfNFE_FINNFE.AsString := 'fnComplementar';
   //end;
   dmnf.cds_nfNFE_MODELO.AsString       := 'moNFe';
-  dmnf.cds_nfNFE_VERSAO.AsString       := 've310';
+  dmnf.cds_nfNFE_VERSAO.AsString       := 've400';
 
   if (dmnf.cds_nfCFOP.AsString <>  '') then
     tipoNota := trim(dmnf.cds_nfCFOP.AsString)[1]

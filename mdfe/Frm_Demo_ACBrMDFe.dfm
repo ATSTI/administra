@@ -1141,6 +1141,7 @@ object fACBrMDFe: TfACBrMDFe
             ItemIndex = 0
             TabOrder = 16
             Text = '1 - Rodovi'#225'rio Tra'#231#227'o;'
+            OnChange = cbTransporteChange
             Items.Strings = (
               '1 - Rodovi'#225'rio Tra'#231#227'o;'
               '2 - Rodovi'#225'rio Reboque;'
@@ -2624,7 +2625,7 @@ object fACBrMDFe: TfACBrMDFe
       Top = 177
       Width = 636
       Height = 363
-      ActivePage = TabSheet6
+      ActivePage = TabSheet9
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet
@@ -2662,8 +2663,8 @@ object fACBrMDFe: TfACBrMDFe
         object memoLog: TMemo
           Left = 0
           Top = 0
-          Width = 548
-          Height = 364
+          Width = 628
+          Height = 335
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -2680,6 +2681,393 @@ object fACBrMDFe: TfACBrMDFe
           Align = alClient
           Indent = 19
           TabOrder = 0
+        end
+        object GroupBox16: TGroupBox
+          Left = 8
+          Top = 8
+          Width = 593
+          Height = 325
+          Caption = 'Reboque'
+          TabOrder = 1
+          Visible = False
+          object Label108: TLabel
+            Left = 34
+            Top = 17
+            Width = 25
+            Height = 13
+            Caption = 'CINT'
+          end
+          object Label109: TLabel
+            Left = 32
+            Top = 42
+            Width = 27
+            Height = 13
+            Caption = 'Placa'
+          end
+          object Label110: TLabel
+            Left = 36
+            Top = 66
+            Width = 22
+            Height = 13
+            Caption = 'Tara'
+          end
+          object Label111: TLabel
+            Left = 22
+            Top = 115
+            Width = 40
+            Height = 13
+            Caption = 'Cap. KG'
+          end
+          object Label112: TLabel
+            Left = 24
+            Top = 89
+            Width = 40
+            Height = 13
+            Caption = 'Cap. M3'
+          end
+          object Label113: TLabel
+            Left = 13
+            Top = 138
+            Width = 52
+            Height = 13
+            Caption = 'CPF/CNPJ'
+          end
+          object Label115: TLabel
+            Left = 24
+            Top = 162
+            Width = 46
+            Height = 13
+            Caption = 'Renavam'
+          end
+          object Label116: TLabel
+            Left = 32
+            Top = 186
+            Width = 28
+            Height = 13
+            Caption = 'Nome'
+          end
+          object Label117: TLabel
+            Left = 50
+            Top = 211
+            Width = 10
+            Height = 13
+            Caption = 'IE'
+          end
+          object Label118: TLabel
+            Left = 48
+            Top = 235
+            Width = 14
+            Height = 13
+            Caption = 'UF'
+          end
+          object Label119: TLabel
+            Left = 16
+            Top = 256
+            Width = 49
+            Height = 13
+            Caption = 'Tipo Prop.'
+          end
+          object Label120: TLabel
+            Left = 6
+            Top = 280
+            Width = 58
+            Height = 13
+            Caption = 'Tipo Carroc.'
+          end
+          object Label121: TLabel
+            Left = 24
+            Top = 303
+            Width = 41
+            Height = 13
+            Caption = 'UF Veic.'
+          end
+          object Label114: TLabel
+            Left = 322
+            Top = 17
+            Width = 25
+            Height = 13
+            Caption = 'CINT'
+          end
+          object Label122: TLabel
+            Left = 320
+            Top = 42
+            Width = 27
+            Height = 13
+            Caption = 'Placa'
+          end
+          object Label123: TLabel
+            Left = 324
+            Top = 66
+            Width = 22
+            Height = 13
+            Caption = 'Tara'
+          end
+          object Label124: TLabel
+            Left = 312
+            Top = 89
+            Width = 40
+            Height = 13
+            Caption = 'Cap. M3'
+          end
+          object Label125: TLabel
+            Left = 310
+            Top = 115
+            Width = 40
+            Height = 13
+            Caption = 'Cap. KG'
+          end
+          object Label126: TLabel
+            Left = 301
+            Top = 138
+            Width = 52
+            Height = 13
+            Caption = 'CPF/CNPJ'
+          end
+          object Label127: TLabel
+            Left = 312
+            Top = 162
+            Width = 46
+            Height = 13
+            Caption = 'Renavam'
+          end
+          object Label128: TLabel
+            Left = 320
+            Top = 186
+            Width = 28
+            Height = 13
+            Caption = 'Nome'
+          end
+          object Label129: TLabel
+            Left = 338
+            Top = 211
+            Width = 10
+            Height = 13
+            Caption = 'IE'
+          end
+          object Label130: TLabel
+            Left = 336
+            Top = 235
+            Width = 14
+            Height = 13
+            Caption = 'UF'
+          end
+          object Label131: TLabel
+            Left = 304
+            Top = 256
+            Width = 49
+            Height = 13
+            Caption = 'Tipo Prop.'
+          end
+          object Label132: TLabel
+            Left = 294
+            Top = 280
+            Width = 58
+            Height = 13
+            Caption = 'Tipo Carroc.'
+          end
+          object Label133: TLabel
+            Left = 312
+            Top = 303
+            Width = 41
+            Height = 13
+            Caption = 'UF Veic.'
+          end
+          object edRebocoCint: TEdit
+            Left = 72
+            Top = 16
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 0
+          end
+          object edRebocoPlaca: TEdit
+            Left = 72
+            Top = 40
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 1
+          end
+          object edRebocoTara: TEdit
+            Left = 72
+            Top = 64
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 2
+          end
+          object edRebocoCapM: TEdit
+            Left = 72
+            Top = 88
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 3
+          end
+          object edRebocoCapKg: TEdit
+            Left = 72
+            Top = 112
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 4
+          end
+          object edRebocoRNTRC: TEdit
+            Left = 72
+            Top = 160
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 5
+          end
+          object edRebocoNome: TEdit
+            Left = 72
+            Top = 184
+            Width = 209
+            Height = 21
+            TabOrder = 6
+          end
+          object edRebocoIE: TEdit
+            Left = 72
+            Top = 208
+            Width = 209
+            Height = 21
+            TabOrder = 7
+          end
+          object edRebocoUF: TEdit
+            Left = 72
+            Top = 232
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 8
+          end
+          object edRebocoTipoProp: TEdit
+            Left = 72
+            Top = 254
+            Width = 209
+            Height = 21
+            TabOrder = 9
+          end
+          object edRebocoTipoCarroc: TEdit
+            Left = 72
+            Top = 277
+            Width = 209
+            Height = 21
+            TabOrder = 10
+          end
+          object edRebocoUFVeic: TEdit
+            Left = 72
+            Top = 300
+            Width = 209
+            Height = 21
+            TabOrder = 11
+          end
+          object edRebocoCPF: TEdit
+            Left = 72
+            Top = 136
+            Width = 209
+            Height = 21
+            TabOrder = 12
+          end
+          object edRebocoCint2: TEdit
+            Left = 360
+            Top = 16
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 13
+          end
+          object edRebocoPlaca2: TEdit
+            Left = 360
+            Top = 40
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 14
+          end
+          object edRebocoTara2: TEdit
+            Left = 360
+            Top = 64
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 15
+          end
+          object edRebocoCapM2: TEdit
+            Left = 360
+            Top = 88
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 16
+          end
+          object edRebocoCapKg2: TEdit
+            Left = 360
+            Top = 112
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 17
+          end
+          object edRebocoCPF2: TEdit
+            Left = 360
+            Top = 136
+            Width = 209
+            Height = 21
+            TabOrder = 18
+          end
+          object edRebocoRNTRC2: TEdit
+            Left = 360
+            Top = 160
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 19
+          end
+          object edRebocoNome2: TEdit
+            Left = 360
+            Top = 184
+            Width = 209
+            Height = 21
+            TabOrder = 20
+          end
+          object edRebocoIE2: TEdit
+            Left = 360
+            Top = 208
+            Width = 209
+            Height = 21
+            TabOrder = 21
+          end
+          object edRebocoUF2: TEdit
+            Left = 360
+            Top = 232
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            TabOrder = 22
+          end
+          object edRebocoTipoProp2: TEdit
+            Left = 360
+            Top = 254
+            Width = 209
+            Height = 21
+            TabOrder = 23
+          end
+          object edRebocoTipoCarroc2: TEdit
+            Left = 360
+            Top = 277
+            Width = 209
+            Height = 21
+            TabOrder = 24
+          end
+          object edRebocoUFVeic2: TEdit
+            Left = 360
+            Top = 300
+            Width = 209
+            Height = 21
+            TabOrder = 25
+          end
         end
       end
       object TabSheet10: TTabSheet
@@ -2870,8 +3258,8 @@ object fACBrMDFe: TfACBrMDFe
       'select  NM_LOCALIDADE, CD_UF, CD_IBGE, NM_MUNICIPIO '
       '       from TB_IBGE ')
     SQLConnection = dm.sc
-    Left = 534
-    Top = 353
+    Left = 926
+    Top = 161
     object sqlProcNM_LOCALIDADE: TStringField
       FieldName = 'NM_LOCALIDADE'
       Required = True
@@ -2914,13 +3302,13 @@ object fACBrMDFe: TfACBrMDFe
         ParamType = ptInput
       end>
     SQLConnection = dm.sc
-    Left = 406
-    Top = 409
+    Left = 646
+    Top = 153
   end
   object dspMdfeDocs: TDataSetProvider
     DataSet = sdsMdfeDocs
-    Left = 438
-    Top = 409
+    Left = 678
+    Top = 153
   end
   object cdsMdfeDocs: TClientDataSet
     Aggregates = <>
@@ -2941,8 +3329,8 @@ object fACBrMDFe: TfACBrMDFe
         ParamType = ptInput
       end>
     ProviderName = 'dspMdfeDocs'
-    Left = 470
-    Top = 409
+    Left = 710
+    Top = 153
     object cdsMdfeDocsMDFE: TIntegerField
       FieldName = 'MDFE'
     end
@@ -2971,8 +3359,8 @@ object fACBrMDFe: TfACBrMDFe
   end
   object dsMdfeDocs: TDataSource
     DataSet = cdsMdfeDocs
-    Left = 502
-    Top = 409
+    Left = 758
+    Top = 153
   end
   object OpenDialog2: TOpenDialog
     Left = 234
@@ -2982,8 +3370,8 @@ object fACBrMDFe: TfACBrMDFe
     MaxBlobSize = -1
     Params = <>
     SQLConnection = dm.sc
-    Left = 446
-    Top = 353
+    Left = 862
+    Top = 161
   end
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.SSLLib = libNone
@@ -3027,13 +3415,13 @@ object fACBrMDFe: TfACBrMDFe
         ParamType = ptInput
       end>
     SQLConnection = dm.sc
-    Left = 406
-    Top = 441
+    Left = 422
+    Top = 145
   end
   object dspMun: TDataSetProvider
     DataSet = sqlMDFEMun
-    Left = 438
-    Top = 441
+    Left = 454
+    Top = 145
   end
   object cdsMun: TClientDataSet
     Aggregates = <>
@@ -3044,8 +3432,8 @@ object fACBrMDFe: TfACBrMDFe
         ParamType = ptInput
       end>
     ProviderName = 'dspMun'
-    Left = 470
-    Top = 441
+    Left = 486
+    Top = 145
     object cdsMunMUNICIPIO: TStringField
       FieldName = 'MUNICIPIO'
       Size = 50
@@ -3082,6 +3470,7 @@ object fACBrMDFe: TfACBrMDFe
     CasasDecimais.vUnCom = 2
     CasasDecimais.MaskqCom = ',0.00'
     CasasDecimais.MaskvUnCom = ',0.00'
+    ACBrMDFe = ACBrMDFe1
     ImprimeHoraSaida = False
     TipoDAMDFe = tiSemGeracao
     TamanhoPapel = tpA4

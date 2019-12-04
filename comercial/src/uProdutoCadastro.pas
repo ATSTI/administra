@@ -660,6 +660,29 @@ begin
     //  edtCodAnp.Text := FloatToStrdm.cdsBusca.FieldByName('VALIQPROD').AsString;
   end;
 
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    DBEdit19.ReadOnly := True;
+    DBRadioGroup2.ReadOnly := True;
+    DbEdit17.ReadOnly := True;
+    DbEdit12.ReadOnly := True;
+    // verificando se e administrador
+    if Dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
+    dm.cds_parametro.Open;
+    if (dm.usu_tipovendedor = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    begin
+      DBEdit19.ReadOnly := False;
+      DBRadioGroup2.ReadOnly := False;
+      DbEdit17.ReadOnly := False;
+      DbEdit12.ReadOnly := False;
+    end;
+  end;
 
   calculaPrecoVenda;
 end;
