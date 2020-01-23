@@ -2735,9 +2735,9 @@ object fACBrMDFe: TfACBrMDFe
           object Label115: TLabel
             Left = 24
             Top = 162
-            Width = 46
+            Width = 38
             Height = 13
-            Caption = 'Renavam'
+            Caption = 'RNTRC'
           end
           object Label116: TLabel
             Left = 32
@@ -2747,11 +2747,11 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Nome'
           end
           object Label117: TLabel
-            Left = 50
+            Left = 18
             Top = 211
-            Width = 10
+            Width = 46
             Height = 13
-            Caption = 'IE'
+            Caption = 'Renavam'
           end
           object Label118: TLabel
             Left = 48
@@ -2826,9 +2826,9 @@ object fACBrMDFe: TfACBrMDFe
           object Label127: TLabel
             Left = 312
             Top = 162
-            Width = 46
+            Width = 38
             Height = 13
-            Caption = 'Renavam'
+            Caption = 'RNTRC'
           end
           object Label128: TLabel
             Left = 320
@@ -2838,11 +2838,11 @@ object fACBrMDFe: TfACBrMDFe
             Caption = 'Nome'
           end
           object Label129: TLabel
-            Left = 338
+            Left = 306
             Top = 211
-            Width = 10
+            Width = 46
             Height = 13
-            Caption = 'IE'
+            Caption = 'Renavam'
           end
           object Label130: TLabel
             Left = 336
@@ -2917,7 +2917,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 160
             Width = 209
             Height = 21
-            Color = clInfoBk
+            Color = clHighlightText
             TabOrder = 5
           end
           object edRebocoNome: TEdit
@@ -2932,6 +2932,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 208
             Width = 209
             Height = 21
+            Color = clInfoBk
             TabOrder = 7
           end
           object edRebocoUF: TEdit
@@ -2939,7 +2940,7 @@ object fACBrMDFe: TfACBrMDFe
             Top = 232
             Width = 209
             Height = 21
-            Color = clInfoBk
+            Color = clHighlightText
             TabOrder = 8
           end
           object edRebocoTipoProp: TEdit
@@ -2949,26 +2950,20 @@ object fACBrMDFe: TfACBrMDFe
             Height = 21
             TabOrder = 9
           end
-          object edRebocoTipoCarroc: TEdit
-            Left = 72
-            Top = 277
-            Width = 209
-            Height = 21
-            TabOrder = 10
-          end
           object edRebocoUFVeic: TEdit
             Left = 72
             Top = 300
             Width = 209
             Height = 21
-            TabOrder = 11
+            Color = clInfoBk
+            TabOrder = 10
           end
           object edRebocoCPF: TEdit
             Left = 72
             Top = 136
             Width = 209
             Height = 21
-            TabOrder = 12
+            TabOrder = 11
           end
           object edRebocoCint2: TEdit
             Left = 360
@@ -2976,7 +2971,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 209
             Height = 21
             Color = clInfoBk
-            TabOrder = 13
+            TabOrder = 12
           end
           object edRebocoPlaca2: TEdit
             Left = 360
@@ -2984,7 +2979,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 209
             Height = 21
             Color = clInfoBk
-            TabOrder = 14
+            TabOrder = 13
           end
           object edRebocoTara2: TEdit
             Left = 360
@@ -2992,7 +2987,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 209
             Height = 21
             Color = clInfoBk
-            TabOrder = 15
+            TabOrder = 14
           end
           object edRebocoCapM2: TEdit
             Left = 360
@@ -3000,7 +2995,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 209
             Height = 21
             Color = clInfoBk
-            TabOrder = 16
+            TabOrder = 15
           end
           object edRebocoCapKg2: TEdit
             Left = 360
@@ -3008,65 +3003,92 @@ object fACBrMDFe: TfACBrMDFe
             Width = 209
             Height = 21
             Color = clInfoBk
-            TabOrder = 17
+            TabOrder = 16
           end
           object edRebocoCPF2: TEdit
             Left = 360
             Top = 136
             Width = 209
             Height = 21
-            TabOrder = 18
+            TabOrder = 17
           end
           object edRebocoRNTRC2: TEdit
             Left = 360
             Top = 160
             Width = 209
             Height = 21
-            Color = clInfoBk
-            TabOrder = 19
+            Color = clHighlightText
+            TabOrder = 18
           end
           object edRebocoNome2: TEdit
             Left = 360
             Top = 184
             Width = 209
             Height = 21
-            TabOrder = 20
+            TabOrder = 19
           end
           object edRebocoIE2: TEdit
             Left = 360
             Top = 208
             Width = 209
             Height = 21
-            TabOrder = 21
+            Color = clInfoBk
+            TabOrder = 20
           end
           object edRebocoUF2: TEdit
             Left = 360
             Top = 232
             Width = 209
             Height = 21
-            Color = clInfoBk
-            TabOrder = 22
+            Color = clHighlightText
+            TabOrder = 21
           end
           object edRebocoTipoProp2: TEdit
             Left = 360
             Top = 254
             Width = 209
             Height = 21
-            TabOrder = 23
-          end
-          object edRebocoTipoCarroc2: TEdit
-            Left = 360
-            Top = 277
-            Width = 209
-            Height = 21
-            TabOrder = 24
+            TabOrder = 22
           end
           object edRebocoUFVeic2: TEdit
             Left = 360
             Top = 300
             Width = 209
             Height = 21
+            Color = clInfoBk
+            TabOrder = 23
+          end
+          object edRebocoTipoCarroc: TComboBox
+            Left = 72
+            Top = 277
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            ItemHeight = 13
+            ItemIndex = 0
+            TabOrder = 24
+            Text = '00 - n'#227'o aplic'#225'vel;'
+            Items.Strings = (
+              '00 - n'#227'o aplic'#225'vel;'
+              '01 - Aberta;'
+              '02 - Fechada/Ba'#250';'
+              '03 - Granelera;')
+          end
+          object edRebocoTipoCarroc2: TComboBox
+            Left = 360
+            Top = 277
+            Width = 209
+            Height = 21
+            Color = clInfoBk
+            ItemHeight = 13
+            ItemIndex = 0
             TabOrder = 25
+            Text = '00 - n'#227'o aplic'#225'vel;'
+            Items.Strings = (
+              '00 - n'#227'o aplic'#225'vel;'
+              '01 - Aberta;'
+              '02 - Fechada/Ba'#250';'
+              '03 - Granelera;')
           end
         end
       end

@@ -388,7 +388,6 @@ type
     edRebocoIE: TEdit;
     edRebocoUF: TEdit;
     edRebocoTipoProp: TEdit;
-    edRebocoTipoCarroc: TEdit;
     edRebocoUFVeic: TEdit;
     edRebocoCPF: TEdit;
     Label114: TLabel;
@@ -415,8 +414,9 @@ type
     edRebocoIE2: TEdit;
     edRebocoUF2: TEdit;
     edRebocoTipoProp2: TEdit;
-    edRebocoTipoCarroc2: TEdit;
     edRebocoUFVeic2: TEdit;
+    edRebocoTipoCarroc: TComboBox;
+    edRebocoTipoCarroc2: TComboBox;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -931,7 +931,16 @@ begin
         tara  := StrToInt(edRebocoTara.Text);
         capKG := StrToInt(edRebocoCapKg.Text);
         capM3 := StrToInt(edRebocoCapM.Text);
-        RENAVAM := edRebocoRNTRC.Text;
+        RENAVAM := edRebocoIE.Text;
+        UF := edRebocoUFVeic.Text;
+        case edRebocoTipoCarroc.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
+           0: tpCar := tcNaoAplicavel;
+           1: tpCar := tcAberta;
+           2: tpCar := tcFechada;
+           3: tpCar := tcGraneleira;
+           4: tpCar := tcPortaContainer;
+           5: tpCar := tcSider;
+        end;
         //RNTRC := edReboco ;
       end;
       if (edRebocoCint2.Text <> '') then
@@ -943,8 +952,16 @@ begin
           tara  := StrToInt(edRebocoTara2.Text);
           capKG := StrToInt(edRebocoCapKg2.Text);
           capM3 := StrToInt(edRebocoCapM2.Text);
-          RENAVAM := edRebocoRNTRC2.Text;
-         //RNTRC := edReboco ;
+          RENAVAM := edRebocoIE2.Text;
+          UF := edRebocoUFVeic2.Text;
+          case edRebocoTipoCarroc.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
+           0: tpCar := tcNaoAplicavel;
+           1: tpCar := tcAberta;
+           2: tpCar := tcFechada;
+           3: tpCar := tcGraneleira;
+           4: tpCar := tcPortaContainer;
+           5: tpCar := tcSider;
+          end;
         end;
       end;
     end;
@@ -2385,8 +2402,11 @@ begin
       strInsere := strInsere + ', REBOQUE_CAPM3 = ' + edRebocoCapM.Text;
     if (edRebocoRNTRC.Text <> '') then
       strInsere := strInsere + ', REBOQUE_RNTRC = ' + QuotedStr(edRebocoRNTRC.Text);
+    if (edRebocoIE.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_IE = ' + QuotedStr(edRebocoIE.Text);
     if (edRebocoUF.Text <> '') then
       strInsere := strInsere + ', REBOQUE_UF = ' + QuotedStr(edRebocoUF.Text);
+    strInsere := strInsere + ', REBOQUE_TIPOCARROCERIA = ' + IntToStr(edRebocoTipoCarroc.ItemIndex);
     strInsere := strInsere + ' WHERE COD_MDFE = ' + edNumMDFe.Text;
     DecimalSeparator := ',';
     dm.sc.StartTransaction(TD);
@@ -2410,6 +2430,8 @@ begin
       strInsere := strInsere + ', REBOQUE_PLACA2 = ' + QuotedStr(edRebocoPlaca2.Text);
     if (edRebocoTara2.Text <> '') then
       strInsere := strInsere + ', REBOQUE_TARA2 = ' + edRebocoTara2.Text;
+    if (edRebocoIE2.Text <> '') then
+      strInsere := strInsere + ', REBOQUE_IE2 = ' + QuotedStr(edRebocoIE2.Text);
     if (edRebocoCapKg2.Text <> '') then
       strInsere := strInsere + ', REBOQUE_CAPKG2 = ' + edRebocoCapKg2.Text;
     if (edRebocoCapM2.Text <> '') then
@@ -2418,6 +2440,7 @@ begin
       strInsere := strInsere + ', REBOQUE_RNTRC2 = ' + QuotedStr(edRebocoRNTRC2.Text);
     if (edRebocoUF2.Text <> '') then
       strInsere := strInsere + ', REBOQUE_UF2 = ' + QuotedStr(edRebocoUF2.Text);
+    strInsere := strInsere + ', REBOQUE_TIPOCARROCERIA2 = ' + IntToStr(edRebocoTipoCarroc2.ItemIndex);
     strInsere := strInsere + ' WHERE COD_MDFE = ' + edNumMDFe.Text;
     DecimalSeparator := ',';
     dm.sc.StartTransaction(TD);
@@ -2581,6 +2604,7 @@ begin
     edRebocoCapM.Text := dm.cds.FieldByName('REBOQUE_CAPM3').AsString;
     edRebocoRNTRC.Text := dm.cds.FieldByName('REBOQUE_RNTRC').AsString;
     edRebocoUF.Text := dm.cds.FieldByName('REBOQUE_UF').AsString;
+    edRebocoIE.Text := dm.cds.FieldByName('REBOQUE_IE').AsString;
 
     edRebocoCint2.Text := dm.cds.FieldByName('REBOQUE_CINT2').AsString;;
     edRebocoPlaca2.Text := dm.cds.FieldByName('REBOQUE_PLACA2').AsString;
@@ -2589,7 +2613,11 @@ begin
     edRebocoCapM2.Text := dm.cds.FieldByName('REBOQUE_CAPM32').AsString;
     edRebocoRNTRC2.Text := dm.cds.FieldByName('REBOQUE_RNTRC2').AsString;
     edRebocoUF2.Text := dm.cds.FieldByName('REBOQUE_UF2').AsString;
-
+    edRebocoIE2.Text := dm.cds.FieldByName('REBOQUE_IE2').AsString;
+    if (dm.cds.FieldByName('REBOQUE_TIPOCARROCERIA').AsString <> '') then
+      edRebocoTipoCarroc.ItemIndex := StrToInt(dm.cds.FieldByName('REBOQUE_TIPOCARROCERIA').AsString);
+    if (dm.cds.FieldByName('REBOQUE_TIPOCARROCERIA2').AsString <> '') then
+      edRebocoTipoCarroc2.ItemIndex := StrToInt(dm.cds.FieldByName('REBOQUE_TIPOCARROCERIA2').AsString);
     edNFValor2.Value := dm.cds.FieldByName('NF2_VALOR').AsFloat;
     edNFCnpj3.Text := dm.cds.FieldByName('NF3_CNPJ').AsString;
     edNFNum3.Text := IntToStr(dm.cds.FieldByName('NF3_NUM').AsInteger);

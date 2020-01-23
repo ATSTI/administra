@@ -9,12 +9,12 @@ RETURNS (
     DTAEMISSAO Date,
     DTAPAGTO Date,
     CODFORN Integer,
-    FORNECEDOR Varchar(60),
+    FORNECEDOR Varchar(80),
     DESCRICAO Varchar(300),
     VALORTIT Double precision,
     VALORPAGO Double precision,
     CONTACONTABIL Varchar(300),
-    CAIXA Varchar(60),
+    CAIXA Varchar(80),
     CODCONTA Varchar(20),
     N_TITULO varchar(20))
 AS
