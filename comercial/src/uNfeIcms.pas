@@ -1280,7 +1280,11 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao112;
+      COD_VER          := vlVersao113;
+      if (data_ini.Date < StrToDate('01/01/2020')) then
+      begin
+        COD_VER          := vlVersao112;
+      end;
       if (data_ini.Date < StrToDate('01/01/2019')) then
       begin
         COD_VER          := vlVersao111;
@@ -1641,7 +1645,7 @@ begin
              '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) + ')' +
              '  AND ((C.MODELO = ' + QuotedStr('55') + ') OR (C.MODELO = ' + QuotedStr('1') + '))' +
              ' UNION ' +
-             ' select CODPRODUTO from VIEW_ESTOQUE_SPED(' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
+             ' select CODPRODUTO from VIEW_ESTOQUE_SPED(' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
              ') where  estoque > 0 ';
            if (chkInventario.Checked) then
            begin
@@ -1650,7 +1654,7 @@ begin
                  ' where  EV.CODPRODUTO  = p.CODPRODUTO  ' +
                  ' AND ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ' +
                  ' AND ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) '  +
-                 ' AND EV.MESANO = ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+                 ' AND EV.MESANO >o= ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
                  ' AND EV.CENTROCUSTO = 51 AND EV.SALDOESTOQUE > 0';
            end;
            cdsProduto.CommandText := cdsProduto.CommandText + ' )';
@@ -2578,6 +2582,13 @@ begin
           TP_LIGACAO := tlBifasico;
         if(tipoLigacao = 'Trifasico') then
           TP_LIGACAO := tlTrifasico;            // 3 - Trifásico
+        CHV_DOCe := '';
+        FIN_DOCe := fedcNormal;
+        CHV_DOCe_REF := '';
+        IND_DEST := iedaContribuinteICMS;
+        COD_MUN_DEST := validaCodMunicipio(dm.cds_EmpresaCD_IBGE.AsString,
+                            dm.cds_EmpresaRAZAO.AsString);
+        COD_CTA := '';
       end;
       sqlEnergia.Next;
     end;

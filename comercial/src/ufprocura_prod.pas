@@ -1915,9 +1915,11 @@ end;
 
 procedure TfProcura_prod.BitBtn6Click(Sender: TObject);
 begin
- if Panel2.Visible = True then
-   if BitBtn4.Enabled = true then
-   begin
+  fCompra.Label15.Caption := 'linha 20';
+  if Panel2.Visible = True then
+  if BitBtn4.Enabled = true then
+  begin
+    fCompra.Label15.Caption := 'linha 21';
       if Edit4.Text = '' then
         Edit4.Text := '0';
       if Edit3.Text = '' then
@@ -1927,6 +1929,7 @@ begin
            Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
          if (var_F = 'compra') then
            Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+        fCompra.Label15.Caption := 'linha 22';
       end;
       margemItemProcuraProd := 0;
       if (cds_procPRECO_VENDA.AsFloat > 0) then
@@ -1973,6 +1976,7 @@ begin
       end;
       if (var_F = 'compra') then
       begin
+        fCompra.Label15.Caption := 'linha 23';
         fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
         fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
         fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
@@ -1983,6 +1987,7 @@ begin
         fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
         valorUnitario := cds_procPRECO_VENDA.AsFloat;
         fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+        fCompra.Label15.Caption := 'linha 24';
       end;
       if (var_F = 'formnotaf') then
       begin
@@ -2075,12 +2080,14 @@ begin
       end;
 
    end;
+   fCompra.Label15.Caption := 'linha 25';
    Panel2.Visible := false;
    Panel1.Visible := true;
    Edit3.Text := '';
    Edit4.Text := '';
    BitBtn5.Enabled := false;
    BitBtn4.Enabled := true;
+   fCompra.Label15.Caption := 'linha 26';
   if (var_F = 'filtroEstoque') then
   begin
     fecodProd := cds_procCODPRO.AsString;
@@ -2090,23 +2097,27 @@ begin
 
   if (var_F = 'Lotes') then
   begin
+    fCompra.Label15.Caption := 'linha 27';
     fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
     fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
     //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
   end;
-
+  fCompra.Label15.Caption := 'linha 28';
   if (var_F = 'Lista') then
   begin
+    fCompra.Label15.Caption := 'linha 29';
      fCompra.CODIGOPRODUTO := cds_procCODPRO.AsString;
      if (usouAdiciona = 'nao usou') then
      begin
+       fCompra.Label15.Caption := 'linha 30';
        fCompra.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
        fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
        fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
        fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
        valorUnitario := cds_procPRECO_VENDA.AsFloat;
        fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+       fCompra.Label15.Caption := 'linha 31';
      end;
   end;
   close;

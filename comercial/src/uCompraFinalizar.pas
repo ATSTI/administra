@@ -9,7 +9,7 @@ uses
   rpcompobase, rpvclreport, UCHist_Base, UCHistDataset, JvBaseEdits,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
   JvExStdCtrls, JvCombobox, JvDBSearchComboBox,fClassCitrus, uUtils ,Printers,
-  DBxPress, DBLocal, DBLocalS;
+  DBxPress, DBLocal, DBLocalS, ACBrBase, ACBrPosPrinter;
 
 type
   TfCompraFinalizar = class(TfPai)
@@ -364,6 +364,8 @@ type
     cds_compraCODORIGEM: TIntegerField;
     cds_compraMUN_ORIGEM: TStringField;
     cds_compraMUN_DESTINO: TStringField;
+    MemoImp: TMemo;
+    ACBrPosPrinter1: TACBrPosPrinter;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -1643,6 +1645,8 @@ var
   IMPRESSORA:TextFile;
   Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,textoS, logradouro,cep,fone, clientecupom, doccli : string;//Para recortar parte da descrição do produto,nome
   total : double;
+  portaIMP : string;
+  arquivo: TStringList;
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
@@ -1680,8 +1684,14 @@ begin
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.Eof) then
   begin
-    texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
-      'c.txt';
+    if (dm.cds_parametroD3.AsString <> 'APLICATIVO') then
+    begin
+      texto3 := dm.cds_parametroDADOS.AsString;
+    end
+    else begin
+      texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
+        'c.txt';
+    end;
     AssignFile(IMPRESSORA, texto3);
     dm.cds_parametro.Close;
   end
@@ -1787,7 +1797,58 @@ begin
   finally
     CloseFile(IMPRESSORA);
   end;
+  if (dm.cds_parametro.Active) then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].Clear;
+  dm.cds_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+  dm.cds_parametro.Open;
+  portaIMP := dm.cds_parametroDADOS.AsString;
 
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.Eof) then
+  begin
+    if (dm.cds_parametroD3.AsString <> 'APLICATIVO') then
+    begin
+      arquivo := TStringList.Create();
+      try
+        arquivo.LoadFromFile(dm.cds_parametroDADOS.AsString);
+        MemoImp.Clear;
+        MemoImp.Text := arquivo.Text;
+      finally
+        arquivo.free;
+      end;
+      ACBrPosPrinter1.Desativar;
+      //ACBrPosPrinter1.LinhasBuffer := dmpdv.imp_LinhasBuffer;
+      ACBrPosPrinter1.LinhasEntreCupons := 0;
+      //ACBrPosPrinter1.EspacoEntreLinhas := dmpdv.espacoEntreLinhas;
+      //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
+      ACBrPosPrinter1.Porta  := portaImp;
+      ACBrPosPrinter1.CortaPapel := True;
+      if (dm.cds_parametroD1.AsString <> '') then
+      begin
+        try
+          ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(
+            StrToInt(dm.cds_parametroD1.AsString));
+          if (dm.cds_parametroD2.AsString <> '') then
+            ACBrPosPrinter1.Device.Baud := StrToInt(dm.cds_parametroD2.AsString);
+        except
+          ShowMessage('Parametro IMPARQUIVO D1 informar modelo impressora');
+          ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1);
+        end;
+      end
+      else begin
+        ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(1); // epson TACBrPosPrinterModelo(cbxModeloPosPrinter.ItemIndex);
+      end;
+      ACBrPosPrinter1.Ativar;
+
+      ACBrPosPrinter1.Buffer.Text := MemoImp.Lines.Text;
+      ACBrPosPrinter1.Imprimir;
+      ACBrPosPrinter1.Desativar;
+    end;
+  end;
 end;
 
 

@@ -663,6 +663,15 @@ inherited fCompraFinalizar: TfCompraFinalizar
     ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 4
+    object MemoImp: TMemo
+      Left = 184
+      Top = 12
+      Width = 185
+      Height = 89
+      Lines.Strings = (
+        'MemoImp')
+      TabOrder = 4
+    end
     object DBGrid1: TDBGrid
       Left = 4
       Top = 19
@@ -3854,5 +3863,17 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Required = True
       Size = 10
     end
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    Left = 336
+    Top = 79
   end
 end

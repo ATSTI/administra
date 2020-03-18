@@ -2080,6 +2080,7 @@ type
     somente_sua_venda: String;
     nfe_serie_receita: Integer;
     dmCentroReceita: String;
+    rel_romaneio: String;
     tipo_nfe: String;
     cupom_msg1: String;
     cupom_msg2: String;
@@ -2303,6 +2304,16 @@ begin
   if (not cds_parametro.IsEmpty) then
   begin
     baixaMateriaPrima := cds_parametroCONFIGURADO.AsString;
+  end;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'REL_ROMANEIO';
+  cds_parametro.Open;
+  rel_romaneio := 'FORTES';
+  if (not cds_parametro.IsEmpty) then
+  begin
+    rel_romaneio := Trim(cds_parametroDADOS.AsString);
   end;
 
   if cds_parametro.Active then

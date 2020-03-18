@@ -948,7 +948,13 @@ begin
   //dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
 
   if (dm.somente_sua_venda = 'S') then
-    dm.usu_tipovendedor := sPermissaoUCPRIVILEGED.AsInteger
+  begin
+    if sPermissao.Active then
+       sPermissao.Close;
+    sPermissao.Params[0].AsInteger := usulog;
+    sPermissao.Open;
+    dm.usu_tipovendedor := sPermissaoUCPRIVILEGED.AsInteger;
+  end
   else
     dm.usu_tipovendedor := UserControlComercial.CurrentUser.Profile;
 end;

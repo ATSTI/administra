@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=4
 MinorVer=6
 Release=0
-Build=68
+Build=73
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=ATS - Comércio e Serviços LTDA ME.
 FileDescription=ATS-Admin - 2016
-FileVersion=4.6.0.68
+FileVersion=4.6.0.73
 InternalName=ATS-Admin
 LegalCopyright=ATS Solucoes
 LegalTrademarks=ATSTI
@@ -151,22 +151,6 @@ C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000dc
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl=Pascal Script Engine for EWF by Developer Express Inc.
 Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
-[HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=c:\tmp
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
-[HistoryLists\hlUnitOutputDirectory]
-Count=1
-Item0=c:\tmp
-[HistoryLists\hlOutputDirectorry]
-Count=2
-Item0=C:\Home\sisadmin
-Item1=Z:\atsadmin_dev
-[HistoryLists\hlBPLOutput]
-Count=1
-Item0=c:\tmp
-[HistoryLists\hlDCPOutput]
-Count=1
-Item0=c:\tmp

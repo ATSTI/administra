@@ -751,7 +751,7 @@ begin
     BitBtn8.Enabled := True;
     lblNumReg.Caption := 'Número de Registros : ' + IntToStr(cds_cns.RecordCount);
     sqTotalFMov.Open;
-    if (dm.vendaVerTotal = dm.varLogado) then
+    if ((dm.vendaVerTotal = 'adm') or (dm.vendaVerTotal = dm.varLogado)) then
       lblValorTotal.Caption := 'Total : ' + Format('%-6.2n', [sqTotalFMov.Fields[0].AsFloat]);
   end;
   DBGrid1.SetFocus;
@@ -770,6 +770,7 @@ end;
 
 procedure TfFiltroMovimento.BitBtn5Click(Sender: TObject);
 begin
+  VCLReport1.FileName := str_relatorio + 'listamovimento.rep';
   if ((medta1.Text = '  /  /  ') or (medta2.Text = '  /  /  ')) then
   begin
     MessageDlg('Preencha o Campo Data do Movimento', mtWarning, [mbOK], 0);
@@ -806,19 +807,27 @@ begin
     VCLReport1.Execute;
   end
   else begin
-    fRelFortes := TfRelFortes.Create(Application);
-    try
-      if (fRelFortes.cdsRel.Active) then
-        fRelFortes.cdsRel.Close;
-      fRelFortes.cdsRel.Params[0].AsDate := StrToDate(medta1.Text);
-      fRelFortes.cdsRel.Params[1].AsDate := StrToDate(medta2.Text);
-      fRelFortes.cdsRel.Params[2].AsInteger := 9999999;
-      fRelFortes.cdsRel.Params[4].AsInteger := 0;
-      //fRelFortes.ShowModal;
-      fRelFortes.RLReport1.PreviewModal();
-      //fRelFortes.Close;
-    finally
-      fRelFortes.Free;
+    if (dm.rel_romaneio = 'FORTES') then
+    begin
+      fRelFortes := TfRelFortes.Create(Application);
+      try
+        if (fRelFortes.cdsRel.Active) then
+          fRelFortes.cdsRel.Close;
+        fRelFortes.cdsRel.Params[0].AsDate := StrToDate(medta1.Text);
+        fRelFortes.cdsRel.Params[1].AsDate := StrToDate(medta2.Text);
+        fRelFortes.cdsRel.Params[2].AsInteger := 9999999;
+        fRelFortes.cdsRel.Params[4].AsInteger := 0;
+        //fRelFortes.ShowModal;
+        fRelFortes.RLReport1.PreviewModal();
+        //fRelFortes.Close;
+      finally
+        fRelFortes.Free;
+      end;
+    end
+    else begin
+      VCLReport1.Title := str_relatorio + 'listamovimento.rep';
+      VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
+      VCLReport1.Execute;
     end;
   end;
 end;

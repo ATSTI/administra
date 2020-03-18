@@ -1441,8 +1441,11 @@ end;
 procedure TfCompra.btnProdutoProcuraClick(Sender: TObject);
 var sql, sql1: string;
 begin
+  fCompra.Label15.Caption := 'linha 1';
   inherited;
+  fCompra.Label15.Caption := 'linha 2';
   fProcura_prod.cbTipo.ItemIndex := 5;
+  fCompra.Label15.Caption := 'linha 3';
   fProcura_prod.btnIncluir.Visible := true;
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
@@ -1455,13 +1458,13 @@ begin
     fProcura_prod.Panel2.Visible := true;
     fProcura_prod.Panel2.Align := alTop;
     fProcura_prod.Panel1.Visible := true;
-    fProcura_prod.Panel1.Align := alTop;    
+    fProcura_prod.Panel1.Align := alTop;
     if (fProcura_prod.cds_proc.Active) then
       fProcura_prod.cds_proc.Close;
   end;
   varonde := 'compra';
   var_F := 'compra';
-
+  fCompra.Label15.Caption := 'linha 4';
   if (usaprecolista = 'S') then
   begin
      varonde := 'Lista';
@@ -1471,18 +1474,21 @@ begin
   cds_Mov_detLOTE.AsString := '';
 
   fProcura_prod.ShowModal;
-
+  fCompra.Label15.Caption := 'linha 5';
   if (procprod = 'PROC_PROD_COMPLETO') then
   begin
     //vejo se usa preço pôr Fornecedor
+    fCompra.Label15.Caption := 'linha 6';
     if (usaprecolista = 'S') then
     begin
+       fCompra.Label15.Caption := 'linha 7';
        precolista;
     end
     else
     begin
       if (cds_Mov_det.State in [dsInsert, dsEdit]) then
       begin
+        fCompra.Label15.Caption := 'linha 8';
         cds_Mov_detCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
         cds_Mov_detCODPRODUTO.asInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
         cds_Mov_detPRECO.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
@@ -1494,8 +1500,10 @@ begin
     end;
   end;
 
+  fCompra.Label15.Caption := 'linha 9';
   if dm.scds_produto_proc.Active then
     dm.scds_produto_proc.Close;
+  fCompra.Label15.Caption := 'linha 10';
   dm.scds_produto_proc.Params[0].AsInteger := codprodxa;
   dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
   dm.scds_produto_proc.Open;
@@ -1503,6 +1511,7 @@ begin
   if (dm.scds_produto_procRATEIO.AsString = 'S') then
   begin
     usarateio := 'SIM';
+    fCompra.Label15.Caption := 'linha 11';
     conta_pl := dm.scds_produto_procCONTA_DESPESA.AsString;
   end
   else
@@ -1560,7 +1569,7 @@ begin
       //fLotes.btnProdutoProcura.Enabled := False;
       //fLotes.ShowModal;
   end;  }
-
+  fCompra.Label15.Caption := 'linha 12';
   if (fProcura_prod.cds_proc.Active) then
     fProcura_prod.cds_proc.Close;
   if cds_Mov_det.State in [dsInsert] then

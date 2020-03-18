@@ -2875,8 +2875,14 @@ begin
   try
     if (not dm.cds_parametro.Eof) then
     begin
-      texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
-        'v.txt';
+      if (dm.cds_parametroD3.AsString <> 'APLICATIVO') then
+      begin
+        texto3 := dm.cds_parametroDADOS.AsString;
+      end
+      else begin
+        texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
+          'v.txt';
+      end;
       AssignFile(IMPRESSORA, texto3);
       //AssignFile(IMPRESSORA, dm.cds_parametroDADOS.AsString);
       dm.cds_parametro.Close;
