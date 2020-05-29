@@ -159,7 +159,7 @@ begin
       -- Calculo ICMS outros ESTADOS 
       if (uf <> 'SP') then 
       begin 
-        select icms, reducao from ESTADO_ICMS where uf = :uf and cfop = :cfop
+        select first 1 icms, reducao from ESTADO_ICMS where uf = :uf and cfop = :cfop
         into :icms, :baseIcms;
         if (icms is null) then 
           icms = 0;
@@ -222,10 +222,11 @@ begin
   INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, codVenda, codCliente, cfop
     , valor_total_nota, dtaEmissao, VALOR_ICMS, BASE_ICMS_SUBST, VALOR_ICMS_SUBST
     , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
-    , SERIE,UF, VALOR_DESCONTO)
+    , SERIE,UF, VALOR_DESCONTO, CCUSTO)
     VALUES (:numero, :CodNF, 12, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
-    , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero,:serie, :uf, 0);
+    , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero,
+    :serie, :uf, 0, :codCCusto);
  
    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);

@@ -1257,6 +1257,45 @@ inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
     object cdsProdCopiaCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+    object cdsProdCopiaALIQ_CUPOM: TStringField
+      FieldName = 'ALIQ_CUPOM'
+      FixedChar = True
+      Size = 4
+    end
+    object cdsProdCopiaVBCUFDEST: TFloatField
+      FieldName = 'VBCUFDEST'
+    end
+    object cdsProdCopiaPFCPUFDEST: TFloatField
+      FieldName = 'PFCPUFDEST'
+    end
+    object cdsProdCopiaPICMSUFDEST: TFloatField
+      FieldName = 'PICMSUFDEST'
+    end
+    object cdsProdCopiaPICMSINTER: TFloatField
+      FieldName = 'PICMSINTER'
+    end
+    object cdsProdCopiaPICMSINTERPART: TFloatField
+      FieldName = 'PICMSINTERPART'
+    end
+    object cdsProdCopiaVFCPUFDEST: TFloatField
+      FieldName = 'VFCPUFDEST'
+    end
+    object cdsProdCopiaVICMSUFDEST: TFloatField
+      FieldName = 'VICMSUFDEST'
+    end
+    object cdsProdCopiaVICMSUFREMET: TFloatField
+      FieldName = 'VICMSUFREMET'
+    end
+    object cdsProdCopiaCST_IPI_CENQ: TStringField
+      FieldName = 'CST_IPI_CENQ'
+      FixedChar = True
+      Size = 3
+    end
+    object cdsProdCopiaCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
+    end
   end
   object sdsNcm: TSQLDataSet
     CommandText = 'select * from PRODUTOS'#13#10'where NCM = :ncm'

@@ -206,6 +206,17 @@ type
     cdsClassFiscVICMSUFREMET: TFloatField;
     cdsClassFiscCST_IPI_CENQ: TStringField;
     cdsClassFiscCODFISCAL: TStringField;
+    cdsProdCopiaALIQ_CUPOM: TStringField;
+    cdsProdCopiaVBCUFDEST: TFloatField;
+    cdsProdCopiaPFCPUFDEST: TFloatField;
+    cdsProdCopiaPICMSUFDEST: TFloatField;
+    cdsProdCopiaPICMSINTER: TFloatField;
+    cdsProdCopiaPICMSINTERPART: TFloatField;
+    cdsProdCopiaVFCPUFDEST: TFloatField;
+    cdsProdCopiaVICMSUFDEST: TFloatField;
+    cdsProdCopiaVICMSUFREMET: TFloatField;
+    cdsProdCopiaCST_IPI_CENQ: TStringField;
+    cdsProdCopiaCODFISCAL: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -287,7 +298,7 @@ begin
       str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
       str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
       str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
-
+      str := str + ', CODFISCAL = ' + QuotedStr(DBLookupComboBox1.KeyValue);
       str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
       str := str + ' AND CFOP = ' + QuotedStr(CFOP);
       str := str + ' AND UF = ' + QuotedStr(UF);
@@ -429,6 +440,7 @@ begin
         cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
         cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
         cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+        cdsClassFiscCODFISCAL.AsString     := cdsProdCopiaCODFISCAL.AsString;
         cdsClassFisc.ApplyUpdates(0);
 
       end;
@@ -587,6 +599,7 @@ begin
         cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
         cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
         cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+        cdsClassFiscCODFISCAL.AsString     := cdsProdCopiaCODFISCAL.AsString;
         cdsClassFisc.ApplyUpdates(0);
 
       end;

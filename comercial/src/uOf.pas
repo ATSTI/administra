@@ -208,6 +208,7 @@ type
     VCLReport1: TVCLReport;
     cdsDetalheUNIDADEMEDIDA: TStringField;
     cdsDetalhePRODUTO: TStringField;
+    cdsDetalhePRECOMEDIO: TBCDField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure OfProdExit(Sender: TObject);
@@ -527,6 +528,7 @@ begin
       FMov.CodVendedor := 1;
       FMov.DataMov     := dataMovJaBaixado;
       FMov.Controle    := 'OP' + IntToStr(codof);
+      FMov.Obs         := 'OP - ' + OfId.Text;
       dm.sqlsisAdimin.StartTransaction(TDA);
       Try
         codMovSaida := FMov.inserirMovimento(0);
@@ -554,7 +556,8 @@ begin
             FMov.MovDetalhe.DtaVcto       := Now;
             FMov.MovDetalhe.DtaFab        := Now;
             FMov.MovDetalhe.Baixa         := '1';
-
+            //fMov.MovDetalhe.Preco         := cdsDetalhePRECOMEDIO.AsFloat;  
+            FMov.Obs                      := 'OP - ' + OfId.Text;
             FMov.MovDetalhe.inserirMovDet;
             //cds.Next;
           //end;
@@ -740,8 +743,8 @@ begin
     FMov.CodUsuario  := 1;
     FMov.CodVendedor := 1;
     FMov.DataMov     := dataMovJaBaixado;
-    FMov.Obs         := '';
-    FMov.Controle    := 'AP' + IntToStr(codof);;
+    FMov.Obs         := 'OP - ' + OfId.Text;
+    FMov.Controle    := 'AP' + IntToStr(codof);
     dm.sqlsisAdimin.StartTransaction(TDA);
     Try
       codMovEntrada := FMov.inserirMovimento(0);
@@ -754,6 +757,7 @@ begin
       FMov.MovDetalhe.DtaVcto       := Now;
       FMov.MovDetalhe.DtaFab        := Now;
       FMov.MovDetalhe.Baixa         := '0';
+      FMov.MovDetalhe.Preco         := dm.scds_produto_procPRECOMEDIO.AsFloat;
       FMov.MovDetalhe.inserirMovDet;
 
       fCom.CodMov               := codMovEntrada;

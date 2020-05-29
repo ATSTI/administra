@@ -474,12 +474,13 @@ inherited fOf: TfOf
   object sdsDetalhe: TSQLDataSet
     CommandText = 
       'select  mt.CODPRODMP, mt.USAPRECO,'#13#10'sum(mt.qtdeusada * ofp.OFQTD' +
-      'ESOLIC), mt.qtdeusada'#13#10', p.UNIDADEMEDIDA , p.PRODUTO '#13#10'from OF_O' +
-      'F ofp'#13#10'left outer join PRODUTOS p on ofp.CODPRODUTO = p.CODPRODU' +
-      'TO '#13#10'left outer join MATERIA_PRIMA mt on ofp.CODPRODUTO = mt.COD' +
-      'PRODUTO '#13#10'where ofp.OFID = :pCODOF'#13#10'and ofp.OFID_IND = :pCODSERI' +
-      'E'#13#10'and  mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.USAPREC' +
-      'O, mt.qtdeusada, p.UNIDADEMEDIDA , p.PRODUTO '
+      'ESOLIC), mt.qtdeusada'#13#10', p.UNIDADEMEDIDA , p.PRODUTO, p.PRECOMED' +
+      'IO '#13#10'from OF_OF ofp'#13#10'left outer join PRODUTOS p on ofp.CODPRODUT' +
+      'O = p.CODPRODUTO '#13#10'left outer join MATERIA_PRIMA mt on ofp.CODPR' +
+      'ODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID = :pCODOF'#13#10'and ofp.OFID_I' +
+      'ND = :pCODSERIE'#13#10'and  mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPROD' +
+      'MP, mt.USAPRECO, mt.qtdeusada, p.UNIDADEMEDIDA , p.PRODUTO , p.P' +
+      'RECOMEDIO'
     MaxBlobSize = -1
     Params = <
       item
@@ -555,6 +556,12 @@ inherited fOf: TfOf
       FieldName = 'PRODUTO'
       ReadOnly = True
       Size = 300
+    end
+    object cdsDetalhePRECOMEDIO: TBCDField
+      FieldName = 'PRECOMEDIO'
+      ReadOnly = True
+      Precision = 9
+      Size = 2
     end
   end
   object sds_s: TSQLDataSet

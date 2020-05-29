@@ -776,7 +776,7 @@ begin
     MessageDlg('Preencha o Campo Data do Movimento', mtWarning, [mbOK], 0);
     exit;
   end;
-  if (FileExists('romaneioporregiao.rep')) then
+  if (FileExists(str_relatorio + 'romaneioporregiao.rep')) then
   begin
     VCLReport1.FileName := str_relatorio + 'romaneioporregiao.rep';
     VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -825,7 +825,7 @@ begin
       end;
     end
     else begin
-      VCLReport1.Title := str_relatorio + 'listamovimento.rep';
+      VCLReport1.Title := str_relatorio + 'romaneioporregiao.rep';
       VCLReport1.Report.Params.ParamByName('CCUSTO').AsString := ComboBox1.Text;
       VCLReport1.Execute;
     end;

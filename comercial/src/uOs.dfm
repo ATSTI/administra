@@ -1450,9 +1450,9 @@ object fOs: TfOs
       object edVeiculo: TJvMaskEdit
         Left = 49
         Top = 15
-        Width = 90
+        Width = 88
         Height = 24
-        EditMask = '!>LLL-0000;1;_'
+        EditMask = '!>LLL-AAAA;1;_'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
