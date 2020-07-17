@@ -186,7 +186,7 @@ type
     sds_VeiculocliPLACA: TStringField;
     sds_VeiculocliMARCA_MODELO: TStringField;
     sds_VeiculocliTIPO: TStringField;
-    sds_VeiculocliCOMBUSTIVEL: TStringField;
+    sds_VeiculocliCOMBUSTIVEL: TStringField;                 
     sds_VeiculocliANO_FAB: TStringField;
     sds_VeiculocliANO_MOD: TStringField;
     sds_VeiculocliCOR: TStringField;
@@ -1946,6 +1946,8 @@ begin
           if  (cds_MovimentoCONTROLE.AsString <> DBComboBox1.Text) then
             cds_movimentoControle.AsString := DBComboBox1.Text;
       end;
+      if (RadioOrcamento.Checked = True) then
+        cds_MovimentoSTATUS.AsInteger := 0; // O = Orçamento
       if (RadioPedido.Checked = True) then
         cds_MovimentoSTATUS.AsInteger := 1; // 1 = Pedido
       // salvo o Movimento
