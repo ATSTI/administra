@@ -665,7 +665,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     TabOrder = 4
     object MemoImp: TMemo
       Left = 184
-      Top = 12
+      Top = 17
       Width = 185
       Height = 89
       Lines.Strings = (
@@ -674,9 +674,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object DBGrid1: TDBGrid
       Left = 4
-      Top = 19
+      Top = 17
       Width = 570
-      Height = 182
+      Height = 193
       Hint = 'Grave as altera'#231#245'es em cada linha.'
       DataSource = ds_Cr
       ParentShowHint = False
@@ -1051,8 +1051,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object pnCte: TPanel
-      Left = 168
-      Top = 0
+      Left = 200
+      Top = 24
       Width = 225
       Height = 145
       TabOrder = 3

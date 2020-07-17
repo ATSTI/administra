@@ -286,6 +286,7 @@ type
     Label24: TLabel;
     ComboBox1: TComboBox;
     Panel1: TPanel;
+    ChkComp: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1622,10 +1623,16 @@ begin
      dmnf.cds_nf1.Params[1].AsInteger := dmnf.cds_CompraCODCOMPRA.asInteger;
      dmnf.cds_nf1.Open;
 
+    if (dmnf.cds_nf1IDCOMPLEMENTAR.AsString <> '') then
+      edtNFRef.Text := dmnf.cds_nf1IDCOMPLEMENTAR.AsString;
+
+    if(dmnf.cds_nfNFE_FINNFE.AsString = 'fnComplementar') then
+      ChkComp.Checked := True;
+
      if (not dmnf.cds_empresa.Active) then
        dmnf.cds_empresa.open;
 
-     codVendaFin := dmnf.cds_compraCODCOMPRA.AsInteger;       
+     codVendaFin := dmnf.cds_compraCODCOMPRA.AsInteger;
 	finally
 		fFiltroMov_NFcompra.Free;
 	end;
@@ -1666,7 +1673,9 @@ begin
     nfnum := dmnf.cds_nf1NUMNF.AsInteger;
 
   gravarDadosNFe310c;
-  if ((dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnComplementar')  or (dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnDevolucao')) then
+
+  if ((ChkComp.Checked) or (dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnComplementar')  or
+     (dmnf.cds_nf1NFE_FINNFE.AsString  = 'fnDevolucao')) then
   begin
     if ((dmnf.cds_nf1IDCOMPLEMENTAR.IsNull) or (dmnf.cds_nf1IDCOMPLEMENTAR.AsString = '')) then
     begin
@@ -2360,8 +2369,11 @@ begin
   if (sdsCFOP.FieldByName('TIPOMOVIMENTO').AsString = 'R') then
     dmnf.cds_nf1NFE_FINNFE.AsString := 'fnAjuste';
   //end;
+  if (ChkComp.Checked) then
+    dmnf.cds_nf1NFE_FINNFE.AsString := 'fnComplementar';
+
   dmnf.cds_nf1NFE_MODELO.AsString       := 'moNFe';
-  dmnf.cds_nf1NFE_VERSAO.AsString       := 've310';
+  dmnf.cds_nf1NFE_VERSAO.AsString       := 've400';
 
   tipoNota := trim(dmnf.cds_nf1CFOP.AsString)[1];
 

@@ -11,6 +11,6 @@ BEGIN
   begin  
     UPDATE MOVIMENTODETALHE  SET BAIXA = 1 
       WHERE CODMOVIMENTO = NEW.CODMOVIMENTO; 
-    update MOVIMENTODETALHE set  LOTE = null where LOTE = '';
+    --update MOVIMENTODETALHE set  LOTE = null where LOTE = '';
   end
 END

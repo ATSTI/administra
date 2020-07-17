@@ -434,7 +434,7 @@ object fNotafc: TfNotafc
         Top = 167
         Width = 769
         Height = 140
-        ActivePage = TabSheet2
+        ActivePage = TabSheet3
         TabOrder = 18
         object TabSheet2: TTabSheet
           Caption = 'Itens'
@@ -673,7 +673,7 @@ object fNotafc: TfNotafc
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             OnKeyPress = FormKeyPress
           end
@@ -2031,7 +2031,7 @@ object fNotafc: TfNotafc
     end
   end
   object CheckBox1: TCheckBox
-    Left = 661
+    Left = 557
     Top = 64
     Width = 97
     Height = 17
@@ -2899,6 +2899,14 @@ object fNotafc: TfNotafc
         end
       end
     end
+  end
+  object ChkComp: TCheckBox
+    Left = 428
+    Top = 64
+    Width = 111
+    Height = 17
+    Caption = 'Nota Complemetar'
+    TabOrder = 5
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
