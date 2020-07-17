@@ -17,14 +17,14 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'IMPR'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         #13#10'SELECT CONTA, DESC_CONTA, CREDITO, TOTAL, TOT'#13#10'FROM RELDRESINT' +
         'ETICO(:PDTA1,:PDTA2, :PCC)'
     end
     item
       Alias = 'IMPCAB'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'SELECT * FROM EMPRESA'
     end>
   DatabaseInfo = <
@@ -589,7 +589,6 @@ object TRpReport
     PosY = 0
     Type1Font = poHelvetica
     FontSize = 12
-    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -614,7 +613,6 @@ object TRpReport
     Type1Font = poHelvetica
     FontSize = 12
     FontStyle = 1
-    CutText = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
