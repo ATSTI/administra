@@ -1532,7 +1532,7 @@ begin
     dmnf.cds_Mov_det.Params[0].Clear;
     dmnf.cds_mov_det.Params[1].AsInteger := codm;
     dmnf.cds_mov_det.Open;
-  except
+  except                          
     on E : Exception do
     begin
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
