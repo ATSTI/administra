@@ -937,7 +937,11 @@ var  strSql, strTit, tipoMov: String;
      diferenca : double;
      utilcrtitulo : Tutils;
      FRec : TReceberCls;
+     arq_log: TextFile;
 begin
+  //AssignFile(arq_log, 'C:\home\finaliza_venda.txt');
+  //Rewrite(arq_log);
+  //Writeln(arq_log, 'Iniciou a gravacao ' + FormatDateTime('MM:ss', Now));
   if (dm.cCustoFechado(cdsCODCCUSTO.AsInteger, cdsDATAVENDA.AsDateTime)) then
   begin
     MessageDlg('Centro de Resultado já finalizado.', mtWarning, [mbOK], 0);
@@ -961,6 +965,7 @@ begin
     end;
     cdsPRAZO.AsString := cbPrazo.Text;
   end;
+  //Writeln(arq_log, 'Criando a transacao ' + FormatDateTime('MM:ss', Now));
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   tipoMov := 'EDIT';
@@ -1011,6 +1016,7 @@ begin
     begin
       strTit := IntToStr(cdsNOTAFISCAL.AsInteger);
       begin
+        //Writeln(arq_log, 'Conferindo numero nota ' + FormatDateTime('MM:ss', Now));
         strSql := 'SELECT v.NOTAFISCAL FROM VENDA v, MOVIMENTO m ' +
          ' WHERE v.CODMOVIMENTO = m.CODMOVIMENTO ' +
          '   AND m.CODNATUREZA = 3 ' +
@@ -1023,6 +1029,7 @@ begin
         sqs_tit.Open;
         if not sqs_tit.IsEmpty then
         begin
+          //Writeln(arq_log, 'Verificando ultimo n. ' + FormatDateTime('MM:ss', Now));
           strSql := 'SELECT MAX(v.NOTAFISCAL) FROM VENDA v, MOVIMENTO m ' +
             ' where v.CODMOVIMENTO = m.CODMOVIMENTO ' +
             '   AND m.CODNATUREZA = 3';
@@ -1038,7 +1045,7 @@ begin
         end;
       end;
     end;
-
+    //Writeln(arq_log, 'Buscando Generator ' + FormatDateTime('MM:ss', Now));
     if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -1164,7 +1171,7 @@ begin
     grava.Destroy;
   end;
 
-
+  //Writeln(arq_log, 'Iniciou a gravacao CR ' + FormatDateTime('MM:ss', Now));
   //A lançamento do cr tem que ser antes de salvar á venda
   //pois, caso o título já tenha sido baixado não é permitido alterar a venda.
   //Gerando o contas a receber
@@ -1210,6 +1217,7 @@ begin
       begin
         FRec := TReceberCls.Create;
         try
+           //Writeln(arq_log, 'Gerando título ' + FormatDateTime('MM:ss', Now));
            codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
         finally
            Frec.Free;
@@ -1239,6 +1247,7 @@ begin
   end;
   if (cdsNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
   begin
+    //Writeln(arq_log, 'Gravando ultimo numero Tab. Serie ' + FormatDateTime('MM:ss', Now));
     scds_serie_proc.Edit;
     scds_serie_procULTIMO_NUMERO.AsInteger := cdsNOTAFISCAL.AsInteger;
     scds_serie_proc.ApplyUpdates(0);
@@ -1254,27 +1263,31 @@ begin
   tipo_origem := 'VENDA';
   cod_cli_forn := cdsCODCLIENTE.AsInteger;
   c_f := 'C'; // C=Cliente
+  // Writeln(arq_log, 'Executando Gravar ' + FormatDateTime('MM:ss', Now));
   if DtSrc.State in [dsInsert, dsEdit] then
      btnGravar.Click;
 
   if (usaMateriaPrima = 'S') then
   begin
     //BitBtn1.Click;
+    //Writeln(arq_log, 'BAIXAAUTOMATICA ' + FormatDateTime('MM:ss', Now));
     baixaestoque('BAIXAAUTOMATICA');
   end;
   if (terminal = '') then
   if (fVendas.cds_Movimento.State in [dsBrowse]) then
   begin
+    //Writeln(arq_log, 'Apply Update Movimento ' + FormatDateTime('MM:ss', Now));
     fVendas.cds_Movimento.Edit;
     fVendas.cds_MovimentoSTATUS.AsInteger := 0;
     fVendas.cds_Movimento.ApplyUpdates(0);
     fVendas.RadioPedido.Checked := False;
   end;
-
+   //Writeln(arq_log, 'Update Recebimento ' + FormatDateTime('MM:ss', Now));
    strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
    dm.sqlsisAdimin.StartTransaction(TD);
    dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
+       //Writeln(arq_log, 'Executando o commit ' + FormatDateTime('MM:ss', Now));
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}

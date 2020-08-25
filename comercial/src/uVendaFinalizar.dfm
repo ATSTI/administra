@@ -412,7 +412,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 783
+    Width = 777
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -2499,8 +2499,8 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 498
-    Width = 783
+    Top = 492
+    Width = 777
     Height = 37
     Align = alBottom
     BevelInner = bvLowered

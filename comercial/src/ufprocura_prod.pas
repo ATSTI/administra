@@ -607,15 +607,22 @@ begin
     Edit4.ReadOnly := True;
     edDescontoMargem.ReadOnly := True;
     Edit2.ReadOnly := True;
-    if Dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
-    dm.cds_parametro.Open;
-    if (dm.usu_tipovendedor = StrToInt(dm.cds_parametroDADOS.AsString)) then
+    if (dm.cds_parametroD1.AsString = 'S') then
     begin
-      Edit4.ReadOnly := False;
       edDescontoMargem.ReadOnly := False;
-      Edit2.ReadOnly := False;
+    end;
+    if (dm.cds_parametroD1.AsString = '') then
+    begin
+      if Dm.cds_parametro.Active then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'CONTAADMINISTRADOR';
+      dm.cds_parametro.Open;
+      if (dm.usu_tipovendedor = StrToInt(dm.cds_parametroDADOS.AsString)) then
+      begin
+        Edit4.ReadOnly := False;
+        edDescontoMargem.ReadOnly := False;
+        Edit2.ReadOnly := False;
+      end;
     end;
   end;
 

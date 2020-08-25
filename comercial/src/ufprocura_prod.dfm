@@ -30,7 +30,7 @@ object fProcura_prod: TfProcura_prod
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 803
+    Width = 795
     Height = 90
     Align = alTop
     BevelInner = bvLowered
@@ -288,7 +288,7 @@ object fProcura_prod: TfProcura_prod
   object Panel2: TPanel
     Left = 0
     Top = 147
-    Width = 803
+    Width = 795
     Height = 76
     Align = alTop
     BevelOuter = bvLowered
@@ -624,10 +624,10 @@ object fProcura_prod: TfProcura_prod
       end>
   end
   object DBGrid2: TDBGrid
-    Left = 704
+    Left = 696
     Top = 223
     Width = 99
-    Height = 247
+    Height = 235
     Align = alRight
     Color = clCream
     DataSource = DataSource1
@@ -648,8 +648,8 @@ object fProcura_prod: TfProcura_prod
   end
   object DBGrid3: TDBGrid
     Left = 0
-    Top = 470
-    Width = 803
+    Top = 458
+    Width = 795
     Height = 65
     Align = alBottom
     Color = clCream
@@ -672,7 +672,7 @@ object fProcura_prod: TfProcura_prod
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 803
+    Width = 795
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -1458,8 +1458,8 @@ object fProcura_prod: TfProcura_prod
     end
   end
   object Panel3: TPanel
-    Left = 352
-    Top = 185
+    Left = 240
+    Top = 184
     Width = 425
     Height = 289
     Caption = 'Panel3'
@@ -1537,8 +1537,8 @@ object fProcura_prod: TfProcura_prod
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 223
-    Width = 704
-    Height = 247
+    Width = 696
+    Height = 235
     Align = alClient
     DataSource = Dtsrc
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
