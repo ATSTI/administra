@@ -1,8 +1,8 @@
 object fACBrMDFe: TfACBrMDFe
-  Left = 105
-  Top = 137
+  Left = 259
+  Top = 135
   Width = 1031
-  Height = 568
+  Height = 582
   Caption = 'ATS - ACBrMDFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,6 +13,7 @@ object fACBrMDFe: TfACBrMDFe
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -27,7 +28,7 @@ object fACBrMDFe: TfACBrMDFe
     Left = 0
     Top = 0
     Width = 385
-    Height = 541
+    Height = 543
     Align = alLeft
     TabOrder = 0
     object GroupBox1: TGroupBox
@@ -49,7 +50,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 15
         Width = 377
         Height = 479
-        ActivePage = TabSheet4
+        ActivePage = TabSheet17
         Align = alClient
         MultiLine = True
         Style = tsButtons
@@ -276,6 +277,7 @@ object fACBrMDFe: TfACBrMDFe
               ItemIndex = 0
               TabOrder = 14
               Text = 'Carga Propria'
+              OnClick = cbTipoEmitClick
               Items.Strings = (
                 'Carga Propria'
                 'Transportadora')
@@ -2402,6 +2404,603 @@ object fACBrMDFe: TfACBrMDFe
             end
           end
         end
+        object TabSheet17: TTabSheet
+          Caption = 'Inf. Pagamento'
+          ImageIndex = 10
+          object GroupBox17: TGroupBox
+            Left = 0
+            Top = 1
+            Width = 369
+            Height = 422
+            Caption = 'Informa'#231#245'es Pagamento'
+            TabOrder = 0
+            object Label134: TLabel
+              Left = 8
+              Top = 16
+              Width = 129
+              Height = 13
+              Caption = 'Empresa Resp. Pagamento'
+            end
+            object Label135: TLabel
+              Left = 10
+              Top = 55
+              Width = 58
+              Height = 13
+              Caption = 'Resp. CNPJ'
+            end
+            object Label136: TLabel
+              Left = 202
+              Top = 54
+              Width = 94
+              Height = 13
+              Caption = 'Valor Total Contrato'
+            end
+            object Label137: TLabel
+              Left = 8
+              Top = 90
+              Width = 56
+              Height = 13
+              Caption = 'C'#243'd. Banco'
+            end
+            object Label138: TLabel
+              Left = 80
+              Top = 90
+              Width = 39
+              Height = 13
+              Caption = 'Ag'#234'ncia'
+            end
+            object Label139: TLabel
+              Left = 202
+              Top = 90
+              Width = 61
+              Height = 13
+              Caption = 'Banco CNPJ'
+            end
+            object Label140: TLabel
+              Left = 8
+              Top = 136
+              Width = 21
+              Height = 13
+              Caption = 'Tipo'
+            end
+            object Label142: TLabel
+              Left = 168
+              Top = 136
+              Width = 24
+              Height = 13
+              Caption = 'Valor'
+            end
+            object Label143: TLabel
+              Left = 8
+              Top = 160
+              Width = 51
+              Height = 13
+              Caption = 'Descri'#231#227'o '
+            end
+            object Label144: TLabel
+              Left = 8
+              Top = 311
+              Width = 64
+              Height = 13
+              Caption = 'Num. Parcela'
+            end
+            object Label145: TLabel
+              Left = 104
+              Top = 311
+              Width = 82
+              Height = 13
+              Caption = 'Data Vencimento'
+            end
+            object Label146: TLabel
+              Left = 224
+              Top = 311
+              Width = 63
+              Height = 13
+              Caption = 'Valor Parcela'
+            end
+            object Label152: TLabel
+              Left = 160
+              Top = 108
+              Width = 15
+              Height = 13
+              Caption = 'ou'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object edtPagEmpresa: TEdit
+              Left = 8
+              Top = 32
+              Width = 345
+              Height = 21
+              TabOrder = 0
+            end
+            object edtPagCnpj: TEdit
+              Left = 8
+              Top = 68
+              Width = 145
+              Height = 21
+              TabOrder = 1
+            end
+            object rgPagInd: TRadioGroup
+              Left = 7
+              Top = 276
+              Width = 145
+              Height = 33
+              Caption = 'Tipo Pagamento'
+              Columns = 2
+              Items.Strings = (
+                'A Vista'
+                'A Prazo')
+              TabOrder = 9
+              OnClick = rgPagIndClick
+            end
+            object edtPagBancoCod: TEdit
+              Left = 8
+              Top = 106
+              Width = 57
+              Height = 21
+              TabOrder = 3
+            end
+            object edtPagBancoAgencia: TEdit
+              Left = 80
+              Top = 106
+              Width = 73
+              Height = 21
+              TabOrder = 4
+            end
+            object edtPagBancoCnpj: TEdit
+              Left = 200
+              Top = 106
+              Width = 150
+              Height = 21
+              TabOrder = 5
+            end
+            object cbpagcomp: TComboBox
+              Left = 40
+              Top = 136
+              Width = 121
+              Height = 21
+              ItemHeight = 13
+              ItemIndex = 3
+              TabOrder = 6
+              Text = 'Outros'
+              Items.Strings = (
+                'Vale Pedagio'
+                'Impostos'
+                'Despesas'
+                'Outros')
+            end
+            object edtpagCompDesc: TEdit
+              Left = 64
+              Top = 160
+              Width = 241
+              Height = 21
+              TabOrder = 8
+            end
+            object dtpPagVencimento: TJvDatePickerEdit
+              Left = 113
+              Top = 328
+              Width = 101
+              Height = 21
+              AllowNoDate = True
+              Checked = True
+              Enabled = False
+              TabOrder = 11
+            end
+            object edtPagParcela: TEdit
+              Left = 8
+              Top = 326
+              Width = 65
+              Height = 21
+              Enabled = False
+              TabOrder = 10
+            end
+            object DBGrid2: TDBGrid
+              Left = 9
+              Top = 183
+              Width = 352
+              Height = 90
+              DataSource = ds_comp
+              TabOrder = 13
+              TitleFont.Charset = DEFAULT_CHARSET
+              TitleFont.Color = clWindowText
+              TitleFont.Height = -11
+              TitleFont.Name = 'MS Sans Serif'
+              TitleFont.Style = []
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'TP_COMP'
+                  Title.Caption = 'Tipo'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'COMP_DESCRICAO'
+                  Title.Caption = 'Descri'#231#227'o'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'VALOR_COMPONENTE'
+                  Title.Caption = 'Valor'
+                  Visible = True
+                end>
+            end
+            object BitBtn12: TBitBtn
+              Left = 304
+              Top = 158
+              Width = 25
+              Height = 22
+              Hint = 'Gravar novo Componente'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 14
+              OnClick = BitBtn12Click
+              Glyph.Data = {
+                36030000424D3603000000000000360000002800000010000000100000000100
+                18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF848284848284FFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFF848284840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF84000084000084000084000084
+                8284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                848284840000840000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFF848284840000840000FF000084000084000084
+                0000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF840000
+                840000FF0000FFFFFFFF0000840000840000848284FFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000840000FFFFFFFFFFFFFFFFFFFF000084
+                0000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FF0000FFFFFFFFFFFFFFFFFFFFFFFFFF0000840000840000848284FFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFF840000840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400008400008482
+                84FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFF0000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400
+                00848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFF0000840000848284FFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+                00840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+            end
+            object BitBtn13: TBitBtn
+              Left = 330
+              Top = 158
+              Width = 25
+              Height = 22
+              Hint = 'Remover Componente'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 15
+              OnClick = BitBtn13Click
+              Glyph.Data = {
+                36060000424D3606000000000000360000002800000020000000100000000100
+                18000000000000060000120B0000120B00000000000000000000008080008080
+                0080800000000000000000000000000000000000000000000000000000000080
+                800080800080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF008080FFFFFF00
+                8080FFFFFF008080FFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                80008080008080008080008080008080FFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080FFFFFF008080008080000000
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800000000080800080800080807F7F7F0080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F7F7F008080008080008080008080
+                00000000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000000
+                000080800080800080800080800080807F7F7F7F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7F7F7F7F008080008080008080008080008080
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                0080800000007F7F7F0000007F7F7F0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFFFFFFFF008080008080008080008080
+                0000000000000000000000000000000000000000000000000000000000000000
+                000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080
+                00000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000
+                000080800080800080800080800080807F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF008080008080008080008080
+                0000000000000000000000000000000000000000000000000000000000000000
+                000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F008080008080008080008080008080
+                0080800080800080800000007F7F7F7F7F7F7F7F7F0000000080800080800080
+                800080800080800080800080800080800080800080800080807F7F7FFFFFFFFF
+                FFFFFFFFFF7F7F7FFFFFFF008080008080008080008080008080008080008080
+                0080800080800080800000000000000000000000000000000080800080800080
+                800080800080800080800080800080800080800080800080807F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F008080008080008080008080008080008080}
+              NumGlyphs = 2
+            end
+            object DBGrid3: TDBGrid
+              Left = 7
+              Top = 349
+              Width = 345
+              Height = 68
+              DataSource = ds_pag
+              TabOrder = 16
+              TitleFont.Charset = DEFAULT_CHARSET
+              TitleFont.Color = clWindowText
+              TitleFont.Height = -11
+              TitleFont.Name = 'MS Sans Serif'
+              TitleFont.Style = []
+              Columns = <
+                item
+                  Expanded = False
+                  FieldName = 'N_PARCELA'
+                  Title.Caption = 'Parcela'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'DATA_VENCIMENTO'
+                  Title.Caption = 'Vencimento'
+                  Visible = True
+                end
+                item
+                  Expanded = False
+                  FieldName = 'VALOR_PARCELA'
+                  Title.Caption = 'Valor'
+                  Visible = True
+                end>
+            end
+            object BitBtn14: TBitBtn
+              Left = 312
+              Top = 325
+              Width = 25
+              Height = 22
+              Hint = 'Gravar'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 17
+              OnClick = BitBtn14Click
+              Glyph.Data = {
+                36030000424D3603000000000000360000002800000010000000100000000100
+                18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF848284848284FFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFF848284840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF84000084000084000084000084
+                8284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                848284840000840000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFF848284840000840000FF000084000084000084
+                0000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF840000
+                840000FF0000FFFFFFFF0000840000840000848284FFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000840000FFFFFFFFFFFFFFFFFFFF000084
+                0000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FF0000FFFFFFFFFFFFFFFFFFFFFFFFFF0000840000840000848284FFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFF840000840000840000848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400008400008482
+                84FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFF0000840000840000840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00008400008400
+                00848284FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFF0000840000848284FFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+                00840000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+            end
+            object BitBtn15: TBitBtn
+              Left = 338
+              Top = 325
+              Width = 25
+              Height = 22
+              Hint = 'Remover NFe'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 18
+              OnClick = BitBtn6Click
+              Glyph.Data = {
+                36060000424D3606000000000000360000002800000020000000100000000100
+                18000000000000060000120B0000120B00000000000000000000008080008080
+                0080800000000000000000000000000000000000000000000000000000000080
+                800080800080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF008080FFFFFF00
+                8080FFFFFF008080FFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                00808000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000080
+                80008080008080008080008080008080FFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080FFFFFF008080008080000000
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800000000080800080800080807F7F7F0080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF7F7F7F008080008080008080008080
+                00000000000000FFFF00000000FFFF00000000FFFF00000000FFFF0000000000
+                000080800080800080800080800080807F7F7F7F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7F7F7F7F008080008080008080008080008080
+                00808000000000FFFF00000000FFFF0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFF008080008080008080008080008080
+                0080800000007F7F7F0000007F7F7F0000007F7F7F00000000FFFF0000000080
+                800080800080800080800080800080800080807F7F7FFFFFFF7F7F7FFFFFFF7F
+                7F7FFFFFFF7F7F7FFFFFFF7F7F7FFFFFFFFFFFFF008080008080008080008080
+                0000000000000000000000000000000000000000000000000000000000000000
+                000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7FFFFFFF008080008080008080008080
+                00000000FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF0000
+                000080800080800080800080800080807F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFF
+                FFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7FFFFFFF008080008080008080008080
+                0000000000000000000000000000000000000000000000000000000000000000
+                000080800080800080800080800080807F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F7F008080008080008080008080008080
+                0080800080800080800000007F7F7F7F7F7F7F7F7F0000000080800080800080
+                800080800080800080800080800080800080800080800080807F7F7FFFFFFFFF
+                FFFFFFFFFF7F7F7FFFFFFF008080008080008080008080008080008080008080
+                0080800080800080800000000000000000000000000000000080800080800080
+                800080800080800080800080800080800080800080800080807F7F7F7F7F7F7F
+                7F7F7F7F7F7F7F7F008080008080008080008080008080008080}
+              NumGlyphs = 2
+            end
+            object edtpagcompvalor: TJvCalcEdit
+              Left = 201
+              Top = 134
+              Width = 149
+              Height = 21
+              ParentShowHint = False
+              ShowButton = False
+              ShowHint = True
+              TabOrder = 7
+              DecimalPlacesAlwaysShown = False
+            end
+            object edtPagVContrato: TJvCalcEdit
+              Left = 201
+              Top = 67
+              Width = 149
+              Height = 21
+              ParentShowHint = False
+              ShowButton = False
+              ShowHint = True
+              TabOrder = 2
+              DecimalPlacesAlwaysShown = False
+            end
+            object edtPagParcelaValor: TJvCalcEdit
+              Left = 224
+              Top = 325
+              Width = 87
+              Height = 21
+              ParentShowHint = False
+              ShowButton = False
+              ShowHint = True
+              TabOrder = 12
+              DecimalPlacesAlwaysShown = False
+            end
+          end
+        end
+        object TabSheet18: TTabSheet
+          Caption = 'Produto'
+          ImageIndex = 11
+          object Label141: TLabel
+            Left = 8
+            Top = 56
+            Width = 105
+            Height = 13
+            Caption = 'Produto Predominante'
+          end
+          object Label147: TLabel
+            Left = 8
+            Top = 8
+            Width = 120
+            Height = 13
+            Caption = 'Tipo Predominante Carga'
+          end
+          object Label148: TLabel
+            Left = 8
+            Top = 104
+            Width = 92
+            Height = 13
+            Caption = 'C'#243'digo Barra (EAN)'
+          end
+          object Label149: TLabel
+            Left = 8
+            Top = 152
+            Width = 24
+            Height = 13
+            Caption = 'NCM'
+          end
+          object Label150: TLabel
+            Left = 8
+            Top = 224
+            Width = 119
+            Height = 13
+            Caption = 'CEP Local Carregamento'
+          end
+          object Label151: TLabel
+            Left = 8
+            Top = 280
+            Width = 137
+            Height = 13
+            Caption = 'CEP Local Descarregamento'
+          end
+          object edtPagProdPred: TEdit
+            Left = 8
+            Top = 72
+            Width = 345
+            Height = 21
+            TabOrder = 1
+          end
+          object cbPagTipoCargaPred: TComboBox
+            Left = 8
+            Top = 24
+            Width = 345
+            Height = 21
+            ItemHeight = 13
+            TabOrder = 0
+            Items.Strings = (
+              'Granel Solido'
+              'Granel Liquido'
+              'Frigorificada'
+              'Conteinerizada'
+              'Carga Geral'
+              'Neogranel'
+              'Perigosa Granel Solido'
+              'Perigosa Granel Liquido'
+              'Perigosa Carga Frigorificada'
+              'Perigosa Conteinerizada'
+              'Perigosa Carga Geral')
+          end
+          object edtPagProdEAN: TEdit
+            Left = 8
+            Top = 120
+            Width = 121
+            Height = 21
+            TabOrder = 2
+          end
+          object edtPagProdNCM: TEdit
+            Left = 9
+            Top = 168
+            Width = 121
+            Height = 21
+            TabOrder = 3
+          end
+          object edtPagProdLocalCarrega: TEdit
+            Left = 8
+            Top = 240
+            Width = 121
+            Height = 21
+            TabOrder = 4
+          end
+          object edtPagProdLocalDescarrega: TEdit
+            Left = 8
+            Top = 296
+            Width = 121
+            Height = 21
+            TabOrder = 5
+          end
+        end
       end
     end
     object btnSalvarConfig: TBitBtn
@@ -2461,14 +3060,14 @@ object fACBrMDFe: TfACBrMDFe
   object Panel2: TPanel
     Left = 385
     Top = 0
-    Width = 638
-    Height = 541
+    Width = 630
+    Height = 543
     Align = alClient
     TabOrder = 1
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 636
+      Width = 628
       Height = 176
       Align = alTop
       TabOrder = 0
@@ -2623,9 +3222,9 @@ object fACBrMDFe: TfACBrMDFe
     object PageControl2: TPageControl
       Left = 1
       Top = 177
-      Width = 636
-      Height = 363
-      ActivePage = TabSheet9
+      Width = 628
+      Height = 365
+      ActivePage = TabSheet5
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet
@@ -2633,8 +3232,8 @@ object fACBrMDFe: TfACBrMDFe
         object MemoResp: TMemo
           Left = 0
           Top = 0
-          Width = 628
-          Height = 335
+          Width = 620
+          Height = 337
           Align = alClient
           TabOrder = 0
         end
@@ -2676,8 +3275,8 @@ object fACBrMDFe: TfACBrMDFe
         object trvwMDFe: TTreeView
           Left = 0
           Top = 0
-          Width = 628
-          Height = 335
+          Width = 620
+          Height = 337
           Align = alClient
           Indent = 19
           TabOrder = 0
@@ -3150,35 +3749,35 @@ object fACBrMDFe: TfACBrMDFe
         Caption = 'Outros'
         ImageIndex = 6
         object Label46: TLabel
-          Left = 256
-          Top = 24
+          Left = 176
+          Top = 8
           Width = 30
           Height = 13
           Caption = 'Placa '
         end
         object Label47: TLabel
-          Left = 224
-          Top = 128
+          Left = 304
+          Top = 48
           Width = 58
           Height = 13
           Caption = 'Lacre Carga'
         end
         object lblidunid: TLabel
-          Left = 256
-          Top = 90
+          Left = 176
+          Top = 50
           Width = 28
           Height = 13
           Caption = 'Carga'
         end
         object Label59: TLabel
-          Left = 232
-          Top = 56
+          Left = 472
+          Top = 8
           Width = 66
           Height = 13
           Caption = 'Lacre Transp.'
         end
         object Label107: TLabel
-          Left = 464
+          Left = 304
           Top = 8
           Width = 110
           Height = 13
@@ -3209,35 +3808,35 @@ object fACBrMDFe: TfACBrMDFe
           OnClick = BitBtn2Click
         end
         object edPlacaMDFE: TEdit
-          Left = 304
+          Left = 176
           Top = 24
           Width = 121
           Height = 21
           TabOrder = 2
         end
         object edLacreMDFE: TEdit
-          Left = 304
-          Top = 56
+          Left = 472
+          Top = 24
           Width = 121
           Height = 21
           TabOrder = 3
         end
         object edUnidCargaMDFE: TEdit
-          Left = 304
-          Top = 88
+          Left = 176
+          Top = 64
           Width = 121
           Height = 21
           TabOrder = 4
         end
         object edLacreCargaMDFE: TEdit
           Left = 304
-          Top = 120
+          Top = 64
           Width = 121
           Height = 21
           TabOrder = 5
         end
         object edCnpjCpfContratante: TEdit
-          Left = 464
+          Left = 304
           Top = 24
           Width = 161
           Height = 21
@@ -3261,17 +3860,6 @@ object fACBrMDFe: TfACBrMDFe
     SQLConnection = dm.sc
     Left = 104
     Top = 360
-  end
-  object ACBrMail1: TACBrMail
-    Host = '127.0.0.1'
-    Port = '25'
-    SetSSL = False
-    SetTLS = False
-    Attempts = 3
-    DefaultCharset = UTF_8
-    IDECharset = CP1252
-    Left = 662
-    Top = 265
   end
   object sqlProc: TSQLQuery
     MaxBlobSize = -1
@@ -3395,36 +3983,6 @@ object fACBrMDFe: TfACBrMDFe
     Left = 862
     Top = 161
   end
-  object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libNone
-    Configuracoes.Geral.SSLCryptLib = cryNone
-    Configuracoes.Geral.SSLHttpLib = httpNone
-    Configuracoes.Geral.SSLXmlSignLib = xsNone
-    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoQRCode = veqr000
-    Configuracoes.Arquivos.OrdenacaoPath = <>
-    Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.QuebradeLinha = '|'
-    Configuracoes.RespTec.IdCSRT = 0
-    Left = 614
-    Top = 265
-  end
-  object ACBrMDFe1: TACBrMDFe
-    Configuracoes.Geral.SSLLib = libWinCrypt
-    Configuracoes.Geral.SSLCryptLib = cryWinCrypt
-    Configuracoes.Geral.SSLHttpLib = httpWinHttp
-    Configuracoes.Geral.SSLXmlSignLib = xsLibXml2
-    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Arquivos.OrdenacaoPath = <>
-    Configuracoes.WebServices.UF = 'SP'
-    Configuracoes.WebServices.AguardarConsultaRet = 0
-    Configuracoes.WebServices.QuebradeLinha = '|'
-    Configuracoes.RespTec.IdCSRT = 0
-    DAMDFE = ACBrMDFeDAMDFeRL1
-    Left = 574
-    Top = 273
-  end
   object sqlMDFEMun: TSQLDataSet
     CommandText = 
       'SELECT DISTINCT udf_collatebr(udf_upper(MUNICIPIO)) as MUNICIPIO' +
@@ -3481,25 +4039,105 @@ object fACBrMDFe: TfACBrMDFe
     Left = 394
     Top = 57
   end
-  object ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL
-    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais.qCom = 2
-    CasasDecimais.vUnCom = 2
-    CasasDecimais.MaskqCom = ',0.00'
-    CasasDecimais.MaskvUnCom = ',0.00'
-    ACBrMDFe = ACBrMDFe1
-    ImprimeHoraSaida = False
-    TipoDAMDFe = tiSemGeracao
-    TamanhoPapel = tpA4
-    Cancelada = False
-    Encerrado = False
-    PrintDialog = True
-    Left = 622
-    Top = 345
+  object sds_comp: TSQLDataSet
+    CommandText = 'SELECT * FROM MDFE_COMP_FRETE WHERE MDFE = :pMDFE'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pMDFE'
+        ParamType = ptInput
+      end>
+    SQLConnection = dm.sc
+    Left = 154
+    Top = 262
+  end
+  object sds_pag: TSQLDataSet
+    CommandText = 'SELECT * FROM MDFE_INF_PRAZO WHERE MDFE = :pMDFE'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pMDFE'
+        ParamType = ptInput
+      end>
+    SQLConnection = dm.sc
+    Left = 162
+    Top = 422
+  end
+  object dsp_pag: TDataSetProvider
+    DataSet = sds_pag
+    Left = 194
+    Top = 422
+  end
+  object cds_pag: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pMDFE'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_pag'
+    Left = 226
+    Top = 422
+    object cds_pagMDFE: TIntegerField
+      FieldName = 'MDFE'
+      Required = True
+    end
+    object cds_pagN_PARCELA: TIntegerField
+      FieldName = 'N_PARCELA'
+      Required = True
+    end
+    object cds_pagVALOR_PARCELA: TFloatField
+      FieldName = 'VALOR_PARCELA'
+    end
+    object cds_pagDATA_VENCIMENTO: TDateField
+      FieldName = 'DATA_VENCIMENTO'
+    end
+  end
+  object dsp_comp: TDataSetProvider
+    DataSet = sds_comp
+    Left = 194
+    Top = 262
+  end
+  object cds_comp: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pMDFE'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_comp'
+    Left = 234
+    Top = 262
+    object cds_compMDFE: TIntegerField
+      FieldName = 'MDFE'
+      Required = True
+    end
+    object cds_compTP_COMP: TStringField
+      FieldName = 'TP_COMP'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object cds_compVALOR_COMPONENTE: TFloatField
+      FieldName = 'VALOR_COMPONENTE'
+    end
+    object cds_compCOMP_DESCRICAO: TStringField
+      FieldName = 'COMP_DESCRICAO'
+      Size = 40
+    end
+  end
+  object ds_comp: TDataSource
+    DataSet = cds_comp
+    Left = 266
+    Top = 262
+  end
+  object ds_pag: TDataSource
+    DataSet = cds_pag
+    Left = 258
+    Top = 422
   end
 end

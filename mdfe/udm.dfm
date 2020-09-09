@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 264
+  Left = 333
   Top = 267
   Height = 254
   Width = 312
@@ -15,7 +15,7 @@ object dm: Tdm
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_maisflores.FDB'
+      'Database=Localhost/3050:c:\home\bd\sge_mais.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,7 +23,7 @@ object dm: Tdm
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'

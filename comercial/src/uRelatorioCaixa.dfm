@@ -863,6 +863,8 @@ object fRelatorioCaixa: TfRelatorioCaixa
     Top = 8
   end
   object SaveDialog1: TSaveDialog
+    DefaultExt = 'txt'
+    Filter = 'txt'
     Left = 440
     Top = 72
   end

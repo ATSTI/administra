@@ -375,16 +375,18 @@ begin
       linha := '';
       valor := 0;
       contadeb := '1.1.01.0001';
-      //if dm.cdsProc.Active then
-      //  dm.cdsProc.Close;
-      //dm.cdsProc.CommandText := 'SELECT CONTA FROM PLANO ' +
-      //  ' WHERE CODREDUZIDO = ' +
-      //  QuotedStr(dm.sqlBusca.FieldByName('CONTA').AsString);
-      //dm.cdsProc.Open;
+      if dm.cdsProc.Active then
+        dm.cdsProc.Close;
+      dm.cdsProc.CommandText := 'SELECT CONTA, DESCRICAO FROM PLANO ' +
+        ' WHERE CODREDUZIDO = ' +
+        QuotedStr(dm.sqlBusca.FieldByName('CODCONTA').AsString);
+      dm.cdsProc.Open;
       if (dm.sqlBusca.FieldByName('VALORC').AsFloat > 0) then
       begin
         valor := dm.sqlBusca.FieldByName('VALORC').AsFloat;
-        contacred := '2.1.01.0001';
+        contadeb := '200.003-2';
+        //contacred := '2.1.01.0001';
+        contacred := dm.cdsProc.FieldByName('DESCRICAO').AsString;
         // Fornecedor
         cod := Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,6);
         nPos := Pos('-',cod);
@@ -392,26 +394,39 @@ begin
         begin
           // codigo do fornecedor
           cod := Copy(cod, 0, nPos -1);
+        end
+        else begin
+          cod := dm.cds_7_contasCODREDUZIDO.AsString;
+        end;
+
           //busca cnpj
           if dm.cdsProc.Active then
              dm.cdsProc.Close;
           dm.cdsProc.CommandText := 'SELECT CNPJ FROM FORNECEDOR ' +
             ' WHERE CODFORNECEDOR = ' + cod;
           dm.cdsProc.Open;
-          linha := dm.cdsProc.fieldByName('CNPJ').AsString;
+          if (dm.cdsProc.fieldByName('CNPJ').AsString = '') then
+            linha := '00.000.000/0000-00'
+          else
+            linha := dm.cdsProc.fieldByName('CNPJ').AsString;
           linha := linha + ',' + cod;
-        end;
       end;
       if (dm.sqlBusca.FieldByName('VALORD').AsFloat > 0) then
       begin
         valor := dm.sqlBusca.FieldByName('VALORD').AsFloat;
-        contacred := '1.1.02.0001';
+        contacred := '104.005-7';
+        contadeb := dm.cdsProc.FieldByName('DESCRICAO').AsString;
         // Cliente
         cod := Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,6);
         nPos := Pos('-',cod);
         if (nPos > 0) then
         begin
           cod := Copy(cod, 0, nPos -1);
+        end
+        else begin
+          cod := dm.cds_7_contasCODREDUZIDO.AsString;
+        end;
+
           if (dm.cdsProc.Active) then
           begin
              dm.cdsProc.Close;
@@ -419,9 +434,11 @@ begin
           dm.cdsProc.CommandText := 'SELECT CNPJ FROM CLIENTES ' +
             ' WHERE CODCLIENTE = ' + cod;
           dm.cdsProc.Open;
-          linha := dm.cdsProc.fieldByName('CNPJ').AsString;
+          if (dm.cdsProc.fieldByName('CNPJ').AsString = '') then
+            linha := '00.000.000/0000-00'
+          else
+            linha := dm.cdsProc.fieldByName('CNPJ').AsString;
           linha := linha + ',' + cod;
-        end;
       end;
       if (linha = '') then
         linha := '00.000.000/0000-00' + ',' + '000';
