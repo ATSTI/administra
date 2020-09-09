@@ -50,7 +50,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 15
         Width = 377
         Height = 479
-        ActivePage = TabSheet17
+        ActivePage = TabSheet4
         Align = alClient
         MultiLine = True
         Style = tsButtons
@@ -2414,93 +2414,79 @@ object fACBrMDFe: TfACBrMDFe
             Height = 422
             Caption = 'Informa'#231#245'es Pagamento'
             TabOrder = 0
-            object Label134: TLabel
-              Left = 8
-              Top = 16
-              Width = 129
-              Height = 13
-              Caption = 'Empresa Resp. Pagamento'
-            end
-            object Label135: TLabel
-              Left = 10
-              Top = 55
-              Width = 58
-              Height = 13
-              Caption = 'Resp. CNPJ'
-            end
             object Label136: TLabel
-              Left = 202
-              Top = 54
+              Left = 10
+              Top = 22
               Width = 94
               Height = 13
               Caption = 'Valor Total Contrato'
             end
             object Label137: TLabel
               Left = 8
-              Top = 90
+              Top = 58
               Width = 56
               Height = 13
               Caption = 'C'#243'd. Banco'
             end
             object Label138: TLabel
               Left = 80
-              Top = 90
+              Top = 58
               Width = 39
               Height = 13
               Caption = 'Ag'#234'ncia'
             end
             object Label139: TLabel
               Left = 202
-              Top = 90
+              Top = 58
               Width = 61
               Height = 13
               Caption = 'Banco CNPJ'
             end
             object Label140: TLabel
               Left = 8
-              Top = 136
+              Top = 120
               Width = 21
               Height = 13
               Caption = 'Tipo'
             end
             object Label142: TLabel
               Left = 168
-              Top = 136
+              Top = 120
               Width = 24
               Height = 13
               Caption = 'Valor'
             end
             object Label143: TLabel
               Left = 8
-              Top = 160
+              Top = 144
               Width = 51
               Height = 13
               Caption = 'Descri'#231#227'o '
             end
             object Label144: TLabel
               Left = 8
-              Top = 311
+              Top = 307
               Width = 64
               Height = 13
               Caption = 'Num. Parcela'
             end
             object Label145: TLabel
-              Left = 104
-              Top = 311
+              Left = 157
+              Top = 275
               Width = 82
               Height = 13
               Caption = 'Data Vencimento'
             end
             object Label146: TLabel
-              Left = 224
-              Top = 311
+              Left = 138
+              Top = 306
               Width = 63
               Height = 13
               Caption = 'Valor Parcela'
             end
             object Label152: TLabel
-              Left = 160
-              Top = 108
+              Left = 168
+              Top = 76
               Width = 15
               Height = 13
               Caption = 'ou'
@@ -2511,101 +2497,86 @@ object fACBrMDFe: TfACBrMDFe
               Font.Style = [fsBold]
               ParentFont = False
             end
-            object edtPagEmpresa: TEdit
-              Left = 8
-              Top = 32
-              Width = 345
-              Height = 21
-              TabOrder = 0
-            end
-            object edtPagCnpj: TEdit
-              Left = 8
-              Top = 68
-              Width = 145
-              Height = 21
-              TabOrder = 1
-            end
             object rgPagInd: TRadioGroup
               Left = 7
-              Top = 276
+              Top = 268
               Width = 145
               Height = 33
               Caption = 'Tipo Pagamento'
               Columns = 2
+              ItemIndex = 0
               Items.Strings = (
                 'A Vista'
                 'A Prazo')
-              TabOrder = 9
+              TabOrder = 7
               OnClick = rgPagIndClick
             end
             object edtPagBancoCod: TEdit
               Left = 8
-              Top = 106
+              Top = 74
               Width = 57
               Height = 21
-              TabOrder = 3
+              TabOrder = 1
             end
             object edtPagBancoAgencia: TEdit
               Left = 80
-              Top = 106
+              Top = 74
               Width = 73
               Height = 21
-              TabOrder = 4
+              TabOrder = 2
             end
             object edtPagBancoCnpj: TEdit
               Left = 200
-              Top = 106
+              Top = 74
               Width = 150
               Height = 21
-              TabOrder = 5
+              TabOrder = 3
             end
             object cbpagcomp: TComboBox
               Left = 40
-              Top = 136
+              Top = 120
               Width = 121
               Height = 21
               ItemHeight = 13
-              ItemIndex = 3
-              TabOrder = 6
-              Text = 'Outros'
+              TabOrder = 4
               Items.Strings = (
-                'Vale Pedagio'
-                'Impostos'
-                'Despesas'
-                'Outros')
+                '0-Vale Pedagio'
+                '1-Impostos'
+                '2-Despesas'
+                '3-Outros')
             end
             object edtpagCompDesc: TEdit
               Left = 64
-              Top = 160
+              Top = 144
               Width = 241
               Height = 21
-              TabOrder = 8
+              TabOrder = 6
             end
             object dtpPagVencimento: TJvDatePickerEdit
-              Left = 113
-              Top = 328
+              Left = 249
+              Top = 272
               Width = 101
               Height = 21
               AllowNoDate = True
               Checked = True
               Enabled = False
-              TabOrder = 11
+              TabOrder = 8
             end
             object edtPagParcela: TEdit
-              Left = 8
-              Top = 326
-              Width = 65
+              Left = 81
+              Top = 306
+              Width = 48
               Height = 21
               Enabled = False
-              TabOrder = 10
+              TabOrder = 9
             end
             object DBGrid2: TDBGrid
               Left = 9
-              Top = 183
+              Top = 167
               Width = 352
               Height = 90
               DataSource = ds_comp
-              TabOrder = 13
+              TabOrder = 11
               TitleFont.Charset = DEFAULT_CHARSET
               TitleFont.Color = clWindowText
               TitleFont.Height = -11
@@ -2633,13 +2604,13 @@ object fACBrMDFe: TfACBrMDFe
             end
             object BitBtn12: TBitBtn
               Left = 304
-              Top = 158
+              Top = 142
               Width = 25
               Height = 22
               Hint = 'Gravar novo Componente'
               ParentShowHint = False
               ShowHint = True
-              TabOrder = 14
+              TabOrder = 12
               OnClick = BitBtn12Click
               Glyph.Data = {
                 36030000424D3603000000000000360000002800000010000000100000000100
@@ -2671,13 +2642,13 @@ object fACBrMDFe: TfACBrMDFe
             end
             object BitBtn13: TBitBtn
               Left = 330
-              Top = 158
+              Top = 142
               Width = 25
               Height = 22
-              Hint = 'Remover Componente'
+              Hint = 'Informe o TIPO a ser removido'
               ParentShowHint = False
               ShowHint = True
-              TabOrder = 15
+              TabOrder = 13
               OnClick = BitBtn13Click
               Glyph.Data = {
                 36060000424D3606000000000000360000002800000020000000100000000100
@@ -2733,12 +2704,12 @@ object fACBrMDFe: TfACBrMDFe
               NumGlyphs = 2
             end
             object DBGrid3: TDBGrid
-              Left = 7
-              Top = 349
-              Width = 345
-              Height = 68
+              Left = 8
+              Top = 328
+              Width = 344
+              Height = 89
               DataSource = ds_pag
-              TabOrder = 16
+              TabOrder = 14
               TitleFont.Charset = DEFAULT_CHARSET
               TitleFont.Color = clWindowText
               TitleFont.Height = -11
@@ -2765,14 +2736,14 @@ object fACBrMDFe: TfACBrMDFe
                 end>
             end
             object BitBtn14: TBitBtn
-              Left = 312
-              Top = 325
+              Left = 299
+              Top = 303
               Width = 25
               Height = 22
               Hint = 'Gravar'
               ParentShowHint = False
               ShowHint = True
-              TabOrder = 17
+              TabOrder = 15
               OnClick = BitBtn14Click
               Glyph.Data = {
                 36030000424D3603000000000000360000002800000010000000100000000100
@@ -2803,15 +2774,15 @@ object fACBrMDFe: TfACBrMDFe
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
             end
             object BitBtn15: TBitBtn
-              Left = 338
-              Top = 325
+              Left = 325
+              Top = 303
               Width = 25
               Height = 22
-              Hint = 'Remover NFe'
+              Hint = 'Informe o n'#250'mero da PARCELA a ser removido'
               ParentShowHint = False
               ShowHint = True
-              TabOrder = 18
-              OnClick = BitBtn6Click
+              TabOrder = 16
+              OnClick = BitBtn15Click
               Glyph.Data = {
                 36060000424D3606000000000000360000002800000020000000100000000100
                 18000000000000060000120B0000120B00000000000000000000008080008080
@@ -2867,35 +2838,35 @@ object fACBrMDFe: TfACBrMDFe
             end
             object edtpagcompvalor: TJvCalcEdit
               Left = 201
-              Top = 134
+              Top = 118
               Width = 149
               Height = 21
               ParentShowHint = False
               ShowButton = False
               ShowHint = True
-              TabOrder = 7
+              TabOrder = 5
               DecimalPlacesAlwaysShown = False
             end
             object edtPagVContrato: TJvCalcEdit
               Left = 201
-              Top = 67
+              Top = 19
               Width = 149
               Height = 21
               ParentShowHint = False
               ShowButton = False
               ShowHint = True
-              TabOrder = 2
+              TabOrder = 0
               DecimalPlacesAlwaysShown = False
             end
             object edtPagParcelaValor: TJvCalcEdit
-              Left = 224
-              Top = 325
+              Left = 208
+              Top = 306
               Width = 87
               Height = 21
               ParentShowHint = False
               ShowButton = False
               ShowHint = True
-              TabOrder = 12
+              TabOrder = 10
               DecimalPlacesAlwaysShown = False
             end
           end
@@ -2960,17 +2931,17 @@ object fACBrMDFe: TfACBrMDFe
             ItemHeight = 13
             TabOrder = 0
             Items.Strings = (
-              'Granel Solido'
-              'Granel Liquido'
-              'Frigorificada'
-              'Conteinerizada'
-              'Carga Geral'
-              'Neogranel'
-              'Perigosa Granel Solido'
-              'Perigosa Granel Liquido'
-              'Perigosa Carga Frigorificada'
-              'Perigosa Conteinerizada'
-              'Perigosa Carga Geral')
+              '01-Granel Solido'
+              '02-Granel Liquido'
+              '03-Frigorificada'
+              '04-Conteinerizada'
+              '05-Carga Geral'
+              '06-Neogranel'
+              '07-Perigosa Granel Solido'
+              '08-Perigosa Granel Liquido'
+              '09-Perigosa Carga Frigorificada'
+              '10-Perigosa Conteinerizada'
+              '11-Perigosa Carga Geral')
           end
           object edtPagProdEAN: TEdit
             Left = 8
@@ -2999,6 +2970,63 @@ object fACBrMDFe: TfACBrMDFe
             Width = 121
             Height = 21
             TabOrder = 5
+          end
+        end
+        object TabSheet19: TTabSheet
+          Caption = 'Contratante'
+          ImageIndex = 12
+          object GroupBox18: TGroupBox
+            Left = 8
+            Top = 8
+            Width = 361
+            Height = 393
+            Caption = 'Informa'#231#227'o do Contratante'
+            TabOrder = 0
+            object Label134: TLabel
+              Left = 10
+              Top = 22
+              Width = 182
+              Height = 13
+              Caption = 'Raz'#227'o Social ou Nome do Contratante'
+            end
+            object Label135: TLabel
+              Left = 10
+              Top = 65
+              Width = 110
+              Height = 13
+              Caption = 'CNPJ/CPF Contratante'
+            end
+            object Label153: TLabel
+              Left = 11
+              Top = 106
+              Width = 83
+              Height = 13
+              Caption = 'Ident. Estrangeiro'
+            end
+            object edtPagEmpresa: TEdit
+              Left = 8
+              Top = 37
+              Width = 345
+              Height = 21
+              TabOrder = 0
+            end
+            object edtPagCnpj: TEdit
+              Left = 8
+              Top = 78
+              Width = 145
+              Height = 21
+              TabOrder = 1
+            end
+            object edtIdEstrangeiro: TEdit
+              Left = 8
+              Top = 122
+              Width = 145
+              Height = 21
+              Hint = 'Identifica'#231#227'o do Contratante em caso de Estrangeiro'
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 2
+            end
           end
         end
       end
@@ -4091,6 +4119,7 @@ object fACBrMDFe: TfACBrMDFe
     end
     object cds_pagVALOR_PARCELA: TFloatField
       FieldName = 'VALOR_PARCELA'
+      DisplayFormat = '#,##0.00'
     end
     object cds_pagDATA_VENCIMENTO: TDateField
       FieldName = 'DATA_VENCIMENTO'
@@ -4124,6 +4153,7 @@ object fACBrMDFe: TfACBrMDFe
     end
     object cds_compVALOR_COMPONENTE: TFloatField
       FieldName = 'VALOR_COMPONENTE'
+      DisplayFormat = '#,##0.00'
     end
     object cds_compCOMP_DESCRICAO: TStringField
       FieldName = 'COMP_DESCRICAO'
