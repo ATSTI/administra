@@ -48,6 +48,7 @@ type
     procedure BitBtn6Click(Sender: TObject);
   private
     util: TUtils;
+    function LPad(S: String; CH: String; Len: Integer): string;
     { Private declarations }
   public
     { Public declarations }
@@ -400,16 +401,17 @@ begin
         end;
 
           //busca cnpj
-          if dm.cdsProc.Active then
-             dm.cdsProc.Close;
-          dm.cdsProc.CommandText := 'SELECT CNPJ FROM FORNECEDOR ' +
-            ' WHERE CODFORNECEDOR = ' + cod;
-          dm.cdsProc.Open;
-          if (dm.cdsProc.fieldByName('CNPJ').AsString = '') then
-            linha := '00.000.000/0000-00'
-          else
-            linha := dm.cdsProc.fieldByName('CNPJ').AsString;
-          linha := linha + ',' + cod;
+          //if dm.cdsProc.Active then
+          //   dm.cdsProc.Close;
+          //dm.cdsProc.CommandText := 'SELECT CNPJ FROM FORNECEDOR ' +
+          //  ' WHERE CODFORNECEDOR = ' + cod;
+          //dm.cdsProc.Open;
+          //if (dm.cdsProc.fieldByName('CNPJ').AsString = '') then
+            linha := '10.263.670/0001-54';
+          //else
+          //  linha := dm.cdsProc.fieldByName('CNPJ').AsString;
+          cod := '';
+          linha := linha + ',' + LPad(cod,'',5);
       end;
       if (dm.sqlBusca.FieldByName('VALORD').AsFloat > 0) then
       begin
@@ -427,7 +429,7 @@ begin
           cod := dm.cds_7_contasCODREDUZIDO.AsString;
         end;
 
-          if (dm.cdsProc.Active) then
+          {if (dm.cdsProc.Active) then
           begin
              dm.cdsProc.Close;
           end;
@@ -437,26 +439,54 @@ begin
           if (dm.cdsProc.fieldByName('CNPJ').AsString = '') then
             linha := '00.000.000/0000-00'
           else
-            linha := dm.cdsProc.fieldByName('CNPJ').AsString;
-          linha := linha + ',' + cod;
+            linha := dm.cdsProc.fieldByName('CNPJ').AsString;}
+          linha := '10.263.670/0001-54';
+          cod := '';
+          linha := linha + ',' + LPad(cod,'',5);
       end;
       if (linha = '') then
         linha := '00.000.000/0000-00' + ',' + '000';
+
+      linha := linha + ',' + LPad(contadeb,'',14);// conta devedora
+      linha := linha + ',' + LPad(contacred,'',14);// conta credora
       linha := linha + ',000'; // codigo do historico padrao
-      linha := linha + ',' + contadeb;// conta devedora
-      linha := linha + ',' + contacred;// conta credora
-      linha := linha + ',' + dm.sqlBusca.FieldByName('DESCRICAO').AsString; // descricao do historico
+      linha := linha + ',' + LPad(Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,20),'',20); // descricao do historico
       linha := linha + ',' + dm.sqlBusca.FieldByName('DTAPAGTO').AsString; // data lancamento
       DecimalSeparator := '.';
-      linha := linha + ',' + FloatToStr(valor);
+      linha := linha + ',' + LPad(FloatToStr(valor),'',12);
       DecimalSeparator := ',';
-      linha := linha + ',' + QuotedStr('');
+      linha := linha + ',' + LPad(dm.sqlBusca.FieldByName('DESCRICAO').AsString,'',250);
       Writeln(arquivo, linha);
       dm.sqlBusca.Next;
     end;
   finally
     CloseFile(arquivo);
   end;
+end;
+
+function TfRelatorioCaixa.LPad(S: String; CH: String; Len: Integer): string;
+var RestLen, i: Integer;
+begin
+  RestLen := Len - Length(s);
+  //Result := S + Chr(RestLen);
+  //if RestLen < 1 then Exit;
+  //Result := S + StringOfChar(Ch, RestLen);
+  //texto := trim(S);
+  //for RestLen to (Len-(length(texto)) do begin
+  if (CH = '') then
+  begin
+    for i := 1 to RestLen do
+      S := S + ' ';
+    //s := s;
+    result := S;
+  end;
+  if (CH = 'x') then
+  begin
+    for i := 1 to RestLen do
+      S := S + ' ';
+    result := S;
+  end;
+
 end;
 
 end.

@@ -1589,6 +1589,46 @@ object fACBrMDFe: TfACBrMDFe
         end
         object TabSheet1: TTabSheet
           Caption = 'Certificado'
+          object lSSLLib: TLabel
+            Left = 43
+            Top = 204
+            Width = 34
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'SSLLib'
+            Color = clBtnFace
+            ParentColor = False
+          end
+          object lCryptLib: TLabel
+            Left = 39
+            Top = 231
+            Width = 38
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'CryptLib'
+            Color = clBtnFace
+            ParentColor = False
+          end
+          object lHttpLib: TLabel
+            Left = 43
+            Top = 258
+            Width = 34
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'HttpLib'
+            Color = clBtnFace
+            ParentColor = False
+          end
+          object lXmlSign: TLabel
+            Left = 20
+            Top = 285
+            Width = 57
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'XMLSignLib'
+            Color = clBtnFace
+            ParentColor = False
+          end
           object GroupBox2: TGroupBox
             Left = 32
             Top = 36
@@ -1681,6 +1721,42 @@ object fACBrMDFe: TfACBrMDFe
               Height = 21
               TabOrder = 2
             end
+          end
+          object cbSSLLib: TComboBox
+            Left = 88
+            Top = 196
+            Width = 160
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 1
+          end
+          object cbCryptLib: TComboBox
+            Left = 88
+            Top = 223
+            Width = 160
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 2
+          end
+          object cbHttpLib: TComboBox
+            Left = 88
+            Top = 250
+            Width = 160
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 3
+          end
+          object cbXmlSignLib: TComboBox
+            Left = 88
+            Top = 277
+            Width = 160
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 4
           end
         end
         object TabSheet2: TTabSheet
@@ -2973,7 +3049,7 @@ object fACBrMDFe: TfACBrMDFe
           end
         end
         object TabSheet19: TTabSheet
-          Caption = 'Contratante'
+          Caption = 'Contratante/Outros'
           ImageIndex = 12
           object GroupBox18: TGroupBox
             Left = 8
@@ -3003,6 +3079,34 @@ object fACBrMDFe: TfACBrMDFe
               Height = 13
               Caption = 'Ident. Estrangeiro'
             end
+            object Label46: TLabel
+              Left = 8
+              Top = 168
+              Width = 30
+              Height = 13
+              Caption = 'Placa '
+            end
+            object lblidunid: TLabel
+              Left = 8
+              Top = 210
+              Width = 28
+              Height = 13
+              Caption = 'Carga'
+            end
+            object Label59: TLabel
+              Left = 75
+              Top = 168
+              Width = 66
+              Height = 13
+              Caption = 'Lacre Transp.'
+            end
+            object Label47: TLabel
+              Left = 75
+              Top = 208
+              Width = 58
+              Height = 13
+              Caption = 'Lacre Carga'
+            end
             object edtPagEmpresa: TEdit
               Left = 8
               Top = 37
@@ -3026,6 +3130,34 @@ object fACBrMDFe: TfACBrMDFe
               ParentShowHint = False
               ShowHint = True
               TabOrder = 2
+            end
+            object edPlacaMDFE: TEdit
+              Left = 8
+              Top = 184
+              Width = 121
+              Height = 21
+              TabOrder = 3
+            end
+            object edUnidCargaMDFE: TEdit
+              Left = 8
+              Top = 224
+              Width = 121
+              Height = 21
+              TabOrder = 4
+            end
+            object edLacreMDFE: TEdit
+              Left = 72
+              Top = 184
+              Width = 121
+              Height = 21
+              TabOrder = 5
+            end
+            object edLacreCargaMDFE: TEdit
+              Left = 72
+              Top = 224
+              Width = 121
+              Height = 21
+              TabOrder = 6
             end
           end
         end
@@ -3776,41 +3908,6 @@ object fACBrMDFe: TfACBrMDFe
       object TabSheet16: TTabSheet
         Caption = 'Outros'
         ImageIndex = 6
-        object Label46: TLabel
-          Left = 176
-          Top = 8
-          Width = 30
-          Height = 13
-          Caption = 'Placa '
-        end
-        object Label47: TLabel
-          Left = 304
-          Top = 48
-          Width = 58
-          Height = 13
-          Caption = 'Lacre Carga'
-        end
-        object lblidunid: TLabel
-          Left = 176
-          Top = 50
-          Width = 28
-          Height = 13
-          Caption = 'Carga'
-        end
-        object Label59: TLabel
-          Left = 472
-          Top = 8
-          Width = 66
-          Height = 13
-          Caption = 'Lacre Transp.'
-        end
-        object Label107: TLabel
-          Left = 304
-          Top = 8
-          Width = 110
-          Height = 13
-          Caption = 'CNPJ/CPF Contratante'
-        end
         object BitBtn1: TBitBtn
           Left = 24
           Top = 8
@@ -3834,41 +3931,6 @@ object fACBrMDFe: TfACBrMDFe
           ShowHint = True
           TabOrder = 1
           OnClick = BitBtn2Click
-        end
-        object edPlacaMDFE: TEdit
-          Left = 176
-          Top = 24
-          Width = 121
-          Height = 21
-          TabOrder = 2
-        end
-        object edLacreMDFE: TEdit
-          Left = 472
-          Top = 24
-          Width = 121
-          Height = 21
-          TabOrder = 3
-        end
-        object edUnidCargaMDFE: TEdit
-          Left = 176
-          Top = 64
-          Width = 121
-          Height = 21
-          TabOrder = 4
-        end
-        object edLacreCargaMDFE: TEdit
-          Left = 304
-          Top = 64
-          Width = 121
-          Height = 21
-          TabOrder = 5
-        end
-        object edCnpjCpfContratante: TEdit
-          Left = 304
-          Top = 24
-          Width = 161
-          Height = 21
-          TabOrder = 6
         end
       end
     end

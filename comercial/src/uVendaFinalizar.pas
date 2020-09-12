@@ -513,7 +513,6 @@ type
     BitBtn10: TBitBtn;
     ImprimirPedidoII1: TMenuItem;
     btnSAT: TBitBtn;
-    ACBrPosPrinter1: TACBrPosPrinter;
     MemoImp: TMemo;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
@@ -580,10 +579,12 @@ type
     procedure BitBtn10Click(Sender: TObject);
     procedure ImprimirPedidoII1Click(Sender: TObject);
     procedure btnSATClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     controleExclui: String;
     TD: TTransactionDesc;
     usaMateriaPrima: String;
+    ACBrPosPrinter1: TACBrPosPrinter;
     { Private declarations }
     procedure excluinf;
     procedure notaFiscal;
@@ -1830,6 +1831,7 @@ var utilcrtitulo : Tutils;
   i, j : integer;
   nI: Integer;
 begin
+  ACBrPosPrinter1 := TACBrPosPrinter.create(Nil);
 //  inherited;
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
@@ -3992,6 +3994,12 @@ begin
     fNFCe.ShowModal;
   end;
 
+end;
+
+procedure TfVendaFinalizar.FormDestroy(Sender: TObject);
+begin
+  ACBrPosPrinter1.Free;
+  inherited;
 end;
 
 end.

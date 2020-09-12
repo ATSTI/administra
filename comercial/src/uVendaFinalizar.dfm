@@ -6,6 +6,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
   Font.Height = -13
   OldCreateOrder = True
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -5278,17 +5279,5 @@ inherited fVendaFinalizar: TfVendaFinalizar
   object dlgSave1: TSaveDialog
     Left = 584
     Top = 230
-  end
-  object ACBrPosPrinter1: TACBrPosPrinter
-    ConfigBarras.MostrarCodigo = False
-    ConfigBarras.LarguraLinha = 0
-    ConfigBarras.Altura = 0
-    ConfigBarras.Margem = 0
-    ConfigQRCode.Tipo = 2
-    ConfigQRCode.LarguraModulo = 4
-    ConfigQRCode.ErrorLevel = 0
-    LinhasEntreCupons = 0
-    Left = 336
-    Top = 79
   end
 end

@@ -331,7 +331,6 @@ type
     ds_crCODIGOBOLETO: TStringField;
     ds_crCODIGOBANCO: TIntegerField;
     ds_crCODCONCILIACAO: TStringField;
-    ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -340,6 +339,7 @@ type
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
+    ACBrBoletoFCFortes1: TACBrBoletoFCFortes;
     function RemoveAcento(Str: string): string;
   public
     varLocal : String;
@@ -387,7 +387,7 @@ var
    AcbrBoleto1     : TAcbrBoleto;
 implementation
 
-uses UDm, ufcr, DateUtils;
+uses UDm, ufcr, DateUtils, ACBrBoletoConversao;
 
 {$R *.dfm}
 
@@ -1030,6 +1030,7 @@ end;
 procedure TF_Boletos.FormCreate(Sender: TObject);
 begin
   AcbrBoleto1 := TACBrBoleto.Create(Nil);
+  //ACBrBoletoFCFortes1 := TACBrBoletoFCFortes.Crea
   edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   AcbrBoleto1.ACBrBoletoFC := ACBrBoletoFCFortes1;
   ACBrBoletoFCFortes1.ACBrBoleto := AcbrBoleto1;

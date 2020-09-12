@@ -13,10 +13,11 @@ object fNfeIcms: TfNfeIcms
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   DesignSize = (
-    922
-    587)
+    914
+    575)
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -71,7 +72,7 @@ object fNfeIcms: TfNfeIcms
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 922
+    Width = 914
     Height = 113
     Align = alTop
     BevelOuter = bvNone
@@ -79,7 +80,7 @@ object fNfeIcms: TfNfeIcms
     Color = 16776176
     TabOrder = 1
     DesignSize = (
-      918
+      910
       109)
     object Label1: TLabel
       Left = 19
@@ -94,7 +95,7 @@ object fNfeIcms: TfNfeIcms
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 918
+      Width = 910
       Height = 16
       Align = alTop
       Alignment = taCenter
@@ -4350,14 +4351,6 @@ object fNfeIcms: TfNfeIcms
       FieldName = 'BASE_ICMS'
       ReadOnly = True
     end
-  end
-  object ACBrSPEDFiscal1: TACBrSPEDFiscal
-    Path = 'C:\Arquivos de programas\Borland\Delphi7\Bin\'
-    Delimitador = '|'
-    TrimString = True
-    CurMascara = '#0.00'
-    Left = 712
-    Top = 112
   end
   object sdsC190: TSQLDataSet
     CommandText = 

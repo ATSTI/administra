@@ -317,14 +317,6 @@ type
     edUFPercuso4: TEdit;
     edUFPercuso5: TEdit;
     edUFPercuso6: TEdit;
-    edPlacaMDFE: TEdit;
-    Label46: TLabel;
-    Label47: TLabel;
-    edLacreMDFE: TEdit;
-    edUnidCargaMDFE: TEdit;
-    lblidunid: TLabel;
-    Label59: TLabel;
-    edLacreCargaMDFE: TEdit;
     Label60: TLabel;
     edMunNfe: TEdit;
     edxMunNfe: TEdit;
@@ -346,8 +338,6 @@ type
     pnCity: TPanel;
     BitBtn11: TBitBtn;
     DBGrid1: TDBGrid;
-    edCnpjCpfContratante: TEdit;
-    Label107: TLabel;
     Label100: TLabel;
     cbSegResp: TComboBox;
     Label104: TLabel;
@@ -480,6 +470,22 @@ type
     edtPagCnpj: TEdit;
     edtIdEstrangeiro: TEdit;
     Label153: TLabel;
+    lSSLLib: TLabel;
+    lCryptLib: TLabel;
+    lHttpLib: TLabel;
+    lXmlSign: TLabel;
+    cbSSLLib: TComboBox;
+    cbCryptLib: TComboBox;
+    cbHttpLib: TComboBox;
+    cbXmlSignLib: TComboBox;
+    Label46: TLabel;
+    edPlacaMDFE: TEdit;
+    lblidunid: TLabel;
+    edUnidCargaMDFE: TEdit;
+    Label59: TLabel;
+    edLacreMDFE: TEdit;
+    Label47: TLabel;
+    edLacreCargaMDFE: TEdit;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -554,6 +560,7 @@ type
     procedure GerarMDFe(NumMDFe : String);
     procedure PreencherCampos;
     procedure BuscaCidade;
+    procedure AtualizaSSLLibsCombo;
   public
     modoAbertura: String;
     { Public declarations }
@@ -566,7 +573,7 @@ implementation
 
 uses
  FileCtrl, DateUtils,
- ufrmStatus,
+ ufrmStatus, ACBrDFeSSL,TypInfo,
  ACBrMDFeManifestos, udm, pmdfeMDFe, pcnNFe, ufMunicipios;
 
 const
@@ -637,6 +644,11 @@ begin
   Ini.WriteString( 'Email','Assunto', edtEmailAssunto.Text);
   Ini.WriteBool(   'Email','SSL'    , cbEmailSSL.Checked );
 
+  Ini.WriteInteger( 'Certificado','SSLLib' , cbSSLLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','CryptLib' , cbCryptLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','HttpLib' , cbHttpLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','XmlSignLib' , cbXmlSignLib.ItemIndex) ;
+
   StreamMemo := TMemoryStream.Create;
   mmEmailMsg.Lines.SaveToStream(StreamMemo);
   StreamMemo.Seek(0,soFromBeginning);
@@ -694,6 +706,11 @@ begin
     rgTipoDAMDFe.ItemIndex := Ini.ReadInteger( 'Geral','DAMDFe'  , 0);
     edtLogoMarca.Text      := Ini.ReadString( 'Geral','LogoMarca', '');
 
+    cbSSLLib.ItemIndex:= Ini.ReadInteger( 'Certificado','SSLLib' ,0) ;
+    cbCryptLib.ItemIndex := Ini.ReadInteger( 'Certificado','CryptLib' , 0) ;
+    cbHttpLib.ItemIndex := Ini.ReadInteger( 'Certificado','HttpLib' , 0) ;
+    cbXmlSignLib.ItemIndex := Ini.ReadInteger( 'Certificado','XmlSignLib' , 0) ;
+
     StreamMemo := TMemoryStream.Create;
     Ini.ReadBinaryStream( 'Email','Mensagem',StreamMemo);
     mmEmailMsg.Lines.LoadFromStream(StreamMemo);
@@ -738,6 +755,10 @@ procedure TfACBrMDFe.ConfiguraComponente;
 var
  Ok: Boolean;
  PathMensal: String;
+      T : TSSLLib;
+     U: TSSLCryptLib;
+     V: TSSLHttpLib;
+     X: TSSLXmlSignLib;
 begin
  // Configurações -> Certificados
  {$IFDEF ACBrMDFeOpenSSL}
@@ -779,6 +800,15 @@ begin
  ACBrMDFe1.Configuracoes.WebServices.ProxyUser                := edtProxyUser.Text;
  ACBrMDFe1.Configuracoes.WebServices.ProxyPass                := edtProxySenha.Text;
 
+ with ACBrMDFe1.Configuracoes.Geral do
+  begin
+   SSLLib                := TSSLLib(cbSSLLib.ItemIndex);
+   SSLCryptLib           := TSSLCryptLib(cbCryptLib.ItemIndex);
+   SSLHttpLib            := TSSLHttpLib(cbHttpLib.ItemIndex);
+   SSLXmlSignLib         := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+   AtualizaSSLLibsCombo;
+  end;
+ ACBrMDFe1.DAMDFE := ACBrMDFeDAMDFeRL1;
  // DAMDFe
  if ACBrMDFe1.DAMDFe <> nil then
   begin
@@ -943,7 +973,7 @@ begin
       rodo.infANTT.infContratante.Add.CNPJCPF := edtEmitCNPJ.Text;
     end
     else begin
-      rodo.infANTT.infContratante.Add.CNPJCPF := edCnpjCpfContratante.Text;
+      rodo.infANTT.infContratante.Add.CNPJCPF := edtPagCnpj.Text;
     end;
 
     if (cbTipoEmit.ItemIndex = 1) then
@@ -1695,10 +1725,37 @@ begin
 end;
 
 procedure TfACBrMDFe.FormCreate(Sender: TObject);
+var
+  T : TSSLLib;
+  U: TSSLCryptLib;
+  V: TSSLHttpLib;
+  X: TSSLXmlSignLib;
 begin
   ACBrMDFeDAMDFeRL1 := TACBrMDFeDAMDFeRL.Create(Nil);
   ACBrMDFe1 := TACBrMDFe.Create(Nil);
   ACBrNFe1 := TACBrNFe.Create(Nil);
+
+  cbSSLLib.Items.Clear ;
+  For T := Low(TSSLLib) to High(TSSLLib) do
+    cbSSLLib.Items.Add( GetEnumName(TypeInfo(TSSLLib), integer(T) ) ) ;
+  cbSSLLib.ItemIndex := 0 ;
+
+  cbCryptLib.Items.Clear ;
+  For U := Low(TSSLCryptLib) to High(TSSLCryptLib) do
+    cbCryptLib.Items.Add( GetEnumName(TypeInfo(TSSLCryptLib), integer(U) ) ) ;
+  cbCryptLib.ItemIndex := 0 ;
+
+  cbHttpLib.Items.Clear ;
+  For V := Low(TSSLHttpLib) to High(TSSLHttpLib) do
+    cbHttpLib.Items.Add( GetEnumName(TypeInfo(TSSLHttpLib), integer(V) ) ) ;
+  cbHttpLib.ItemIndex := 0 ;
+
+  cbXmlSignLib.Items.Clear ;
+  For X := Low(TSSLXmlSignLib) to High(TSSLXmlSignLib) do
+    cbXmlSignLib.Items.Add( GetEnumName(TypeInfo(TSSLXmlSignLib), integer(X) ) ) ;
+  cbXmlSignLib.ItemIndex := 0 ;
+
+
   //ACBrMDFe1.Configuracoes.Geral.PathSalvar := edtPathLogs.Text;
   LerConfiguracao;
  //gravarMDFe;
@@ -3721,7 +3778,7 @@ begin
 
   if (cbSegResp.ItemIndex = 0) then
   begin
-    edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
+    //edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
     edtPagCnpj.Text := edtEmitCNPJ.Text;
   end;
 end;
@@ -3916,6 +3973,14 @@ begin
   cds_pag.Open;
 
 
+end;
+
+procedure TfACBrMDFe.AtualizaSSLLibsCombo;
+begin
+ cbSSLLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLLib );
+ cbCryptLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLCryptLib );
+ cbHttpLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLHttpLib );
+ cbXmlSignLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLXmlSignLib );
 end;
 
 end.
