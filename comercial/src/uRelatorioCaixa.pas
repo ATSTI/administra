@@ -450,7 +450,8 @@ begin
       linha := linha + LPad(contadeb,'',14);// conta devedora
       linha := linha + LPad(contacred,'',14);// conta credora
       linha := linha + '000'; // codigo do historico padrao
-      linha := linha + LPad('','',20); //LPad(Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,20),'',20); // descricao do historico
+      //linha := linha + LPad(' ','',20); //LPad(Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,20),'',20); // descricao do historico
+      linha := linha + '                      ';
       linha := linha + dm.sqlBusca.FieldByName('DTAPAGTO').AsString; // data lancamento
       DecimalSeparator := '.';
       linha := linha + LPad(FormatFloat('#.00',valor),'x',12);
