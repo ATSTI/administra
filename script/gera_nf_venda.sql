@@ -118,8 +118,12 @@ AS
   declare variable calc_manual char(1);
   declare variable arredondar DOUBLE PRECISION;
   declare variable vendedor integer;
+  declare variable embalagem varchar(30);
+  declare variable volume DOUBLE PRECISION;
+  declare variable total_volume DOUBLE PRECISION;
 begin 
   -- versao 3.0
+  total_volume = 0;
   vFreteT = 0;
   vIcmsT = 0;
   vIpiT = 0;
@@ -222,16 +226,20 @@ begin
       , md.ICMS, md.VLR_BASEICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base
       , prod.NCM, md.VALOR_ICMS, md.PAGOU, md.CST, md.CSTPIS, md.CSTCOFINS, md.CSTIPI, md.VIPI, md.VALOR_PIS
       , md.VALOR_COFINS, md.VLRBC_IPI, md.VLRBC_PIS, md.VLRBC_COFINS, md.PIPI, md.PPIS, md.PCOFINS, md.LOTE
-      , md.DTAFAB, md.DTAVCTO
+      , md.DTAFAB, md.DTAVCTO, COALESCE(prod.QTDE_PCT,1) as VOLUME, prod.EMBALAGEM  
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :un, :preco, :descP
        , :icms, :baseIcms, :pesoUn, :pesoLiq, :cstProd, :obsp, :cfop, :vlr_base
        , :ncm, :valoricms, :calc_manual, :cst, :cstPIS, :cstCOFINS, :cstIPI, :vIPI, :vPIS, :vCOFINS
-       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO
+       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO, :volume, :embalagem
     do begin 
       nitemped = nitemped + 1;
+	
+	  if (volume > 0) then
+	    volume = qtde / volume;
+	total_volume = total_volume + volume;    
       if (ncm_dadosadicionais is null) then 
         ncm_dadosadicionais = :ncm;
 
@@ -395,14 +403,14 @@ begin
       , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
       , NOMETRANSP, PLACATRANSP, CNPJ_CPF, END_TRANSP , CIDADE_TRANSP, UF_VEICULO_TRANSP
       , UF_TRANSP, FRETE, INSCRICAOESTADUAL, CORPONF1, CORPONF2, CORPONF3, CORPONF4, CORPONF5
-      , CORPONF6, PESOBRUTO, PESOLIQUIDO, SERIE, UF, VALOR_DESCONTO, II, BCII, INDPAG, CCUSTO)
+      , CORPONF6, PESOBRUTO, PESOLIQUIDO, SERIE, UF, VALOR_DESCONTO, II, BCII, INDPAG, CCUSTO, QUANTIDADE, ESPECIE)
     VALUES (:numero, :codNF, :codNatureza, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero
     , :NOMETRANSP, :PLACATRANSP, :CNPJ_CPF, :END_TRANSP
     , :CIDADE_TRANSP, :UF_VEICULO_TRANSP, :UF_TRANSP, :TFRETE, :INSCRICAOESTADUAL
     , :CORPONF1, :CORPONF2, :CORPONF3, :CORPONF4, :CORPONF5, :CORPONF6, :pesoTotal, :pesoLiqTotal
-    , :serie, :UF, :vDesconto, 0, 0, :indpag, :codCCusto);
+    , :serie, :UF, :vDesconto, 0, 0, :indpag, :codCCusto, :total_volume, :embalagem);
  
     For SELECT r.PARCELAS,       r.DATAVENCIMENTO, r.DATARECEBIMENTO,  
                r.CAIXA,          r.VIA,           r.FORMARECEBIMENTO, 

@@ -33,13 +33,17 @@ declare variable codRec integer;
   declare variable vIcmsT DOUBLE PRECISION;
   declare variable vOutrosT DOUBLE PRECISION;
   declare variable vIpiT DOUBLE PRECISION;
+  declare variable volume DOUBLE PRECISION;
   declare variable un char(2);
   declare variable uf char(2);
   declare variable cst char(5);
+  declare variable embalagem varchar(30);
   declare variable descP varchar(300);
   declare variable cfop varchar(30);
   declare variable cfop_outros varchar(30);
+  declare variable total_volume DOUBLE PRECISION;
 begin 
+  total_volume = 0;
   vFreteT = 0;
   vIcmsT = 0;
   vIpiT = 0;
@@ -111,12 +115,16 @@ begin
     vOutrosT = vOutrosT + vOutros; 
     -- localiza o mov. detalhe
     for select md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
-      , prod.ICMS, prod.BASE_ICMS, md.ICMS     
+      , prod.ICMS, prod.BASE_ICMS, md.ICMS , COALESCE(prod.QTDE_PCT,1) as VOLUME 
+      , prod.EMBALAGEM    
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :codProduto, :qtde, :un, :preco, :descP, :icmsProd, :baseIcms, :icms
+    into :codProduto, :qtde, :un, :preco, :descP, :icmsProd, :baseIcms, :icms, :volume, :embalagem
     do begin 
+	  if (volume > 0) then
+	    volume = qtde / volume;
+      total_volume = total_volume + volume;
       if (icmsProd is null) then 
         icmsProd = 0;
       if (icms is null) then 
@@ -222,11 +230,11 @@ begin
   INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, codVenda, codCliente, cfop
     , valor_total_nota, dtaEmissao, VALOR_ICMS, BASE_ICMS_SUBST, VALOR_ICMS_SUBST
     , VALOR_FRETE, VALOR_PRODUTO, VALOR_SEGURO, OUTRAS_DESP, VALOR_IPI, BASE_ICMS, NOTAFISCAL
-    , SERIE,UF, VALOR_DESCONTO, CCUSTO)
+    , SERIE,UF, VALOR_DESCONTO, CCUSTO, QUANTIDADE, ESPECIE)
     VALUES (:numero, :CodNF, 12, :codVen, :Cliente, :cfop
     , :total, :dtEmissao, :totalIcms, 0 , 0
     , :vFreteT, :preco, :vSeguroT, :vOutrosT, :vIpiT, :tBaseIcms ,:numero,
-    :serie, :uf, 0, :codCCusto);
+    :serie, :uf, 0, :codCCusto, :total_volume, :embalagem);
  
    EXECUTE PROCEDURE CALCULA_ICMS(:codNF, :uf, :cfop, :vFreteT, :vSeguroT, 
        :vOutrosT, :total, 'N', 0, 0);

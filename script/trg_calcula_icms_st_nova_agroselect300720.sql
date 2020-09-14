@@ -455,7 +455,7 @@ BEGIN
       begin
         
         begin  
-          new.vBCUFDest = ROUND(((TOTALITENS - :vd + :vFrete + new.VIPI) - new.VALOR_ICMS), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
+          new.vBCUFDest = ROUND((TOTALITENS - :vd + :vFrete + new.VIPI), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
           --new.obs = '1- Frete:' || cast(:vFrete as char(10)) || ' Desc:' || cast(:vd as char(10)) || ' IPI:' || cast(new.vipi as char(10)) ||
           --  ' ICMS:' || cast(new.VALOR_ICMS as char(10)) || ' T.Itens:' || cast(:TOTALITENS as char(10));
           new.VBFCPUFDEST = new.vBCUFDest;
@@ -464,7 +464,7 @@ BEGIN
       else begin -- simples não tem base de calculo, tudo zerado
         if (new.VIPI is null) then 
           new.VIPI = 0;
-        new.VBCUFDEST = ROUND(((new.VLR_BASE * new.QUANTIDADE) + :vFrete - new.VALOR_DESCONTO + new.VIPI - new.VALOR_ICMS), :arredondar);
+        new.VBCUFDEST = ROUND(((new.VLR_BASE * new.QUANTIDADE) + :vFrete - new.VALOR_DESCONTO + new.VIPI), :arredondar);
         new.VBFCPUFDEST = new.vBCUFDest;
         --new.obs = '2- Frete:' || cast(:vFrete as char(10)) || ' Desc:' || cast(:vd as char(10)) || ' IPI:' || cast(new.vipi as char(10)) ||
         --  ' ICMS:' || cast(new.VALOR_ICMS as char(10)) || ' T.Itens:' || cast(:TOTALITENS as char(10));
