@@ -2,8 +2,8 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 319
-  Top = 3
+  Left = 63
+  Top = 6
   Height = 772
   Width = 1281
   object sqlsisAdimin: TSQLConnection

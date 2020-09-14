@@ -19,7 +19,6 @@ const
                 '1d265b36809501b519dbc08129e1c' ;
 type                          
   TfSat = class(TForm)
-    ACBrSAT1: TACBrSAT;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -430,7 +429,6 @@ type
     sdsFaturaSTATUS: TStringField;
     cdsFaturaSTATUS: TStringField;
     cbCortarPapel: TCheckBox;
-    ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
     procedure btLerParamsClick(Sender: TObject);
     procedure btSalvarParamsClick(Sender: TObject);
     procedure bInicializarClick(Sender: TObject);
@@ -467,6 +465,8 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure RadioButton1Click(Sender: TObject);
   private
+    ACBrSAT1: TACBrSAT;
+    ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
     codConsumidorSat : integer;
     { Private declarations }
     function RemoveChar(Const Texto:String):String;
@@ -488,7 +488,7 @@ var
 
 implementation
 
-uses UDm, ConfiguraSerial, pcnCFe, StrUtils;
+uses UDm, pcnCFe, ConfiguraSerial, StrUtils;
 
 {$R *.dfm}
 
@@ -659,6 +659,9 @@ end;
 
 procedure TfSat.bInicializarClick(Sender: TObject);
 begin
+  ACBrSAT1 := TACBrSAT.Create(Nil);
+  ACBrSATExtratoESCPOS1 := TACBrSATExtratoESCPOS.Create(Nil);
+
   AjustaACBrSAT;
 
   ACBrSAT1.Inicializado := not ACBrSAT1.Inicializado ;

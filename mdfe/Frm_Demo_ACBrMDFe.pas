@@ -231,7 +231,6 @@ type
     edNumMdfe: TEdit;
     Label78: TLabel;
     dtaMdfe: TJvDatePickerEdit;
-    ACBrMail1: TACBrMail;
     TabSheet15: TTabSheet;
     GroupBox11: TGroupBox;
     Label79: TLabel;
@@ -318,22 +317,12 @@ type
     edUFPercuso4: TEdit;
     edUFPercuso5: TEdit;
     edUFPercuso6: TEdit;
-    edPlacaMDFE: TEdit;
-    Label46: TLabel;
-    Label47: TLabel;
-    edLacreMDFE: TEdit;
-    edUnidCargaMDFE: TEdit;
-    lblidunid: TLabel;
-    Label59: TLabel;
-    edLacreCargaMDFE: TEdit;
     Label60: TLabel;
     edMunNfe: TEdit;
     edxMunNfe: TEdit;
     Label99: TLabel;
     cdsMdfeDocsCD_IBGE: TIntegerField;
     cdsMdfeDocsMUNICIPIO: TStringField;
-    ACBrNFe1: TACBrNFe;
-    ACBrMDFe1: TACBrMDFe;
     sqlMDFEMun: TSQLDataSet;
     dspMun: TDataSetProvider;
     cdsMun: TClientDataSet;
@@ -349,8 +338,6 @@ type
     pnCity: TPanel;
     BitBtn11: TBitBtn;
     DBGrid1: TDBGrid;
-    edCnpjCpfContratante: TEdit;
-    Label107: TLabel;
     Label100: TLabel;
     cbSegResp: TComboBox;
     Label104: TLabel;
@@ -363,7 +350,6 @@ type
     edSegCnpj: TEdit;
     edApolice: TEdit;
     edAverba: TEdit;
-    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     GroupBox16: TGroupBox;
     Label108: TLabel;
     Label109: TLabel;
@@ -417,6 +403,89 @@ type
     edRebocoUFVeic2: TEdit;
     edRebocoTipoCarroc: TComboBox;
     edRebocoTipoCarroc2: TComboBox;
+    TabSheet17: TTabSheet;
+    GroupBox17: TGroupBox;
+    Label136: TLabel;
+    Label137: TLabel;
+    Label138: TLabel;
+    Label139: TLabel;
+    Label140: TLabel;
+    Label142: TLabel;
+    Label143: TLabel;
+    Label144: TLabel;
+    Label145: TLabel;
+    Label146: TLabel;
+    rgPagInd: TRadioGroup;
+    edtPagBancoCod: TEdit;
+    edtPagBancoAgencia: TEdit;
+    edtPagBancoCnpj: TEdit;
+    cbpagcomp: TComboBox;
+    edtpagCompDesc: TEdit;
+    dtpPagVencimento: TJvDatePickerEdit;
+    edtPagParcela: TEdit;
+    TabSheet18: TTabSheet;
+    Label141: TLabel;
+    edtPagProdPred: TEdit;
+    cbPagTipoCargaPred: TComboBox;
+    Label147: TLabel;
+    Label148: TLabel;
+    Label149: TLabel;
+    edtPagProdEAN: TEdit;
+    edtPagProdNCM: TEdit;
+    Label150: TLabel;
+    edtPagProdLocalCarrega: TEdit;
+    Label151: TLabel;
+    edtPagProdLocalDescarrega: TEdit;
+    Label152: TLabel;
+    DBGrid2: TDBGrid;
+    BitBtn12: TBitBtn;
+    BitBtn13: TBitBtn;
+    DBGrid3: TDBGrid;
+    BitBtn14: TBitBtn;
+    BitBtn15: TBitBtn;
+    edtpagcompvalor: TJvCalcEdit;
+    edtPagVContrato: TJvCalcEdit;
+    sds_comp: TSQLDataSet;
+    sds_pag: TSQLDataSet;
+    dsp_pag: TDataSetProvider;
+    cds_pag: TClientDataSet;
+    dsp_comp: TDataSetProvider;
+    cds_comp: TClientDataSet;
+    ds_comp: TDataSource;
+    ds_pag: TDataSource;
+    cds_compMDFE: TIntegerField;
+    cds_compTP_COMP: TStringField;
+    cds_compVALOR_COMPONENTE: TFloatField;
+    cds_compCOMP_DESCRICAO: TStringField;
+    cds_pagMDFE: TIntegerField;
+    cds_pagN_PARCELA: TIntegerField;
+    cds_pagVALOR_PARCELA: TFloatField;
+    cds_pagDATA_VENCIMENTO: TDateField;
+    edtPagParcelaValor: TJvCalcEdit;
+    TabSheet19: TTabSheet;
+    GroupBox18: TGroupBox;
+    Label134: TLabel;
+    edtPagEmpresa: TEdit;
+    Label135: TLabel;
+    edtPagCnpj: TEdit;
+    edtIdEstrangeiro: TEdit;
+    Label153: TLabel;
+    lSSLLib: TLabel;
+    lCryptLib: TLabel;
+    lHttpLib: TLabel;
+    lXmlSign: TLabel;
+    cbSSLLib: TComboBox;
+    cbCryptLib: TComboBox;
+    cbHttpLib: TComboBox;
+    cbXmlSignLib: TComboBox;
+    Label46: TLabel;
+    edPlacaMDFE: TEdit;
+    lblidunid: TLabel;
+    edUnidCargaMDFE: TEdit;
+    Label59: TLabel;
+    edLacreMDFE: TEdit;
+    Label47: TLabel;
+    edLacreCargaMDFE: TEdit;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -458,6 +527,13 @@ type
     procedure BitBtn11Click(Sender: TObject);
     procedure cbSegRespChange(Sender: TObject);
     procedure cbTransporteChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure rgPagIndClick(Sender: TObject);
+    procedure cbTipoEmitClick(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
+    procedure BitBtn13Click(Sender: TObject);
+    procedure BitBtn14Click(Sender: TObject);
+    procedure BitBtn15Click(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
@@ -470,6 +546,10 @@ type
     codigoUfEmitenteMDFe: Integer;
     ufDestinatarioMDFe: String;
     chave_mdfe: String;
+    ACBrMDFe1 : TACBrMDFe;
+    ACBrNFe1: TACBrNFe;
+    ACBrMail1: TACBrMail;
+    ACBrMDFeDAMDFeRL1: TACBrMDFeDAMDFeRL;
     function RemoveChar(Const Texto:String):String;
     function editParaSql(tipo: String;conteudoEdit: String): String;
     procedure gravarMDFe;
@@ -480,6 +560,7 @@ type
     procedure GerarMDFe(NumMDFe : String);
     procedure PreencherCampos;
     procedure BuscaCidade;
+    procedure AtualizaSSLLibsCombo;
   public
     modoAbertura: String;
     { Public declarations }
@@ -492,7 +573,7 @@ implementation
 
 uses
  FileCtrl, DateUtils,
- ufrmStatus,
+ ufrmStatus, ACBrDFeSSL,TypInfo,
  ACBrMDFeManifestos, udm, pmdfeMDFe, pcnNFe, ufMunicipios;
 
 const
@@ -563,6 +644,11 @@ begin
   Ini.WriteString( 'Email','Assunto', edtEmailAssunto.Text);
   Ini.WriteBool(   'Email','SSL'    , cbEmailSSL.Checked );
 
+  Ini.WriteInteger( 'Certificado','SSLLib' , cbSSLLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','CryptLib' , cbCryptLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','HttpLib' , cbHttpLib.ItemIndex) ;
+  Ini.WriteInteger( 'Certificado','XmlSignLib' , cbXmlSignLib.ItemIndex) ;
+
   StreamMemo := TMemoryStream.Create;
   mmEmailMsg.Lines.SaveToStream(StreamMemo);
   StreamMemo.Seek(0,soFromBeginning);
@@ -620,6 +706,11 @@ begin
     rgTipoDAMDFe.ItemIndex := Ini.ReadInteger( 'Geral','DAMDFe'  , 0);
     edtLogoMarca.Text      := Ini.ReadString( 'Geral','LogoMarca', '');
 
+    cbSSLLib.ItemIndex:= Ini.ReadInteger( 'Certificado','SSLLib' ,0) ;
+    cbCryptLib.ItemIndex := Ini.ReadInteger( 'Certificado','CryptLib' , 0) ;
+    cbHttpLib.ItemIndex := Ini.ReadInteger( 'Certificado','HttpLib' , 0) ;
+    cbXmlSignLib.ItemIndex := Ini.ReadInteger( 'Certificado','XmlSignLib' , 0) ;
+
     StreamMemo := TMemoryStream.Create;
     Ini.ReadBinaryStream( 'Email','Mensagem',StreamMemo);
     mmEmailMsg.Lines.LoadFromStream(StreamMemo);
@@ -664,6 +755,10 @@ procedure TfACBrMDFe.ConfiguraComponente;
 var
  Ok: Boolean;
  PathMensal: String;
+      T : TSSLLib;
+     U: TSSLCryptLib;
+     V: TSSLHttpLib;
+     X: TSSLXmlSignLib;
 begin
  // Configurações -> Certificados
  {$IFDEF ACBrMDFeOpenSSL}
@@ -705,6 +800,15 @@ begin
  ACBrMDFe1.Configuracoes.WebServices.ProxyUser                := edtProxyUser.Text;
  ACBrMDFe1.Configuracoes.WebServices.ProxyPass                := edtProxySenha.Text;
 
+ with ACBrMDFe1.Configuracoes.Geral do
+  begin
+   SSLLib                := TSSLLib(cbSSLLib.ItemIndex);
+   SSLCryptLib           := TSSLCryptLib(cbCryptLib.ItemIndex);
+   SSLHttpLib            := TSSLHttpLib(cbHttpLib.ItemIndex);
+   SSLXmlSignLib         := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+   AtualizaSSLLibsCombo;
+  end;
+ ACBrMDFe1.DAMDFE := ACBrMDFeDAMDFeRL1;
  // DAMDFe
  if ACBrMDFe1.DAMDFe <> nil then
   begin
@@ -869,7 +973,99 @@ begin
       rodo.infANTT.infContratante.Add.CNPJCPF := edtEmitCNPJ.Text;
     end
     else begin
-      rodo.infANTT.infContratante.Add.CNPJCPF := edCnpjCpfContratante.Text;
+      rodo.infANTT.infContratante.Add.CNPJCPF := edtPagCnpj.Text;
+    end;
+
+    if (cbTipoEmit.ItemIndex = 1) then
+    begin
+      if ((edtPagEmpresa.Text = '') or (edtPagCnpj.Text = '')) then
+      begin
+        ShowMessage('Preencha os campos das abas Inf. Pagamento e Produto');
+        Exit;
+      end;
+    end;
+    if (cbTipoEmit.ItemIndex = 1) then
+    begin
+      with rodo.infANTT.infPag.New do
+      begin
+        xNome := edtPagEmpresa.Text;
+        CNPJCPF := RemoveChar(edtPagCnpj.Text);
+        idEstrangeiro := '';
+        cds_comp.First;
+        while not cds_comp.Eof do
+        begin
+          with Comp.New do
+          begin
+            //tcValePedagio, tcImpostos, tcDespesas, tcOutros
+            case StrToInt(Trim(cds_compTP_COMP.AsString)) of
+              0: tpComp := tcValePedagio;
+              1: tpComp := tcImpostos;
+              2: tpComp := tcDespesas;
+              3: tpComp := tcOutros;
+            end;
+            vComp := cds_compVALOR_COMPONENTE.AsFloat;
+            xComp := cds_compCOMP_DESCRICAO.AsString;
+          end;
+          cds_comp.Next;
+        end;
+        vContrato := StrToFloat(edtPagVContrato.Text);
+        if rgPagInd.ItemIndex = 0 then
+          indPag := ipVista;
+        if rgPagInd.ItemIndex = 1 then
+          indPag := ipPrazo;
+        if (edtPagBancoCod.Text <> '') then
+        begin
+          infBanc.codBanco := edtPagBancoCod.Text;
+          infBanc.codAgencia := edtPagBancoAgencia.Text;
+        end
+        else
+          infBanc.CNPJIPEF := RemoveChar(edtPagBancoCnpj.Text);
+        if rgPagInd.ItemIndex = 1 then
+        begin
+          cds_pag.First;
+          while not cds_pag.Eof do
+          begin
+            with infPrazo.New do
+            begin
+              nParcela := cds_pagN_PARCELA.AsInteger;
+              dVenc := cds_pagDATA_VENCIMENTO.AsDateTime;
+              vParcela := cds_pagVALOR_PARCELA.AsFloat;
+            end;
+            cds_pag.Next;
+          end;
+        end;
+        with prodPred do
+        begin
+          xProd := edtPagProdPred.Text;
+          //tcGranelSolido, tcGranelLiquido, tcFrigorificada, tcConteinerizada,
+          // tcCargaGeral, tcNeogranel, tcPerigosaGranelSolido,
+          // tcPerigosaGranelLiquido, tcPerigosaCargaFrigorificada,
+          // tcPerigosaConteinerizada, tcPerigosaCargaGeral
+          Case cbPagTipoCargaPred.ItemIndex of
+            0: tpCarga := tcGranelSolido;
+            1: tpCarga := tcGranelLiquido;
+            2: tpCarga := tcFrigorificada;
+            3: tpCarga := tcConteinerizada;
+            4: tpCarga := tcCargaGeral;
+            5: tpCarga := tcNeogranel;
+            6: tpCarga := tcPerigosaGranelSolido;
+            7: tpCarga := tcPerigosaGranelLiquido;
+            8: tpCarga := tcPerigosaCargaFrigorificada;
+            9: tpCarga := tcPerigosaConteinerizada;
+            10: tpCarga := tcPerigosaCargaGeral;
+          end;
+          if (edQtdeNF.Text = '1') then
+          begin
+            if ((edtPagProdLocalCarrega.Text = '') or (edtPagProdLocalDescarrega.Text = '')) then
+            begin
+              ShowMessage('Preencha os campos da aba Produto: CEP LOCAL CARREGAMENTO/DESCARREGAMENTO');
+              Exit;
+            end;
+            infLocalCarrega.CEP := StrToInt(RemoveChar(edtPagProdLocalCarrega.Text));
+            infLocalDescarrega.CEP := StrToInt(RemoveChar(edtPagProdLocalDescarrega.Text));
+          end;
+        end;
+      end;
     end;
 
     rodo.veicTracao.cInt  := edCINT.Text;
@@ -1529,7 +1725,37 @@ begin
 end;
 
 procedure TfACBrMDFe.FormCreate(Sender: TObject);
+var
+  T : TSSLLib;
+  U: TSSLCryptLib;
+  V: TSSLHttpLib;
+  X: TSSLXmlSignLib;
 begin
+  ACBrMDFeDAMDFeRL1 := TACBrMDFeDAMDFeRL.Create(Nil);
+  ACBrMDFe1 := TACBrMDFe.Create(Nil);
+  ACBrNFe1 := TACBrNFe.Create(Nil);
+
+  cbSSLLib.Items.Clear ;
+  For T := Low(TSSLLib) to High(TSSLLib) do
+    cbSSLLib.Items.Add( GetEnumName(TypeInfo(TSSLLib), integer(T) ) ) ;
+  cbSSLLib.ItemIndex := 0 ;
+
+  cbCryptLib.Items.Clear ;
+  For U := Low(TSSLCryptLib) to High(TSSLCryptLib) do
+    cbCryptLib.Items.Add( GetEnumName(TypeInfo(TSSLCryptLib), integer(U) ) ) ;
+  cbCryptLib.ItemIndex := 0 ;
+
+  cbHttpLib.Items.Clear ;
+  For V := Low(TSSLHttpLib) to High(TSSLHttpLib) do
+    cbHttpLib.Items.Add( GetEnumName(TypeInfo(TSSLHttpLib), integer(V) ) ) ;
+  cbHttpLib.ItemIndex := 0 ;
+
+  cbXmlSignLib.Items.Clear ;
+  For X := Low(TSSLXmlSignLib) to High(TSSLXmlSignLib) do
+    cbXmlSignLib.Items.Add( GetEnumName(TypeInfo(TSSLXmlSignLib), integer(X) ) ) ;
+  cbXmlSignLib.ItemIndex := 0 ;
+
+
   //ACBrMDFe1.Configuracoes.Geral.PathSalvar := edtPathLogs.Text;
   LerConfiguracao;
  //gravarMDFe;
@@ -2114,6 +2340,10 @@ begin
       ' ,SEG_RESP ' +
       ' ,SEG_CNPJ_EMITENTE, SEG_SEGURADORA, SEG_CNPJ_SEGURADORA' +
       ' ,SEG_APOLICE, SEG_AVERBA ' +
+      ' ,NOME_CONTRATANTE, CNPJ_CONTRATANTE, VALOR_CONTRATO ' +
+      ' ,IND_PAG, BANCO_COD, BANCO_AGENCIA' +
+      ' ,BANCO_CNPJ, ID_ESTRANGEIRO, TPCARGA, XPROD, CEAN, NCM' +
+      ' ,LOCAL_CARREGA_CEP, LOCAL_DESCARREGA_CEP ' +
 
       ') VALUES ( ';
       //' PESO_VOLUME3, PESO_VOLUME4, PESO_VOLUME5, ' +
@@ -2367,6 +2597,58 @@ begin
     else
       strInsere := strInsere + ', NULL';
 
+    // CONTRATANTE
+    if (edtPagEmpresa.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagEmpresa.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagCnpj.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagCnpj.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    strInsere := strInsere + ', ' + Format('%8.2f', [edtPagVContrato.Value]);
+
+    strInsere := strInsere + ', ' + QuotedStr(IntToStr(rgPagInd.ItemIndex));
+    if (edtPagBancoCod.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagBancoCod.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagBancoAgencia.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagBancoAgencia.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagBancoCnpj.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagBancoCnpj.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtIdEstrangeiro.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtIdEstrangeiro.Text)
+    else
+      strInsere := strInsere + ', NULL';
+
+    //TPCARGA, XPROD, CEAN, NCM
+    strInsere := strInsere + ', ' + QuotedStr(IntToStr(cbPagTipoCargaPred.ItemIndex));
+    if (edtPagProdPred.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagProdPred.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagProdEAN.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagProdEAN.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagProdNCM.Text <> '') then
+      strInsere := strInsere + ', ' + QuotedStr(edtPagProdNCM.Text)
+    else
+      strInsere := strInsere + ', NULL';
+
+    if (edtPagProdLocalCarrega.Text <> '') then
+      strInsere := strInsere + ', ' + RemoveChar(edtPagProdLocalCarrega.Text)
+    else
+      strInsere := strInsere + ', NULL';
+    if (edtPagProdLocalDescarrega.Text <> '') then
+      strInsere := strInsere + ', ' + RemoveChar(edtPagProdLocalDescarrega.Text)
+    else
+      strInsere := strInsere + ', NULL';
 
     {rodo.veicTracao.tpRod := trTruck; //trNaoAplicavel, trTruck, trToco, trCavaloMecanico, trVAN, trUtilitario, trOutros
     rodo.veicTracao.tpCar := tcNaoAplicavel; // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
@@ -2643,6 +2925,31 @@ begin
     edApolice.Text := dm.cds.FieldByName('SEG_APOLICE').AsString;
     edAverba.Text := dm.cds.FieldByName('SEG_AVERBA').AsString;
 
+    // CONTRATANTE
+    edtPagEmpresa.Text := dm.cds.FieldByName('NOME_CONTRATANTE').AsString;
+    edtPagVContrato.value := dm.cds.FieldByName('VALOR_CONTRATO').AsFloat;
+    edtIdEstrangeiro.Text := dm.cds.FieldByName('ID_ESTRANGEIRO').AsString;
+    edtPagCnpj.Text := dm.cds.FieldByName('CNPJ_CONTRATANTE').AsString;
+
+    // INF. PAGAMENTO
+    rgPagInd.ItemIndex := StrToInt(dm.cds.FieldByName('IND_PAG').AsString);
+    cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
+    edtPagBancoCod.Text := dm.cds.FieldByName('BANCO_COD').AsString;
+    edtPagBancoAgencia.Text := dm.cds.FieldByName('BANCO_AGENCIA').AsString;
+    edtPagBancoCnpj.Text := dm.cds.FieldByName('BANCO_CNPJ').AsString;
+
+    // PRODUTO
+    cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
+    edtPagProdPred.Text := dm.cds.FieldByName('XPROD').AsString;
+    edtPagProdEAN.Text := dm.cds.FieldByName('CEAN').AsString;
+    edtPagProdNCM.Text := dm.cds.FieldByName('NCM').AsString;
+
+    // CEP LOCAL CARREGA/DESCARREGA
+    if not dm.cds.FieldByName('LOCAL_CARREGA_CEP').IsNull then
+    begin
+      edtPagProdLocalCarrega.Text := IntToStr(dm.cds.FieldByName('LOCAL_CARREGA_CEP').AsInteger);
+      edtPagProdLocalDescarrega.Text := IntToStr(dm.cds.FieldByName('LOCAL_DESCARREGA_CEP').AsInteger);
+    end;
     cbTipoEmit.ItemIndex := dm.cds.FieldByName('TIPO_EMITENTE').AsInteger;
     if (cdsMun.Active) then
       cdsMun.Close;
@@ -2654,6 +2961,17 @@ begin
     cdsMdfeDocs.Params[0].AsInteger := StrToInt(edNumMdfe.Text);
     cdsMdfeDocs.Params[1].AsInteger := 0;
     cdsMdfeDocs.Open;
+
+    if (cds_comp.Active) then
+      cds_comp.Close;
+    cds_comp.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+    cds_comp.Open;
+
+    if (cds_pag.Active) then
+      cds_pag.Close;
+    cds_pag.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+    cds_pag.Open;
+    
     if (cdsMdfeDocs.RecNo > 0) then
     begin
       edNFe1.Text := cdsMdfeDocsCHAVE_NFE.AsString;
@@ -2995,6 +3313,71 @@ begin
   except
     dm.sc.Rollback(TD); {on failure, undo the changes};
   end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NOME_CONTRATANTE VARCHAR(80)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD VALOR_CONTRATO DOUBLE PRECISION');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD IND_PAG CHAR(1)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD BANCO_COD CHAR(20)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD BANCO_AGENCIA CHAR(20)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD BANCO_CNPJ CHAR(30)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD TPCARGA CHAR(2)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD XPROD CHAR(120)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD CEAN CHAR(14)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD NCM CHAR(8)');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD ID_ESTRANGEIRO CHAR(30)');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD LOCAL_CARREGA_CEP INTEGER');
+    dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD LOCAL_DESCARREGA_CEP INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('CREATE TABLE MDFE_COMP_FRETE (' +
+       ' MDFE INTEGER ' +
+       ', TP_COMP CHAR(2)' +
+       ', VALOR_COMPONENTE DOUBLE PRECISION ' +
+       ', COMP_DESCRICAO VARCHAR(40)' +
+       ', PRIMARY KEY (MDFE, TP_COMP) ' +
+       ')');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    //MessageDlg('Erro pra criar a tabela MDF_DOCS', mtError, [mbOK], 0);
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
+  dm.sc.StartTransaction(TD);
+  try
+    dm.sc.ExecuteDirect('CREATE TABLE MDFE_INF_PRAZO (' +
+       ' MDFE INTEGER ' +
+       ', N_PARCELA INTEGER' +
+       ', VALOR_PARCELA DOUBLE PRECISION ' +
+       ', DATA_VENCIMENTo DATE' +
+       ', PRIMARY KEY (MDFE, N_PARCELA) ' +
+       ')');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    //MessageDlg('Erro pra criar a tabela MDF_DOCS', mtError, [mbOK], 0);
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+
 
   MessageDlg('Banco de Dados atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
@@ -3395,7 +3778,8 @@ begin
 
   if (cbSegResp.ItemIndex = 0) then
   begin
-    edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
+    //edCnpjCpfContratante.Text := edtEmitCNPJ.Text;
+    edtPagCnpj.Text := edtEmitCNPJ.Text;
   end;
 end;
 
@@ -3406,6 +3790,197 @@ begin
   if cbTransporte.ItemIndex <> 1 then
     GroupBox16.Visible := False;
 
+end;
+
+procedure TfACBrMDFe.FormDestroy(Sender: TObject);
+begin
+  ACBrMDFeDAMDFeRL1.Free;
+  ACBrMDFe1.Free;
+  ACBrNFe1.Free;
+end;
+
+procedure TfACBrMDFe.rgPagIndClick(Sender: TObject);
+begin
+  if (rgPagInd.ItemIndex = 0) then
+  begin
+    edtPagParcela.Enabled := False;
+    edtPagParcelaValor.Enabled := False;
+    dtpPagVencimento.Enabled := False;
+  end;
+  if (rgPagInd.ItemIndex = 1) then
+  begin
+    edtPagParcela.Enabled := True;
+    edtPagParcelaValor.Enabled := True;
+    dtpPagVencimento.Enabled := True;
+  end;
+
+end;
+
+procedure TfACBrMDFe.cbTipoEmitClick(Sender: TObject);
+begin
+  if (cbTipoEmit.ItemIndex = 1) then
+  begin
+    ShowMessage('ATENÇÃO: Inf. Pagamento e Produto tem campos obrigatórios.');
+  end;
+end;
+
+procedure TfACBrMDFe.BitBtn12Click(Sender: TObject);
+var
+  td: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sc.StartTransaction(TD);
+  try
+    if ((cbpagcomp.ItemIndex = -1) or (edtpagcompvalor.Text = '')) then
+    begin
+       MessageDlg('Informe o Tipo e Valor do Componente do FRETE.', mtWarning, [mbOK], 0);
+       exit;
+    end;
+    DecimalSeparator := '.';
+    dm.sc.ExecuteDirect('INSERT INTO MDFE_COMP_FRETE (MDFE, TP_COMP, VALOR_COMPONENTE, ' +
+      'COMP_DESCRICAO) VALUES (' +
+      edNumMdfe.Text + ', ' + IntToStr(cbpagcomp.ItemIndex) +
+      ', ' + FloatToStr(edtpagcompvalor.Value) +
+      ', ' + QuotedStr(edtpagCompDesc.Text) +
+      ')');
+    dm.sc.Commit(TD); {on success, commit the changes};
+    cbpagcomp.ItemIndex := -1;
+    edtpagCompDesc.Text := '';
+    edtpagcompvalor.Value := 0;
+    DecimalSeparator := ',';
+    if (cds_comp.Active) then
+      cds_comp.Close;
+    cds_comp.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+    cds_comp.Open;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sc.Rollback(TD); //on failure, undo the changes}
+      DecimalSeparator := ',';
+      exit;
+    end;
+  end;
+end;
+
+procedure TfACBrMDFe.BitBtn13Click(Sender: TObject);
+var
+  td: TTransactionDesc;
+begin
+  if (cbpagcomp.ItemIndex = -1) then
+  begin
+    ShowMessage('Informe qual Tipo do componente vai ser removido.');
+    Exit;
+  end;
+  if (cds_comp.RecNo > 0) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sc.StartTransaction(TD);
+    try
+      dm.sc.ExecuteDirect('DELETE FROM MDFE_COMP_FRETE ' +
+        ' WHERE MDFE = ' + edNumMdfe.Text +
+        '   AND TP_COMP = ' + QuotedStr(IntToStr(cbpagcomp.ItemIndex)));
+      dm.sc.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD);
+        exit;
+      end;
+    end;
+  end;
+  if (cds_comp.Active) then
+    cds_comp.Close;
+  cds_comp.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+  cds_comp.Open;
+end;
+
+procedure TfACBrMDFe.BitBtn14Click(Sender: TObject);
+var
+  td: TTransactionDesc;
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sc.StartTransaction(TD);
+  try
+    if ((edtPagParcela.Text = '') or (edtPagParcelaValor.Text = '')) then
+    begin
+       MessageDlg('Informe o número da parcela e o valor.', mtWarning, [mbOK], 0);
+       exit;
+    end;
+    DecimalSeparator := '.';
+    dm.sc.ExecuteDirect('INSERT INTO MDFE_INF_PRAZO (MDFE, N_PARCELA, VALOR_PARCELA, ' +
+      'DATA_VENCIMENTO) VALUES (' +
+      edNumMdfe.Text + ', ' + edtPagParcela.Text +
+      ', ' + FloatToStr(edtPagParcelaValor.Value) +
+      ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', dtpPagVencimento.Date)) +
+      ')');
+    dm.sc.Commit(TD); {on success, commit the changes};
+    edtPagParcela.Text := '';
+    edtPagParcelaValor.Value := 0;
+    DecimalSeparator := ',';
+    if (cds_pag.Active) then
+      cds_pag.Close;
+    cds_pag.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+    cds_pag.Open;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sc.Rollback(TD); //on failure, undo the changes}
+      DecimalSeparator := ',';
+      exit;
+    end;
+  end;
+
+
+end;
+
+procedure TfACBrMDFe.BitBtn15Click(Sender: TObject);
+var
+  td: TTransactionDesc;
+begin
+  if (edtPagParcela.Text = '') then
+  begin
+    ShowMessage('Informe o número da Parcela para ser removido.');
+    exit;
+  end;
+  if (cds_pag.RecNo > 0) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sc.StartTransaction(TD);
+    try
+      dm.sc.ExecuteDirect('DELETE FROM MDFE_INF_PRAZO ' +
+        ' WHERE MDFE = ' + edNumMdfe.Text +
+        '   AND N_PARCELA = ' + edtPagParcela.Text);
+      dm.sc.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sc.Rollback(TD);
+        exit;
+      end;
+    end;
+  end;
+  if (cds_pag.Active) then
+    cds_pag.Close;
+  cds_pag.Params.ParamByName('pMdfe').AsInteger := StrToInt(edNumMdfe.Text);
+  cds_pag.Open;
+
+
+end;
+
+procedure TfACBrMDFe.AtualizaSSLLibsCombo;
+begin
+ cbSSLLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLLib );
+ cbCryptLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLCryptLib );
+ cbHttpLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLHttpLib );
+ cbXmlSignLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLXmlSignLib );
 end;
 
 end.

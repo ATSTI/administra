@@ -801,7 +801,6 @@ type
     sdsTotalIPI: TFloatField;
     sdsTotalPIS: TFloatField;
     sdsTotalCOFINS: TFloatField;
-    ACBrSPEDFiscal1: TACBrSPEDFiscal;
     sdsC190: TSQLDataSet;
     dspC190: TDataSetProvider;
     cdsC190: TClientDataSet;
@@ -1157,6 +1156,7 @@ type
     procedure btnSairClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
   private
+    ACBrSPEDFiscal1: TACBrSPEDFiscal;
     codFornEnergia: Integer;
     tipoLigacao: String;
     util : Tutils;
@@ -2865,6 +2865,7 @@ end;
 
 procedure TfNfeIcms.FormCreate(Sender: TObject);
 begin
+  ACBrSPEDFiscal1 := TACBrSPEDFiscal.Create(Nil);
   tipo := 'tpEscrOriginal';
   util := Tutils.Create;
 end;
@@ -2913,6 +2914,7 @@ end;
 
 procedure TfNfeIcms.FormDestroy(Sender: TObject);
 begin
+  ACBrSPEDFiscal1.Free;
   util.Free;
 end;
 

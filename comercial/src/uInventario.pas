@@ -118,6 +118,7 @@ type
     sqMesAno: TSQLQuery;
     dxButton11: TdxButton;
     Memo1: TMemo;
+    BitBtn1: TBitBtn;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -140,6 +141,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ckCustoClick(Sender: TObject);
     procedure dxButton11Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
     CCusto: Integer;
@@ -657,14 +659,20 @@ begin
     cdsInvent.IndexDefs.Add(str_IndexName,Column.FieldName,enum_IndexOption);
     cdsInvent.IndexName := str_IndexName;
   end;
+  btnProcLista.Click;
 end;
 
 procedure TfInventario.JvDBGrid3CellClick(Column: TColumn);
+var linha: integer;
 begin
-  abrirListaInventario;
+  linha := cdsListaInventario.RecNo;
+  cdsListaInventario.DisableControls;
+  //abrirListaInventario;
   edLista.Text := cdsListaInventarioCODIVENTARIO.AsString;
   Dta.Text := DateToStr(cdsListaInventarioDATAIVENTARIO.AsDateTime);
-  btnGravar.Enabled := True;  
+  btnGravar.Enabled := True;
+  cdsListaInventario.RecNo := linha;
+  cdsListaInventario.EnableControls;
 end;
 
 procedure TfInventario.JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
@@ -1068,6 +1076,12 @@ begin
     Memo1.Visible := False
   else
     Memo1.Visible := True;
+end;
+
+procedure TfInventario.BitBtn1Click(Sender: TObject);
+begin
+  inherited;
+  edLista.Clear;
 end;
 
 end.

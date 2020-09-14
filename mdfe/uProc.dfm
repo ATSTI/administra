@@ -17,7 +17,7 @@ object fProc: TfProc
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1046
+    Width = 1038
     Height = 105
     Align = alTop
     TabOrder = 0
@@ -59,15 +59,15 @@ object fProc: TfProc
   object Panel2: TPanel
     Left = 0
     Top = 105
-    Width = 1046
-    Height = 329
+    Width = 1038
+    Height = 317
     Align = alClient
     TabOrder = 1
     object JvDBUltimGrid1: TJvDBUltimGrid
       Left = 1
       Top = 1
-      Width = 1044
-      Height = 327
+      Width = 1036
+      Height = 315
       Align = alClient
       DataSource = ds
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
@@ -121,35 +121,35 @@ object fProc: TfProc
           Expanded = False
           FieldName = 'CHAVE_MDFE'
           Title.Caption = 'Chave'
-          Width = 271
+          Width = 269
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DATA_MDF'
           Title.Caption = 'Data'
-          Width = 93
+          Width = 92
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENV'
           Title.Caption = 'Prot. Env.'
-          Width = 81
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOENC'
           Title.Caption = 'Prot. Enc.'
-          Width = 91
+          Width = 90
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCAN'
           Title.Caption = 'Prot. Canc.'
-          Width = 91
+          Width = 90
           Visible = True
         end
         item
@@ -177,24 +177,24 @@ object fProc: TfProc
           Expanded = False
           FieldName = 'MUNICIPO_DESCARREG'
           Title.Caption = 'Munic'#237'pio-d'
-          Width = 119
+          Width = 117
           Visible = True
         end>
     end
   end
   object Panel3: TPanel
     Left = 0
-    Top = 434
-    Width = 1046
+    Top = 422
+    Width = 1038
     Height = 73
     Align = alBottom
     TabOrder = 2
     object Label1: TLabel
       Left = 32
       Top = 48
-      Width = 57
+      Width = 132
       Height = 13
-      Caption = 'Vers'#227'o : 3.5'
+      Caption = 'Vers'#227'o : 3.6  - NT 2020.001'
     end
     object BitBtn1: TBitBtn
       Left = 740
@@ -459,7 +459,7 @@ object fProc: TfProc
         1010101010101010101010101010101010101010101010101010}
     end
     object BitBtn5: TBitBtn
-      Left = 144
+      Left = 192
       Top = 16
       Width = 100
       Height = 40

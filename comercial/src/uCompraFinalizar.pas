@@ -365,7 +365,6 @@ type
     cds_compraMUN_ORIGEM: TStringField;
     cds_compraMUN_DESTINO: TStringField;
     MemoImp: TMemo;
-    ACBrPosPrinter1: TACBrPosPrinter;
     procedure btnIncluirClick(Sender: TObject);
     procedure dbeUsuarioExit(Sender: TObject);
     procedure btnUsuarioProcuraClick(Sender: TObject);
@@ -410,7 +409,9 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    ACBrPosPrinter1: TACBrPosPrinter;
     TD: TTransactionDesc;
     procedure notafiscal ;
     procedure imprimecompra;
@@ -434,6 +435,7 @@ uses uComercial, UDm, uProcurar, uCheques_bol, uCompra, ufCpAltera,
   uNotafiscal, uITENS_NF, uDmCitrus, sCtrlResize, uNotafc, UDMNF,
   uAtsAdmin, uEstoque, pcnProcNFe;
 
+  // TACBRPOSPRINTER
 {$R *.dfm}
 
 procedure TfCompraFinalizar.btnIncluirClick(Sender: TObject);
@@ -1148,7 +1150,7 @@ begin
   //inherited;
   //if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fCompraFinalizar));
-
+  ACBrPosPrinter1 := TACBrPosPrinter.Create(Nil);
   MMJPanel1.Background.EndColor   := dm.corStart;
   MMJPanel1.Background.StartColor := dm.corEnd;
   MMJPanel2.Background.EndColor   := dm.corEnd;
@@ -2094,6 +2096,13 @@ procedure TfCompraFinalizar.BitBtn3Click(Sender: TObject);
 begin
   inherited;
   pnCte.Visible := False;
+end;
+
+procedure TfCompraFinalizar.FormDestroy(Sender: TObject);
+begin
+  ACBrPosPrinter1.Free;
+  inherited;
+
 end;
 
 end.

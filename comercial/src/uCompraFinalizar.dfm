@@ -6,6 +6,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   Caption = 'Compras Finalizar'
   Font.Height = -13
   OldCreateOrder = True
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -1116,7 +1117,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 781
+    Width = 777
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1672,8 +1673,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 495
-    Width = 781
+    Top = 494
+    Width = 777
     Height = 23
     Align = alBottom
     Background.StartColor = clSilver
@@ -3863,17 +3864,5 @@ inherited fCompraFinalizar: TfCompraFinalizar
       Required = True
       Size = 10
     end
-  end
-  object ACBrPosPrinter1: TACBrPosPrinter
-    ConfigBarras.MostrarCodigo = False
-    ConfigBarras.LarguraLinha = 0
-    ConfigBarras.Altura = 0
-    ConfigBarras.Margem = 0
-    ConfigQRCode.Tipo = 2
-    ConfigQRCode.LarguraModulo = 4
-    ConfigQRCode.ErrorLevel = 0
-    LinhasEntreCupons = 0
-    Left = 336
-    Top = 79
   end
 end

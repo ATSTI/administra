@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 264
+  Left = 333
   Top = 267
   Height = 254
   Width = 312
@@ -15,7 +15,7 @@ object dm: Tdm
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_maisflores.FDB'
+      'Database=Localhost/3050:c:\home\bd\sge_mais.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -23,7 +23,7 @@ object dm: Tdm
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
+      'User_Name=sysdba'
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
@@ -38,7 +38,7 @@ object dm: Tdm
     Top = 24
   end
   object sds: TSQLDataSet
-    CommandText = 'SELECT *'#13#10#13#10'FROM MDFE'
+    CommandText = 'SELECT * '#13#10#13#10'FROM MDFE'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sc
@@ -509,6 +509,62 @@ object dm: Tdm
       FieldName = 'REBOQUE_UFVEICULO2'
       FixedChar = True
       Size = 2
+    end
+    object cdsNOME_CONTRATANTE: TStringField
+      FieldName = 'NOME_CONTRATANTE'
+      Size = 80
+    end
+    object cdsVALOR_CONTRATO: TFloatField
+      FieldName = 'VALOR_CONTRATO'
+    end
+    object cdsIND_PAG: TStringField
+      FieldName = 'IND_PAG'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsBANCO_COD: TStringField
+      FieldName = 'BANCO_COD'
+      FixedChar = True
+    end
+    object cdsBANCO_AGENCIA: TStringField
+      FieldName = 'BANCO_AGENCIA'
+      FixedChar = True
+    end
+    object cdsBANCO_CNPJ: TStringField
+      FieldName = 'BANCO_CNPJ'
+      FixedChar = True
+      Size = 30
+    end
+    object cdsTPCARGA: TStringField
+      FieldName = 'TPCARGA'
+      FixedChar = True
+      Size = 2
+    end
+    object cdsXPROD: TStringField
+      FieldName = 'XPROD'
+      FixedChar = True
+      Size = 120
+    end
+    object cdsCEAN: TStringField
+      FieldName = 'CEAN'
+      FixedChar = True
+      Size = 14
+    end
+    object cdsNCM: TStringField
+      FieldName = 'NCM'
+      FixedChar = True
+      Size = 8
+    end
+    object cdsID_ESTRANGEIRO: TStringField
+      FieldName = 'ID_ESTRANGEIRO'
+      FixedChar = True
+      Size = 30
+    end
+    object cdsLOCAL_CARREGA_CEP: TIntegerField
+      FieldName = 'LOCAL_CARREGA_CEP'
+    end
+    object cdsLOCAL_DESCARREGA_CEP: TIntegerField
+      FieldName = 'LOCAL_DESCARREGA_CEP'
     end
   end
 end

@@ -29,7 +29,7 @@ object fNotafc: TfNotafc
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 791
+    Width = 777
     Height = 510
     ActivePage = TabNF
     Align = alTop
@@ -1068,7 +1068,7 @@ object fNotafc: TfNotafc
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 791
+    Width = 777
     Height = 59
     Align = alTop
     BevelInner = bvLowered

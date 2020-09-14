@@ -31,6 +31,7 @@ var strBuscaItem: string;
   dataAgora: double;
 begin
   codProd := 0;
+  {
   sqlB := TSqlQuery.Create(nil);
   try
     sqlB.SQLConnection := dm.SQl;
@@ -66,11 +67,12 @@ begin
     except
       on E : Exception do
       begin
-        dm.SQl.Rollback(TDA); //on failure, undo the changes}
+        dm.SQl.Rollback(TDA);
       end;
-    end;
+    end;}
 
     Priority := tpLower;
+    {
     if (dm.cdsBusca.Active) then
       dm.cdsBusca.Close;
     dm.sdsBusca.SQLConnection := dm.SQl;
@@ -107,7 +109,7 @@ begin
           end;
           dm.SQl.ExecuteDirect(strAtualiza);
           // atualiza lote
-          {if (dm.cdsBusca.FieldByName('LOTES').asString = 'S') then
+          if (dm.cdsBusca.FieldByName('LOTES').asString = 'S') then
           begin
             if (dm.cdsBusca.FieldByName('CODLOTE').AsInteger = 0) then
             begin
@@ -128,7 +130,7 @@ begin
                 ' WHERE CODLOTE = ' + IntToStr(dm.cdsBusca.FieldByName('CODLOTE').AsInteger);
             end;
             dm.SQl.ExecuteDirect(strAtualizaLote);
-          end;}
+          end;
         end;
         codProd := dm.cdsBusca.FieldByName('CODPRODUTO').AsInteger;
         dm.cdsBusca.Next;
@@ -138,37 +140,36 @@ begin
     except
       on E : Exception do
       begin
-        dm.SQl.Rollback(TDA); //on failure, undo the changes}
+        dm.SQl.Rollback(TDA);
       end;
     end;
     dm.sdsBusca.Close;
     dm.sdsBusca.SQLConnection := dm.sqlsisAdimin;
-
+    }
     dm.SQl.StartTransaction(TDA);
     try
-      dm.SQl.ExecuteDirect('UPDATE ATUALIZA SET INSERIDO = ' + QuotedStr('N') +
-          ' , DATA_MODIFICADO = null ' +
-          ' WHERE CODATUALIZA = 5000');
+      dm.SQl.ExecuteDirect('EXECUTE PROCEDURE ESTOQUE_ATUALIZA_V (' +
+          IntToStr(dm.EstoquecodMOV) + ')');
       dm.SQl.Commit(TDA);
     except
       on E : Exception do
       begin
-        dm.SQl.Rollback(TDA); //on failure, undo the changes}
+        dm.SQl.Rollback(TDA);
       end;
     end;
-  end;
+  //end;
 end;
 
 procedure TEstoqueAtualiza.Execute;
-var  secaoCritica : TCriticalSection;
+//var  secaoCritica : TCriticalSection;
 begin
-  secaoCritica := TCriticalSection.Create;
-  try
-    secaoCritica.Acquire;
-    atualiza;
-  finally
-    secaoCritica.Release;
-  end;
+  //secaoCritica := TCriticalSection.Create;
+  //try
+  //  secaoCritica.Acquire;
+  atualiza;
+  //finally
+  //  secaoCritica.Release;
+  //end;
 end;
 
 end.

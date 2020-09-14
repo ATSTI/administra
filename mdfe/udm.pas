@@ -140,6 +140,19 @@ type
     cdsREBOQUE_TIPOPROP2: TSmallintField;
     cdsREBOQUE_TIPOCARROCERIA2: TSmallintField;
     cdsREBOQUE_UFVEICULO2: TStringField;
+    cdsNOME_CONTRATANTE: TStringField;
+    cdsVALOR_CONTRATO: TFloatField;
+    cdsIND_PAG: TStringField;
+    cdsBANCO_COD: TStringField;
+    cdsBANCO_AGENCIA: TStringField;
+    cdsBANCO_CNPJ: TStringField;
+    cdsTPCARGA: TStringField;
+    cdsXPROD: TStringField;
+    cdsCEAN: TStringField;
+    cdsNCM: TStringField;
+    cdsID_ESTRANGEIRO: TStringField;
+    cdsLOCAL_CARREGA_CEP: TIntegerField;
+    cdsLOCAL_DESCARREGA_CEP: TIntegerField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

@@ -524,13 +524,22 @@ begin
     if (dmnf.sqs_tit.Active) then
       dmnf.sqs_tit.Close;
 
-    dmnf.sqs_tit.CommandText := 'SELECT SUM(m.QUANTIDADE * prod.PESO_QTDE) FROM MOVIMENTODETALHE m' +
+    dmnf.sqs_tit.CommandText := 'SELECT SUM(m.QUANTIDADE * prod.PESO_QTDE) ' +
+                           ', SUM(m.QUANTIDADE * COALESCE(prod.QTDE_PCT,1)) as VOLUME ' +
+                           ', prod.EMBALAGEM' +
+                           ' FROM MOVIMENTODETALHE m' +
                            ' inner join produtos prod on prod.codproduto = m.codproduto ' +
                            ' WHERE m.CODMOVIMENTO = ' +
-                           IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.asInteger);
+                           IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.asInteger) +
+                           ' group by prod.EMBALAGEM';
     dmnf.sqs_tit.Open;
     dmnf.cds_nf1PESOBRUTO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
     dmnf.cds_nf1PESOLIQUIDO.AsFloat := dmnf.sqs_tit.Fields[0].AsFloat;
+    if (dmnf.sqs_tit.Fields[2].AsString <> '') then
+    begin
+      dmnf.cds_nf1QUANTIDADE.AsFloat :=  dmnf.sqs_tit.Fields[1].AsFloat;
+      dmnf.cds_nf1ESPECIE.AsString := dmnf.sqs_tit.Fields[2].AsString;
+    end;
 
     dmnf.sqs_tit.Close;
 
