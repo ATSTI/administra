@@ -385,7 +385,7 @@ begin
       if (dm.sqlBusca.FieldByName('VALORC').AsFloat > 0) then
       begin
         valor := dm.sqlBusca.FieldByName('VALORC').AsFloat;
-        contadeb := '200.003-2';
+        contadeb := '229.999-2';
         //contacred := '2.1.01.0001';
         contacred := dm.cdsProc.FieldByName('DESCRICAO').AsString;
         // Fornecedor
@@ -411,7 +411,7 @@ begin
           //else
           //  linha := dm.cdsProc.fieldByName('CNPJ').AsString;
           cod := '';
-          linha := linha + ',' + LPad(cod,'',5);
+          linha := linha + LPad(cod,'',5);
       end;
       if (dm.sqlBusca.FieldByName('VALORD').AsFloat > 0) then
       begin
@@ -442,20 +442,20 @@ begin
             linha := dm.cdsProc.fieldByName('CNPJ').AsString;}
           linha := '10.263.670/0001-54';
           cod := '';
-          linha := linha + ',' + LPad(cod,'',5);
+          linha := linha + LPad(cod,'',5);
       end;
       if (linha = '') then
         linha := '00.000.000/0000-00' + ',' + '000';
 
-      linha := linha + ',' + LPad(contadeb,'',14);// conta devedora
-      linha := linha + ',' + LPad(contacred,'',14);// conta credora
-      linha := linha + ',000'; // codigo do historico padrao
-      linha := linha + ',' + LPad(Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,20),'',20); // descricao do historico
-      linha := linha + ',' + dm.sqlBusca.FieldByName('DTAPAGTO').AsString; // data lancamento
+      linha := linha + LPad(contadeb,'',14);// conta devedora
+      linha := linha + LPad(contacred,'',14);// conta credora
+      linha := linha + '000'; // codigo do historico padrao
+      linha := linha + LPad('','',20); //LPad(Copy(dm.sqlBusca.FieldByName('DESCRICAO').AsString,0,20),'',20); // descricao do historico
+      linha := linha + dm.sqlBusca.FieldByName('DTAPAGTO').AsString; // data lancamento
       DecimalSeparator := '.';
-      linha := linha + ',' + LPad(FloatToStr(valor),'',12);
+      linha := linha + LPad(FormatFloat('#.00',valor),'x',12);
       DecimalSeparator := ',';
-      linha := linha + ',' + LPad(dm.sqlBusca.FieldByName('DESCRICAO').AsString,'',250);
+      linha := linha + LPad(dm.sqlBusca.FieldByName('DESCRICAO').AsString,'',250);
       Writeln(arquivo, linha);
       dm.sqlBusca.Next;
     end;
@@ -483,7 +483,7 @@ begin
   if (CH = 'x') then
   begin
     for i := 1 to RestLen do
-      S := S + ' ';
+      S := ' ' + S;
     result := S;
   end;
 
