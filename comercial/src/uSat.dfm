@@ -15,13 +15,14 @@ object fSat: TfSat
   Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 993
+    Width = 985
     Height = 254
     ActivePage = TabSheet1
     Align = alTop
@@ -1033,7 +1034,7 @@ object fSat: TfSat
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 985
+        Width = 977
         Height = 202
         Align = alTop
         TabOrder = 0
@@ -1107,7 +1108,7 @@ object fSat: TfSat
         object GroupBox1: TGroupBox
           Left = 170
           Top = 1
-          Width = 814
+          Width = 806
           Height = 200
           Align = alClient
           Caption = 'Configura'#231#227'o'
@@ -1115,7 +1116,7 @@ object fSat: TfSat
           object PageControl2: TPageControl
             Left = 2
             Top = 15
-            Width = 810
+            Width = 802
             Height = 183
             ActivePage = Impressao
             Align = alClient
@@ -1123,7 +1124,7 @@ object fSat: TfSat
             object tsDadosSAT: TTabSheet
               Caption = 'Dados do SAT CFe'
               DesignSize = (
-                802
+                794
                 155)
               object Label9: TLabel
                 Left = 21
@@ -1301,7 +1302,7 @@ object fSat: TfSat
                 Height = 21
                 Style = csDropDownList
                 Anchors = [akLeft, akTop, akRight]
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 9
               end
               object cbxSalvarCFe: TCheckBox
@@ -1448,7 +1449,7 @@ object fSat: TfSat
                 Width = 130
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 4
               end
               object cbxIndRatISSQN: TComboBox
@@ -1457,7 +1458,7 @@ object fSat: TfSat
                 Width = 134
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 5
               end
               object cbxRegTributario: TComboBox
@@ -1466,14 +1467,14 @@ object fSat: TfSat
                 Width = 166
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 0
+                ItemHeight = 13
                 TabOrder = 3
               end
             end
             object tsDadosSwHouse: TTabSheet
               Caption = 'Dados Sw.House'
               DesignSize = (
-                802
+                794
                 155)
               object Label2: TLabel
                 Left = 10
@@ -2097,7 +2098,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 2
                 end
                 object cbxPorta: TComboBox
@@ -2106,7 +2107,7 @@ object fSat: TfSat
                   Width = 138
                   Height = 21
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 3
                 end
                 object cbxPagCodigo: TComboBox
@@ -2116,7 +2117,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 0
+                  ItemHeight = 13
                   TabOrder = 4
                 end
                 object seColunas: TSpinEdit
@@ -2167,8 +2168,8 @@ object fSat: TfSat
   object PageControl3: TPageControl
     Left = 0
     Top = 254
-    Width = 993
-    Height = 256
+    Width = 985
+    Height = 243
     ActivePage = tsLog
     Align = alClient
     TabOrder = 1
@@ -2177,8 +2178,8 @@ object fSat: TfSat
       object mLog: TMemo
         Left = 0
         Top = 0
-        Width = 985
-        Height = 228
+        Width = 977
+        Height = 215
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2278,8 +2279,8 @@ object fSat: TfSat
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 510
-    Width = 993
+    Top = 497
+    Width = 985
     Height = 23
     Panels = <
       item
@@ -2288,30 +2289,6 @@ object fSat: TfSat
       item
         Width = 50
       end>
-  end
-  object ACBrSAT1: TACBrSAT
-    Extrato = ACBrSATExtratoESCPOS1
-    OnGravarLog = ACBrSAT1GravarLog
-    Config.infCFe_versaoDadosEnt = 0.050000000000000000
-    Config.ide_numeroCaixa = 0
-    Config.ide_tpAmb = taHomologacao
-    Config.emit_cRegTrib = RTSimplesNacional
-    Config.emit_cRegTribISSQN = RTISSMicroempresaMunicipal
-    Config.emit_indRatISSQN = irSim
-    Config.EhUTF8 = False
-    Config.PaginaDeCodigo = 0
-    Config.XmlSignLib = xsNone
-    ConfigArquivos.PrefixoArqCFe = 'AD'
-    ConfigArquivos.PrefixoArqCFeCanc = 'ADC'
-    Rede.tipoInter = infETHE
-    Rede.seg = segNONE
-    Rede.tipoLan = lanDHCP
-    Rede.proxy = 0
-    Rede.proxy_porta = 0
-    OnGetcodigoDeAtivacao = ACBrSAT1GetcodigoDeAtivacao
-    OnGetsignAC = ACBrSAT1GetsignAC
-    Left = 608
-    Top = 64
   end
   object MainMenu1: TMainMenu
     Left = 224
@@ -3515,37 +3492,5 @@ object fSat: TfSat
   object PrintDialog1: TPrintDialog
     Left = 420
     Top = 104
-  end
-  object ACBrPosPrinter1: TACBrPosPrinter
-    ConfigBarras.MostrarCodigo = False
-    ConfigBarras.LarguraLinha = 0
-    ConfigBarras.Altura = 0
-    ConfigBarras.Margem = 0
-    ConfigQRCode.Tipo = 2
-    ConfigQRCode.LarguraModulo = 4
-    ConfigQRCode.ErrorLevel = 0
-    LinhasEntreCupons = 5
-    Left = 657
-    Top = 72
-  end
-  object ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS
-    Sistema = 'Projeto ACBr - www.projetoacbr.com.br'
-    MargemInferior = 0.800000000000000000
-    MargemSuperior = 0.800000000000000000
-    MargemEsquerda = 0.600000000000000000
-    MargemDireita = 0.510000000000000000
-    CasasDecimais.Formato = tdetInteger
-    CasasDecimais.qCom = 2
-    CasasDecimais.vUnCom = 2
-    CasasDecimais.MaskqCom = ',0.00'
-    CasasDecimais.MaskvUnCom = ',0.00'
-    ACBrSAT = ACBrSAT1
-    Filtro = fiPDF
-    MsgAppQRCode = 
-      'Consulte o QR Code pelo aplicativo  "De olho na nota", dispon'#237've' +
-      'l na AppStore (Apple) e PlayStore (Android)'
-    PosPrinter = ACBrPosPrinter1
-    Left = 612
-    Top = 136
   end
 end

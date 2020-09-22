@@ -24,6 +24,7 @@ BEGIN
    into :uso; 
   if (uso = 'S') then
   begin  
+   -- teste
     SELECT FIRST 1 VALOR FROM SP_MOV_CAIXA_ASH(:DTAINI, :DTAFIM, :COD_CAIXA)
     INTO :VALOR;
     

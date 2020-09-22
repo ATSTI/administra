@@ -2007,6 +2007,8 @@ type
     cds_empresaGIAF1: TStringField;
     cds_empresaGIAF3: TStringField;
     cds_empresaGIAF4: TStringField;
+    s_7DESCRICAO: TStringField;
+    cds_7_contasDESCRICAO: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

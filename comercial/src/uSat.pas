@@ -369,7 +369,6 @@ type
     cdsFaturaFORMARECEBIMENTO: TStringField;
     OpenDialog1: TOpenDialog;
     PrintDialog1: TPrintDialog;
-    ACBrPosPrinter1: TACBrPosPrinter;
     BitBtn2: TBitBtn;
     GroupBox3: TGroupBox;
     Label19: TLabel;
@@ -451,10 +450,10 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure sePagCodChange(Sender: TObject);
-    procedure ACBrSAT1GetsignAC(var Chave: String);
-    procedure ACBrSAT1GetcodigoDeAtivacao(var Chave: String);
-    procedure ACBrSAT1GravarLog(const ALogLine: String;
-      var Tratado: Boolean);
+    //procedure ACBrSAT1GetsignAC(var Chave: String);
+    //procedure ACBrSAT1GetcodigoDeAtivacao(var Chave: String);
+    //procedure ACBrSAT1GravarLog(const ALogLine: String;
+    //  var Tratado: Boolean);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure miGerarXMLCancelamentoClick(Sender: TObject);
@@ -464,9 +463,11 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure RadioButton1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     ACBrSAT1: TACBrSAT;
     ACBrSATExtratoESCPOS1: TACBrSATExtratoESCPOS;
+    ACBrPosPrinter1: TACBrPosPrinter;
     codConsumidorSat : integer;
     { Private declarations }
     function RemoveChar(Const Texto:String):String;
@@ -478,6 +479,8 @@ type
     procedure TrataErros(Sender : TObject ; E : Exception) ;
     procedure LoadXML(AXML: String; MyWebBrowser: TWebBrowser);
     procedure PrepararImpressao;
+    procedure GetsignAC(var Chave: AnsiString);
+    procedure GetcodigoDeAtivacao(var Chave: String);
   public
     codVendaSAT: Integer;
     { Public declarations }
@@ -1440,6 +1443,13 @@ var
   M : TpcnRegTrib ;
   O: TACBrPosPaginaCodigo;
 begin
+  ACBrSAT1 := TACBrSAT.Create(Nil);
+  ACBrSATExtratoESCPOS1 := TACBrSATExtratoESCPOS.Create(Nil);
+  ACBrPosPrinter1 := TACBrPosPrinter.Create(Nil);
+
+  ACBrSAT1.OnGetsignAC := GetsignAC;
+  ACBrSAT1.OnGetcodigoDeAtivacao := GetcodigoDeAtivacao;
+
   ACBrSATExtratoESCPOS1.Filtro := fiPDF;
   ACBrSAT1.Extrato := ACBrSATExtratoESCPOS1;
   ACBrSATExtratoESCPOS1.ACBrSAT := ACBrSAT1;
@@ -1561,14 +1571,15 @@ begin
 
 end;
 
+{
 procedure TfSat.ACBrSAT1GetsignAC(var Chave: String);
 begin
-  Chave := edtSwHAssinatura.Text;
+  //Chave := edtSwHAssinatura.Text;
 end;
 
 procedure TfSat.ACBrSAT1GetcodigoDeAtivacao(var Chave: String);
 begin
-  Chave := edtCodigoAtivacao.Text
+  //Chave := edtCodigoAtivacao.Text
 end;
 
 procedure TfSat.ACBrSAT1GravarLog(const ALogLine: String;
@@ -1579,7 +1590,7 @@ begin
   StatusBar1.Panels[1].Text := IntToStr( ACBrSAT1.Resposta.codigoDeRetorno );
   Tratado := False;
 end;
-
+}
 procedure TfSat.btnExcluirClick(Sender: TObject);
 begin
   edCPF.Text := '';
@@ -1681,6 +1692,23 @@ begin
     if (sClienteCODCLIENTE.AsInteger <> codConsumidorSat) then
       edCPF.Text := sClienteCNPJ.AsString;
   end;
+end;
+
+procedure TfSat.FormDestroy(Sender: TObject);
+begin
+  ACBrSAT1.Free;
+  ACBrSATExtratoESCPOS1.Free;
+  ACBrPosPrinter1.Free;
+end;
+
+procedure TfSat.GetsignAC(var Chave: AnsiString);
+begin
+  Chave := edtSwHAssinatura.Text;
+end;
+
+procedure TfSat.GetcodigoDeAtivacao(var Chave: String);
+begin
+   Chave := edtCodigoAtivacao.Text
 end;
 
 end.

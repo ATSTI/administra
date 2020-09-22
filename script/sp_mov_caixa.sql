@@ -65,14 +65,14 @@ BEGIN
   BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
-    select SUM(COALESCE(VALORCREDITO,0)), SUM(COALESCE(VALORDEBITO,0)) 
+    select SUM(COALESCE(VALORCREDITO,0)), SUM(COALESCE(VALORDEBITO,0))
     from MOVIMENTOCONT 
     where data < :DTAINI 
-    and tipoorigem = 'CONTABIL' and CONTA = :NCONTA
+    and tipoorigem = 'CONTABIL' and CONTA = :NCONTA 
       INTO :VLINIC, VLINID; 
   END
   ELSE
-  BEGIN 
+  BEGIN  
     select SUM(COALESCE(VALORCREDITO,0)), SUM(COALESCE(VALORDEBITO,0)) 
     from MOVIMENTOCONT where data < :DTAINI 
         and tipoorigem = 'CONTABIL' 
@@ -90,7 +90,7 @@ BEGIN
   ORDEM = 0;
   SUSPEND;
   DESCRICAO = null;
-  contacontabil = null;
+  --contacontabil = null;
   VALORD = 0;
   FORMA = null;
   CODCONTA = null;
@@ -172,16 +172,21 @@ BEGIN
   BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
-    FOR select mov.DATA, SUM(COALESCE(mov.VALORDEBITO,0)), his.HISTORICO, pc.CODREDUZIDO 
+    FOR select mov.DATA, SUM(COALESCE(mov.VALORDEBITO,0)), his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM
           from MOVIMENTOCONT mov
          inner join PLANO pc on pc.CONTA = mov.CONTA 
           LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODORIGEM
          WHERE mov.DATA BETWEEN :DTAINI AND :DTAFIM
            and mov.tipoorigem = 'CONTABIL' 
            and pc.CODIGO = :COD_CAIXA 
-         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO 
-          INTO :DTAPAGTO, :VALORD, :DESCRICAO, :CODCONTA 
+         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO , mov.CODORIGEM
+          INTO :DTAPAGTO, :VALORD, :DESCRICAO, :CODCONTA , :CONTACONTABIL
     do begin
+	  FORMA = 'CONTABIL';
+	  --buscando a conta contraria
+	  SELECT FIRST 1 CONTA from movimentocont where codorigem = :CONTACONTABIL and CONTA <> :NCONTA
+	    INTO :CONTACONTABIL;
+	  --CONTACONTABIL = NCONTA;
       VALOR = VALOR + VALORD;
       ORDEM = 1;
       IF (VALORD > 0.001) THEN
@@ -196,16 +201,21 @@ BEGIN
   BEGIN 
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
-    FOR select mov.DATA, SUM(COALESCE(mov.VALORDEBITO,0)), his.HISTORICO, pc.CODREDUZIDO 
+    FOR select mov.DATA, SUM(COALESCE(mov.VALORDEBITO,0)), his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM 
           from MOVIMENTOCONT mov
          inner join PLANO pc on pc.CONTA = mov.CONTA 
           LEFT OUTER JOIN HISTORICO_CONTAB his on his.COD_CONTAB = mov.CODORIGEM
          WHERE mov.DATA BETWEEN :DTAINI AND :DTAFIM
            and mov.tipoorigem = 'CONTABIL' 
            and SUBSTRING(MOV.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8)
-         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
-          INTO :DTAPAGTO,:VALORD, :DESCRICAO, :CODCONTA 
+         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM
+          INTO :DTAPAGTO,:VALORD, :DESCRICAO, :CODCONTA , :CONTACONTABIL
     do begin
+	  FORMA = 'CONTABIL';
+	  --buscando a conta contraria
+	  SELECT FIRST 1 CONTA from movimentocont where codorigem = :CONTACONTABIL and CONTA <> :NCONTA
+	    INTO :CONTACONTABIL;
+
       VALOR = VALOR + VALORD;
       ORDEM = 1;
       IF (VALORD > 0.001) THEN
@@ -235,9 +245,9 @@ BEGIN
     order by pag.DATAPAGAMENTO
   INTO :DTAPAGTO, :FORN, :DESCRICAO, :VALORC, :CCONTABIL, :FORMA, :N_DOC, :compensado, :N_TITULO
   DO BEGIN
-    SELECT NOME, CODREDUZIDO FROM PLANO WHERE CODIGO = :CCONTABIL
-    INTO :CONTACONTABIL, :CODCONTA;
-    CONTACONTABIL = :CODCONTA || '-' || :CONTACONTABIL;
+    SELECT NOME, CODREDUZIDO, DESCRICAO FROM PLANO WHERE CODIGO = :CCONTABIL
+    INTO :CONTACONTABIL, :CODCONTA, :CONTACONTABIL;
+    --CONTACONTABIL = :CODCONTA || '-' || :CONTACONTABIL;
     if (contaContabil is null) then 
       contaContabil = '';
     
@@ -314,16 +324,21 @@ BEGIN
   BEGIN
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
-    FOR select mov.DATA, SUM(COALESCE(mov.VALORCREDITO,0)), his.HISTORICO, pc.CODREDUZIDO 
+    FOR select mov.DATA, SUM(COALESCE(mov.VALORCREDITO,0)), his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM 
           from MOVIMENTOCONT mov
          inner join PLANO pc on pc.CONTA = mov.CONTA
           LEFT OUTER JOIN HISTORICO_CONTAB his on  mov.CODORIGEM = his.COD_CONTAB
          WHERE mov.DATA BETWEEN :DTAINI AND :DTAFIM
            and mov.tipoorigem = 'CONTABIL' 
            and pc.CODIGO = :COD_CAIXA 
-         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
-          INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
+         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM
+          INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA, :CONTACONTABIL
     do begin
+	  FORMA = 'CONTABIL';
+     --buscando a conta contraria
+	  SELECT FIRST 1 CONTA from movimentocont where codorigem = :CONTACONTABIL and CONTA <> :NCONTA
+	    INTO :CONTACONTABIL;
+
       VALOR = VALOR - VALORC;
       ORDEM = 2;
       if (valorc is null) then 
@@ -341,16 +356,20 @@ BEGIN
   BEGIN 
     SELECT CONTA, NOME FROM PLANO WHERE CODIGO = :COD_CAIXA
       INTO :NCONTA, :CAIXA;
-    FOR select mov.DATA, SUM(COALESCE(mov.VALORCREDITO,0)), his.HISTORICO, pc.CODREDUZIDO 
+    FOR select mov.DATA, SUM(COALESCE(mov.VALORCREDITO,0)), his.HISTORICO, pc.CODREDUZIDO , mov.CODORIGEM
           from MOVIMENTOCONT mov
          inner join PLANO pc on pc.CONTA = mov.CONTA
           LEFT OUTER JOIN HISTORICO_CONTAB his on  mov.CODORIGEM = his.COD_CONTAB
          WHERE mov.DATA BETWEEN :DTAINI AND :DTAFIM
            and mov.tipoorigem = 'CONTABIL'  
            and SUBSTRING(MOV.CONTA FROM 1 FOR 8) = SUBSTRING(:CONTACAIXA FROM 1 FOR 8)
-         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO
-      INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA
+         group by mov.DATA, his.HISTORICO, pc.CODREDUZIDO, mov.CODORIGEM
+      INTO :DTAPAGTO, :VALORC, :DESCRICAO, :CODCONTA, :CONTACONTABIL
     do begin
+	  FORMA = 'CONTABIL';
+	     --buscando a conta contraria
+	  SELECT FIRST 1 CONTA from movimentocont where codorigem = :CONTACONTABIL and CONTA <> :NCONTA
+	    INTO :CONTACONTABIL;
       VALOR = VALOR - VALORC;
       ORDEM = 2;
       if (valorc is null) then 

@@ -374,7 +374,7 @@ uses
   uBolSicR in 'uBolSicR.pas' {fBolSicR},
   RLCob748 in 'RLCob748.pas',
   BoletoLayout in 'BoletoLayout.pas' {LayoutBoleto},
-  //uSat in 'uSat.pas' {fSat},
+  uSat in 'uSat.pas' {fSat},
   uCest in 'uCest.pas' {fCest},
   uSatAcbr in 'uSatAcbr.pas' {fSatAcbr},
   //ConfiguraSerial in 'configuraserial.pas' {frConfiguraSerial},

@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\sisadmin\BD\sge_rodrigo.fdb'
+      'Database=C:\Home\BD\sge_agroverde.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -1225,8 +1225,9 @@ object DM: TDM
   end
   object s_7: TSQLDataSet
     CommandText = 
-      'select CODIGO, CONTA, NOME, RATEIO, CODREDUZIDO from PLANO where' +
-      ' plnCtaMain(CONTA) = :PCONTARECEITA and CONSOLIDA = '#39'S'#39
+      'select CODIGO, CONTA, NOME, RATEIO, CODREDUZIDO, DESCRICAO from ' +
+      'PLANO where plnCtaMain(CONTA) = :PCONTARECEITA and CONSOLIDA = '#39 +
+      'S'#39
     MaxBlobSize = -1
     Params = <
       item
@@ -1259,6 +1260,10 @@ object DM: TDM
     object s_7CODREDUZIDO: TStringField
       FieldName = 'CODREDUZIDO'
       Size = 15
+    end
+    object s_7DESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
     end
   end
   object d_7: TDataSetProvider
@@ -1301,6 +1306,10 @@ object DM: TDM
     object cds_7_contasCODREDUZIDO: TStringField
       FieldName = 'CODREDUZIDO'
       Size = 15
+    end
+    object cds_7_contasDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 50
     end
   end
   object scds_forn_proc: TSQLClientDataSet
