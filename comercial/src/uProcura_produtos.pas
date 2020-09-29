@@ -448,6 +448,25 @@ begin
 
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroD5.AsString <> '') then
+  begin
+    // Casas Decimais Estoque Atual
+    if (dm.cds_parametroD5.AsString = '3') then
+      cds_procESTOQUEATUAL.DisplayFormat := ',##0.000';
+    if (dm.cds_parametroD5.AsString = '4') then
+      cds_procESTOQUEATUAL.DisplayFormat := ',##0.0000';
+    if (dm.cds_parametroD5.AsString = '5') then
+      cds_procESTOQUEATUAL.DisplayFormat := ',##0.00000';
+    if (dm.cds_parametroD5.AsString = '6') then
+      cds_procESTOQUEATUAL.DisplayFormat := ',##0.000000';
+  end;
+
+
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'LISTAPRODUTOCONDICAO';
   dm.cds_parametro.Open;
   condicao1 := 0;

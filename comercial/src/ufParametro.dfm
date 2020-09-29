@@ -8,18 +8,18 @@ inherited fParametro: TfParametro
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 896
+    Width = 889
     Height = 9
     inherited Label1: TLabel
       Left = 214
       Top = 0
-      Width = 360
+      Width = 359
       Caption = 'Par'#225'metros do Sistema'
     end
     inherited Label2: TLabel
       Left = 218
       Top = 1
-      Width = 360
+      Width = 359
       Caption = 'Par'#225'metros do Sistema'
     end
   end
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet7
+    ActivePage = TabSheet6
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2549,7 +2549,7 @@ inherited fParametro: TfParametro
         Left = 5
         Top = 216
         Width = 801
-        Height = 89
+        Height = 137
         Caption = 'Cadastro Produto'
         TabOrder = 3
         object Label68: TLabel
@@ -2581,6 +2581,21 @@ inherited fParametro: TfParametro
           Caption = 
             'PRECO CUSTO - Para o sistema n'#227'o altera-lo coloque no parametro ' +
             'PRECOESTOQUE no campo D1 = PRECOCUSTOFIXO'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label91: TLabel
+          Left = 8
+          Top = 88
+          Width = 679
+          Height = 16
+          Caption = 
+            'Casas Decimais ESTOQUE ATUAL , Parametro :  PRODUTO  , campo D5 ' +
+            ', coloque o n'#250'mero de Casas Decimais'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -13
@@ -4430,8 +4445,8 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 530
-    Width = 896
+    Top = 521
+    Width = 889
     inherited btnGravar: TBitBtn
       Left = 288
     end

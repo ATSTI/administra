@@ -5,6 +5,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
   BorderIcons = [biSystemMenu, biMaximize]
   Font.Height = -13
   OldCreateOrder = True
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -100,8 +101,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Embalagem'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 528
-    Width = 796
+    Top = 516
+    Width = 788
     TabOrder = 14
     inherited btnGravar: TBitBtn
       Left = 372
@@ -263,7 +264,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 796
+    Width = 788
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -29
@@ -2028,8 +2029,8 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [39]
-    Left = 336
-    Top = 101
+    Left = 80
+    Top = 133
     Width = 417
     Height = 273
     Hint = 'Recalcula Pre'#231'o de Custo e Estoque'
@@ -2148,10 +2149,5 @@ inherited fProdutoCadastro: TfProdutoCadastro
     DataSet = DM.cds_cm
     Left = 416
     Top = 16
-  end
-  object ACBrValidador1: TACBrValidador
-    IgnorarChar = './-'
-    Left = 392
-    Top = 56
   end
 end

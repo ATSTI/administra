@@ -117,7 +117,6 @@ type
     DBEdit29: TDBEdit;
     Label34: TLabel;
     BitBtn4: TBitBtn;
-    ACBrValidador1: TACBrValidador;
     BitBtn5: TBitBtn;
     BitBtn6: TBitBtn;
     chk_grade: TCheckBox;
@@ -172,7 +171,9 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
     procedure edtCodAnpChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    ACBrValidador1: TACBrValidador;
     combustivel : String;
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -203,7 +204,7 @@ begin
 
 //*****************************************************
 // abre as tabelas Marca, familia e comissão
-
+  ACBrValidador1 := TACBrValidador.Create(Nil);
   combustivel := 'NAO';
   JvPageControl1.Pages[3].TabVisible := False;
   if dm.cds_parametro.Active then
@@ -215,6 +216,24 @@ begin
     combustivel := 'SIM';
     JvPageControl1.Pages[3].TabVisible := True;
     //TabSheet4.Visible := True;
+  end;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'PRODUTO';
+  dm.cds_parametro.Open;
+
+  if (dm.cds_parametroD5.AsString <> '') then
+  begin
+    // Casas Decimais Estoque Atual
+    if (dm.cds_parametroD5.AsString = '3') then
+      dm.cds_produtoESTOQUEATUAL.DisplayFormat := ',##0.000';
+    if (dm.cds_parametroD5.AsString = '4') then
+      dm.cds_produtoESTOQUEATUAL.DisplayFormat := ',##0.0000';
+    if (dm.cds_parametroD5.AsString = '5') then
+      dm.cds_produtoESTOQUEATUAL.DisplayFormat := ',##0.00000';
+    if (dm.cds_parametroD5.AsString = '6') then
+      dm.cds_produtoESTOQUEATUAL.DisplayFormat := ',##0.000000';
   end;
 
   if (not DM.cds_Marca.Active) then
@@ -1316,6 +1335,12 @@ procedure TfProdutoCadastro.edtCodAnpChange(Sender: TObject);
 begin
     if (DM.cds_produto.State in [dsBrowse]) then
       DM.cds_produto.Edit;
+end;
+
+procedure TfProdutoCadastro.FormDestroy(Sender: TObject);
+begin
+  ACBrValidador1.Free;
+  inherited;
 end;
 
 end.
