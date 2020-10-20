@@ -773,7 +773,7 @@ begin
   // Gravando sequencial
   // 30-10-2015 comentei aqui, pois, na compra nao deve modificar a serie do sistema
   // 04-02-2016 o Lajes Caetano usa.
-  if (dbeSerie.Text <> '') then
+  if ((dbeSerie.Text <> '') and (dm.alteraSerieCompra = 'S')) then
   begin
     if not scds_serie_proc.Active then
     begin

@@ -1,8 +1,8 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 400
-  Top = 135
-  Width = 706
-  Height = 574
+  Left = 357
+  Top = 132
+  Width = 749
+  Height = 577
   BorderIcons = [biSystemMenu]
   Caption = 'Movimenta'#231#227'o de Estoque'
   Color = clBtnFace
@@ -220,7 +220,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 698
+    Width = 716
     Height = 60
     Align = alTop
     BevelInner = bvLowered
@@ -1325,8 +1325,8 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
   end
   object MMJPanel3: TMMJPanel
     Left = 0
-    Top = 519
-    Width = 698
+    Top = 516
+    Width = 716
     Height = 28
     Align = alBottom
     BevelInner = bvLowered

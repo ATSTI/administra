@@ -886,7 +886,7 @@ begin
     dm.c_6_genid.Close;
   end;
 
-  try
+  //try
     dm.sqlsisAdimin.StartTransaction(TD);
     cds_Movimento.ApplyUpdates(0);
 
@@ -1080,13 +1080,13 @@ begin
       sds_s.Fields[1].AsInteger;
     end;
     dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-    end;
-  end;
+  //except
+  //  on E : Exception do
+  //  begin
+  //    dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+  //    ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+  //  end;
+  //end;
 
   //************VERIFICA E EXECUTA BAIXA DE MATÉRIA PRIMA************
   if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
@@ -1741,7 +1741,7 @@ begin
       end;
       cdsDetalhe.Next;
     end;
-    try
+    //try
       if (cds_movDetMat.State in [dsedit, dsinsert, dsbrowse]) then
         cds_movDetMat.ApplyUpdates(0);
 
@@ -1767,25 +1767,25 @@ begin
       else
         sql_sp := sql_sp + edit2.Text + ', null)';
       dm.sqlsisAdimin.StartTransaction(TD);
-      Try
+      //Try
          dm.sqlsisAdimin.ExecuteDirect(sql_sp);
          DMNF.baixaEstoque(cds_movMatCODMOVIMENTO.AsInteger, cds_movMatDATAMOVIMENTO.AsDateTime, 'SAIDA');
          dm.sqlsisAdimin.Commit(TD);
-      except
-         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-             [mbOk], 0);
-      end;
+      //except
+      //   dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      //   MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
+      //       [mbOk], 0);
+      //end;
       if (cdsLotes.Active) then
         cdslotes.Close;
       if (cds_Movimento.State in [dsInsert, dsEdit]) then
         btnGravar.Click;
       MessageDlg('Inclusão realizada com sucesso.', mtInformation, [mbOK], 0);
-    except
-      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-      MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-         [mbOk], 0);
-    end;
+    //except
+    //  dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+    //  MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
+    //     [mbOk], 0);
+    //end;
   end;
 end;
 

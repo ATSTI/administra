@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet6
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2653,6 +2653,21 @@ inherited fParametro: TfParametro
     object Compras: TTabSheet
       Caption = 'Compras'
       ImageIndex = 6
+      object Label92: TLabel
+        Left = 16
+        Top = 304
+        Width = 521
+        Height = 16
+        Caption = 
+          'Parametro  COMPRA , Campo D3 = N, ao Finalizar a compra n'#227'o alte' +
+          'ra o Valor da S'#233'rie'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
       object GroupBox4: TGroupBox
         Left = 10
         Top = 9

@@ -2131,6 +2131,7 @@ type
     imprimeDetalhamentoEspecifico: Boolean;
     quebraLinhaDanfe: Boolean;
     vendaVerTotal : String;
+    alteraSerieCompra : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
     function validaCfop(cfop: String):Boolean;
@@ -2437,6 +2438,10 @@ begin
     userAprovaCompra := dm.cds_parametroD1.AsString
   else
     userAprovaCompra := 'adm';
+
+  alteraSerieCompra := 'S';
+  if (dm.cds_parametroD3.AsString <> '') then
+    alteraSerieCompra := dm.cds_parametroD3.AsString;
 
   if cds_parametro.Active then
     cds_parametro.Close;
