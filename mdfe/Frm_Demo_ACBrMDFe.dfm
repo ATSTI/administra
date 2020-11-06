@@ -1,6 +1,6 @@
 object fACBrMDFe: TfACBrMDFe
-  Left = 259
-  Top = 135
+  Left = 175
+  Top = 60
   Width = 1031
   Height = 582
   Caption = 'ATS - ACBrMDFe'
@@ -60,7 +60,7 @@ object fACBrMDFe: TfACBrMDFe
           ImageIndex = 3
           object GroupBox6: TGroupBox
             Left = 3
-            Top = 5
+            Top = -1
             Width = 326
             Height = 292
             Caption = 'Empresa'
@@ -285,7 +285,7 @@ object fACBrMDFe: TfACBrMDFe
           end
           object GroupBox10: TGroupBox
             Left = 3
-            Top = 366
+            Top = 350
             Width = 326
             Height = 49
             Caption = 'MDF-e'
@@ -323,7 +323,7 @@ object fACBrMDFe: TfACBrMDFe
           end
           object GroupBox12: TGroupBox
             Left = 3
-            Top = 301
+            Top = 290
             Width = 326
             Height = 61
             Caption = 'Carregamento'
@@ -930,21 +930,21 @@ object fACBrMDFe: TfACBrMDFe
           end
           object Label36: TLabel
             Left = 8
-            Top = 168
+            Top = 163
             Width = 66
             Height = 13
             Caption = 'RNTRC Prop.'
           end
           object Label38: TLabel
             Left = 8
-            Top = 196
+            Top = 191
             Width = 43
             Height = 13
             Caption = 'Condutor'
           end
           object Label39: TLabel
             Left = 8
-            Top = 223
+            Top = 218
             Width = 66
             Height = 13
             Caption = 'CPF Condutor'
@@ -952,41 +952,41 @@ object fACBrMDFe: TfACBrMDFe
           object Label40: TLabel
             Left = 8
             Top = 240
-            Width = 92
+            Width = 73
             Height = 13
-            Caption = 'Municipo Descarga'
+            Caption = 'Mun. Descarga'
           end
           object Label41: TLabel
             Left = 8
-            Top = 282
+            Top = 265
             Width = 64
             Height = 13
             Caption = 'C'#243'digo IBGE '
           end
           object Label43: TLabel
             Left = 8
-            Top = 305
+            Top = 289
             Width = 51
             Height = 13
             Caption = 'Transporte'
           end
           object Label44: TLabel
             Left = 8
-            Top = 329
+            Top = 313
             Width = 61
             Height = 13
             Caption = 'Identifica'#231#227'o'
           end
           object Label45: TLabel
-            Left = 9
-            Top = 400
+            Left = 12
+            Top = 376
             Width = 61
             Height = 13
             Caption = 'Identificacao'
           end
           object Label65: TLabel
             Left = 203
-            Top = 281
+            Top = 264
             Width = 69
             Height = 13
             Caption = 'UF - Descarga'
@@ -1077,7 +1077,7 @@ object fACBrMDFe: TfACBrMDFe
           end
           object edRNTRCProp: TEdit
             Left = 88
-            Top = 168
+            Top = 163
             Width = 225
             Height = 21
             Hint = 
@@ -1090,7 +1090,7 @@ object fACBrMDFe: TfACBrMDFe
           end
           object edCondutor: TEdit
             Left = 88
-            Top = 193
+            Top = 188
             Width = 225
             Height = 21
             Hint = 
@@ -1105,25 +1105,25 @@ object fACBrMDFe: TfACBrMDFe
           end
           object edCondutorCPF: TEdit
             Left = 88
-            Top = 219
+            Top = 214
             Width = 224
             Height = 21
             Color = clInfoBk
             TabOrder = 12
           end
           object edMunicipioDescarga: TEdit
-            Left = 8
-            Top = 255
-            Width = 304
+            Left = 88
+            Top = 239
+            Width = 224
             Height = 21
             Color = clInfoBk
             TabOrder = 13
           end
           object rgTipoUnidCarga: TRadioGroup
-            Left = 1
-            Top = 349
+            Left = 9
+            Top = 331
             Width = 331
-            Height = 49
+            Height = 41
             Caption = 'Tipo unidade da Carga'
             Columns = 4
             ItemIndex = 3
@@ -1135,9 +1135,9 @@ object fACBrMDFe: TfACBrMDFe
             TabOrder = 18
           end
           object cbTransporte: TComboBox
-            Left = 76
-            Top = 302
-            Width = 236
+            Left = 88
+            Top = 286
+            Width = 224
             Height = 21
             ItemHeight = 13
             ItemIndex = 0
@@ -1154,9 +1154,9 @@ object fACBrMDFe: TfACBrMDFe
               '7 - Outros')
           end
           object edIdentUnidTransp: TEdit
-            Left = 76
-            Top = 325
-            Width = 236
+            Left = 88
+            Top = 309
+            Width = 224
             Height = 21
             Hint = 
               'Informar a identifica'#231#227'o conforme o tipo de'#13#10'unidade de transpor' +
@@ -1170,9 +1170,9 @@ object fACBrMDFe: TfACBrMDFe
             Text = 'CAMINHAO'
           end
           object edIdentUnidCarga: TEdit
-            Left = 75
-            Top = 400
-            Width = 236
+            Left = 88
+            Top = 374
+            Width = 224
             Height = 21
             Hint = 
               'Informar a identifica'#231#227'o da unidade de carga,'#13#10'por exemplo: n'#250'me' +
@@ -1185,7 +1185,7 @@ object fACBrMDFe: TfACBrMDFe
           end
           object edUFDescarga: TEdit
             Left = 278
-            Top = 279
+            Top = 262
             Width = 34
             Height = 21
             CharCase = ecUpperCase
@@ -1205,8 +1205,8 @@ object fACBrMDFe: TfACBrMDFe
             TabOrder = 4
           end
           object edCodIbgeDescarga: TMaskEdit
-            Left = 77
-            Top = 279
+            Left = 88
+            Top = 262
             Width = 63
             Height = 21
             Color = clInfoBk
@@ -1248,8 +1248,8 @@ object fACBrMDFe: TfACBrMDFe
               '05-Sider')
           end
           object BitBtn8: TBitBtn
-            Left = 142
-            Top = 279
+            Left = 153
+            Top = 262
             Width = 23
             Height = 20
             Hint = 
@@ -3422,8 +3422,8 @@ object fACBrMDFe: TfACBrMDFe
         object memoLog: TMemo
           Left = 0
           Top = 0
-          Width = 628
-          Height = 335
+          Width = 620
+          Height = 337
           Align = alClient
           ScrollBars = ssVertical
           TabOrder = 0
@@ -3448,7 +3448,6 @@ object fACBrMDFe: TfACBrMDFe
           Height = 325
           Caption = 'Reboque'
           TabOrder = 1
-          Visible = False
           object Label108: TLabel
             Left = 34
             Top = 17
