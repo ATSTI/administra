@@ -22,7 +22,7 @@ object fNotaf1: TfNotaf1
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 775
+    Width = 766
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -974,7 +974,7 @@ object fNotaf1: TfNotaf1
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 775
+    Width = 766
     Height = 691
     ActivePage = TabNF
     Align = alTop
@@ -1103,7 +1103,7 @@ object fNotaf1: TfNotaf1
           Width = 404
           Height = 21
           BevelKind = bkFlat
-          DataField = 'RAZAOSOCIAL'
+          DataField = 'NOMECLIENTE'
           DataSource = DMNF.DtSrc_NF1
           ItemHeight = 13
           TabOrder = 0
