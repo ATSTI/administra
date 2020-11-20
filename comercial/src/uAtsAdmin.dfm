@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    959
-    479)
+    951
+    466)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 790
-    Height = 408
+    Width = 782
+    Height = 395
     Align = alClient
     Center = True
     Picture.Data = {
@@ -590,7 +590,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 959
+    Width = 951
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -1883,8 +1883,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 455
-    Width = 959
+    Top = 442
+    Width = 951
     Height = 24
     Color = clActiveCaption
     Panels = <
@@ -1967,7 +1967,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 408
+    Height = 395
     Align = alLeft
     Pages = <
       item

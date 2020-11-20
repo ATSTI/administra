@@ -2,8 +2,8 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 63
-  Top = 6
+  Left = 65
+  Top = 122
   Height = 772
   Width = 1281
   object sqlsisAdimin: TSQLConnection
@@ -10536,5 +10536,22 @@ object DM: TDM
     Left = 672
     Top = 8
     DOMVendorDesc = 'MSXML'
+  end
+  object IdHTTP1: TIdHTTP
+    MaxLineAction = maException
+    ReadTimeout = 0
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = 0
+    Request.ContentRangeStart = 0
+    Request.ContentType = 'text/html'
+    Request.Accept = 'text/html, */*'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 800
+    Top = 192
   end
 end

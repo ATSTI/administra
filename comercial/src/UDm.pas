@@ -6,7 +6,8 @@ uses
   Windows, SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, Provider,
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
   Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
-  XmlRpcClient, XmlRpcTypes, IniFiles, xmldom, XMLIntf, msxmldom, XMLDoc;
+  XmlRpcClient, XmlRpcTypes, IniFiles, xmldom, XMLIntf, msxmldom, XMLDoc,
+  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -2009,6 +2010,7 @@ type
     cds_empresaGIAF4: TStringField;
     s_7DESCRICAO: TStringField;
     cds_7_contasDESCRICAO: TStringField;
+    IdHTTP1: TIdHTTP;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2075,6 +2077,7 @@ type
     procedure verificaNumeroDias(dia : Word; tipo: Word);
     procedure LicencaUso;
     procedure conexaoXmlRpc;
+    procedure conexaoOdoo;
   public
     { Public declarations }
     usu_tipovendedor : Integer;
@@ -3371,18 +3374,19 @@ begin
   achei := '0';
   s:= '';
   i2 := -1;
-  conexaoXmlRpc;
+  conexaoOdoo;
+  //conexaoXmlRpc;
   s := memoLic;
   //i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
   //if (i1 > 0) then
-  if s <> '' then
+  if s <> 'N' then
   begin
     //achei := Copy(s, i1, 17);
     achei := dm.empresa + '-' + s;
     valor := MD5Print(MD5String(achei));
     dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
       QuotedStr(valor) + ' WHERE CODIGO = 1');
-    dm.mensagemInicial := valor;  
+    dm.mensagemInicial := valor;
   end
   else begin
     valor := MD5Print(MD5String(dm.empresa + '-00'));
@@ -3916,6 +3920,29 @@ end;
 procedure TDM.DataModuleDestroy(Sender: TObject);
 begin
   FRpcCaller.Free;
+end;
+
+procedure TDM.conexaoOdoo;
+var
+  LHTTP: TIdHTTP;
+  Params: TStringList;
+  verRetorno : String;
+begin
+  //LHTTP := TIdHTTP.Create;
+  try
+    Params := TStringList.Create;
+    try
+      IdHTTP1.Request.Accept := 'application/json';
+      IdHTTP1.Request.ContentType := 'application/json';
+      Params.Text := '{"cnpj":"' + empresa + '"}';
+      //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
+      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:8905', Params);
+    finally
+      Params.Free;
+    end;
+  except
+    memoLic := 'N';
+  end;
 end;
 
 end.

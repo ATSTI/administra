@@ -792,7 +792,7 @@ begin
   lblMensagemSistema.Caption := dm.mensagemInicial;
   if (dm.sistemaLiberado = 'N') then
   begin
-    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)3877-4889.', mtWarning, [mbOK], 0);
+    MessageDlg('Licença do uso expirada, entre em contato com a ATS.', mtWarning, [mbOK], 0);
     Close;
   end;
   if (UserControlComercial.AutoStart = False) then
