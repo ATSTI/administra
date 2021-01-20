@@ -52,6 +52,8 @@ DECLARE VARIABLE BCCOFINS DOUBLE PRECISION;
 DECLARE VARIABLE BCPIS DOUBLE PRECISION;
 DECLARE VARIABLE BCIPI DOUBLE PRECISION;
 DECLARE VARIABLE VTOTTRIB DOUBLE PRECISION;
+DECLARE VARIABLE icms_percent DOUBLE PRECISION;
+DECLARE VARIABLE icms_percent_reduz DOUBLE PRECISION;
 declare variable codmovorigem integer;
 begin
   -- versao 2.0.0.20
@@ -96,6 +98,13 @@ begin
     where md.CODMOVIMENTO = :cod
     into :TOTST, :TOTBASEST, :TOTICMS, :TOTBASEICMS, :TOTIPI, :TOTPROD, :DESCONTO, :VSEGURO, :OUTRAS, :VFRETE, :PIS, :COFINS, :TOTII, :TOTBCII, :BCCOFINS, :BCIPI, :BCPIS, :VTOTTRIB;
     
+    icms_percent_reduz = 0;
+    icms_percent = 0;
+    SELECT FIRST 1  COALESCE(ei.ICMS, 0), COALESCE(ei.REDUCAO, 1)
+        from ESTADO_ICMS ei
+        where ei.CODFISCAL = :PESSOA and ei.UF = :UF
+          INTO :icms_percent, :icms_percent_reduz;
+    
 --==============================================================--
   --Preenchimento DADOS ADICIONAIS ICMS DESTACADO
 ICMS_DESTACADO_DESC = 'Null';
@@ -115,8 +124,25 @@ ICMS_DESTACADO_DESC = 'Null';
 	--UPDATE NOTAFISCAL SET  CORPONF5 = :ICMS_DESTACADO_DESC where NUMNF = :NUMERO_NF;	
   end
   --==============================================================--
-
-
+  --==============================================================--
+  -- 14/01/2021
+  if (icms_percent > 0) then
+  begin
+    TOTBASEICMS = ( TOTPROD - DESCONTO + VSEGURO + OUTRAS) * ((icms_percent * icms_percent_reduz)/100);
+    select * from FU_FORMATAR(:TOTBASEICMS, '########.##0,00')
+      into :VlrStr;
+    TOTICMS = icms_percent * icms_percent_reduz;
+    select * from FU_FORMATAR(:TOTICMS, '########.##0,00')
+      into :PercStr;
+  
+    if (icms_percent > 0) then
+    begin
+      ICMS_DESTACADO_DESC = 'Permite o aproveitamento de crédito do ICMS no valor de R$ ' || VlrStr || ', correspondente à alíquota de ' || PercStr || '%, nos termos do Art. 23, da LC nº 123/06';
+      --ICMS_DESTACADO_DESC2 =
+    end
+	--UPDATE NOTAFISCAL SET  CORPONF5 = :ICMS_DESTACADO_DESC where NUMNF = :NUMERO_NF;	
+  end
+--==============================================================--
 
     UPDATE NOTAFISCAL SET BASE_ICMS_SUBST = :TOTBASEST , VALOR_ICMS_SUBST = :TOTST , VALOR_IPI = :TOTIPI, VALOR_ICMS = :TOTICMS , BASE_ICMS = :TOTBASEICMS ,
       VALOR_TOTAL_NOTA = :TOTPROD + :TOTST + :TOTIPI + :VSEGURO - :DESCONTO + :OUTRAS  + :VFRETE, VALOR_PIS = :PIS, VALOR_COFINS = :COFINS
