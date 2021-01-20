@@ -1654,7 +1654,7 @@ begin
                  ' where  EV.CODPRODUTO  = p.CODPRODUTO  ' +
                  ' AND ((p.usa is null) or (p.usa = ' + QuotedStr('S') + ')) ' +
                  ' AND ((p.TIPO is null) or (p.TIPO <> ' + QuotedStr('SERV') + ')) '  +
-                 ' AND EV.MESANO >o= ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
+                 ' AND EV.MESANO >= ' + QuotedStr(formatdatetime('mm/dd/yyyy', edDataInventario.Date)) +
                  ' AND EV.CENTROCUSTO = 51 AND EV.SALDOESTOQUE > 0';
            end;
            cdsProduto.CommandText := cdsProduto.CommandText + ' )';

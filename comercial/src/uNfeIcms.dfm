@@ -16,8 +16,8 @@ object fNfeIcms: TfNfeIcms
   OnDestroy = FormDestroy
   OnShow = FormShow
   DesignSize = (
-    914
-    575)
+    922
+    587)
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
@@ -72,7 +72,7 @@ object fNfeIcms: TfNfeIcms
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 914
+    Width = 922
     Height = 113
     Align = alTop
     BevelOuter = bvNone
@@ -80,7 +80,7 @@ object fNfeIcms: TfNfeIcms
     Color = 16776176
     TabOrder = 1
     DesignSize = (
-      910
+      918
       109)
     object Label1: TLabel
       Left = 19
@@ -95,7 +95,7 @@ object fNfeIcms: TfNfeIcms
     object Label5: TLabel
       Left = 0
       Top = 0
-      Width = 910
+      Width = 918
       Height = 16
       Align = alTop
       Alignment = taCenter
