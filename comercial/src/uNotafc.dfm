@@ -29,7 +29,7 @@ object fNotafc: TfNotafc
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 777
+    Width = 791
     Height = 510
     ActivePage = TabNF
     Align = alTop
@@ -434,7 +434,7 @@ object fNotafc: TfNotafc
         Top = 167
         Width = 769
         Height = 140
-        ActivePage = TabSheet3
+        ActivePage = TabSheet2
         TabOrder = 18
         object TabSheet2: TTabSheet
           Caption = 'Itens'
@@ -673,7 +673,7 @@ object fNotafc: TfNotafc
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnKeyPress = FormKeyPress
           end
@@ -1068,7 +1068,7 @@ object fNotafc: TfNotafc
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 777
+    Width = 791
     Height = 59
     Align = alTop
     BevelInner = bvLowered

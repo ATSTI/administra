@@ -20,8 +20,8 @@ object F_Boletos: TF_Boletos
   object MMJPanel3: TMMJPanel
     Left = 0
     Top = 59
-    Width = 401
-    Height = 145
+    Width = 409
+    Height = 157
     Align = alClient
     BevelInner = bvLowered
     TabOrder = 0
@@ -70,7 +70,7 @@ object F_Boletos: TF_Boletos
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 401
+    Width = 409
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -84,7 +84,7 @@ object F_Boletos: TF_Boletos
     object lbl5: TLabel
       Left = 2
       Top = 2
-      Width = 397
+      Width = 405
       Height = 55
       Align = alClient
       Alignment = taCenter
@@ -101,8 +101,8 @@ object F_Boletos: TF_Boletos
   end
   object MMJPanel2: TMMJPanel
     Left = 0
-    Top = 204
-    Width = 401
+    Top = 216
+    Width = 409
     Height = 59
     Align = alBottom
     BevelInner = bvLowered

@@ -1836,7 +1836,10 @@ begin
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
-
+  //if (dm.tipo_nfe = 'NFCe') then
+  //begin
+  //  btnSAT.Glyph.SaveToStream .LoadFromFile nfe := 'NFCe';
+  //end;
   if ((dm.videoFUNDO <> clWhite) and (dm.videoFONTE <> clBlack)) then
   begin
     For nI := 0 to ComponentCount-1 do

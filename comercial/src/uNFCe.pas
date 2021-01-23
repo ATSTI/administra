@@ -488,15 +488,29 @@ begin
   Sincrono := False;
 
   // carlos 23/12/14
-  ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
-  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve400;
   ACBrNFe1.Configuracoes.Geral.VersaoQRCode := veqr200;
+  ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
+  ACBrNFe1.Configuracoes.Geral.Salvar   := True;
+  ACBrNFe1.Configuracoes.Arquivos.Salvar:= True;
+  ACBrNFe1.Configuracoes.Arquivos.SalvarEvento:= True;
+  ACBrNFe1.Configuracoes.Geral.VersaoDF := ve400;
 
+  //ACBrNFe1.Configuracoes.Geral.IdCSC := dmPdv.id_tk;
+  //ACBrNFe1.Configuracoes.Geral.CSC := dmPdv.tk;
+  ACBrNFe1.Configuracoes.WebServices.TimeOut := 35000;
   ACBrNFe1.Configuracoes.Geral.IdCSC := id_tk;
   ACBrNFe1.Configuracoes.Geral.CSC := tk;
 
   edtCaminho.Text := 's';
   ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+
+  {with ACBrNFe1.NotasFiscais.Add.NFe do
+  begin
+    infRespTec.CNPJ := '08382545000111';
+    infRespTec.email:= 'carlos@atsti.com.br';
+    infRespTec.xContato := 'Carlos R. Silveira';
+    infRespTec.fone := '19992159534';
+  end;}
 
   //ACBrNFe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
   //ACBrNFe1.Configuracoes.Certificados.Senha       := edtSenha.Text;
@@ -506,9 +520,15 @@ begin
 
   GerarNFCe(vAux);
 
+  ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
+  //if (sEmpresaUF.AsString = 'SP') then
+  //  ACBrNFe1.Configuracoes.WebServices.UFCodigo := 35;
+  //if (sEmpresaUF.AsString = 'MG') then
+  //  ACBrNFe1.Configuracoes.WebServices.UFCodigo := 31;
+
   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
   edtCaminho.Text := ACBrNFe1.SSL.CertCNPJ;
-
+  ACBrNFe1.NotasFiscais.GravarXML();
   //ACBrNFe1.NotasFiscais.Items[0].GravarXML;
   //ACBrNFe1.NotasFiscais.GerarNFe;
   //ACBrNFe1.NotasFiscais.GravarXML(sempresaDIVERSOS1.AsString + 'nfce_a.' + vAux + '.xml');
@@ -645,6 +665,8 @@ begin
       Ide.cUF     := 35;
     if (Trim(sEmpresaUF.AsString) = 'MS') then
       Ide.cUF     := 50;
+    if (Trim(sEmpresaUF.AsString) = 'MG') then
+      Ide.cUF     := 31;
 
     Ide.cMunFG    := StrToInt(RemoveChar(sEmpresaCD_IBGE.AsString));
     Ide.finNFe    := fnNormal;
@@ -671,7 +693,6 @@ begin
     Emit.EnderEmit.UF      := sEmpresaUF.AsString;
     Emit.enderEmit.cPais   := 1058;
     Emit.enderEmit.xPais   := 'BRASIL';
-
     Emit.IEST              := '';
     //      Emit.IM                := '2648800'; // Preencher no caso de existir serviços na nota
     //      Emit.CNAE              := '6201500'; // Verifique na cidade do emissor da NFe se é permitido

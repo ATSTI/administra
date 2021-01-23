@@ -1,6 +1,6 @@
 object fNFCe: TfNFCe
-  Left = 459
-  Top = 118
+  Left = 310
+  Top = 108
   Width = 828
   Height = 614
   Caption = 'NFC-e'
@@ -447,7 +447,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -456,7 +456,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -466,7 +466,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 4
         end
         object seColunas: TSpinEdit

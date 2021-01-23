@@ -1030,7 +1030,7 @@ end;
 procedure TF_Boletos.FormCreate(Sender: TObject);
 begin
   AcbrBoleto1 := TACBrBoleto.Create(Nil);
-  //ACBrBoletoFCFortes1 := TACBrBoletoFCFortes.Crea
+  ACBrBoletoFCFortes1 := TACBrBoletoFCFortes.Create(Nil);
   edt2.Text := ExtractFilePath(Application.ExeName) + 'LogoBanco';
   AcbrBoleto1.ACBrBoletoFC := ACBrBoletoFCFortes1;
   ACBrBoletoFCFortes1.ACBrBoleto := AcbrBoleto1;
