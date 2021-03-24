@@ -4638,7 +4638,6 @@ object DM: TDM
     end
     object cdsTranspPLACATRANSP: TStringField
       FieldName = 'PLACATRANSP'
-      EditMask = 'LLL\-0000;1;_'
       Size = 16
     end
     object cdsTranspCNPJ_CPF: TStringField

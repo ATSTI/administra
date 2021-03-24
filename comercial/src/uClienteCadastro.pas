@@ -742,6 +742,7 @@ type
     procedure CheckBox2Click(Sender: TObject);
     procedure Label7Click(Sender: TObject);
     procedure BitBtn35Click(Sender: TObject);
+    procedure DBLookupComboBox3Exit(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -1232,6 +1233,16 @@ var faixacod : integer;
    desconto, parente: double;
    tipoEnd: String;
 begin
+  if (DBLookupComboBox3.KeyValue = '9') then
+  begin
+    if CheckBox1.Checked = False then
+       ShowMessage('O Campo Não Contribuinte deve ser marcado para Consumidor Final');
+  end;
+  if CheckBox1.Checked then
+  begin
+    if (DBLookupComboBox3.KeyValue <> '9') then
+       ShowMessage('O Tipo Fiscal para Clientes Não Contribuinte deve ser igual a Consumidor Final');
+  end;
   if (cds_cliCODCLIENTE.AsInteger = 0) then
   begin
     MessageDlg('Não é possível gravar cliente com Código 0(zero), use o botão incluir, para fazer um cadastro.', mtWarning, [mbOK], 0);
@@ -2938,8 +2949,27 @@ end;
 procedure TfClienteCadastro.CheckBox1Click(Sender: TObject);
 begin
   inherited;
+  label80.Color := clBtnFace;
+  CheckBox1.Color := clBtnFace;
   if (DtSrc.State in [dsBrowse]) then
     cds_cli.Edit;
+  if CheckBox1.Checked then
+  begin
+    if (DBLookupComboBox3.KeyValue <> '9') then
+    begin
+       ShowMessage('O Tipo Fiscal para Clientes Não Contribuinte deve ser igual a Consumidor Final');
+       Label80.Color := clGradientActiveCaption;
+       CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end
+  else begin
+    if (DBLookupComboBox3.KeyValue = '9') then
+    begin
+       ShowMessage('O Tipo Fiscal Consumidor Final deve ser para Clientes Não Contribuinte');
+       Label80.Color := clGradientActiveCaption;
+       CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end;
 end;
 
 procedure TfClienteCadastro.CheckBox2Click(Sender: TObject);
@@ -2965,6 +2995,28 @@ begin
     cds_cli.Edit;
   DBLookupComboBox2.KeyValue := -1;
   cds_cliCOD_TRANPORTADORA.Clear;
+end;
+
+procedure TfClienteCadastro.DBLookupComboBox3Exit(Sender: TObject);
+begin
+  inherited;
+  if (DBLookupComboBox3.KeyValue = '9') then
+  begin
+    if CheckBox1.Checked = False then
+    begin
+       ShowMessage('O Campo Não Contribuinte deve ser marcado para Consumidor Final');
+       CheckBox1.Color := clGradientActiveCaption;
+       Label80.Color := clGradientActiveCaption;
+    end;
+  end
+  else begin
+    if CheckBox1.Checked then
+    begin
+       ShowMessage('O Tipo Fiscal para Clientes Não Contribuinte deve ser igual a Consumidor Final');
+       Label80.Color := clGradientActiveCaption;
+       CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end;
 end;
 
 end.

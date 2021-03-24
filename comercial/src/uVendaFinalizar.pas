@@ -2954,9 +2954,9 @@ begin
       texto3 := texto3 + Format(' %6.2n',[fVendas.cds_Mov_detPRECO.AsFloat]);
       texto3 := texto3 + Format('   %6.2n',[fVendas.cds_Mov_detValorTotal.value]);
 
-      //produto_cupomf := trim(fVendas.cds_Mov_detCODPRO.Value) + '-' +
+      produto_cupomf := trim(fVendas.cds_Mov_detCODPRO.Value);
       //   trim(fVendas.cds_Mov_detDESCPRODUTO.Value) + ' - ' + trim(fVendas.cds_Mov_detMARCA.Value);
-      produto_cupomf := trim(fVendas.cds_Mov_detDESCPRODUTO.Value);
+      produto_cupomf := produto_cupomf + '-' + trim(fVendas.cds_Mov_detDESCPRODUTO.Value);
       texto6 := texto6 + '  ' + Copy(produto_cupomf, 0, 36);       //descrição do produto
       Writeln(Impressora, c17cpi, RemoveAcento(texto6));
       if (length(produto_cupomf)>36) then

@@ -1218,6 +1218,8 @@ inherited fClienteCadastro: TfClienteCadastro
         Width = 85
         Height = 17
         Caption = 'N'#227'o Contrib.'
+        Color = clBtnFace
+        ParentColor = False
         TabOrder = 15
         OnClick = CheckBox1Click
       end
@@ -2226,6 +2228,7 @@ inherited fClienteCadastro: TfClienteCadastro
         ParentCtl3D = False
         ParentFont = False
         TabOrder = 39
+        OnExit = DBLookupComboBox3Exit
         OnKeyPress = FormKeyPress
       end
       object DBEdit62: TDBEdit
@@ -2461,6 +2464,7 @@ inherited fClienteCadastro: TfClienteCadastro
             ''
             ''
             ''
+            ''
             'Nota 2: No caso de opera'#231#227'o com o Exterior informar'
             'indIEDest=9 e n'#227'o informar a tag IE do destinat'#225'rio;'#10
             ''
@@ -2651,7 +2655,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2951,7 +2955,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -3061,7 +3065,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3451,7 +3455,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -5883,7 +5887,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6520,7 +6524,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change

@@ -23,7 +23,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 786
+    Width = 811
     Height = 494
     ActivePage = TabNF
     Align = alTop
@@ -449,7 +449,7 @@ object fNotaf: TfNotaf
         Top = 167
         Width = 777
         Height = 282
-        ActivePage = TabSheet2
+        ActivePage = TabSheet5
         TabOrder = 18
         object TabSheet2: TTabSheet
           Caption = 'Itens'
@@ -961,7 +961,7 @@ object fNotaf: TfNotaf
             Top = 8
             Width = 769
             Height = 233
-            ActivePage = tsTrib
+            ActivePage = tsTransp
             TabOrder = 0
             object tsTrib: TTabSheet
               Caption = 'Totais'
@@ -1830,7 +1830,7 @@ object fNotaf: TfNotaf
           Width = 123
           Height = 21
           Hint = 'Normal - Complementar - Ajuste - Devolu'#231#227'o'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
@@ -1841,7 +1841,7 @@ object fNotaf: TfNotaf
           Width = 123
           Height = 21
           Hint = 'N'#227'o ou Consumidor Final'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
@@ -1857,7 +1857,7 @@ object fNotaf: TfNotaf
             'Internet;'#13#10'3=Opera'#231#227'o n'#227'o presencial, Teleatendimento;'#13#10'4=NFC-e ' +
             'em opera'#231#227'o com entrega a domic'#237'lio;'#13#10'9=Opera'#231#227'o n'#227'o presencial,' +
             ' outros.'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
@@ -1871,7 +1871,7 @@ object fNotaf: TfNotaf
             '1=Contribuinte ICMS (informar a IE do destinat'#225'rio);'#13#10'2=Contribu' +
             'inte isento de Inscri'#231#227'o no cadastro de Contribuintes do ICMS;'#13#10 +
             '9=N'#227'o Contribuinte, que pode ou n'#227'o possuir Inscri'#231#227'o'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 3
@@ -1884,7 +1884,7 @@ object fNotaf: TfNotaf
           Hint = 
             '1=Opera'#231#227'o interna;'#13#10'2=Opera'#231#227'o interestadual;'#13#10'3=Opera'#231#227'o com e' +
             'xterior.'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 4
@@ -1895,7 +1895,7 @@ object fNotaf: TfNotaf
           Width = 123
           Height = 21
           Hint = 'Entrada ou Sa'#237'da'
-          Color = clScrollBar
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 5
@@ -2315,7 +2315,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 786
+    Width = 811
     Height = 59
     Align = alTop
     BevelInner = bvLowered

@@ -283,6 +283,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure rgSitCadClick(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
+    procedure cbTipoFiscalExit(Sender: TObject);
   private
     FCli : TCliente;
     cCli : Integer;
@@ -659,7 +660,47 @@ begin
   inherited;
   if (DtSrc.State in [dsBrowse]) then
     cds_cli.Edit;
+  label80.Color := clBtnFace;
+  CheckBox1.Color := clBtnFace;
+  if CheckBox1.Checked then
+  begin
+    if (cbTipoFiscal.KeyValue <> '9') then
+    begin
+       ShowMessage('O Tipo Fiscal para Clientes Não Contribuinte deve ser igual a Consumidor Final');
+       Label80.Color := clGradientActiveCaption;
+       CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end
+  else begin
+    if (cbTipoFiscal.KeyValue = '9') then
+    begin
+       ShowMessage('O Tipo Fiscal para Clientes Consumidor final deve ser Não Contribuinte ');
+       Label80.Color := clGradientActiveCaption;
+       CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end;
+end;
 
+procedure TfCliente1.cbTipoFiscalExit(Sender: TObject);
+begin
+  inherited;
+  if (cbTipoFiscal.KeyValue = '9') then
+  begin
+    if CheckBox1.Checked = False then
+    begin
+       ShowMessage('O Campo Não Contribuinte deve ser marcado para Consumidor Final');
+       CheckBox1.Color := clGradientActiveCaption;
+       Label80.Color := clGradientActiveCaption;
+    end;
+  end
+  else begin
+    if CheckBox1.Checked then
+    begin
+      ShowMessage('O Tipo Fiscal para Clientes Contribuinte deve ser igual a Consumidor Final');
+      Label80.Color := clGradientActiveCaption;
+      CheckBox1.Color := clGradientActiveCaption;
+    end;
+  end;
 end;
 
 end.

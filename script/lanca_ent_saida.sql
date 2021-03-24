@@ -44,5 +44,6 @@ BEGIN
         --update SERIES set ULTIMO_NUMERO = :nSerieSai + 1 where SERIE = :Serie;
      end
   END
+  execute procedure estoque_atualiza_v(:codMov);
 END
 

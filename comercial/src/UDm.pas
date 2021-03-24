@@ -2134,6 +2134,7 @@ type
     imprimeDetalhamentoEspecifico: Boolean;
     quebraLinhaDanfe: Boolean;
     vendaVerTotal : String;
+    link_chat: String;
     alteraSerieCompra : String;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
@@ -2466,6 +2467,10 @@ begin
   imprimeDetalhamentoEspecifico := True;
   if (cds_parametroD7.AsString <> '') then
     imprimeDetalhamentoEspecifico := False;
+  link_chat := '1';
+  if (cds_parametroD9.AsString <> '') then
+    link_chat := cds_parametroD9.AsString;
+
   danfe_larg_codprod := 46;
   if (cds_parametroD2.AsString <> '') then
     try

@@ -18,15 +18,15 @@ object fAtsAdmin: TfAtsAdmin
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    951
-    466)
+    959
+    479)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
-    Width = 782
-    Height = 395
+    Width = 790
+    Height = 408
     Align = alClient
     Center = True
     Picture.Data = {
@@ -590,7 +590,7 @@ object fAtsAdmin: TfAtsAdmin
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 951
+    Width = 959
     Height = 47
     Align = alTop
     BevelInner = bvRaised
@@ -1883,8 +1883,8 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 442
-    Width = 951
+    Top = 455
+    Width = 959
     Height = 24
     Color = clActiveCaption
     Panels = <
@@ -1967,7 +1967,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 395
+    Height = 408
     Align = alLeft
     Pages = <
       item
@@ -2568,6 +2568,32 @@ object fAtsAdmin: TfAtsAdmin
           BFBFBFBFBFBFBFBFBF00}
       end
     end
+  end
+  object BitBtn2: TBitBtn
+    Left = 608
+    Top = 112
+    Width = 89
+    Height = 57
+    Anchors = [akLeft]
+    BiDiMode = bdLeftToRight
+    Caption = 'Abrir Suporte'
+    ParentBiDiMode = False
+    TabOrder = 9
+    Visible = False
+    OnClick = BitBtn2Click
+    Layout = blGlyphBottom
+  end
+  object BitBtn3: TBitBtn
+    Left = 608
+    Top = 176
+    Width = 89
+    Height = 57
+    Cursor = crHandPoint
+    Caption = 'Chamar Suporte'
+    DragCursor = crHandPoint
+    TabOrder = 10
+    Visible = False
+    OnClick = BitBtn3Click
   end
   object PopupMenu1: TPopupMenu
     Left = 384

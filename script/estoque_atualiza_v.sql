@@ -8,7 +8,7 @@ AS
  declare variable ESTOQUE double precision;
  declare variable PRECO_COMPRA double precision;
 BEGIN
-
+  /* 
   for select md.codproduto, m.codalmoxarifado from movimento m , movimentodetalhe md
      where m.codmovimento = :CODMOVIMENTO and md.codmovimento = m.codmovimento
   into :codp, :ccusto
@@ -21,4 +21,5 @@ BEGIN
         ,datagrav = current_date 
         where codproduto = :codp;
   end
+  */
 END

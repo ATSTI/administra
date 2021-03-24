@@ -250,6 +250,8 @@ type
     ArquivoRetornoItau1: TMenuItem;
     ImportarNFeXML1: TMenuItem;
     ImportaIBPT1: TMenuItem;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -406,6 +408,8 @@ type
     procedure ArquivoRetornoItau1Click(Sender: TObject);
     procedure ImportarNFeXML1Click(Sender: TObject);
     procedure ImportaIBPT1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2537,6 +2541,21 @@ procedure TfAtsAdmin.ImportaIBPT1Click(Sender: TObject);
 begin
   WinExec('prjIBPTImporta.exe', SW_NORMAL);
   Windows.SetParent(FindWindow(nil,'ImportaIBPT'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.BitBtn2Click(Sender: TObject);
+begin
+  WinExec('atsSuporte.exe', SW_NORMAL);
+  //Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.BitBtn3Click(Sender: TObject);
+var url: String;
+begin
+  url := 'http://atsti.com.br/chat/index.php/por/chat/start/(department)/' + dm.link_chat;
+  ShellExecute(Handle ,'open',PChar(url), '', Nil, 0);
+  //WinExec('atsti.com.br/chat/index.php/por/chat/start/(department)/2', SW_SHOW);
+  //Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
 end;
 
 end.

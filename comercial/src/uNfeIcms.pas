@@ -1280,7 +1280,11 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao113;
+      COD_VER          := vlVersao114;
+      if (data_ini.Date < StrToDate('01/01/2021')) then
+      begin
+        COD_VER          := vlVersao113;
+      end;
       if (data_ini.Date < StrToDate('01/01/2020')) then
       begin
         COD_VER          := vlVersao112;
@@ -3602,6 +3606,7 @@ end;
 procedure TfNfeIcms.SpeedButton1Click(Sender: TObject);
 begin
   vcReportEstoque.FileName := str_relatorio + 'estoque_sped.rep';
+  vcReportEstoque.Title := 'estoque_sped.rep';
   vcReportEstoque.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   vcReportEstoque.Report.Params.ParamByName('PDATA').Value := data_fim.Date;
   vcReportEstoque.Execute;

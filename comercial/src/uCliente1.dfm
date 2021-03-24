@@ -173,6 +173,7 @@ inherited fCliente1: TfCliente1
       ListField = 'DESCRICAO'
       ListSource = DtSrcTFiscal
       TabOrder = 3
+      OnExit = cbTipoFiscalExit
     end
     object CheckBox1: TCheckBox
       Left = 579
