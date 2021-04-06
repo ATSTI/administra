@@ -40,9 +40,9 @@ object fNotaf: TfNotaf
       ParentFont = False
       object JvGroupBox1: TJvGroupBox
         Left = 3
-        Top = -1
+        Top = 1
         Width = 154
-        Height = 42
+        Height = 39
         Caption = 'Natureza da Opera'#231#227'o'
         TabOrder = 0
         object cbNatureza: TDBComboBox
@@ -61,14 +61,14 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox2: TJvGroupBox
         Left = 158
-        Top = -1
+        Top = 1
         Width = 165
-        Height = 42
+        Height = 39
         Caption = 'C.F.O.P'
         TabOrder = 1
         object lblFatura: TLabel
           Left = 2
-          Top = 27
+          Top = 24
           Width = 161
           Height = 13
           Align = alBottom
@@ -100,9 +100,9 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox3: TJvGroupBox
         Left = 323
-        Top = -1
+        Top = 1
         Width = 90
-        Height = 42
+        Height = 39
         Caption = 'C.N.P.J.'
         TabOrder = 3
         object DBText1: TDBText
@@ -123,9 +123,9 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox4: TJvGroupBox
         Left = 413
-        Top = -1
+        Top = 1
         Width = 101
-        Height = 42
+        Height = 39
         Caption = 'Inscri'#231#227'o Estadual'
         TabOrder = 4
         object DBText2: TDBText
@@ -146,9 +146,9 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox5: TJvGroupBox
         Left = 3
-        Top = 41
+        Top = 68
         Width = 401
-        Height = 41
+        Height = 38
         Caption = 'Nome / Raz'#227'o Social'
         TabOrder = 5
         object cbCLiente: TDBComboBox
@@ -189,10 +189,10 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox6: TJvGroupBox
-        Left = 405
-        Top = 41
+        Left = 406
+        Top = 68
         Width = 109
-        Height = 41
+        Height = 38
         Caption = 'C.N.P.J.'
         TabOrder = 6
         object DBEdit1: TDBEdit
@@ -209,8 +209,8 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox7: TJvGroupBox
-        Left = 3
-        Top = 83
+        Left = 11
+        Top = 147
         Width = 238
         Height = 41
         Caption = 'Endere'#231'o'
@@ -229,8 +229,8 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox8: TJvGroupBox
-        Left = 242
-        Top = 83
+        Left = 258
+        Top = 147
         Width = 162
         Height = 41
         Caption = 'Bairro'
@@ -249,8 +249,8 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox9: TJvGroupBox
-        Left = 405
-        Top = 83
+        Left = 421
+        Top = 155
         Width = 110
         Height = 41
         Caption = 'CEP'
@@ -270,9 +270,9 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox10: TJvGroupBox
         Left = 517
-        Top = 41
+        Top = 1
         Width = 118
-        Height = 41
+        Height = 39
         Caption = 'Data da Emiss'#227'o'
         TabOrder = 14
         object JvDBDateEdit1: TJvDBDateEdit
@@ -291,9 +291,9 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox11: TJvGroupBox
         Left = 518
-        Top = 83
+        Top = 56
         Width = 118
-        Height = 41
+        Height = 46
         Caption = 'Data Saida/Entrada'
         TabOrder = 15
         object JvDBDateEdit2: TJvDBDateEdit
@@ -309,8 +309,8 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox12: TJvGroupBox
-        Left = 3
-        Top = 125
+        Left = 11
+        Top = 173
         Width = 302
         Height = 41
         Caption = 'Munic'#237'pio'
@@ -330,7 +330,7 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox13: TJvGroupBox
         Left = 305
-        Top = 125
+        Top = 165
         Width = 111
         Height = 41
         Caption = 'Fone / Fax'
@@ -350,7 +350,7 @@ object fNotaf: TfNotaf
       end
       object JvGroupBox14: TJvGroupBox
         Left = 416
-        Top = 125
+        Top = 165
         Width = 40
         Height = 41
         Caption = 'UF'
@@ -369,8 +369,8 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox15: TJvGroupBox
-        Left = 456
-        Top = 125
+        Left = 464
+        Top = 165
         Width = 185
         Height = 41
         Caption = 'Inscri'#231#227'o Estadual'
@@ -389,10 +389,10 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox16: TJvGroupBox
-        Left = 642
-        Top = 125
+        Left = 518
+        Top = 112
         Width = 118
-        Height = 41
+        Height = 40
         Caption = 'Hora da Saida'
         TabOrder = 16
         object DBEdit34: TDBEdit
@@ -406,10 +406,10 @@ object fNotaf: TfNotaf
         end
       end
       object JvGroupBox28: TJvGroupBox
-        Left = 517
-        Top = -1
-        Width = 118
-        Height = 41
+        Left = 637
+        Top = 1
+        Width = 134
+        Height = 38
         Caption = 'N. da Nota'
         TabOrder = 2
         object DBEdit33: TDBEdit
@@ -446,9 +446,9 @@ object fNotaf: TfNotaf
       end
       object PageControl1: TPageControl
         Left = 0
-        Top = 167
+        Top = 152
         Width = 777
-        Height = 282
+        Height = 297
         ActivePage = TabSheet2
         TabOrder = 18
         object TabSheet2: TTabSheet
@@ -457,7 +457,7 @@ object fNotaf: TfNotaf
             Left = 0
             Top = 0
             Width = 769
-            Height = 254
+            Height = 269
             Align = alClient
             DataSource = DMNF.DtSrc1
             PopupMenu = PopupMenu1
@@ -1802,8 +1802,45 @@ object fNotaf: TfNotaf
               end
             end
             object TabSheet7: TTabSheet
-              Caption = 'Intermediador'
+              Caption = 'Opera'#231#227'o Presencial/Intermediador'
               ImageIndex = 3
+              object Label6: TLabel
+                Left = 24
+                Top = 56
+                Width = 88
+                Height = 13
+                Caption = 'Cnpj Intermediador'
+              end
+              object Label7: TLabel
+                Left = 24
+                Top = 96
+                Width = 74
+                Height = 13
+                Caption = 'Vendedor/Perfil'
+              end
+              object CheckBox2: TCheckBox
+                Left = 24
+                Top = 24
+                Width = 161
+                Height = 17
+                Caption = 'Com Intermediador'
+                TabOrder = 0
+              end
+              object edCnpjIntermediador: TEdit
+                Left = 128
+                Top = 56
+                Width = 121
+                Height = 21
+                TabOrder = 1
+              end
+              object Edit1: TEdit
+                Left = 128
+                Top = 96
+                Width = 249
+                Height = 21
+                TabOrder = 2
+                Text = 'Edit1'
+              end
             end
           end
         end
@@ -1814,106 +1851,25 @@ object fNotaf: TfNotaf
             Left = 0
             Top = 0
             Width = 769
-            Height = 254
+            Height = 269
             Align = alClient
             Caption = 'Gerando NFe ......'
             TabOrder = 0
           end
         end
-        object TabSheet8: TTabSheet
-          Caption = 'Intermediador/Marketplace'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBackground
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ImageIndex = 5
-          ParentFont = False
-          object Label6: TLabel
-            Left = 18
-            Top = 119
-            Width = 88
-            Height = 13
-            Caption = 'Cnpj Intermediador'
-          end
-          object Label7: TLabel
-            Left = 20
-            Top = 149
-            Width = 74
-            Height = 13
-            Caption = 'Vendedor/Perfil'
-          end
-          object rgIndPres: TRadioGroup
-            Left = 16
-            Top = 6
-            Width = 705
-            Height = 57
-            Caption = 'Indicativo Presen'#231'a'
-            Columns = 4
-            ItemIndex = 1
-            Items.Strings = (
-              'N'#227'o se aplica'
-              'Opera'#231#227'o Presencial'
-              'Pela Internet'
-              'Por Telefone'
-              'NFCe Domicilio'
-              'Presencial Fora Estab.'
-              'Outros')
-            TabOrder = 0
-            OnClick = rgIndPresClick
-          end
-          object chIntermediador: TRadioGroup
-            Left = 17
-            Top = 72
-            Width = 480
-            Height = 33
-            Caption = 'Indicador'
-            Columns = 2
-            ItemIndex = 0
-            Items.Strings = (
-              'Sem Intermediador'
-              'Com Intermediador (Marketplace, por ex.)')
-            TabOrder = 1
-            OnClick = chIntermediadorClick
-          end
-          object edIntermediadorCnpj: TDBEdit
-            Left = 121
-            Top = 118
-            Width = 171
-            Height = 21
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            DataField = 'INTERM_CNPJ'
-            DataSource = DMNF.DtSrc_NF
-            TabOrder = 2
-            OnKeyPress = FormKeyPress
-          end
-          object edIntermediadorPerfil: TDBEdit
-            Left = 121
-            Top = 150
-            Width = 376
-            Height = 21
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            DataField = 'INTERM_PERFIL'
-            DataSource = DMNF.DtSrc_NF
-            TabOrder = 3
-            OnKeyPress = FormKeyPress
-          end
-        end
       end
       object GroupBox3: TGroupBox
         Left = 637
-        Top = -2
+        Top = 38
         Width = 135
-        Height = 126
+        Height = 124
         Caption = 'Emiss'#227'o'
         TabOrder = 19
         object edFinNFe: TEdit
           Left = 8
-          Top = 16
+          Top = 12
           Width = 123
-          Height = 21
+          Height = 18
           Hint = 'Normal - Complementar - Ajuste - Devolu'#231#227'o'
           Color = clYellow
           ParentShowHint = False
@@ -1922,9 +1878,9 @@ object fNotaf: TfNotaf
         end
         object edIndFinal: TEdit
           Left = 8
-          Top = 33
+          Top = 31
           Width = 123
-          Height = 21
+          Height = 18
           Hint = 'N'#227'o ou Consumidor Final'
           Color = clYellow
           ParentShowHint = False
@@ -1933,26 +1889,25 @@ object fNotaf: TfNotaf
         end
         object edIndPres: TEdit
           Left = 8
-          Top = 50
+          Top = 49
           Width = 123
-          Height = 21
+          Height = 17
           Hint = 
-            'INTERMEDIADOR/MARKETPLACE'#13#10'0=N'#227'o se aplica (por exemplo, Nota Fi' +
-            'scal complementar'#13#10'ou de ajuste);'#13#10'1=Opera'#231#227'o presencial;'#13#10'2=Ope' +
-            'ra'#231#227'o n'#227'o presencial, pela Internet;'#13#10'3=Opera'#231#227'o n'#227'o presencial,' +
-            ' Teleatendimento;'#13#10'4=NFC-e em opera'#231#227'o com entrega a domic'#237'lio;'#13 +
-            #10'5=Presencial Fora Estabelecimento'#13#10'9=Opera'#231#227'o n'#227'o presencial, o' +
-            'utros.'
-          Color = clMoneyGreen
+            '0=N'#227'o se aplica (por exemplo, Nota Fiscal complementar'#13#10'ou de aj' +
+            'uste);'#13#10'1=Opera'#231#227'o presencial;'#13#10'2=Opera'#231#227'o n'#227'o presencial, pela ' +
+            'Internet;'#13#10'3=Opera'#231#227'o n'#227'o presencial, Teleatendimento;'#13#10'4=NFC-e ' +
+            'em opera'#231#227'o com entrega a domic'#237'lio;'#13#10'9=Opera'#231#227'o n'#227'o presencial,' +
+            ' outros.'
+          Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 2
         end
         object edIndIeDest: TEdit
           Left = 8
-          Top = 67
+          Top = 66
           Width = 123
-          Height = 21
+          Height = 17
           Hint = 
             '1=Contribuinte ICMS (informar a IE do destinat'#225'rio);'#13#10'2=Contribu' +
             'inte isento de Inscri'#231#227'o no cadastro de Contribuintes do ICMS;'#13#10 +
@@ -1966,7 +1921,7 @@ object fNotaf: TfNotaf
           Left = 8
           Top = 84
           Width = 123
-          Height = 21
+          Height = 15
           Hint = 
             '1=Opera'#231#227'o interna;'#13#10'2=Opera'#231#227'o interestadual;'#13#10'3=Opera'#231#227'o com e' +
             'xterior.'
@@ -1977,15 +1932,52 @@ object fNotaf: TfNotaf
         end
         object edTipo: TEdit
           Left = 8
-          Top = 102
+          Top = 101
           Width = 123
-          Height = 21
+          Height = 18
           Hint = 'Entrada ou Sa'#237'da'
           Color = clYellow
           ParentShowHint = False
           ShowHint = True
           TabOrder = 5
         end
+      end
+      object GroupBox4: TGroupBox
+        Left = 3
+        Top = 105
+        Width = 513
+        Height = 47
+        Caption = 'Endere'#231'o'
+        TabOrder = 20
+        object Memo3: TMemo
+          Left = 8
+          Top = 12
+          Width = 497
+          Height = 32
+          Lines.Strings = (
+            'Rua Santa Gertrudes, 1050, Bairro Nova America'
+            'Campinas - SP, CEP 13.545-000       I.E.: 12.356.8987987')
+          TabOrder = 0
+        end
+      end
+      object RadioGroup2: TRadioGroup
+        Left = 3
+        Top = 39
+        Width = 512
+        Height = 30
+        Caption = 'Indicador Presen'#231'a'
+        Color = clInfoBk
+        Columns = 7
+        Items.Strings = (
+          'N'#227'o aplica'
+          'Presencial'
+          'Internet'
+          'Telefone'
+          'NFCe'
+          'Pres. Fora'
+          'Outros')
+        ParentColor = False
+        TabOrder = 21
       end
     end
     object TabSheet1: TTabSheet

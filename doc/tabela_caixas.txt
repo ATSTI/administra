@@ -1,0 +1,26 @@
+  COD_VENDA              INTEGER                NOT NULL
+, ID_ENTRADA             INTEGER                NOT NULL
+, FORMA_PGTO             CHAR( 1 )
+, CAIXA                  SMALLINT
+, N_DOC                  VARCHAR( 60 )
+, VALOR_PAGO             DOUBLE PRECISION
+, CAIXINHA               DOUBLE PRECISION
+, "STATE"                SMALLINT
+, TROCO                  DOUBLE PRECISION
+, CODFORMA               INTEGER                NOT NULL
+, DESCONTO               DOUBLE PRECISION
+
+FORMA_ENTRADA 
+
+
+TABLE CAIXA_CONTROLE (
+  IDCAIXACONTROLE        INTEGER                NOT NULL
+, CODCAIXA               INTEGER
+, CODUSUARIO             INTEGER                NOT NULL
+, DATAFECHAMENTO         DATE                   NOT NULL
+, SITUACAO               CHAR( 1 )              NOT NULL
+, NOMECAIXA              VARCHAR( 60 )
+, MAQUINA                VARCHAR( 60 )
+, DATAABERTURA           DATE
+, VALORABRE              DOUBLE PRECISION
+, VALORFECHA             DOUBLE PRECISION

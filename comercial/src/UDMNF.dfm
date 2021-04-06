@@ -2250,6 +2250,30 @@ object DMNF: TDMNF
       FieldName = 'IND_IEDEST'
       Size = 30
     end
+    object cds_nfV_B_FCPUFDEST: TFloatField
+      FieldName = 'V_B_FCPUFDEST'
+    end
+    object cds_nfV_FCP: TFloatField
+      FieldName = 'V_FCP'
+    end
+    object cds_nfV_FCPST: TFloatField
+      FieldName = 'V_FCPST'
+    end
+    object cds_nfV_FCPSTRET: TFloatField
+      FieldName = 'V_FCPSTRET'
+    end
+    object cds_nfV_IPI_DEVOL: TFloatField
+      FieldName = 'V_IPI_DEVOL'
+    end
+    object cds_nfINTERM_CNPJ: TStringField
+      FieldName = 'INTERM_CNPJ'
+      EditMask = '00.000.000/0000-00;1;_'
+      Size = 24
+    end
+    object cds_nfINTERM_PERFIL: TStringField
+      FieldName = 'INTERM_PERFIL'
+      Size = 40
+    end
   end
   object dsp_nf: TDataSetProvider
     DataSet = sds_nf
@@ -2688,6 +2712,29 @@ object DMNF: TDMNF
     object sds_nfIND_IEDEST: TStringField
       FieldName = 'IND_IEDEST'
       Size = 30
+    end
+    object sds_nfV_B_FCPUFDEST: TFloatField
+      FieldName = 'V_B_FCPUFDEST'
+    end
+    object sds_nfV_FCP: TFloatField
+      FieldName = 'V_FCP'
+    end
+    object sds_nfV_FCPST: TFloatField
+      FieldName = 'V_FCPST'
+    end
+    object sds_nfV_FCPSTRET: TFloatField
+      FieldName = 'V_FCPSTRET'
+    end
+    object sds_nfV_IPI_DEVOL: TFloatField
+      FieldName = 'V_IPI_DEVOL'
+    end
+    object sds_nfINTERM_CNPJ: TStringField
+      FieldName = 'INTERM_CNPJ'
+      Size = 24
+    end
+    object sds_nfINTERM_PERFIL: TStringField
+      FieldName = 'INTERM_PERFIL'
+      Size = 40
     end
   end
   object DtSrc_NF1: TDataSource

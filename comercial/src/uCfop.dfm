@@ -397,18 +397,18 @@ inherited fCfop: TfCfop
     Width = 189
     Height = 21
     ItemHeight = 13
-    ItemIndex = 1
     TabOrder = 12
     Text = '1=Opera'#231#227'o presencial;'#10
     Items.Strings = (
       
-        '0=N'#227'o se aplica (por exemplo, Nota Fiscal complementar ou de aju' +
-        'ste);'#10
-      '1=Opera'#231#227'o presencial;'#10
-      '2=Opera'#231#227'o n'#227'o presencial, pela Internet;'#10
-      '3=Opera'#231#227'o n'#227'o presencial, Teleatendimento;'#10
-      '4=NFC-e em opera'#231#227'o com entrega a domic'#237'lio;'#10
-      '9=Opera'#231#227'o n'#227'o presencial, outros.')
+        '0-N'#227'o se aplica (por exemplo, Nota Fiscal complementar ou de aju' +
+        'ste);'
+      '1-Opera'#231#227'o presencial;'
+      '2-Opera'#231#227'o n'#227'o presencial, pela Internet;'
+      '3-Opera'#231#227'o n'#227'o presencial, Teleatendimento;'
+      '4-NFC-e em opera'#231#227'o com entrega a domic'#237'lio'
+      '5-Presencial Fora do Estado'
+      '9-Opera'#231#227'o n'#227'o presencial, outros.')
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_cfop

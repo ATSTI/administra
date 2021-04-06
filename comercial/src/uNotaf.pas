@@ -457,6 +457,14 @@ type
     edTipo: TEdit;
     TabSheet6: TTabSheet;
     Panel1: TPanel;
+    TabSheet7: TTabSheet;
+    TabSheet8: TTabSheet;
+    rgIndPres: TRadioGroup;
+    Label6: TLabel;
+    Label7: TLabel;
+    chIntermediador: TRadioGroup;
+    edIntermediadorCnpj: TDBEdit;
+    edIntermediadorPerfil: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -498,6 +506,8 @@ type
     procedure btnDuplicarClick(Sender: TObject);
     procedure JvDBDateEdit1Change(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure rgIndPresClick(Sender: TObject);
+    procedure chIntermediadorClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
@@ -2013,7 +2023,6 @@ begin
         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
     end;
-
   end;
 
   if (not calcman.Checked) then
@@ -2675,7 +2684,30 @@ begin
     2: dmnf.cds_nfNFE_INDPRES.AsString := 'pcInternet';
     3: dmnf.cds_nfNFE_INDPRES.AsString := 'pcTeleatendimento';
     4: dmnf.cds_nfNFE_INDPRES.AsString := 'pcEntregaDomicilio';
-    5: dmnf.cds_nfNFE_INDPRES.AsString := 'pcOutros';
+    5: dmnf.cds_nfNFE_INDPRES.AsString := 'pcPresencialForaEst.';
+    6: dmnf.cds_nfNFE_INDPRES.AsString := 'pcOutros';
+  end;
+
+  if (rgIndPres.ItemIndex <> sdsCFOPIND_PRES.AsInteger) then
+  begin
+    Case rgIndPres.ItemIndex of
+      0: dmnf.cds_nfNFE_INDPRES.AsString := 'pcNao';
+      1: dmnf.cds_nfNFE_INDPRES.AsString := 'pcPresencial';
+      2: dmnf.cds_nfNFE_INDPRES.AsString := 'pcInternet';
+      3: dmnf.cds_nfNFE_INDPRES.AsString := 'pcTeleatendimento';
+      4: dmnf.cds_nfNFE_INDPRES.AsString := 'pcEntregaDomicilio';
+      5: dmnf.cds_nfNFE_INDPRES.AsString := 'pcPresencialForaEst.';
+      6: dmnf.cds_nfNFE_INDPRES.AsString := 'pcOutros';
+    end;
+  end;
+
+  if (chIntermediador.ItemIndex = 1) then
+  begin
+    if (edIntermediadorCnpj.Text = '') then
+    begin
+      ShowMessage('Preencha o CNPJ do INTERMEDIADOR');
+      Exit;
+    end;
   end;
   //if (sdsCFOP.RecordCount > 0) then
   //begin
@@ -2768,6 +2800,30 @@ begin
   edIndIeDest.Text := dmnf.cds_nfIND_IEDEST.AsString;
   edDestinoOper.Text := dmnf.cds_nfNFE_DESTOPERACAO.AsString;
   edTipo.Text := dmnf.cds_nfNFE_TIPO.AsString;
+  chIntermediador.ItemIndex := 0;
+  if (dmnf.cds_nfINTERM_CNPJ.AsString <> '  .   .   /    -') then
+  begin
+    chIntermediador.ItemIndex := 1;
+  end;
+
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcNao') then
+    rgIndPres.ItemIndex := 0;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencial') then
+    rgIndPres.ItemIndex := 1;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcInternet') then
+    rgIndPres.ItemIndex := 2;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcTeleatendimento') then
+    rgIndPres.ItemIndex := 3;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcEntregaDomicilio') then
+    rgIndPres.ItemIndex := 4;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencialForaEst.') then
+    rgIndPres.ItemIndex := 5;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcOutros') then
+    rgIndPres.ItemIndex := 6;
+  if (dmnf.cds_nfINTERM_CNPJ.AsString <> '  .   .   /    -') then
+  begin
+    chIntermediador.ItemIndex := 1;
+  end;
 end;
 
 procedure TfNotaf.btnDuplicarClick(Sender: TObject);
@@ -3020,7 +3076,30 @@ begin
   begin
     DMNF.DtSrc_NF.DataSet.Edit;
     DMNF.DtSrcVenda.DataSet.Edit;
-  end;   
+  end;
+end;
+
+procedure TfNotaf.rgIndPresClick(Sender: TObject);
+begin
+  if (DMNF.DtSrc_NF.DataSet.State in [dsBrowse]) then
+  begin
+    DMNF.DtSrc_NF.DataSet.Edit;
+    DMNF.DtSrcVenda.DataSet.Edit;
+  end;
+end;
+
+procedure TfNotaf.chIntermediadorClick(Sender: TObject);
+begin
+  if (DMNF.DtSrc_NF.DataSet.State in [dsBrowse]) then
+  begin
+    DMNF.DtSrc_NF.DataSet.Edit;
+    DMNF.DtSrcVenda.DataSet.Edit;
+  end;
+  if (chIntermediador.ItemIndex = 0) then
+  begin
+    edIntermediadorCnpj.Text := '';
+    edIntermediadorPerfil.Text := '';
+  end;
 end;
 
 end.

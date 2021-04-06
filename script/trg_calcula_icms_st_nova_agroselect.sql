@@ -220,10 +220,16 @@ BEGIN
       do begin
         if (redBaseIpi = 0) then
           redBaseIpi = 1;
+        if (redBaseIpi > 1 )then
+          redBaseIpi = redBaseIpi/100;
         if (redBasePis = 0) then
           redBasePis = 1;
+        if (redBasePis > 1 )then
+          redBasePis = redBasePis/100;
         if (redBaseCofins = 0) then
           redBaseCofins = 1;
+        if (redBaseCofins > 1 )then
+          redBaseCofins = redBaseCofins/100;
       
         -- CFOP
         SELECT c.TOTTRIB, COALESCE(c.IPIBC, 'F'), COALESCE(c.FRETEBC, 'F') FROM CFOP c WHERE c.CFCOD = new.CFOP
@@ -455,7 +461,7 @@ BEGIN
       begin
         
         begin  
-          new.vBCUFDest = ROUND(((TOTALITENS - :vd + :vFrete + new.VIPI) - new.VALOR_ICMS), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
+          new.vBCUFDest = ROUND((TOTALITENS - :vd + :vFrete + new.VIPI), :arredondar);--new.VLR_BASEICMS - new.VALOR_ICMS;
           --new.obs = '1- Frete:' || cast(:vFrete as char(10)) || ' Desc:' || cast(:vd as char(10)) || ' IPI:' || cast(new.vipi as char(10)) ||
           --  ' ICMS:' || cast(new.VALOR_ICMS as char(10)) || ' T.Itens:' || cast(:TOTALITENS as char(10));
           new.VBFCPUFDEST = new.vBCUFDest;
@@ -464,7 +470,7 @@ BEGIN
       else begin -- simples não tem base de calculo, tudo zerado
         if (new.VIPI is null) then 
           new.VIPI = 0;
-        new.VBCUFDEST = ROUND(((new.VLR_BASE * new.QUANTIDADE) + :vFrete - new.VALOR_DESCONTO + new.VIPI - new.VALOR_ICMS), :arredondar);
+        new.VBCUFDEST = ROUND(((new.VLR_BASE * new.QUANTIDADE) + :vFrete - new.VALOR_DESCONTO + new.VIPI), :arredondar);
         new.VBFCPUFDEST = new.vBCUFDest;
         --new.obs = '2- Frete:' || cast(:vFrete as char(10)) || ' Desc:' || cast(:vd as char(10)) || ' IPI:' || cast(new.vipi as char(10)) ||
         --  ' ICMS:' || cast(new.VALOR_ICMS as char(10)) || ' T.Itens:' || cast(:TOTALITENS as char(10));
@@ -489,7 +495,7 @@ BEGIN
     new.SUITE = cast(:ii_percentual as varchar(6)) || ' - II';
     if (ii_percentual > 0) then 
     begin 
-      new.BCII = new.VLR_BASEICMS -  new.VIPI;
+      new.BCII = new.VLR_BASEICMS;
       new.II = ROUND((new.BCII) * (:ii_percentual / 100), :arredondar);
       new.VLRBC_IPI = ROUND((TOTALITENS+new.II) * redBaseIPI , :arredondar);
       new.VIPI = ROUND(((((new.VLR_BASE*new.QUANTIDADE)++new.II)*redBaseIPI) * IND_IPI/100), :arredondar);

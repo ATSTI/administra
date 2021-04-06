@@ -377,7 +377,6 @@ uses
   uSat in 'uSat.pas' {fSat},
   uCest in 'uCest.pas' {fCest},
   uSatAcbr in 'uSatAcbr.pas' {fSatAcbr},
-  //ConfiguraSerial in 'configuraserial.pas' {frConfiguraSerial},
   uEmpresaProcura in 'uEmpresaProcura.pas' {fEmpresaProcura},
   ufNFeExe in 'ufNFeExe.pas' {fNFeExe},
   uEstoqueAdm in 'uEstoqueAdm.pas' {fEstoqueAdm},

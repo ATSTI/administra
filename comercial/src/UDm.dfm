@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\Home\BD\sge_agroverde.fdb'
+      'Database=D:\Home\BD\sge_vbs.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
