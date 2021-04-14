@@ -403,6 +403,13 @@ begin
   else
      RepRelEstoque.Report.Params.ParamByName('SUBGRUPOA').Value := 'TODOS OS SUBGRUPOS CADASTRADOS NO SISTEMA';
 
+  if (cbGrupo.Text <> '') then
+  begin
+     RepRelEstoque.Report.Params.ParamByName('GRUPOA').Value := cbGrupo.Text;
+  end
+  else
+     RepRelEstoque.Report.Params.ParamByName('GRUPOA').Value := 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA';
+
   if (ComboBox1.Text <> 'TODOS') then
   begin
     dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);

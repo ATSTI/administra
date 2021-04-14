@@ -893,7 +893,7 @@ object fNotaf: TfNotaf
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
             OnChange = ComboBox1Change
             OnKeyPress = FormKeyPress

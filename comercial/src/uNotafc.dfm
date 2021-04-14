@@ -673,7 +673,7 @@ object fNotafc: TfNotafc
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             OnKeyPress = FormKeyPress
           end
@@ -2909,7 +2909,7 @@ object fNotafc: TfNotafc
     TabOrder = 5
   end
   object DataSource1: TDataSource
-    DataSet = DM.cds_empresa
+    DataSet = DMNF.cds_empresa
     Left = 591
     Top = 61
   end

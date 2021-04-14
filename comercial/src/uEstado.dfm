@@ -97,7 +97,7 @@ inherited fEstado: TfEstado
       Anchors = [akTop]
       Caption = 'CFOP'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -113,7 +113,7 @@ inherited fEstado: TfEstado
       Anchors = [akTop]
       Caption = 'UF'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -130,7 +130,7 @@ inherited fEstado: TfEstado
       Anchors = [akTop]
       Caption = 'Tipo Fiscal'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -324,7 +324,7 @@ inherited fEstado: TfEstado
       Height = 121
       Caption = 'IPI'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -454,7 +454,7 @@ inherited fEstado: TfEstado
       Height = 121
       Caption = 'PIS'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -546,7 +546,7 @@ inherited fEstado: TfEstado
       Height = 121
       Caption = 'COFINS'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -638,7 +638,7 @@ inherited fEstado: TfEstado
       Height = 121
       Caption = 'ICMS'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -768,7 +768,7 @@ inherited fEstado: TfEstado
       Height = 121
       Caption = 'ICMS ST'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -893,7 +893,7 @@ inherited fEstado: TfEstado
       Height = 43
       Caption = 'Simples'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -970,7 +970,7 @@ inherited fEstado: TfEstado
       Height = 45
       Caption = 'Cupom'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
@@ -1030,7 +1030,7 @@ inherited fEstado: TfEstado
       Height = 81
       Caption = 'ICMS UF destino'
       Font.Charset = ANSI_CHARSET
-      Font.Color = clWhite
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
