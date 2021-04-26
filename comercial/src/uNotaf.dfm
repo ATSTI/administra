@@ -86,6 +86,7 @@ object fNotaf: TfNotaf
           ItemHeight = 13
           TabOrder = 0
           OnChange = cbCFOPChange
+          OnClick = cbCFOPClick
           OnKeyPress = FormKeyPress
         end
         object btnRemessa: TButton
@@ -893,7 +894,7 @@ object fNotaf: TfNotaf
             Top = 31
             Width = 180
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
             OnChange = ComboBox1Change
             OnKeyPress = FormKeyPress

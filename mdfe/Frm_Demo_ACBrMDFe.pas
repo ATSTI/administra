@@ -2932,14 +2932,17 @@ begin
     edtPagCnpj.Text := dm.cds.FieldByName('CNPJ_CONTRATANTE').AsString;
 
     // INF. PAGAMENTO
-    rgPagInd.ItemIndex := StrToInt(dm.cds.FieldByName('IND_PAG').AsString);
-    cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
+    if (Trim(dm.cds.FieldByName('IND_PAG').AsString) <> '') then
+      rgPagInd.ItemIndex := StrToInt(dm.cds.FieldByName('IND_PAG').AsString);
+    if (Trim(dm.cds.FieldByName('TPCARGA').AsString) <> '') then
+      cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
     edtPagBancoCod.Text := dm.cds.FieldByName('BANCO_COD').AsString;
     edtPagBancoAgencia.Text := dm.cds.FieldByName('BANCO_AGENCIA').AsString;
     edtPagBancoCnpj.Text := dm.cds.FieldByName('BANCO_CNPJ').AsString;
 
     // PRODUTO
-    cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
+    if (Trim(dm.cds.FieldByName('TPCARGA').AsString) <> '') then
+      cbPagTipoCargaPred.ItemIndex := StrToInt(Trim(dm.cds.FieldByName('TPCARGA').AsString));
     edtPagProdPred.Text := dm.cds.FieldByName('XPROD').AsString;
     edtPagProdEAN.Text := dm.cds.FieldByName('CEAN').AsString;
     edtPagProdNCM.Text := dm.cds.FieldByName('NCM').AsString;
@@ -3499,7 +3502,7 @@ begin
     OpenDialog2.InitialDir := ExtractFileDir(application.ExeName);
     if OpenDialog2.Execute then
     begin
-      edNFe1.Text := Copy(ExtractFileName(OpenDialog2.FileName),0,44);
+      //edNFe1.Text := Copy(ExtractFileName(OpenDialog2.FileName),0,44);
       ACBrNFe1.NotasFiscais.Clear;
       ACBrNFe1.NotasFiscais.LoadFromFile(OpenDialog2.FileName);
       With ACBrNFe1.NotasFiscais.Items[0].NFe do
@@ -3508,7 +3511,11 @@ begin
            edNFe1.Text := Copy(infNFe.ID,4,44)
          else
            edNFe1.Text := infNFe.ID;
-         edPesoVol1.Value := Transp.Vol.Items[0].pesoB;
+         try
+           edPesoVol1.Value := Transp.Vol.Items[0].pesoB;
+         except
+           edPesoVol1.Value := 0;
+         end;
          edValorNFe1.Value := Total.ICMSTot.vNF;
          edMunNfe.Text := IntToStr(Dest.EnderDest.cMun);
          edxMunNfe.Text := Dest.EnderDest.xMun;

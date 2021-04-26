@@ -2,7 +2,7 @@ object fACBrMDFe: TfACBrMDFe
   Left = 175
   Top = 60
   Width = 1031
-  Height = 582
+  Height = 611
   Caption = 'ATS - ACBrMDFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,14 +28,14 @@ object fACBrMDFe: TfACBrMDFe
     Left = 0
     Top = 0
     Width = 385
-    Height = 543
+    Height = 584
     Align = alLeft
     TabOrder = 0
     object GroupBox1: TGroupBox
       Left = 4
       Top = 3
       Width = 381
-      Height = 496
+      Height = 526
       Caption = 'Configura'#231#245'es'
       TabOrder = 0
       object Label86: TLabel
@@ -49,8 +49,8 @@ object fACBrMDFe: TfACBrMDFe
         Left = 2
         Top = 15
         Width = 377
-        Height = 479
-        ActivePage = TabSheet4
+        Height = 509
+        ActivePage = TabSheet12
         Align = alClient
         MultiLine = True
         Style = tsButtons
@@ -3165,7 +3165,7 @@ object fACBrMDFe: TfACBrMDFe
     end
     object btnSalvarConfig: TBitBtn
       Left = 108
-      Top = 501
+      Top = 533
       Width = 153
       Height = 38
       Caption = 'Salvar Configura'#231#245'es'
@@ -3188,7 +3188,7 @@ object fACBrMDFe: TfACBrMDFe
     end
     object BitBtn9: TBitBtn
       Left = 261
-      Top = 501
+      Top = 533
       Width = 83
       Height = 38
       Caption = 'Fechar'
@@ -3220,14 +3220,14 @@ object fACBrMDFe: TfACBrMDFe
   object Panel2: TPanel
     Left = 385
     Top = 0
-    Width = 630
-    Height = 543
+    Width = 638
+    Height = 584
     Align = alClient
     TabOrder = 1
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 628
+      Width = 636
       Height = 176
       Align = alTop
       TabOrder = 0
@@ -3382,8 +3382,8 @@ object fACBrMDFe: TfACBrMDFe
     object PageControl2: TPageControl
       Left = 1
       Top = 177
-      Width = 628
-      Height = 365
+      Width = 636
+      Height = 406
       ActivePage = TabSheet5
       Align = alClient
       TabOrder = 1
@@ -3392,8 +3392,8 @@ object fACBrMDFe: TfACBrMDFe
         object MemoResp: TMemo
           Left = 0
           Top = 0
-          Width = 620
-          Height = 337
+          Width = 628
+          Height = 378
           Align = alClient
           TabOrder = 0
         end
@@ -3435,8 +3435,8 @@ object fACBrMDFe: TfACBrMDFe
         object trvwMDFe: TTreeView
           Left = 0
           Top = 0
-          Width = 620
-          Height = 337
+          Width = 628
+          Height = 378
           Align = alClient
           Indent = 19
           TabOrder = 0

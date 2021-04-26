@@ -508,6 +508,7 @@ type
     procedure ComboBox1Change(Sender: TObject);
     procedure rgIndPresClick(Sender: TObject);
     procedure chIntermediadorClick(Sender: TObject);
+    procedure cbCFOPClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     cod_natNotaf: Integer;
@@ -2520,6 +2521,8 @@ end;
 
 procedure TfNotaf.JvDBGrid1DblClick(Sender: TObject);
 begin
+  if (dmnf.cds_nf.State in [dsBrowse, dsInactive]) then
+    dmnf.cds_nf.Edit;
   fDetalheNF := TfDetalheNF.Create(Application);
   try
     //fDetalheNF.tipoFiscalNota := dmnf.cds_nf
@@ -3100,6 +3103,12 @@ begin
     edIntermediadorCnpj.Text := '';
     edIntermediadorPerfil.Text := '';
   end;
+end;
+
+procedure TfNotaf.cbCFOPClick(Sender: TObject);
+begin
+   if (dmnf.cds_nf.State in [dsBrowse, dsInactive]) then
+    dmnf.cds_nf.Edit;
 end;
 
 end.

@@ -147,6 +147,10 @@ begin
 
   dm.sqlsisAdimin.StartTransaction(TD);
   try
+    //if (tipo = '0') then
+    //  tipo := '9' + IntToStr(fNotaf.nfe_ccusto_empresa)
+    //else
+    //  tipo := '1' + IntToStr(fNotaf.nfe_ccusto_empresa)
     str_sql_user := 'UPDATE UCTABUSERSLOGGED SET ' +
       ' CODEMPRESA = ' + IntToStr(dblkp_empresa.KeyValue) +
       ' , NOMEEMPRESA = ' + QuotedStr(dblkp_empresa.Text) +
