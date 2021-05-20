@@ -9,7 +9,7 @@ uses
   ComCtrls,DBXpress, JvExExtCtrls, JvExtComponent, JvDBRadioPanel,
   JvExStdCtrls, JvCheckBox, JvExMask, JvToolEdit, JvBaseEdits,
   JvComponentBase, JvNavigationPane, ImgList, JvExControls, JvOutlookBar,
-  DBLocal, DBLocalS, JvRadioGroup;
+  DBLocal, DBLocalS, JvRadioGroup, IniFiles;
 
 type
   TfParametro = class(TfPai)
@@ -425,6 +425,9 @@ type
     Label90: TLabel;
     Label91: TLabel;
     Label92: TLabel;
+    GroupBox49: TGroupBox;
+    chkBackup: TCheckBox;
+    BitBtn54: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -534,6 +537,7 @@ type
     procedure Pc1Change(Sender: TObject);
     procedure BitBtn52Click(Sender: TObject);
     procedure BitBtn53Click(Sender: TObject);
+    procedure BitBtn54Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -6326,6 +6330,72 @@ begin
       end;
    end;
 
+end;
+
+procedure TfParametro.BitBtn54Click(Sender: TObject);
+var   ArqINI : String ;
+  INI : TIniFile;
+begin
+  inherited;
+  if (s_parametro.Active) then
+     s_parametro.Close;
+   s_parametro.Params[0].AsString := 'EMPRESA_BACKUP';
+   s_parametro.Open;
+   if (not s_parametro.Eof) then
+   begin
+     strSql := 'UPDATE PARAMETRO SET ';
+     if (chkBackup.Checked) then
+        strSql := strSql + ' CONFIGURADO = ' + QuotedStr('S')
+     else
+        strSql := strSql + ' CONFIGURADO = ' + QuotedStr('N');
+     strSql := strSql + ' where PARAMETRO = ' + QuotedStr('EMPRESA_BACKUP');
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.ExecuteDirect(strSql);
+     Try
+       dm.sqlsisAdimin.Commit(TD);
+     except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+            [mbOk], 0);
+     end;
+   end
+   else
+   begin
+     // GRAVAR INFORMACOES NECESSARIAS NO DADOS.DAT e no DBXCONNECTIONS.INI
+     ArqINI := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName))+ 'DADOS.DAT';
+     INI := TIniFile.Create(ArqINI);
+     try
+      {
+       INI.WriteInteger('SAT','Modelo',cbxModelo.ItemIndex);
+       INI.WriteString('SAT','ArqLog',edLog.Text);
+       INI.WriteString('SAT','NomeDLL',edNomeDLL.Text);
+       INI.WriteString('SAT','CodigoAtivacao',edtCodigoAtivacao.Text);
+       INI.WriteString('SAT','CodigoUF',edtCodUF.Text);
+       INI.WriteInteger('SAT','NumeroCaixa',seNumeroCaixa.Value);
+       }
+     finally
+       INI.Free ;
+     end;
+
+     strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS';
+     strSql := strSql + ') VALUES (';
+     strSql := strSql + QuotedStr('Pergunta se deseja fazer backup ao fechar o sistema') + ', ';
+     strSql := strSql + QuotedStr('EMPRESA_BACKUP') + ', ';
+     if (chkBackup.Checked) then
+        strSql := strSql + QuotedStr('S')
+     else
+        strSql := strSql + QuotedStr('N');
+      strSql := strSql + ', ' + QuotedStr('0') + ')';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+             [mbOk], 0);
+      end;
+   end;
 end;
 
 end.

@@ -250,8 +250,8 @@ type
     ArquivoRetornoItau1: TMenuItem;
     ImportarNFeXML1: TMenuItem;
     ImportaIBPT1: TMenuItem;
-    BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    dxButton12: TdxButton;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -410,6 +410,7 @@ type
     procedure ImportaIBPT1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure dxButton12Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -628,15 +629,48 @@ end;
 procedure TfAtsAdmin.FormClose(Sender: TObject; var Action: TCloseAction);
 var
 X : Byte;
+ano, mes, dia: Word;
+dia_ultimo_bkp : Integer;
+diretorio : String;
 begin
+  // aqui testar se ja fez o backup
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'EMPRESA_BACKUP';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    try
+      dia_ultimo_bkp := StrToInt(dm.cds_parametroDADOS.asString);
+    except
+      dia_ultimo_bkp := 0;
+    end;
+    DecodeDate(Today, ano, mes, dia);
+    if (dia_ultimo_bkp < dia) then
+    begin
+      if MessageDlg('Backup realizado há mais de 7 dias, deseja fazer um Backup agora ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
+      begin
+        // abro e executo o backup exe
+        diretorio := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName))+ 'BkpFirebird.exe';
+        WinExec(PAnsiChar(diretorio), SW_NORMAL);
+        // atualiza o parametro com + 7 dias
+        dm.cds_parametro.Edit;
+        dia_ultimo_bkp := dia + 7;
+        if (dia_ultimo_bkp > 28) then
+          dia_ultimo_bkp := 28;
+        dm.cds_parametroDADOS.AsString := IntToSTr(dia_ultimo_bkp);
+        dm.cds_parametro.ApplyUpdates(0);
+      end;
+    end;
+  end;
 
   if MDIChildCount > 0 then
     for X := 0 to Pred(MDIChildCount) do
        MDIChildren[X].Close;
-  if (dm.sistemaLiberado = 'S') then 
+  if (dm.sistemaLiberado = 'S') then
   if MessageDlg('Voce realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
   begin
-    
+
     Application.Terminate;
   end
   else
@@ -2307,7 +2341,7 @@ procedure TfAtsAdmin.dxButton11Click(Sender: TObject);
 begin
   // Chat
   //WinExec('Pandion\Application\pandion.exe', SW_NORMAL);
-  pnInfo.Visible := True;  
+  pnInfo.Visible := True;
 end;
 
 procedure TfAtsAdmin.Correio1Click(Sender: TObject);
@@ -2544,9 +2578,12 @@ begin
 end;
 
 procedure TfAtsAdmin.BitBtn2Click(Sender: TObject);
+var diretorio: string;
 begin
-  WinExec('atsSuporte.exe', SW_NORMAL);
+  //WinExec('atsSuporte.exe', SW_NORMAL);
   //Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+  diretorio := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName))+ 'atsSuporte.exe';
+  WinExec(PAnsiChar(diretorio), SW_NORMAL);
 end;
 
 procedure TfAtsAdmin.BitBtn3Click(Sender: TObject);
@@ -2556,6 +2593,17 @@ begin
   ShellExecute(Handle ,'open',PChar(url), '', Nil, 0);
   //WinExec('atsti.com.br/chat/index.php/por/chat/start/(department)/2', SW_SHOW);
   //Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+end;
+
+procedure TfAtsAdmin.dxButton12Click(Sender: TObject);
+var diretorio: string;
+begin
+  //diretorio := IncludeTrailingPathDelimiter(ExtractFileDir(Application.ExeName))+ 'atsSuporte.exe';
+  //WinExec(PAnsiChar(diretorio), SW_NORMAL);
+
+  WinExec('atsSuporte.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+
 end;
 
 end.

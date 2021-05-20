@@ -1122,20 +1122,25 @@ begin
     begin
       with rodo.veicReboque.Add do
       begin
-        cInt  := edRebocoCint.Text;
-        placa := edRebocoPlaca.Text;
-        tara  := StrToInt(edRebocoTara.Text);
-        capKG := StrToInt(edRebocoCapKg.Text);
-        capM3 := StrToInt(edRebocoCapM.Text);
-        RENAVAM := edRebocoIE.Text;
-        UF := edRebocoUFVeic.Text;
-        case edRebocoTipoCarroc.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
-           0: tpCar := tcNaoAplicavel;
-           1: tpCar := tcAberta;
-           2: tpCar := tcFechada;
-           3: tpCar := tcGraneleira;
-           4: tpCar := tcPortaContainer;
-           5: tpCar := tcSider;
+        try
+          cInt  := edRebocoCint.Text;
+          placa := edRebocoPlaca.Text;
+          tara  := StrToInt(edRebocoTara.Text);
+          capKG := StrToInt(edRebocoCapKg.Text);
+          capM3 := StrToInt(edRebocoCapM.Text);
+          RENAVAM := edRebocoIE.Text;
+          UF := edRebocoUFVeic.Text;
+          case edRebocoTipoCarroc.ItemIndex of // tcNaoAplicavel, tcAberta, tcFechada, tcGraneleira, tcPortaContainer, tcSider
+             0: tpCar := tcNaoAplicavel;
+             1: tpCar := tcAberta;
+             2: tpCar := tcFechada;
+             3: tpCar := tcGraneleira;
+             4: tpCar := tcPortaContainer;
+             5: tpCar := tcSider;
+          end;
+        except
+          ShowMessage('Na aba MDFe preencha os dados do REBOQUE');
+          cbTransporte.SetFocus;
         end;
         //RNTRC := edReboco ;
       end;
@@ -3270,6 +3275,12 @@ begin
   dm.sc.StartTransaction(TD);
   try
     dm.sc.ExecuteDirect('ALTER TABLE MDFE ADD TIPO_EMITENTE INTEGER');
+    dm.sc.Commit(TD); {on success, commit the changes};
+  except
+    dm.sc.Rollback(TD); {on failure, undo the changes};
+  end;
+  dm.sc.StartTransaction(TD);
+  try
     dm.sc.ExecuteDirect('ALTER TABLE MDFE_DOCS ADD TIPO_DOC Integer');
     dm.sc.Commit(TD); {on success, commit the changes};
   except

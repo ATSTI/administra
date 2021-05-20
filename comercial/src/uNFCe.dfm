@@ -447,7 +447,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -456,7 +456,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -466,7 +466,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 4
         end
         object seColunas: TSpinEdit
@@ -546,6 +546,14 @@ object fNFCe: TfNFCe
         Height = 21
         TabOrder = 8
         Text = 'SP'
+      end
+      object rbPorMes: TRadioButton
+        Left = 128
+        Top = 184
+        Width = 89
+        Height = 17
+        Caption = 'Separar M'#234's'
+        TabOrder = 9
       end
     end
     object TabSheet4: TTabSheet

@@ -406,6 +406,7 @@ type
     lblCancelamento2: TLabel;
     Memo1: TMemo;
     Memo2: TMemo;
+    rbPorMes: TRadioButton;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
@@ -517,6 +518,7 @@ begin
   ACBrNFe1.Configuracoes.Geral.ModeloDF := moNFCe;
   ACBrNFe1.Configuracoes.Geral.Salvar   := True;
   ACBrNFe1.Configuracoes.Arquivos.Salvar:= True;
+  ACBrNFe1.Configuracoes.Arquivos.SepararPorMes:= rbPorMes.Checked;
   ACBrNFe1.Configuracoes.Arquivos.SalvarEvento:= True;
   ACBrNFe1.Configuracoes.Geral.VersaoDF := ve400;
 
@@ -1385,6 +1387,7 @@ begin
     cbCortarPapel.Checked := INI.ReadBool('PosPrinter','CortarPapel', True);
     cbUsarFortes.Checked   := INI.ReadBool('Fortes','UsarFortes', True) ;
     cbUsarEscPos.Checked   := not cbUsarFortes.Checked;
+    rbPorMes.Checked := INI.ReadBool('SAT','SepararPorMES', False);
   finally
      INI.Free ;
   end ;

@@ -8,18 +8,18 @@ inherited fParametro: TfParametro
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 889
+    Width = 896
     Height = 9
     inherited Label1: TLabel
       Left = 214
       Top = 0
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
     inherited Label2: TLabel
       Left = 218
       Top = 1
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
   end
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = tsCupom
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -460,6 +460,31 @@ inherited fParametro: TfParametro
         Caption = 'Atualizar Base Dados'
         TabOrder = 7
         OnClick = BitBtn52Click
+      end
+      object GroupBox49: TGroupBox
+        Left = 2
+        Top = 438
+        Width = 581
+        Height = 44
+        Caption = 'Backup base de Dados'
+        TabOrder = 8
+        object chkBackup: TCheckBox
+          Left = 40
+          Top = 16
+          Width = 305
+          Height = 17
+          Caption = 'Perguntar se executa Backup ao fechar o sistema ?'
+          TabOrder = 0
+        end
+        object BitBtn54: TBitBtn
+          Left = 491
+          Top = 13
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn54Click
+        end
       end
     end
     object TabSheet3: TTabSheet
@@ -4460,8 +4485,8 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 521
-    Width = 889
+    Top = 530
+    Width = 896
     inherited btnGravar: TBitBtn
       Left = 288
     end

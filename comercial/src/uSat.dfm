@@ -22,9 +22,9 @@ object fSat: TfSat
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 985
+    Width = 993
     Height = 254
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alTop
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -1034,7 +1034,7 @@ object fSat: TfSat
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 977
+        Width = 985
         Height = 202
         Align = alTop
         TabOrder = 0
@@ -1108,7 +1108,7 @@ object fSat: TfSat
         object GroupBox1: TGroupBox
           Left = 170
           Top = 1
-          Width = 806
+          Width = 814
           Height = 200
           Align = alClient
           Caption = 'Configura'#231#227'o'
@@ -1116,15 +1116,15 @@ object fSat: TfSat
           object PageControl2: TPageControl
             Left = 2
             Top = 15
-            Width = 802
+            Width = 810
             Height = 183
-            ActivePage = Impressao
+            ActivePage = tsDadosSAT
             Align = alClient
             TabOrder = 0
             object tsDadosSAT: TTabSheet
               Caption = 'Dados do SAT CFe'
               DesignSize = (
-                794
+                802
                 155)
               object Label9: TLabel
                 Left = 21
@@ -1449,7 +1449,7 @@ object fSat: TfSat
                 Width = 130
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 4
               end
               object cbxIndRatISSQN: TComboBox
@@ -1458,7 +1458,7 @@ object fSat: TfSat
                 Width = 134
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 5
               end
               object cbxRegTributario: TComboBox
@@ -1467,14 +1467,14 @@ object fSat: TfSat
                 Width = 166
                 Height = 21
                 Style = csDropDownList
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 3
               end
             end
             object tsDadosSwHouse: TTabSheet
               Caption = 'Dados Sw.House'
               DesignSize = (
-                794
+                802
                 155)
               object Label2: TLabel
                 Left = 10
@@ -2168,8 +2168,8 @@ object fSat: TfSat
   object PageControl3: TPageControl
     Left = 0
     Top = 254
-    Width = 985
-    Height = 243
+    Width = 993
+    Height = 256
     ActivePage = tsLog
     Align = alClient
     TabOrder = 1
@@ -2178,8 +2178,8 @@ object fSat: TfSat
       object mLog: TMemo
         Left = 0
         Top = 0
-        Width = 977
-        Height = 215
+        Width = 985
+        Height = 228
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2279,8 +2279,8 @@ object fSat: TfSat
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 497
-    Width = 985
+    Top = 510
+    Width = 993
     Height = 23
     Panels = <
       item
