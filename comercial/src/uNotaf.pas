@@ -457,7 +457,6 @@ type
     edTipo: TEdit;
     TabSheet6: TTabSheet;
     Panel1: TPanel;
-    TabSheet7: TTabSheet;
     TabSheet8: TTabSheet;
     rgIndPres: TRadioGroup;
     Label6: TLabel;
@@ -635,6 +634,7 @@ begin
   combobox1.Text := '';
   statusNF := 'NOVO';
   e_multi := 'NAO';
+  chIntermediador.ItemIndex := 0;
   if (nfe_ccusto_empresa > 0) then
   begin
     if (dm.cdsBusca.Active) then
@@ -2803,30 +2803,53 @@ begin
   edIndIeDest.Text := dmnf.cds_nfIND_IEDEST.AsString;
   edDestinoOper.Text := dmnf.cds_nfNFE_DESTOPERACAO.AsString;
   edTipo.Text := dmnf.cds_nfNFE_TIPO.AsString;
-  chIntermediador.ItemIndex := 0;
+  
   if (dmnf.cds_nfINTERM_CNPJ.AsString <> '  .   .   /    -') then
   begin
-    chIntermediador.ItemIndex := 1;
+    if (dmnf.cds_nfINTERM_CNPJ.AsString <> '') then
+    if (chIntermediador.ItemIndex <> 1) then
+      chIntermediador.ItemIndex := 1;
   end;
 
   if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcNao') then
-    rgIndPres.ItemIndex := 0;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencial') then
-    rgIndPres.ItemIndex := 1;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcInternet') then
-    rgIndPres.ItemIndex := 2;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcTeleatendimento') then
-    rgIndPres.ItemIndex := 3;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcEntregaDomicilio') then
-    rgIndPres.ItemIndex := 4;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencialForaEst.') then
-    rgIndPres.ItemIndex := 5;
-  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcOutros') then
-    rgIndPres.ItemIndex := 6;
-  if (dmnf.cds_nfINTERM_CNPJ.AsString <> '  .   .   /    -') then
   begin
-    chIntermediador.ItemIndex := 1;
+    if (rgIndPres.ItemIndex <> 0) then
+      rgIndPres.ItemIndex := 0;
   end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencial') then
+  begin
+    if (rgIndPres.ItemIndex <> 1) then
+      rgIndPres.ItemIndex := 1;
+  end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcInternet') then
+  begin
+    if (rgIndPres.ItemIndex <> 2) then
+      rgIndPres.ItemIndex := 2;
+  end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcTeleatendimento') then
+  begin
+    if (rgIndPres.ItemIndex <> 3) then
+      rgIndPres.ItemIndex := 3;
+  end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcEntregaDomicilio') then
+  begin
+    if (rgIndPres.ItemIndex <> 4) then
+      rgIndPres.ItemIndex := 4;
+  end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcPresencialForaEst.') then
+  begin
+    if (rgIndPres.ItemIndex <> 5) then
+      rgIndPres.ItemIndex := 5;
+  end;
+  if (dmnf.cds_nfNFE_INDPRES.AsString = 'pcOutros') then
+  begin
+    if (rgIndPres.ItemIndex <> 6) then
+      rgIndPres.ItemIndex := 6;
+  end;
+  //if (dmnf.cds_nfINTERM_CNPJ.AsString <> '  .   .   /    -') then
+  //begin
+  //  chIntermediador.ItemIndex := 1;
+  //end;
 end;
 
 procedure TfNotaf.btnDuplicarClick(Sender: TObject);

@@ -3292,7 +3292,8 @@ begin
   end;
   decodedate(now, ano, mes, dia);
 
-  sistemaLiberado := 'N';
+  // mudei pra S abaixo nao entrada 24/09/21
+  sistemaLiberado := 'S';
 
   // Testo a chave gravada se esta CNPJ-00
   chave := MD5Print(MD5String(empresa + '-00'));
@@ -3386,14 +3387,28 @@ begin
   //if (i1 > 0) then
   if s <> 'N' then
   begin
-    //achei := Copy(s, i1, 17);
-    achei := dm.empresa + '-' + s;
-    valor := MD5Print(MD5String(achei));
-    dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
-      QuotedStr(valor) + ' WHERE CODIGO = 1');
-    dm.mensagemInicial := valor;
-  end
-  else begin
+    if s <> 'X' then
+    begin
+      //achei := Copy(s, i1, 17);
+      achei := dm.empresa + '-' + s;
+      valor := MD5Print(MD5String(achei));
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+        QuotedStr(valor) + ' WHERE CODIGO = 1');
+      dm.mensagemInicial := valor;
+    end;
+    if s = 'X' then
+    begin
+      valor := MD5Print(MD5String(dm.empresa + '-00'));
+      if (dm.mensagemInicial <> valor) then
+      begin
+        //dm.sqlsisAdimin.ExecuteDirect('UPDATE EMPRESA SET OUTRAS_INFO = ' +
+        //QuotedStr(valor) + ' WHERE CODIGO = 1');
+        dm.mensagemInicial := dm.mensagemInicial;
+      end;
+    end;
+  end;
+  if s = 'N' then  // 13/07/2021 era um ELSE aqui sem o begin abaixo tbem
+  begin
     valor := MD5Print(MD5String(dm.empresa + '-00'));
     if (dm.mensagemInicial <> valor) then
     begin
@@ -3402,7 +3417,6 @@ begin
       dm.mensagemInicial := valor;
     end;
   end;
-
 end;
 
 procedure TDM.conexaoXmlRpc;
@@ -3946,7 +3960,7 @@ begin
       Params.Free;
     end;
   except
-    memoLic := 'N';
+    memoLic := 'X';
   end;
 end;
 

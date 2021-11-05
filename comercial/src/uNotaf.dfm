@@ -1802,10 +1802,6 @@ object fNotaf: TfNotaf
                 end
               end
             end
-            object TabSheet7: TTabSheet
-              Caption = 'Intermediador'
-              ImageIndex = 3
-            end
           end
         end
         object TabSheet6: TTabSheet

@@ -287,6 +287,7 @@ type
     ComboBox1: TComboBox;
     Panel1: TPanel;
     ChkComp: TCheckBox;
+    rgIndPres: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -1746,7 +1747,7 @@ end;
 procedure TfNotaFc.calculaicms(Estado: String);
 var str_sql: string;
 begin
-  Try
+  //Try
     if (dmnf.sds_calculo.Active) then
       dmnf.sds_calculo.Close;
     str_sql := 'EXECUTE PROCEDURE CALCULA_ICMS(';
@@ -1781,10 +1782,10 @@ begin
     DecimalSeparator := ',';
     dmnf.sds_calculo.CommandText := str_sql;
     dmnf.sds_calculo.ExecSQL();
-  except
-    DecimalSeparator := ',';
-    MessageDlg('Erro no cálculo!', mtError, [mbOK], 0);
-  end;
+  //except
+  //  DecimalSeparator := ',';
+  //  MessageDlg('Erro no cálculo!', mtError, [mbOK], 0);
+  //end;
 
 end;
 
@@ -1814,7 +1815,15 @@ begin
                     + dmnf.cds_nf1VALOR_SEGURO.Value + dmnf.cds_nf1OUTRAS_DESP.Value
                     + dmnf.cds_nf1VALOR_IPI.Value - dmnf.cds_nf1VALOR_DESCONTO.Value;
      if (varTotalnota <> dmnf.cds_nf1VALOR_TOTAL_NOTA.value) then
-         dmnf.cds_nf1VALOR_TOTAL_NOTA.value := dmnf.cds_nf1VALOR_PRODUTO.value + varTotalnota;
+     begin
+       dmnf.cds_nf1VALOR_TOTAL_NOTA.value := dmnf.cds_nf1VALOR_PRODUTO.value + varTotalnota;
+       // pra acertar nota de importacao , mas nao preciso
+       {if (copy(dmnf.cds_nf1CFOP.AsString,0,1) = '3') then
+       begin
+         dmnf.cds_nf1VALOR_TOTAL_NOTA.value := dmnf.cds_nf1VALOR_TOTAL_NOTA.value +
+           dmnf.cds_nf1II.AsFloat + dmnf.cds_nf1VALOR_PIS.AsFloat + dmnf.cds_nf1VALOR_COFINS.AsFloat;
+       end}
+     end;
   end;         
 end;
 
@@ -2406,11 +2415,21 @@ begin
   dmnf.cds_nf1NFE_TIPOEMISSAO.AsString    := 'teNormal';
 
   //TpcnindIEDest = (inContribuinte, inIsento, inNaoContribuinte);
-  dmnf.cds_nf1NFE_INDPRES.AsString := 'inContribuinte';
+  // comentei e adicionei o case abaixo 04/10/2021 erro na vbs
+  {dmnf.cds_nf1NFE_INDPRES.AsString := 'inContribuinte';
   if (dmnf.cds_nf1INSCRICAOESTADUAL.AsString = 'ISENTO') then
     dmnf.cds_nf1NFE_INDPRES.AsString := 'inIsento';
   if (dmnf.cds_nf1INSCRICAOESTADUAL.AsString = '') then
-    dmnf.cds_nf1NFE_INDPRES.AsString := 'inNaoContribuinte';
+    dmnf.cds_nf1NFE_INDPRES.AsString := 'inNaoContribuinte';}
+  Case rgIndPres.ItemIndex of
+      0: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcNao';
+      1: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcPresencial';
+      2: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcInternet';
+      3: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcTeleatendimento';
+      4: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcEntregaDomicilio';
+      5: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcPresencialForaEst.';
+      6: dmnf.cds_nf1NFE_INDPRES.AsString := 'pcOutros';
+  end;
 
   //TpcnConsumidorFinal = (cfNao, cfConsumidorFinal);
   dmnf.cds_nf1NFE_INDFINAL.AsString := 'cfNao';

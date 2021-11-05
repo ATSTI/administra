@@ -2856,6 +2856,7 @@ var
   portaIMP : string;
   i: integer;
   arquivo: TStringList;
+  log_imp: String;
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
@@ -2891,11 +2892,13 @@ begin
   dm.cds_parametro.Params[0].AsString := 'IMPARQUIVO';
   dm.cds_parametro.Open;
   try
+  try
     if (not dm.cds_parametro.Eof) then
     begin
       if (dm.cds_parametroD3.AsString <> 'APLICATIVO') then
       begin
         texto3 := dm.cds_parametroDADOS.AsString;
+        log_imp := 'Imprime ' + dm.cds_parametroDADOS.AsString;
       end
       else begin
         texto3 := dm.cds_parametroDADOS.AsString + FormatDateTime('yymmddhhmm', NOW) +
@@ -2917,6 +2920,7 @@ begin
       if (dm.portaImpressora2 <> '') then
          portaIMP := dm.portaImpressora2;
       AssignFile(IMPRESSORA,portaIMP);
+      log_imp := 'Abriu impressora ';
     end;
     texto3 := '';
     Rewrite(IMPRESSORA);
@@ -3028,7 +3032,11 @@ begin
 
     if ((dm.recortacupom = 'S') or (dm.recortacupom = '')) then
       Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
+  except
+    ShowMessage(log_imp);
+  end;
   finally
+    ShowMessage(log_imp);
     CloseFile(IMPRESSORA);
   end;
 
@@ -3061,7 +3069,7 @@ begin
       //ACBrPosPrinter1.ColunasFonteNormal := dmpdv.imp_ColunaFonteNormal;
       ACBrPosPrinter1.Porta  := portaImp;
       ACBrPosPrinter1.CortaPapel := True;
-      if (dm.cds_parametroD1.AsString <> '') then
+      if (Trim(dm.cds_parametroD1.AsString) <> '') then
       begin
         try
           ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(

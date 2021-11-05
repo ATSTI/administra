@@ -9,22 +9,6 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label26: TLabel [0]
-    Left = 623
-    Top = 133
-    Width = 82
-    Height = 13
-    Caption = 'Red. Base Cofins'
-    FocusControl = DBEdit26
-  end
-  object Label28: TLabel [1]
-    Left = 694
-    Top = 135
-    Width = 66
-    Height = 13
-    Caption = 'Red. Base IPI'
-    FocusControl = DBEdit26
-  end
   inherited MMJPanel1: TMMJPanel
     Width = 874
     Font.Charset = ANSI_CHARSET
@@ -58,7 +42,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Visible = False
     end
   end
-  object DBGrid1: TDBGrid [4]
+  object DBGrid1: TDBGrid [2]
     Left = 0
     Top = 346
     Width = 874
@@ -179,7 +163,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         Visible = True
       end>
   end
-  object gbProduto: TGroupBox [5]
+  object gbProduto: TGroupBox [3]
     Left = 248
     Top = 146
     Width = 161
@@ -216,7 +200,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 0
     end
   end
-  object GroupBox1: TGroupBox [6]
+  object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 185
     Width = 874
@@ -372,7 +356,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
   end
-  object Panel1: TPanel [7]
+  object Panel1: TPanel [5]
     Left = 0
     Top = 51
     Width = 874
@@ -1290,7 +1274,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 29
     end
   end
-  object panelAjuda: TPanel [8]
+  object panelAjuda: TPanel [6]
     Left = 160
     Top = 200
     Width = 602
@@ -1935,8 +1919,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       '     AND UF = :UF'
       '     AND CFOP = :CFOP')
     SQLConnection = DM.sqlsisAdimin
-    Left = 736
-    Top = 120
+    Left = 752
+    Top = 96
     object sqlTestaSeExisteCOUNT: TIntegerField
       FieldName = 'COUNT'
       ReadOnly = True

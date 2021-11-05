@@ -1755,6 +1755,7 @@ begin
      fnf.btnProdutoProcura.Enabled := False;
  end;
 
+ { 23/06/21
  if (FormExiste(fNotaf) = True) then
  begin
     if DtSrc.State in [dsInsert, dsEdit] then
@@ -1783,7 +1784,7 @@ begin
       if (DtSrc_Nf.DataSet.State in [dsBrowse]) then
           DtSrc_Nf.DataSet.Edit;
     end;
- end;
+ end;      }
 
  if (FormExiste(fNFCompra) = True) then
  begin
@@ -2025,7 +2026,7 @@ begin
         fnf.btnCancelar.Visible := False;
       end;
     end;
-
+    { 23/06/2021
     if (FormExiste(fNotaf) = True) then
     begin
       fNotaf.btnIncluir.Enabled:=DtSrc.State in [dsBrowse,dsInactive];
@@ -2055,7 +2056,7 @@ begin
         fNotaf.btnCancelar.Visible := False;
       end;
     end;
-
+    }
   end;
 end;
 

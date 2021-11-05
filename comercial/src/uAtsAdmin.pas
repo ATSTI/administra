@@ -252,6 +252,8 @@ type
     ImportaIBPT1: TMenuItem;
     BitBtn3: TBitBtn;
     dxButton12: TdxButton;
+    Panel2: TPanel;
+    dxButton13: TdxButton;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -411,6 +413,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure dxButton12Click(Sender: TObject);
+    procedure dxButton13Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2602,8 +2605,14 @@ begin
   //WinExec(PAnsiChar(diretorio), SW_NORMAL);
 
   WinExec('atsSuporte.exe', SW_NORMAL);
-  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+  Windows.SetParent(FindWindow(nil,'NFe'),Panel2.handle);
 
+end;
+
+procedure TfAtsAdmin.dxButton13Click(Sender: TObject);
+begin
+  WinExec('atsChat.exe', SW_NORMAL);
+  Windows.SetParent(FindWindow(nil,'NFe'),Panel2.handle);
 end;
 
 end.

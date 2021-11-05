@@ -24,7 +24,7 @@ object fSat: TfSat
     Top = 0
     Width = 993
     Height = 254
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alTop
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -2098,7 +2098,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 2
                 end
                 object cbxPorta: TComboBox
@@ -2107,7 +2107,7 @@ object fSat: TfSat
                   Width = 138
                   Height = 21
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 3
                 end
                 object cbxPagCodigo: TComboBox
@@ -2117,7 +2117,7 @@ object fSat: TfSat
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
-                  ItemHeight = 13
+                  ItemHeight = 0
                   TabOrder = 4
                 end
                 object seColunas: TSpinEdit

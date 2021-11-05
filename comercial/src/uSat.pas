@@ -662,8 +662,8 @@ end;
 
 procedure TfSat.bInicializarClick(Sender: TObject);
 begin
-  ACBrSAT1 := TACBrSAT.Create(Nil);
-  ACBrSATExtratoESCPOS1 := TACBrSATExtratoESCPOS.Create(Nil);
+  //ACBrSAT1 := TACBrSAT.Create(Nil);
+  //ACBrSATExtratoESCPOS1 := TACBrSATExtratoESCPOS.Create(Nil);
 
   AjustaACBrSAT;
 
@@ -1559,6 +1559,8 @@ begin
     MessageDlg(result_cVenda, mtWarning, [mbOK], 0);
     exit;
   end;
+  // 08/06/2021 nao tinha este click abaixo
+  bInicializar.Click;
   ACBrSAT1.Inicializado := True;
   bInicializar.Caption := 'DesInicializar';
   enviarSAT;

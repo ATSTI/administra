@@ -447,7 +447,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -456,7 +456,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -466,7 +466,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 4
         end
         object seColunas: TSpinEdit

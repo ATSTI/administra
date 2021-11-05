@@ -2769,6 +2769,14 @@ begin
       EXECUTADDL('NOTAFISCAL', 'INTERM_PERFIL', 'VARCHAR(40)');
     end;
     mudaVersao('4.6.0.48');
+    if (versaoSistema = '4.6.0.48') then
+    begin
+      AtualizandoScript('4.6.0.48');
+      EXECUTADDL('UCTABUSERSLOGGED ', 'CODEMPRESA', 'INTEGER');
+      EXECUTADDL('UCTABUSERSLOGGED ', 'TIPONOTA', 'INTEGER');
+      EXECUTADDL('UCTABUSERSLOGGED ', 'NOMEEMPRESA', 'VARCHAR(80)');
+    end;
+    mudaVersao('4.6.0.49');
 
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

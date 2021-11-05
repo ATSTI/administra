@@ -215,7 +215,6 @@ type
     Label24: TLabel;
     Label25: TLabel;
     DBEdit27: TDBEdit;
-    Label26: TLabel;
     sdsClassFiscREDBASEIPI: TFloatField;
     sdsClassFiscREDBASEPIS: TFloatField;
     sdsClassFiscREDBASECOFINS: TFloatField;
@@ -224,7 +223,6 @@ type
     cdsClassFiscREDBASECOFINS: TFloatField;
     Label27: TLabel;
     DBEdit28: TDBEdit;
-    Label28: TLabel;
     DBEdit29: TDBEdit;
     Label29: TLabel;
     sdsClassFiscII_PERCENTUAL: TFloatField;

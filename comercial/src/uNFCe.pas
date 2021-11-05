@@ -511,7 +511,8 @@ begin
   //if (Trim(vSincrono) = '1') then
   //  Sincrono := True
   //else
-  Sincrono := False;
+  // 05/10/21  comentei aqui pra ficar sincrono := True;
+  //Sincrono := False;
 
   // carlos 23/12/14
   ACBrNFe1.Configuracoes.Geral.VersaoQRCode := veqr200;
@@ -556,14 +557,8 @@ begin
   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
   edtCaminho.Text := ACBrNFe1.SSL.CertCNPJ;
   ACBrNFe1.NotasFiscais.GravarXML();
-  //ACBrNFe1.NotasFiscais.Items[0].GravarXML;
-  //ACBrNFe1.NotasFiscais.GerarNFe;
-  //ACBrNFe1.NotasFiscais.GravarXML(sempresaDIVERSOS1.AsString + 'nfce_a.' + vAux + '.xml');
   ACBrNFe1.NotasFiscais.Assinar;
   ACBrNFe1.NotasFiscais.Validar;
-  //nome_xml := copy(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID,
-  //   (length(ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID)-44)+1, 44)+'-NFe.xml';
-  //ACBrNFe1.NotasFiscais.GravarXML(edit1.Text + nome_xml);
   LoadXML(ACBrNFe1.NotasFiscais.Items[0].XML,  mRecebido);
   // carlos 06/01/2015
 
@@ -587,13 +582,13 @@ begin
   MemoDados.Lines.Add('Envio NFe');
   MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrNFe1.WebServices.Retorno.TpAmb));
   MemoDados.Lines.Add('verAplic: '+ ACBrNFe1.WebServices.Retorno.verAplic);
-  MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrNFe1.WebServices.Retorno.cStat));
+  MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.cStat));
   MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrNFe1.WebServices.Retorno.cUF));
   MemoDados.Lines.Add('xMotivo: '+ ACBrNFe1.WebServices.Retorno.xMotivo);
   MemoDados.Lines.Add('cMsg: '+ IntToStr(ACBrNFe1.WebServices.Retorno.cMsg));
   MemoDados.Lines.Add('xMsg: '+ ACBrNFe1.WebServices.Retorno.xMsg);
-  MemoDados.Lines.Add('Recibo: '+ ACBrNFe1.WebServices.Retorno.Recibo);
-  MemoDados.Lines.Add('Protocolo: '+ ACBrNFe1.WebServices.Retorno.Protocolo);
+  MemoDados.Lines.Add('Recibo: '+ ACBrNFe1.WebServices.Enviar.Recibo);
+  MemoDados.Lines.Add('Protocolo: '+ ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.nProt);
 
   { ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].tpAmb
   ACBrNFe1.WebServices.Retorno.NFeRetorno.ProtNFe.Items[0].verAplic
@@ -607,8 +602,14 @@ begin
   ShowMessage('Nº do Protocolo de envio ' + ACBrNFe1.WebServices.Retorno.Protocolo);
   ShowMessage('Nº do Recibo de envio ' + ACBrNFe1.WebServices.Retorno.Recibo);
 
-  Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
-  Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
+  if (ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.cStat = 100) then
+  begin
+    Protocolo := ACBrNFe1.NotasFiscais.Items[0].NFe.procNFe.nProt;
+    Recibo := ACBrNFe1.WebServices.Enviar.Recibo;
+  end;
+  // comentei as duas abaixo e adicionei o if acima
+  //Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+  //Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
   LoadXML(ACBrNFe1.NotasFiscais.Items[0].XML,  mRecebido);
   //ACBrNFe1.NotasFiscais.Imprimir;
 

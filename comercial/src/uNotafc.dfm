@@ -669,13 +669,31 @@ object fNotafc: TfNotafc
             Caption = 'Forma Pagamento:'
           end
           object ComboBox1: TComboBox
-            Left = 13
-            Top = 31
+            Left = 109
+            Top = 15
             Width = 180
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnKeyPress = FormKeyPress
+          end
+          object rgIndPres: TRadioGroup
+            Left = 10
+            Top = 41
+            Width = 705
+            Height = 57
+            Caption = 'Indicativo Presen'#231'a'
+            Columns = 4
+            ItemIndex = 0
+            Items.Strings = (
+              'N'#227'o se aplica'
+              'Opera'#231#227'o Presencial'
+              'Pela Internet'
+              'Por Telefone'
+              'NFCe Domicilio'
+              'Presencial Fora Estab.'
+              'Outros')
+            TabOrder = 1
           end
         end
       end
