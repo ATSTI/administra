@@ -141,6 +141,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Label11Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -424,6 +425,19 @@ var tipoCalculo: String;
 begin
   // abre o cfop
   //tipoCalculo := dm.cfopCalculoFiscal(dmnf.cds_Mov_detCFOP.AsString, dmnf.cds_movimentotipofiscal, uf, origem, codproduto, ncm);
+end;
+
+procedure TfDetalheNF.FormShow(Sender: TObject);
+begin
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    DBEdit2.ReadOnly := True;
+    DBEdit8.ReadOnly := True;    
+  end;
 end;
 
 end.

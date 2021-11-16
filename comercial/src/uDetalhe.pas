@@ -149,6 +149,17 @@ begin
 {  dmnf.cds_Mov_det.Close;
   dmnf.cds_Mov_det.Params[0].AsInteger := detcodMovimento;
   dmnf.cds_Mov_det.Open;}
+
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    DBEdit2.ReadOnly := True;
+    DBEdit8.ReadOnly := True;
+  end;         
+
   if (fCompra.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
     ds1.DataSet := fCompra.DtSrc1.DataSet;
   if (fVendas.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
