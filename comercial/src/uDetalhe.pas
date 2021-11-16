@@ -154,11 +154,14 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'ALTDESCPRECO';
   dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+
+  if ((dm.cds_parametroCONFIGURADO.AsString = 'S')and (dm.usu_tipovendedor = 0)) then
   begin
     DBEdit2.ReadOnly := True;
     DBEdit8.ReadOnly := True;
-  end;         
+    DBEdit6.ReadOnly := True;
+    DBEdit3.ReadOnly := True;
+  end;
 
   if (fCompra.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
     ds1.DataSet := fCompra.DtSrc1.DataSet;
