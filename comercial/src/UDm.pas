@@ -3281,8 +3281,6 @@ procedure TDM.verificaMensagemInicial;
 var chave, chaveBd: String;
     dia, mes, ano: word;
 begin
-  //sistemaLiberado := 'S';
-  //exit;
   chaveBd := mensagemInicial;
   mensagemInicial := '';
   if (now < dm.dataComputador) then
