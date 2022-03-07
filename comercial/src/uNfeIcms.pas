@@ -1280,7 +1280,11 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao114;
+      COD_VER          := vlVersao115;
+      if (data_ini.Date < StrToDate('01/01/2022')) then
+      begin
+        COD_VER          := vlVersao114;
+      end;
       if (data_ini.Date < StrToDate('01/01/2021')) then
       begin
         COD_VER          := vlVersao113;
@@ -2593,6 +2597,14 @@ begin
         COD_MUN_DEST := validaCodMunicipio(dm.cds_EmpresaCD_IBGE.AsString,
                             dm.cds_EmpresaRAZAO.AsString);
         COD_CTA := '';
+
+        COD_MOD_DOC_REF :=  '';            /// Código do modelo do documento fiscal referenciado, conforme a Tabela 4.1.1
+        HASH_DOC_REF    := '';             /// Código de autenticação digital do registro (Convênio 115/2003).
+        SER_DOC_REF     := '';             /// Série do documento fiscal referenciado.
+        NUM_DOC_REF     := '';             /// Número do documento fiscal referenciado.
+        MES_DOC_REF     := '';             /// Mês e ano da emissão do documento fiscal referenciado.
+        OUTRAS_DED      := 0;              /// Energia injetada
+        ENER_INJET      := 0;
       end;
       sqlEnergia.Next;
     end;

@@ -332,7 +332,7 @@ BEGIN
             new.VLRBC_PIS = ROUND((TOTALITENS * redBasePis) - new.VALOR_ICMS, :arredondar);
           end
           new.PPIS = :PIS;
-          new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
+          new.VALOR_PIS = ROUND((new.VLRBC_PIS * new.PPIS)/100, 2);
         end
         else begin
           new.VLRBC_PIS = 0;
@@ -351,7 +351,7 @@ BEGIN
             new.VLRBC_COFINS = ROUND((TOTALITENS * redBaseCofins) - new.VALOR_ICMS, :arredondar);
           end
           new.PCOFINS = :cofins;	
-          new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
+          new.VALOR_COFINS = ROUND((new.VLRBC_COFINS * new.PCOFINS)/100, 2);
         end
         else begin
           new.VLRBC_COFINS = 0;
