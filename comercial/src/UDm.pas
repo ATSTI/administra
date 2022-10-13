@@ -7,7 +7,8 @@ uses
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
   Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
   XmlRpcClient, XmlRpcTypes, IniFiles, xmldom, XMLIntf, msxmldom, XMLDoc,
-  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP;
+  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,
+  IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL, httpsend,synacode;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -2078,6 +2079,7 @@ type
     procedure LicencaUso;
     procedure conexaoXmlRpc;
     procedure conexaoOdoo;
+    procedure conexaoOdoo2;
   public
     { Public declarations }
     usu_tipovendedor : Integer;
@@ -2156,7 +2158,7 @@ type
 var
   DM: TDM;
   dbxconec: TStringList;
-  usuario, varform, nome_user, senha_user, str_relatorio, relPersonalizado, perfil, varusuario : String;
+  usuario, varform, nome_user, senha_user, str_relatorio, relPersonalizado, perfil, varusuario , dbx_odoo: String;
   str_valor, conta_pl, tipo_empresa, RA : String;
   codprod, MICRO, procprod : string;
   statusdavenda : string; // USADO NO NOVO TERMINAL (SANTOS)
@@ -2262,6 +2264,8 @@ begin
     cupom_msg4 := ImpressoraDet.ReadString('IMPRESSORA', 'msg4', '');
     cupom_msg5 := ImpressoraDet.ReadString('IMPRESSORA', 'msg5', '');
     cupom_msg6 := ImpressoraDet.ReadString('IMPRESSORA', 'msg6', '');
+    ///dbx_odoo:= dbxconec[8];
+    dbx_odoo := ImpressoraDet.ReadString('sisAdmin', 'dbx_odoo', 'https://admin.atsti.com.br/cliente_cnpj');
     if (linhaTamanho = '') then
       linhaTamanho    := '38';
   finally
@@ -3382,7 +3386,8 @@ begin
   achei := '0';
   s:= '';
   i2 := -1;
-  conexaoOdoo;
+ // conexaoOdoo;
+  conexaoOdoo2;
   //conexaoXmlRpc;
   s := memoLic;
   //i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
@@ -3955,15 +3960,62 @@ begin
     try
       IdHTTP1.Request.Accept := 'application/json';
       IdHTTP1.Request.ContentType := 'application/json';
-      Params.Text := '{"cnpj":"' + empresa + '"}';
+     //// Params.Text := '{"params": {"cnpj":"' + empresa + '"}}';
+
       //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
-      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:8905', Params);
+     // memoLic := IdHTTP1.Post('http://atsti.no-ip.biz:8069/cliente_cnpj', Params);
+      memoLic := IdHTTP1.Post(dbx_odoo, Params);
+      memoLic := copy(memoLic,43,2);
     finally
       Params.Free;
     end;
   except
     memoLic := 'X';
   end;
+
+end;
+
+function MemoryStreamToString(M: TMemoryStream): string;
+begin
+  SetString(Result, PChar(M.Memory), M.Size div SizeOf(Char));
+end;
+
+procedure TDM.conexaoOdoo2;
+var
+  //sl : TStringList;
+  data, url : String;
+  HTTP: THTTPSend;
+  sucesso: boolean;
+  resposta: TMemoryStream;
+  U:UTF8String;
+  Data_json    : TStringStream;
+  Params : TStringList;
+begin
+  Params := TStringList.Create;
+  Params.Add('cnpj:' + empresa);
+  sucesso := false;
+  HTTP := THTTPSend.Create;
+  resposta := TMemoryStream.Create;
+  HTTP.Clear;
+  HTTP.Protocol:='1.1';
+  HTTP.MimeType:='Content-Type: application/json';
+  try
+    data:= '[{"cnpj":"' + empresa + '"}]';
+    U := data;
+    url:= 'http://server.atsti.com.br:48069/clientecnpj'; // /?cnpj=' + empresa;
+    http.Document.WriteBuffer(Pointer(U)^,Length(U));
+    http.Headers.Add(Format('Content-Length: %d',[http.Document.Size]));
+    http.Document.Position:=0;
+
+    if (HttpPostURL(url,data,resposta))  then
+    // Abaixo antes para ver o resultado  //
+    // resposta.SaveToFile('c:\home\resp.txt');
+    memoLic :=  MemoryStreamToString(resposta);
+
+  finally
+    HTTP.Free;
+  end;
+
 end;
 
 end.
