@@ -7,7 +7,7 @@ uses
   EOneInst, UCDataConnector, UCDBXConn, DBLocal, DBLocalS, StrUtils, Dialogs,
   Variants, DBClient, EAppProt, UCBase, StdActns, ActnList, Graphics,
   XmlRpcClient, XmlRpcTypes, IniFiles, xmldom, XMLIntf, msxmldom, XMLDoc,
-  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP;
+  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,httpsend;
 type
   TDM = class(TDataModule)
     sqlsisAdimin: TSQLConnection;
@@ -2078,6 +2078,7 @@ type
     procedure LicencaUso;
     procedure conexaoXmlRpc;
     procedure conexaoOdoo;
+    procedure conexaoOdoo2;
   public
     { Public declarations }
     usu_tipovendedor : Integer;
@@ -3382,7 +3383,8 @@ begin
   achei := '0';
   s:= '';
   i2 := -1;
-  conexaoOdoo;
+  //conexaoOdoo;
+  conexaoOdoo2;
   //conexaoXmlRpc;
   s := memoLic;
   //i1 := Pos(LowerCase(dm.empresa), LowerCase(s));
@@ -3945,25 +3947,67 @@ end;
 
 procedure TDM.conexaoOdoo;
 var
-  LHTTP: TIdHTTP;
+  //LHTTP: TIdHTTP;
   Params: TStringList;
   verRetorno : String;
 begin
   //LHTTP := TIdHTTP.Create;
-  try
+  {try
     Params := TStringList.Create;
     try
       IdHTTP1.Request.Accept := 'application/json';
       IdHTTP1.Request.ContentType := 'application/json';
-      Params.Text := '{"cnpj":"' + empresa + '"}';
-      //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
-      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:8905', Params);
+      }
+   //   Params.Text := '{"cnpj":"' + empresa + '"}';
+   {   //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
+      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:49069/clientecnpj', Params);
+      verRetorno := memoLic;
     finally
       Params.Free;
     end;
   except
     memoLic := 'X';
-  end;
+  end;}
+
 end;
 
+procedure TDM.conexaoOdoo2;
+var
+  data, url : String;
+  HTTP: THTTPSend;
+  sucesso: boolean;
+  resposta: TMemoryStream;
+  U:UTF8String;
+  Params : TStringList;
+begin
+  Params := TStringList.Create;
+  Params.Add('cnpj:' + empresa);
+  sucesso := false;
+  HTTP := THTTPSend.Create;
+  resposta := TMemoryStream.Create;
+  memoLic := 'N';
+  try
+    HTTP.Clear;
+    HTTP.Protocol:='1.1';
+    HTTP.MimeType:='Content-Type: application/json';
+    //empresa := '08.382.545/0001-11';
+    data:='[{"cnpj":"' + empresa + '"}]';
+    U := data;
+    url:= 'http://server.atsti.com.br:48069/clientecnpj';
+    HTTP.MimeType := 'application/x-www-form-urlencoded';
+    HTTP.Document.Write(Pointer(U)^, Length(U));
+    sucesso := HTTP.HTTPMethod('POST', Url);
+    resposta := http.Document;
+    resposta.SaveToFile('c:\home\resp.txt');
+    Params.LoadFromFile('c:\home\resp.txt');
+    data := params.Text;
+    if (Length(data) > 2) then
+      data := copy(data, 0, 2)
+    else
+      data := copy(data, 0, 1);
+    memoLic := data;
+  finally
+    HTTP.Free;
+  end;
+end;
 end.
