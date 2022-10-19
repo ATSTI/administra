@@ -2157,7 +2157,7 @@ type
 var
   DM: TDM;
   dbxconec: TStringList;
-  usuario, varform, nome_user, senha_user, str_relatorio, relPersonalizado, perfil, varusuario : String;
+  usuario, varform, nome_user, senha_user, str_relatorio, relPersonalizado, perfil, varusuario , dbx_odoo: String;
   str_valor, conta_pl, tipo_empresa, RA : String;
   codprod, MICRO, procprod : string;
   statusdavenda : string; // USADO NO NOVO TERMINAL (SANTOS)
@@ -2263,6 +2263,8 @@ begin
     cupom_msg4 := ImpressoraDet.ReadString('IMPRESSORA', 'msg4', '');
     cupom_msg5 := ImpressoraDet.ReadString('IMPRESSORA', 'msg5', '');
     cupom_msg6 := ImpressoraDet.ReadString('IMPRESSORA', 'msg6', '');
+    ///dbx_odoo:= dbxconec[8];
+    dbx_odoo := ImpressoraDet.ReadString('sisAdmin', 'dbx_odoo', 'https://admin.atsti.com.br/cliente_cnpj');
     if (linhaTamanho = '') then
       linhaTamanho    := '38';
   finally
@@ -2270,7 +2272,7 @@ begin
   end;
   nao_testa_data := '';
   nfe_serie_receita := 1;
-  // SAT - Número de Série do equipamento SAT
+  // SAT - Nï¿½mero de Sï¿½rie do equipamento SAT
   ImpressoraDet := TIniFile.Create( path_executavel + 'prjAtsAdmin.ini' );
   try
     SatNumSerie   := ImpressoraDet.ReadString('SAT','NumSerie','0');
@@ -3335,18 +3337,18 @@ begin
   if (tipo = 10) then
   begin
     Case dia of
-      1 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
-      2 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
-      3 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
-      4 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
-      5 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
-      6 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
-      7 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
-      8 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
-      9 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
-      10 : mensagemInicial := 'A Licença de uso expirará hoje.';
+      1 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 9 dias.';
+      2 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 8 dias.';
+      3 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 7 dias.';
+      4 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 6 dias.';
+      5 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 5 dias.';
+      6 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 4 dias.';
+      7 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 3 dias.';
+      8 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 2 dias.';
+      9 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 1 dia.';
+      10 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ hoje.';
       11 : begin
-             mensagemInicial := 'A Licença de uso expirada.';
+             mensagemInicial := 'A Licenï¿½a de uso expirada.';
              sistemaLiberado := 'N';
            end;
       else mensagemInicial := 'N';
@@ -3355,18 +3357,18 @@ begin
   if (tipo = 20) then
   begin
     Case dia of
-      11 : mensagemInicial := 'A Licença de uso expirará em 9 dias.';
-      12 : mensagemInicial := 'A Licença de uso expirará em 8 dias.';
-      13 : mensagemInicial := 'A Licença de uso expirará em 7 dias.';
-      14 : mensagemInicial := 'A Licença de uso expirará em 6 dias.';
-      15 : mensagemInicial := 'A Licença de uso expirará em 5 dias.';
-      16 : mensagemInicial := 'A Licença de uso expirará em 4 dias.';
-      17 : mensagemInicial := 'A Licença de uso expirará em 3 dias.';
-      18 : mensagemInicial := 'A Licença de uso expirará em 2 dias.';
-      19 : mensagemInicial := 'A Licença de uso expirará em 1 dia.';
-      20 : mensagemInicial := 'A Licença de uso expira hoje.';
+      11 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 9 dias.';
+      12 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 8 dias.';
+      13 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 7 dias.';
+      14 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 6 dias.';
+      15 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 5 dias.';
+      16 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 4 dias.';
+      17 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 3 dias.';
+      18 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 2 dias.';
+      19 : mensagemInicial := 'A Licenï¿½a de uso expirarï¿½ em 1 dia.';
+      20 : mensagemInicial := 'A Licenï¿½a de uso expira hoje.';
       21 : begin
-             mensagemInicial := 'A Licença de uso expirada.';
+             mensagemInicial := 'A Licenï¿½a de uso expirada.';
              sistemaLiberado := 'N';
            end;
       else mensagemInicial := 'N';
@@ -3604,7 +3606,7 @@ begin
 
   if (DataMovto <= dataFec) then
   begin
-    MessageDlg('Este centro de Resultado está fechado para movimentação nesta data.', mtWarning, [mbOK], 0);
+    MessageDlg('Este centro de Resultado estï¿½ fechado para movimentaï¿½ï¿½o nesta data.', mtWarning, [mbOK], 0);
     Result := True;
   end;
 end;
@@ -3660,7 +3662,7 @@ begin
     sqlBusca.Open;
     if (not sqlBusca.IsEmpty) then
       MessageDlg('Tamanho dos campos DADOS ADICIONAIS NA NOTA FISCAL ' + #13#10 +
-      ' não está correto, contacte a ATS.', mtError, [mbOK], 0);
+      ' nï¿½o estï¿½ correto, contacte a ATS.', mtError, [mbOK], 0);
 
 
     sqlC := 'select f.rdb$field_length ' +
@@ -3679,8 +3681,8 @@ begin
     sqlBusca.SQL.Add(sqlC);
     sqlBusca.Open;
     if (not sqlBusca.IsEmpty) then
-      MessageDlg('Tamanho do campo OBSERVAÇÃO NA VENDA ' + #13#10 +
-      ' não está correto, contacte a ATS.', mtError, [mbOK], 0);
+      MessageDlg('Tamanho do campo OBSERVAï¿½ï¿½O NA VENDA ' + #13#10 +
+      ' nï¿½o estï¿½ correto, contacte a ATS.', mtError, [mbOK], 0);
   end;
 end;
 
@@ -3784,55 +3786,55 @@ begin
   begin
     if (sqlBusca.fieldByName('UF').AsString = '') then
     begin
-      dadosClienteFaltando := 'UF não informado;'+#13#10;
+      dadosClienteFaltando := 'UF nï¿½o informado;'+#13#10;
     end;
     if (sqlBusca.fieldByName('RAZAOSOCIAL').AsString = '') then
     begin
-      dadosClienteFaltando := dadosClienteFaltando + 'RAZAO SOCIAL não informada;'+#13#10 ;
+      dadosClienteFaltando := dadosClienteFaltando + 'RAZAO SOCIAL nï¿½o informada;'+#13#10 ;
     end;
     if (sqlBusca.fieldByName('PAIS').AsString = '') then
     begin
-      dadosClienteFaltando := dadosClienteFaltando + 'PAÍS não informado;'+#13#10;
+      dadosClienteFaltando := dadosClienteFaltando + 'PAï¿½S nï¿½o informado;'+#13#10;
     end;
     if (sqlBusca.fieldByName('CNPJ').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'CNPJ/CPF não informado;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'CNPJ/CPF nï¿½o informado;'+#13#10;
     end;
     {if (scds_cliente_procINSCESTADUAL.AsString = '') then
     begin
       if (scds_cliente_procUF.AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'INSC. ESTADUAL/RG não informada;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'INSC. ESTADUAL/RG nï¿½o informada;'+#13#10;
     end;}
     if (sqlBusca.fieldByName('LOGRADOURO').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'ENDEREÇO não informado;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'ENDEREï¿½O nï¿½o informado;'+#13#10;
     end;
     if (sqlBusca.fieldByName('BAIRRO').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'BAIRRO não informado;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'BAIRRO nï¿½o informado;'+#13#10;
     end;
     if (sqlBusca.fieldByName('CIDADE').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'CIDADE não informada;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'CIDADE nï¿½o informada;'+#13#10;
     end;
     if (sqlBusca.fieldByName('CEP').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'CEP não informado;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'CEP nï¿½o informado;'+#13#10;
     end;
     if (sqlBusca.fieldByName('CD_IBGE').AsString = '') then
     begin
       if (sqlBusca.fieldByName('UF').AsString <> 'EX') then
-        dadosClienteFaltando := dadosClienteFaltando + 'CÓD. IBGE não informado;'+#13#10;
+        dadosClienteFaltando := dadosClienteFaltando + 'Cï¿½D. IBGE nï¿½o informado;'+#13#10;
     end;
   end;
   if (dadosClienteFaltando <> '') then
   begin
-    MessageDlg('Falta informação no cadastro do cliente, para criar uma nota fiscal :' + #13#10 +
+    MessageDlg('Falta informaï¿½ï¿½o no cadastro do cliente, para criar uma nota fiscal :' + #13#10 +
     dadosClienteFaltando, mtWarning, [mbOK], 0);
   end
   else begin
@@ -3843,7 +3845,7 @@ end;
 function TDM.cfopCalculoFiscal(cfop, tipoFiscal, UF: String;
   origemProduto, codProduto: Integer; ncm: String): String;
 begin
-  result := 'Sem Configuração Fiscal';
+  result := 'Sem Configuraï¿½ï¿½o Fiscal';
   // e por produto
   if (sqlBusca.Active) then
     sqlBusca.Close;
@@ -3899,7 +3901,7 @@ begin
 
   if (sqlBusca.fieldByName('BLOQUEIO').AsString = 'S') then
   begin
-    result := 'Cliente com cadastro "BLOQUEADO",  venda não permitida.';
+    result := 'Cliente com cadastro "BLOQUEADO",  venda nï¿½o permitida.';
     exit
   end;}
 
@@ -3957,7 +3959,7 @@ begin
     try
       IdHTTP1.Request.Accept := 'application/json';
       IdHTTP1.Request.ContentType := 'application/json';
-      }
+    }
    //   Params.Text := '{"cnpj":"' + empresa + '"}';
    {   //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
       memoLic := IdHTTP1.Post('http://admin.atsti.com.br:49069/clientecnpj', Params);
@@ -3968,7 +3970,6 @@ begin
   except
     memoLic := 'X';
   end;}
-
 end;
 
 procedure TDM.conexaoOdoo2;
