@@ -35,6 +35,7 @@ declare variable codRec integer;
   declare variable vIpiT DOUBLE PRECISION;
   declare variable volume DOUBLE PRECISION;
   declare variable un char(2);
+  declare variable un_p char(2);  
   declare variable uf char(2);
   declare variable cst char(5);
   declare variable embalagem varchar(30);
@@ -116,11 +117,11 @@ begin
     -- localiza o mov. detalhe
     for select md.CODPRODUTO, md.QUANTIDADE, md.UN, md.PRECO, md.DESCPRODUTO
       , prod.ICMS, prod.BASE_ICMS, md.ICMS , COALESCE(prod.QTDE_PCT,1) as VOLUME 
-      , prod.EMBALAGEM    
+      , prod.EMBALAGEM, prod.UNIDADEMEDIDA    
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
-    into :codProduto, :qtde, :un, :preco, :descP, :icmsProd, :baseIcms, :icms, :volume, :embalagem
+    into :codProduto, :qtde, :un, :preco, :descP, :icmsProd, :baseIcms, :icms, :volume, :embalagem, :un_p
     do begin 
 	  if (volume > 0) then
 	    volume = qtde / volume;
@@ -178,7 +179,8 @@ begin
         valoricms = (preco * qtde) * (baseIcms / 100) * (icms / 100); 
         --tBaseIcms = tBaseIcms + (icms/100);
       end  
-          
+      if (un is null) then
+         un = un_p;
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde

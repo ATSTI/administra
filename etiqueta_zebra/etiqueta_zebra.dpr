@@ -2,8 +2,7 @@ program etiqueta_zebra;
 
 uses
   Forms,
-  uprincipal in 'uprincipal.pas' {fPrincipal},
-  uThread in 'uThread.pas';
+  uprincipal in 'uprincipal.pas' {fPrincipal};
 
 {$R *.res}
 

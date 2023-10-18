@@ -11,7 +11,7 @@ uses
   ACBrPosPrinter, Spin, IniFiles,TypInfo, OleCtrls, SHDocVw,
   ACBrDANFCeFortesFr, Mask, JvExMask, JvToolEdit,
   JvBaseEdits, ACBrDANFCeFortesFrA4, ACBrDFeReport, ACBrDFeDANFeReport,
-  ACBrDFeUTil;
+  ACBrDFeUTil, math;
 
 type
   TfNFCe = class(TForm)
@@ -407,6 +407,16 @@ type
     Memo1: TMemo;
     Memo2: TMemo;
     rbPorMes: TRadioButton;
+    lSSLLib: TLabel;
+    lCryptLib: TLabel;
+    lHttpLib: TLabel;
+    lXmlSign: TLabel;
+    cbXmlSignLib: TComboBox;
+    cbHttpLib: TComboBox;
+    cbCryptLib: TComboBox;
+    cbSSLLib: TComboBox;
+    lSSLLib1: TLabel;
+    cbSSLType: TComboBox;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
@@ -419,11 +429,18 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure cbCryptLibChange(Sender: TObject);
+    procedure cbHttpLibChange(Sender: TObject);
+    procedure cbSSLLibChange(Sender: TObject);
+    procedure cbSSLTypeChange(Sender: TObject);
+    procedure cbXmlSignLibChange(Sender: TObject);
   private
     path_nfce: String;
     nova_nota: String;
     codnf: Integer;
     totalNFCe: Double;
+    totalNFCeTrib: Double;
     tk, id_tk: String;
     ACBrNFeDANFeRL1: TACBrNFeDANFeRL;
     
@@ -435,6 +452,7 @@ type
     procedure pegaTributos(codMov: Integer;codProd: Integer);
     procedure prepararImpressao();
     procedure LoadXML(AXML: String; MyWebBrowser: TWebBrowser);
+    procedure AtualizarSSLLibsCombo;
     { Private declarations }
   public
     NFCe_serieNF: String;
@@ -451,7 +469,7 @@ var
 
 implementation
 
-uses UDm, UDMNF;
+uses UDm, UDMNF, blcksock;
 
 {$R *.dfm}
 
@@ -482,6 +500,8 @@ begin
   nova_nota := 'S';
 
   vAux := edNFCe.Text;
+  memoDados.Lines.Clear;
+  memoDados.Lines.Add('Emitindo nota: ' + edNFCe.Text);
   //if not(InputQuery('WebServices Enviar', 'Numero da Nota', vAux)) then
   //  exit;
 
@@ -530,7 +550,11 @@ begin
   ACBrNFe1.Configuracoes.Geral.CSC := tk;
 
   edtCaminho.Text := 's';
-  ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+  ACBrNFe1.Configuracoes.Geral.SSLLib := libWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLCryptLib := cryWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLHttpLib := httpWinINet;
+  ACBrNFe1.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
+  //ACBrNFe1.Configuracoes.WebServices.SSLType := LT_TLSv1_2;
 
   {with ACBrNFe1.NotasFiscais.Add.NFe do
   begin
@@ -547,6 +571,7 @@ begin
   //edtSenha.Text := ACBrNFe1.Configuracoes.Certificados.DadosPFX;
 
   GerarNFCe(vAux);
+  memoDados.Lines.Add('Gerado a NFCe, enviando ...');
 
   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
   //if (sEmpresaUF.AsString = 'SP') then
@@ -557,11 +582,13 @@ begin
   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
   edtCaminho.Text := ACBrNFe1.SSL.CertCNPJ;
   ACBrNFe1.NotasFiscais.GravarXML();
+  memoDados.Lines.Add('XML Gravado : ' + edit1.Text);
   ACBrNFe1.NotasFiscais.Assinar;
   ACBrNFe1.NotasFiscais.Validar;
+  memoDados.Lines.Add('Validando ....');
   LoadXML(ACBrNFe1.NotasFiscais.Items[0].XML,  mRecebido);
   // carlos 06/01/2015
-
+  memoDados.Lines.Add('Preparando impressora ....');
   prepararImpressao();
   // ############# descomentar a linha abaixo
   ACBrNFe1.DANFE := ACBrNFeDANFeESCPOS1;
@@ -570,10 +597,10 @@ begin
   //ACBrNFeDANFeESCPOS1.ImprimirDANFE();
 
   //ACBrNFe1.DANFE.TipoDANFE := tiNFCeA4;
-
+  memoDados.Lines.Add('Enviando receita ....');
   ACBrNFe1.Enviar(vNumLote,True,Sincrono);
 
-
+  memoDados.Lines.Add('Pegando retorno.');
   MemoResp.Lines.Add(UTF8Encode(ACBrNFe1.WebServices.Retorno.RetWS));
   memoResp.Lines.Add(UTF8Encode(ACBrNFe1.WebServices.Retorno.RetornoWS));
   //LoadXML(MemoResp, WBResposta);
@@ -863,12 +890,14 @@ begin
       Total.ICMSTot.vCOFINS := 0;
       Total.ICMSTot.vOutro  := 0;
       Total.ICMSTot.vNF     := sqlBuscaNota.fieldByName('VALOR').AsFloat - edDesconto.Value; //totalNFCe;
+      Total.ICMSTot.vTotTrib := totalNFCeTrib;
 
       Total.ISSQNtot.vServ   := 0;
       Total.ISSQNTot.vBC     := 0;
       Total.ISSQNTot.vISS    := 0;
       Total.ISSQNTot.vPIS    := 0;
       Total.ISSQNTot.vCOFINS := 0;
+
    //   end;
 {      Total.retTrib.vRetPIS    := 0;
       Total.retTrib.vRetCOFINS := 0;
@@ -931,6 +960,7 @@ var contaItens :integer;
   cod_barra: String;
 begin
   totalNFCe := 0;
+  totalNFCeTrib := 0;
   with ACBrNFe1.NotasFiscais.Items[0].NFe do
   begin
     with Transp do
@@ -998,6 +1028,7 @@ begin
         begin
           // lei da transparencia nos impostos
           vTotTrib := cdsItensNFVLRTOT_TRIB.AsFloat;
+          totalNFCeTrib := totalNFCeTrib + RoundTo(cdsItensNFVLRTOT_TRIB.AsFloat, -2);
           // ***********************  ICMS ********************************
           with ICMS do
           begin
@@ -1061,7 +1092,7 @@ begin
             begin
               if ((Trim(cdsItensNFCSOSN.AsString) = '') or (Trim(cdsItensNFCSOSN.AsString) = '0')) then
                 MessageDlg('CST do ICMS em branco no item ' + cdsItensNFDESCPRODUTO.AsString, mtWarning, [mbOK], 0);
-              Exit;
+              //Exit;
             end
             else
             begin
@@ -1229,7 +1260,37 @@ var str_sql:string;
   TD: TTransactionDesc;
   ArqINI : String ;
   INI : TIniFile ;
+  T: TSSLLib;
+  U: TSSLCryptLib;
+  V: TSSLHttpLib;
+  X: TSSLXmlSignLib;
+  Y: TSSLType;
 begin
+  cbSSLLib.Items.Clear;
+  for T := Low(TSSLLib) to High(TSSLLib) do
+    cbSSLLib.Items.Add( GetEnumName(TypeInfo(TSSLLib), integer(T) ) );
+  cbSSLLib.ItemIndex := 0;
+
+  cbCryptLib.Items.Clear;
+  for U := Low(TSSLCryptLib) to High(TSSLCryptLib) do
+    cbCryptLib.Items.Add( GetEnumName(TypeInfo(TSSLCryptLib), integer(U) ) );
+  cbCryptLib.ItemIndex := 0;
+
+  cbHttpLib.Items.Clear;
+  for V := Low(TSSLHttpLib) to High(TSSLHttpLib) do
+    cbHttpLib.Items.Add( GetEnumName(TypeInfo(TSSLHttpLib), integer(V) ) );
+  cbHttpLib.ItemIndex := 0;
+
+  cbXmlSignLib.Items.Clear;
+  for X := Low(TSSLXmlSignLib) to High(TSSLXmlSignLib) do
+    cbXmlSignLib.Items.Add( GetEnumName(TypeInfo(TSSLXmlSignLib), integer(X) ) );
+  cbXmlSignLib.ItemIndex := 0;
+
+  cbSSLType.Items.Clear;
+  for Y := Low(TSSLType) to High(TSSLType) do
+    cbSSLType.Items.Add( GetEnumName(TypeInfo(TSSLType), integer(Y) ) );
+  cbSSLType.ItemIndex := 0;
+
   edCancelamentoMotivo.Text := '';
   memoDados.Lines.Clear;
   nova_nota := 'N';
@@ -1389,9 +1450,28 @@ begin
     cbUsarFortes.Checked   := INI.ReadBool('Fortes','UsarFortes', True) ;
     cbUsarEscPos.Checked   := not cbUsarFortes.Checked;
     rbPorMes.Checked := INI.ReadBool('SAT','SepararPorMES', False);
+
+    cbSSLLib.ItemIndex := INI.ReadInteger('NFCe1','SSLLib', 0);
+    cbCryptLib.ItemIndex := INI.ReadInteger('NFCe1','CryptLib', 0);
+    cbHttpLib.ItemIndex := INI.ReadInteger('NFCe1','HttpLib', 0);
+    cbXmlSignLib.ItemIndex := INI.ReadInteger('NFCe1','XmlSignLib', 0);
+    cbSSLType.ItemIndex := INI.ReadInteger('NFCe1','SSLType', 0);
+
   finally
      INI.Free ;
   end ;
+
+  with ACBrNFe1.Configuracoes.Geral do
+  begin
+    SSLLib        := TSSLLib(cbSSLLib.ItemIndex);
+    SSLCryptLib   := TSSLCryptLib(cbCryptLib.ItemIndex);
+    SSLHttpLib    := TSSLHttpLib(cbHttpLib.ItemIndex);
+    SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+
+    AtualizarSSLLibsCombo;
+  end;
+  ACBrNFe1.SSL.SSLType := TSSLType(cbSSLType.ItemIndex);
+
   if (edtPastaXml.Text <> '') then
   begin
     edit1.Text := edtPastaXml.Text;
@@ -1631,7 +1711,11 @@ begin
   ACBrNFe1.Configuracoes.Geral.CSC := tk;
 
   edtCaminho.Text := 's';
-  ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+  //ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+  ACBrNFe1.Configuracoes.Geral.SSLLib := libWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLCryptLib := cryWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLHttpLib := httpWinINet;
+  ACBrNFe1.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
 
   //ACBrNFe1.Configuracoes.Certificados.ArquivoPFX  := edtCaminho.Text;
   //ACBrNFe1.Configuracoes.Certificados.Senha       := edtSenha.Text;
@@ -1746,7 +1830,13 @@ begin
   ACBrNFe1.Configuracoes.Geral.IdCSC := id_tk;
   ACBrNFe1.Configuracoes.Geral.CSC := tk;
 
-  ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+  //ACBrNFe1.Configuracoes.Geral.SSLLib := libCapicom;
+  ACBrNFe1.Configuracoes.Geral.SSLLib := libWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLCryptLib := cryWinCrypt;
+  ACBrNFe1.Configuracoes.Geral.SSLHttpLib := httpWinINet;
+  ACBrNFe1.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
+  //ACBrNFe1.Configuracoes.WebServices.SSLType := lt_
+
   ACBrNFe1.Configuracoes.WebServices.UF := sEmpresaUF.AsString;
   AcbrNfe1.Configuracoes.Arquivos.PathSalvar := edit1.Text;
 
@@ -1784,10 +1874,21 @@ begin
      ShowMessage('Preencha a Justificativa');
       exit;
    end;
-
-    ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString),
-      edJust.Text, StrToInt(edAno.Text), StrToInt(edModelo.Text), StrToInt(edSerieInutiliza.Text),
-      StrToInt(edNumIni.Text), StrToInt(edNumFim.Text));
+   // FInutilizacao.CNPJ := CNPJ;
+   // FInutilizacao.Modelo := Modelo;
+   // FInutilizacao.Serie := Serie;
+   // FInutilizacao.Ano := Ano;
+   // FInutilizacao.NumeroInicial := NumeroInicial;
+   // FInutilizacao.NumeroFinal := NumeroFinal;
+   // FInutilizacao.Justificativa := AJustificativa;
+   ACBrNFe1.WebServices.Inutiliza(
+     RemoveChar(sEmpresaCNPJ_CPF.AsString),
+     edJust.Text,
+     StrToInt(edAno.Text),
+     StrToInt(edModelo.Text),
+     StrToInt(edSerieInutiliza.Text),
+     StrToInt(edNumIni.Text),
+     StrToInt(edNumFim.Text));
     Memo2.Lines.Text :=  ACBrNFe1.WebServices.Inutilizacao.RetWS;
     Memo2.Lines.Text :=  ACBrNFe1.WebServices.Inutilizacao.RetornoWS;
     //LoadXML(MemoResp, WBResposta);
@@ -1810,6 +1911,79 @@ begin
     Memo1.Lines.Append('dhRecbto: ' +DateTimeToStr(ACBrNFe1.WebServices.Inutilizacao.dhRecbto));
     Memo1.Lines.Append('Protocolo: '      +ACBrNFe1.WebServices.Inutilizacao.Protocolo);
   end;
+end;
+
+procedure TfNFCe.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  ArqINI : String ;
+  INI : TIniFile ;
+begin
+  ArqINI := ChangeFileExt( Application.ExeName,'.ini' ) ;
+  INI := TIniFile.Create(ArqINI);
+  try
+    INI.WriteInteger('NFCe1', 'SSLLib', cbSSLLib.ItemIndex);
+    INI.WriteInteger('NFCe1','CryptLib', cbCryptLib.ItemIndex);
+    INI.WriteInteger('NFCe1','HttpLib', cbHttpLib.ItemIndex);
+    INI.WriteInteger('NFCe1','XmlSignLib', cbXmlSignLib.ItemIndex);
+    INI.WriteInteger('NFCe1','SSLType', cbSSLType.ItemIndex);
+  finally
+     INI.Free ;
+  end ;
+end;
+
+procedure TfNFCe.cbCryptLibChange(Sender: TObject);
+begin
+  try
+    if cbCryptLib.ItemIndex <> -1 then
+      ACBrNFe1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
+  finally
+    AtualizarSSLLibsCombo;
+  end;
+end;
+
+procedure TfNFCe.cbHttpLibChange(Sender: TObject);
+begin
+  try
+    if cbHttpLib.ItemIndex <> -1 then
+      ACBrNFe1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
+  finally
+    AtualizarSSLLibsCombo;
+  end;
+end;
+
+procedure TfNFCe.cbSSLLibChange(Sender: TObject);
+begin
+  try
+    if cbSSLLib.ItemIndex <> -1 then
+      ACBrNFe1.Configuracoes.Geral.SSLLib := TSSLLib(cbSSLLib.ItemIndex);
+  finally
+    AtualizarSSLLibsCombo;
+  end;
+end;
+
+procedure TfNFCe.cbSSLTypeChange(Sender: TObject);
+begin
+  if cbSSLType.ItemIndex <> -1 then
+     ACBrNFe1.SSL.SSLType := TSSLType(cbSSLType.ItemIndex);
+end;
+
+procedure TfNFCe.cbXmlSignLibChange(Sender: TObject);
+begin
+  try
+    if cbXmlSignLib.ItemIndex <> -1 then
+      ACBrNFe1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+  finally
+    AtualizarSSLLibsCombo;
+  end;
+end;
+
+procedure TfNFCe.AtualizarSSLLibsCombo;
+begin
+  cbSSLLib.ItemIndex     := Integer(ACBrNFe1.Configuracoes.Geral.SSLLib);
+  cbCryptLib.ItemIndex   := Integer(ACBrNFe1.Configuracoes.Geral.SSLCryptLib);
+  cbHttpLib.ItemIndex    := Integer(ACBrNFe1.Configuracoes.Geral.SSLHttpLib);
+  cbXmlSignLib.ItemIndex := Integer(ACBrNFe1.Configuracoes.Geral.SSLXmlSignLib);
+  cbSSLType.Enabled := (ACBrNFe1.Configuracoes.Geral.SSLHttpLib in [httpWinHttp, httpOpenSSL]);
 end;
 
 end.

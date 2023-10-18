@@ -1070,7 +1070,6 @@ object fPrincipal: TfPrincipal
     Font.Style = []
     ParentFont = False
     TabOrder = 21
-    Visible = False
     OnClick = BitBtn5Click
   end
   object BitBtn4: TBitBtn
@@ -1093,12 +1092,13 @@ object fPrincipal: TfPrincipal
     OnClick = Button1Click
   end
   object btnImprimeIza: TButton
-    Left = 627
-    Top = 567
+    Left = 403
+    Top = 559
     Width = 118
     Height = 56
     Caption = 'IMP. ARQUIVO - IZA'
     TabOrder = 24
+    Visible = False
     OnClick = btnImprimeIzaClick
   end
   object Edit1: TEdit
@@ -2103,6 +2103,7 @@ object fPrincipal: TfPrincipal
   end
   object ACBrETQ: TACBrETQ
     Porta = 'LPT1'
+    Ativo = False
     Left = 880
     Top = 420
   end

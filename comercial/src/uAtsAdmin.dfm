@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
-  Left = 0
-  Top = 93
+  Left = 112
+  Top = 128
   Width = 967
   Height = 525
   Color = clWhite

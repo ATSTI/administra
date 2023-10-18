@@ -437,7 +437,13 @@ end;
 procedure TfRelVenda.BitBtn4Click(Sender: TObject);
 begin
   try
-    Rep.Filename := str_relatorio + 'vendasClientePedido.rep';
+    if (ComboBox9.Text <> '') then
+    begin
+      Rep.Filename := str_relatorio + 'vendasClientePedido_ccusto.rep';
+    end
+    else begin
+      Rep.Filename := str_relatorio + 'vendasClientePedido.rep';
+    end;
     Rep.Title := rep.Filename;
     Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
     Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
@@ -464,7 +470,17 @@ begin
     //  Rep.Report.Params.ParamByName('PROD').Value := Edit3.Text
     //else
     //  Rep.Report.Params.ParamByName('PROD').Value := 9999999;
-
+    if (ComboBox9.Text <> '') then
+    begin
+      if dm.cds_ccusto.Active then
+        dm.cds_ccusto.Close;
+      dm.cds_ccusto.Params[0].AsString := conta_local;
+      dm.cds_ccusto.Open;
+      if (dm.cds_ccusto.Locate('NOME', ComboBox9.Text, [loCaseInsensitive])) then
+        Rep.Report.Params.ParamByName('CCUSTO').Value := dm.cds_ccustoCODIGO.AsInteger
+      else
+        Rep.Report.Params.ParamByName('CCUSTO').Value := 0;    
+    end;
   except
     on EConvertError do
     begin

@@ -12,6 +12,7 @@ object fNFCe: TfNFCe
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -164,16 +165,16 @@ object fNFCe: TfNFCe
   object PageControl1: TPageControl
     Left = 16
     Top = 70
-    Width = 777
+    Width = 801
     Height = 377
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     TabOrder = 5
     object TabSheet1: TTabSheet
       Caption = 'XML'
       object memoDados: TMemo
         Left = 0
         Top = 0
-        Width = 769
+        Width = 793
         Height = 100
         Align = alClient
         ScrollBars = ssVertical
@@ -182,19 +183,19 @@ object fNFCe: TfNFCe
       object Panel1: TPanel
         Left = 0
         Top = 100
-        Width = 769
+        Width = 793
         Height = 249
         Align = alBottom
         TabOrder = 1
         inline mRecebido: TWebBrowser
           Left = 1
           Top = 1
-          Width = 767
+          Width = 791
           Height = 247
           Align = alClient
           TabOrder = 0
           ControlData = {
-            4C000000464F0000871900000000000000000000000000000000000000000000
+            4C000000C1510000871900000000000000000000000000000000000000000000
             000000004C000000000000000000000001000000E0D057007335CF11AE690800
             2B2E126208000000000000004C0000000114020000000000C000000000000046
             8000000000000000000000000000000000000000000000000000000000000000
@@ -275,6 +276,56 @@ object fNFCe: TfNFCe
         Width = 56
         Height = 13
         Caption = 'UF Emissa'#245
+      end
+      object lSSLLib: TLabel
+        Left = 579
+        Top = 24
+        Width = 34
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'SSLLib'
+        Color = clBtnFace
+        ParentColor = False
+      end
+      object lCryptLib: TLabel
+        Left = 575
+        Top = 51
+        Width = 38
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'CryptLib'
+        Color = clBtnFace
+        ParentColor = False
+      end
+      object lHttpLib: TLabel
+        Left = 579
+        Top = 78
+        Width = 34
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'HttpLib'
+        Color = clBtnFace
+        ParentColor = False
+      end
+      object lXmlSign: TLabel
+        Left = 556
+        Top = 105
+        Width = 57
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'XMLSignLib'
+        Color = clBtnFace
+        ParentColor = False
+      end
+      object lSSLLib1: TLabel
+        Left = 568
+        Top = 136
+        Width = 44
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'SSLType'
+        Color = clBtnFace
+        ParentColor = False
       end
       object rgAmbiente: TRadioGroup
         Left = 8
@@ -447,7 +498,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -456,7 +507,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -466,7 +517,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 4
         end
         object seColunas: TSpinEdit
@@ -554,6 +605,57 @@ object fNFCe: TfNFCe
         Height = 17
         Caption = 'Separar M'#234's'
         TabOrder = 9
+      end
+      object cbXmlSignLib: TComboBox
+        Left = 624
+        Top = 97
+        Width = 160
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 10
+        OnChange = cbXmlSignLibChange
+      end
+      object cbHttpLib: TComboBox
+        Left = 624
+        Top = 70
+        Width = 160
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 11
+        OnChange = cbHttpLibChange
+      end
+      object cbCryptLib: TComboBox
+        Left = 624
+        Top = 43
+        Width = 160
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 12
+        OnChange = cbCryptLibChange
+      end
+      object cbSSLLib: TComboBox
+        Left = 624
+        Top = 16
+        Width = 160
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 13
+        OnChange = cbSSLLibChange
+      end
+      object cbSSLType: TComboBox
+        Left = 624
+        Top = 128
+        Width = 160
+        Height = 21
+        Hint = 'Depende de configura'#231#227'o de  SSL.HttpLib'
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 14
+        OnChange = cbSSLTypeChange
       end
     end
     object TabSheet4: TTabSheet
@@ -2317,33 +2419,33 @@ object fNFCe: TfNFCe
       'md.OBS,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10 +
       '          udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10' ' +
       '         ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'  ' +
-      '        pr.UNIDADEMEDIDA,'#13#10'          UDF_TRIM(md.CST) CST,'#13#10'    ' +
-      '      md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 6) as ' +
-      'pIPI,'#13#10'          UDF_ROUNDDEC(md.FRETE, 6) as FRETE,'#13#10'          ' +
-      'UDF_ROUNDDEC(md.VALOR_DESCONTO, 6) as VALOR_DESCONTO,'#13#10'         ' +
-      ' UDF_ROUNDDEC(md.vIPI, 6) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VL' +
-      'R_BASEICMS, 6) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR' +
-      '_ICMS, 6) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 6' +
-      ') as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 6) as ICMS' +
-      '_SUBST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 6) as ICMS_SUBST' +
-      'D, '#13#10'          UDF_ROUNDDEC(md.VALOR_PIS, 6) as VALOR_PIS, '#13#10'   ' +
-      '       UDF_ROUNDDEC(md.VALOR_COFINS, 6) as VALOR_COFINS, '#13#10'     ' +
-      '     UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 6) as VALTOTAL,' +
-      ' '#13#10'          UDF_ROUNDDEC(md.VALOR_SEGURO, 6) as VALOR_SEGURO,'#13#10 +
-      '          UDF_ROUNDDEC(md.VALOR_OUTROS, 6) as VALOR_OUTROS,'#13#10'   ' +
-      '       UDF_ROUNDDEC(md.II, 6) as II,'#13#10'          UDF_ROUNDDEC(md.' +
-      'BCII, 6) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
-      ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRB' +
-      'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB,' +
-      ' pr.COD_BARRA, pr.NCM'#13#10'          ,pr.ORIGEM , md.CODMOVIMENTO '#13#10 +
-      'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMEN' +
-      'TO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA ' +
-      '= vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CO' +
-      'DPRODUTO'#13#10'where vd.CODVENDA = :id'
+      '        pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,' +
+      ' md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 6) as pIPI,'#13#10'       ' +
+      '   UDF_ROUNDDEC(md.FRETE, 6) as FRETE,'#13#10'          UDF_ROUNDDEC(m' +
+      'd.VALOR_DESCONTO, 6) as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(' +
+      'md.vIPI, 6) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 6)' +
+      ' as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 6) as V' +
+      'ALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 6) as VLR_BASE,' +
+      #13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 6) as ICMS_SUBST,'#13#10'     ' +
+      '     UDF_ROUNDDEC(md.ICMS_SUBSTD, 6) as ICMS_SUBSTD, '#13#10'         ' +
+      ' UDF_ROUNDDEC(md.VALOR_PIS, 6) as VALOR_PIS, '#13#10'          UDF_ROU' +
+      'NDDEC(md.VALOR_COFINS, 6) as VALOR_COFINS, '#13#10'          UDF_ROUND' +
+      'DEC((md.VLR_BASE * md.QUANTIDADE), 6) as VALTOTAL, '#13#10'          U' +
+      'DF_ROUNDDEC(md.VALOR_SEGURO, 6) as VALOR_SEGURO,'#13#10'          UDF_' +
+      'ROUNDDEC(md.VALOR_OUTROS, 6) as VALOR_OUTROS,'#13#10'          UDF_ROU' +
+      'NDDEC(md.II, 6) as II,'#13#10'          UDF_ROUNDDEC(md.BCII, 6) as BC' +
+      'II,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS, md.PPIS, md.P' +
+      'COFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRB' +
+      'C_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB, pr.COD_BARRA,' +
+      ' pr.NCM'#13#10'          ,pr.ORIGEM , md.CODMOVIMENTO '#13#10'from VENDA vd ' +
+      #13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOV' +
+      'IMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13 +
+      #10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'wher' +
+      'e vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
@@ -3149,10 +3251,10 @@ object fNFCe: TfNFCe
     Top = 32
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
-    Configuracoes.Geral.SSLCryptLib = cryCapicom
-    Configuracoes.Geral.SSLHttpLib = httpIndy
-    Configuracoes.Geral.SSLXmlSignLib = xsMsXmlCapicom
+    Configuracoes.Geral.SSLLib = libCustom
+    Configuracoes.Geral.SSLCryptLib = cryWinCrypt
+    Configuracoes.Geral.SSLHttpLib = httpWinHttp
+    Configuracoes.Geral.SSLXmlSignLib = xsMsXml
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.ModeloDF = moNFCe
     Configuracoes.Geral.VersaoQRCode = veqr200
@@ -3162,6 +3264,7 @@ object fNFCe: TfNFCe
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.WebServices.TimeZoneConf.ModoDeteccao = tzManual
     Configuracoes.WebServices.TimeZoneConf.TimeZoneStr = '-03:00'
+    Configuracoes.WebServices.SSLType = LT_TLSv1_2
     Configuracoes.RespTec.IdCSRT = 0
     DANFE = ACBrNFeDANFeESCPOS1
     Left = 288

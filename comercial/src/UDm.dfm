@@ -2,8 +2,8 @@ object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 65
-  Top = 122
+  Left = 76
+  Top = 100
   Height = 772
   Width = 1281
   object sqlsisAdimin: TSQLConnection
@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=D:\Home\BD\sge_vbs.fdb'
+      'Database=c:\home\sisadmin\bd\sge_katia.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'

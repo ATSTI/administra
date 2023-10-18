@@ -3954,22 +3954,22 @@ var
   verRetorno : String;
 begin
   //LHTTP := TIdHTTP.Create;
-  {try
+  try
     Params := TStringList.Create;
     try
       IdHTTP1.Request.Accept := 'application/json';
       IdHTTP1.Request.ContentType := 'application/json';
-    }
-   //   Params.Text := '{"cnpj":"' + empresa + '"}';
-   {   //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
-      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:49069/clientecnpj', Params);
+
+      Params.Text := '{"cnpj":"' + empresa + '"}';
+      //memoLic := IdHTTP1.Post('http://192.168.6.100:8905', Params);
+      memoLic := IdHTTP1.Post('http://admin.atsti.com.br:8905', Params);
       verRetorno := memoLic;
     finally
       Params.Free;
     end;
   except
     memoLic := 'X';
-  end;}
+  end;
 end;
 
 procedure TDM.conexaoOdoo2;
@@ -3999,8 +3999,15 @@ begin
     HTTP.Document.Write(Pointer(U)^, Length(U));
     sucesso := HTTP.HTTPMethod('POST', Url);
     resposta := http.Document;
-    resposta.SaveToFile('c:\home\resp.txt');
-    Params.LoadFromFile('c:\home\resp.txt');
+    if (FileExists('c:\home\resp.txt')) then
+    begin
+        resposta.SaveToFile('c:\home\resp.txt');
+        Params.LoadFromFile('c:\home\resp.txt');
+    end
+    else begin
+      resposta.SaveToFile('resp.txt');
+      Params.LoadFromFile('resp.txt');
+    end;
     data := params.Text;
     if (Length(data) > 2) then
       data := copy(data, 0, 2)

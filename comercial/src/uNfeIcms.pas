@@ -25,7 +25,7 @@ type
     Label3: TLabel;
     memoTXT: TMemo;
     Label7: TLabel;
-    edBufLinhas: TEdit;
+    edBufLinhas: TEdit;       
     Label8: TLabel;
     edBufNotas: TEdit;
     ProgressBar1: TJvProgressBar;
@@ -1280,7 +1280,11 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao115;
+      COD_VER          := vlVersao116;
+      if (data_ini.Date < StrToDate('01/01/2023')) then
+      begin
+        COD_VER          := vlVersao115;
+      end;
       if (data_ini.Date < StrToDate('01/01/2022')) then
       begin
         COD_VER          := vlVersao114;

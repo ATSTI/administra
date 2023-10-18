@@ -673,7 +673,7 @@ object fNotafc: TfNotafc
             Top = 15
             Width = 180
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             OnKeyPress = FormKeyPress
           end

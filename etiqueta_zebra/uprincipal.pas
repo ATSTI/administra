@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, rpcompobase, rpvclreport, DB, Provider, DBClient,
   SqlExpr, StdCtrls, Grids, DBGrids, EDBFind, Buttons, DBXpress ,comobj,
-  ACBrBase, ACBrETQ ,ACBrDevice, JvComponentBase, JvCSVBaseControls, IniFiles, uThread;
+  ACBrBase, ACBrETQ ,ACBrDevice, JvComponentBase, JvCSVBaseControls, IniFiles;
 
 type
   TfPrincipal = class(TForm)
@@ -293,7 +293,6 @@ type
     porta: String;
     arquivo1: String;
     diretorio: String;
-    lendoDir : FThread;
     dbxconec: TStringList;
     str_relatorio : String;
     procedure AtivarACBrETQ ;

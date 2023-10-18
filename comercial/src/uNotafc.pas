@@ -1257,7 +1257,7 @@ end;
 
 procedure TfNotaFc.btnGravarClick(Sender: TObject);
 var cm : string;
-var TD: TTransactionDesc;
+ TD: TTransactionDesc;
 begin
   if (DBEdit33.Text = '0') then
   begin

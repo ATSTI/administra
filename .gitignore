@@ -29,3 +29,5 @@ __history
 *.~pas
 *.ddp
 *.~dpr
+# Ignore the local.properties file
+local.properties
