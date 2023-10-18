@@ -113,13 +113,11 @@ type
     Label48: TLabel;
     Label49: TLabel;
     Label50: TLabel;
-    Label53: TLabel;
     DBEdit45: TDBEdit;
     DBEdit46: TDBEdit;
     DBEdit47: TDBEdit;
     DBEdit48: TDBEdit;
     DBEdit49: TDBEdit;
-    DBEdit52: TDBEdit;
     label22: TLabel;
     Label23: TLabel;
     DBEdit21: TDBEdit;
@@ -132,6 +130,12 @@ type
     DBEdit55: TDBEdit;
     Label58: TLabel;
     DBEdit56: TDBEdit;
+    Label54: TLabel;
+    Label53: TLabel;
+    Label59: TLabel;
+    DBEdit58: TDBEdit;
+    DBEdit52: TDBEdit;
+    DBEdit57: TDBEdit;
     procedure btnSairClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);

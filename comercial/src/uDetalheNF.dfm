@@ -1,8 +1,8 @@
 object fDetalheNF: TfDetalheNF
   Left = 397
   Top = 102
-  Width = 670
-  Height = 550
+  Width = 671
+  Height = 610
   Caption = 'Detalhe Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -255,7 +255,7 @@ object fDetalheNF: TfDetalheNF
   end
   object Calcman: TCheckBox
     Left = 6
-    Top = 428
+    Top = 509
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
@@ -264,9 +264,9 @@ object fDetalheNF: TfDetalheNF
   end
   object btnSair: TBitBtn
     Left = 546
-    Top = 426
+    Top = 507
     Width = 79
-    Height = 35
+    Height = 36
     Caption = 'F9-Sair'
     TabOrder = 23
     OnClick = btnSairClick
@@ -372,7 +372,7 @@ object fDetalheNF: TfDetalheNF
   end
   object DBNavigator1: TDBNavigator
     Left = 354
-    Top = 426
+    Top = 507
     Width = 150
     Height = 35
     DataSource = DMNF.DtSrc1
@@ -382,9 +382,9 @@ object fDetalheNF: TfDetalheNF
   end
   object btnGravar: TBitBtn
     Left = 506
-    Top = 426
+    Top = 507
     Width = 37
-    Height = 35
+    Height = 36
     TabOrder = 22
     Visible = False
     OnClick = btnGravarClick
@@ -627,13 +627,13 @@ object fDetalheNF: TfDetalheNF
     Left = 2
     Top = 109
     Width = 623
-    Height = 59
+    Height = 120
     Caption = 'ICMS'
     Color = 16776176
     ParentColor = False
     TabOrder = 18
     object Label1: TLabel
-      Left = 167
+      Left = 172
       Top = 18
       Width = 37
       Height = 13
@@ -647,14 +647,14 @@ object fDetalheNF: TfDetalheNF
       Caption = 'CST'
     end
     object Label9: TLabel
-      Left = 332
+      Left = 347
       Top = 18
       Width = 26
       Height = 13
       Caption = 'ICMS'
     end
     object Label10: TLabel
-      Left = 250
+      Left = 265
       Top = 18
       Width = 49
       Height = 13
@@ -668,21 +668,48 @@ object fDetalheNF: TfDetalheNF
       Caption = 'CSOSN'
     end
     object Label15: TLabel
-      Left = 489
-      Top = 18
-      Width = 66
+      Left = 173
+      Top = 67
+      Width = 64
       Height = 13
-      Caption = 'Subst. Tritbut.'
+      Caption = 'ICMS Substit.'
     end
     object Label16: TLabel
-      Left = 410
+      Left = 425
       Top = 18
       Width = 37
       Height = 13
       Caption = 'B.C. ST'
     end
+    object Label54: TLabel
+      Left = 10
+      Top = 67
+      Width = 57
+      Height = 13
+      Caption = 'BC ST. Ret.'
+    end
+    object Label53: TLabel
+      Left = 91
+      Top = 67
+      Width = 49
+      Height = 13
+      Caption = 'ICMS pST'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -8
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label59: TLabel
+      Left = 253
+      Top = 67
+      Width = 66
+      Height = 13
+      Caption = 'ICMS ST Ret.'
+    end
     object DBEdit1: TDBEdit
-      Left = 165
+      Left = 170
       Top = 33
       Width = 79
       Height = 21
@@ -694,7 +721,7 @@ object fDetalheNF: TfDetalheNF
     object DBEdit7: TDBEdit
       Left = 8
       Top = 33
-      Width = 73
+      Width = 75
       Height = 21
       DataField = 'CST'
       DataSource = DMNF.DtSrc1
@@ -702,7 +729,7 @@ object fDetalheNF: TfDetalheNF
       OnChange = abproc
     end
     object DBEdit9: TDBEdit
-      Left = 249
+      Left = 264
       Top = 33
       Width = 78
       Height = 21
@@ -712,7 +739,7 @@ object fDetalheNF: TfDetalheNF
       OnChange = abproc
     end
     object DBEdit10: TDBEdit
-      Left = 331
+      Left = 346
       Top = 33
       Width = 70
       Height = 21
@@ -724,7 +751,7 @@ object fDetalheNF: TfDetalheNF
     object DBEdit12: TDBEdit
       Left = 86
       Top = 33
-      Width = 73
+      Width = 80
       Height = 21
       DataField = 'CSOSN'
       DataSource = DMNF.DtSrc1
@@ -732,17 +759,17 @@ object fDetalheNF: TfDetalheNF
       OnChange = abproc
     end
     object DBEdit15: TDBEdit
-      Left = 487
-      Top = 33
+      Left = 170
+      Top = 83
       Width = 75
       Height = 21
       DataField = 'ICMS_SUBST'
       DataSource = DMNF.DtSrc1
-      TabOrder = 6
+      TabOrder = 8
       OnChange = abproc
     end
     object DBEdit16: TDBEdit
-      Left = 408
+      Left = 423
       Top = 33
       Width = 75
       Height = 21
@@ -751,10 +778,43 @@ object fDetalheNF: TfDetalheNF
       TabOrder = 5
       OnChange = abproc
     end
+    object DBEdit58: TDBEdit
+      Left = 251
+      Top = 83
+      Width = 79
+      Height = 21
+      DataField = 'VICMSSTRET'
+      DataSource = DMNF.DtSrc1
+      TabOrder = 9
+      OnChange = abproc
+    end
+    object DBEdit52: TDBEdit
+      Left = 88
+      Top = 83
+      Width = 80
+      Height = 21
+      Hint = 'Aliquota ICMS-ST inclu'#237'do no FCP'
+      DataField = 'ICMS_PST'
+      DataSource = DMNF.DtSrc1
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+      OnChange = abproc
+    end
+    object DBEdit57: TDBEdit
+      Left = 8
+      Top = 83
+      Width = 75
+      Height = 21
+      DataField = 'VBCSTRET'
+      DataSource = DMNF.DtSrc1
+      TabOrder = 6
+      OnChange = abproc
+    end
   end
   object GroupBox2: TGroupBox
     Left = 2
-    Top = 168
+    Top = 230
     Width = 623
     Height = 59
     Caption = 'IPI'
@@ -901,7 +961,7 @@ object fDetalheNF: TfDetalheNF
   end
   object GroupBox3: TGroupBox
     Left = 2
-    Top = 227
+    Top = 290
     Width = 623
     Height = 59
     Caption = 'PIS/COFINS/II'
@@ -1047,9 +1107,9 @@ object fDetalheNF: TfDetalheNF
   end
   object GroupBox4: TGroupBox
     Left = 2
-    Top = 285
+    Top = 350
     Width = 623
-    Height = 140
+    Height = 150
     Caption = 'DIFAL'
     Color = 16776176
     ParentColor = False
@@ -1214,8 +1274,8 @@ object fDetalheNF: TfDetalheNF
       ParentFont = False
     end
     object Label50: TLabel
-      Left = 80
-      Top = 97
+      Left = 91
+      Top = 96
       Width = 48
       Height = 13
       Caption = 'FCP ST %'
@@ -1226,21 +1286,8 @@ object fDetalheNF: TfDetalheNF
       Font.Style = []
       ParentFont = False
     end
-    object Label53: TLabel
-      Left = 226
-      Top = 97
-      Width = 54
-      Height = 13
-      Caption = 'ICMS-ST %'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -8
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
     object Label55: TLabel
-      Left = 143
+      Left = 174
       Top = 96
       Width = 64
       Height = 13
@@ -1403,8 +1450,8 @@ object fDetalheNF: TfDetalheNF
     end
     object DBEdit48: TDBEdit
       Left = 8
-      Top = 110
-      Width = 65
+      Top = 111
+      Width = 75
       Height = 21
       DataField = 'V_B_FCPST'
       DataSource = DMNF.DtSrc1
@@ -1412,32 +1459,19 @@ object fDetalheNF: TfDetalheNF
       OnChange = abproc
     end
     object DBEdit49: TDBEdit
-      Left = 78
+      Left = 88
       Top = 111
-      Width = 57
+      Width = 80
       Height = 21
       DataField = 'P_FCPST'
       DataSource = DMNF.DtSrc1
       TabOrder = 12
       OnChange = abproc
     end
-    object DBEdit52: TDBEdit
-      Left = 224
-      Top = 111
-      Width = 56
-      Height = 21
-      Hint = 'Aliquota ICMS-ST inclu'#237'do no FCP'
-      DataField = 'ICMS_PST'
-      DataSource = DMNF.DtSrc1
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 14
-      OnChange = abproc
-    end
     object DBEdit53: TDBEdit
-      Left = 141
+      Left = 172
       Top = 111
-      Width = 80
+      Width = 79
       Height = 21
       DataField = 'V_FCPST'
       DataSource = DMNF.DtSrc1
@@ -1451,7 +1485,7 @@ object fDetalheNF: TfDetalheNF
       Height = 21
       DataField = 'V_B_FCPSTRET'
       DataSource = DMNF.DtSrc1
-      TabOrder = 15
+      TabOrder = 14
       OnChange = abproc
     end
     object DBEdit55: TDBEdit
@@ -1461,7 +1495,7 @@ object fDetalheNF: TfDetalheNF
       Height = 21
       DataField = 'P_FCPSTRET'
       DataSource = DMNF.DtSrc1
-      TabOrder = 16
+      TabOrder = 15
       OnChange = abproc
     end
     object DBEdit56: TDBEdit
@@ -1471,7 +1505,7 @@ object fDetalheNF: TfDetalheNF
       Height = 21
       DataField = 'V_FCPST'
       DataSource = DMNF.DtSrc1
-      TabOrder = 17
+      TabOrder = 16
       OnChange = abproc
     end
   end
