@@ -5115,6 +5115,7 @@ object fNfeIcms: TfNfeIcms
       'WHERE C.CODMOVIMENTO = M.CODMOVIMENTO '
       '      AND C.CODMOVIMENTO = r.CODMOVIMENTO'
       '      AND M.CODNATUREZA in (4, 20) '
+      '      AND ((COALESCE(C.MODELO, '#39#39') <> '#39#39')) '
       '      AND C.DATACOMPRA BETWEEN :DTA1 AND :DTA2'
       'group by   r.CFOP, r.CSTIPI')
     SQLConnection = DM.sqlsisAdimin

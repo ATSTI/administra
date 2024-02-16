@@ -3394,7 +3394,8 @@ begin
 
       if (Length(trim(cdsTotIpiCSTIPI.AsString)) < 2) then
       begin
-        MessageDlg('CST do Ipi incorreto, no registro com CFOP : ' + cdsTotIpiCFOP.AsString, mtWarning, [mbOK], 0);
+        MessageDlg('CST do Ipi incorreto, no registro com CFOP : ' +
+          cdsTotIpiCFOP.AsString + ', Valor BC : ' + FloatToStr(cdsTotIpiVLR_BASE_IPI.AsFloat), mtWarning, [mbOK], 0);
       end;
       with RegistroE510New do
       begin
