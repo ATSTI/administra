@@ -239,7 +239,7 @@ begin
     total3 = (:total3 + :total2) / :parc;
     total3 = UDF_ROUNDDEC(total3,2) + UDF_ROUNDDEC(total_st,2);
       
-    select sum(VALOR) from NFE_FATURA(:CODV)
+    select sum(VALOR) from NFE_FATURA(:CODV, 1)
     into :vlr_prod;
     
     -- Faz arredondamento
@@ -255,7 +255,7 @@ begin
     update recebimento set valor_resto = :total3 where titulo = :codnf || '-' || :serie and via = '1';
     
     -- Verificando se o arredondamento funcionou 
-        select sum(VALOR) from NFE_FATURA(:CODV)
+        select sum(VALOR) from NFE_FATURA(:CODV, 1)
         into :vlr_prod;
     
         -- Faz arredondamento
