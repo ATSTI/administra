@@ -50,7 +50,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 15
         Width = 377
         Height = 509
-        ActivePage = TabSheet12
+        ActivePage = TabSheet4
         Align = alClient
         MultiLine = True
         Style = tsButtons
@@ -3329,7 +3329,7 @@ object fACBrMDFe: TfACBrMDFe
         Top = 72
         Width = 177
         Height = 25
-        Caption = 'Consultar pela Chave'
+        Caption = 'Adic. Protocolo'
         TabOrder = 9
         OnClick = btnConsultarChaveClick
       end
@@ -3384,7 +3384,7 @@ object fACBrMDFe: TfACBrMDFe
       Top = 177
       Width = 636
       Height = 406
-      ActivePage = TabSheet5
+      ActivePage = TabSheet9
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet
@@ -3849,6 +3849,15 @@ object fACBrMDFe: TfACBrMDFe
               '03 - Granelera;')
           end
         end
+        object BitBtn16: TBitBtn
+          Left = 80
+          Top = 340
+          Width = 132
+          Height = 30
+          Caption = 'Limpar dados reboque'
+          TabOrder = 2
+          OnClick = BitBtn16Click
+        end
       end
       object TabSheet10: TTabSheet
         Caption = 'Retorno Completo WS'
@@ -3869,7 +3878,7 @@ object fACBrMDFe: TfACBrMDFe
           Left = 0
           Top = 0
           Width = 628
-          Height = 335
+          Height = 378
           Align = alClient
           TabOrder = 0
         end

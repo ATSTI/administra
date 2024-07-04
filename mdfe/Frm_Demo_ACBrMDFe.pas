@@ -486,6 +486,7 @@ type
     edLacreMDFE: TEdit;
     Label47: TLabel;
     edLacreCargaMDFE: TEdit;
+    BitBtn16: TBitBtn;
     procedure sbtnCaminhoCertClick(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
     procedure sbtnLogoMarcaClick(Sender: TObject);
@@ -534,6 +535,7 @@ type
     procedure BitBtn13Click(Sender: TObject);
     procedure BitBtn14Click(Sender: TObject);
     procedure BitBtn15Click(Sender: TObject);
+    procedure BitBtn16Click(Sender: TObject);
     {
     procedure lblMouseEnter(Sender: TObject);
     procedure lblMouseLeave(Sender: TObject);
@@ -561,6 +563,9 @@ type
     procedure PreencherCampos;
     procedure BuscaCidade;
     procedure AtualizaSSLLibsCombo;
+    procedure GravarReboque;
+    procedure LerReboque;
+    procedure LimparReboque;
   public
     modoAbertura: String;
     { Public declarations }
@@ -834,6 +839,7 @@ var qnf: integer;
   cod_mun: integer;
   tot_nf: integer;
   tot_cte: integer;
+   Ok: Boolean;
 begin
   qnf := 0;
   tot_nf := 0;
@@ -892,7 +898,9 @@ begin
     Ide.modal   := moRodoviario;
     Ide.dhEmi   := Now;
     // TpcnTipoEmissao = (teNormal, teContingencia, teSCAN, teDPEC, teFSDA);
-    Ide.tpEmis  := teNormal;
+
+    Ide.tpEmis  := StrToTpEmis(OK,IntToStr(rgFormaEmissao.ItemIndex+1));
+    //   teNormal;
     // TpcnProcessoEmissao = (peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte, peContribuinteAplicativoFisco);
     Ide.procEmi := peAplicativoContribuinte;
     Ide.verProc := '1.0';
@@ -1889,6 +1897,7 @@ begin
   LoadXML(MemoResp, WBResposta);
   PageControl2.ActivePageIndex := 1;
   gravarMDFe;
+  GravarReboque;
 end;
 
 procedure TfACBrMDFe.btnValidarXMLClick(Sender: TObject);
@@ -1924,7 +1933,7 @@ begin
 
  ACBrMDFe1.Manifestos.Clear;
  GerarMDFe(vAux);
- ACBrMDFe1.Enviar(StrToInt(vNumLote));
+ ACBrMDFe1.Enviar(StrToInt(vNumLote),True,True);
 
  MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.Retorno.RetWS);
  memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.Retorno.RetWS);
@@ -1962,6 +1971,7 @@ begin
   end;
 
  ACBrMDFe1.Manifestos.Clear;
+ LimparReboque;
 end;
 
 procedure TfACBrMDFe.btnConsultarReciboClick(Sender: TObject);
@@ -2000,8 +2010,36 @@ begin
 end;
 
 procedure TfACBrMDFe.btnConsultarChaveClick(Sender: TObject);
+var
+  NomeArq: String;
 begin
- ShowMessage('Opção não Implementada!');
+  OpenDialog1.Title := 'Selecione a MDFe';
+  OpenDialog1.DefaultExt := '*-MDFe.XML';
+  OpenDialog1.Filter := 'Arquivos MDFe (*-MDFe.XML)|*-MDFe.XML|Arquivos XML (*.XML)|*.XML|Todos os Arquivos (*.*)|*.*';
+
+  OpenDialog1.InitialDir := ACBrMDFe1.Configuracoes.Arquivos.PathSalvar;
+
+  if OpenDialog1.Execute then
+  begin
+    ACBrMDFe1.Manifestos.Clear;
+    ACBrMDFe1.Configuracoes.Geral.ValidarDigest := False;
+    ACBrMDFe1.Manifestos.LoadFromFile(OpenDialog1.FileName);
+    ACBrMDFe1.Consultar;
+
+    ShowMessage(ACBrMDFe1.WebServices.Consulta.Protocolo);
+
+    MemoResp.Lines.Text := ACBrMDFe1.WebServices.Consulta.RetWS;
+    memoRespWS.Lines.Text := ACBrMDFe1.WebServices.Consulta.RetornoWS;
+    LoadXML(MemoResp, WBResposta);
+    NomeArq := OpenDialog1.FileName;
+
+    if pos(UpperCase('-MDFe.xml'), UpperCase(NomeArq)) > 0 then
+       NomeArq := StringReplace(NomeArq, '-MDFe.xml', '-procMDFe.xml', [rfIgnoreCase]);
+
+    ACBrMDFe1.Manifestos.Items[0].GravarXML(NomeArq);
+    ShowMessage('Arquivo gravado em: ' + NomeArq);
+    memoLog.Lines.Add('Arquivo gravado em: ' + NomeArq);
+  end;
 end;
 
 procedure TfACBrMDFe.btnEncerramentoClick(Sender: TObject);
@@ -2803,6 +2841,7 @@ begin
   end;
   if (dm.cds.FieldByName('TIPO_TRANSP').AsInteger = 2) then
     GroupBox16.Visible := True;
+  LerReboque;
 end;
 
 procedure TfACBrMDFe.PreencherCampos;
@@ -3999,6 +4038,128 @@ begin
  cbCryptLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLCryptLib );
  cbHttpLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLHttpLib );
  cbXmlSignLib.ItemIndex := Integer( ACBrMDFe1.Configuracoes.Geral.SSLXmlSignLib );
+end;
+
+procedure TfACBrMDFe.GravarReboque;
+var
+ IniFile    : String;
+ Ini        : TIniFile;
+begin
+ IniFile := edtPathLogs.Text + '\Reboque.ini';
+ Ini := TIniFile.Create( IniFile );
+ try
+  Ini.WriteString( 'Reboque1', 'cint', edRebocoCint.Text);
+  Ini.WriteString( 'Reboque1', 'placa', edRebocoPlaca.Text);
+  Ini.WriteString( 'Reboque1', 'tara' , edRebocoTara.Text);
+  Ini.WriteString( 'Reboque1', 'capm' , edRebocoCapM.Text);
+  Ini.WriteString( 'Reboque1', 'capkg' , edRebocoCapKg.Text);
+  Ini.WriteString( 'Reboque1', 'cpf' , edRebocoCPF.Text);
+  Ini.WriteString( 'Reboque1', 'rntrc' , edRebocoRNTRC.Text);
+  Ini.WriteString( 'Reboque1', 'nome' , edRebocoNome.Text);
+  Ini.WriteString( 'Reboque1', 'ie' , edRebocoIE.Text);
+  Ini.WriteString( 'Reboque1', 'tipoprop' , edRebocoTipoProp.Text);
+  Ini.WriteInteger( 'Reboque1', 'tipocarroc' , edRebocoTipoCarroc.ItemIndex);
+  Ini.WriteString( 'Reboque1', 'ufveic' , edRebocoUFVeic.Text);
+
+  Ini.WriteString( 'Reboque2', 'cint2', edRebocoCint2.Text);
+  Ini.WriteString( 'Reboque2', 'placa2', edRebocoPlaca2.Text);
+  Ini.WriteString( 'Reboque2', 'tara2' , edRebocoTara2.Text);
+  Ini.WriteString( 'Reboque2', 'capm2' , edRebocoCapM2.Text);
+  Ini.WriteString( 'Reboque2', 'capkg2' , edRebocoCapKg2.Text);
+  Ini.WriteString( 'Reboque2', 'cpf2' , edRebocoCPF2.Text);
+  Ini.WriteString( 'Reboque2', 'rntrc2' , edRebocoRNTRC2.Text);
+  Ini.WriteString( 'Reboque2', 'nome2' , edRebocoNome2.Text);
+  Ini.WriteString( 'Reboque2', 'ie2' , edRebocoIE2.Text);
+  Ini.WriteString( 'Reboque2', 'tipoprop2' , edRebocoTipoProp2.Text);
+  Ini.WriteInteger( 'Reboque2', 'tipocarroc2' , edRebocoTipoCarroc2.ItemIndex);
+  Ini.WriteString( 'Reboque2', 'ufveic2' , edRebocoUFVeic2.Text);
+ finally
+  Ini.Free;
+ end;
+end;
+
+procedure TfACBrMDFe.LerReboque;
+var
+ IniFile    : String;
+ Ini        : TIniFile;
+begin
+ IniFile := edtPathLogs.Text + '\Reboque.ini';
+
+ Ini := TIniFile.Create( IniFile );
+ try
+   edRebocoCint.Text  := Ini.ReadString( 'Reboque1', 'cint' ,'');
+   edRebocoPlaca.Text  := Ini.ReadString( 'Reboque1', 'placa' ,'');
+   edRebocoTara.Text  := Ini.ReadString( 'Reboque1', 'tara' ,'');
+   edRebocoCapM.Text  := Ini.ReadString( 'Reboque1', 'capm' ,'');
+   edRebocoCapKg.Text  := Ini.ReadString( 'Reboque1', 'capkg' ,'');
+   edRebocoCPF.Text  := Ini.ReadString( 'Reboque1', 'cpf' ,'');
+   edRebocoRNTRC.Text  := Ini.ReadString( 'Reboque1', 'rntrc' ,'');
+   edRebocoNome.Text  := Ini.ReadString( 'Reboque1', 'nome' ,'');
+   edRebocoIE.Text  := Ini.ReadString( 'Reboque1', 'ie' ,'');
+   edRebocoTipoProp.Text  := Ini.ReadString( 'Reboque1', 'tipoprop' ,'');
+   edRebocoTipoCarroc.Text  := Ini.ReadString( 'Reboque1', 'tipocarroc' ,'');
+   edRebocoUFVeic.Text  := Ini.ReadString( 'Reboque1', 'ufveic' ,'');
+
+   edRebocoCint2.Text  := Ini.ReadString( 'Reboque2', 'cint2' ,'');
+   edRebocoPlaca2.Text  := Ini.ReadString( 'Reboque2', 'placa2' ,'');
+   edRebocoTara2.Text  := Ini.ReadString( 'Reboque2', 'tara2' ,'');
+   edRebocoCapM2.Text  := Ini.ReadString( 'Reboque2', 'capm2' ,'');
+   edRebocoCapKg2.Text  := Ini.ReadString( 'Reboque2', 'capkg2' ,'');
+   edRebocoCPF2.Text  := Ini.ReadString( 'Reboque2', 'cpf2' ,'');
+   edRebocoRNTRC2.Text  := Ini.ReadString( 'Reboque2', 'rntrc2' ,'');
+   edRebocoNome2.Text  := Ini.ReadString( 'Reboque2', 'nome2' ,'');
+   edRebocoIE2.Text  := Ini.ReadString( 'Reboque2', 'ie2' ,'');
+   edRebocoTipoProp2.Text  := Ini.ReadString( 'Reboque2', 'tipoprop2' ,'');
+   edRebocoTipoCarroc2.Text  := Ini.ReadString( 'Reboque2', 'tipocarroc2' ,'');
+   edRebocoUFVeic2.Text  := Ini.ReadString( 'Reboque2', 'ufveic2' ,'');
+ finally
+  Ini.Free;
+ end;
+
+end;
+
+procedure TfACBrMDFe.LimparReboque;
+var
+ IniFile    : String;
+ Ini        : TIniFile;
+begin
+ IniFile := edtPathLogs.Text + '\Reboque.ini';
+ Ini := TIniFile.Create( IniFile );
+ try
+  Ini.WriteString( 'Reboque1', 'cint', '');
+  Ini.WriteString( 'Reboque1', 'placa', '');
+  Ini.WriteString( 'Reboque1', 'tara' , '');
+  Ini.WriteString( 'Reboque1', 'capm' , '');
+  Ini.WriteString( 'Reboque1', 'capkg' , '');
+  Ini.WriteString( 'Reboque1', 'cpf' , '');
+  Ini.WriteString( 'Reboque1', 'rntrc' , '');
+  Ini.WriteString( 'Reboque1', 'nome' , '');
+  Ini.WriteString( 'Reboque1', 'ie' , '');
+  Ini.WriteString( 'Reboque1', 'tipoprop' , '');
+  Ini.WriteInteger( 'Reboque1', 'tipocarroc' , 0);
+  Ini.WriteString( 'Reboque1', 'ufveic' , '');
+
+  Ini.WriteString( 'Reboque2', 'cint2', '');
+  Ini.WriteString( 'Reboque2', 'placa2', '');
+  Ini.WriteString( 'Reboque2', 'tara2' , '');
+  Ini.WriteString( 'Reboque2', 'capm2' , '');
+  Ini.WriteString( 'Reboque2', 'capkg2' , '');
+  Ini.WriteString( 'Reboque2', 'cpf2' , '');
+  Ini.WriteString( 'Reboque2', 'rntrc2' , '');
+  Ini.WriteString( 'Reboque2', 'nome2' , '');
+  Ini.WriteString( 'Reboque2', 'ie2' , '');
+  Ini.WriteString( 'Reboque2', 'tipoprop2' , '');
+  Ini.WriteInteger( 'Reboque2', 'tipocarroc2' , 0);
+  Ini.WriteString( 'Reboque2', 'ufveic2' , '');
+ finally
+  Ini.Free;
+ end;
+end;
+
+procedure TfACBrMDFe.BitBtn16Click(Sender: TObject);
+begin
+  LimparReboque;
+  LerReboque;
 end;
 
 end.
