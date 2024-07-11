@@ -428,6 +428,10 @@ type
     GroupBox49: TGroupBox;
     chkBackup: TCheckBox;
     BitBtn54: TBitBtn;
+    GroupBox50: TGroupBox;
+    Label95: TLabel;
+    BitBtn55: TBitBtn;
+    Edit27: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -538,6 +542,7 @@ type
     procedure BitBtn52Click(Sender: TObject);
     procedure BitBtn53Click(Sender: TObject);
     procedure BitBtn54Click(Sender: TObject);
+    procedure BitBtn55Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -1154,6 +1159,15 @@ begin
   begin
     if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
       chkPDV_VENDEDOR.Checked := True;
+  end;
+
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BLOQUEIOVENDAFIM';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    Edit27.Text := Trim(dm.cds_parametroCONFIGURADO.AsString);
   end;
 end;
 
@@ -6396,6 +6410,48 @@ begin
              [mbOk], 0);
       end;
    end;
+end;
+
+procedure TfParametro.BitBtn55Click(Sender: TObject);
+begin
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'BLOQUEIOVENDAFIM';
+  s_parametro.Open;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Bloqueia finalizacao de venda para inadimplentes') + ', ';
+    strSql := strSql + QuotedStr('BLOQUEIOVENDAFIM') + ', ';
+    strSql := strSql + QuotedStr(edit27.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Parametro gravado com sucesso.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET CONFIGURADO = ';
+    strSql := strSql + QuotedStr(edit27.Text);
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('BLOQUEIOVENDAFIM');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Parametro atualizado com sucesso..', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
+    end;
+  end;
 end;
 
 end.

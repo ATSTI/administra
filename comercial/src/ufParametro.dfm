@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 889
     Height = 513
-    ActivePage = tsCupom
+    ActivePage = TabSheet7
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2916,7 +2916,7 @@ inherited fParametro: TfParametro
       ImageIndex = 7
       object Label89: TLabel
         Left = 4
-        Top = 466
+        Top = 472
         Width = 854
         Height = 13
         Caption = 
@@ -2932,7 +2932,7 @@ inherited fParametro: TfParametro
       end
       object Label90: TLabel
         Left = 4
-        Top = 409
+        Top = 457
         Width = 514
         Height = 13
         Caption = 
@@ -3393,6 +3393,38 @@ inherited fParametro: TfParametro
           Width = 69
           Height = 21
           TabOrder = 0
+        end
+      end
+      object GroupBox50: TGroupBox
+        Left = 0
+        Top = 407
+        Width = 769
+        Height = 45
+        Caption = 'Bloquear Finaliza'#231#227'o de Vendas em caso de inadimpl'#234'ncia'
+        TabOrder = 11
+        object Label95: TLabel
+          Left = 16
+          Top = 24
+          Width = 151
+          Height = 13
+          Caption = 'Bloquear inadimplentes (S ou N)'
+        end
+        object BitBtn55: TBitBtn
+          Left = 674
+          Top = 14
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn55Click
+        end
+        object Edit27: TEdit
+          Left = 196
+          Top = 19
+          Width = 69
+          Height = 21
+          TabOrder = 0
+          Text = 'N'
         end
       end
     end

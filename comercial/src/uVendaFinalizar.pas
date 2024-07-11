@@ -939,7 +939,32 @@ var  strSql, strTit, tipoMov: String;
      utilcrtitulo : Tutils;
      FRec : TReceberCls;
      arq_log: TextFile;
+     sqlTexto1: String;
 begin
+  if (dm.vendaBloqueioFin = 'S') then
+  begin
+    // VERIFICAR se esta inadimplente
+    sqlTexto1 := '';
+    if scdsCr_proc.Active then
+      scdsCr_proc.Close;
+    sqltexto1 :='SELECT rec.STATUS, rec.DATARECEBIMENTO ';
+    sqltexto1 := sqltexto1 + ' FROM RECEBIMENTO rec ';
+    sqltexto1 := sqltexto1 + ' WHERE ((rec.STATUS = ';
+    sqltexto1 := sqltexto1 + '''' + '5-' + ''')';
+    sqltexto1 := sqltexto1 + ' AND (rec.DATAVENCIMENTO < CURRENT_DATE)';
+    sqltexto1 := sqltexto1 + ' AND (rec.CODCLIENTE = ' +
+      IntToStr(cdsCODCLIENTE.AsInteger) + '))';
+    if sqs_tit.Active then
+      sqs_tit.Close;
+    sqs_tit.CommandText := sqltexto1;
+    sqs_tit.Open;
+    if (not sqs_tit.IsEmpty) then
+    begin
+      MessageDlg('Existe fatura em aberto para o Cliente, faturamento não permitido.', mtWarning, [mbOK], 0);
+      Exit;
+    end;
+  end;
+
   //AssignFile(arq_log, 'C:\home\finaliza_venda.txt');
   //Rewrite(arq_log);
   //Writeln(arq_log, 'Iniciou a gravacao ' + FormatDateTime('MM:ss', Now));

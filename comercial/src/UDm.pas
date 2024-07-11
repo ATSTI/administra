@@ -2103,6 +2103,7 @@ type
     diretorioUser: String;
     mascaraProduto : String;
     prdPrecoCustoFixo: String;
+    vendaBloqueioFin: String;
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde, recortacupom : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos, linhaTamanho : String;  //VARIAVEIS IMPRESSAO
     //CUPOM
@@ -2335,6 +2336,17 @@ begin
   begin
     vendaVerTotal := Trim(cds_parametroDADOS.AsString);
   end;
+
+  vendaBloqueioFin := 'N';
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'BLOQUEIOVENDAFIM';
+  cds_parametro.Open;
+  if ((not cds_parametro.IsEmpty) and (Trim(cds_parametroCONFIGURADO.AsString) = 'S'))  then
+  begin
+    vendaBloqueioFin := 'S';
+  end;
+
   if cds_parametro.Active then
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
