@@ -1728,7 +1728,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 160
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 1
           end
           object cbCryptLib: TComboBox
@@ -1737,7 +1737,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 160
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object cbHttpLib: TComboBox
@@ -1746,7 +1746,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 160
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 3
           end
           object cbXmlSignLib: TComboBox
@@ -1755,7 +1755,7 @@ object fACBrMDFe: TfACBrMDFe
             Width = 160
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 4
           end
         end
@@ -3384,7 +3384,7 @@ object fACBrMDFe: TfACBrMDFe
       Top = 177
       Width = 636
       Height = 406
-      ActivePage = TabSheet9
+      ActivePage = TabSheet5
       Align = alClient
       TabOrder = 1
       object TabSheet5: TTabSheet

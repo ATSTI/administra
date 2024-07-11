@@ -1935,23 +1935,23 @@ begin
  GerarMDFe(vAux);
  ACBrMDFe1.Enviar(StrToInt(vNumLote),True,True);
 
- MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.Retorno.RetWS);
- memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.Retorno.RetWS);
+ MemoResp.Lines.Text   := UTF8Encode(ACBrMDFe1.WebServices.Enviar.RetWS);
+ memoRespWS.Lines.Text := UTF8Encode(ACBrMDFe1.WebServices.Enviar.RetornoWS);
  LoadXML(MemoResp, WBResposta);
 
  PageControl2.ActivePageIndex := 5;
  vProtocoloEnv := '';
- vProtocoloEnv := ACBrMDFe1.WebServices.Retorno.Protocolo;
+ vProtocoloEnv := ACBrMDFe1.WebServices.Enviar.Protocolo;
  MemoDados.Lines.Add('');
  MemoDados.Lines.Add('Envio MDFe');
- MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrMDFe1.WebServices.Retorno.TpAmb));
- MemoDados.Lines.Add('verAplic: '+ ACBrMDFe1.WebServices.Retorno.verAplic);
- MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrMDFe1.WebServices.Retorno.cStat));
- MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrMDFe1.WebServices.Retorno.cUF));
- MemoDados.Lines.Add('xMotivo: '+ ACBrMDFe1.WebServices.Retorno.xMotivo);
- MemoDados.Lines.Add('xMsg: '+ ACBrMDFe1.WebServices.Retorno.Msg);
- MemoDados.Lines.Add('Recibo: '+ ACBrMDFe1.WebServices.Retorno.Recibo);
- MemoDados.Lines.Add('Protocolo: '+ ACBrMDFe1.WebServices.Retorno.Protocolo);
+ MemoDados.Lines.Add('tpAmb: '+ TpAmbToStr(ACBrMDFe1.WebServices.Enviar.TpAmb));
+ MemoDados.Lines.Add('verAplic: '+ ACBrMDFe1.WebServices.Enviar.verAplic);
+ MemoDados.Lines.Add('cStat: '+ IntToStr(ACBrMDFe1.WebServices.Enviar.cStat));
+ MemoDados.Lines.Add('cUF: '+ IntToStr(ACBrMDFe1.WebServices.Enviar.cUF));
+ MemoDados.Lines.Add('xMotivo: '+ ACBrMDFe1.WebServices.Enviar.xMotivo);
+ MemoDados.Lines.Add('xMsg: '+ ACBrMDFe1.WebServices.Enviar.Msg);
+ MemoDados.Lines.Add('Recibo: '+ ACBrMDFe1.WebServices.Enviar.Recibo);
+ MemoDados.Lines.Add('Protocolo: '+ ACBrMDFe1.WebServices.Enviar.Protocolo);
 
   if (vProtocoloEnv <> '') then
   begin
