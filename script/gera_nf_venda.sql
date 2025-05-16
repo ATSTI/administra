@@ -51,6 +51,7 @@ AS
   declare variable un char(2);
   declare variable uf char(2);
   declare variable cst char(5);
+  declare variable csosn char(5);
   declare variable cstIPI char(5);
   declare variable cstPIS char(5);
   declare variable cstCOFINS char(5);
@@ -122,7 +123,7 @@ AS
   declare variable volume DOUBLE PRECISION;
   declare variable total_volume DOUBLE PRECISION;
 begin 
-  -- versao 3.0
+  -- versao 3.1 16/05/2025
   total_volume = 0;
   vFreteT = 0;
   vIcmsT = 0;
@@ -226,14 +227,14 @@ begin
       , md.ICMS, md.VLR_BASEICMS, prod.PESO_QTDE, prod.PESO_LIQ, prod.CST, md.OBS, md.CFOP, md.vlr_base
       , prod.NCM, md.VALOR_ICMS, md.PAGOU, md.CST, md.CSTPIS, md.CSTCOFINS, md.CSTIPI, md.VIPI, md.VALOR_PIS
       , md.VALOR_COFINS, md.VLRBC_IPI, md.VLRBC_PIS, md.VLRBC_COFINS, md.PIPI, md.PPIS, md.PCOFINS, md.LOTE
-      , md.DTAFAB, md.DTAVCTO, COALESCE(prod.QTDE_PCT,1) as VOLUME, prod.EMBALAGEM  
+      , md.DTAFAB, md.DTAVCTO, COALESCE(prod.QTDE_PCT,1) as VOLUME, prod.EMBALAGEM, md.CSOSN  
       from MOVIMENTODETALHE md
       inner join PRODUTOS prod on prod.CODPRODUTO = md.CODPRODUTO
       where md.CODMOVIMENTO = :codMov
     into :desconto, :codProduto, :qtde, :un, :preco, :descP
        , :icms, :baseIcms, :pesoUn, :pesoLiq, :cstProd, :obsp, :cfop, :vlr_base
        , :ncm, :valoricms, :calc_manual, :cst, :cstPIS, :cstCOFINS, :cstIPI, :vIPI, :vPIS, :vCOFINS
-       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO, :volume, :embalagem
+       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO, :volume, :embalagem, :csosn
     do begin 
       nitemped = nitemped + 1;
 	
@@ -303,12 +304,12 @@ begin
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO, CFOP
        , frete, valor_seguro, valor_outros, pagou, VLR_BASEICMS, ICMS_SUBSTD, ICMS_SUBST, CSTPIS, CSTCOFINS, CSTIPI,
-       VIPI, VALOR_PIS, VALOR_COFINS, VLRBC_IPI, VLRBC_PIS, VLRBC_COFINS, PIPI, PPIS, PCOFINS, LOTE, DTAFAB, DTAVCTO 
+       VIPI, VALOR_PIS, VALOR_COFINS, VLRBC_IPI, VLRBC_PIS, VLRBC_COFINS, PIPI, PPIS, PCOFINS, LOTE, DTAFAB, DTAVCTO, CSOSN
         ) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
        , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, :vDescontoProd, :vlr_base, 0, 0, :obsp, :nitemped, :xped
        , :cfop, 0, 0, 0, :calc_manual, :baseIcms, 0, 0, :CSTPIS, :CSTCOFINS, :CSTIPI, :vIPI, :vPIS, :vCOFINS
-       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO);  
+       , :bcIPI, :bcPIS, :bcCOFINS, :pIPI, :pPIS, :pCOFINS, :pLote, :pDATAFAB, :pDATAVCTO, :csosn);  
       total = total + (qtde * :vlr_base);
       totalIcms = totalIcms + :valoricms;
     
