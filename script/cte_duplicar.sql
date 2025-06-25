@@ -1,17 +1,14 @@
-SET TERM ^ ;
-
-CREATE OR ALTER PROCEDURE CTE_DUPLICAR
- ( cte_origem INTEGER, 
-   cod_cte_nova INTEGER ) 
-AS 
---DECLARE VARIABLE cod_cte_nova Integer; 
+CREATE OR ALTER PROCEDURE  CTE_DUPLICAR( CTE_ORIGEM                       INTEGER
+                             , COD_CTE_NOVA                     INTEGER )
+AS
+/*DECLARE VARIABLE cod_cte_nova Integer;  */
 DECLARE VARIABLE cod_id Integer; 
 BEGIN
-   --select * from cte_duplicar_cte(:cte_origem)
-   --  into :cod_cte_nova;
-   --cod_cte_nova = 
+   /*select * from cte_duplicar_cte(:cte_origem) */
+   /*  into :cod_cte_nova; */
+   /*cod_cte_nova =  */
         
-    -- CTE_COMP
+    /* CTE_COMP */
     FOR SELECT COD_CTE_COMP FROM CTE_COMP 
       WHERE COD_CTE = :cte_origem 
       INTO :cod_id
@@ -24,7 +21,7 @@ BEGIN
         WHERE COD_CTE_COMP = :cod_id;
     end
 
-    -- CTE_MOTORISTA
+    /* CTE_MOTORISTA */
     FOR SELECT COD_CTE_MOTORISTA FROM CTE_MOTORISTA 
       WHERE COD_CTE = :cte_origem 
       INTO :cod_id
@@ -37,7 +34,7 @@ BEGIN
         WHERE COD_CTE_MOTORISTA = :cod_id;
     end
       
-    -- CTE_NFE 
+    /* CTE_NFE  */
     FOR SELECT COD_CTE_NFE FROM CTE_NFE 
       WHERE CTE_NFE = :cte_origem 
       INTO :cod_id     
@@ -50,7 +47,7 @@ BEGIN
         WHERE COD_CTE_NFE = :cod_id;
     end
       
-    -- CTE_QC
+    /* CTE_QC */
     FOR SELECT COD_CTE_QC FROM CTE_QC 
       WHERE COD_CTE = :cte_origem 
       INTO :cod_id
@@ -63,7 +60,7 @@ BEGIN
         WHERE COD_CTE_QC = :cod_id;
     end
 
-    -- CTE_SEGURO
+    /* CTE_SEGURO */
     FOR SELECT COD_CTE_SEGURO FROM CTE_SEGURO 
       WHERE COD_CTE = :cte_origem 
       INTO :cod_id
@@ -78,7 +75,7 @@ BEGIN
         WHERE COD_CTE_SEGURO = :cod_id;
     end
     
-    -- CTE_VEICULOS    
+    /* CTE_VEICULOS     */
     FOR SELECT COD_CTE_VEICULOS FROM CTE_VEICULOS 
       WHERE COD_CTE = :cte_origem 
       INTO :cod_id
@@ -94,5 +91,4 @@ BEGIN
         FROM CTE_VEICULOS 
         WHERE COD_CTE_VEICULOS = :cod_id;
     end
-end      
-
+end
