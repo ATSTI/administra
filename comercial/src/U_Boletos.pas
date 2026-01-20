@@ -577,7 +577,7 @@ begin
                   341: Titulo.NossoNumero := IntToStrZero(varNossoNumero,8);// 341 - Banco Itau
                   399: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 399 - Banco HSBC
                   409: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 409 - Banco Unicanco
-                  748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,6);// 748 - Banco Sicredi
+                  748: Titulo.NossoNumero := IntToStrZero(varNossoNumero,5);// 748 - Banco Sicredi
                   353: Titulo.NossoNumero := IntToStrZero(varNossoNumero,10);// 353 - SANTANDER
                 end;
               end;
@@ -602,7 +602,9 @@ begin
                  ACBrBoleto1.Cedente.AgenciaDigito := PadRight(s_bancoDIGITO_AGENCIA.AsString, 2, '0');
                  if (s_bancoRESP_EMISSAO.AsString = 'Cliente Emite') then
                     ACBrBoleto1.Cedente.Modalidade := '3';
-                 NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5);
+                // NossoNumero := numero_ano + '2' + IntToStrZero(varNossoNumero,5); MANOEL 15/01/2026
+                NossoNumero :=  IntToStrZero(varNossoNumero,5);
+
                     //Titulo.Carteira := '1';
               end;
               if ((s_bancoN_BANCO.AsString = '001')) then

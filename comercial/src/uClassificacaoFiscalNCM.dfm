@@ -1,8 +1,8 @@
 inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
-  Left = 242
-  Top = 35
-  Width = 882
-  Height = 677
+  Left = 139
+  Top = 2
+  Width = 1125
+  Height = 667
   Caption = 'Classifica'#231#227'o Fiscal dos NCMs'
   OldCreateOrder = True
   OnCreate = nil
@@ -10,7 +10,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 874
+    Width = 1117
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
@@ -35,8 +35,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 599
-    Width = 874
+    Top = 589
+    Width = 1117
     TabOrder = 0
     inherited btnProcurar: TBitBtn
       Visible = False
@@ -45,8 +45,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   object DBGrid1: TDBGrid [2]
     Left = 0
     Top = 346
-    Width = 874
-    Height = 253
+    Width = 1117
+    Height = 243
     Align = alClient
     DataSource = DtSrc
     TabOrder = 4
@@ -161,6 +161,41 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         FieldName = 'PIS'
         Width = 50
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CST_IBS_CBS'
+        Title.Caption = 'CST IBS CBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CCLASSTRIB'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_IBS'
+        Title.Caption = '% IBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CBS'
+        Title.Caption = '% CBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'REDUCAO_IBS'
+        Title.Caption = '% RED. IBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'REDUCAO_CBS'
+        Title.Caption = '% RED CBS'
+        Visible = True
       end>
   end
   object gbProduto: TGroupBox [3]
@@ -203,7 +238,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 185
-    Width = 874
+    Width = 1117
     Height = 161
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -215,10 +250,10 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ParentFont = False
     TabOrder = 2
     DesignSize = (
-      874
+      1117
       161)
     object Label17: TLabel
-      Left = 7
+      Left = 20
       Top = 21
       Width = 83
       Height = 16
@@ -236,7 +271,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label17Click
     end
     object DBEdit18: TDBEdit
-      Left = 108
+      Left = 225
       Top = 18
       Width = 627
       Height = 21
@@ -256,7 +291,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 108
+      Left = 225
       Top = 40
       Width = 627
       Height = 21
@@ -276,7 +311,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 108
+      Left = 225
       Top = 62
       Width = 627
       Height = 22
@@ -296,7 +331,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit21: TDBEdit
-      Left = 108
+      Left = 225
       Top = 85
       Width = 627
       Height = 22
@@ -316,7 +351,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit22: TDBEdit
-      Left = 108
+      Left = 225
       Top = 108
       Width = 627
       Height = 22
@@ -336,7 +371,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnKeyPress = FormKeyPress
     end
     object DBEdit23: TDBEdit
-      Left = 108
+      Left = 225
       Top = 131
       Width = 627
       Height = 22
@@ -359,12 +394,12 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   object Panel1: TPanel [5]
     Left = 0
     Top = 51
-    Width = 874
+    Width = 1117
     Height = 134
     Align = alTop
     TabOrder = 1
     DesignSize = (
-      874
+      1117
       134)
     object Label1: TLabel
       Left = 3
@@ -502,7 +537,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ShowHint = True
     end
     object Label21: TLabel
-      Left = 585
+      Left = 583
       Top = 1
       Width = 27
       Height = 16
@@ -522,7 +557,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label21Click
     end
     object Label10: TLabel
-      Left = 650
+      Left = 637
       Top = 1
       Width = 46
       Height = 16
@@ -543,7 +578,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label10Click
     end
     object Label12: TLabel
-      Left = 720
+      Left = 702
       Top = 1
       Width = 45
       Height = 16
@@ -560,7 +595,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label12Click
     end
     object Label13: TLabel
-      Left = 7
+      Left = 5
       Top = 44
       Width = 77
       Height = 16
@@ -577,7 +612,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       OnClick = Label13Click
     end
     object Label15: TLabel
-      Left = 145
+      Left = 144
       Top = 45
       Width = 50
       Height = 16
@@ -716,6 +751,48 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Height = 13
       Caption = 'Percentual II'
       FocusControl = DBEdit26
+    end
+    object Label26: TLabel
+      Left = 860
+      Top = 1
+      Width = 65
+      Height = 13
+      Caption = 'CST IBS CBS'
+    end
+    object Label28: TLabel
+      Left = 957
+      Top = 1
+      Width = 60
+      Height = 13
+      Caption = 'CCASSTRIB'
+    end
+    object Label30: TLabel
+      Left = 862
+      Top = 42
+      Width = 28
+      Height = 13
+      Caption = '% IBS'
+    end
+    object Label31: TLabel
+      Left = 959
+      Top = 44
+      Width = 32
+      Height = 13
+      Caption = '% CBS'
+    end
+    object Label32: TLabel
+      Left = 863
+      Top = 84
+      Width = 54
+      Height = 13
+      Caption = '% Red. IBS'
+    end
+    object Label33: TLabel
+      Left = 960
+      Top = 86
+      Width = 58
+      Height = 13
+      Caption = '% Red. CBS'
     end
     object DBEdit1: TDBEdit
       Left = 3
@@ -1273,6 +1350,96 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       ParentFont = False
       TabOrder = 29
     end
+    object DBEdit30: TDBEdit
+      Left = 860
+      Top = 16
+      Width = 78
+      Height = 24
+      DataField = 'CST_IBS_CBS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 30
+    end
+    object DBEdit31: TDBEdit
+      Left = 956
+      Top = 15
+      Width = 78
+      Height = 24
+      DataField = 'CCLASSTRIB'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 31
+    end
+    object DBEdit32: TDBEdit
+      Left = 861
+      Top = 56
+      Width = 78
+      Height = 24
+      DataField = 'P_IBS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 32
+    end
+    object DBEdit33: TDBEdit
+      Left = 958
+      Top = 57
+      Width = 78
+      Height = 24
+      DataField = 'P_CBS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 33
+    end
+    object DBEdit34: TDBEdit
+      Left = 862
+      Top = 100
+      Width = 78
+      Height = 24
+      DataField = 'REDUCAO_IBS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 34
+    end
+    object DBEdit37: TDBEdit
+      Left = 961
+      Top = 101
+      Width = 78
+      Height = 24
+      DataField = 'REDUCAO_CBS'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 35
+    end
   end
   object panelAjuda: TPanel [6]
     Left = 160
@@ -1456,6 +1623,26 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object sdsClassFiscII_PERCENTUAL: TFloatField
       FieldName = 'II_PERCENTUAL'
     end
+    object sdsClassFiscCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      Size = 3
+    end
+    object sdsClassFiscCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      Size = 6
+    end
+    object sdsClassFiscP_IBS: TFloatField
+      FieldName = 'P_IBS'
+    end
+    object sdsClassFiscP_CBS: TFloatField
+      FieldName = 'P_CBS'
+    end
+    object sdsClassFiscREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+    end
+    object sdsClassFiscREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -1608,6 +1795,26 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     end
     object cdsClassFiscII_PERCENTUAL: TFloatField
       FieldName = 'II_PERCENTUAL'
+    end
+    object cdsClassFiscCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      Size = 3
+    end
+    object cdsClassFiscCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      Size = 6
+    end
+    object cdsClassFiscP_IBS: TFloatField
+      FieldName = 'P_IBS'
+    end
+    object cdsClassFiscP_CBS: TFloatField
+      FieldName = 'P_CBS'
+    end
+    object cdsClassFiscREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+    end
+    object cdsClassFiscREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
     end
   end
   object dspClassFisc: TDataSetProvider

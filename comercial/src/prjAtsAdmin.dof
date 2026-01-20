@@ -135,6 +135,14 @@ ProductName=ATS Admin
 ProductVersion=1.0.0.0
 Comments=Um produto ATS Solucoes
 [Excluded Packages]
+C:\Arquivos de programas\Borland\Delphi7\Projects\Bpl\ACBr_Integrador.bpl=ACBr - Integrador - (http://www.projetoacbr.com.br/)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_NFCeECFVirtual.bpl=ACBr - Implementação ECF Virtual NFCe. Permite usar ACBrECF para emitir NFCe como se fosse um ECF
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_SATExtratoRL.bpl=ACBr - Extrato Cupom Fiscal Eletrônico SAT para Fortes Report - (http://www.projectoacbr.com.br/)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_SATECFVirtual.bpl=ACBr - Implementação de ECF Virtual para o SAT. Permite usar ACBrECF para comandar o SAT como se fosse um ECF
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_Boleto.bpl=ACBr - Boleto - (http://www.projetoacbr.com.br/)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_CTe.bpl=ACBr - Conhecimento de Transporte Eletrônico - (http://www.projetoacbr.com.br/)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_CTeDacteRL.bpl=ACBr - DACTe em FortesReport - (http://www.projetoacbr.com.br/)
+c:\arquivos de programas\borland\delphi7\Projects\Bpl\ACBr_BoletoRL.bpl=ACBr - Boleto Impressão em FortesReport - (http://www.projectoacbr.com.br/)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\RLBoletoD7.bpl=RLBoleto (by Produsys Sistemas e Internet
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70VCL.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\Rave70CLX.bpl=(untitled)
@@ -151,6 +159,21 @@ C:\Arquivos de programas\Borland\Delphi7\Componentes\ip4000vcl7\package\ip4000dc
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\dclcxWebPascalScriptD7.bpl=Pascal Script Engine for EWF by Developer Express Inc.
 Z:\carlos\ats-admin1.0\transportadora\visao\uPaiNew.bpl=(untitled)
 c:\arquivos de programas\borland\delphi7\Projects\Bpl\teste.bpl=(untitled)
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=c:\tmp
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlUnitOutputDirectory]
+Count=1
+Item0=c:\tmp
+[HistoryLists\hlOutputDirectorry]
+Count=1
+Item0=C:\Home\sisadmin
+[HistoryLists\hlBPLOutput]
+Count=1
+Item0=c:\tmp
+[HistoryLists\hlDCPOutput]
+Count=1
+Item0=c:\tmp

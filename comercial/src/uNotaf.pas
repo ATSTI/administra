@@ -644,7 +644,8 @@ begin
       ', NOTAFISCAL' +
       ', ICMS_DESTACADO ' +
       ', MODELO FROM SERIES WHERE CODSERIE = ' +
-      IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
+    QuotedStr(dmnf.cds_empresaCODIGO.AsString);
+    //IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
     dm.cdsBusca.Open;
     if (not dm.cdsBusca.IsEmpty) then
     begin
@@ -858,7 +859,8 @@ begin
       ', NOTAFISCAL' +
       ', ICMS_DESTACADO ' +
       ', MODELO FROM SERIES WHERE CODSERIE = ' +
-      IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
+      QuotedStr(dmnf.cds_empresaCODIGO.AsString);
+      //IntToStr(dmnf.cds_empresaCODIGO.AsInteger);
     dm.cdsBusca.Open;
     if (not dm.cdsBusca.IsEmpty) then
     begin

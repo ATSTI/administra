@@ -80,7 +80,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 811
+    Width = 819
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1559,8 +1559,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [15]
     Left = 0
-    Top = 553
-    Width = 811
+    Top = 565
+    Width = 819
     Height = 28
     Align = alBottom
     BevelInner = bvLowered

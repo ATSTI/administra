@@ -227,6 +227,30 @@ type
     Label29: TLabel;
     sdsClassFiscII_PERCENTUAL: TFloatField;
     cdsClassFiscII_PERCENTUAL: TFloatField;
+    sdsClassFiscCST_IBS_CBS: TStringField;
+    sdsClassFiscCCLASSTRIB: TStringField;
+    sdsClassFiscP_IBS: TFloatField;
+    sdsClassFiscP_CBS: TFloatField;
+    sdsClassFiscREDUCAO_IBS: TFloatField;
+    sdsClassFiscREDUCAO_CBS: TFloatField;
+    DBEdit30: TDBEdit;
+    DBEdit31: TDBEdit;
+    DBEdit32: TDBEdit;
+    DBEdit33: TDBEdit;
+    DBEdit34: TDBEdit;
+    DBEdit37: TDBEdit;
+    Label26: TLabel;
+    Label28: TLabel;
+    Label30: TLabel;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    cdsClassFiscCST_IBS_CBS: TStringField;
+    cdsClassFiscCCLASSTRIB: TStringField;
+    cdsClassFiscP_IBS: TFloatField;
+    cdsClassFiscP_CBS: TFloatField;
+    cdsClassFiscREDUCAO_IBS: TFloatField;
+    cdsClassFiscREDUCAO_CBS: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -337,6 +361,14 @@ begin
         str := str + ', REDBASECOFINS = ' + FloatToStr(cdsClassFiscREDBASECOFINS.AsFloat);
         str := str + ', REDBASEIPI = ' + FloatToStr(cdsClassFiscREDBASEIPI.AsFloat);
         str := str + ', II_PERCENTUAL = ' + FloatToStr(cdsClassFiscII_PERCENTUAL.AsFloat);
+
+       str := str + ', CST_IBS_CBS = ' + QuotedStr(cdsClassFiscCST_IBS_CBS.AsString);
+       str := str + ', CCLASSTRIB = ' + QuotedStr(cdsClassFiscCCLASSTRIB.AsString);
+       str := str + ', P_IBS = ' + FloatToStr(cdsClassFiscP_IBS.AsFloat);
+       str := str + ', P_CBS = ' + FloatToStr(cdsClassFiscP_CBS.AsFloat);
+       str := str + ', REDUCAO_IBS = ' + FloatToStr(cdsClassFiscREDUCAO_IBS.AsFloat);
+       str := str + ', REDUCAO_CBS = ' + FloatToStr(cdsClassFiscREDUCAO_CBS.AsFloat);
+
         str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
         str := str + ' AND CFOP = ' + QuotedStr(CFOP);
         str := str + ' AND UF = ' + QuotedStr(UF);

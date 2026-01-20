@@ -389,5 +389,21 @@ object fTributosInfo: TfTributosInfo
         TabOrder = 0
       end
     end
+    object TabSheet7: TTabSheet
+      Caption = 'CST IBS CBS'
+      ImageIndex = 6
+    end
+    object TabSheet8: TTabSheet
+      Caption = 'CCASTRIB'
+      ImageIndex = 7
+      object Memo8: TMemo
+        Left = 0
+        Top = 0
+        Width = 819
+        Height = 508
+        Align = alClient
+        TabOrder = 0
+      end
+    end
   end
 end

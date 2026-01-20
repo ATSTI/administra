@@ -217,6 +217,30 @@ type
     cdsProdCopiaVICMSUFREMET: TFloatField;
     cdsProdCopiaCST_IPI_CENQ: TStringField;
     cdsProdCopiaCODFISCAL: TStringField;
+    sdsClassFiscCST_IBS_CBS: TStringField;
+    sdsClassFiscCCLASSTRIB: TStringField;
+    sdsClassFiscP_IBS: TFloatField;
+    sdsClassFiscP_CBS: TFloatField;
+    sdsClassFiscREDUCAO_IBS: TFloatField;
+    sdsClassFiscREDUCAO_CBS: TFloatField;
+    DBEdit17: TDBEdit;
+    DBEdit18: TDBEdit;
+    DBEdit19: TDBEdit;
+    DBEdit20: TDBEdit;
+    DBEdit21: TDBEdit;
+    DBEdit22: TDBEdit;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    cdsClassFiscCST_IBS_CBS: TStringField;
+    cdsClassFiscCCLASSTRIB: TStringField;
+    cdsClassFiscP_IBS: TFloatField;
+    cdsClassFiscP_CBS: TFloatField;
+    cdsClassFiscREDUCAO_IBS: TFloatField;
+    cdsClassFiscREDUCAO_CBS: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -299,6 +323,15 @@ begin
       str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
       str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
       str := str + ', CODFISCAL = ' + QuotedStr(DBLookupComboBox1.KeyValue);
+
+      str := str + ', CST_IBS_CBS = ' + QuotedStr(cdsClassFiscCST_IBS_CBS.AsString);
+      str := str + ', CCLASSTRIB = ' + QuotedStr(cdsClassFiscCCLASSTRIB.AsString);
+      str := str + ', P_IBS = ' + FloatToStr(cdsClassFiscP_IBS.AsFloat);
+      str := str + ', P_CBS = ' + FloatToStr(cdsClassFiscP_CBS.AsFloat);
+      str := str + ', REDUCAO_IBS = ' + FloatToStr(cdsClassFiscREDUCAO_IBS.AsFloat);
+      str := str + ', REDUCAO_CBS = ' + FloatToStr(cdsClassFiscREDUCAO_CBS.AsFloat);
+
+
       str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
       str := str + ' AND CFOP = ' + QuotedStr(CFOP);
       str := str + ' AND UF = ' + QuotedStr(UF);

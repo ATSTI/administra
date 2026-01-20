@@ -1280,7 +1280,7 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao116;
+      COD_VER          := vlVersao114;
       if (data_ini.Date < StrToDate('01/01/2023')) then
       begin
         COD_VER          := vlVersao115;

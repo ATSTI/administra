@@ -1,7 +1,7 @@
 inherited fEstado: TfEstado
-  Left = 237
-  Top = 21
-  Width = 980
+  Left = 73
+  Top = -9
+  Width = 1243
   Height = 640
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Classifica'#231#227'o Fiscal por Estado'
@@ -11,7 +11,7 @@ inherited fEstado: TfEstado
   PixelsPerInch = 96
   TextHeight = 16
   object Label18: TLabel [0]
-    Left = 225
+    Left = 290
     Top = 57
     Width = 29
     Height = 16
@@ -30,36 +30,36 @@ inherited fEstado: TfEstado
   end
   inherited MMJPanel1: TMMJPanel
     Top = 559
-    Width = 972
+    Width = 1235
     inherited btnIncluir: TBitBtn [0]
-      Left = 383
+      Left = 500
       Anchors = [akTop, akBottom]
     end
     inherited btnGravar: TBitBtn [1]
-      Left = 383
+      Left = 500
       Anchors = [akTop, akBottom]
     end
     inherited btnCancelar: TBitBtn
-      Left = 527
+      Left = 684
       Anchors = [akTop, akBottom]
     end
     inherited btnExcluir: TBitBtn
-      Left = 527
+      Left = 684
       Anchors = [akTop, akBottom]
     end
     inherited btnProcurar: TBitBtn
-      Left = 237
+      Left = 315
       Anchors = [akTop, akBottom]
       Caption = 'CFOP'
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
-      Left = 673
+      Left = 869
       Anchors = [akTop, akBottom]
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 972
+    Width = 1235
     Height = 177
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -90,7 +90,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label3: TLabel
-      Left = 9
+      Left = 12
       Top = 43
       Width = 39
       Height = 16
@@ -105,7 +105,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label4: TLabel
-      Left = 80
+      Left = 82
       Top = 44
       Width = 20
       Height = 16
@@ -123,7 +123,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object Label5: TLabel
-      Left = 114
+      Left = 113
       Top = 43
       Width = 76
       Height = 16
@@ -151,7 +151,7 @@ inherited fEstado: TfEstado
       Transparent = True
     end
     object DBEdit1: TDBEdit
-      Left = 7
+      Left = 9
       Top = 61
       Width = 66
       Height = 24
@@ -171,7 +171,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 77
+      Left = 79
       Top = 61
       Width = 28
       Height = 24
@@ -191,8 +191,8 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object CheckBox1: TCheckBox
-      Left = 257
-      Top = 61
+      Left = 260
+      Top = 67
       Width = 142
       Height = 13
       Anchors = [akTop]
@@ -209,7 +209,7 @@ inherited fEstado: TfEstado
       OnClick = CheckBox1Click
     end
     object DBLookupComboBox3: TDBLookupComboBox
-      Left = 110
+      Left = 111
       Top = 61
       Width = 144
       Height = 24
@@ -1196,11 +1196,234 @@ inherited fEstado: TfEstado
         TabOrder = 3
       end
     end
+    object GroupBox10: TGroupBox
+      Left = 968
+      Top = 48
+      Width = 257
+      Height = 121
+      Caption = 'REFORMA TRIBUTARIA '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 13
+      DesignSize = (
+        257
+        121)
+      object Label26: TLabel
+        Left = 9
+        Top = 23
+        Width = 25
+        Height = 14
+        Hint = 'CST do IBS CBS'
+        Caption = 'CST'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label27: TLabel
+        Left = 109
+        Top = 23
+        Width = 74
+        Height = 14
+        Hint = 'C'#243'digo de Classifica'#231#227'o Tribut'#225'ria (cClassTrib)'
+        Caption = 'CCASSTRIB'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object Label28: TLabel
+        Left = 8
+        Top = 56
+        Width = 41
+        Height = 16
+        Caption = '% IBS'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = False
+      end
+      object Label29: TLabel
+        Left = 134
+        Top = 56
+        Width = 45
+        Height = 16
+        Caption = '% CBS'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label30: TLabel
+        Left = 4
+        Top = 91
+        Width = 53
+        Height = 14
+        Caption = 'RED. IBS'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label31: TLabel
+        Left = 125
+        Top = 93
+        Width = 57
+        Height = 14
+        Caption = 'RED. CBS'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Cooper Blk BT'
+        Font.Style = []
+        ParentFont = False
+      end
+      object DBEdit24: TDBEdit
+        Left = 59
+        Top = 19
+        Width = 43
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CST_IBS_CBS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit25: TDBEdit
+        Left = 187
+        Top = 18
+        Width = 60
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'CCLASSTRIB'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit26: TDBEdit
+        Left = 58
+        Top = 51
+        Width = 43
+        Height = 24
+        Hint = 'C'#243'digo de Enquadramento Legal do IPI'
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'P_IBS'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+      end
+      object DBEdit27: TDBEdit
+        Left = 187
+        Top = 52
+        Width = 60
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'P_CBS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit28: TDBEdit
+        Left = 59
+        Top = 88
+        Width = 43
+        Height = 24
+        Anchors = [akTop]
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        CharCase = ecUpperCase
+        DataField = 'REDUCAO_IBS'
+        DataSource = DtSrc
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 4
+        OnKeyPress = FormKeyPress
+      end
+      object DBEdit29: TDBEdit
+        Left = 186
+        Top = 88
+        Width = 60
+        Height = 24
+        Hint = 'C'#243'digo de Enquadramento Legal do IPI'
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        DataField = 'REDUCAO_CBS'
+        DataSource = DtSrc
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 5
+      end
+    end
   end
   object DBGrid1: TDBGrid [3]
     Left = 0
     Top = 326
-    Width = 972
+    Width = 1235
     Height = 233
     Align = alClient
     DataSource = DtSrc
@@ -1361,12 +1584,47 @@ inherited fEstado: TfEstado
         Title.Caption = 'Dados Adicionais 6'
         Width = 700
         Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CST_IBS_CBS'
+        Title.Caption = 'CST IBS CBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CCLASSTRIB'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_IBS'
+        Title.Caption = '% IBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CBS'
+        Title.Caption = '% CBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'REDUCAO_IBS'
+        Title.Caption = '% RED. IBS'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'REDUCAO_CBS'
+        Title.Caption = '% RED CBS'
+        Visible = True
       end>
   end
   object GroupBox1: TGroupBox [4]
     Left = 0
     Top = 177
-    Width = 972
+    Width = 1235
     Height = 149
     Align = alTop
     Caption = 'Dados Adicionais'
@@ -1378,10 +1636,10 @@ inherited fEstado: TfEstado
     ParentFont = False
     TabOrder = 3
     DesignSize = (
-      972
+      1235
       149)
     object DBEdit15: TDBEdit
-      Left = 155
+      Left = 282
       Top = 13
       Width = 627
       Height = 21
@@ -1401,7 +1659,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit16: TDBEdit
-      Left = 155
+      Left = 282
       Top = 33
       Width = 627
       Height = 21
@@ -1421,7 +1679,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit17: TDBEdit
-      Left = 155
+      Left = 282
       Top = 55
       Width = 627
       Height = 21
@@ -1441,7 +1699,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit18: TDBEdit
-      Left = 155
+      Left = 282
       Top = 77
       Width = 627
       Height = 22
@@ -1461,7 +1719,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit19: TDBEdit
-      Left = 155
+      Left = 282
       Top = 100
       Width = 627
       Height = 22
@@ -1481,7 +1739,7 @@ inherited fEstado: TfEstado
       OnKeyPress = FormKeyPress
     end
     object DBEdit20: TDBEdit
-      Left = 155
+      Left = 282
       Top = 123
       Width = 627
       Height = 22
@@ -1550,9 +1808,11 @@ inherited fEstado: TfEstado
       'DEST   '#13#10'        , esta.PFCPUFDEST '#13#10'        , esta.PICMSUFDEST ' +
       #13#10'        , esta.PICMSINTER '#13#10'        , esta.PICMSINTERPART  '#13#10' ' +
       '       , esta.VFCPUFDEST '#13#10'        , esta.VICMSUFDEST '#13#10'        ' +
-      ', esta.VICMSUFREMET '#13#10'        , esta.CST_IPI_CENQ '#13#10'FROM ESTADO_' +
-      'ICMS esta '#13#10'left outer join CFOP cfo on cfo.CFCOD = esta.CFOP '#13#10 +
-      'order by esta.CFOP'
+      ', esta.VICMSUFREMET '#13#10'        , esta.CST_IPI_CENQ '#13#10'        , es' +
+      'ta.CST_IBS_CBS'#13#10'        , esta.CCLASSTRIB'#13#10'        , esta.P_IBS'#13 +
+      #10'        , esta.P_CBS'#13#10'        , esta.REDUCAO_IBS'#13#10'        , est' +
+      'a.REDUCAO_CBS '#13#10#13#10#13#10'FROM ESTADO_ICMS esta '#13#10'left outer join CFOP' +
+      ' cfo on cfo.CFCOD = esta.CFOP '#13#10'order by esta.CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1692,6 +1952,26 @@ inherited fEstado: TfEstado
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+    object sdsCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      Size = 3
+    end
+    object sdsCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      Size = 6
+    end
+    object sdsP_IBS: TFloatField
+      FieldName = 'P_IBS'
+    end
+    object sdsP_CBS: TFloatField
+      FieldName = 'P_CBS'
+    end
+    object sdsREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+    end
+    object sdsREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
     end
   end
   object dsp: TDataSetProvider
@@ -1842,6 +2122,26 @@ inherited fEstado: TfEstado
       FieldName = 'CST_IPI_CENQ'
       FixedChar = True
       Size = 3
+    end
+    object cds_estadoCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      Size = 3
+    end
+    object cds_estadoCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      Size = 6
+    end
+    object cds_estadoP_IBS: TFloatField
+      FieldName = 'P_IBS'
+    end
+    object cds_estadoP_CBS: TFloatField
+      FieldName = 'P_CBS'
+    end
+    object cds_estadoREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+    end
+    object cds_estadoREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
     end
   end
   object sdsTFiscal: TSQLDataSet

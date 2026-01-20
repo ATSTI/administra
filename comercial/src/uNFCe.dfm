@@ -167,7 +167,7 @@ object fNFCe: TfNFCe
     Top = 70
     Width = 801
     Height = 377
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     TabOrder = 5
     object TabSheet1: TTabSheet
       Caption = 'XML'
@@ -498,7 +498,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 2
         end
         object cbxPorta: TComboBox
@@ -507,7 +507,7 @@ object fNFCe: TfNFCe
           Width = 138
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 3
         end
         object cbxPagCodigo: TComboBox
@@ -517,7 +517,7 @@ object fNFCe: TfNFCe
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 4
         end
         object seColunas: TSpinEdit
@@ -612,7 +612,7 @@ object fNFCe: TfNFCe
         Width = 160
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 10
         OnChange = cbXmlSignLibChange
       end
@@ -622,7 +622,7 @@ object fNFCe: TfNFCe
         Width = 160
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 11
         OnChange = cbHttpLibChange
       end
@@ -632,7 +632,7 @@ object fNFCe: TfNFCe
         Width = 160
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 12
         OnChange = cbCryptLibChange
       end
@@ -642,7 +642,7 @@ object fNFCe: TfNFCe
         Width = 160
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 13
         OnChange = cbSSLLibChange
       end
@@ -653,7 +653,7 @@ object fNFCe: TfNFCe
         Height = 21
         Hint = 'Depende de configura'#231#227'o de  SSL.HttpLib'
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 14
         OnChange = cbSSLTypeChange
       end
@@ -2419,33 +2419,33 @@ object fNFCe: TfNFCe
       'md.OBS,'#13#10'          case when udf_Pos('#39'-'#39', pr.CODPRO) > 0 then '#13#10 +
       '          udf_Copy(pr.CODPRO, 0, (udf_Pos('#39'-'#39', pr.CODPRO)-1))'#13#10' ' +
       '         ELSE'#13#10'          pr.CODPRO'#13#10'          END as codpro,'#13#10'  ' +
-      '        pr.UNIDADEMEDIDA,'#13#10'          md.CST,'#13#10'          md.ICMS,' +
-      ' md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI, 6) as pIPI,'#13#10'       ' +
-      '   UDF_ROUNDDEC(md.FRETE, 6) as FRETE,'#13#10'          UDF_ROUNDDEC(m' +
-      'd.VALOR_DESCONTO, 6) as VALOR_DESCONTO,'#13#10'          UDF_ROUNDDEC(' +
-      'md.vIPI, 6) as vIPI,'#13#10'          UDF_ROUNDDEC(md.VLR_BASEICMS, 6)' +
-      ' as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(md.VALOR_ICMS, 6) as V' +
-      'ALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_BASE, 6) as VLR_BASE,' +
-      #13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 6) as ICMS_SUBST,'#13#10'     ' +
-      '     UDF_ROUNDDEC(md.ICMS_SUBSTD, 6) as ICMS_SUBSTD, '#13#10'         ' +
-      ' UDF_ROUNDDEC(md.VALOR_PIS, 6) as VALOR_PIS, '#13#10'          UDF_ROU' +
-      'NDDEC(md.VALOR_COFINS, 6) as VALOR_COFINS, '#13#10'          UDF_ROUND' +
-      'DEC((md.VLR_BASE * md.QUANTIDADE), 6) as VALTOTAL, '#13#10'          U' +
-      'DF_ROUNDDEC(md.VALOR_SEGURO, 6) as VALOR_SEGURO,'#13#10'          UDF_' +
-      'ROUNDDEC(md.VALOR_OUTROS, 6) as VALOR_OUTROS,'#13#10'          UDF_ROU' +
-      'NDDEC(md.II, 6) as II,'#13#10'          UDF_ROUNDDEC(md.BCII, 6) as BC' +
-      'II,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS, md.PPIS, md.P' +
-      'COFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRB' +
-      'C_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB, pr.COD_BARRA,' +
-      ' pr.NCM'#13#10'          ,pr.ORIGEM , md.CODMOVIMENTO '#13#10'from VENDA vd ' +
-      #13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd.CODMOV' +
-      'IMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13 +
-      #10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUTO'#13#10'wher' +
-      'e vd.CODVENDA = :id'
+      '        pr.UNIDADEMEDIDA,pr.OBS, pr.EMBALAGEM,'#13#10'          md.CST' +
+      ','#13#10'          md.ICMS, md.CSOSN,'#13#10'          UDF_ROUNDDEC(md.pIPI,' +
+      ' 6) as pIPI,'#13#10'          UDF_ROUNDDEC(md.FRETE, 6) as FRETE,'#13#10'   ' +
+      '       UDF_ROUNDDEC(md.VALOR_DESCONTO, 6) as VALOR_DESCONTO,'#13#10'  ' +
+      '        UDF_ROUNDDEC(md.vIPI, 6) as vIPI,'#13#10'          UDF_ROUNDDE' +
+      'C(md.VLR_BASEICMS, 6) as VLR_BASEICMS,'#13#10'          UDF_ROUNDDEC(m' +
+      'd.VALOR_ICMS, 6) as VALOR_ICMS, '#13#10'          UDF_ROUNDDEC(md.VLR_' +
+      'BASE, 6) as VLR_BASE,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBST, 6) ' +
+      'as ICMS_SUBST,'#13#10'          UDF_ROUNDDEC(md.ICMS_SUBSTD, 6) as ICM' +
+      'S_SUBSTD, '#13#10'          UDF_ROUNDDEC(md.VALOR_PIS, 6) as VALOR_PIS' +
+      ', '#13#10'          UDF_ROUNDDEC(md.VALOR_COFINS, 6) as VALOR_COFINS, ' +
+      #13#10'          UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 6) as VA' +
+      'LTOTAL, '#13#10'          UDF_ROUNDDEC(md.VALOR_SEGURO, 6) as VALOR_SE' +
+      'GURO,'#13#10'          UDF_ROUNDDEC(md.VALOR_OUTROS, 6) as VALOR_OUTRO' +
+      'S,'#13#10'          UDF_ROUNDDEC(md.II, 6) as II,'#13#10'          UDF_ROUND' +
+      'DEC(md.BCII, 6) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CST' +
+      'COFINS, md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, ' +
+      'MD.VLRBC_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTO' +
+      'T_TRIB, pr.COD_BARRA, pr.NCM'#13#10'          ,pr.ORIGEM , md.CODMOVIM' +
+      'ENTO , pr.CPRODANP'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE ' +
+      'md on'#13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL' +
+      ' nf on'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'p' +
+      'r.CODPRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'id'
         ParamType = ptInput
       end>
@@ -2631,6 +2631,20 @@ object fNFCe: TfNFCe
       FieldName = 'CODMOVIMENTO'
       ReadOnly = True
       Required = True
+    end
+    object sdsItensNFOBS_1: TStringField
+      FieldName = 'OBS_1'
+      ReadOnly = True
+      Size = 300
+    end
+    object sdsItensNFEMBALAGEM: TStringField
+      FieldName = 'EMBALAGEM'
+      ReadOnly = True
+      Size = 40
+    end
+    object sdsItensNFCPRODANP: TStringField
+      FieldName = 'CPRODANP'
+      ReadOnly = True
     end
   end
   object dspNF: TDataSetProvider
@@ -3206,6 +3220,20 @@ object fNFCe: TfNFCe
       FieldName = 'CODMOVIMENTO'
       ReadOnly = True
       Required = True
+    end
+    object cdsItensNFOBS_1: TStringField
+      FieldName = 'OBS_1'
+      ReadOnly = True
+      Size = 300
+    end
+    object cdsItensNFEMBALAGEM: TStringField
+      FieldName = 'EMBALAGEM'
+      ReadOnly = True
+      Size = 40
+    end
+    object cdsItensNFCPRODANP: TStringField
+      FieldName = 'CPRODANP'
+      ReadOnly = True
     end
   end
   object dspItensNF: TDataSetProvider

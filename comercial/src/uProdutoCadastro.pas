@@ -131,6 +131,8 @@ type
     edtCodAnp: TEdit;
     EdtMisturaGlp: TEdit;
     edtAliquotaComb: TEdit;
+    Label38: TLabel;
+    DBEdit31: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

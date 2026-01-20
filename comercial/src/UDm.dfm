@@ -4,7 +4,7 @@ object DM: TDM
   OnDestroy = DataModuleDestroy
   Left = 76
   Top = 100
-  Height = 772
+  Height = 667
   Width = 1281
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
@@ -17,7 +17,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=c:\home\sisadmin\bd\sge_katia.fdb'
+      'Database=C:\Home\sisadmin\BD\SGE_CONDOR.FDB'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=masterkey'
@@ -1711,6 +1711,9 @@ object DM: TDM
       FieldName = 'EMBALAGEM'
       Size = 40
     end
+    object cds_produtoCPRODANP: TStringField
+      FieldName = 'CPRODANP'
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1996,6 +1999,9 @@ object DM: TDM
     object sds_produtoEMBALAGEM: TStringField
       FieldName = 'EMBALAGEM'
       Size = 40
+    end
+    object sds_produtoCPRODANP: TStringField
+      FieldName = 'CPRODANP'
     end
   end
   object sds_cm: TSQLDataSet
@@ -7629,10 +7635,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_floragemnorte'
+      'Database=C:\Home\sisadmin\BD\SGE_FRALDA2.FDB'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'

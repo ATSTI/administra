@@ -417,6 +417,12 @@ type
     cbSSLLib: TComboBox;
     lSSLLib1: TLabel;
     cbSSLType: TComboBox;
+    sdsItensNFOBS_1: TStringField;
+    sdsItensNFEMBALAGEM: TStringField;
+    cdsItensNFOBS_1: TStringField;
+    cdsItensNFEMBALAGEM: TStringField;
+    sdsItensNFCPRODANP: TStringField;
+    cdsItensNFCPRODANP: TStringField;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sbtnGetCertClick(Sender: TObject);
@@ -438,6 +444,9 @@ type
   private
     path_nfce: String;
     nova_nota: String;
+    num_certificado : String;
+    caminho_certificado : String;
+    senha_certificado : String;
     codnf: Integer;
     totalNFCe: Double;
     totalNFCeTrib: Double;
@@ -997,6 +1006,8 @@ begin
         Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
         Prod.vUnTrib  := cdsItensNFVALTOTAL.AsFloat/cdsItensNFQUANTIDADE.AsFloat;
 
+
+
         Prod.NCM      := cdsItensNFNCM.AsString;
         Prod.EXTIPI   := '';
 
@@ -1023,6 +1034,16 @@ begin
         Prod.vDesc    := cdsItensNFVALOR_DESCONTO.AsCurrency;
         Prod.vOutro   := cdsItensNFVALOR_OUTROS.AsCurrency;
         Prod.vSeg     := cdsItensNFVALOR_SEGURO.AsCurrency;
+
+        if cdsItensNFCPRODANP.AsString <> '' then
+        begin
+          with Prod.comb do
+            begin
+              cProdANP := StrToInt(cdsItensNFCPRODANP.asString);
+              descANP  := cdsItensNFEMBALAGEM.AsString;
+              UFcons   := 'SP';
+           end;
+        end;
 
         with Imposto do
         begin
@@ -1456,6 +1477,9 @@ begin
     cbHttpLib.ItemIndex := INI.ReadInteger('NFCe1','HttpLib', 0);
     cbXmlSignLib.ItemIndex := INI.ReadInteger('NFCe1','XmlSignLib', 0);
     cbSSLType.ItemIndex := INI.ReadInteger('NFCe1','SSLType', 0);
+    num_certificado := INI.ReadString('NFCe1','Certificado','');
+    caminho_certificado := INI.ReadString('NFCe1','Caminho_certificado','');
+    senha_certificado := INI.ReadString('NFCe1','Senha_certificado','');
 
   finally
      INI.Free ;
@@ -1479,6 +1503,11 @@ begin
     if ( not DirectoryExists(edit1.Text)) then
        CreateDir(edit1.Text);
   end;
+
+   edtNumSerie.Text :=  num_certificado ;
+   edtCaminho.Text :=  caminho_certificado;
+   edtSenha.Text :=  senha_certificado;
+
 end;
 
 procedure TfNFCe.sbtnGetCertClick(Sender: TObject);
@@ -1745,6 +1774,7 @@ begin
 
     lblCancelamento.Caption := 'Chave ' + acbrnfe1.NotasFiscais.Items[0].NFe.procNFe.chNFe;
     ACBrNFe1.EventoNFe.idLote := 1;
+    idLote := '1';
     with ACBrNFe1.EventoNFe.Evento.Add do
     begin
       infEvento.tpAmb := acbrnfe1.NotasFiscais.Items[0].NFe.Ide.tpAmb;

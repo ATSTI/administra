@@ -340,12 +340,13 @@ object DMNF: TDMNF
       'movd.V_FCPST '#13#10', movd.P_FCPST '#13#10', movd.V_B_FCPSTRET '#13#10', movd.V_F' +
       'CPSTRET '#13#10', movd.P_FCPSTRET '#13#10', movd.VBCSTRET  '#13#10', movd.VICMSSTR' +
       'ET   '#13#10', movd.VBCSTDEST  '#13#10', movd.VICMSSTDEST '#13#10', movd.VBFCPUFDE' +
-      'ST '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on pr' +
-      'od.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccu' +
-      's on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer jo' +
-      'in COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where mo' +
-      'vd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by' +
-      ' movd.coddetalhe'
+      'ST '#13#10', movd.CST_IBS_CBS'#13#10', movd.CCLASSTRIB'#13#10', movd.P_IBS'#13#10', movd' +
+      '.P_CBS'#13#10', movd.REDUCAO_IBS'#13#10', movd.REDUCAO_CBS '#13#10'from MOVIMENTOD' +
+      'ETALHE movd '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO=movd.C' +
+      'ODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXAR' +
+      'IFADO = prod.CODALMOXARIFADO '#13#10'left outer join COMISSAO cm on cm' +
+      '.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDE' +
+      'TALHE or movd.CODMOVIMENTO=:pCODMOV order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -699,6 +700,34 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVBFCPUFDEST: TFloatField
       FieldName = 'VBFCPUFDEST'
+    end
+    object sds_Mov_DetCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
+    end
+    object sds_Mov_DetCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      ReadOnly = True
+      FixedChar = True
+      Size = 6
+    end
+    object sds_Mov_DetP_IBS: TFloatField
+      FieldName = 'P_IBS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetP_CBS: TFloatField
+      FieldName = 'P_CBS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -1116,6 +1145,34 @@ object DMNF: TDMNF
     object cds_Mov_detVBFCPUFDEST: TFloatField
       FieldName = 'VBFCPUFDEST'
       DisplayFormat = ',#.00'
+    end
+    object cds_Mov_detCST_IBS_CBS: TStringField
+      FieldName = 'CST_IBS_CBS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 3
+    end
+    object cds_Mov_detCCLASSTRIB: TStringField
+      FieldName = 'CCLASSTRIB'
+      ReadOnly = True
+      FixedChar = True
+      Size = 6
+    end
+    object cds_Mov_detP_IBS: TFloatField
+      FieldName = 'P_IBS'
+      ReadOnly = True
+    end
+    object cds_Mov_detP_CBS: TFloatField
+      FieldName = 'P_CBS'
+      ReadOnly = True
+    end
+    object cds_Mov_detREDUCAO_IBS: TFloatField
+      FieldName = 'REDUCAO_IBS'
+      ReadOnly = True
+    end
+    object cds_Mov_detREDUCAO_CBS: TFloatField
+      FieldName = 'REDUCAO_CBS'
+      ReadOnly = True
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify

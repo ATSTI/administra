@@ -1577,6 +1577,18 @@ type
     cds_nfV_IPI_DEVOL: TFloatField;
     cds_nfINTERM_CNPJ: TStringField;
     cds_nfINTERM_PERFIL: TStringField;
+    sds_Mov_DetCST_IBS_CBS: TStringField;
+    sds_Mov_DetCCLASSTRIB: TStringField;
+    sds_Mov_DetP_IBS: TFloatField;
+    sds_Mov_DetP_CBS: TFloatField;
+    sds_Mov_DetREDUCAO_IBS: TFloatField;
+    sds_Mov_DetREDUCAO_CBS: TFloatField;
+    cds_Mov_detCST_IBS_CBS: TStringField;
+    cds_Mov_detCCLASSTRIB: TStringField;
+    cds_Mov_detP_IBS: TFloatField;
+    cds_Mov_detP_CBS: TFloatField;
+    cds_Mov_detREDUCAO_IBS: TFloatField;
+    cds_Mov_detREDUCAO_CBS: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;

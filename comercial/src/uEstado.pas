@@ -158,6 +158,31 @@ type
     DBEdit35: TDBEdit;
     Label25: TLabel;
     DBEdit36: TDBEdit;
+    sdsCST_IBS_CBS: TStringField;
+    sdsCCLASSTRIB: TStringField;
+    sdsP_IBS: TFloatField;
+    sdsP_CBS: TFloatField;
+    sdsREDUCAO_IBS: TFloatField;
+    sdsREDUCAO_CBS: TFloatField;
+    cds_estadoCST_IBS_CBS: TStringField;
+    cds_estadoCCLASSTRIB: TStringField;
+    cds_estadoP_IBS: TFloatField;
+    cds_estadoP_CBS: TFloatField;
+    cds_estadoREDUCAO_IBS: TFloatField;
+    cds_estadoREDUCAO_CBS: TFloatField;
+    GroupBox10: TGroupBox;
+    DBEdit24: TDBEdit;
+    DBEdit25: TDBEdit;
+    DBEdit26: TDBEdit;
+    DBEdit27: TDBEdit;
+    DBEdit28: TDBEdit;
+    DBEdit29: TDBEdit;
+    Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    Label31: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -331,6 +356,12 @@ begin
       ' , esta.VICMSUFDEST' +
       ' , esta.VICMSUFREMET' +
       ' , esta.CST_IPI_CENQ ' +
+      ' , esta.CST_IBS_CBS ' +
+      ' , esta.CCLASSTRIB ' +
+      ' , esta.P_IBS ' +
+      ' , esta.P_CBS ' +
+      ' , esta.REDUCAO_IBS ' +
+      ' , esta.REDUCAO_CBS ' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
       ' order by esta.CFOP';

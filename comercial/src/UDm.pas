@@ -2011,6 +2011,8 @@ type
     s_7DESCRICAO: TStringField;
     cds_7_contasDESCRICAO: TStringField;
     IdHTTP1: TIdHTTP;
+    sds_produtoCPRODANP: TStringField;
+    cds_produtoCPRODANP: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

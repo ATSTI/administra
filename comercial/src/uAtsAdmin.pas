@@ -1841,7 +1841,7 @@ begin
   //WinExec(PChar('Nfe.exe'),SW_NORMAL);
   //Panel2.Visible := True;
   WinExec('Nfe.exe', SW_NORMAL);
-  Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
+ // Windows.SetParent(FindWindow(nil,'NFe'),panel1.handle);
   //Panel2.Visible := False;
   //fNfeExe := TfNfeExe.Create(Application);
   //try
@@ -2543,19 +2543,19 @@ end;
 procedure TfAtsAdmin.MDFe1Click(Sender: TObject);
 begin
   WinExec('atsMDFe.exe', SW_NORMAL);
-  Windows.SetParent(FindWindow(nil,'MDFe'),panel1.handle);
+  //Windows.SetParent(FindWindow(nil,'MDFe'),panel1.handle);
 end;
 
 procedure TfAtsAdmin.CTe1Click(Sender: TObject);
 begin
   WinExec('ats_CTe.exe', SW_NORMAL);
-  Windows.SetParent(FindWindow(nil,'CTe'),panel1.handle);
+  //Windows.SetParent(FindWindow(nil,'CTe'),panel1.handle);
 end;
 
 procedure TfAtsAdmin.CTeOS1Click(Sender: TObject);
 begin
   WinExec('ats_CTeOS.exe', SW_NORMAL);
-  Windows.SetParent(FindWindow(nil,'CTeOS'),panel1.handle);
+  //Windows.SetParent(FindWindow(nil,'CTeOS'),panel1.handle);
 end;
 
 procedure TfAtsAdmin.ArquivoRetornoItau1Click(Sender: TObject);

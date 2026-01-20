@@ -21,6 +21,9 @@ type
     Memo5: TMemo;
     TabSheet4: TTabSheet;
     Memo6: TMemo;
+    TabSheet7: TTabSheet;
+    TabSheet8: TTabSheet;
+    Memo8: TMemo;
   private
     { Private declarations }
   public

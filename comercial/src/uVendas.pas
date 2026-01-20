@@ -4282,7 +4282,9 @@ end;
 
 procedure TfVendas.PesquisaProdutos;
 var sql: String;
+    codproduto : integer;
 begin
+
   cds_mov_detCFOP.asString := edCfop.text;
   if (usaprecolistavenda = 'S') then
   begin
@@ -4448,7 +4450,7 @@ begin
         if (not dm.scds_produto_proc.fieldByName('ORIGEM').IsNull) then
           dm.origemProdutoCfop := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
 
-        cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_Mov_detCODPRODUTO.AsInteger,
+        cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(dm.scds_produto_proc.fieldByName('CODPRODUTO').AsInteger,
           ufClienteVenda, codFiscalClienteVenda, dm.origemProdutoCfop, cds_Mov_detNCM.AsString, 'Saida');
         if (cds_mov_detCFOP.asString = '') then
           cds_mov_detCFOP.asString := edCfop.text;

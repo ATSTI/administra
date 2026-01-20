@@ -885,6 +885,20 @@ begin
             ' com CFOP inválido';
           exit;
         end;
+  {
+  if edCPF.Text = '' then
+  begin
+    with Prod.comb do
+    begin
+      //cProdANP := 210203001; // gas GLP
+      cProdANP := StrToInt('1515151515');
+      descANP  := 'Alguma coisa';
+      UFcons   := 'SP';
+      // aqui entrarão novos campos na versao 4.00
+    end;
+  end;
+   }
+
         {
         with Prod.obsFiscoDet.Add do
         begin

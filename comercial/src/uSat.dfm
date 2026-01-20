@@ -1302,7 +1302,7 @@ object fSat: TfSat
                 Height = 21
                 Style = csDropDownList
                 Anchors = [akLeft, akTop, akRight]
-                ItemHeight = 13
+                ItemHeight = 0
                 TabOrder = 9
               end
               object cbxSalvarCFe: TCheckBox
