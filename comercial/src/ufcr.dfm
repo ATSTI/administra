@@ -1,6 +1,6 @@
 object fcrproc: Tfcrproc
-  Left = 0
-  Top = 0
+  Left = 199
+  Top = 16
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
   ClientHeight = 525
@@ -2480,7 +2480,7 @@ object fcrproc: Tfcrproc
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 0
       end

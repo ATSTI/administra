@@ -1006,15 +1006,12 @@ type
     sdsBancoCODIGO_CEDENTE: TStringField;
     sdsBancoCODIGO_EMPRESA: TStringField;
     sdsBancoCODIGO_AGENCIA: TStringField;
-    sdsBancoDIGITO_AGENCIA: TStringField;
     sdsBancoNUMERO_CONTA: TStringField;
-    sdsBancoDIGITO_CONTA: TStringField;
     sdsBancoCODIGO_PLANO: TIntegerField;
     cdsBancoCARTEIRA: TStringField;
     cdsBancoCODIGO_CEDENTE: TStringField;
     cdsBancoCODIGO_EMPRESA: TStringField;
     cdsBancoCODIGO_AGENCIA: TStringField;
-    cdsBancoDIGITO_AGENCIA: TStringField;
     cdsBancoNUMERO_CONTA: TStringField;
     cdsBancoDIGITO_CONTA: TStringField;
     sdsBancoINSTRUCAO1: TStringField;
@@ -2013,6 +2010,9 @@ type
     IdHTTP1: TIdHTTP;
     sds_produtoCPRODANP: TStringField;
     cds_produtoCPRODANP: TStringField;
+    sdsBancoDIGITO_CONTA: TStringField;
+    cdsBancoDIGITO_AGENCIA: TStringField;
+    sdsBancoDIGITO_AGENCIA: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);

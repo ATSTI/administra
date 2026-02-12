@@ -2,7 +2,7 @@ inherited fbanco: Tfbanco
   Left = 328
   Top = 74
   Width = 707
-  Height = 700
+  Height = 667
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -71,7 +71,6 @@ inherited fbanco: Tfbanco
     Width = 19
     Height = 13
     Caption = 'DIG'
-    FocusControl = DBEdit7
   end
   object Label10: TLabel [7]
     Left = 299
@@ -242,7 +241,7 @@ inherited fbanco: Tfbanco
     Transparent = True
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 619
+    Top = 614
     Width = 699
     inherited btnGravar: TBitBtn
       Left = 180
@@ -346,7 +345,7 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 11
+    TabOrder = 10
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -406,7 +405,7 @@ inherited fbanco: Tfbanco
     Height = 28
     DataSource = DtSrc
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-    TabOrder = 12
+    TabOrder = 11
   end
   object DBEdit3: TDBEdit [34]
     Left = 39
@@ -429,7 +428,7 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'CODIGO_CEDENTE'
     DataSource = DtSrc
-    TabOrder = 9
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
   object dbedtCODBANCO: TDBEdit [36]
@@ -442,7 +441,7 @@ inherited fbanco: Tfbanco
     DataField = 'CODBANCO'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 10
+    TabOrder = 9
     OnKeyPress = FormKeyPress
   end
   object DBEdit6: TDBEdit [37]
@@ -457,19 +456,7 @@ inherited fbanco: Tfbanco
     TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [38]
-    Left = 270
-    Top = 116
-    Width = 23
-    Height = 21
-    BevelKind = bkFlat
-    BorderStyle = bsNone
-    DataField = 'DIGITO_AGENCIA'
-    DataSource = DtSrc
-    TabOrder = 6
-    OnKeyPress = FormKeyPress
-  end
-  object DBEdit8: TDBEdit [39]
+  object DBEdit8: TDBEdit [38]
     Left = 299
     Top = 116
     Width = 106
@@ -478,10 +465,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'NUMERO_CONTA'
     DataSource = DtSrc
-    TabOrder = 7
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [40]
+  object DBEdit9: TDBEdit [39]
     Left = 411
     Top = 116
     Width = 26
@@ -490,10 +477,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'DIGITO_CONTA'
     DataSource = DtSrc
-    TabOrder = 8
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBEdit10: TDBEdit [41]
+  object DBEdit10: TDBEdit [40]
     Left = 36
     Top = 307
     Width = 616
@@ -502,9 +489,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'INSTRUCAO1'
     DataSource = DtSrc
-    TabOrder = 13
+    TabOrder = 12
   end
-  object DBEdit11: TDBEdit [42]
+  object DBEdit11: TDBEdit [41]
     Left = 36
     Top = 329
     Width = 616
@@ -513,9 +500,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'INSTRUCAO2'
     DataSource = DtSrc
-    TabOrder = 14
+    TabOrder = 13
   end
-  object DBEdit12: TDBEdit [43]
+  object DBEdit12: TDBEdit [42]
     Left = 36
     Top = 351
     Width = 616
@@ -524,9 +511,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'INSTRUCAO3'
     DataSource = DtSrc
-    TabOrder = 15
+    TabOrder = 14
   end
-  object DBEdit13: TDBEdit [44]
+  object DBEdit13: TDBEdit [43]
     Left = 36
     Top = 373
     Width = 616
@@ -535,9 +522,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'INSTRUCAO4'
     DataSource = DtSrc
-    TabOrder = 16
+    TabOrder = 15
   end
-  object dbedtCODIGO_CEDENTE: TDBEdit [45]
+  object dbedtCODIGO_CEDENTE: TDBEdit [44]
     Left = 41
     Top = 158
     Width = 42
@@ -546,10 +533,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'ESPECIEDOC'
     DataSource = DtSrc
-    TabOrder = 17
+    TabOrder = 16
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_CEDENTE1: TDBEdit [46]
+  object dbedtCODIGO_CEDENTE1: TDBEdit [45]
     Left = 85
     Top = 158
     Width = 33
@@ -558,10 +545,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'ACEITE'
     DataSource = DtSrc
-    TabOrder = 18
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGO_AGENCIA: TDBEdit [47]
+  object dbedtCODIGO_AGENCIA: TDBEdit [46]
     Left = 122
     Top = 157
     Width = 60
@@ -570,10 +557,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'CONVENIO'
     DataSource = DtSrc
-    TabOrder = 19
+    TabOrder = 18
     OnKeyPress = FormKeyPress
   end
-  object dbedtINSTRUCAO1: TDBEdit [48]
+  object dbedtINSTRUCAO1: TDBEdit [47]
     Left = 37
     Top = 271
     Width = 614
@@ -582,9 +569,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'LOCALPGTO'
     DataSource = DtSrc
-    TabOrder = 20
+    TabOrder = 19
   end
-  object DBEdit5: TDBEdit [49]
+  object DBEdit5: TDBEdit [48]
     Left = 97
     Top = 73
     Width = 72
@@ -593,10 +580,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'N_BANCO'
     DataSource = DtSrc
-    TabOrder = 21
+    TabOrder = 20
     OnKeyPress = FormKeyPress
   end
-  object DBEdit14: TDBEdit [50]
+  object DBEdit14: TDBEdit [49]
     Left = 170
     Top = 73
     Width = 46
@@ -605,10 +592,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'DIGITOBANCO'
     DataSource = DtSrc
-    TabOrder = 22
+    TabOrder = 21
     OnKeyPress = FormKeyPress
   end
-  object dbedtCODIGOBOLETO: TDBEdit [51]
+  object dbedtCODIGOBOLETO: TDBEdit [50]
     Left = 548
     Top = 117
     Width = 129
@@ -617,10 +604,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'CODIGOBOLETO'
     DataSource = DtSrc
-    TabOrder = 23
+    TabOrder = 22
     OnKeyPress = FormKeyPress
   end
-  object dbedtCARTEIRA: TDBEdit [52]
+  object dbedtCARTEIRA: TDBEdit [51]
     Left = 99
     Top = 116
     Width = 58
@@ -629,10 +616,10 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'VARIACAO'
     DataSource = DtSrc
-    TabOrder = 24
+    TabOrder = 23
     OnKeyPress = FormKeyPress
   end
-  object dbcbbLAYOUT_BL: TDBComboBox [53]
+  object dbcbbLAYOUT_BL: TDBComboBox [52]
     Left = 184
     Top = 157
     Width = 95
@@ -645,9 +632,9 @@ inherited fbanco: Tfbanco
       'Boleto'
       'Carn'#234
       'Fatura')
-    TabOrder = 25
+    TabOrder = 24
   end
-  object dbcbbLAYOUT_RM: TDBComboBox [54]
+  object dbcbbLAYOUT_RM: TDBComboBox [53]
     Left = 280
     Top = 157
     Width = 95
@@ -659,9 +646,9 @@ inherited fbanco: Tfbanco
     Items.Strings = (
       'c400'
       'c240')
-    TabOrder = 26
+    TabOrder = 25
   end
-  object dbcbbRESP_EMISSAO: TDBComboBox [55]
+  object dbcbbRESP_EMISSAO: TDBComboBox [54]
     Left = 376
     Top = 157
     Width = 95
@@ -673,9 +660,9 @@ inherited fbanco: Tfbanco
     Items.Strings = (
       'Banco Emite'
       'Cliente Emite')
-    TabOrder = 27
+    TabOrder = 26
   end
-  object dbcbbIMP_COMPROVANTE: TDBComboBox [56]
+  object dbcbbIMP_COMPROVANTE: TDBComboBox [55]
     Left = 472
     Top = 157
     Width = 95
@@ -687,9 +674,9 @@ inherited fbanco: Tfbanco
     Items.Strings = (
       'SIM'
       'N'#195'O')
-    TabOrder = 28
+    TabOrder = 27
   end
-  object dbcbbRESP_EMISSAO2: TDBComboBox [57]
+  object dbcbbRESP_EMISSAO2: TDBComboBox [56]
     Left = 569
     Top = 157
     Width = 95
@@ -702,18 +689,18 @@ inherited fbanco: Tfbanco
       '1-Diario'
       '2-Mensal'
       '3-Isento')
-    TabOrder = 29
+    TabOrder = 28
   end
-  object JvDBSpinEdit1: TJvDBSpinEdit [58]
+  object JvDBSpinEdit1: TJvDBSpinEdit [57]
     Left = 39
     Top = 197
     Width = 108
     Height = 21
-    TabOrder = 30
+    TabOrder = 29
     DataField = 'PERCMULTA'
     DataSource = DtSrc
   end
-  object dbcbbPROTESTO: TDBComboBox [59]
+  object dbcbbPROTESTO: TDBComboBox [58]
     Left = 153
     Top = 197
     Width = 520
@@ -741,9 +728,9 @@ inherited fbanco: Tfbanco
       '25 - Protestar no 25'#186' dia corrido ap'#243's vencido'
       '30 - Protestar no 30'#186' dia corrido ap'#243's vencido'
       '45 - Protestar no 45'#186' dia corrido ap'#243's vencido')
-    TabOrder = 31
+    TabOrder = 30
   end
-  object dbedtPASTA_RETORNO: TDBEdit [60]
+  object dbedtPASTA_RETORNO: TDBEdit [59]
     Left = 39
     Top = 233
     Width = 186
@@ -752,9 +739,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'PASTA_RETORNO'
     DataSource = DtSrc
-    TabOrder = 32
+    TabOrder = 31
   end
-  object dbedtPASTA_RETORNO1: TDBEdit [61]
+  object dbedtPASTA_RETORNO1: TDBEdit [60]
     Left = 240
     Top = 232
     Width = 193
@@ -763,9 +750,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'PASTA_REMESSA'
     DataSource = DtSrc
-    TabOrder = 33
+    TabOrder = 32
   end
-  object dbedtPASTA_REMESSA: TDBEdit [62]
+  object dbedtPASTA_REMESSA: TDBEdit [61]
     Left = 440
     Top = 232
     Width = 193
@@ -774,9 +761,9 @@ inherited fbanco: Tfbanco
     BorderStyle = bsNone
     DataField = 'NOME_ARQUIVO'
     DataSource = DtSrc
-    TabOrder = 34
+    TabOrder = 33
   end
-  object Memo1: TMemo [63]
+  object Memo1: TMemo [62]
     Left = 36
     Top = 518
     Width = 617
@@ -788,6 +775,15 @@ inherited fbanco: Tfbanco
         '    Convenio = 3 para Sem Registro;  Convenio = 1 para Com Regis' +
         'tro;')
     ReadOnly = True
+    TabOrder = 34
+  end
+  object DBEdit7: TDBEdit [63]
+    Left = 270
+    Top = 116
+    Width = 25
+    Height = 21
+    DataField = 'DIGITO_AGENCIA'
+    DataSource = DtSrc
     TabOrder = 35
   end
   inherited PopupMenu1: TPopupMenu

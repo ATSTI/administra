@@ -25,7 +25,6 @@ type
     Label8: TLabel;
     DBEdit6: TDBEdit;
     Label9: TLabel;
-    DBEdit7: TDBEdit;
     Label10: TLabel;
     DBEdit8: TDBEdit;
     Label11: TLabel;
@@ -73,6 +72,7 @@ type
     dbedtPASTA_REMESSA: TDBEdit;
     lbl17: TLabel;
     Memo1: TMemo;
+    DBEdit7: TDBEdit;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);

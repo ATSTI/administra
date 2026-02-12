@@ -592,7 +592,7 @@ begin
                   341: Titulo.NossoNumero := IntToStrZero(0,8);// 341 - Banco Itau
                   399: Titulo.NossoNumero := IntToStrZero(0,10);// 399 - Banco HSBC
                   409: Titulo.NossoNumero := IntToStrZero(0,10);// 409 - Banco Unicanco
-                  748: Titulo.NossoNumero := IntToStrZero(0,6);// 748 - Banco Sicredi
+                  748: Titulo.NossoNumero := IntToStrZero(0,5);// 748 - Banco Sicredi
                   353: Titulo.NossoNumero := IntToStrZero(0,10);// 353 - SANTANDER
                 end;
               end;
@@ -633,7 +633,8 @@ begin
               DataAbatimento    := ds_crDATAVENCIMENTO.AsDateTime;// - 5;
               Mensagem.Text  := s_bancoINSTRUCAO1.AsString;
               //Titulo.Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
-              Mensagem.Text  := Titulo.Mensagem.Text + 'Valor Juros por Dia ' + FormatCurr('R$ #,##0.00', ((ds_crVALOR_RESTO.AsFloat * ((s_bancoPERCMULTA.AsFloat/30)/100)))); // val_dia ;
+              //230/01/2026 Mensagem.Text  := Titulo.Mensagem.Text + 'Valor Juros por Dia ' + FormatCurr('R$ #,##0.00', ((ds_crVALOR_RESTO.AsFloat * ((s_bancoPERCMULTA.AsFloat/30)/100)))); // val_dia ;
+              Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO2.AsString;
               Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO3.AsString;
               Mensagem.Text  := Titulo.Mensagem.Text + s_bancoINSTRUCAO4.AsString;
 

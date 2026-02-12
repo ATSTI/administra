@@ -3367,19 +3367,9 @@ object DM: TDM
       FieldName = 'CODIGO_AGENCIA'
       Size = 10
     end
-    object sdsBancoDIGITO_AGENCIA: TStringField
-      FieldName = 'DIGITO_AGENCIA'
-      FixedChar = True
-      Size = 1
-    end
     object sdsBancoNUMERO_CONTA: TStringField
       FieldName = 'NUMERO_CONTA'
       Size = 10
-    end
-    object sdsBancoDIGITO_CONTA: TStringField
-      FieldName = 'DIGITO_CONTA'
-      FixedChar = True
-      Size = 1
     end
     object sdsBancoCODIGO_PLANO: TIntegerField
       FieldName = 'CODIGO_PLANO'
@@ -3500,6 +3490,17 @@ object DM: TDM
       ProviderFlags = [pfInUpdate]
       Size = 2
     end
+    object sdsBancoDIGITO_CONTA: TStringField
+      FieldName = 'DIGITO_CONTA'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsBancoDIGITO_AGENCIA: TStringField
+      DisplayWidth = 2
+      FieldName = 'DIGITO_AGENCIA'
+      FixedChar = True
+      Size = 2
+    end
   end
   object dspBanco: TDataSetProvider
     DataSet = sdsBanco
@@ -3544,11 +3545,6 @@ object DM: TDM
     object cdsBancoCODIGO_AGENCIA: TStringField
       FieldName = 'CODIGO_AGENCIA'
       Size = 10
-    end
-    object cdsBancoDIGITO_AGENCIA: TStringField
-      FieldName = 'DIGITO_AGENCIA'
-      FixedChar = True
-      Size = 1
     end
     object cdsBancoNUMERO_CONTA: TStringField
       FieldName = 'NUMERO_CONTA'
@@ -3676,6 +3672,12 @@ object DM: TDM
     object cdsBancoPROTESTO: TStringField
       FieldName = 'PROTESTO'
       ProviderFlags = [pfInUpdate]
+      Size = 2
+    end
+    object cdsBancoDIGITO_AGENCIA: TStringField
+      DisplayWidth = 2
+      FieldName = 'DIGITO_AGENCIA'
+      FixedChar = True
       Size = 2
     end
   end

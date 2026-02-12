@@ -2706,7 +2706,7 @@ begin
       mudaVersao('4.6.0.10');
     end;
     // coloquei isso para o sistema rodar atualizacoes
-    mudaVersao('4.6.0.10');    
+    //mudaVersao('4.6.0.10');
 
     if (versaoSistema = '4.6.0.10') then
     begin
@@ -2731,8 +2731,9 @@ begin
       EXECUTADDL('PRODUTOS', 'PGNI', 'DOUBLE PRECISION');
       EXECUTADDL('PRODUTOS', 'VPART', 'DOUBLE PRECISION');
       mudaVersao('4.6.0.40');
+      mudaVersao('4.6.0.46');
     end;
-    mudaVersao('4.6.0.46');
+
 
     if (versaoSistema = '4.6.0.46') then
     begin
@@ -2759,24 +2760,27 @@ begin
       except
         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
       end;
+      mudaVersao('4.6.0.47');
     end;
-    mudaVersao('4.6.0.47');
+
 
     if (versaoSistema = '4.6.0.47') then
     begin
       AtualizandoScript('4.6.0.47');
       EXECUTADDL('NOTAFISCAL', 'INTERM_CNPJ', 'VARCHAR(24)');
       EXECUTADDL('NOTAFISCAL', 'INTERM_PERFIL', 'VARCHAR(40)');
+      mudaVersao('4.6.0.48');
     end;
-    mudaVersao('4.6.0.48');
+
     if (versaoSistema = '4.6.0.48') then
     begin
       AtualizandoScript('4.6.0.48');
       EXECUTADDL('UCTABUSERSLOGGED ', 'CODEMPRESA', 'INTEGER');
       EXECUTADDL('UCTABUSERSLOGGED ', 'TIPONOTA', 'INTEGER');
       EXECUTADDL('UCTABUSERSLOGGED ', 'NOMEEMPRESA', 'VARCHAR(80)');
+      mudaVersao('4.6.0.49');
     end;
-    mudaVersao('4.6.0.49');
+
 
     if (versaoSistema = '4.6.0.49') then
     begin
@@ -2808,14 +2812,22 @@ begin
       EXECUTADDL('MOVIMENTODETALHE','P_CBS','DOUBLE PRECISION');
       EXECUTADDL('MOVIMENTODETALHE','REDUCAO_IBS','DOUBLE PRECISION');
       EXECUTADDL('MOVIMENTODETALHE','REDUCAO_CBS','DOUBLE PRECISION');
+
+      EXECUTADDL('EMPRESA','CST_IBS_CBS','CHAR(3)');
+      EXECUTADDL('EMPRESA','CCLASSTRIB','CHAR(6)');
+      EXECUTADDL('EMPRESA','P_IBS','DOUBLE PRECISION');
+      EXECUTADDL('EMPRESA','P_CBS','DOUBLE PRECISION');
+      EXECUTADDL('EMPRESA','REDUCAO_IBS','DOUBLE PRECISION');
+      EXECUTADDL('EMPRESA','REDUCAO_CBS','DOUBLE PRECISION');
+
       insereouatualizaScript('trg_calcula_icms_st.sql', '4.6.0.50', StrToDate('01/12/2025'));
       ExecutaScript('trg_calcula_icms_st.sql');
+      mudaVersao('4.6.0.112');
     end;
-    mudaVersao('4.6.0.50');
-
-
-
-
+     if (versaoSistema = '4.6.0.50') then
+    begin
+      mudaVersao('4.6.0.112');
+    end;
     //try
     //  IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
     //  IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));

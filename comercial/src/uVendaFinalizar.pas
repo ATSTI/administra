@@ -745,6 +745,7 @@ begin
       sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * COALESCE(VLR_BASE,0))' +
         ' + COALESCE(VIPI,0) + COALESCE(ICMS_SUBST,0)) ' +
         ' ,SUM(COALESCE(VIPI,0)), SUM(COALESCE(VALOR_ICMS,0)), SUM(COALESCE(ICMS_SUBST,0)) '+
+        ' ,SUM(COALESCE(VALOR_DESCONTO,0))'+
         ' FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
@@ -796,6 +797,7 @@ begin
   cdsVALOR_ICMS.AsCurrency := FloatToCurr(sqs_tit.Fields[2].AsFloat);
   cdsVALOR_IPI.AsCurrency  := FloatToCurr(sqs_tit.Fields[1].AsFloat);
   cdsVALOR_ST.AsCurrency   := FloatToCurr(sqs_tit.Fields[3].AsFloat);
+  cdsDESCONTO.AsCurrency   := FloatToCurr(sqs_tit.Fields[4].AsFloat);
 
   cdsVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
   vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
@@ -806,7 +808,7 @@ begin
                              ' WHERE CODMOVIMENTO = ' +
                              IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
     sqs_tit.Open;
-    cdsDESCONTO.AsFloat := (cdsVALOR.AsFloat * aliqsuf)/100;
+    //cdsDESCONTO.AsFloat := (cdsVALOR.AsFloat * aliqsuf)/100;
     cdsVALOR_PAGAR.AsCurrency := cdsVALOR.AsCurrency;
     sqs_tit.Close;
   end;
