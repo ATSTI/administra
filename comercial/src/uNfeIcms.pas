@@ -1280,7 +1280,19 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao114;
+      COD_VER          := vlVersao119;
+      if (data_ini.Date < StrToDate('01/01/2026')) then
+      begin
+        COD_VER          := vlVersao118;
+      end;
+      if (data_ini.Date < StrToDate('01/01/2025')) then
+      begin
+        COD_VER          := vlVersao117;
+      end;
+      if (data_ini.Date < StrToDate('01/01/2024')) then
+      begin
+        COD_VER          := vlVersao116;
+      end;
       if (data_ini.Date < StrToDate('01/01/2023')) then
       begin
         COD_VER          := vlVersao115;
@@ -2602,7 +2614,7 @@ begin
                             dm.cds_EmpresaRAZAO.AsString);
         COD_CTA := '';
 
-        COD_MOD_DOC_REF :=  '';            /// Código do modelo do documento fiscal referenciado, conforme a Tabela 4.1.1
+        COD_MOD_DOC_REF := '66';            /// Código do modelo do documento fiscal referenciado, conforme a Tabela 4.1.1
         HASH_DOC_REF    := '';             /// Código de autenticação digital do registro (Convênio 115/2003).
         SER_DOC_REF     := '';             /// Série do documento fiscal referenciado.
         NUM_DOC_REF     := '';             /// Número do documento fiscal referenciado.

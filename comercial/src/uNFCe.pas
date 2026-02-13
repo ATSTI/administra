@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ACBrNFe, StdCtrls, FMTBcd, DBClient, Provider, DB, SqlExpr,
   ExtCtrls, MaskUtils, ACBrBase, ACBrValidador, StrUtils, DBXpress, ACBrDFe,
-  pcnConversaoNFe, pcnConversao,pcnNFe, ACBrUtil, ACBrNFeDANFEClass,
+  pcnConversaoNFe, pcnConversao, ACBrNFE.classes, ACBrUtil, ACBrNFeDANFEClass,
   ACBrNFeDANFeRLClass, ComCtrls, Buttons, ACBrDfeSSL, ACBrNFeDANFeESCPOS,
   ACBrPosPrinter, Spin, IniFiles,TypInfo, OleCtrls, SHDocVw,
   ACBrDANFCeFortesFr, Mask, JvExMask, JvToolEdit,
@@ -1791,7 +1791,8 @@ begin
     lblCancelamento.Caption := 'Gerando xml ' + DateTimeToStr(now);
     Try
       ACBrNFe1.EventoNFe.GerarXML;
-      ACBrNFe1.EventoNFe.Gerador.SalvarArquivo('C:\home\evento.xml');
+      //ACBrNFe1.EventoNFe.Gerador.SalvarArquivo('C:\home\evento.xml');
+      ACBrNFe1.EventoNFe.Document.SavetoFile('C:\home\evento.xml');
     Except
       ShowMessage('Erro para Gravar o XML : ' +
         AcbrNfe1.Configuracoes.Arquivos.PathSalvar);

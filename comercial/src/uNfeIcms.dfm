@@ -1,5 +1,5 @@
 object fNfeIcms: TfNfeIcms
-  Left = 282
+  Left = 288
   Top = 127
   Width = 930
   Height = 614
