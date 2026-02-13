@@ -274,9 +274,10 @@ begin
               into :arredondar;
        
               if (arredondar is null) then 
-		        arredondar = 2;    
-		
-              vDescontoProd = UDF_ROUNDDEC(((:preco*:qtde)*((:vDesconto / :vVendaTotal))), :arredondar);
+		            arredondar = 2;    
+		          -- 28/01/2026 - Ajuste no calculo do desconto quando houver Suframa - DNZ
+              vDescontoProd = valoricms;
+              --vDescontoProd = UDF_ROUNDDEC(((:preco*:qtde)*((:vDesconto / :vVendaTotal))), :arredondar);
 	          --desconto = (:vDesconto / :vVendaTotal)*100;
             end  
           end     
