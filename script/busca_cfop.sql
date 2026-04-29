@@ -164,6 +164,7 @@ BEGIN
          where cfp.UF = :UF
            and LEFT(TRIM(cfp.CFOP),1) = '5'
            and cfp.CODFISCAL = :codFiscal
+           order by cfp.CFOP
           into :cfop_mov;
         log = log || ' venda por Estado.';  
       end 
